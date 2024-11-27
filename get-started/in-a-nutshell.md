@@ -11,28 +11,6 @@ Build Your First App with CAP {.subtitle}
 
 
 
-CAP is a full-stack framework for building cloud-native applications. It provides a set of tools and libraries to develop, deploy, and operate applications in the cloud. This guide helps you to get started with CAP by building a simple bookshop application.
-
-
-::: details Optionally clone sample from GitHub ...
-
-The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
-
-::: code-group
-
-```sh [Node.js]
-git clone https://github.com/sap-samples/cloud-cap-samples samples
-cd samples
-npm install
-```
-
-```sh [Java]
-git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
-```
-
-Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
-
-:::
 
 
 [[toc]]
@@ -40,6 +18,7 @@ Note: When comparing the code from the *cap/samples* on GitHub to the snippets g
 
 
 ## Jumpstart a Project {#jumpstart}
+
 
 
 After you completed the [*Initial Setup*](./), you jumpstart a project as follows:
@@ -108,6 +87,27 @@ After you completed the [*Initial Setup*](./), you jumpstart a project as follow
    So, let's go on feeding it...
 
    :::
+
+
+::: details Optionally clone sample from GitHub ...
+
+The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
+
+::: code-group
+
+```sh [Node.js]
+git clone https://github.com/sap-samples/cloud-cap-samples samples
+cd samples
+npm install
+```
+
+```sh [Java]
+git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
+```
+
+Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
+
+:::
 
 
 

@@ -82,6 +82,10 @@ main {
       font-size: 1.7em;
       font-weight: 400;
     }
+    h2 + .subtitle {
+      margin-top: -44px;
+      font-size: 24px;
+    }
     h3 + .subtitle {
       margin-top: 0;
       font-size: 1.1em;

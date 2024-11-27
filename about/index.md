@@ -37,7 +37,7 @@ The structure of this primer is influenced by Simon Lewis' approach in *[The Art
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies. The figure below depicts CAP's place and focus in a stack architecture.
 
-![Vertically CAP services are placed between database and UI. Horizontally, CDS fuels CAP services and is closer to the core than, for example, toolkits and IDEs. Also shown horizontally is the integration into vrious platofrm services.](assets/architecture.drawio.svg){style="width:555px"}
+![Vertically CAP services are placed between database and UI. Horizontally, CDS fuels CAP services and is closer to the core than, for example, toolkits and IDEs. Also shown horizontally is the integration into various platform services.](assets/architecture.drawio.svg){style="width:555px"}
 
 The major building blocks are as follows:
 
@@ -58,7 +58,7 @@ In addition, there is a fast-growing number of [CAP plugins](../plugins/) contri
 
 Following sections provide an overview of the core concepts and design principles of CAP. The illustration below is an attempt to show all concepts, how they relate to each other, and to introduce the terminology.
 
-![Service models declare service interfaces, events, facades, and services. Service interfaces are published as APIs and are consumed by clients. Clients send requests which trigger events. Services are implemented in service providers, react on events, and act as facades. Facades are inferred to service interfaces and are views on domain models. Service providers are implemented through event handlers which handle events. also, service providers read/write data which has been declared in domain models. ](assets/concepts.drawio.svg){style="padding-right:50px"}
+![Service models declare service interfaces, events, facades, and services. Service interfaces are published as APIs and are consumed by clients. Clients send requests which trigger events. Services are implemented in service providers, react on events, and act as facades. Facades are inferred to service interfaces and are views on domain models. Service providers are implemented through event handlers which handle events. Also, service providers read/write data which has been declared in domain models. ](assets/concepts.drawio.svg){style="padding-right:50px"}
 
 Start reading the diagram from the _Service Models_ bubble in the middle, then follow the arrows to the other concepts.
 We'll dive into each of these concepts in the following sections below, starting with _Domain Models_, the other grey bubble above...
@@ -202,7 +202,7 @@ Services are the most central concept in CAP when it comes to an application's b
 - Services are **agnostic** → *platforms and protocols*{.grey}
 - Services are **stateless** → *process passive data*{.grey}
 
-![The graphic contains the key design principles as they have been introduced in the surrounding text. In addition the key benefits of these design principles are rapid development, minimized cost, maximum scalability, minimal overhead, late-cut microservices, and grow as you go.](assets/paradigm.drawio.svg)
+![The graphic contains the key design principles as they have been introduced in the accompanying text. In addition the key benefits of these design principles are rapid development, minimized cost, maximum scalability, minimal overhead, late-cut microservices, and grow as you go.](assets/paradigm.drawio.svg)
 
 :::tip Design principles and benefits
 The design principles - and adherence to them - are crucial for the [key features & benefits](#key-features-qualities).

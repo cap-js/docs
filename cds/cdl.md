@@ -11,11 +11,11 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 
-# Conceptual Schema Definition Language (CDL)
+# Conceptual Definition Language (CDL)
 
 
 
-The *CDS Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
+The *Conceptual Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
 
 
 

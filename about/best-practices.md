@@ -94,7 +94,7 @@ entity Authors : cuid, managed {
 
 ### Definition Language (CDL)
 
-We use CDS's [*Conceptual Definition Language (CDL)*](/cds/dl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
+We use CDS's [*Conceptual Definition Language (CDL)*](/cds/cdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
 
 For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](/cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are *[SQLite]* and *[H2]* for development, and *[SAP HANA]* and *[PostgreSQL]* for production.
 
@@ -583,7 +583,7 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cds/dl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cds/cdl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL
@@ -598,12 +598,12 @@ While CDS extends SQL and the relational model by means to [describe, read, and 
 
 #### CAP == Entity-Relationship Modeling
 
-CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cds/dl#associations) and [Compositions](/cds/dl#compositions). {.indent}
+CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cds/cdl#associations) and [Compositions](/cds/cdl#compositions). {.indent}
 
 
 #### CAP == Aspect-Oriented Programming
 
-[Aspects](/cds/dl#aspects) in [CDS](/cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
+[Aspects](/cds/cdl#aspects) in [CDS](/cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
 
 
 #### CAP == Functional Programming

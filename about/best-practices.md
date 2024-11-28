@@ -625,9 +625,9 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 
     [**See also** this very good introduction to *Ports and Adapters* by Damon Kelly.](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters) {.learn-more}
 
-#### Hexagonal Architecture by CAP
+#### Hexagonal Architecture by CAP {#hexagonal}
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](../about/#inner-loop-development) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
 
 Note only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
@@ -639,13 +639,13 @@ Note only do we address the very same goals, we can also identify several symmet
 | Application Model      | Agnostic Service Providers + Event Handlers                  |
 | Domain Model           | Domain Models + application-independent Invariants           |
 
-### ⇒ Inner Loop Development
+### ⇒ Inner Loop Development {#inner-loop}
 
 The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
 
-### ⇒ Evolution w/o Disruption
+### ⇒ Evolution w/o Disruption {#evolution}
 
-### ⇒ Late-cut Microservices
+### ⇒ Late-cut Microservices {#late-cut-mss}
 
 This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
 :::

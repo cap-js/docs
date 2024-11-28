@@ -79,7 +79,7 @@ Lastly, in case you want to run your application on a 3rd party application fram
 
 
 The CAP runtime is based on an [event](../../about/best-practices#events) driven approach.
-Generally, [Service](../../about/best-practices#service-centric-paradigm) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../../guides/providing-services#event-handlers).
+Generally, [Service](../../about/best-practices#services) providers are the consumers of events, that means, they do the actual processing of events in [handlers](../../guides/providing-services#event-handlers).
 During execution, services can send events to other service providers and consume the results.
 The native query language in CAP is [CQN](../../cds/cqn), which is accepted by all services that deal with data query and manipulation.
 Inbound requests therefore need to be mapped to corresponding CQN events, which are sent to an accepting Application Service (see concept [details](../../about/best-practices#querying)) afterwards.
@@ -96,7 +96,7 @@ Note that different endpoints can be served by different protocol adapters at th
 
 Services have different purposes. For instance, CDS model services provide an interface to work with persisted data of your [domain model](../../guides/domain-modeling).
 Other services are rather technical, for example, hiding the consumption API of external services behind a generic interface.
-As described in CAPs [core concepts](../../about/best-practices#service-centric-paradigm), services share the same generic provider interface and are implemented by event handlers.
+As described in CAPs [core concepts](../../about/best-practices#services), services share the same generic provider interface and are implemented by event handlers.
 The service provider layer contains all generic services, which are auto-exposed by CAP Java according to the appropriate CDS model.
 In addition, technical services are offered such as the [Persistence Service](../cqn-services/#persistenceservice) or [Auditlog Service](../auditlog#auditlog-service), which can be consumed in custom service handlers.
 

@@ -76,6 +76,8 @@ main {
 
     // Set margin-bottom to group groups of h3/h4 together, as in req.error/warn/info/notify
     h3, h4 { margin-bottom: 0em; }
+    h3 + p { margin-top: 1.5em; }
+    h4 + p { margin-top: 1.1em; }
 
     h1 + .subtitle {
       margin: -40px 0 48px;

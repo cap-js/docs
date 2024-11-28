@@ -1,3 +1,7 @@
+---
+# status: released
+---
+
 # Bad Practices
 
 [[toc]]

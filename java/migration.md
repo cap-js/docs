@@ -252,6 +252,7 @@ The following table gives an overview about the removed properties:
 - Deprecations:
   - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
   - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
+  - `com.sap.cds.services.messaging.MessageService.emit(String, String)` instead use `emit(String, Map)` or `emit(String, Map, Map)`
 
 ### Removed goals in `cds-maven-plugin`
 

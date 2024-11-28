@@ -14,10 +14,6 @@ Key Concepts & Qualities
 
 ## Introduction
 
-The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](#enterprise-best-practices), served [out-of-the-box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
-
-In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimised costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters [evolution w/o disruption]() in a world of rapidly changing technologies.
-
 ### Primary Building Blocks
 
 The CAP framework features a mix of proven and broadly adopted open-source and SAP technologies. The figure below depicts CAP's place and focus in a stack architecture.
@@ -89,12 +85,12 @@ entity Authors : cuid, managed {
 
 :::
 
-[Type `Country` is declared to be an association to `sap.common.Countries`.](/cds/ommon#type-country) {.learn-more}
+[Type `Country` is declared to be an association to `sap.common.Countries`.](/cds/common#type-country) {.learn-more}
 
 
 ### Definition Language (CDL)
 
-We use CDS's [*Conceptual Definition Language (CDL)*](/cds/dl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
+We use CDS's [*Conceptual Definition Language (CDL)*](/cds/cdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
 
 For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](/cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are *[SQLite]* and *[H2]* for development, and *[SAP HANA]* and *[PostgreSQL]* for production.
 
@@ -165,7 +161,7 @@ WHERE EXISTS (SELECT 1 from Authors as author WHERE author.ID = Books.author_ID
 
 
 
-### Aspect-oriented Modelling
+### Aspects
 
 A distinctive feature of CDS is its intrinsic support for [_Aspect-oriented Modelling_](), which allows to factor out separate concerns into separate files. It also allows everyone to adapt and extend everything anytime, including reuse definitions you don't own, but imported to your models.
 
@@ -197,9 +193,9 @@ CDS greatly promotes [***Focus on Domain***]() by a *concise* and *comprehensibl
 
 
 
-## Service-centric Paradigm
+## Services
 
-Services are the most central concept in CAP when it comes to an application's behavior. They are  declared in CDS, frequently as views on underlying data, and implemented by services providers in the CAP runtimes. These are the **key design principles**:
+Services are the most central concept in CAP when it comes to an application's behavior. They are  declared in CDS, frequently as views on underlying data, and implemented by services providers in the CAP runtimes. This ultimately establishes a **Service-centric Paradigm** which manifests in these **key design principles**:
 
 - **Every** active thing is a **service** → _yours, and framework-provided ones_{.grey}
 - Services establish **interfaces** → *declared in service models*{.grey}
@@ -259,41 +255,47 @@ service CatalogService {
 
 [Learn more about `as projection on` in the **Querying** section below](#querying). {.learn-more}
 
-
 :::
 
-:::tip Example for single-purposed service
-The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
-:::
+> [!tip]
+>
+> **Single-purposed Services**
+>
+> The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
 
-### Service Protocols
+### Service Providers
 
-## Ubiquitous Events
+As we'll learn in the next chapter below, service providers, that is the implementations of services, react to events, such as a request from a client, by registering respective event handlers. At the end of the day, a service implementation is **the sum of all event handlers** registered with this service.
 
-CAP has a *ubiquitous* notion of events: they show up everywhere and everything is an event, and everything happening at runtime is in response to events. This manifests in these additional **design principles**, complementing our [*Service-centric Paradigm*]():
 
-- **Every** activity is triggered through **events** → _local or remote, sync or async_{.grey}
-- Services *subscribe* to, and *handle* events → *which can be...*{.grey}
-- *generic* or *custom*-defined
-- *local* or *remote*
-- *sync* or *async*
 
-![events.drawio](assets/events.drawio.svg){style="padding-right:123px"}
+## Events
+
+While services are the most important concept across models and runtime, events are equaly, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
+This manifests in these additional **design principles**, complementing our [*Service-centric Paradigm*](#services):
+
+- **Everything** happening at runtime is triggered by / in reaction to **events**
+- **Providers** subscribe to, and *handle* events, as their implementations
+- **Observers** subscribe to, and *listen* to events 'from the outside'
+- Events can be of ***local*** or ***remote*** origin, and be...
+- Delivered via ***synchronous*** or ***asynchronous*** channels
+
+
 
 ### Event Handlers
 
-Services react to events by registering *event handlers*, the sum of which constitutes a *service implementation*. This is an example of that in Node.js:
+Services react to events by registering *event handlers*. This is an example of that in Node.js:
 
 ```js
 class BookshopService extends cds.ApplicationService { init() {
   const { Books } = this.entities
   this.before ('UPDATE', Books, req => validate (req.data))
   this.after ('READ', Books, books => ... )
-  this.on ('submitOrder', req => this.emit ('BookOrdered',req.data))
+  this.on ('SubmitOrder', req => this.emit ('BookOrdered',req.data))
 }}
 ```
 
-You can also register generic handlers, acting on classes of similar events:
+You can also register *generic* handlers, acting on classes of similar events:
 
 ```js
 this.before ('READ','*', ...)   // for READ requests to all entities
@@ -301,31 +303,67 @@ this.before ('*','Books', ...)  // for all requests to Books
 this.before ('*', ...)          // for all requests served by this srv
 ```
 
-### Agnostic Events
+> [!note]
+>
+> The sum of all event handlers registered with a service constitutes this service's implementation.
 
-All events of all kinds are handled in the same fundamental ways. Your code stays *agnostic* to whether events are from a *local* or *remote* origin. We also subscribe to and handle events from a message queue in the very same way as we register handlers for synchronous requests.
+
+
+### Event Listeners
+
+The way we register event handlers that *implement* a service looks very similar to how we would register similar handlers for the purpose of just *listening* to what happens with other services. At the end of the day, the difference is only to *whom* we register event listeners.
 
 ::: code-group
 
-```js [Handling sync Requests, and emitting async ones]
-class CatalogService extends cds.ApplicationService { init() {
-  this.on ('submitOrder', req => {              // sync request
-    await this.emit ('BookOrdered', req.data)  // inform others
-    const { book, quantity } = req.data       // process it...
-    return req.reply ({some:'thing'})        // reply to clients
-  })
+```js [Service Provider]
+class SomeServiceProvider { async init() {
+  this.on ('SomeEvent', req => { ... })
+}}
+```
+
+```js [Observer]
+class Observer { async init() {
+  const that = await cds.connect.to ('SomeService')
+  that.on ('SomeEvent', req => { ... })
 }}
 ```
 
 :::
 
+> [!note]
+>
+> Everyone/thing can register event handlers with a given service, not only the service itself, as its implementation, but also *observers* or *interceptors* listening to events 'from the outside'.
+
+::: details Including framework-provided services ...
+
+These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
+
+:::
+
+
+
+### Sync / Async
+
+From an event handler's perspective, there's close to no difference between *synchronous requests* received from client like UIs, and *asynchronous event messages* coming in from respective message queues. The arrival of both, or either of which, at the service's interface is an event, to which we can subscribe to and react in the same uniform way, thus blurring the lines between the synchronous and the asynchronous world.
+
+![events.drawio](assets/events.drawio.svg){style="padding-right:123px"}
+
+Handling synchronous requests vs asynchronous event messages:
+
 ::: code-group
 
+```js [Handling sync Requests]
+class CatalogService { async init() {
+  this.on ('SubmitOrder', req => {        // sync action request
+    const { book, quantity } = msg.data  // process it...
+  })
+}}
+```
+
 ```js [Handling async Events]
-class AnotherService extends cds.ApplicationService { async init() {
+class AnotherService { async init() {
   const cats = await cds.connect.to ('CatalogService')
-                                           // ^^^ local or remote
-  cats.on ('BookOrdered', msg => {        // async event
+  cats.on ('BookOrdered', msg => {        // async event message
     const { book, quantity } = msg.data  // process it...
   })
 }}
@@ -333,17 +371,41 @@ class AnotherService extends cds.ApplicationService { async init() {
 
 :::
 
-<br/>
+Same applies to whether we *send* a request or *emit* an asynchronous event:
 
-> [!tip]
+```js
+await cats.send ('SubmitOrder', { book:201, quantity:1 })
+await this.emit ('BookOrdered', { book:201, quantity:1 })
+```
+
+
+
+### Local / Remote
+
+Services can not only be used and called remotely, but also locally, within the same process. The way we connect to and interact with *local* services is the same as for *remote* ones, via whatever protocol:
+
+```js
+const local_or_remote = await cds.connect.to('SomeService')
+await local_or_remote.send ('SomeRequest', {...data})
+await local_or_remote.read ('SomeEntity').where({ID:4711})
+```
+
+Same applies to the way we subscribe to and react to incoming events:
+
+```js
+this.on ('SomeRequest', req => {/* process req.data */})
+this.on ('READ','SomeEntity', req => {/* process req.query */})
+```
+
+> [!note]
 >
-> CAP's *ubiquitous* notion of events, *intrinsically* used everywhere, combined with the protocol- and platform-*agnostic* way to emit and handle events fuels many key features and qualities, like [*Agnostic Core*](), *[Inner Loop Development]()*, and *[Late-cut µ Services]()*.
+> The way we *connect* to and *consume* services, as well as the way we *listen* and *react* to events, and hence *implement* services, are *agnostic* to whether we deal with *local* or *remote* services, as well as to whatever *protocols* are used. <br/>→ see also [*Agnostic by Design*]()
 
 
 
-## Passive Data
+## Data
 
-All data processed and server by CAP services is *passive*, and representations are *plain simple* data structures as much as possible. In Node.js it's plain JavaScript record objects, in Java it's hash maps.  This is **of utter importance** due to the following reasons...
+All data processed and served by CAP services is *passive*, and representated by *plain simple* data structures as much as possible. In Node.js it's plain JavaScript record objects, in Java it's hash maps.  This is of utmost importance for the reasons set out in the following sections.
 
 ![passive-data.drawio](assets/passive-data.drawio.svg)
 
@@ -379,9 +441,15 @@ let books = await GET `Books` // always read in a SELECT * fashion
 
 In effect, with querying the shape of records in result sets vary very much, even in denormalized ways, which is hardly possible to achieve with static access or transfer objects.
 
-### Adhering to 'ReST'
+### Passive Data
 
-One might argue that this is very much in line with REST, read verbally like that: (1) You always get different ***representations*** of data; there is nothing like one shape to fit all needs. (2) The data you get is always some ***state*** captured in time, and potentially outdated the moment you got it. (3) That data is always ***transfered*** to you, without any notion of references to some matching server-side state.
+As, for the aforementioned reasons, we can't use static classes to represent data at runtime, there is also no reasonable way to add any behavior to data objects. So in consequence, all data has to be passive, and hence all logic, such as for validation or field control 'determinations' has to go somewhere else → into event handlers.
+
+> [!tip]
+>
+> Adhering to the principle of passive data, also has other positive effects. For example:
+>
+> **(1)** Passive data can be easily cached in content delivery networks. &nbsp; **(2)** Passive data is more lightweight than active objects. &nbsp; **(3)** Passive data is *immutable* → which allows to apply parallelization as known from functional programming.
 
 
 
@@ -487,13 +555,44 @@ CAP queries are **first-class** objects with **late materialization**: they capt
 
 ## Agnostic by Design
 
-to _protocols_ and _platform_ {.subtitle}
-
 Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. CAP avoids such lock-ins and shields application developers from things like SAML, OAuth, HTTP, OData, GraphQL, Kafka, or other message brokers, different databases, and so forth...
+
+### ... to Platform Services
+
+Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when you hardwire too many things into today's technologies that might soon become obsolete. CAP avoids such lock-ins and shields application developers from low-evel things like:
+
+- Low-level **Security**-related things like Certificates, mTLS, SAML, OAuth, OpenID, ...
+- **Service Bindings** like K8s secrets, VCAP_SERVICES, ...
+- **Multitenancy**-related things, especially w.r.t. tenant isolation
+- **Messaging** protocols or brokers such as AMQP, MQTT, Webhooks, Kafka, Redis, ...
+- **Remoting** protocols such as HTTP, gRCP, OData, GraphQL, SOAP, RFC, ...
+- **Audit Loging** → use the *[Calesi]()* variant, which provides ultimate resilience
+- **Logs**, **Traces**, **Metrics** → CAP does that behind the scenes + provides *[Calesi]()* variants
+- **Transaction Management** → CAP manages all transactions → don't mess with that!
+
+> [!tip]
+>
+> CAP not only abstracts these things at scale, but also does most things automatically in the background. In addition, it allows us to provide various implementations that encourage *[Evolution w/o Disruption]()*, as well as fully functional mocks used in development, enabling *[Inner Loop Development]()* and thus *[Fast Development at Minimized Costs]()*.
+
+> [!warning]
+>
+> Of course, you can always ignore and bypass these abstractions. However, keep in mind that by doing so, you will be missing out on many of the benefits they offer. Additionally, there is a higher risk of accumulating *[Technical Debt]()*.
+
+> [!caution]
+>
+> Things get really dangerous when application developers have to deal with low-level security-related things like authentication, certificates, tenant isolation, etc. Whenever this happens, it's a clear sign that something is seriously wrong.
+
+### ... to Databases
+
+As introduced [above](#domain-models), CAP translates domain models to native SQL of databases like SAP HANA, PostgreSQL, SQLite, and H2. When deploying these to databases, schema evolution is applied automatically. Also your runtime code stays independent of chosen databases.
+
+> [!tip]
+>
+> The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
 
 ### ... to Protocols
 
-Services are always consumed in the same ways, regardless of whether you call a local service, or a remote one, and independent of the protocol:
+Services are always consumed in the same ways, regardless of whether you call a remote service Via OData, GraphQL or any other REST dialect:
 
 ```js
 const srv = await cds.connect.to('SomeService')
@@ -513,18 +612,30 @@ srv.on('SomeRequest', req => {/* process req.data */})
 srv.on('READ','SomeEntity', req => {/* process req.query */})
 ```
 
-:::tip Late-cut µ services
-The agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies, for example, co-locating services in a single process or deploying them to separate micro services later on.
-:::
-
-
-### ... to Platforms
+::: details Same for framework services ...
 
 These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
 
+:::
 
+### ... to Local vs Remote
+
+The protocol-agnostic consumption model highlighted above also applies to local vs remote services: You consume local services in the same way than remote ones, and vice versa.
+
+### ⇒ Inner Loop Development
+
+### ⇒ Evolution w/o Disruption
+
+### ⇒ Late-cut Microservices
+
+This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
+:::
 
 ### ⇒ Hexagonal Architecture
+
+https://wiki.c2.com/?HexagonalArchitecture
+
+https://wiki.c2.com/?PortsAndAdaptersArchitecture
 
 CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
 
@@ -532,9 +643,13 @@ CAP's agnostic services design is very much in line with the goals of [hexagonal
 
 ### Extending Models
 
+> [!tip]
+>
+> **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
+
 ### Extension Logic
 
-### Extensible Framework 
+### Extensible Framework
 
 As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
 
@@ -583,7 +698,7 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cds/dl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cds/cdl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL
@@ -598,12 +713,12 @@ While CDS extends SQL and the relational model by means to [describe, read, and 
 
 #### CAP == Entity-Relationship Modeling
 
-CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cds/dl#associations) and [Compositions](/cds/dl#compositions). {.indent}
+CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cds/cdl#associations) and [Compositions](/cds/cdl#compositions). {.indent}
 
 
 #### CAP == Aspect-Oriented Programming
 
-[Aspects](/cds/dl#aspects) in [CDS](/cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
+[Aspects](/cds/cdl#aspects) in [CDS](/cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
 
 
 #### CAP == Functional Programming

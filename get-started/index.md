@@ -29,15 +29,15 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 - [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
 - [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
 - **A Terminal**{style="font-weight: 500"} — for using the `cds` command line interface (CLI)
-- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](/tools/cds-editors#vscode).
+- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
 
 
 #### Installation
 
-- With the prerequisites met, install the [`cds` toolkit](/tools/cds-cli) *globally*:
+- With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
     ```sh
-    npm add -g @sap/cds-dk
+    npm add -g @sap/cds/dk
     ```
 
     [Visit the _Troubleshooting_ guide](troubleshooting.md) if you encounter any errors. {.learn-more}
@@ -52,13 +52,13 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 
   ```sh
   USAGE
-  
+
       cds <command> [<args>]
       cds <src>  =  cds compile <src>
       cds        =  cds help
-  
+
   COMMANDS
-  
+
       i | init        jump-start cds-based projects
       a | add         add a feature to an existing project
       c | compile     compile cds models to different outputs
@@ -70,18 +70,18 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
       d | deploy      deploy to databases or cloud
       v | version     get detailed version information
       ? | help        get detailed usage information
-  
+
     Learn more about each command using:
     cds help <command> or
     cds <command> --help
-  
+
   ```
 
 
 
 #### Optional
 
-- [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](/java/getting-started#local).
+- [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
 - [git](https://git-scm.com) — if you go for more than just some quick trials...
 
 
@@ -97,7 +97,7 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
    ```sh
    code bookshop
    ```
-   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
+   [Assumes you activated the `code` command on macOS as documented](../tools/cds-editors#vscode) {.learn-more}
 
 
 
@@ -114,7 +114,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](/node.js/cds-env) if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](../node.js/cds-env) if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -153,13 +153,13 @@ After the [initial setup](#setup), we recommend to continue as follows while you
 
 | #    | Guide                                                        | Description                                                  |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1    | [Introduction – What is CAP?](/about/)                       | Learn about key benefits and value propositions.             |
+| 1    | [Introduction – What is CAP?](../about/)                       | Learn about key benefits and value propositions.             |
 | 2    | [Bookshop by capire](in-a-nutshell)                          | Build your first CAP application within 4-44 minutes.        |
-| 3    | [Best Practices](/about/best-practices)                      | Key concepts and guiding principles to know → *should read*. |
-| 4    | [Anti Patterns](/about/best-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
+| 3    | [Best Practices](../about/best-practices)                      | Key concepts and guiding principles to know → *should read*. |
+| 4    | [Anti Patterns](../about/best-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
 | 5    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.                 |
-| 6    | [Cookbook](/guides/)                                         | Walkthroughs for the most common tasks.                      |
-| 7    | [CDS](/cds/)<br/>[Java](/java/)<br/>[Node.js](/node.js/)<br/>[Tools](/tools/) | The reference docs for these respective areas.               |
+| 6    | [Cookbook](../guides/)                                         | Walkthroughs for the most common tasks.                      |
+| 7    | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.               |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

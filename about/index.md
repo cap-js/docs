@@ -1,3 +1,7 @@
+---
+status: released
+---
+
 # About CAP
 
 Value Propositions {.subtitle}

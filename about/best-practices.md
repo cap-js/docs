@@ -579,7 +579,7 @@ This thoroughly agnostic design is the key enabling quality for several of the m
 
 
 
-### ⇒ Hexagonal Architecture
+### ⇒ Hexagonal Architecture {#hexagonal}
 
 The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As Cockburn introduces it, its intent is to:
 
@@ -626,7 +626,7 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 - [*Ports and Adapters* by Damon Kelly](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters)
 - [*Hexagonal Architecture* on Wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
 
-#### Hexagonal Architecture by CAP {#hexagonal}
+#### Hexagonal Architecture by CAP
 
 CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
 

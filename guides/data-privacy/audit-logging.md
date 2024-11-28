@@ -490,4 +490,4 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
-This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring <Config>cds.audit-log.[development].outbox = false</Config>, for example, as we do in the default configuration for the `development` profile.
+This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring <Config>cds.audit-log.[development].outbox = false</Config>.

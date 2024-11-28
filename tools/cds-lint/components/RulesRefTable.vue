@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="data?.length">
+  <div v-if="data && Object.keys(data).length">
     <div class="tip custom-block github-alert">
       <ul class="legend-list">
         <li>

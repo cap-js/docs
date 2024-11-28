@@ -32,6 +32,8 @@ The major building blocks are as follows:
 
 In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities]() that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
 
+
+
 ### Models fuel Runtimes
 
 CDS models play a prevalent role in CAP applications. They are ultimately used to fuel generic runtimes to automatically serve requests, without any coding for custom implementations required.
@@ -266,6 +268,17 @@ The previous example follows the recommended best practice of a *[single-purpose
 As we'll learn in the next chapter below, service providers, that is the implementations of services, react to events, such as a request from a client, by registering respective event handlers. At the end of the day, a service implementation is **the sum of all event handlers** registered with this service.
 
 
+
+### CAP Services != µ-services
+
+Don't confuse CAP services with Microservices:
+
+- **CAP services** are modular software somponents, while ...
+- **Microservices** are deployment units.
+
+CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently.
+
+[Learn more about that in the the [Anti Patterns secttion on Microservices](bad-practices#microservices-mania)] {.learn-more}
 
 ## Events
 
@@ -553,9 +566,135 @@ CAP queries are **first-class** objects with **late materialization**: they capt
 
 ## Agnostic by Design
 
-Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when having to hardwire too many things to today's technologies, which might soon become obsolete. CAP avoids such lock-ins and shields application developers from things like SAML, OAuth, HTTP, OData, GraphQL, Kafka, or other message brokers, different databases, and so forth...
+In the above introductions to CAP's core concepts we learned already that your domain models, as well as the services and their implementations in event handlers are agnostic to local vs remote, to protocols, as well as to databases, which is complemented by CAP-level Service Integrations (→ see *[The 'Calesi' Effect](#the-calesi-effect)*) by asbtractions from (low-level) interfaces to platform services and technologies. So, in total, and in effect:
 
-### ... to Platform Services
+> [!tip] Your domain models and application logic stays...
+>
+> - [Agnostic to *Databases*]()
+> - [Agnostic to *Protocols*]()
+> - [Agnostic to *Local vs Remote*]()
+> - [Agnostic to *Platform Services* and low-level *Technologies*]()
+
+This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections...
+
+
+
+### ⇒ Hexagonal Architecture
+
+The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As Cockburn introduces it, its intent is to:
+
+*"Allow an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases"* {.indent style="font-family:serif"}
+
+See also [this article and illustration on wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)):
+
+![Example of hexagonal architecture with an inner hexagon representing the application core, and an outer hexagon for the adapters, the border between the two being the ports](https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Hexagonal_Architecture.svg/313px-Hexagonal_Architecture.svg.png)
+
+#### Bits of History
+
+Before analysing how that relates to CAP, or rather vice versa, it's probably helpful to emphasize and understand that Hexagonal Architecture is not in contrast, or in conflict, to other software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
+
+Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;):
+
+- The [*Model View Controller (MVC)*](https://wiki.c2.com/?ModelViewController) pattern "makes domain logic independent from UI widgetry", thereby promoting reuse of the domain model code.
+   ::: details
+    *Views* + *Controllers* are the widgetry; *Models* are the UI-independent code parts.
+   Note: The term '*Model*' as used in MVC doesn't mean no-code → code is percieved as a *model of the real world* in here.
+   :::
+
+- The [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture), took the fundamental intent and designs from MVC, and applied it to a layered architecture, which commonly had three layers, but he split the *Logic* layer into an *Application Model* on top of a *Domain Model*.
+   ::: details Application Models vs Domain Models ...
+
+   The original implementations in [Smalltalk-80](https://en.wikipedia.org/wiki/Smalltalk) already had *Application Model* classes showing up on top of the (real) *Domain Model* classes: Basically, the former encapsulate the application's business logic, while the latter encapsulate the application's data objects, with only the most central invariants carved in stone.
+
+   ( Note that the original MVC wasn't designed for layered architectures, but was always presented as a "*Triade*" ).
+
+   :::
+
+- The [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) basically evolved the ideas of the former into a symetric shape (as Cockburn is "a symmetrist at heart"), thereby unifying the *View* layer on top and the *Infrastructure* layer at the bottom into *Transformers* living in an outer hexagon, while the *Application Model*, and the *Domain Model* live in an inner hexagon. He originally depicted that as follows in plain text:
+
+   ```http
+   OUTSIDE <-> transformer <--> ( application  <->  domain )
+   ```
+
+   ::: details Transformers → Adapters
+
+   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" to "*Adapters*" / "*Adaptors*".
+   :::
+
+   <br/>
+
+    [**See also** this very good introduction to *Ports and Adapters* by Damon Kelly.](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters) {.learn-more}
+
+#### Hexagonal Architecture by CAP
+
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](../about/#inner-loop-development) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
+
+Note only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
+
+| Hexagonal Architecture | CAP                                                          |
+| ---------------------- | ------------------------------------------------------------ |
+| "The Outside"          | (Remote) Clients of Services, Databases, Platform Services   |
+| Adapters               | Protocol Adapters (inbound + outbound), <br />Framework Services (outbound) |
+| Ports                  | Agnostic Service Interfaces + Events (inbound + outbound)    |
+| Application Model      | Agnostic Service Providers + Event Handlers                  |
+| Domain Model           | Domain Models + application-independent Invariants           |
+
+### ⇒ Inner Loop Development
+
+The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
+
+### ⇒ Evolution w/o Disruption
+
+### ⇒ Late-cut Microservices
+
+This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
+:::
+
+
+
+## Intrinsic Cloud Qualities
+
+- #### Multitenancy
+
+- #### Extensibility
+
+- #### Security
+
+- #### Scalability
+
+- #### Resilience
+
+
+
+## Intrinsic Extensibility
+
+#### Extending Models
+
+> [!tip]
+>
+> **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
+
+#### Extension Logic
+
+#### Extensible Framework
+
+As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
+
+And as everybody can add event handlers to services, not only the service implementations, you can also add event handlers to framework services, and thereby extend the core framework.
+
+For example, you could extend the database service like this:
+
+```js
+cds.db.before ('*', req => {
+  console.log (req.event, req.target.name)
+})
+```
+
+
+
+
+
+## The 'Calesi' Effect
 
 Keeping pace with a rapidly changing world of cloud technologies and platforms is a major challenge when you hardwire too many things into today's technologies that might soon become obsolete. CAP avoids such lock-ins and shields application developers from low-evel things like:
 
@@ -579,95 +718,6 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 > [!caution]
 >
 > Things get really dangerous when application developers have to deal with low-level security-related things like authentication, certificates, tenant isolation, etc. Whenever this happens, it's a clear sign that something is seriously wrong.
-
-### ... to Databases
-
-As introduced [above](#domain-models), CAP translates domain models to native SQL of databases like SAP HANA, PostgreSQL, SQLite, and H2. When deploying these to databases, schema evolution is applied automatically. Also your runtime code stays independent of chosen databases.
-
-> [!tip]
->
-> The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
-
-### ... to Protocols
-
-Services are always consumed in the same ways, regardless of whether you call a remote service Via OData, GraphQL or any other REST dialect:
-
-```js
-const srv = await cds.connect.to('SomeService')
-```
-
-```js
-await srv.emit('SomeEvent', {...payload})
-await srv.send('SomeRequest', {...data})
-await srv.read('SomeEntity').where({ID:4711})
-```
-
-The same applies to the way we subscribe to and react to incoming events / requests / queries in event handlers:
-
-```js
-srv.on('SomeEvent', msg => {/* process msg.data */})
-srv.on('SomeRequest', req => {/* process req.data */})
-srv.on('READ','SomeEntity', req => {/* process req.query */})
-```
-
-::: details Same for framework services ...
-
-These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
-
-:::
-
-### ... to Local vs Remote
-
-The protocol-agnostic consumption model highlighted above also applies to local vs remote services: You consume local services in the same way than remote ones, and vice versa.
-
-### ⇒ Inner Loop Development
-
-### ⇒ Evolution w/o Disruption
-
-### ⇒ Late-cut Microservices
-
-This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
-:::
-
-### ⇒ Hexagonal Architecture
-
-https://wiki.c2.com/?HexagonalArchitecture
-
-https://wiki.c2.com/?PortsAndAdaptersArchitecture
-
-CAP's agnostic services design is very much in line with the goals of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what these are aiming for: your core domain logic stays agnostic to protocols and changing low-level technologies, hence becomes resilient to disrupting changes in those spaces.
-
-## Intrinsic Extensibility
-
-### Extending Models
-
-> [!tip]
->
-> **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
-
-### Extension Logic
-
-### Extensible Framework
-
-As stated in the introduction: "*Every active thing is a Service*". This also applies to all framework features and services, like databases, messaging, remote proxies, MTX services, etc.
-
-And as everybody can add event handlers to services, not only the service implementations, you can also add event handlers to framework services, and thereby extend the core framework.
-
-For example, you could extend the database service like this:
-
-```js
-cds.db.before ('*', req => {
-  console.log (req.event, req.target.name)
-})
-```
-
-
-
-## Inner Loop Development
-
-## The 'Calesi' Effect
-
-TODO...
 
 ## Related Art
 

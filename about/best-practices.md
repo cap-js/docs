@@ -278,7 +278,7 @@ Don't confuse CAP services with Microservices:
 - **CAP services** are modular software somponents, while ...
 - **Microservices** are deployment units.
 
-CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently. 
+CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently.
 
 [Learn more about that in the the [Anti Patterns secttion on Microservices](bad-practices#microservices-mania)] {.learn-more}
 
@@ -568,16 +568,16 @@ CAP queries are **first-class** objects with **late materialization**: they capt
 
 ## Agnostic by Design
 
-In the above introductions to CAP's core concepts we learned already that your domain models, as well as the services and their implementations in event handlers are agnostic to local vs remote, to protocols, as well as to databases, which is complemented by CAP-level Service Integrations (→ see *[The 'Calesi' Effect](#the-calesi-effect)*) by asbtractions from (low-level) interfaces to platform services and technologies. So, in total, and in effect: 
+In the above introductions to CAP's core concepts we learned already that your domain models, as well as the services and their implementations in event handlers are agnostic to local vs remote, to protocols, as well as to databases, which is complemented by CAP-level Service Integrations (→ see *[The 'Calesi' Effect](#the-calesi-effect)*) by asbtractions from (low-level) interfaces to platform services and technologies. So, in total, and in effect:
 
-> [!tip] Your domain models and application logic stays... 
+> [!tip] Your domain models and application logic stays...
 >
 > - [Agnostic to *Databases*]()
 > - [Agnostic to *Protocols*]()
-> - [Agnostic to *Local vs Remote*]() 
+> - [Agnostic to *Local vs Remote*]()
 > - [Agnostic to *Platform Services* and low-level *Technologies*]()
 
-This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections... 
+This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections...
 
 
 
@@ -591,24 +591,24 @@ See also [this article and illustration on wikipedia](https://en.wikipedia.org/w
 
 ![Example of hexagonal architecture with an inner hexagon representing the application core, and an outer hexagon for the adapters, the border between the two being the ports](https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Hexagonal_Architecture.svg/313px-Hexagonal_Architecture.svg.png)
 
-#### Bits of History 
+#### Bits of History
 
-Before analysing how that relates to CAP, or rather vice versa, it's probably helpful to emphasize and understand that Hexagonal Architecture is not in contrast, or in conflict, to other software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-). 
+Before analysing how that relates to CAP, or rather vice versa, it's probably helpful to emphasize and understand that Hexagonal Architecture is not in contrast, or in conflict, to other software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
 
-Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;): 
+Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;):
 
 - The [*Model View Controller (MVC)*](https://wiki.c2.com/?ModelViewController) pattern "makes domain logic independent from UI widgetry", thereby promoting reuse of the domain model code.
    ::: details
-    *Views* + *Controllers* are the widgetry; *Models* are the UI-independent code parts. 
-   Note: The term '*Model*' as used in MVC doesn't mean no-code → code is percieved as a *model of the real world* in here. 
+    *Views* + *Controllers* are the widgetry; *Models* are the UI-independent code parts.
+   Note: The term '*Model*' as used in MVC doesn't mean no-code → code is percieved as a *model of the real world* in here.
    :::
 
-- The [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture), took the fundamental intent and designs from MVC, and applied it to a layered architecture, which commonly had three layers, but he split the *Logic* layer into an *Application Model* on top of a *Domain Model*. 
+- The [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture), took the fundamental intent and designs from MVC, and applied it to a layered architecture, which commonly had three layers, but he split the *Logic* layer into an *Application Model* on top of a *Domain Model*.
    ::: details Application Models vs Domain Models ...
 
-   The original implementations in [Smalltalk-80](https://en.wikipedia.org/wiki/Smalltalk) already had *Application Model* classes showing up on top of the (real) *Domain Model* classes: Basically, the former encapsulate the application's business logic, while the latter encapsulate the application's data objects, with only the most central invariants carved in stone.  
+   The original implementations in [Smalltalk-80](https://en.wikipedia.org/wiki/Smalltalk) already had *Application Model* classes showing up on top of the (real) *Domain Model* classes: Basically, the former encapsulate the application's business logic, while the latter encapsulate the application's data objects, with only the most central invariants carved in stone.
 
-   ( Note that the original MVC wasn't designed for layered architectures, but was always presented as a "*Triade*" ). 
+   ( Note that the original MVC wasn't designed for layered architectures, but was always presented as a "*Triade*" ).
 
    :::
 
@@ -620,7 +620,7 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 
    ::: details Transformers → Adapters
 
-   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" to "*Adapters*" / "*Adaptors*". 
+   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" to "*Adapters*" / "*Adaptors*".
    :::
 
    <br/>
@@ -629,7 +629,7 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 
 #### Hexagonal Architecture by CAP
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop-development) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside". 
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](../about/#inner-loop-development) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
 
 Note only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
@@ -709,7 +709,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 - **Logs**, **Traces**, **Metrics** → CAP does that behind the scenes + provides *[Calesi]()* variants
 - **Transaction Management** → CAP manages all transactions → don't mess with that!
 
-> [!tip] 
+> [!tip]
 >
 > CAP not only abstracts these things at scale, but also does most things automatically in the background. In addition, it allows us to provide various implementations that encourage *[Evolution w/o Disruption]()*, as well as fully functional mocks used in development, enabling *[Inner Loop Development]()* and thus *[Fast Development at Minimized Costs]()*.
 
@@ -717,7 +717,7 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 >
 > Of course, you can always ignore and bypass these abstractions. However, keep in mind that by doing so, you will be missing out on many of the benefits they offer. Additionally, there is a higher risk of accumulating *[Technical Debt]()*.
 
-> [!caution] 
+> [!caution]
 >
 > Things get really dangerous when application developers have to deal with low-level security-related things like authentication, certificates, tenant isolation, etc. Whenever this happens, it's a clear sign that something is seriously wrong.
 

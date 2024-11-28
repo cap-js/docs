@@ -585,13 +585,9 @@ The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architectur
 
 *"Allow an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases"* {.indent style="font-family:serif"}
 
-See also [this article and illustration on wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)):
+#### The Origins — Bits of History
 
-![Example of hexagonal architecture with an inner hexagon representing the application core, and an outer hexagon for the adapters, the border between the two being the ports](https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Hexagonal_Architecture.svg/313px-Hexagonal_Architecture.svg.png)
-
-#### Bits of History
-
-Before analysing how that relates to CAP, or rather vice versa, it's probably helpful to emphasize and understand that Hexagonal Architecture is not in contrast, or in conflict, to other software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
+Before looking into how that relates to CAP, or rather vice versa, it's probably helpful to understand that Hexagonal Architecture is not in contrast to related software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
 
 Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;):
 
@@ -621,15 +617,20 @@ Let's do a quick time travel by a rough summary of the respective entries in the
    Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" to "*Adapters*" / "*Adaptors*".
    :::
 
-   <br/>
+#### See Also...
 
-    [**See also** this very good introduction to *Ports and Adapters* by Damon Kelly.](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters) {.learn-more}
+- [*Hexagonal Architecture and DDD (Domain Driven Design)* by Sven Woltmann](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design), which probably has the best, and most correct illustrations, like this one:
+
+![Hexagonal architecture and DDD (domain driven design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
+
+- [*Ports and Adapters* by Damon Kelly](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters)
+- [*Hexagonal Architecture* on Wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
 
 #### Hexagonal Architecture by CAP {#hexagonal}
 
 CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
 
-Note only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
+Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
 | Hexagonal Architecture | CAP                                                          |
 | ---------------------- | ------------------------------------------------------------ |
@@ -637,7 +638,13 @@ Note only do we address the very same goals, we can also identify several symmet
 | Adapters               | Protocol Adapters (inbound + outbound), <br />Framework Services (outbound) |
 | Ports                  | Agnostic Service Interfaces + Events (inbound + outbound)    |
 | Application Model      | Agnostic Service Providers + Event Handlers                  |
-| Domain Model           | Domain Models + application-independent Invariants           |
+| Domain Model           | Domain Model Entities (w/ essential invariants)              |
+
+> [!tip]
+>
+> **Conclusion and Key Takeaway:** CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP is an implementation of Hexagonal Architecture, in particular with respect to the Adapters in the outer hexagon, but also re *Application Models* and *(Core) Domain Models* in the inner hexagon.
+
+[Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 
 ### ⇒ Inner Loop Development {#inner-loop}
 

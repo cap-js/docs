@@ -614,7 +614,7 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 
    ::: details Transformers → Adapters
 
-   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" to "*Adapters*" / "*Adaptors*".
+   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" with "*Adapters*" / "*Adaptors*".
    :::
 
 #### See Also...

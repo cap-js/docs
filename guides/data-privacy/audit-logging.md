@@ -48,14 +48,15 @@ npm add @cap-js/audit-logging
       "audit-log": {
         "handle": ["READ", "WRITE"],
         "outbox": true,
-        "[development]": {
+        "[development]": { "kind": "audit-log-to-console" },
+        "[hybrid]": { "kind": "audit-log-to-restv2" },
+        "[production]": { "kind": "audit-log-to-restv2" }
+      },
+      "kinds": {
+        "audit-log-to-console": {
           "impl": "@cap-js/audit-logging/srv/log2console"
         },
-        "[hybrid]": {
-          "impl": "@cap-js/audit-logging/srv/log2restv2",
-          "vcap": { "label": "auditlog" }
-        },
-        "[production]": {
+        "audit-log-to-restv2": {
           "impl": "@cap-js/audit-logging/srv/log2restv2",
           "vcap": { "label": "auditlog" }
         }

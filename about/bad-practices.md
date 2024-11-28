@@ -1,9 +1,16 @@
+# Bad Practices
 
-## Bad Practices
+[[toc]]
 
-### Determinations & Validations
 
-### Business Objects Frameworks
+
+## Questionable Prior Arts
+
+### DAOs, DTOs, Active Records, et al
+
+### Object-Relational Mappers
+
+### BO-centric Frameworks
 
 ... which bypass or are in conflict with CAP's [key design principles](), for example:
 
@@ -12,24 +19,9 @@
 
 These would be in conflict with CAP's focus on stateless services processing passive data, as well as with the querying-based approach to read and write data.
 
-### Object-Relational Mapping
+### Determinations & Validations
 
-
-
-### Conflicting Architectures
-
-CAP's design principles are very much in line with the approaches of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what hexagonal architecture is aiming for:
-
-- domain logic stays agnostic to protocols and changing low-level technologies
-- resilience to disrupting changes in those spaces
-
-So, there's little need to homebrew your own hexagonal architecture on top of CAP, and high risks you miss CAP's advantages in this regard.
-
-
-
-### Abstracting from CAP
-
-### Using Low-level Stuff
+### Sticking to DIY, or NIH
 
 Such as...
 
@@ -41,11 +33,32 @@ Such as...
 Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, late-cut µ services.
 It would also expose your projects to risks of disruptions by changes in those rather volatile technologies.
 
+### Always done it this way
+
+## Squared Hexagons
+
+### Hexagonal Arch ** 2 = ?
+
+CAP's design principles are very much in line with the approaches of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what hexagonal architecture is aiming for:
+
+- domain logic stays agnostic to protocols and changing low-level technologies
+- resilience to disrupting changes in those spaces
+
+So, there's little need to homebrew your own hexagonal architecture on top of CAP, and high risks you miss CAP's advantages in this regard.
+
+### Same for DDD...
+
+...
+
+### Abstracting from CAP
 
 
-### Code Generator Tooling
 
-Alternative frameworks or toolsets follow code generation approaches. Swagger does so for example: Given an OpenAPI document, such as the one we [generated above](#services-as-interfaces), we can throw that into [Swagger Editor](https://editor.swagger.io), and have a server package generated, for example for Node.js, which, as the included readme tells us *"... leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work."* → it does so as follows:
+## Code Generators
+
+### The Swagger Textbook
+
+Alternative frameworks or toolsets follow code generation approaches. Swagger does so for example: One write OpenAPI documents in YAML in the [Swagger Editor](https://editor.swagger.io), and have a server package generated, for example for Node.js, which, as the included readme tells us *"... leverages the mega-awesome [swagger-tools](https://github.com/apigee-127/swagger-tools) middleware which does most all the work."* → it does so as follows:
 
 <span class="centered">
 
@@ -85,10 +98,28 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 :::
 
+### Code-Generating AI
+
+- → don't confuse "[Generative AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with 'Code-generating AI'
+
+## Overly Generic Approaches
+
+### The 'ODatabase' Anti Pattern
+
+### Overdesigned Architectures
+
+### Tons of Glue Code
 
 
-### Fragmented Micro Services
 
+## Microservices Mania
 
+- https://blog.payara.fish/microservices-mania-are-moduliths-the-saner-path-to-scalable-architecture
+- https://www.f5.com/de_de/company/blog/mainstream-microservices-mania-challenges-increasing-with-adoption
+- https://www.reddit.com/r/programming/comments/18crnmz/death_by_a_thousand_microservices/
+- https://dzone.com/articles/architecture-style-modulith-vs-microservices
+- https://medium.com/codex/what-is-better-modular-monolith-vs-microservices-994e1ec70994
 
-### Overdesigned Implementations
+### Premature Fragmentation {.avoid}
+
+### Late-cut Microservices {.prefer}

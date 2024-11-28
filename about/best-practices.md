@@ -163,7 +163,7 @@ WHERE EXISTS (SELECT 1 from Authors as author WHERE author.ID = Books.author_ID
 
 ### Aspects
 
-A distinctive feature of CDS is its intrinsic support for [_Aspect-oriented Modelling_](), which allows to factor out separate concerns into separate files. It also allows everyone to adapt and extend everything anytime, including reuse definitions you don't own, but imported to your models.
+A distinctive feature of CDS is its intrinsic support for [_Aspect-oriented Modelling_](), which allows to factor out separate concerns into separate files. It also allows everyone to adapt and extend everything anytime, including reuse definitions you don't own, but have imported to your models.
 
 ::: code-group
 ```cds [Separation of Concerns]
@@ -257,11 +257,9 @@ service CatalogService {
 
 :::
 
-> [!tip]
->
-> **Single-purposed Services**
->
-> The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
+::: tip **Single-purposed Services**
+The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
+:::
 
 ### Service Providers
 
@@ -271,7 +269,7 @@ As we'll learn in the next chapter below, service providers, that is the impleme
 
 ## Events
 
-While services are the most important concept across models and runtime, events are equaly, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
+While services are the most important concept across models and runtime, events are equally, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
 This manifests in these additional **design principles**, complementing our [*Service-centric Paradigm*](#services):
 
 - **Everything** happening at runtime is triggered by / in reaction to **events**
@@ -303,9 +301,9 @@ this.before ('*','Books', ...)  // for all requests to Books
 this.before ('*', ...)          // for all requests served by this srv
 ```
 
-> [!note]
->
-> The sum of all event handlers registered with a service constitutes this service's implementation.
+::: info What constitutes a service implementation?
+The service's implementation consists of all event handlers registered with it.
+:::
 
 
 
@@ -330,9 +328,9 @@ class Observer { async init() {
 
 :::
 
-> [!note]
->
-> Everyone/thing can register event handlers with a given service, not only the service itself, as its implementation, but also *observers* or *interceptors* listening to events 'from the outside'.
+::: info Service provider and observer
+Everyone/everything can register event handlers with a given service. This is not limited to the service itself, as its implementation, but also includes *observers* or *interceptors* listening to events 'from the outside'.
+:::
 
 ::: details Including framework-provided services ...
 

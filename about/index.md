@@ -101,9 +101,9 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 
 ## Evolution w/o Disruption
 
-## Avoiding Technical Dept
+## Avoiding Technical Debt
 
-There's a nice definition of technical dept found at this [glossary by ProductPlan](https://www.productplan.com/glossary/technical-debt/):
+There's a nice definition of technical debt found at this [glossary by ProductPlan](https://www.productplan.com/glossary/technical-debt/):
 
 *"Technical debt (also known as tech debt or code debt) describes what results when development teams take actions to expedite the delivery of a piece of functionality or a project which later needs to be refactored [or fixed]. In other words, it’s the result of prioritizing speedy delivery over perfect code."* {.indent style="font-family:serif"}
 

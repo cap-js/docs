@@ -75,8 +75,8 @@ Make sure you have ESLint and our ESLint plugin installed via [`cds add lint`](#
 To turn on Lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
 CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
-Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules). Any other (project-based) rules are not turned on by
-default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./meta/valid-csv-header) rule reports in the Editor, we would add the following to our ESLint
+Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules/). Any other (project-based) rules are not turned on by
+default but can be turned on via the `show` rule option. For example, if we want to show the [`valid-csv-header`](./rules/valid-csv-header) rule reports in the Editor, we would add the following to our ESLint
 `rules` configuration:
 
 ```json
@@ -92,7 +92,7 @@ default but can be turned on via the `show` rule option. For example, if we want
 
 The **CDS Lint** rules are a set of generic rules based on CAP best practices.
 
-[See our Rules Reference page to find out more](./rules){ .learn-more}
+[See our Rules Reference page to find out more](./rules/){ .learn-more}
 
 
 
@@ -101,7 +101,7 @@ The **CDS Lint** rules are a set of generic rules based on CAP best practices.
 
 #### Configuring CDS Lint Rules
 
-Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/cds-lint/rules#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
+Individual package rules can also be [configured](https://eslint.org/docs/user-guide/configuring/rules#configuring-rules/) to be turned off or have a different severity. For example, if you want to turn off the recommended *environment* rule [min-node-version](../tools/cds-lint/rules/#min-node-version), just add the following lines to your [ESLint configuration file](https://eslint.org/docs/user-guide/configuring/), shown here for type `json`:
 
 ```json
 {

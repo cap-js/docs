@@ -141,7 +141,7 @@
 ## [CDS Command Line Interface](tools/cds-cli)
 ## [CDS Editors & IDEs](tools/cds-editors)
 ## [CDS Lint](tools/cds-lint/)
-  ### [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
+  ### [Rules Reference](tools/cds-lint/rules/_menu.md)
 ## [CDS Typer](tools/cds-typer)
 ## [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
 ## [Hybrid Testing w/ cds bind](advanced/hybrid-testing)

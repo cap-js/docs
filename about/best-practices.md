@@ -30,7 +30,7 @@ The major building blocks are as follows:
 
 - [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities]() that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
+In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
 
 
 
@@ -104,14 +104,14 @@ See also *[On the Nature of Models](/cds/models)* in the CDS reference docs. {.l
 
 ### Associations
 
-Approached from an SQL angle, CDS adds the concepts of (managed) *[Associations]()*, and [path expressions]() linked to that, which greatly increases expressiveness of domain data models. For example, we can write queries, and hence declare views like that:
+Approached from an SQL angle, CDS adds the concepts of (managed) *[Associations](../cds/cdl#associations)*, and [path expressions](../cds/cql#path-expressions) linked to that, which greatly increases expressiveness of domain data models. For example, we can write queries, and hence declare views like that:
 
 ```cds [Using Associations]
 entity EnglishBooks as select from Books
 where author.country.code = 'GB';
 ```
 
-This is an even more compact version, using *[infix filters]()* and [*navigation*]():
+This is an even more compact version, using *[infix filters](../cds/cql#with-infix-filters)* and [*navigation*]():
 
 ```cds
 entity EnglishBooks as select from Authors[country.code='GB']:books;
@@ -165,7 +165,7 @@ WHERE EXISTS (SELECT 1 from Authors as author WHERE author.ID = Books.author_ID
 
 ### Aspects
 
-A distinctive feature of CDS is its intrinsic support for [_Aspect-oriented Modelling_](), which allows to factor out separate concerns into separate files. It also allows everyone to adapt and extend everything anytime, including reuse definitions you don't own, but have imported to your models.
+A distinctive feature of CDS is its intrinsic support for [_Aspect-oriented Modelling_](../cds/aspects), which allows to factor out separate concerns into separate files. It also allows everyone to adapt and extend everything anytime, including reuse definitions you don't own, but have imported to your models.
 
 ::: code-group
 ```cds [Separation of Concerns]
@@ -209,7 +209,7 @@ Services are the most central concept in CAP when it comes to an application's b
 ![Key Design Principles](assets/paradigm.drawio.svg)
 
 :::tip Design principles and benefits
-The design principles - and adherence to them - are crucial for the [key features & benefits]().
+The design principles - and adherence to them - are crucial for the key features & benefits.
 :::
 
 ### Services as Interfaces
@@ -260,7 +260,7 @@ service CatalogService {
 :::
 
 ::: tip **Single-purposed Services**
-The previous example follows the recommended best practice of a *[single-purposed service]()* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services]() guide.
+The previous example follows the recommended best practice of a *[single-purposed service](/guides/providing-services#single-purposed-services)* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services](/guides/providing-services) guide.
 :::
 
 ### Service Providers
@@ -349,6 +349,8 @@ Everyone/everything can register event handlers with a given service. This is no
 
 These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
 
+<!-- All those links depend on the runtime, right? -->
+
 :::
 
 
@@ -410,7 +412,7 @@ this.on ('READ','SomeEntity', req => {/* process req.query */})
 
 > [!note]
 >
-> The way we *connect* to and *consume* services, as well as the way we *listen* and *react* to events, and hence *implement* services, are *agnostic* to whether we deal with *local* or *remote* services, as well as to whatever *protocols* are used. <br/>→ see also [*Agnostic by Design*]()
+> The way we *connect* to and *consume* services, as well as the way we *listen* and *react* to events, and hence *implement* services, are *agnostic* to whether we deal with *local* or *remote* services, as well as to whatever *protocols* are used. <br/>→ see also [*Agnostic by Design*](#agnostic-by-design)
 
 
 
@@ -470,7 +472,7 @@ As a matter of fact, business applications tend to be *data-centric*. That is, t
 
 ### Query Language (CQL)
 
-As already introduced in the [*Domain Models*]() section, CAP uses queries in CDS models, for example to declare service interfaces by projections on underlying entities, here's an excerpt of the above:
+As already introduced in the [*Domain Models*](#domain-models) section, CAP uses queries in CDS models, for example to declare service interfaces by projections on underlying entities, here's an excerpt of the above:
 
 ```cds
 entity ListOfBooks as projection on underlying.Books {
@@ -554,15 +556,13 @@ let books = await SELECT.from (Books, b => {
 
 :::
 
-### Push-Down to DBs
+### Push-Down to Databases
 
 The CAP runtimes automatically translate incomming queries from the protocol-specific query language to CQN and then to native SQL, which is finally sent to underlying databases. The idea is to push down queries to where the data is, and be executed there with best query optimization and late materialization.
 
 ![cql-cqn.drawio](assets/cql-cqn.drawio.svg)
 
-CAP queries are **first-class** objects with **late materialization**: they captured in CQN, kept in standard program variables, passed along as method arguments, transformed and combined with other queries, translated to other target query languages, and finally send to their targets to finally get executed there. This is very much like the role of functions as first-class objects in functional programming languages.
-
-
+CAP queries are **first-class** objects with **late materialization**. They are captured in CQN, kept in standard program variables, passed along as method arguments, are transformed and combined with other queries, translated to other target query languages, and finally sent to their targets for execution. This process is similar to the role of functions as first-class objects in functional programming languages.
 
 ## Agnostic by Design
 

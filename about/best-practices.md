@@ -628,7 +628,7 @@ Let's do a quick time travel by a rough summary of the respective entries in the
 
 #### Hexagonal Architecture by CAP
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/#rapid-development). Moreover, they become [*resilient* to disrupting changes](../about/#evolution-w-o-disruption) in "the outside".
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/). Moreover, they become [*resilient* to disrupting changes](../about/best-practices#evolution) in "the outside".
 
 Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
@@ -640,9 +640,9 @@ Not only do we address the very same goals, we can also identify several symmetr
 | Application Model      | Agnostic Service Providers + Event Handlers                  |
 | Domain Model           | Domain Model Entities (w/ essential invariants)              |
 
-> [!tip]
+> [!tip] Conclusion and Key Takeaway
 >
-> **Conclusion and Key Takeaway:** CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP is an implementation of Hexagonal Architecture, in particular with respect to the Adapters in the outer hexagon, but also re *Application Models* and *(Core) Domain Models* in the inner hexagon.
+> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP is an implementation of Hexagonal Architecture, in particular with respect to the Adapters in the outer hexagon, but also re *Application Models* and *(Core) Domain Models* in the inner hexagon.
 
 [Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 

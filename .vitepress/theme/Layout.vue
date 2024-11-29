@@ -18,7 +18,7 @@ const { frontmatter } = useData()
 
   <Layout>
     <template #layout-top>
-      <ScrollToTop />
+      <!-- <ScrollToTop /> -->
       <slot name="layout-top" />
     </template>
     <template #doc-top>

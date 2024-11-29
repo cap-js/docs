@@ -66,7 +66,7 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ![bookshop-erm.drawio](assets/bookshop-erm.drawio.svg)
 
-... would look like this in CDS in first iteration (with some fields added):
+In a first iteration, it would look like this in CDS, with some fields added:
 
 ::: code-group
 

@@ -48,7 +48,7 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
   cds
   ```
 
-  which should yield some output like that:
+  You see some output like that:
 
   ```sh
   USAGE
@@ -82,13 +82,13 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 #### Optional
 
 - [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
-- [git](https://git-scm.com) — if you go for more than just some quick trials...
+- [git](https://git-scm.com) — if you go for more than just some quick trials.
 
 
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, ... then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VSCode:
 
    ```sh
    cds init bookshop

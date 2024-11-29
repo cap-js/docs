@@ -18,6 +18,9 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 [user]: #cds-user
 [`req.user`]: #cds-user
 
+afaik we cannot (or should not) use req.user any more. Instead we use cds.context.user in the middleware now. 
+We need some explanation on the different users here. Today I had to debug and identify an anonymous user. This is not documented yet, so please elaborte here or somewhere else.
+
 Represents the currently logged-in user as filled into [`req.user`](events#user) by authentication middlewares.
 Simply create instances of `cds.User` or of subclasses thereof in custom middlewares.
 For example:

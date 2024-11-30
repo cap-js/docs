@@ -6,7 +6,7 @@
   ],
   "rebaseWhen": "conflicted",
   "includePaths": [
-    ".vitepress/config.ts",
+    ".vitepress/config.*",
     ".github/workflows/",
     "package.json",
     "**/*.md"

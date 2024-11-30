@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -126,27 +124,28 @@ Limitations:
 
 The table below lists [CDS's built-in types](../cds/types) and their mapping to the OData EDM type system.
 
-| CDS Type       | OData V4                                |
-| -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
-| `Boolean`      | _Edm.Boolean_                           |
-| `UInt8  `      | _Edm.Byte_                              |
-| `Int16`        | _Edm.Int16_                             |
-| `Int32`        | _Edm.Int32_                             |
-| `Integer`      | _Edm.Int32_                             |
-| `Int64`        | _Edm.Int64_                             |
-| `Integer64`    | _Edm.Int64_                             |
-| `Decimal`      | _Edm.Decimal_                           |
-| `Double`       | _Edm.Double_                            |
-| `Date`         | _Edm.Date_                              |
-| `Time`         | _Edm.TimeOfDay_                         |
-| `DateTime`     | _Edm.DateTimeOffset_                    |
-| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7" |
-| `String`       | _Edm.String_                            |
-| `Binary`       | _Edm.Binary_                            |
-| `LargeBinary`  | _Edm.Binary_                            |
-| `LargeString`  | _Edm.String_                            |
-| `Vector`       | not supported <sup>(2)</sup>            |
+| CDS Type       | OData V4                                  |
+| -------------- | ---------------------------------------   |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>                 |
+| `Boolean`      | _Edm.Boolean_                             |
+| `UInt8  `      | _Edm.Byte_                                |
+| `Int16`        | _Edm.Int16_                               |
+| `Int32`        | _Edm.Int32_                               |
+| `Integer`      | _Edm.Int32_                               |
+| `Int64`        | _Edm.Int64_                               |
+| `Integer64`    | _Edm.Int64_                               |
+| `Decimal`      | _Edm.Decimal_                             |
+| `Double`       | _Edm.Double_                              |
+| `Date`         | _Edm.Date_                                |
+| `Time`         | _Edm.TimeOfDay_                           |
+| `DateTime`     | _Edm.DateTimeOffset_                      |
+| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7"   |
+| `String`       | _Edm.String_                              |
+| `Binary`       | _Edm.Binary_                              |
+| `LargeBinary`  | _Edm.Binary_                              |
+| `LargeString`  | _Edm.String_                              |
+| `Map`          | represented as empty, open complex type   |
+| `Vector`       | not supported <sup>(2)</sup>              |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
 
@@ -158,6 +157,7 @@ OData V2 has the following differences:
 | ------------ | ----------------------------------------------- |
 | `Date`       | _Edm.DateTime_ with `sap:display-format="Date"` |
 | `Time`       | _Edm.Time_                                      |
+| `Map`        | not supported                                   |
 
 
 ### Overriding Type Mapping { #override-type-mapping}
@@ -318,9 +318,7 @@ Note that there's no interpretation and no special handling for these qualifiers
 
 ### Primitives
 
-::: tip
-The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
-:::
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
 
 Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are mapped to corresponding OData annotations as follows:
 
@@ -338,12 +336,14 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-Rendering a `null` value must be done as dynamic expression:
+Rendering a `null` value must be done as dynamic expression or as an [annotation expression](#expression-annotations):
 
 ```cds
 @Some.Null: { $edmJson: { $Null } }
+// or
+@Some.Null: (null)
 ```
-
+Both result in the following:
 ```xml
 <Annotation Term="Some.Null">
   <Null/>
@@ -360,7 +360,7 @@ Record-like source structures are mapped to `<Record>` nodes in EDMX, with primi
 
 ```cds
 @Some.Record: {
-  Null: null,
+  Null: (null),
   Boolean: true,
   Integer: 1,
   Number: 3.14,
@@ -1017,7 +1017,7 @@ The annotation is added to the OData API, as well as the mandatory reference to 
 </Annotations>
 ```
 
-The compiler neither evaluates the annotation values nor the URI.
+The compiler evaluates neither annotation values nor the URI.
 It is your responsibility to make the URI accessible if required.
 Unlike for the standard vocabularies listed above, the compiler has no access to the content of
 the vocabulary, so the values are translated completely generically.
@@ -1203,7 +1203,7 @@ The CAP Java SDK exposes all properties annotated with `@Semantics.currencyCode`
 * The property's value if it's unique within a group of dimensions
 * `null` otherwise
 
-A custom aggregate for a currency code or unit of measure should be also exposed by the `@Aggregation.CustomAggregate` annotation. Moreover, a property for a monetary amount or a measured quantity should be annotated with `@Semantics.amount.currencyCode` or `@Semantics.quantity.unitOfMeasure` to reference the corresponding property that holds the amount's currency code or the quantity's unit of measure, respectively.
+A custom aggregate for a currency code or unit of measure should also be exposed by the `@Aggregation.CustomAggregate` annotation. Moreover, a property for a monetary amount or a measured quantity should be annotated with `@Semantics.amount.currencyCode` or `@Semantics.quantity.unitOfMeasure` to reference the corresponding property that holds the amount's currency code or the quantity's unit of measure, respectively.
 
 ### Other Features
 
@@ -1244,7 +1244,7 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
 
 Example 1:
 

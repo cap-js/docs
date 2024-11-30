@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -94,7 +93,7 @@ Example:
 
 ```cds
 service OwnService {
-    @topic: 'my.custom/topic'
+    @topic: 'my.custom.topic'
     event OwnEvent { ID: UUID; name: String; }
 }
 ```
@@ -157,6 +156,9 @@ If you want to receive all messages without creating topic subscriptions, you ca
 messaging.on('*', async msg => { /*...*/ })
 ```
 
+::: tip
+In general, messages do not contain user information but operate with a technical user. As a consequence, the user of the message processing context (`cds.context.user`) is set to [`cds.User.privileged`](/node.js/authentication#privileged-user) and, hence, any necessary authorization checks must be done in custom handlers.
+:::
 
 ## CloudEvents Protocol
 
@@ -249,7 +251,7 @@ To safely send and receive messages between applications, you need a message bro
 
 In CDS, you can configure one of the available broker services in your [`requires` section](cds-connect#cds-env-requires).
 
-According to our [grow as you go principle](../get-started/grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
+According to our [grow as you go principle](../about/#grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
 
 ### Configuring Message Brokers
 
@@ -495,6 +497,7 @@ resources:
       config:
         consumed-services:
           - service-instance-name: incidents-event-broker
+       	xsuaa-cross-consumption: true #> if token exchange from IAS token to XSUAA token is needed
         display-name: cap.incidents #> any value, e.g., reuse MTA ID
         home-url: ~{incidents-srv-api/url}
 ```

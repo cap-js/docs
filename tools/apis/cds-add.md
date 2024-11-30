@@ -34,22 +34,7 @@ status: released
     position: relative;
   }
   h3 code + em { color: #666; font-weight: normal; }
-  .cols-2 {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .cols-2 > * {
-    width: 100%;
-  }
-  @media (min-width: 850px) {
-    .cols-2 {
-      gap: 1em;
-    }
-    .cols-2 > * {
-      flex: 1;
-      width: calc(100% / 2);
-    }
-  }
+
   .list-item {
     @include counter-style;
     position: relative;
@@ -113,7 +98,7 @@ In our example, we'll create a file _lib/add.js_:
 
 ::: code-group
 ```js [lib/add.js]
-const cds = require('@sap/cds-dk') //> load from cds-dk
+const cds = require('@sap/cds')
 
 module.exports = class extends cds.add.Plugin {
 

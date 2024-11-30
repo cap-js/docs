@@ -16,45 +16,60 @@ OPTIONS
 
     This text.
 
-  --IEEE754Compatible: &lt;true | false&gt;
-    (default: false)
-
-    If set to true, floating point properties are generated
-    as IEEE754 compatible '(number | string)' instead of 'number'.
-
-  --inlineDeclarations: &lt;flat | structured&gt;
+  --inlineDeclarations
+  --inline_declarations: &lt;flat | structured&gt;
     (default: structured)
 
     Whether to resolve inline type declarations
     flat: (x_a, x_b, ...)
     or structured: (x: {a, b}).
 
-  --jsConfigPath: &lt;string&gt;
+  --IEEE754Compatible
+  --ieee754compatible: &lt;true | false&gt;
+    (default: false)
+
+    If set to true, floating point properties are generated
+    as IEEE754 compatible '(number | string)' instead of 'number'.
+
+  --jsConfigPath
+  --js_config_path: &lt;string&gt;
 
     Path to where the jsconfig.json should be written.
     If specified, cds-typer will create a jsconfig.json file and
     set it up to restrict property usage in types entities to
     existing properties only.
 
-  --logLevel SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
+  --logLevel
+  --log_level SILENT | ERROR | WARN | INFO | DEBUG | TRACE | SILLY | VERBOSE
     (default: ERROR)
 
     Minimum log level that is printed.
     The default is only used if no explicit value is passed
     and there is no configuration passed via cds.env either.
 
-  --outputDirectory: &lt;string&gt;
+  --outputDirectory
+  --output_directory: &lt;string&gt;
     (default: ./)
 
     Root directory to write the generated files to.
 
-  --propertiesOptional: &lt;true | false&gt;
+  --propertiesOptional
+  --properties_optional: &lt;true | false&gt;
     (default: true)
 
     If set to true, properties in entities are
     always generated as optional (a?: T).
 
-  --useEntitiesProxy: &lt;true | false&gt;
+  --targetModuleType
+  --target_module_type: &lt;esm | cjs | auto&gt;
+    (default: auto)
+
+    Output format for generated .js files.
+    Setting it to auto tries to derive the module type from
+    the package.json and falls back to CJS.
+
+  --useEntitiesProxy
+  --use_entities_proxy: &lt;true | false&gt;
     (default: false)
 
     If set to true the 'cds.entities' exports in the generated 'index.js'

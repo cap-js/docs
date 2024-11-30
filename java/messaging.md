@@ -3,7 +3,6 @@ synopsis: >
   CAP Messaging provides support for publish-subscribe-based messaging, which is an asynchronous communication pattern well suited for scenarios where a sender wants to send out information to one or many receivers that are potentially unknown and/or unavailable at the time of sending.
 
 status: released
-redirect_from: java/messaging-foundation
 ---
 
 <script setup>
@@ -56,7 +55,7 @@ CAP services can be configured in the file _application.yaml_. Here, enable the 
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         kind: "file-based-messaging"
         binding: "/any/path/to/file.txt"
 ```
@@ -100,12 +99,12 @@ To receive messages matching a desired topic from a message broker, you just nee
 Example:
 
 ```java
-@On(service = "messaging", event = "My/Destination/Messaging/Topic")
+@On(service = "messaging-name", event = "My/Destination/Messaging/Topic")
 public void receiveMyTopic(TopicMessageEventContext context) {
   // get ID and payload of message
   String msgId = context.getMessageId();
   String payload = context.getData();
-  ...
+  // ...
 }
 ```
 
@@ -234,13 +233,13 @@ In this example, the `ReviewService` is declared as a remote service and thus wi
 
 ### Local Testing
 
-The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event waits until all receivers have processed the event.
+The local messaging service is the simplest way to test messaging in a single process. It is especially useful for automated tests, as the emitting of an event blocks until all receivers have processed the event.
 
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging"
+  - name: "messaging-name"
     kind: "local-messaging"
 ```
 :::
@@ -253,7 +252,7 @@ The file is defined by the parameter `binding`, as can be seen in the following 
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging"
+  - name: "messaging-name"
     kind: "file-based-messaging"
     binding: "/any/path/to/file.txt"
 ```
@@ -281,7 +280,7 @@ Besides the built-in support for `local-messaging` and `file-based-messaging`, a
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging"
+  - name: "messaging-name"
     kind: "enterprise-messaging"
 ```
 :::
@@ -305,7 +304,7 @@ This is a beta feature. Beta features aren't part of the officially delivered sc
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging"
+  - name: "messaging-name"
     kind: "redis-pubsub"
 ```
 :::
@@ -361,7 +360,7 @@ If you want to configure the usage of a single messaging service that is of a sp
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         kind: "enterprise-messaging"
 ```
 :::
@@ -516,7 +515,7 @@ By default, each messaging service uses one queue in the broker for all its subs
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         queue:
           name: "my-custom-queue"
 ```
@@ -535,7 +534,7 @@ At the time of queue creation, configuration parameters can be passed to the que
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         queue:
           name: "my-custom-queue"
           config:
@@ -587,14 +586,14 @@ Example:
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         queue:
           name: "my-custom-queue"
 ```
 :::
 
 ```java
-@On(service = "messaging", event = "my-custom-queue")
+@On(service = "messaging-name", event = "my-custom-queue")
 public void receiveMyCustomQueueMessage(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
@@ -609,18 +608,18 @@ Example:
 cds:
   messaging:
     services:
-      - name: "messaging"
+      - name: "messaging-name"
         queue:
           forceListening: true
 ```
 :::
 
 ```java
-@On(service = "messaging")
+@On(service = "messaging-name")
 public void receiveMyCustomQueueAllMessages(TopicMessageEventContext context) {
   // access the message as usual
   String payload = context.getData();
-  ...
+  // ...
 }
 ```
 
@@ -654,12 +653,12 @@ In this example, the `first-messaging` service uses the default connection and t
 
 ### Error Handling
 
-To ensure successful delivery of messages, some message brokers require that consumers acknowledge successfully received and processed messages. Otherwise they redeliver the message. By default, messages are only acknowledged if they have been successfully processed by the CAP handler. Hence, if the message handling fails with an exception, it's redelivered by the messaging broker which can end up in an endless loop. To avoid this, you can register an error handler on the corresponding messaging service. The error handler is called when an exception is thrown during message processing and it allows you to explicitly control whether the message should be acknowledged or not.
+To ensure successful delivery of messages, some message brokers require that consumers acknowledge successfully received and processed messages. Otherwise, they redeliver the message. By default, messages are only acknowledged if they have been successfully processed by the CAP handler. Hence, if the message handling fails with an exception, it's redelivered by the messaging broker which can end up in an endless loop. To avoid this, you can register an error handler on the corresponding messaging service. The error handler is called when an exception is thrown during message processing and it allows you to explicitly control whether the message should be acknowledged or not.
 
 The following example demonstrates how the error handler can be used to catch messaging errors. Based on the error code you can differentiate between the CAP infrastructure errors and application errors in order to inspect them and decide whether the message should be acknowledged by the broker or not.
 
 ```java
-@On(service = "messaging")
+@On(service = "messaging-name")
 private void handleError(MessagingErrorEventContext ctx) {
 
   String errorCode = ctx.getException().getErrorStatus().getCodeString();
@@ -711,7 +710,7 @@ If you want to consume the message purely locally, and prevent the message from 
 You can register your handler with a higher priority than the default handler like this:
 
 ```java
-@On(service = "messaging", event = "My/Destination/Messaging/Topic")
+@On(service = "messaging-name", event = "My/Destination/Messaging/Topic")
 @HandlerOrder(HandlerOrder.EARLY)
 public void receiveMyTopic(TopicMessageEventContext context) {
 	// Check if message is outgoing to message broker, or incoming from message broker
@@ -738,7 +737,7 @@ Example:
 cds:
   messaging.services:
     messaging-em:
-      kind: enterprise-messaging
+      kind: "enterprise-messaging"
       publishPrefix: '$namespace/'
       subscribePrefix: '$namespace/'
 ...
@@ -762,7 +761,7 @@ Configuration example:
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging"
+  - name: "messaging-name"
     kind: "enterprise-messaging"
     structured: true
 ```
@@ -795,13 +794,13 @@ MessagingService messagingService;
 messagingService.emit(topic, "hello world");
 ```
 
-If the service is not configured with the structured flag, the message is sent as is and on the the consumer side `TopicMessageEventContext.getData()` returns:
+If the service is not configured with the structured flag, the message is sent as is and on the consumer side `TopicMessageEventContext.getData()` returns:
 
-```json
+```
 hello world
 ```
 
-If the service is configured with the structured flag, the message is converted to a map and on the the consumer side `TopicMessageEventContext.getData()` returns:
+If the service is configured with the structured flag, the message is converted to a map and on the consumer side `TopicMessageEventContext.getData()` returns:
 
 ```json
 {"data": {"message": "hello world"}}
@@ -851,9 +850,9 @@ Excerpt from _application.yaml_:
 cds:
   messaging:
     services:
-      - name: messaging
+      - name: "messaging-name"
         kind: [...]
-        format: cloudevents
+        format: "cloudevents"
 ```
 :::
 With this setting, basic header fields (like `type`, `source`, `id`, `datacontenttype`, `specversion`, `time`) of the JSON-based message format will be populated with sensible data (if they have not been set manually before). The event name will be used as-is (without prefixing or any other modifications) as `type` and set in the according CloudEvents header field.

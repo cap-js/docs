@@ -3,17 +3,17 @@
 > cds version
 
 <em>@cap-js/asyncapi</em>: 1.0.2
-<em>@cap-js/cds-types</em>: 0.6.5
-<em>@cap-js/db-service</em>: 1.13.0
-<em>@cap-js/openapi</em>: 1.0.5
-<em>@cap-js/sqlite</em>: 1.7.3
-<em>@sap/cds</em>: 8.3.0
-<em>@sap/cds-compiler</em>: 5.3.0
-<em>@sap/cds-dk (global)</em>: 8.4.0
-<em>@sap/cds-fiori</em>: 1.2.7
+<em>@cap-js/cds-types</em>: 0.7.0
+<em>@cap-js/db-service</em>: 1.16.0
+<em>@cap-js/openapi</em>: 1.0.7
+<em>@cap-js/sqlite</em>: 1.7.7
+<em>@sap/cds</em>: 8.5.0
+<em>@sap/cds-compiler</em>: 5.5.0
+<em>@sap/cds-dk (global)</em>: 8.5.0
+<em>@sap/cds-fiori</em>: 1.2.8
 <em>@sap/cds-foss</em>: 5.0.1
-<em>@sap/cds-mtxs</em>: 2.1.1
-<em>@sap/eslint-plugin-cds</em>: 3.0.6
-<em>Node.js</em>: v22.8.0
+<em>@sap/cds-mtxs</em>: 2.4.0
+<em>@sap/eslint-plugin-cds</em>: 3.1.2
+<em>Node.js</em>: v20.18.1
 <em>your-project</em>: 1.0.0
 </pre>

@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - cds/js-api
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -116,7 +114,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 | Option      | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | `flavor`    | By default the returned CSN is in `'inferred'` flavor, which is an effective model, with all aspects, includes, extensions and redirects applied and all views and projections inferred. Specify `'parsed'` to only have single models parsed. |
-| `min`       | Specify `true` to have [`cds.minify)`](#cds-minify) applied after compiling the models. |
+| `min`       | Specify `true` to have [`cds.minify()`](#cds-minify) applied after compiling the models. |
 | `docs`      | Specify `true` to have the all `/** ... */` doc comments captured in the CSN. |
 | `locations` | Specify `true` to have the all `$location` properties preserved in serialized CSN. |
 | `messages`  | Pass an empty array to get all compiler messages collected in there. |
@@ -156,7 +154,7 @@ Renders the given model to a formatted JSON  or YAML string.
 
 
 
-### .edm() {.method}
+### .edm() {.method alt="The following documentation on .edmx also applies to .edm."}
 
 ### .edmx() {.method}
 
@@ -310,7 +308,7 @@ let csn = cds.parse.cdl (`entity Foo{}`)
 
 ### `CQL`, cds. parse. cql() {.method #parse-cql }
 
-Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_][..cds/cqn].
+Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn).
 
 Examples:
 ```js

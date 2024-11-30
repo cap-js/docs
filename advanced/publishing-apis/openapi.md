@@ -2,7 +2,6 @@
 shorty: OpenAPI
 synopsis: >
   About how to publish service APIs in OpenAPI format.
-redirect_from: advanced/openapi
 status: released
 ---
 
@@ -36,6 +35,20 @@ cds compile srv service.cds --to openapi --openapi:servers "\"'[{\\\"url\\\":\\\
 ```
 
 _Note:_ `--openapi:url` is ignored when this option is specified.
+
+Use the `--openapi:config-file <JSON_config_filepath>` option to provide configurations for all supported options in a configuration file. This file accepts a JSON format that incorporates all the OpenAPI compile options. Inline options take precedence over those defined in the configuration file.
+
+```sh
+cds compile srv service.cds --to openapi --openapi:config-file configFile.json
+```
+
+Here is an example where `--openapi:config-file` option is used with other inline options:
+
+```sh
+cds compile srv service.cds --to openapi --openapi:config-file configFile.json --odata-version 4.0 --openapi:diagram false
+```
+
+In the above command, the `--openapi:diagram` and `--odata-version` inline options override the `--openapi:diagram` and `--odata-version` options in the _configFile.json_ if they are also present there.
 
 ## Swagger UI { #swagger-ui}
 
@@ -168,6 +181,31 @@ annotate MyService with @(
 );
 ```
 [See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
+
+
+## OpenAPI
+
+| Term              | Annotation Target | OpenAPI field                                                                  |
+|-------------------|-------------------|--------------------------------------------------------------------------------|
+| `externalDocs`  | EntityContainer   | Links to external documentation that explain more about APIs are helpful to developers. |
+| `Extensions` | EntityContainer   | To add the sap defined (`x-sap`) specification extensions. This annotation can an be used in root, entity and in function/action level.                                        |
+
+
+This is an example of a CDS service annotated with the annotations above:
+
+```cds
+annotate SampleService with @(
+    OpenAPI:{
+        externalDocs: {
+            description: 'API Guide',
+            url        : 'https://help.sap.com/docs/product/sample.html'
+        },
+        Extensions: {
+        ![compliance-level]: 'sap:base:v1'
+      }
+    }
+);
+```
 
 
 ## Frequently Asked Questions { #faq label='FAQs'}

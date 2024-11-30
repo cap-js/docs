@@ -8,7 +8,7 @@ status: released
 
 The technique of [*Aspects*](cdl#aspects) provides a very powerful means to organize your models in a way that keeps your core domain models concise and comprehensible by factoring out secondary concerns into separate files, defining and reusing common aspects, as well as adapting reused definitions to specific needs.
 
-**See also:** Respective section in [*Five reasons to use CAP, and [*Separating concerns and focusing on important stuff*](https://qmacro.org/blog/posts/2024/11/04/separating-concerns-and-focusing-on-the-important-stuff/) blogs by DJ Adams. {.learn-more}
+**See also:** Respective section in [*Five reasons to use CAP*](https://qmacro.org/blog/posts/2024/11/07/five-reasons-to-use-cap/) , and [*Separating concerns and focusing on important stuff*](https://qmacro.org/blog/posts/2024/11/04/separating-concerns-and-focusing-on-the-important-stuff/) blogs by DJ Adams. {.learn-more}
 
 
 

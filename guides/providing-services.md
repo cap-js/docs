@@ -792,7 +792,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target`
+### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -808,7 +808,7 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#database-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's

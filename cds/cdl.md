@@ -363,7 +363,7 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 
 
-### Entity Definitions 
+### Entity Definitions
 {#entities}
 
 Entities are structured types with named and typed elements,
@@ -875,7 +875,7 @@ This example is equivalent to the [unmanaged example above](#unmanaged-associati
 key element `address_ID` being added automatically upon activation to a SQL database.
 The names of the automatically added foreign key elements cannot be changed.
 
-> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#database-constraints).
 
 If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:

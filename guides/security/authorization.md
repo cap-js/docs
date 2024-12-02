@@ -494,8 +494,6 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition<sup>2</sup>)
 - `DELETE` (as reject condition<sup>2</sup>)
 
-TODO: But in Java, it also works for custom events? And in Node as well, right?
-
  > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.  
  > <sup>2</sup> CAP Java uses a filter condition by default.
 

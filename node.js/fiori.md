@@ -21,7 +21,7 @@ See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) fo
 
 ## Lean Draft
 
-Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity and enables more features like storing active instances in remote systems while keeping the corresponding drafts in the local persistence.
+Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity.
 
 ### Handlers Registration {#draft-support}
 

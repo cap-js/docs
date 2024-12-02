@@ -315,20 +315,10 @@ The CLI offers several parameters which you can list using the `--help` paramete
 
 ### Configuration
 
-Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env), for example via your project's _package.json_:
+Any CLI parameter described [above](#typer-cli) can also be passed to cds-typer via [`cds.env`](../node.js/cds-env) in the section `cds.typer`. For example, so set a project-wide custom output directory for cds-typer to `myCustomDirectory`, you would set
 
-::: code-group
-```json [package.json]
-{
-  …
-  "cds": {
-    "typer": {
-      "log_level": "DEBUG"
-    }
-  }
-}
-```
-:::
+<Config>cds.typer.output_directory: myCustomDirectory</Config>
+
 
 ### Version Control
 The generated types _are meant to be ephemeral_. We therefore recommend that you do not add them to your version control system. Adding the [typer as facet](#typer-facet) will generate an appropriate entry in your project's `.gitignore` file.
@@ -356,7 +346,18 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 ## Integrate Into Your Build Process
-Having `cds-typer` present as dependency provides a build task "`typescript`". If your project also depends on `typescript,` this build tasks is automatically included when you run `cds build`.
+Having `cds-typer` present as dependency provides the `typescript` build task. If your project also depends on the `typescript` package, this build task is automatically included when you run `cds build`.
+
+If you are [customizing your build task](../guides/deployment/custom-builds), you can add it after the `nodejs` build task:
+
+```json {3}
+"tasks": [
+  { "for": "nodejs" },
+  { "for": "typescript" },
+  …
+]
+```
+
 This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group

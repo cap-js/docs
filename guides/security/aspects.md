@@ -1,7 +1,6 @@
 ---
 synopsis: >
   This section describes in detail what CAP offers to protect your application.
-redirect_from: security/aspects
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 impl-variants: true
@@ -192,7 +191,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules/).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
@@ -439,16 +438,16 @@ Apart from that the used web server frameworks such as Spring or Express already
   <div class="impl node">
 
   CAP Node.js offers a CLRF-safe [logging API](../../node.js/cds-log#logging-in-production) that should be used for application logs.
-  
+
   </div>
 
   <div class="impl java">
-  
+
   ::: warning
   Currently, CAP applications need to care for escaping user data that is used as input parameter for application logging.
   It's recommended to make use of an existing Encoder such as OWASP [ESAPI](https://www.javadoc.io/doc/org.owasp.esapi/esapi/2.0.1/org/owasp/esapi/Encoder.html).
   :::
-  
+
   </div>
 
 - [Deserialization of untrusted data](https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data) can lead to serious exploits including remote code execution.
@@ -527,15 +526,17 @@ See section [Maximum Request Body Size](../../node.js/cds-server#maximum-request
 Moreover, CAP adapters automatically introduce query results pagination in order to limit memory peaks (customize with [`@cds.query.limit`](../providing-services#annotation-cds-query-limit)).
 The total number of request of OData batches can be limited by application configuration.
 
-<div markdown="1" class="impl java">
-Settings `cds.odataV4.batch.maxRequests` resp. `cds.odataV2.batch.maxRequests` specify the corresponding limits.
+<div class="impl java">
+
+Settings <Config java>cds.odataV4.batch.maxRequests</Config> resp. <Config java>cds.odataV2.batch.maxRequests</Config> specify the corresponding limits.
+
 </div>
 
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
 Also the maximum amount of requests per `$batch` request need to be configured as follows:
-- Node.js: `cds.odata.batch_limit = <max_requests>`
-- Java: `cds.odataV4.batch.maxRequests = <max_requests>`
+- Node.js: <Config>cds.odata.batch_limit = \<max_requests\></Config>
+- Java: <Config java>cds.odataV4.batch.maxRequests = \<max_requests\></Config>
 :::
 
 ::: tip
@@ -673,10 +674,10 @@ CAP runtime differentiates several types of error situations during request proc
 In general, **exceptions immediately stop the execution of the current request**.
 
 In Java, the thrown [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is automatically scoped to the current request by means of thread isolation.
-{ .impl .java }
+{ .java }
 
 CAP Node.js adds an exception wrapper to ensure that only the failing request is affected by the exception.
-{ .impl .node }
+{ .node }
 
 Customers can react in dedicated exception handlers if necessary.
 

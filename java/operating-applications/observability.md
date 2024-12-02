@@ -2,7 +2,6 @@
 synopsis: >
   Presents a set of recommended tools that help to understand the current status of running CAP services.
 status: released
-redirect_from: java/observability
 ---
 
 # Observability
@@ -268,10 +267,10 @@ Configure your application to enable the Open Telemetry Java Agent by adding or 
   # ...
   properties:
     # ...
-    JBP_CONFIG_JAVA_OPTS: 
+    JBP_CONFIG_JAVA_OPTS:
       from_environment: false
       java_opts: >
-        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar 
+        -javaagent:META-INF/.sap_java_buildpack/otel_agent/opentelemetry-javaagent.jar
         -Dotel.javaagent.extensions=META-INF/.sap_java_buildpack/otel_agent_extension/otel-agent-ext-java.jar
 ```
 :::
@@ -363,9 +362,9 @@ The following steps describe the required configuration:
 
 By default, instrumentation for CAP-specific components is disabled, so that no traces and spans are created even if the Open Telemetry Java Agent has been configured. It's possible to selectively activate specific spans by changing the log level for a component.
 
-| Logger Name                                    | Required Level | Description                                                |
+| Logger                                         | Required Level | Description                                                |
 |------------------------------------------------|----------------|------------------------------------------------------------|
-| `com.sap.cds.otel.span.OData`                  | `INFO`         | Spans for individual requests of a OData $batch request.   |
+| `com.sap.cds.otel.span.ODataBatch`             | `INFO`         | Spans for individual requests of a OData $batch request.   |
 | `com.sap.cds.otel.span.CQN`                    | `INFO`         | Spans for executed CQN statement.                          |
 | `com.sap.cds.otel.span.OutboxCollector`        | `INFO`         | Spans for execution of the transactional outbox collector. |
 | `com.sap.cds.otel.span.DraftGarbageCollection` | `INFO`         | Spans for execution of the draft garbage collection.       |

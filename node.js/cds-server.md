@@ -247,7 +247,7 @@ The behavior of the built-in `server.js` can be customized through the options d
 
 ### CORS Middleware
 
-The built-in CORS middleware can be enabled explicitly with `cds.env.server.cors = true`.  By default, this is `false` if in production.
+The built-in CORS middleware can be enabled explicitly with <Config>cds.server.cors: true</Config>.  By default, this is `false` if in production.
 
 [Learn more about best practices regarding **Cross-Origin Resource Sharing (CORS)**.](../node.js/best-practices.md#cross-origin-resource-sharing-cors) {.learn-more}
 
@@ -255,7 +255,7 @@ The built-in CORS middleware can be enabled explicitly with `cds.env.server.cors
 
 ### Toggle Generic Index Page
 
-The default generic _index.html_ page is not served if `NODE_ENV` is set to `production`. Set `cds.env.server.index = true` to restore the generic index page in production.
+The default generic _index.html_ page is not served if `NODE_ENV` is set to `production`. Set <Config>cds.server.index: true</Config> to restore the generic index page in production.
 
 [See the **Generic *index.html*** page in action.](../get-started/in-a-nutshell.md#generic-index-html) {.learn-more}
 

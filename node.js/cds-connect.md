@@ -270,15 +270,24 @@ When deploying to Cloud Foundry, service bindings are provided in `VCAP_SERVICES
 6. The service's `kind` is matched against the `type` property (The type property is only relevant for [servicebinding.io](https://servicebinding.io) bindings)
 7. The service's `vcap.name` is matched against the `name` property
 
-All the config properties found in the first matched entry will be copied into the `cds.env.requires.<i>\<srv\></i>.credentials` property.
+All the config properties found in the first matched entry will be copied into the <Config>cds.requires.\<srv\>.credentials</Config> property.
 
 Here are a few examples:
 
-<table>
+<style scoped>
+  .no-stripes tr:nth-child(2n) {
+    background-color:unset;
+  }
+</style>
+
+<table class="no-stripes">
+<thead>
 <tr>
-<td>CAP config</td>
-<td>VCAP_SERVICES</td>
+<th>CAP config</th>
+<th>VCAP_SERVICES</th>
 </tr>
+</thead>
+<tbody>
 <tr >
 <td >
 
@@ -360,6 +369,7 @@ Here are a few examples:
 ```
 </td>
 </tr>
+</tbody>
 </table>
 
 

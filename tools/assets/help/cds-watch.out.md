@@ -39,6 +39,16 @@
     Specify from which profile(s) the binding information is taken.
     <em>Example:</em> cds w --profile hybrid,production
 
+  <em>--debug</em> / <em>--inspect</em> &lt;host:port | 127.0.0.1:9229&gt;
+
+    Activate debugger on the given host:port.
+    If port 0 is specified, a random available port will be used.
+
+  <em>--inspect-brk</em> &lt;host:port | 127.0.0.1:9229&gt;
+
+    Activate debugger on the given host:port and break at start of user script.
+    If port 0 is specified, a random available port will be used.
+
 <strong>SEE ALSO</strong>
   <em>cds serve --help</em> for the different start options.
 </pre>

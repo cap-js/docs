@@ -60,6 +60,14 @@ OPTIONS
     If set to true, properties in entities are
     always generated as optional (a?: T).
 
+  --targetModuleType
+  --target_module_type: &lt;esm | cjs | auto&gt;
+    (default: auto)
+
+    Output format for generated .js files.
+    Setting it to auto tries to derive the module type from
+    the package.json and falls back to CJS.
+
   --useEntitiesProxy
   --use_entities_proxy: &lt;true | false&gt;
     (default: false)

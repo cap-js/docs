@@ -5,7 +5,7 @@ import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
 import Ribbon from './components/Ribbon.vue'
-// import ScrollToTop from './components/ScrollToTop.vue'
+import ScrollToTop from './components/ScrollToTopSimple.vue'
 
 const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 

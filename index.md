@@ -3,7 +3,6 @@
 layout: home
 status: released
 title: Home
-titleTemplate: ':title | capire'
 
 hero:
   name: "SAP Cloud Application Programming Model"

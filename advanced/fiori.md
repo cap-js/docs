@@ -461,12 +461,12 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
-###### ... in Java
+##### ... in Java
 
 You can add your validation logic before operation event handlers. Specific events for draft operations exist. See [Java > Fiori Drafts > Editing Drafts](../java/fiori-drafts#draftevents) for more details.
 
 
-###### ... in Node.js
+##### ... in Node.js
 
 You can add your validation logic before the operation handler for either CRUD or draft-specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
 

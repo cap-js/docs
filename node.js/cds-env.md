@@ -105,7 +105,7 @@ For example, given the following sources:
     "db": {
       "kind": "sql",
       "model": "./db",
-      "credentials": { "database": ":memory:" }
+      "credentials": { "url": ":memory:" }
     }
   }
 }

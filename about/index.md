@@ -29,7 +29,7 @@ Following the principle of **convention over configuration**, there's no need to
 
 ### Accelerated Inner Loops
 
-CAP offers mocks for many platform features, which allow fast dev-test-run cycles with minimal development environment complexity — aka *Airplane Mode*. 
+CAP offers mocks for many platform features, which allow fast dev-test-run cycles with minimal development environment complexity — aka *Airplane Mode*.
 
 Similarly, CAP facilitates integration scenarios by importing an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and running mocks for this locally.
 
@@ -94,7 +94,7 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 ### CAP's Generic Service Providers
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
-- [Serving Nested Documents](../guides/providing-services#deep-reads-writes)
+- [Serving Nested Documents](../guides/providing-services#deep-reads-and-writes)
 - [Serving Media Data](../guides/providing-services#serving-media-data)
 - [Serving Draft Choreography](../advanced/fiori#draft-support)
 

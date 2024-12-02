@@ -182,7 +182,7 @@ filtering and sorting is not available for `virtual` elements.
 :::
 
 
-### Deep Reads / Writes
+### Deep Reads and Writes
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data.
 The runtimes provide generic handlers for serving deeply nested document structures out of the box as documented in here.

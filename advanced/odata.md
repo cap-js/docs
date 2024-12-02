@@ -341,9 +341,9 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 A `null` value can be set either as an [annotation expression](#expression-annotations) or as a [dynamic expression](#dynamic-expressions):
 
 ```cds
-@Some.Null: (null)                  // annotation expression, short form
-@Some.Null: ($Null())               // annotation expression, functional form
-@Some.Null: { $edmJson: { $Null } } // dynamic expression
+@Some.NullXpr:  (null)                  // annotation expression, short form
+@Some.NullFunc: ($Null())               // annotation expression, functional form
+@Some.NullDyn:  { $edmJson: { $Null } } // dynamic expression
 ```
 All three expressions result in the following rendering:
 ```xml

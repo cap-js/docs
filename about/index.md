@@ -12,7 +12,7 @@ Value Propositions {.subtitle}
 
 ## What is CAP?
 
-The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](best-practices), served [out-of-the-box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
+The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](best-practices), served [out of the box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
 
 In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimised costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters evolution w/o disruption in a world of rapidly changing technologies.
 
@@ -21,13 +21,17 @@ In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on
 ## Jumpstart & Grow As You Go...
 ###### grow-as-you-go
 
-### Jumpstart Development
+
+
+### Jumpstarting Projects
 
 Following the principle of **convention over configuration**, there's no need to set up things upfront. CAP allows you to **jumpstart** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
 
-### Fast Turnarounds
+### Accelerated Inner Loops
 
-CAP also offers **mocks for many platform features**, which allow **fast dev-test-run cycles** with minimal development environment complexity — aka *Airplane Mode*. Similarly, CAP facilitates **integration scenarios** by importing an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and running mocks for this locally.
+CAP offers mocks for many platform features, which allow fast dev-test-run cycles with minimal development environment complexity — aka *Airplane Mode*. 
+
+Similarly, CAP facilitates integration scenarios by importing an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and running mocks for this locally.
 
 ### Loose Coupling
 
@@ -36,6 +40,10 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ### Minimized Costs
 
 Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code.
+
+### Growing as You Go...
+
+
 
 ### Late-cut Microservices
 

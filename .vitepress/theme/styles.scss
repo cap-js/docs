@@ -347,7 +347,7 @@ main {
   .prefer::before { content: 'Prefer: '; color: #0a0 }
   .avoid::before { content: 'Avoid: '; color: #e00 }
 
-  .good .green { color:#0a0 };
+  .good, .green { color:#0a0 };
   .bad, .red, .important { color:darkred; .dark & { color:#e00 } }
   .grey { color:#777 };
 

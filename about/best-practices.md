@@ -579,8 +579,11 @@ This thoroughly agnostic design is the key enabling quality for several of the m
 
 
 
-### ⇒ Hexagonal Architecture
-{#hexagonal}
+
+
+## Hexagonal Architecture
+
+
 
 The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As Cockburn introduces it, its intent is to:
 
@@ -647,34 +650,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 [Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 
-### ⇒ Inner Loop Development
-{#inner-loop}
 
-The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
-
-### ⇒ Evolution w/o Disruption
-{#evolution}
-
-### ⇒ Late-cut Microservices
-{#late-cut-mss}
-
-This agnostic design allows [mocking remote services](../guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
-:::
-
-<!--
-
-## Intrinsic Cloud Qualities
-
-- #### Multitenancy
-
-- #### Extensibility
-
-- #### Security
-
-- #### Scalability
-
-- #### Resilience
- -->
 
 
 ## Intrinsic Extensibility

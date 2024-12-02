@@ -26,11 +26,11 @@ The major building blocks are as follows:
 
 - [**Service Runtimes**](/guides/providing-services.md) for [Node.js](/node.js/) and [Java](/java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
 
-- [**Platform Integrations**](/plugins/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
+- [**Platform Integrations**](/plugins/) — providing CAP-level service interfaces (*'[Calesi](#the-calesi-effect)'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
 
-- [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
+- [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in *SAP Build Code*, *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins]() are among them.
+In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-effect) are among them.
 
 
 
@@ -40,7 +40,7 @@ CDS models play a prevalent role in CAP applications. They are ultimately used t
 
 ![Models fuel Generic Services](assets/fueling-services.drawio.svg){style="width:444px"}
 
-CAP runtimes bootstrap *[Generic Service Providers]()* for services defined in service models. They use the information at runtime to translate incoming requests from a querying protocols, such as OData, into SQL queries sent to the database.
+CAP runtimes bootstrap *Generic Service Providers* for services defined in service models. They use the information at runtime to translate incoming requests from a querying protocols, such as OData, into SQL queries sent to the database.
 
 :::tip Models fuel Runtimes
 CAP uses the captured declarative information about data and services to **automatically serve requests**, including complex deep queries, with expands, where clauses and order by, aggregations, and so forth...
@@ -62,7 +62,7 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ## Domain Models
 
-[CDS](/cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
+[CDS](/cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of *entity-relationship modelling*. For example, a simple domain model as illustrated in this ER diagram:
 
 ![bookshop-erm.drawio](assets/bookshop-erm.drawio.svg)
 
@@ -111,7 +111,7 @@ entity EnglishBooks as select from Books
 where author.country.code = 'GB';
 ```
 
-This is an even more compact version, using *[infix filters](../cds/cql#with-infix-filters)* and [*navigation*]():
+This is an even more compact version, using *[infix filters](../cds/cql#with-infix-filters)* and *navigation*
 
 ```cds
 entity EnglishBooks as select from Authors[country.code='GB']:books;
@@ -188,7 +188,7 @@ extend Books with { ISBN: String }
 <br/>
 
 :::tip Key features & qualities
-CDS greatly promotes [***Focus on Domain***]() by a *concise* and *comprehensible* language. Intrinsic support for *[aspect-oriented modeling]()* fosters *[**Separation of Concerns**]()*, as well as *[**Extensibility**]()* in [customization](), [verticalization](), and [composition]() scenarios.
+CDS greatly promotes **Focus on Domain** by a *concise* and *comprehensible* language. Intrinsic support for *aspect-oriented modeling* fosters **Separation of Concerns**, as well as **Extensibility** in customization, verticalization, and composition scenarios.
 :::
 
 
@@ -278,7 +278,7 @@ Don't confuse CAP services with Microservices:
 
 CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently.
 
-[Learn more about that in the the [Anti Patterns secttion on Microservices](bad-practices#microservices-mania)] {.learn-more}
+<!-- [Learn more about that in the the Anti Patterns secttion on Microservices](bad-practices#microservices-mania) {.learn-more} -->
 
 ## Events
 
@@ -347,7 +347,7 @@ Everyone/everything can register event handlers with a given service. This is no
 
 ::: details Including framework-provided services ...
 
-These usages even look the same for application services and framework-provided ones, like CAP's [*database services*]() or [*messaging services*](). That is, we send queries to database services in the very same way as we do with local CAP services that support [querying](), or with remote [*OData*]() or [*GraphQL*]() services.
+These usages even look the same for application services and framework-provided ones, like CAP's *database services* or *messaging services*. That is, we send queries to database services in the very same way as we do with local CAP services that support querying, or with remote *OData* or *GraphQL* services.
 
 <!-- All those links depend on the runtime, right? -->
 
@@ -570,10 +570,10 @@ In the above introductions to CAP's core concepts we learned already that your d
 
 > [!tip] Your domain models and application logic stays...
 >
-> - [Agnostic to *Databases*]()
-> - [Agnostic to *Protocols*]()
-> - [Agnostic to *Local vs Remote*]()
-> - [Agnostic to *Platform Services* and low-level *Technologies*]()
+> - Agnostic to *Databases*
+> - Agnostic to *Protocols*
+> - Agnostic to *Local vs Remote*
+> - Agnostic to *Platform Services* and low-level *Technologies*
 
 This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections...
 
@@ -650,14 +650,14 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
 
-### ⇒ Evolution w/o Disruption {#evolution}
+<!-- ### ⇒ Evolution w/o Disruption {#evolution} -->
 
 ### ⇒ Late-cut Microservices {#late-cut-mss}
 
 This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
 :::
 
-
+<!-- 
 
 ## Intrinsic Cloud Qualities
 
@@ -670,7 +670,7 @@ This agnostic design allows [mocking remote services](/guides/using-services#loc
 - #### Scalability
 
 - #### Resilience
-
+ -->
 
 
 ## Intrinsic Extensibility
@@ -681,7 +681,8 @@ This agnostic design allows [mocking remote services](/guides/using-services#loc
 >
 > **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
 
-#### Extension Logic
+<!-- #### Extension Logic
+ -->
 
 #### Extensible Framework
 
@@ -710,17 +711,17 @@ Keeping pace with a rapidly changing world of cloud technologies and platforms i
 - **Multitenancy**-related things, especially w.r.t. tenant isolation
 - **Messaging** protocols or brokers such as AMQP, MQTT, Webhooks, Kafka, Redis, ...
 - **Remoting** protocols such as HTTP, gRCP, OData, GraphQL, SOAP, RFC, ...
-- **Audit Loging** → use the *[Calesi]()* variant, which provides ultimate resilience
-- **Logs**, **Traces**, **Metrics** → CAP does that behind the scenes + provides *[Calesi]()* variants
+- **Audit Loging** → use the *Calesi* variant, which provides ultimate resilience
+- **Logs**, **Traces**, **Metrics** → CAP does that behind the scenes + provides *Calesi* variants
 - **Transaction Management** → CAP manages all transactions → don't mess with that!
 
 > [!tip]
 >
-> CAP not only abstracts these things at scale, but also does most things automatically in the background. In addition, it allows us to provide various implementations that encourage *[Evolution w/o Disruption]()*, as well as fully functional mocks used in development, enabling *[Inner Loop Development]()* and thus *[Fast Development at Minimized Costs]()*.
+> CAP not only abstracts these things at scale, but also does most things automatically in the background. In addition, it allows us to provide various implementations that encourage *Evolution w/o Disruption*, as well as fully functional mocks used in development, enabling *Inner Loop Development* and thus *Fast Development at Minimized Costs*.
 
 > [!warning]
 >
-> Of course, you can always ignore and bypass these abstractions. However, keep in mind that by doing so, you will be missing out on many of the benefits they offer. Additionally, there is a higher risk of accumulating *[Technical Debt]()*.
+> Of course, you can always ignore and bypass these abstractions. However, keep in mind that by doing so, you will be missing out on many of the benefits they offer. Additionally, there is a higher risk of accumulating *Technical Debt*.
 
 > [!caution]
 >

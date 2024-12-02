@@ -14,7 +14,7 @@ Value Propositions {.subtitle}
 
 The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](best-practices), served [out-of-the-box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
 
-In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimised costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters [evolution w/o disruption]() in a world of rapidly changing technologies.
+In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimised costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters evolution w/o disruption in a world of rapidly changing technologies.
 
 
 
@@ -83,11 +83,10 @@ Benefits are significantly **accelerated** development, **minimized boilerplate*
 
 #### **CAP-level Service Integrations ('Calesi')**
 
-- [Open Telementry → SAP Cloud Logging, Dynatrace, ...](/plugins/#telemetry)
+- [Open Telemetry → SAP Cloud Logging, Dynatrace, ...](/plugins/#telemetry)
 - [Attachments → SAP Object Store](/plugins/#attachments)
 - [Attachments → SAP Document Management Service](/plugins/#@cap-js/sdm)
-- [Messaging → SAP Cloud Application Event Hub](/plugins/#event-broker-plugin)
-- [Messaging → Kafka]()
+- [Messaging → SAP Cloud Application Event Hub](/plugins/#event-broker-plugin) <!-- - [Messaging → Kafka]() -->
 - [Change Tracking](/plugins/#change-tracking)
 - [Notifications](/plugins/#notifications)
 - [Audit Logging](/plugins/#audit-logging)
@@ -121,7 +120,7 @@ That might sound like a contradiction, but isn't: While CAP certainly gives *opi
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | **Higher-level concepts and APIs** abstracting from and avoiding lock-ins to low-level platform features and protocols | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
-| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](/guides/providing-services#custom-logic), decide whether to adopt [CQRS]() or [Event Sourcing](), for example ... while CAP simply tries to get the tedious tasks out of your way. |
+| **Best Practices served out of the box** with generic solutions for many recurring tasks | You can always handle things your way in [custom handlers](/guides/providing-services#custom-logic), decide whether to adopt CQRS or Event Sourcing, for example ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](/get-started/in-a-nutshell#vue), or databases, by providing new database integrations. |
 | **Dedicated tools support** provided in [SAP Business Application Studio](/tools/cds-editors#bas) or [Visual Studio Code](/tools/cds-editors#vscode). | CAP doesn't depend on those tools. Everything in CAP can be done using the [`@sap/cds-dk`](/tools/cds-cli) CLI and any editor or IDE of your choice. |
 

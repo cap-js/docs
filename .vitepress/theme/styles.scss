@@ -76,11 +76,17 @@ main {
 
     // Set margin-bottom to group groups of h3/h4 together, as in req.error/warn/info/notify
     h3, h4 { margin-bottom: 0em; }
+    h3 + p { margin-top: 1.5em; }
+    h4 + p { margin-top: 1.1em; }
 
     h1 + .subtitle {
       margin: -40px 0 48px;
       font-size: 1.7em;
       font-weight: 400;
+    }
+    h2 + .subtitle {
+      margin-top: -44px;
+      font-size: 24px;
     }
     h3 + .subtitle {
       margin-top: 0;
@@ -136,7 +142,7 @@ main {
       color: #888;
     }
 
-    table.centered {
+    .centered table {
       margin-left: auto;
       margin-right: auto;
       width: max-content;

@@ -495,13 +495,16 @@ cds deploy --script --delta-from cds-model.csn --out delta_script.sql
 
 If your model change includes changes that could lead to data loss, there will be a warning
 and a respective comment is added to the dangerous statements in the resulting script.
-For deleting an element, it would look like this:
+For example, deleting an element or reducing the length of an element would look like this:
  ::: code-group
 
 ```sql [delta_script.sql]
 ...
 -- [WARNING] this statement is lossy
 ALTER TABLE sap_capire_bookshop_Books DROP price;
+
+-- [WARNING] this statement could be lossy: length reduction of element "title"
+ALTER TABLE sap_capire_bookshop_Books ALTER title TYPE VARCHAR(11);
 ...
 ```
 :::

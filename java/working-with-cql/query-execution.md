@@ -433,10 +433,10 @@ SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
-::: tip
-Runtime views are supported for [CDS projections](../../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+::: warning Limitations
+Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Constant values, expressions such as *case when* and [association filters](../../cds/cdl#publish-associations-with-filter) are currently ignored.
 
-Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
+Complex views using aggregations or union/join/subqueries in `FROM` are not supported.
 :::
 
 ### Using I/O Streams in Queries

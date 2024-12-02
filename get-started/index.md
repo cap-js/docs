@@ -17,21 +17,10 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 
 
-We strongly recommend to follow this flow to get started with and proficient in using CAP:
-
-| #    | Get started with...                            | to learn about...                                            | Required Time |
-| ---- | ---------------------------------------------- | ------------------------------------------------------------ | ------------- |
-| 1    | [Initial Setup](#setup)                        | Minimalistic setup to get you jump-started.                  | 1-11 minutes  |
-| 2    | [Bookshop by capire](in-a-nutshell)            | Building your first CAP application.                         | 4-44 minutes  |
-| 3    | [Best Practices](../about/) <br> → *must read* | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 7-14 hours    |
-
-So, fasten your seat belts and get started in the next section right below...
-
-
 
 ## Initial Setup {#setup}
 
-Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
+Follow the steps below for a minimalistic local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
 
 
 
@@ -45,7 +34,7 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 
 #### Installation
 
-- With the prerequisites met, install the [`cds` toolkit](/tools/cds-cli) *globally*:
+- With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
     ```sh
     npm add -g @sap/cds-dk
@@ -59,7 +48,7 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
   cds
   ```
 
-  which should yield some output like that:
+  You see some output like that:
 
   ```sh
   USAGE
@@ -93,13 +82,13 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 #### Optional
 
 - [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
-- [git](https://git-scm.com) — if you go for more than just some quick trials...
+- [git](https://git-scm.com) — if you go for more than just some quick trials.
 
 
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, ... then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VSCode:
 
    ```sh
    cds init bookshop
@@ -108,7 +97,7 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
    ```sh
    code bookshop
    ```
-   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
+   [Assumes you activated the `code` command on macOS as documented](../tools/cds-editors#vscode) {.learn-more}
 
 
 
@@ -143,26 +132,33 @@ CAP has defaults for many things that you'd have to configure in other framework
 }
 ```
 
+```sh [Explore the defaults in your project]
+cds env ls defaults
+```
+
+[Learn more about project-specific configuration.](../node.js/cds-env){.learn-more}
 :::
 
-> [!tip]
-> We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
-
+::: tip Convention over configuration
+We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
+:::
 
 
 
 
 ## Next Steps...
 
-After you finished the [getting started](#) part, continue with the following learning sources as needed, while you grow as you go...:
+After the [initial setup](#setup), we recommend to continue as follows while you grow as you go...:
 
-| #    | Guide                                                        | Description                                    |
-| ---- | ------------------------------------------------------------ | ---------------------------------------------- |
-| 4    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.   |
-| 5    | [Cookbook](../guides/)                                       | Walkthroughs for most common tasks.            |
-| 7    | [Cookbook](../guides/)                                       | Walkthroughs for the most common tasks.        |
-| 8    | [Advanced](../advanced/)                                     | Deep dives into advanced tasks and topics.     |
-| 9    | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
+| #    | Guide                                                        | Description                                                  |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 1    | [Introduction – What is CAP?](../about/)                       | Learn about key benefits and value propositions.             |
+| 2    | [Bookshop by capire](in-a-nutshell)                          | Build your first CAP application within 4-44 minutes.        |
+| 3    | [Best Practices](../about/best-practices)                      | Key concepts and guiding principles to know → *should read*. |
+| 4    | [Anti Patterns](../about/best-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
+| 5    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.                 |
+| 6    | [Cookbook](../guides/)                                         | Walkthroughs for the most common tasks.                      |
+| 7    | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.               |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

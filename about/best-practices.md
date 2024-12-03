@@ -297,7 +297,7 @@ We complement our [*Service-centric Paradigm*](#services) by these additional **
 
 ### Event Handlers
 
-Services react to events by registering *event handlers*. 
+Services react to events by registering *event handlers*.
 
 ![event-handlers.drawio](assets/event-handlers.drawio.svg)
 
@@ -570,11 +570,15 @@ The CAP runtimes automatically translate incoming queries from the protocol-spec
 
 CAP queries are **first-class** objects with **late materialization**. They're captured in CQN, kept in standard program variables, passed along as method arguments, are transformed and combined with other queries, translated to other target query languages, and finally sent to their targets for execution. This process is similar to the role of functions as first-class objects in functional programming languages.
 
+
+
 ## Agnostic by Design
 
-In the preceding introductions to CAP's core concepts we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**. They're as well agnostic as to whether they are connected to and consume other services **locally or remotely**. 
 
-In this chapter, we introduce how that is complemented by CAP-level Service Integrations (→  [*The 'Calesi' Pattern*](#the-calesi-effect)), by abstractions from (low-level) interfaces to platform services and technologies, as well as abstractions from specific databases. 
+
+In the above introductions to CAP's core concepts we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**, as well as to whether they are connected to and consume other services **locally or remotely**.
+
+In this chapter we'll introduce how that is complemented by CAP-level Service Integrations (→  [*The 'Calesi' Pattern*](#the-calesi-effect)) by abstractions from (low-level) interfaces to platform services and technologies, as well as CAP's support for vendor-[independent database services]().
 
 So, in total, and in effect, we'll learn:
 
@@ -585,7 +589,7 @@ So, in total, and in effect, we'll learn:
 > - Agnostic to *Databases*
 > - Agnostic to *Platform Services* and low-level *Technologies*
 >
-> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Accelerated Inner Loops*]() with [*Maximized Speed*]() at [*Minimized Costs*](), [*Late-cut Microservices*](), and so forth. 
+> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Accellerated Inner Loops*]() with [*Maximized Speed*]() at [*Minimzed Costs*](), [*Late-cut Microservices*](), and several more...
 
 
 
@@ -595,13 +599,26 @@ So, in total, and in effect, we'll learn:
 
 
 
-The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As Cockburn introduces it, its intent is to:
+The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As he introduces it, its intent is to:
 
 *"Allow an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases"* {.indent style="font-family:serif"}
 
-Cockburn illustrated that like this: 
+... and he illustrated that like this:
 
 ![Hexagonal architecture basic.gif](https://alistair.cockburn.us/wp-content/uploads/2018/02/Hexagonal-architecture-basic-1.gif)
+
+In a nutshell, this introduction to the objectives of hexagonal architecture translates to that in our world of cloud-based business applications:
+
+> [!tip] Objectives of Hexagonal Architecture
+>
+> - Your *Application* (→ the inner hexagon) should stay ***agnostic*** to *"the outside"*
+> - Thereby allowing to replace *"the outside"* met in production by *mocked* variants
+> - To reduce complexity and speed up turnaround times at *development*, and in *tests*
+>   <br/>→ [*'Airplane Mode' Development & Tests*]()
+>
+> **In contrast to that**, if you (think you) are doing Hexagonal Architecture, but still find yourself trapped in a slow and expensive allways-connected development experience, you might have missed a point... → the *Why* and *What*, not *How*.
+
+
 
 #### CAP as an implementation of Hexagonal Architecture
 
@@ -623,7 +640,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 
 
-> [!tip] 
+> [!tip]
 >
 > CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also regarding [*Application Models*](#core-domain-and-application-model) and [*(Core) Domain Models*](#core-domain-and-application-model) in the inner hexagon.
 
@@ -631,50 +648,97 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 
 
-### Core Domain and Application Model
+### Domain and Application Model
 
 
 
-Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com), Cockburn already highlighted that as follows in plain text:
+Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his very initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com) Cockburn already highlighted that as follows in plain text:
 
 ​	*OUTSIDE <-> transformer <--> ( **application**  <->  **domain** )* {style="text-align: center; font-size: 111%; font-family: serif; padding-right: 44px"}
 
-That distinction didn't come by surprise to the patterns community in c2, as Cockburn introduced his proposal as a *"symmetric"* evolution of the [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture) by Kyle Brown, which in turn is an evolution of the [*Model View Controller*](https://wiki.c2.com/?ModelViewController) pattern, invented by Trygve Reenskaug et al. at Xerox PARC. And already the first MVC implementations in [*Smalltalk-80*](https://en.wikipedia.org/wiki/Smalltalk) introduced the notion of an *[Application Model](https://wiki.c2.com/?ApplicationModel)* which acts as a *mediator* between use case-oriented application logic, and the core [*Domain Model*](https://wiki.c2.com/?DomainModel) classes, which primarily represent an application's data objects, with only the most central invariants carved in stone. Yet, **both are agnostic** to wire protocols or ['UI widgetry'](https://wiki.c2.com/?FourLayerArchitecture) → the latter are covered by *Views* and *Controllers* in MVC.
+::: details Background from MVC and *Four Layers Architecture* ...
+
+That distinction didn't come by surprise to the patterns community in c2, as Cockburn introduced his proposal as a *"symmetric"* evolution of the [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture) by Kyle Brown, which in turn is an evolution of the [*Model View Controller*](https://wiki.c2.com/?ModelViewController) pattern, invented by Trygve Reenskaug et al. at Xerox PARC.
+
+The first MVC implementations in [*Smalltalk-80*](https://en.wikipedia.org/wiki/Smalltalk) already introduced the notion of an *[Application Model](https://wiki.c2.com/?ApplicationModel)* which acts as a *mediator* between use case-oriented application logic, and the core [*Domain Model*](https://wiki.c2.com/?DomainModel) classes, which primarily represent an application's data objects, with only the most central invariants carved in stone.
+
+Yet, **both are agnostic** to wire protocols or ['UI widgetry'](https://wiki.c2.com/?FourLayerArchitecture) → the latter being covered and abstracted from by *Views* and *Controllers* in MVC.
+
+:::
 
 #### See Also...
 
-- The [*Model View Controller*](https://wiki.c2.com/?ModelModelViewController) pattern in c2 wiki, in which Randy Stafford refers to those implementations in Smalltalk like that: 
+- The [*Model Model View Controller*](https://wiki.c2.com/?ModelModelViewController) pattern in c2 wiki, in which Randy Stafford emphasizes on this notion of twofold models:
 
   *"... there have always been two kinds of model: [DomainModel](https://wiki.c2.com/?DomainModel), and [ApplicationModel](https://wiki.c2.com/?ApplicationModel)."* {.indent style="font-family: serif"}
 
-- [*Hexagonal Architecture and DDD (Domain Driven Design)* by Sven Woltmann](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design), which probably has the best, and most correct illustrations, like this one:
+- [*Hexagonal Architecture and DDD (Domain Driven Design)*](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design) by Sven Woltmann, a great end-to-end introduction to the topic, which probably has the best, and most correct illustrations, like this one:
 
 ![Hexagonal architecture and DDD (Domain Driven Design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
 
-#### Entities ⇒ Core Domain Model 
+#### Entities ⇒ Core Domain Model
 
-Your core domain model is largely covered by CDS-declared entities, enriched with invariant assertions, which are deployed to databases and automatically served by generic service providers out of the box. Even enterprise aspects like common code lists, localized data, or temporal data are simple to add and served out of the box as well. 
+Your core domain model is largely covered by CDS-declared entities, enriched with invariant assertions, which are deployed to databases and automatically served by generic service providers out of the box. Even enterprise aspects like common code lists, localized data, or temporal data are simple to add and served out of the box as well.
 
-#### Services ⇒ Application Model 
+#### Services ⇒ Application Model
 
-Your application models are your services, also served automatically by generic providers, complemented with your domain-specific application logic you added in custom event handlers. The services are completely agnostic to inbound and outbound protocols: they react on events in agnostic ways, and use other services in equally agnostic ways — including framework-provided ones, like database services or messaging services. 
+Your application models are your services, also served automatically by generic providers, complemented with your domain-specific application logic you added in custom event handlers. The services are completely agnostic to inbound and outbound protocols: they react on events in agnostic ways, and use other services in equally agnostic ways — including framework-provided ones, like database services or messaging services.
 
 > [!tip]
 >
-> Your ***core domain model*** is largely captured by your CDS-modeled entities, served automatically by CAP's generic service providers, including invariants. Your ***application model*** is embodied by CAP services, which are also implemented by generic providers, complemented with your domain-specific custom handlers. → most, if not **all of your custom code is of that nature**. 
+> Your ***Core Domain Model*** is largely captured by your CDS-modeled entities, served automatically by CAP's generic service providers, including invariants <br/>⇒ mostly [**CDS content**](#domain-models), served by CAP's generic providers.
+>
+> Your ***Application Model*** is embodied by CAP services, which are also implemented by generic providers, complemented with your domain-specific custom handlers. <br/>⇒ [**CDS content**](#services), served by CAP's generic providers, plus domain-specific application logic in your [**custom event handlers**](#event-handlers).
 
 
 
 ### Protocol Adapters
 
-- translate requests from and to wire protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries
-- inbound and outbound 
-- in effect your service implementations stay agnostic to those protocols
-- which allows us to exchange protocol, replace targets by mocks, doing fast inner loop development in airplane mode, even change topologies from a monolith to microservices and vice versa late in time. 
+Behind the scenes, i.e., in the **outer hexagon** containing stuff, you as an application developer shoud not see, the CAP runtime employs Protocol Adapter, which translate requests from (and to) low-level protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries.
 
-### Database Services
+- for ***inbound*** communication → i.e., requests your application *receives*, as well as as...
+- for ***outbound*** communication → i.e., requests your application *sends* to other services.
+
+In effect your service implementations stay agnostic to (wire) protocols, which allows us to exchange protocols, replace targets by mocks, do fast inner loop development in airplane mode, ... even change topologies from a monolith to microservices and vice versa late in time.
+
+![protocol-adapters.drawio](assets/protocol-adapters.drawio.svg)
+
+The inbound and outbound adapters (and the framework services) effecitvely provide your inner core with the ***ports*** to the outside world, which always provide the same, hence *agnostic* style of API (indicated by the green arrows above), as already [introduced above](#local-remote):
+
+Inbound:
+
+```js
+this.on ('SomeEvent', msg => {/* process msg.data */})
+this.on ('SomeRequest', req => {/* process req.data */})
+this.on ('READ','SomeEntity', req => {/* process req.query */})
+```
+
+Outbound:
+
+```js
+const any = await cds.connect.to('SomeService')
+await any.emit ('SomeEvent', {...data})
+await any.send ('SomeRequest', {...data})
+await any.read ('SomeEntity').where({ID:4711})
+```
+
+> In the latter, `any` can be any service your application needs to talk to. Local application services, remote services, CAP-based and non-CAP-based ones, as well as framework-provided services, such as database services, or messaging services → more on that in the next section...
+
+
 
 ### Framework Services
+
+In the figure above we see boxes for *Framework Services* and *Database Services*. Both are CAP framework-provided services, which — following our [guiding principle](#services) of *"Every active thing in CAP is a CAP service"* — are implemented as CAP services itself, and hence are also consumed via the same agnostic API style, as any other CAP service.
+
+Overall, this is the class hierarchy implemented in the CAP runtimes:
+
+![service-classes.drawio](assets/service-classes.drawio.svg)
+
+
+
+The *RemoteService* box at the bottom is a CAP service proxy for remote services, which in turn used the outbound *Protocol Adapters* behind the scenes to translate outgoing requests to the target wire protocols.
+
+The *DatabaseService* subclasses provide implementations for the different databases, thereby trying to provide a consistent, portable usage, without falling into a common denominator syndrome pit. Same for the *MessagingServices*.
 
 
 

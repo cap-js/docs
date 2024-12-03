@@ -138,16 +138,32 @@ main {
       }
     }
 
-    .caption {
-      text-align: center;
-      color: #888;
+    table {
+      tr, th, td {
+        // &:nth-child(2n) {
+          background-color: transparent !important;
+        // }
+      }
+      td, th {
+        border-color: #bbb; .dark & { border-color: #555 };
+        border-right: none;
+        border-left: none;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        line-height: 1.5em;
+      }
     }
-
     .centered table {
       margin-left: auto;
       margin-right: auto;
       width: max-content;
     }
+
+    .caption {
+      text-align: center;
+      color: #888;
+    }
+
 
     div.language-zsh pre code {
       line-height: 1.4em

@@ -267,9 +267,11 @@ The previous example follows the recommended best practice of a *[single-purpose
 
 As we'll learn in the next chapter below, service providers, that is the implementations of services, react to events, such as a request from a client, by registering respective event handlers. At the end of the day, a service implementation is **the sum of all event handlers** registered with this service.
 
+[More about service implementations through *Event Handlers* in the next chapter](#events) {.learn-more}
 
 
-### CAP Services != µ-services
+
+### Not Microservices
 
 Don't confuse CAP services with Microservices:
 
@@ -278,12 +280,12 @@ Don't confuse CAP services with Microservices:
 
 CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently.
 
-<!-- [Learn more about that in the the Anti Patterns secttion on Microservices](bad-practices#microservices-mania) {.learn-more} -->
+[Learn more about that in the the *Anti Patterns* secttion on Microservices](bad-practices#microservices-mania) {.learn-more}
 
 ## Events
 
-While services are the most important concept across models and runtime, events are equally, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
-This manifests in these additional **design principles**, complementing our [*Service-centric Paradigm*](#services):
+While services are the most important concept for models and runtime, events are equally, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
+We complement our [*Service-centric Paradigm*](#services) by these additional **design principles**:
 
 - **Everything** happening at runtime is triggered by / in reaction to **events**
 - **Providers** subscribe to, and *handle* events, as their implementations
@@ -295,7 +297,11 @@ This manifests in these additional **design principles**, complementing our [*Se
 
 ### Event Handlers
 
-Services react to events by registering *event handlers*. This is an example of that in Node.js:
+Services react to events by registering *event handlers*. 
+
+![event-handlers.drawio](assets/event-handlers.drawio.svg)
+
+This is an example of that in Node.js:
 
 ```js
 class BookshopService extends cds.ApplicationService { init() {
@@ -359,7 +365,7 @@ These usages even look the same for application services and framework-provided 
 
 From an event handler's perspective, there's close to no difference between *synchronous requests* received from client like UIs, and *asynchronous event messages* coming in from respective message queues. The arrival of both, or either of which, at the service's interface is an event, to which we can subscribe to and react in the same uniform way, thus blurring the lines between the synchronous and the asynchronous world.
 
-![events.drawio](assets/events.drawio.svg){style="padding-right:123px"}
+![events.drawio](assets/events.drawio.svg)
 
 Handling synchronous requests vs asynchronous event messages:
 
@@ -566,22 +572,26 @@ CAP queries are **first-class** objects with **late materialization**. They are 
 
 ## Agnostic by Design
 
-In the above introductions to CAP's core concepts we learned already that your domain models, as well as the services and their implementations in event handlers are agnostic to local vs remote, to protocols, as well as to databases, which is complemented by CAP-level Service Integrations (→ see *[The 'Calesi' Effect](#the-calesi-effect)*) by asbtractions from (low-level) interfaces to platform services and technologies. So, in total, and in effect:
+In the above introductions to CAP's core concepts we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**, as well as to whether they are connected to and consume other services **locally or remotely**. 
+
+In this chapter we'll introduce how that is complemented by CAP-level Service Integrations (→  [*The 'Calesi' Pattern*](#the-calesi-effect)) by abstractions from (low-level) interfaces to platform services and technologies, as well as abstractions from specific databases. 
+
+So, in total, and in effect, we'll learn:
 
 > [!tip] Your domain models and application logic stays...
 >
-> - Agnostic to *Databases*
-> - Agnostic to *Protocols*
 > - Agnostic to *Local vs Remote*
+> - Agnostic to *Protocols*
+> - Agnostic to *Databases*
 > - Agnostic to *Platform Services* and low-level *Technologies*
-
-This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections...
-
-
+>
+> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Accellerated Inner Loops*]() with [*Maximized Speed*]() at [*Minimzed Costs*](), [*Late-cut Microservices*](), and so forth. 
 
 
 
-## Hexagonal Architecture
+
+
+### Hexagonal Architecture
 
 
 
@@ -589,66 +599,82 @@ The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architectur
 
 *"Allow an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases"* {.indent style="font-family:serif"}
 
-#### The Origins — Bits of History
+Cockburn illustrated that like this: 
 
-Before looking into how that relates to CAP, or rather vice versa, it's probably helpful to understand that Hexagonal Architecture is not in contrast to related software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
+![Hexagonal architecture basic.gif](https://alistair.cockburn.us/wp-content/uploads/2018/02/Hexagonal-architecture-basic-1.gif)
 
-Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;):
-
-- The [*Model View Controller (MVC)*](https://wiki.c2.com/?ModelViewController) pattern "makes domain logic independent from UI widgetry", thereby promoting reuse of the domain model code.
-   ::: details
-    *Views* + *Controllers* are the widgetry; *Models* are the UI-independent code parts.
-   Note: The term '*Model*' as used in MVC doesn't mean no-code → code is percieved as a *model of the real world* in here.
-   :::
-
-- The [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture), took the fundamental intent and designs from MVC, and applied it to a layered architecture, which commonly had three layers, but he split the *Logic* layer into an *Application Model* on top of a *Domain Model*.
-   ::: details Application Models vs Domain Models ...
-
-   The original implementations in [Smalltalk-80](https://en.wikipedia.org/wiki/Smalltalk) already had *Application Model* classes showing up on top of the (real) *Domain Model* classes: Basically, the former encapsulate the application's business logic, while the latter encapsulate the application's data objects, with only the most central invariants carved in stone.
-
-   ( Note that the original MVC wasn't designed for layered architectures, but was always presented as a "*Triade*" ).
-
-   :::
-
-- The [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) basically evolved the ideas of the former into a symetric shape (as Cockburn is "a symmetrist at heart"), thereby unifying the *View* layer on top and the *Infrastructure* layer at the bottom into *Transformers* living in an outer hexagon, while the *Application Model*, and the *Domain Model* live in an inner hexagon. He originally depicted that as follows in plain text:
-
-   ```http
-   OUTSIDE <-> transformer <--> ( application  <->  domain )
-   ```
-
-   ::: details Transformers → Adapters
-
-   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" with "*Adapters*" / "*Adaptors*".
-   :::
-
-#### See Also...
-
-- [*Hexagonal Architecture and DDD (Domain Driven Design)* by Sven Woltmann](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design), which probably has the best, and most correct illustrations, like this one:
-
-![Hexagonal architecture and DDD (domain driven design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
-
-- [*Ports and Adapters* by Damon Kelly](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters)
-- [*Hexagonal Architecture* on Wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
-
-#### Hexagonal Architecture by CAP
+#### CAP as an implementation of Hexagonal Architecture
 
 CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#accelerated-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#evolution-wo-disruption) in "the outside".
 
 Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
+<span class="centered">
+
 | Hexagonal Architecture | CAP                                                          |
 | ---------------------- | ------------------------------------------------------------ |
-| "The Outside"          | (Remote) Clients of Services, Databases, Platform Services   |
-| Adapters               | Protocol Adapters (inbound + outbound), <br />Framework Services (outbound) |
-| Ports                  | Agnostic Service Interfaces + Events (inbound + outbound)    |
-| Application Model      | Agnostic Service Providers + Event Handlers                  |
-| Domain Model           | Domain Model Entities (w/ essential invariants)              |
+| "The Outside"          | Remote *Clients* of Services (inbound) <br/>Databases, Platform Services (outbound) |
+| Adapters               | Protocol ***Adapters*** (inbound + outbound), <br/>Framework Services (outbound) |
+| Ports                  | Service ***Interfaces*** + Events (inbound + outbound)       |
+| Application Model      | Use-casy ***Services*** + Event Handlers                     |
+| Domain Model           | Domain ***Entities*** (w/ essential invariants)              |
 
-> [!tip] Conclusion and Key Takeaway
+</span>
+
+
+
+> [!tip] 
 >
-> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP is an implementation of Hexagonal Architecture, in particular with respect to the Adapters in the outer hexagon, but also re *Application Models* and *(Core) Domain Models* in the inner hexagon.
+> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also re [*Application Models*](#core-domain-and-application-model) and [*(Core) Domain Models*](#core-domain-and-application-model) in the inner hexagon.
 
 [Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
+
+
+
+### Core Domain and Application Model
+
+
+
+Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his very initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com), Cockburn already highlighted that as follows in plain text:
+
+​	*OUTSIDE <-> transformer <--> ( **application**  <->  **domain** )* {style="text-align: center; font-size: 111%; font-family: serif; padding-right: 44px"}
+
+That distinction didn't come by surprise to the patterns community in c2, as Cockburn introduced his proposal as a *"symmetric"* evolution of the [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture) by Kyle Brown, which in turn is an evolution of the [*Model View Controller*](https://wiki.c2.com/?ModelViewController) pattern, invented by Trygve Reenskaug et al. at Xerox PARC. And already the first MVC implementations in [*Smalltalk-80*](https://en.wikipedia.org/wiki/Smalltalk) introduced the notion of an *[Application Model](https://wiki.c2.com/?ApplicationModel)* which acts as a *mediator* between use case-oriented application logic, and the core [*Domain Model*](https://wiki.c2.com/?DomainModel) classes, which primarily represent an application's data objects, with only the most central invariants carved in stone. Yet, **both are agnostic** to wire protocols or ['UI widgetry'](https://wiki.c2.com/?FourLayerArchitecture) → the latter are covered by *Views* and *Controllers* in MVC.
+
+#### See Also...
+
+- The [*Model Model View Controller*](https://wiki.c2.com/?ModelModelViewController) pattern in c2 wiki, in which Randy Stafford refers to those implementations in Smalltalk like that: 
+
+  *"... there have always been two kinds of model: [DomainModel](https://wiki.c2.com/?DomainModel), and [ApplicationModel](https://wiki.c2.com/?ApplicationModel)."* {.indent style="font-family: serif"}
+
+- [*Hexagonal Architecture and DDD (Domain Driven Design)* by Sven Woltmann](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design), which probably has the best, and most correct illustrations, like this one:
+
+![Hexagonal architecture and DDD (domain driven design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
+
+#### Entities ⇒ Core Domain Model 
+
+Your core domain model is largely covered by CDS-declared entities, enriched with invariant assertions, which are deployed to databases and automatically served by generic service providers out of the box. Even enterprise aspects like common code lists, localized data, or temporal data are simple to add and served out of the box as well. 
+
+#### Services ⇒ Application Model 
+
+Your application model are your services, also served automatically by generic providers, complemented with your domain-specific application logic you added in custom event handlers. The services are completely agnostic to inbound and outbound protocols: they react on events in agnostic ways, and use other services in equally agnostic ways — including framework-provided ones, like database services or messaging services. 
+
+> [!tip]
+>
+> Your ***core domain model*** is largely captured by your CDS-modeled entities, served automatically by CAP's generic service providers, including invariants. Your ***application model*** is embodied by CAP services, which are also implemented by generic providers, complemented with your domain-specific custom handlers. → most, if not **all of your custom code is of that nature**. 
+
+
+
+### Protocol Adapters
+
+- translate requests from and to wire protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries
+- inbound and outbound 
+- in effect your service implementations stay agnostic to those protocols
+- which allows us to exchange protocol, replace targets by mocks, doing fast inner loop development in airplane mode, even change topologies from from a monolith to microservices and vice versa late in time. 
+
+### Database Services
+
+### Framework Services
 
 
 
@@ -661,8 +687,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 >
 > **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
 
-<!-- #### Extension Logic
- -->
+#### Extension Logic
 
 #### Extensible Framework
 

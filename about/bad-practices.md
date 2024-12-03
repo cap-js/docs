@@ -1,3 +1,7 @@
+---
+# status: released
+---
+
 # Bad Practices
 
 [[toc]]
@@ -62,31 +66,31 @@ Alternative frameworks or toolsets follow code generation approaches. Swagger do
 
 <span class="centered">
 
-| Feature                              |                       Swagger                        |                    CAP                    |
-|--------------------------------------|:----------------------------------------------------:|:-----------------------------------------:|
-| Lines of code for service definition |      **~555**{.h3} <br/>written in YAML {.red}       | **~11**{.h3} <br/>written in CDS {.green} |
-| Lines of code for implementation     | **~500**{.h3} <br/>generated <br/>boilerplate {.red} |            **0**{.h3} {.green}            |
-| Size of framework library            |                     16 MB {.red}                     |              10 MB {.green}               |
-| CRUDQ served on DB, including...     |                          ❌                           |                     ✅                     |
-| Deep Reads & Writes                  |                          ❌                           |                     ✅                     |
-| Deep Hierarchies                     |                          ❌                           |                     ✅                     |
-| Aggregations                         |                          ❌                           |                     ✅                     |
-| Pagination                           |                          ❌                           |                     ✅                     |
-| Sorting                              |                          ❌                           |                     ✅                     |
-| Search                               |                          ❌                           |                     ✅                     |
-| Filtering                            |                          ❌                           |                     ✅                     |
-| Primary Keys                         |                          ❌                           |                     ✅                     |
-| Access Control                       |                          ❌                           |                     ✅                     |
-| Localized Data                       |                          ❌                           |                     ✅                     |
-| Managed Data                         |                          ❌                           |                     ✅                     |
-| Media Data                           |                          ❌                           |                     ✅                     |
-| Temporal Data                        |                          ❌                           |                     ✅                     |
-| Fiori Draft Handling                 |                          ❌                           |                     ✅                     |
-| Exclusive Locking                    |                          ❌                           |                     ✅                     |
-| Conflict Detection (via ETags)       |                          ❌                           |                     ✅                     |
-| Data Replication (upcomming)         |                          ❌                           |                     ✅                     |
-| Data Privacy                         |                          ❌                           |                     ✅                     |
-| ...                                  |                          ❌                           |                     ✅                     |
+| Feature                              |       Swagger        |          CAP          |
+|--------------------------------------|:--------------------:|:---------------------:|
+| Lines of code for service definition | **~555**{.h3}{.red}  | **~11**{.h3} {.green} |
+| Lines of code for implementation     | **~500**{.h3} {.red} |  **0**{.h3} {.green}  |
+| Size of framework library            |     16 MB {.red}     |    10 MB {.green}     |
+| CRUDQ served on DB, including...     |                      |        &check;        |
+| Deep Reads & Writes                  |                      |        &check;        |
+| Deep Hierarchies                     |                      |        &check;        |
+| Aggregations                         |                      |        &check;        |
+| Pagination                           |                      |        &check;        |
+| Sorting                              |                      |        &check;        |
+| Search                               |                      |        &check;        |
+| Filtering                            |                      |        &check;        |
+| Primary Keys                         |                      |        &check;        |
+| Access Control                       |                      |        &check;        |
+| Localized Data                       |                      |        &check;        |
+| Managed Data                         |                      |        &check;        |
+| Media Data                           |                      |        &check;        |
+| Temporal Data                        |                      |        &check;        |
+| Fiori Draft Handling                 |                      |        &check;        |
+| Exclusive Locking                    |                      |        &check;        |
+| Conflict Detection (via ETags)       |                      |        &check;        |
+| Data Replication (upcomming)         |                      |        &check;        |
+| Data Privacy                         |                      |        &check;        |
+| ...                                  |                      |        &check;        |
 
 </span>
 

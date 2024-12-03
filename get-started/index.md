@@ -37,7 +37,7 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 - With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
     ```sh
-    npm add -g @sap/cds/dk
+    npm add -g @sap/cds-dk
     ```
 
     [Visit the _Troubleshooting_ guide](troubleshooting.md) if you encounter any errors. {.learn-more}
@@ -48,7 +48,7 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
   cds
   ```
 
-  which should yield some output like that:
+  You see some output like that:
 
   ```sh
   USAGE
@@ -82,13 +82,13 @@ Follow the steps below for a minimalistic local setup. Alternatively, you can us
 #### Optional
 
 - [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
-- [git](https://git-scm.com) — if you go for more than just some quick trials...
+- [git](https://git-scm.com) — if you go for more than just some quick trials.
 
 
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, ... then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VSCode:
 
    ```sh
    cds init bookshop
@@ -114,7 +114,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](../node.js/cds-env) if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -132,16 +132,15 @@ CAP has defaults for many things that you'd have to configure in other framework
 }
 ```
 
+```sh [Explore the defaults in your project]
+cds env ls defaults
+```
+
+[Learn more about project-specific configuration.](../node.js/cds-env){.learn-more}
 :::
 
 ::: tip Convention over configuration
 We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
-
-To explore the defaults in your projects do as follows:
-```sh
-cds env ls defaults
-```
-
 :::
 
 

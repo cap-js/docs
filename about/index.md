@@ -202,6 +202,7 @@ So, how could CAP help to avoid — or reduce risks of — piling up technical d
 ### Minimized Lock-Ins
 
 ### Evolution w/o Disruption
+{#evolution-wo-disruption}
 
 
 ## What about AI?

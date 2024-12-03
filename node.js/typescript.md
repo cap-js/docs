@@ -31,7 +31,7 @@ Follow these steps to add TypeScript support:
 
 
 
-## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> <Beta /> { #cds-tsx}
+## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> { #cds-tsx}
 
 Use the `cds-tsx` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 

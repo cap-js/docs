@@ -763,7 +763,8 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 
 
-### `@Common.FieldControl` {#common-fieldControl}
+### `@Common.FieldControl` 
+{#common-fieldcontrol}
 
 The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
 ::: warning

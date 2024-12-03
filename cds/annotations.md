@@ -102,4 +102,4 @@ Intrinsically supported OData Annotations:
 | `@Core.IsMediaType`    | see [Media Data](../guides/providing-services#serving-media-data)                          |
 | `@Core.IsUrl`          | see [Media Data](../guides/providing-services#serving-media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
-| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#common-fieldControl) |
+| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#common-fieldcontrol) |

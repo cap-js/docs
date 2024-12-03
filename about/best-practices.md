@@ -7,7 +7,7 @@ status: released
 Key Concepts & Qualities
 {.subtitle}
 
-[[toc]] <!-- @include: ../links.md -->
+[[toc]]
 
 
 
@@ -22,15 +22,15 @@ The CAP framework features a mix of proven and broadly adopted open-source and S
 
 The major building blocks are as follows:
 
-- [**Core Data Services** (CDS)](/cds/) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
+- [**Core Data Services** (CDS)](../cds/) — CAP's universal modeling language, and the very backbone of everything; used to capture domain knowledge, generating database schemas, translating to and from various API languages, and most important: fueling generic runtimes to automatically serve request out of the box.
 
-- [**Service Runtimes**](/guides/providing-services.md) for [Node.js](/node.js/) and [Java](/java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
+- [**Service Runtimes**](../guides/providing-services.md) for [Node.js](../node.js/) and [Java](../java/) — providing the core frameworks for services, generic providers to serve requests automatically, database support for SAP HANA, SQLite, and PostgreSQL, and protocol adaptors for REST, OData, GraphQL, ...
 
-- [**Platform Integrations**](/plugins/) — providing CAP-level service interfaces (*'[Calesi](#the-calesi-effect)'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
+- [**Platform Integrations**](../plugins/) — providing CAP-level service interfaces (*'[Calesi]()'*) to cloud platform services in platform-agnostic ways, as much as possible. Some of these are provided out of the box, others as plugins.
 
-- [**Command Line Interface** (CLI)](/tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in *SAP Build Code*, *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
+- [**Command Line Interface** (CLI)](../tools/) — the swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there is a fast-growing number of [plugins] contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-effect) are among them.
+In addition, there is a fast-growing number of [plugins](../plugins/) contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-effect) are among them.
 
 
 
@@ -62,7 +62,7 @@ We'll dive into each of these concepts in the following sections below, starting
 
 ## Domain Models
 
-[CDS](/cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of *entity-relationship modelling*. For example, a simple domain model as illustrated in this ER diagram:
+[CDS](../cds/) is CAP's universal modeling language to declaratively capture knowledge about an application's domain. Data models capture the *static* aspects of a domain, using the widely used technique of [*entity-relationship modelling*](). For example, a simple domain model as illustrated in this ER diagram:
 
 ![bookshop-erm.drawio](assets/bookshop-erm.drawio.svg)
 
@@ -87,18 +87,18 @@ entity Authors : cuid, managed {
 
 :::
 
-[Type `Country` is declared to be an association to `sap.common.Countries`.](/cds/common#type-country) {.learn-more}
+[Type `Country` is declared to be an association to `sap.common.Countries`.](../cds/common#type-country) {.learn-more}
 
 
 ### Definition Language (CDL)
 
-We use CDS's [*Conceptual Definition Language (CDL)*](/cds/cdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
+We use CDS's [*Conceptual Definition Language (CDL)*](../cds/cdl) as a *human-readable* way to express CDS models. Think of it as a *concise*, and more *expressive* derivate of [SQL DDL](https://wikipedia.org/wiki/Data_definition_language).
 
-For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](/cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are *[SQLite]* and *[H2]* for development, and *[SAP HANA]* and *[PostgreSQL]* for production.
+For processing at runtime CDS models are compiled into a *machine-readable* plain object notation, called *CSN*, which stands for [*Core Schema Notation (CSN)*](../cds/csn). For deployment to databases, CSN models are translated into native SQL DDL. Supported databases are [*SQLite*](../guides/databases-sqlite.md) and *[H2](../guides/databases-h2.md)* for development, and [_SAP HANA_](../guides/databases-hana.md) and [_PostgreSQL_](../guides/databases-postgres.md) for production.
 
 ![cdl-csn.drawio](assets/cdl-csn.drawio.svg)
 
-See also *[On the Nature of Models](/cds/models)* in the CDS reference docs. {.learn-more}
+See also *[On the Nature of Models](../cds/models)* in the CDS reference docs. {.learn-more}
 
 
 
@@ -232,7 +232,7 @@ service BookshopService {
 
 Most frequently, services expose denormalized views of underlying domain models. They act as facades to an application's core domain data. The service interface results from the _inferred_ element structures of the given projections.
 
-For example, if we take the [*bookshop* domain model](/get-started/in-a-nutshell#capture-domain-models) as a basis, we could define a service that exposes a flattened view on books with authors names as follows (note and click on the *⇒ Inferred Interface* tab):
+For example, if we take the [*bookshop* domain model](../get-started/in-a-nutshell#capture-domain-models) as a basis, we could define a service that exposes a flattened view on books with authors names as follows (note and click on the *⇒ Inferred Interface* tab):
 
 ::: code-group
 
@@ -260,16 +260,18 @@ service CatalogService {
 :::
 
 ::: tip **Single-purposed Services**
-The previous example follows the recommended best practice of a *[single-purposed service](/guides/providing-services#single-purposed-services)* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services](/guides/providing-services) guide.
+The previous example follows the recommended best practice of a *[single-purposed service](../guides/providing-services#single-purposed-services)* which is specialized on *one* specific use case and group of users. Learn more about that in the [Providing Services](../guides/providing-services) guide.
 :::
 
 ### Service Providers
 
 As we'll learn in the next chapter below, service providers, that is the implementations of services, react to events, such as a request from a client, by registering respective event handlers. At the end of the day, a service implementation is **the sum of all event handlers** registered with this service.
 
+[More about service implementations through *Event Handlers* in the next chapter](#events) {.learn-more}
 
 
-### CAP Services != µ-services
+
+### Not Microservices
 
 Don't confuse CAP services with Microservices:
 
@@ -278,12 +280,12 @@ Don't confuse CAP services with Microservices:
 
 CAP services are important for how you *design* and *implement* your applications in clean and modularized ways on a fine-granular use case-oriented level. The primary focus of Microservices is on how to cut your whole application into independent coarse-grained(!) deployment units, in order to release and scale them independently.
 
-<!-- [Learn more about that in the the Anti Patterns secttion on Microservices](bad-practices#microservices-mania) {.learn-more} -->
+[Learn more about that in the the *Anti Patterns* secttion on Microservices](bad-practices#microservices-mania) {.learn-more}
 
 ## Events
 
-While services are the most important concept across models and runtime, events are equally, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
-This manifests in these additional **design principles**, complementing our [*Service-centric Paradigm*](#services):
+While services are the most important concept for models and runtime, events are equally, if not more, important to the runtime. CAP has a *ubiquitous* notion of events: they show up everywhere, and everything is an event, and everything happening at runtime is in reaction to events.
+We complement our [*Service-centric Paradigm*](#services) by these additional **design principles**:
 
 - **Everything** happening at runtime is triggered by / in reaction to **events**
 - **Providers** subscribe to, and *handle* events, as their implementations
@@ -295,7 +297,11 @@ This manifests in these additional **design principles**, complementing our [*Se
 
 ### Event Handlers
 
-Services react to events by registering *event handlers*. This is an example of that in Node.js:
+Services react to events by registering *event handlers*. 
+
+![event-handlers.drawio](assets/event-handlers.drawio.svg)
+
+This is an example of that in Node.js:
 
 ```js
 class BookshopService extends cds.ApplicationService { init() {
@@ -359,7 +365,7 @@ These usages even look the same for application services and framework-provided 
 
 From an event handler's perspective, there's close to no difference between *synchronous requests* received from client like UIs, and *asynchronous event messages* coming in from respective message queues. The arrival of both, or either of which, at the service's interface is an event, to which we can subscribe to and react in the same uniform way, thus blurring the lines between the synchronous and the asynchronous world.
 
-![events.drawio](assets/events.drawio.svg){style="padding-right:123px"}
+![events.drawio](assets/events.drawio.svg)
 
 Handling synchronous requests vs asynchronous event messages:
 
@@ -480,9 +486,9 @@ entity ListOfBooks as projection on underlying.Books {
 }
 ```
 
-We use [CDS's *Conceptual Query Language (CQL)*](/cds/cql) to write queries in a human-readable way. For reasons of familiarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
+We use [CDS's *Conceptual Query Language (CQL)*](../cds/cql) to write queries in a human-readable way. For reasons of familiarity, CQL is designed as a derivate of SQL, but used in CAP independent of SQL and databases. For example to derive new types as projections on others, or sending OData or GraphQL queries to remote services.
 
-Here's a rough comparison of [CQL] with [GraphQL], [OData], and [SQL]:
+Here's a rough comparison of [CQL](../cds/cql.md) with [GraphQL](http://graphql.org), [OData](https://www.odata.org), and [SQL](https://en.wikipedia.org/wiki/SQL):
 
 <span class="centered">
 
@@ -505,7 +511,7 @@ As apparent from this comparison, we can regard CQL as a superset of the other q
 
 ### Queries at Runtime
 
-CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](/cds/cqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
+CAP also uses queries at runtime: an OData or GraphQL request is essentially a query which arrives at a service interface. Respective protocol adapter translate these into *machine-readable* runtime representations of CAP queries (→ see [*Core Query Notation, CQN*](../cds/cqn)), which are then forwarded to and processed by target services. Here's an example, including CQL over http:
 
 ::: code-group
 
@@ -566,111 +572,111 @@ CAP queries are **first-class** objects with **late materialization**. They are 
 
 ## Agnostic by Design
 
-In the above introductions to CAP's core concepts we learned already that your domain models, as well as the services and their implementations in event handlers are agnostic to local vs remote, to protocols, as well as to databases, which is complemented by CAP-level Service Integrations (→ see *[The 'Calesi' Effect](#the-calesi-effect)*) by asbtractions from (low-level) interfaces to platform services and technologies. So, in total, and in effect:
+In the above introductions to CAP's core concepts we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**, as well as to whether they are connected to and consume other services **locally or remotely**. 
+
+In this chapter we'll introduce how that is complemented by CAP-level Service Integrations (→  [*The 'Calesi' Pattern*](#the-calesi-effect)) by abstractions from (low-level) interfaces to platform services and technologies, as well as abstractions from specific databases. 
+
+So, in total, and in effect, we'll learn:
 
 > [!tip] Your domain models and application logic stays...
 >
-> - Agnostic to *Databases*
-> - Agnostic to *Protocols*
 > - Agnostic to *Local vs Remote*
+> - Agnostic to *Protocols*
+> - Agnostic to *Databases*
 > - Agnostic to *Platform Services* and low-level *Technologies*
+>
+> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Accellerated Inner Loops*]() with [*Maximized Speed*]() at [*Minimzed Costs*](), [*Late-cut Microservices*](), and so forth. 
 
-This thoroughly agnostic design is the key enabling quality for several of the major benefits and value propositions offered by CAP, as highlighted in the following sub sections...
 
 
 
-### ⇒ Hexagonal Architecture {#hexagonal}
+
+### Hexagonal Architecture
+
+
 
 The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architecture/)* (aka *Ports and Adapters Architecture/Pattern*) as first proposed by Alistair Cockburn in 2005, is quite famous and fancied these days (rightly so). As Cockburn introduces it, its intent is to:
 
 *"Allow an application to equally be driven by users, programs, automated test or batch scripts, and to be developed and tested in isolation from its eventual run-time devices and databases"* {.indent style="font-family:serif"}
 
-#### The Origins — Bits of History
+Cockburn illustrated that like this: 
 
-Before looking into how that relates to CAP, or rather vice versa, it's probably helpful to understand that Hexagonal Architecture is not in contrast to related software architecture models, but an evolution of those, in particular of *Model View Controller*, as invented by Trygve Reenskaug et al. in Smalltalk-80 at Xerox PARC, and *Layered Architectures*, as promoted by Kyle Brown, Andrew Tannenbaum and Edgser W. Dijkstra (couldn't resist listing the names of these giants, and idols of my youth, sorry \;-).
+![Hexagonal architecture basic.gif](https://alistair.cockburn.us/wp-content/uploads/2018/02/Hexagonal-architecture-basic-1.gif)
 
-Let's do a quick time travel by a rough summary of the respective entries in the "*Portland Patterns Repository*" in [C2 wiki](https://wiki.c2.com) (the world's first ever wiki by Ward Cunningham; again \;):
+#### CAP as an implementation of Hexagonal Architecture
 
-- The [*Model View Controller (MVC)*](https://wiki.c2.com/?ModelViewController) pattern "makes domain logic independent from UI widgetry", thereby promoting reuse of the domain model code.
-   ::: details
-    *Views* + *Controllers* are the widgetry; *Models* are the UI-independent code parts.
-   Note: The term '*Model*' as used in MVC doesn't mean no-code → code is percieved as a *model of the real world* in here.
-   :::
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#accelerated-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#evolution-wo-disruption) in "the outside".
 
-- The [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture), took the fundamental intent and designs from MVC, and applied it to a layered architecture, which commonly had three layers, but he split the *Logic* layer into an *Application Model* on top of a *Domain Model*.
-   ::: details Application Models vs Domain Models ...
+Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
-   The original implementations in [Smalltalk-80](https://en.wikipedia.org/wiki/Smalltalk) already had *Application Model* classes showing up on top of the (real) *Domain Model* classes: Basically, the former encapsulate the application's business logic, while the latter encapsulate the application's data objects, with only the most central invariants carved in stone.
+<span class="centered">
 
-   ( Note that the original MVC wasn't designed for layered architectures, but was always presented as a "*Triade*" ).
+| Hexagonal Architecture | CAP                                                          |
+| ---------------------- | ------------------------------------------------------------ |
+| "The Outside"          | Remote *Clients* of Services (inbound) <br/>Databases, Platform Services (outbound) |
+| Adapters               | Protocol ***Adapters*** (inbound + outbound), <br/>Framework Services (outbound) |
+| Ports                  | Service ***Interfaces*** + Events (inbound + outbound)       |
+| Application Model      | Use-casy ***Services*** + Event Handlers                     |
+| Domain Model           | Domain ***Entities*** (w/ essential invariants)              |
 
-   :::
+</span>
 
-- The [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) basically evolved the ideas of the former into a symetric shape (as Cockburn is "a symmetrist at heart"), thereby unifying the *View* layer on top and the *Infrastructure* layer at the bottom into *Transformers* living in an outer hexagon, while the *Application Model*, and the *Domain Model* live in an inner hexagon. He originally depicted that as follows in plain text:
 
-   ```http
-   OUTSIDE <-> transformer <--> ( application  <->  domain )
-   ```
 
-   ::: details Transformers → Adapters
+> [!tip] 
+>
+> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also re [*Application Models*](#core-domain-and-application-model) and [*(Core) Domain Models*](#core-domain-and-application-model) in the inner hexagon.
 
-   Cockburn later on renamed his original proposal to [*Ports and Adapters Architecture*](https://wiki.c2.com/?PortsAndAdaptersArchitecture), and in there replaced his initial choice of the term "*Transformers*" with "*Adapters*" / "*Adaptors*".
-   :::
+[Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
+
+
+
+### Core Domain and Application Model
+
+
+
+Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his very initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com), Cockburn already highlighted that as follows in plain text:
+
+​	*OUTSIDE <-> transformer <--> ( **application**  <->  **domain** )* {style="text-align: center; font-size: 111%; font-family: serif; padding-right: 44px"}
+
+That distinction didn't come by surprise to the patterns community in c2, as Cockburn introduced his proposal as a *"symmetric"* evolution of the [*Four Layers Architecture*](https://wiki.c2.com/?FourLayerArchitecture) by Kyle Brown, which in turn is an evolution of the [*Model View Controller*](https://wiki.c2.com/?ModelViewController) pattern, invented by Trygve Reenskaug et al. at Xerox PARC. And already the first MVC implementations in [*Smalltalk-80*](https://en.wikipedia.org/wiki/Smalltalk) introduced the notion of an *[Application Model](https://wiki.c2.com/?ApplicationModel)* which acts as a *mediator* between use case-oriented application logic, and the core [*Domain Model*](https://wiki.c2.com/?DomainModel) classes, which primarily represent an application's data objects, with only the most central invariants carved in stone. Yet, **both are agnostic** to wire protocols or ['UI widgetry'](https://wiki.c2.com/?FourLayerArchitecture) → the latter are covered by *Views* and *Controllers* in MVC.
 
 #### See Also...
+
+- The [*Model Model View Controller*](https://wiki.c2.com/?ModelModelViewController) pattern in c2 wiki, in which Randy Stafford refers to those implementations in Smalltalk like that: 
+
+  *"... there have always been two kinds of model: [DomainModel](https://wiki.c2.com/?DomainModel), and [ApplicationModel](https://wiki.c2.com/?ApplicationModel)."* {.indent style="font-family: serif"}
 
 - [*Hexagonal Architecture and DDD (Domain Driven Design)* by Sven Woltmann](https://www.happycoders.eu/software-craftsmanship/hexagonal-architecture/#hexagonal-architecture-and-ddd-domain-driven-design), which probably has the best, and most correct illustrations, like this one:
 
 ![Hexagonal architecture and DDD (domain driven design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
 
-- [*Ports and Adapters* by Damon Kelly](https://8thlight.com/insights/a-color-coded-guide-to-ports-and-adapters)
-- [*Hexagonal Architecture* on Wikipedia](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
+#### Entities ⇒ Core Domain Model 
 
-#### Hexagonal Architecture by CAP
+Your core domain model is largely covered by CDS-declared entities, enriched with invariant assertions, which are deployed to databases and automatically served by generic service providers out of the box. Even enterprise aspects like common code lists, localized data, or temporal data are simple to add and served out of the box as well. 
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key guiding principles](#inner-loop) and [value propositions](../about/). Moreover, they become [*resilient* to disrupting changes](../about/best-practices#evolution) in "the outside".
+#### Services ⇒ Application Model 
 
-Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
+Your application model are your services, also served automatically by generic providers, complemented with your domain-specific application logic you added in custom event handlers. The services are completely agnostic to inbound and outbound protocols: they react on events in agnostic ways, and use other services in equally agnostic ways — including framework-provided ones, like database services or messaging services. 
 
-| Hexagonal Architecture | CAP                                                          |
-| ---------------------- | ------------------------------------------------------------ |
-| "The Outside"          | (Remote) Clients of Services, Databases, Platform Services   |
-| Adapters               | Protocol Adapters (inbound + outbound), <br />Framework Services (outbound) |
-| Ports                  | Agnostic Service Interfaces + Events (inbound + outbound)    |
-| Application Model      | Agnostic Service Providers + Event Handlers                  |
-| Domain Model           | Domain Model Entities (w/ essential invariants)              |
-
-> [!tip] Conclusion and Key Takeaway
+> [!tip]
 >
-> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP is an implementation of Hexagonal Architecture, in particular with respect to the Adapters in the outer hexagon, but also re *Application Models* and *(Core) Domain Models* in the inner hexagon.
+> Your ***core domain model*** is largely captured by your CDS-modeled entities, served automatically by CAP's generic service providers, including invariants. Your ***application model*** is embodied by CAP services, which are also implemented by generic providers, complemented with your domain-specific custom handlers. → most, if not **all of your custom code is of that nature**. 
 
-[Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 
-### ⇒ Inner Loop Development {#inner-loop}
 
-The database-agnostic design allows us to use in-memory SQLite or H2 databases at development time, as well as for level 1 functional tests, while using SAP HANA for production. This not only speeds up development turnaround times by magnitudes, it also minimises development costs in a similar scale.
+### Protocol Adapters
 
-<!-- ### ⇒ Evolution w/o Disruption {#evolution} -->
+- translate requests from and to wire protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries
+- inbound and outbound 
+- in effect your service implementations stay agnostic to those protocols
+- which allows us to exchange protocol, replace targets by mocks, doing fast inner loop development in airplane mode, even change topologies from from a monolith to microservices and vice versa late in time. 
 
-### ⇒ Late-cut Microservices {#late-cut-mss}
+### Database Services
 
-This agnostic design allows [mocking remote services](/guides/using-services#local-mocking), as well as doing late changes to service topologies. For example, you can — and always should — start with co-located services in a single process, while being able to deploy them to separate micro services later on, when you know more about your app and how to scale which parts of it.
-:::
+### Framework Services
 
-<!-- 
 
-## Intrinsic Cloud Qualities
-
-- #### Multitenancy
-
-- #### Extensibility
-
-- #### Security
-
-- #### Scalability
-
-- #### Resilience
- -->
 
 
 ## Intrinsic Extensibility
@@ -681,8 +687,7 @@ This agnostic design allows [mocking remote services](/guides/using-services#loc
 >
 > **Nota bene:** not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs.
 
-<!-- #### Extension Logic
- -->
+#### Extension Logic
 
 #### Extensible Framework
 
@@ -745,7 +750,7 @@ In contrast to DDD however, CAP prefers a strong distinction of active services 
 
 #### CAP promotes CQRS
 
-Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](/guides/providing-services#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There's no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'. {.indent}
+Similar to CQRS, CAP strongly recommends separating write APIs from read APIs by [defining separate, single-purposed services](../guides/providing-services#single-purposed-services). CDS's reflexive view building eases the task of declaring derived APIs exposing use case-specific de-normalized views on underlying domain models. Service actions in CAP can be used to represent pure commands. There's no restriction to 'verb-only' dogmas in CAP though, as CAP focuses on business applications, which are mostly data-oriented by nature, hence frequently 'entity/noun-centric'. {.indent}
 
 
 #### CAP and Event Sourcing
@@ -754,12 +759,12 @@ CAP can be combined with event sourcing patterns, that is, by tracking events in
 
 #### CAP supports SQL
 
-CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](/cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](/cds/cdl#associations), [Path Expressions](/cds/cql#path-expressions), and [Nested Projections](/cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
+CDS borrows reflexive view building from SQL to declare derived models and APIs as projections/transformation of underlying models, such as domain models. [CQL](../cds/cql) is based on SQL DML to allow direct mapping to SQL databases. However, it extends SQL with [Associations](../cds/cdl#associations), [Path Expressions](../cds/cql#path-expressions), and [Nested Projections](../cds/cql#nested-expands) to overcome the need to deal with JOINs. Instead, these extensions allow working with data in a structured document-oriented way. {.indent}
 
 
 #### CAP supports NoSQL
 
-The previously mentioned extensions in [CQL](/cds/cql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
+The previously mentioned extensions in [CQL](../cds/cql) feature the modeling of nested document structures as well as view building and querying using navigation instead of cross products, joins, and unions. This actually brings CDS close to the concepts of NoSQL databases, with the data models playing the role of schemas for validation. Although CAP currently doesn't provide out-of-the-box support for concrete NoSQL databases, it's easy to do so in project-specific solutions. {.indent}
 
 
 #### CAP and the Relational Model
@@ -769,12 +774,12 @@ While CDS extends SQL and the relational model by means to [describe, read, and 
 
 #### CAP == Entity-Relationship Modeling
 
-CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](/cds/cdl#associations) and [Compositions](/cds/cdl#compositions). {.indent}
+CAP employs proven basics of Entity-Relationship Modeling for capturing the conceptual data structures of a given domain. Relationships are modeled as [Associations](../cds/cdl#associations) and [Compositions](../cds/cdl#compositions). {.indent}
 
 
 #### CAP == Aspect-Oriented Programming
 
-[Aspects](/cds/cdl#aspects) in [CDS](/cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
+[Aspects](../cds/cdl#aspects) in [CDS](../cds/ are borrowed from AOP, especially _Mixins_. With that, CAP greatly facilitates separation of concerns by "...factoring out technical concerns (such as security, transaction management, logging) from a domain model, and as such makes it easier to design and implement domain models that focus purely on the business logic." (source: [Wikipedia](https://en.wikipedia.org/wiki/Domain-driven_design#Relationship_to_other_ideas)) {.indent}
 
 
 #### CAP == Functional Programming
@@ -786,8 +791,8 @@ In addition, CAP features _queries as first-class and higher-order objects_, all
 
 #### CAP != Object-Relational Mapping
 
-CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](/cds/cql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
+CAP and CDS aren't _Object-Relational Mapping_ (ORM). Instead, **we prefer querying** using [CQL](../cds/cql) to read and write data, which allows declaratively expressing which data you're interested in by means of projection and selection instead of loading object graphs automatically. Result sets are pure REST data, that are snapshot data representations. One reason for this is the assumption that the lifetime of object cache entries (which are essential for ORMs to perform) is frequently in the range of milliseconds for _REST_ services. {.indent}
 
 #### CAP != Business Objects
 
-Business Object Patterns promote the notion of active objects, which provide instance methods to modify their internal state. In contrast to that, CAP promotes a strict separation of passive data, read and exchanged in RESTful ways, and pure, stateless services, see also the [relationship to Functional Programming](#cap-functional-programming). {.indent}
+Business Object Patterns promote the notion of active objects, which provide instance methods to modify their internal state. In contrast to that, CAP promotes a strict separation of passive data, read and exchanged in RESTful ways, and pure, stateless services. {.indent}

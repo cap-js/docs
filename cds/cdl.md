@@ -65,7 +65,7 @@ As indicated by the syntax coloring, `Association` is not a keyword, but a type 
 
 :::
 
-Keywords are *case-insensitive*, but most commonly used in lowercase notation.
+Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
 

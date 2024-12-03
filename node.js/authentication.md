@@ -43,8 +43,6 @@ const yetAnotherUser = new cds.User({id: user.id, roles: user.roles, attr: user.
 ```
 
 
-
-
 ### .is <i> (\<role\>) </i> {#user-is .method}
 
 Checks if user has assigned the given role. Example usage:

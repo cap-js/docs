@@ -15,14 +15,14 @@ status: released
 
 This documentation — named _'capire'_, italian for understand — is the primary source of information for the SAP Cloud Application Programming Model.
 
-It is organized as follows:
+It's organized as follows:
 
 | Section                                                                                  | Description                                                                                                        |
 |------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
 | [Getting&nbsp;Started](./) <br/> [Cookbook](../guides/) <br/> [Advanced](../advanced/)   | **Task-oriented guides** that walk you through the most common tasks and advanced topics in CAP-based development. |
 | [CDS](../cds/) <br/> [Java](../java/) <br/> [Node](../node.js/) <br/> [Tools](../tools/) | **Reference docs** for respective areas.                                                                           |
 | [Plugins](../plugins/)                                                                   | **Curated list of plugins** that extend the capabilities of the CAP framework.                                     |
-| [Releases](../releases/)                                                                 | The place where you can stay up to date with most recent information about new features and changes in CAP.        |
+| [Releases](../releases/)                                                                 | The place where you can stay up to date with the most recent information about new features and changes in CAP.        |
 
 
 ### Node/Java Toggles
@@ -30,8 +30,8 @@ It is organized as follows:
 
 ### Feature Status Badges
 
-Within the docs, you will find badges that indicate the status of a feature, or API.
-Here is a list of the badges and their meanings:
+Within the docs, you find badges that indicate the status of a feature, or API.
+Here's a list of the badges and their meanings:
 
 | Badge                                   | Description                                                                                                                                                        |
 |-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -121,7 +121,7 @@ This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.
 
 SWAPI - the Star Wars API. This sample is based upon the sample at [swapi.dev](https://swapi.dev) which in turn was based upon [swapi.co](https://swapi.dev/about). The original source can be found at https://github.com/Juriy/swapi.
 
-The projects described above have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provides a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
+The projects described above have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provide a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
 
 
 ### BTP SusaaS App {.github}

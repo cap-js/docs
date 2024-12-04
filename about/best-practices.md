@@ -30,7 +30,7 @@ The major building blocks are as follows:
 
 - [**Command-Line Interface** (CLI)](../tools/) — the Swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](https://www.sap.com/germany/products/technology-platform/developer-tools.html), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there's a fast-growing number of [plugins](../plugins/) contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-pattern) are among them.
+In addition, there's a fast-growing number of [plugins](../plugins/) contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](./index.md#the-calesi-effect) are among them.
 
 
 
@@ -581,7 +581,7 @@ So, in total, and in effect, we'll learn:
 > - Agnostic to *Databases*
 > - Agnostic to *Platform Services* and low-level *Technologies*
 >
-> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Fast Inner Loops*](./index#fast-inner-loops), [*Loose Coupling*, *Late-cut Microservices*](./index.md#late-cut-microservices), and several more...
+> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Fast Inner Loops*](./index#fast-inner-loops), [*Agnostic Services*](./index#agnostic-microservices), [*Late-cut Microservices*](./index.md#late-cut-microservices), and several more...
 
 
 
@@ -634,7 +634,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 > [!tip]
 >
-> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also regarding [*Application Models*](#core-domain-model) and [*(Core) Domain Models*](#core-domain-model) in the inner hexagon.
+> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also regarding [*Application Models*](#application-domain) and [*(Core) Domain Models*](#application-domain) in the inner hexagon.
 
 [Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 

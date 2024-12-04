@@ -768,7 +768,7 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
 ::: warning
-You need to implement custom input validation for `@Common.FieldControl` when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
+Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
 :::
 
 

@@ -124,7 +124,7 @@ A dedicated build task for `cds build` is provided as part of the `cds-typer` pa
 
 ## TypeScript APIs in `@sap/cds`
 
-The package `@sap/cds` is shipped with TypeScript declarations. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
+~The package `@sap/cds` is shipped with TypeScript declarations~ [See release notes](https://cap.cloud.sap/docs/releases/jun24#cds-types-dependency). These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
 
 Use them like this:
 

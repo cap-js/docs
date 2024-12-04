@@ -25,7 +25,7 @@ In effect, CAP-based projects benefit from a primary **focus on domain**, with c
 
 ### Jumpstarting Projects
 
-To get started with CAP there's only a [minimalistic initial setup](../get-started) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
+To get started with CAP there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
 
 - Start new CAP projects within seconds, ...
 - Create functional apps with full-fledged servers within minutes, ...
@@ -118,12 +118,13 @@ In general we always propose that approach:
 
 >  [!tip]
 >
-> - CAP services are used for modularization; microservices are **deployment units**.
-> - **Valid** reasons for microservices are:
+>  - **CAP services** are your primary means for modularization
+>  - **Microservices** are **deployment units**.
+>  - **Valid** reasons for microservices are:
 >   1. need to scale things differently
 >   2. different runtimes, e.g. Node.js vs Java
 >   3. loosely coupled, coarse-grained subsystems with separate lifecycles
-> - **False** reasons are: distributed development, modularization, isolation, ... → there are well estaplished and proven better ways to address these things, without the pain which comes with microservices.
+>  - **False** reasons are: distributed development, modularization, isolation, ... → there are well estaplished and proven better ways to address these things, without the pain which comes with microservices.
 
 [See also the anti pattern of *Microservices Mania*](bad-practices#microservices-mania) {.learn-more}
 
@@ -159,7 +160,7 @@ The CAP runtimes in Node.js and Java provide many generic implementations for re
 - [Serving Media Data](../guides/providing-services#serving-media-data)
 - [Searching Data](../guides/providing-services#searching-data)
 - [Pagination](../guides/providing-services#implicit-pagination)
-- [Sorting](.../guides/providing-services#implicit-sorting)
+- [Sorting](../guides/providing-services#implicit-sorting)
 - [Authentication](../node.js/authentication)
 - [Authorization](../guides/security/authorization)
 - [Localization / i18n](../guides/i18n)
@@ -232,7 +233,7 @@ That initiative happened to be quite successful, and gave a boost to a steadily 
 
 
 
-### Intrinsic Extensibility 
+### Intrinsic Extensibility
 
 <UnderConstruction/>
 
@@ -299,7 +300,7 @@ That might sound like a contradiction, but it isn't: While CAP certainly gives *
 
 > [!tip]
 >
-> And maybe most important: As CAP itself is designed as an open framework, everything what's not covered by CAP today can be solved in application projects, in specific custom code, or by [generic handlers](best-practices.md#extensible-framework) ... or by [plugins](../plugins) that you could build and contribute. <br/>⇒  **Contributions *are* welcome!**
+> And maybe most important: As CAP itself is designed as an open framework, everything what's not covered by CAP today can be solved in application projects, in specific custom code, or by [generic handlers](best-practices.md#extensible-framework) ... or by [plugins](../plugins/index.md) that you could build and contribute. <br/>⇒  **Contributions *are* welcome!**
 
 
 
@@ -386,6 +387,3 @@ Keeping pace with a rapidly changing world of volatile cloud technologies and pl
 - But this doesn't replace the need for **Human Intelligence**!
   - There's a different between a GPT-generated one-off thesis and long-lived enterprise software, which needs to adapt and scale to new requirements.
 - **CAP itself** is a major contribution to AI → its simple, clear concepts, uniform ways to implement and consume services, capire, its openness and visibility in the public world, ...
-
-
-

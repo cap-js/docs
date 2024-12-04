@@ -12,26 +12,66 @@ Value Propositions {.subtitle}
 
 ## What is CAP?
 
-The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of proven [best practices](best-practices), served [out of the box](#served-out-of-the-box), and hence greatly reduces boilerplate code and tedious recurring tasks.
+The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of **proven best practices**, which are **served out of the box** by generic providers cloud-natively, thereby relieving application developers from tedious recurring tasks.
 
-In effect, CAP-based projects benefit from a primary [focus on domain](#focus-on-domain) in close collaboration with domain experts, and from [accelerated development](#grow-as-you-go) at minimized costs. CAP's *agnostic design* shields developers from overly technical disciplines, and fosters evolution w/o disruption in a world of rapidly changing technologies.
+In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical depts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
 
 
 
-## Jump-start & Grow As You Go...
+## Jumpstart & Grow As You Go...
 ###### grow-as-you-go
 
 
 
 ### Jumpstarting Projects
 
-Following the principle of **convention over configuration**, there's no need to set up things up front. CAP allows you to **jump start** projects within seconds and have a team starting development right away, using generic providers, on top of a lightweight in-memory database → see [*Getting Started in a Nutshell*](../get-started/in-a-nutshell).
+To start a CAP projects there's close to no setup required. No tedious long lasting platform onboarding ceremonies are required; instead:
 
-### Accelerated Inner Loops
+- we start new CAP projects within seconds, ...
+- create functional apps with full-fledged servers within minutes, ...
+- without prior onboarding to or being connected to the cloud
+
+```sh
+cds init
+cds watch
+```
+
+> [!tip]
+>
+> Following the principle of *convention over configuration*, CAP uses built-in configuration presets and defaults for different profiles. For development profile there's all set up.
+
+
+
+### Growing as You Go...
+
+Add things only when you need them or when you know more. Avoid any premature descisions or upfront overhead. For example, typical CAP projects run like that:
+
+1. **jumpstart a project** → no premature decisions to be made at that stage, just the name.
+2. **rapidly build a prototype**, i.e. a first functional version of your app
+3. **work in fast inner loops** in airplane mode, and only occassionally go hybrid.
+4. **add new features** anytime, like Fiori UIs, message queues, different databases, etc.
+5. do **first ad-hoc deployment** to the clouds some days later
+6. setup **CI/CD pipelines** some weeks later
+7. switch on **multitenancy** for SaaS apps, probably also **extensibility**, before going live
+8. optionally cut out some **micro services** only if required and months later earliest
+
+```sh
+cds add hana,redis,mta,helm,mtx,multitenancy,extensibility...
+```
+
+> [!tip]
+>
+> Avoid futile upfront setup and overhead and rather get started and a first prototype up and running as fast as possible... Maybe find out quickly that this product idea you or somebody else had was a bad idea anyways, so rather stop early ...
+
+
+
+### Fast Inner Loops
 
 CAP offers mocks for many platform features, which allow fast dev-test-run cycles with minimal development environment complexity — aka *Airplane Mode*.
 
 Similarly, CAP facilitates integration scenarios. You can import an API from, for example, an SAP S/4HANA backend or from SAP Business Accelerator Hub and run mocks for this locally.
+
+
 
 ### Loose Coupling
 
@@ -40,8 +80,6 @@ Finally, projects are encouraged to **parallelize workloads**. For example, foll
 ### Minimized Costs
 
 Over time, you **add things gradually**, only when they're needed. For example, you can move ahead to running your apps in close-to-productive setups for integration tests and delivery, without any change in models or code.
-
-### Growing as You Go...
 
 
 
@@ -193,8 +231,6 @@ There's a nice definition of technical debt found at this [glossary by ProductPl
 
 So, how could CAP help to avoid — or reduce the risks of — piling up technical debt?
 
-...
-
 ### Less Code → Less Mistakes
 
 ### Single Points to Fix
@@ -203,6 +239,25 @@ So, how could CAP help to avoid — or reduce the risks of — piling up technic
 
 ### Evolution w/o Disruption
 {#evolution-wo-disruption}
+
+Keeping pace with a rapidly changing world of volatile cloud technologies and platforms is a major challenge, as today's technologies that might soon become obsolete. CAP avoids such lock-ins and shields application developers from low-level things like:
+
+- Low-level **Security**-related things like Certificates, mTLS, SAML, OAuth, OpenID, ...
+- **Service Bindings** like K8s secrets, VCAP_SERVICES, ...
+- **Multitenancy**-related things, especially w.r.t. tenant isolation
+- **Messaging** protocols or brokers such as AMQP, MQTT, Webhooks, Kafka, Redis, ...
+- **Networking** protocols such as HTTP, gRCP, OData, GraphQL, SOAP, RFC, ...
+- **Audit Logging** → use the *Calesi* variant, which provides ultimate resilience
+- **Logs**, **Traces**, **Metrics** → CAP does that behind the scenes + provides *Calesi* variants
+- **Transaction Management** → CAP manages all transactions → don't mess with that!
+
+> [!tip]
+>
+> CAP not only abstracts these things at scale, but also does most things automatically in the background. In addition, it allows us to provide various implementations that encourage *Evolution w/o Disruption*, as well as fully functional mocks used in development.
+
+> [!caution]
+>
+> Things get dangerous when application developers have to deal with low-level security-related things like authentication, certificates, tenant isolation, and so on. Whenever this happens, it's a clear sign that something is seriously wrong.
 
 
 ## What about AI?

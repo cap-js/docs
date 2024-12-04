@@ -16,7 +16,7 @@
 
 ### BO-centric Frameworks
 
-... which bypass or are in conflict with CAP's [key design principles](), for example:
+... which bypass or are in conflict with CAP's [key design principles](bad-practices.md), for example:
 
 - ORM techniques like Spring repositories
 - Active Records, DAOs

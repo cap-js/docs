@@ -12,7 +12,7 @@
 
 <UnderConstruction/>
 
-### DAOs, DTOs, Active Records, ...
+### DAOs, DTOs, Active Records
 
 <UnderConstruction/>
 
@@ -39,12 +39,12 @@ These would be in conflict with CAP's focus on stateless services processing pas
 
 <UnderConstruction/>
 
-- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks 
+- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks
 - Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context
-- CAP is actually an offspring of a performance firefighting taskforce project, which identified such frameworks and their overly fragmented and fine-granular element level approach as one of a few root causes for framework-induced performance overheads. 
-- Hence CAP intentionally does not offer element-level call-level validation or determination framework, and strongly discourages combining your use of CAP with such. 
-- CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks. 
-- 
+- CAP is actually an offspring of a performance firefighting taskforce project, which identified such frameworks and their overly fragmented and fine-granular element level approach as one of a few root causes for framework-induced performance overheads.
+- Hence CAP intentionally does not offer element-level call-level validation or determination framework, and strongly discourages combining your use of CAP with such.
+- CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks.
+-
 
 ### Sticking to DIY (or NIH)
 
@@ -89,7 +89,7 @@ It would also expose your projects to risks of disruptions by changes in those r
 <UnderConstruction/>
 
 - Focus on Domain is exactly what domain-driven design is also striving for... and there are some many commonalities in concepts and approaches.
-- Yet, we saw projects insisting on doing DDD a very specific way, for example using Active Records, Spring repositories, etc.... → things [we list as bad practices above](#daos-dtos-active-records-)
+- Yet, we saw projects insisting on doing DDD a very specific way, for example using Active Records, Spring repositories, etc.... → things [we list as bad practices above](#daos-dtos-active-records)
 
 
 
@@ -144,7 +144,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 - Don't confuse "[*Generative AI*](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with '*Code-generating AI*' ...
 - Even though it's AI generated the usual drawbacks for generated code apply:
   - **No single points to fix** all that code that was generated last year
-  - One off approach → doesn't help much in evolutionary, iterative development 
+  - One off approach → doesn't help much in evolutionary, iterative development
   - ...
 
 - There's a different between a GPT-generated one-off thesis and long-lived enterprise software, which needs to adapt and scale to new requirements.
@@ -155,10 +155,10 @@ Even if we'd ignore all the other things, there still remains the difference bet
 ### The 'ODatabase' Anti Pattern
 <UnderConstruction/>
 
-- Assume you have a domain model with 123 entities 
+- Assume you have a domain model with 123 entities
 - Then the easiest thing is to add a single service with 123 1:1 projections...?
 - As all the rest can be done by CAP's and OData's powerful query languages, right?
-- → that service is the exact opposite of a use case-oriented facade 
+- → that service is the exact opposite of a use case-oriented facade
 - if you want that, don't use CAP, don't use any layered architecture at all ...s
 - just connect your client directly to a SQL database in a two tier model ;-)
 
@@ -167,7 +167,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 ### Tons of Glue Code
 <UnderConstruction/>
 
-- as stated, while CAP cares about the vast majority of non-functional requirements, qualities, wire protocols, low-level stuff... so that you, as an application developer should be able to put primary focus on domain. 
+- as stated, while CAP cares about the vast majority of non-functional requirements, qualities, wire protocols, low-level stuff... so that you, as an application developer should be able to put primary focus on domain.
 - if you still find yourself lost in a high ratio of glue code, something has certainly gone wrong
 
 

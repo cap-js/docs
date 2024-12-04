@@ -30,7 +30,7 @@ The major building blocks are as follows:
 
 - [**Command-Line Interface** (CLI)](../tools/) — the Swiss army knife on the tools and development kit front, complemented by integrations and support in [*SAP Build Code*](https://www.sap.com/germany/products/technology-platform/developer-tools.html), *Visual Studio Code*, *IntelliJ*, and *Eclipse*.
 
-In addition, there's a fast-growing number of [plugins](../plugins/) contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-effect) are among them.
+In addition, there's a fast-growing number of [plugins](../plugins/) contributed by open-source and inner-source [communities](/resources/#public-resources) that enhance CAP in various ways, and integrate with additional tools and environments; the [*Calesi* plugins](#the-calesi-pattern) are among them.
 
 
 
@@ -581,7 +581,7 @@ So, in total, and in effect, we'll learn:
 > - Agnostic to *Databases*
 > - Agnostic to *Platform Services* and low-level *Technologies*
 >
-> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Fast Inner Loops*](./index#fast-inner-loops), [*Loose Coupling*](./index#loose-coupling), [*Late-cut Microservices*](./index.md#late-cut-microservices), and several more...
+> **This is *the* key enabling quality** for several major benefits and value propositions of CAP, such as [*Fast Inner Loops*](./index#fast-inner-loops), [*Loose Coupling*, *Late-cut Microservices*](./index.md#late-cut-microservices), and several more...
 
 
 
@@ -614,7 +614,7 @@ In a nutshell, this introduction to the objectives of hexagonal architecture tra
 
 #### CAP as an implementation of Hexagonal Architecture
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#accelerated-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#evolution-wo-disruption) in "the outside".
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#fast-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#evolution-wo-disruption) in "the outside".
 
 Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 
@@ -634,7 +634,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 > [!tip]
 >
-> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also regarding [*Application Models*](#core-domain-and-application-model) and [*(Core) Domain Models*](#core-domain-and-application-model) in the inner hexagon.
+> CAP is very much in line with both, the intent and goals of Hexagonal Architecture, as well as with the fundamental concepts. Actually, CAP *is an implementation* of Hexagonal Architecture, in particular with respect to the [*Adapters*](#protocol-adapters) in the outer hexagon, but also regarding [*Application Models*](#core-domain-model) and [*(Core) Domain Models*](#core-domain-model) in the inner hexagon.
 
 [Also take notice of the *Squared Hexagons* section in the Anti Patterns guide](bad-practices#squared-hexagons) {.learn-more}
 
@@ -669,6 +669,7 @@ Yet, **both are agnostic** to wire protocols or ['UI widgetry'](https://wiki.c2.
 ![Hexagonal architecture and DDD (Domain Driven Design)](https://www.happycoders.eu/wp-content/uploads/2023/01/hexagonal-architecture-ddd-domain-driven-design-600x484.png){.zoom75}
 
 #### Entities ⇒ Core Domain Model
+{#core-domain-model}
 
 Your core domain model is largely covered by CDS-declared entities, enriched with invariant assertions, which are deployed to databases and automatically served by generic service providers out of the box. Even enterprise aspects like common code lists, localized data, or temporal data are simple to add and served out of the box as well.
 

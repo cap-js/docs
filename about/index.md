@@ -342,10 +342,10 @@ Moreover:
 
 Of course, we also make mistakes and errors in CAP, but ...
 
-- We can fix them centrally and all CAP users benefit from that immediately.
+- We can fix them centrally and all CAP users benefit from that immediately. 
 - Those bugs are frequently found and fixed by your peers in crime, before you even encounter them yourselves.
 - And this effect increases with steadily growing adoption of CAP that we see, ...
-- And with the open culture we established successfully, e.g. **open issue reports** in GitHub instead of private support tickets.
+- And with the open culture we established successfully, e.g. **open issue reports** in GitHub, that is, the standard out there, instead of private support tickets — a relict of the past.
 
 > Note that all of this is in contrast to code generators, where you can't fix code generated in the past → see also [*Avoid Code Generators*](bad-practices#code-generators) in the anti patterns guide. 
 

@@ -20,7 +20,7 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 ## Initial Setup {#setup}
 
-Follow the steps below for a minimalistic local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
+Follow the steps after this for a minimalistic local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
 
 
 
@@ -114,7 +114,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by specific configuration if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by a specific configuration if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -140,7 +140,7 @@ cds env ls defaults
 :::
 
 ::: tip Convention over configuration
-We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
+We recommend sticking to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
 :::
 
 
@@ -148,17 +148,17 @@ We recommend to stick to CAP's way of [Convention over Configuration](https://en
 
 ## Next Steps...
 
-After the [initial setup](#setup), we recommend to continue as follows while you grow as you go...:
+After the [initial setup](#setup), we recommend continuing as follows while you grow as you go...:
 
-| #    | Guide                                                        | Description                                                  |
-| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| 1    | [Introduction – What is CAP?](../about/)                       | Learn about key benefits and value propositions.             |
-| 2    | [Bookshop by capire](in-a-nutshell)                          | Build your first CAP application within 4-44 minutes.        |
-| 3    | [Best Practices](../about/best-practices)                      | Key concepts and guiding principles to know → *should read*. |
-| 4    | [Anti Patterns](../about/bad-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
-| 5    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.                 |
-| 6    | [Cookbook](../guides/)                                         | Walkthroughs for the most common tasks.                      |
-| 7    | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.               |
+| # | Guide                                                                                 | Description                                            |
+|---|---------------------------------------------------------------------------------------|--------------------------------------------------------|
+| 1 | [Introduction – What is CAP?](../about/)                                              | Learn about key benefits and value propositions.       |
+| 2 | [Bookshop by capire](in-a-nutshell)                                                   | Build your first CAP application within 4-44 minutes.  |
+| 3 | [Best Practices](../about/best-practices)                                             | Key concepts & rationales to understand → *must read*. |
+| 4 | [Anti Patterns](../about/bad-practices)                                               | Misconceptions & bad practices to avoid → *must read*. |
+| 5 | [Learn More](learning-sources)                                                        | Find samples, videos, blogs, tutorials, and so on.     |
+| 6 | [Cookbook](../guides/)                                                                | Walkthroughs for the most common tasks.                |
+| 7 | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.         |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

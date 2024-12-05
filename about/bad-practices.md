@@ -1,5 +1,5 @@
 ---
-# status: released
+status: released
 ---
 
 # Bad Practices
@@ -29,8 +29,8 @@ These would be in conflict with CAP's focus on stateless services processing pas
 
 ### Determinations & Validations <UnderConstruction/>
 
-- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks
-- Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context
+- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks.
+- Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context.
 - CAP is actually an offspring of a performance firefighting taskforce project, which identified such frameworks and their overly fragmented and fine-granular element level approach as one of a few root causes for framework-induced performance overheads.
 - Hence CAP intentionally does not offer element-level call-level validation or determination framework, and strongly discourages combining your use of CAP with such.
 - CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks.
@@ -45,7 +45,7 @@ Such as...
 - Database-specific things without need
 - Non-CAP client libraries for BTP services
 
-Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, late-cut µ services.
+Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, and late-cut µ services.
 It would also expose your projects to risks of disruptions by changes in those rather volatile technologies.
 
 ### Always done it this way <UnderConstruction/>
@@ -105,7 +105,7 @@ Alternative frameworks or toolsets follow code generation approaches. Swagger do
 | Fiori Draft Handling                 |                      |        &check;        |
 | Exclusive Locking                    |                      |        &check;        |
 | Conflict Detection (via ETags)       |                      |        &check;        |
-| Data Replication (upcomming)         |                      |        &check;        |
+| Data Replication (upcoming)         |                      |        &check;        |
 | Data Privacy                         |                      |        &check;        |
 | ...                                  |                      |        &check;        |
 
@@ -122,7 +122,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 ### Code-Generating AI <UnderConstruction/>
 
 - Don't confuse "[*Generative AI*](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with '*Code-generating AI*' ...
-- Even though it's AI generated the usual drawbacks for generated code apply:
+- Even though it's AI-generated the usual drawbacks for generated code apply:
   - **No single points to fix** all that code that was generated last year
   - One off approach → doesn't help much in evolutionary, iterative development
   - ...
@@ -161,3 +161,36 @@ See also...
 - [What is Better: Modular Monolith vs. Microservices](https://medium.com/codex/what-is-better-modular-monolith-vs-microservices-994e1ec70994)
 - [Architecture Style: Modulith vs. Microservices](https://dzone.com/articles/architecture-style-modulith-vs-microservices)
 - [Death by a Thousand Microservices](https://www.reddit.com/r/programming/comments/18crnmz/death_by_a_thousand_microservices/).
+
+
+
+## Ignorance
+
+When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ...
+
+- Too long; didn't read (TL;DR)
+- Too busy (→ an [anti pattern on it's own](assets/too-busy) \;-)
+- Not required, as we've AI now
+- I don't need to read that, as I already know (better) ...
+
+If against all odds you are indeed just reading these lines, please leave a trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I read it! ☺️](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+... to let the others out there know that there's hope, and some hi, left... \:-)
+
+And in case you are just reading these lines, because of these posts, we strongly encourage you to read these new guides, even if (you think) you already know CAP:
+
+- *[Introduction – What is CAP?](./index) → Value Propositions*
+- *[Best Practices](best-practices) → Key Concepts & Rationales*
+- *[Anti Patterns](bad-practices) → Do's and **don'ts***
+
+And after you did that, would be great if you'd leave another trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I really read it! 🤓](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+... as a motivation for us to keep on writing, and that it is worth the effort.

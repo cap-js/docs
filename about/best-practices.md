@@ -4,7 +4,7 @@ status: released
 
 # Best Practices by CAP
 
-Key Concepts & Qualities
+Key Concepts & Rationales
 {.subtitle}
 
 [[toc]]
@@ -456,11 +456,11 @@ In effect, when querying is used the shape of records in result sets vary very m
 
 ### Passive Data
 
-As, for the previously mentioned reasons, we can't use static classes to represent data at runtime, there is also no reasonable way to add any behavior to data objects. So in consequence, all data has to be passive, and hence all logic, such as for validation or field control 'determinations' has to go somewhere else → into event handlers.
+As, for the previously mentioned reasons, we can't use static classes to represent data at runtime, there's also no reasonable way to add any behavior to data objects. So in consequence, all data has to be passive, and hence all logic, such as for validation or field control 'determinations' has to go somewhere else → into event handlers.
 
 > [!tip]
 >
-> Adhering to the principle of passive data, also has other positive effects. For example:
+> Adhering to the principle of passive data also has other positive effects. For example:
 >
 > **(1)** Passive data can be easily cached in content delivery networks. &nbsp; **(2)** Passive data is more lightweight than active objects. &nbsp; **(3)** Passive data is *immutable* → which allows to apply parallelization as known from functional programming.
 
@@ -570,9 +570,9 @@ CAP queries are **first-class** objects with **late materialization**. They're c
 
 
 
-In the above introductions to CAP's core concepts we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**, as well as to whether they are connected to and consume other services **locally or remotely**. In this chapter we'll complement this by CAP-level integration of platform services and vendor-independent database support.
+In [Introduction - What is CAP](../about/index) we learned that your domain models, as well as the services, and their implementations are **agnostic to protocols**, as well whether they're connected to and consume other services **locally or remotely**. In this chapter, we complement this by CAP-level integration of platform services and vendor-independent database support.
 
-So, in total, and in effect, we'll learn:
+So, in total, and in effect, we learn:
 
 > [!tip] Your domain models and application logic stays...
 >
@@ -644,7 +644,7 @@ Not only do we address the very same goals, we can also identify several symmetr
 
 
 
-Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his very initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com) Cockburn already highlighted that as follows in plain text:
+Looking at the things in the inner hexagon, many protagonists distinct between *application model* and *domain model* living in there. In his initial post about [*Hexagonal Architecture*](https://wiki.c2.com/?HexagonalArchitecture) in the in [*c2 wiki*](https://wiki.c2.com) Cockburn already highlighted that as follows in plain text:
 
 ​	*OUTSIDE <-> transformer <--> ( **application**  <->  **domain** )* {style="text-align: center; font-size: 111%; font-family: serif; padding-right: 44px"}
 
@@ -687,7 +687,7 @@ Your application models are your services, also served automatically by generic 
 
 ### Protocol Adapters
 
-Behind the scenes, i.e., in the **outer hexagon** containing stuff, you as an application developer should not see, the CAP runtime employs Protocol Adapter, which translate requests from (and to) low-level protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries.
+Behind the scenes, i.e., in the **outer hexagon** containing stuff, you as an application developer should not see, the CAP runtime employs Protocol Adapters, which translate requests from (and to) low-level protocols like HTTP, REST, OData, GraphQL, ... to protocol-agnostic CAP requests and queries.
 
 - for ***inbound*** communication → i.e., requests your application *receives*, as well as as...
 - for ***outbound*** communication → i.e., requests your application *sends* to other services.
@@ -696,7 +696,7 @@ In effect your service implementations stay agnostic to (wire) protocols, which 
 
 ![protocol-adapters.drawio](assets/protocol-adapters.drawio.svg)
 
-The inbound and outbound adapters (and the framework services) effectively provide your inner core with the ***ports*** to the outside world, which always provide the same, hence *agnostic* style of API (indicated by the green arrows above), as already [introduced above](#local-remote):
+The inbound and outbound adapters (and the framework services) effectively provide your inner core with the ***ports*** to the outside world, which always provide the same, hence *agnostic* style of API (indicated by the green arrows used in the previous graphic), as already introduced in [Local  /Remote](#local-remote).
 
 Inbound:
 
@@ -766,7 +766,7 @@ This would extend the common reuse type `managed` obtained from `@sap/cds/common
 >
 > Not only can your SaaS customers extend *your* definitions, but also you can extend any definitions that you *reuse* to adapt it to your needs. Adapting widely used reuse definitions, as in this example, has the advantage that you reach many existing usages.
 
-[Learn more about these options in the CDS guide about *Aspect-oriented Modelling*](../cds/aspects). {.learn-more}
+[Learn more about these options in the CDS guide about *Aspect-oriented Modeling*](../cds/aspects). {.learn-more}
 
 
 
@@ -908,7 +908,7 @@ Whenever you have to integrate external services, you should follow the Calesi p
 
    >  [!tip]
    >
-   > With that, you already fulfilled a few goals and guidelines from Hexagonal Architecture: The interface offered to your clients is agnostic and following CAP's uniform service API style. Your consumers can use this mock implementation at development to speed up their [inner loop development](./#fast-inner-loops) phases.
+   > With that, you already fulfilled a few goals and guidelines from Hexagonal Architecture: The interface offered to your clients is agnostic and follows CAP's uniform service API style. Your consumers can use this mock implementation at development to speed up their [inner loop development](./#fast-inner-loops) phases.
 
 
 
@@ -937,7 +937,7 @@ Whenever you have to integrate external services, you should follow the Calesi p
 
 
 
-5. **Served automatically?** — Check, if you could automate things even more instead of having your use your service programmatically. For example, we could introduce an annotation *@PersonalData*, and write audit log entries automatically whenever an entity or element is tagged with that:
+5. **Served automatically?** — Check if you could automate things even more instead of having your use your service programmatically. For example, we could introduce an annotation *@PersonalData*, and write audit log entries automatically whenever an entity or element is tagged with that:
 
    ```js :line-numbers
    cds.on('served', async services => {
@@ -954,8 +954,8 @@ Whenever you have to integrate external services, you should follow the Calesi p
 
 That example was an *outbound* communication use case. Basically, we encapsulate outbound channels with CAP Services, as done in CAP for messaging service interfaces and database services.
 
-For *inbound* integrations, we would create an adapter, i.e. a service endpoint which translates incoming messages into CAP event messages which it forwards to CAP services. With that, the actual service provider implementation is again a protocol-agnostic CAP service, which could as well be called locally, for example in development and tests.
+For *inbound* integrations, we would create an adapter, that is, a service endpoint which translates incoming messages into CAP event messages which it forwards to CAP services. With that, the actual service provider implementation is again a protocol-agnostic CAP service, which could as well be called locally, for example in development and tests.
 
 > [!tip]
 >
-> Essentially the 'Calesi' pattern is about encapsulating any external communication in a CAP service based interface, so that the actual consumption and/or implementation benefits from the related advantages, such as a agnostic consumption, intrinsic extensibility, automatic mocking, etc.
+> Essentially, the 'Calesi' pattern is about encapsulating any external communication within a CAP-service-based interface, so that the actual consumption and/or implementation benefits from the related advantages, such as an agnostic consumption, intrinsic extensibility, automatic mocking, and so on.

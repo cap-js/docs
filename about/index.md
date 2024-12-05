@@ -16,11 +16,11 @@ The _Cloud Application Programming Model_ (CAP) is a framework of languages, lib
 
 In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical debts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
 
-Someone once said: 
+Someone once said:
 
 "CAP is like ABAP for the non-ABAP world" {.quote}
 
-... which is not completely true, of course 
+... which is not completely true, of course
 <br/>... ABAP is much older \:-)
 
 ## Jumpstart & Grow As You Go...
@@ -30,7 +30,7 @@ Someone once said:
 
 ### Jumpstarting Projects
 
-To get started with CAP, there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
+To get started with CAP, there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can (and should):
 
 - Start new CAP projects within seconds.
 - Create functional apps with full-fledged servers within minutes.
@@ -113,7 +113,7 @@ If service `A` and `B` are developed in different runtimes, for example, Node.js
 
 ### Late-cut Microservices
 
-You can, and should also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of whether and how to cut your application into microservices to a later phase of your project, when you know more about where to actually do the right cuts in the right way.
+You can (and should) also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of whether and how to cut your application into microservices to a later phase of your project, when you know more about where to actually do the right cuts in the right way.
 
 In general, we always propose that approach:
 
@@ -159,7 +159,6 @@ The CAP runtimes in Node.js and Java provide many generic implementations for re
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
 - [Serving Nested Documents](../guides/providing-services#deep-reads-and-writes)
-- [Serving Hierarchical Data](../releases/jul24#hana-hierarchy-functions)  <Alpha/>
 - [Serving Variable Data](../releases/oct24#basic-support-for-cds-map) <Alpha/>
 - [Serving (Fiori) Drafts](../advanced/fiori#draft-support)
 - [Serving Media Data](../guides/providing-services#serving-media-data)
@@ -225,7 +224,6 @@ That initiative happened to be successful, and gave a boost to a steadily **grow
 - [Attachments → SAP Object Store /S3](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
 - [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
-- [Messaging → Kafka](../plugins/#apache-kafka)
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging → SAP Audit Logging](../plugins/#audit-logging)

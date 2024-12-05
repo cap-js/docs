@@ -67,8 +67,7 @@ It would also expose your projects to risks of disruptions by changes in those r
 - Yet, we saw projects insisting on doing Hexagonal Architecture their own way, or maybe the very way that was discussed in some other paper, done with some other framework ...
 - ... Hexagonal Arch ** 2 = ?
 
-### Same for DDD...
-<UnderConstruction/>
+### Same for DDD... <UnderConstruction/>
 
 - Focus on Domain is exactly what domain-driven design is also striving for... and there are some many commonalities in concepts and approaches.
 - Yet, we saw projects insisting on doing DDD a very specific way, for example using Active Records, Spring repositories, etc.... → things [we list as bad practices above](#daos-dtos-active-records)
@@ -120,8 +119,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 :::
 
-### Code-Generating AI
-<UnderConstruction/>
+### Code-Generating AI <UnderConstruction/>
 
 - Don't confuse "[*Generative AI*](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with '*Code-generating AI*' ...
 - Even though it's AI generated the usual drawbacks for generated code apply:
@@ -131,11 +129,9 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 - There's a different between a GPT-generated one-off thesis and long-lived enterprise software, which needs to adapt and scale to new requirements.
 
-## Overly Generic Approaches
-<UnderConstruction/>
+## Overly Generic Approaches <UnderConstruction/>
 
-### The 'ODatabase' Anti Pattern
-<UnderConstruction/>
+### The 'ODatabase' Anti Pattern <UnderConstruction/>
 
 - Assume you have a domain model with 123 entities
 - Then the easiest thing is to add a single service with 123 1:1 projections...?
@@ -146,8 +142,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 
 
-### Tons of Glue Code
-<UnderConstruction/>
+### Tons of Glue Code <UnderConstruction/>
 
 - as stated, while CAP cares about the vast majority of non-functional requirements, qualities, wire protocols, low-level stuff... so that you, as an application developer should be able to put primary focus on domain.
 - if you still find yourself lost in a high ratio of glue code, something has certainly gone wrong
@@ -155,8 +150,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 
 
-## Microservices Mania
-<UnderConstruction/>
+## Microservices Mania <UnderConstruction/>
 
 Avoid eager fragmentation into microservices. Instead, start with a monolith and cut out microservices later, when you really need them. This is what we call "late-cut microservices".
 

@@ -328,24 +328,28 @@ Technical debt arises when speed of delivery is prioritized over quality. <br>Th
 
 So, how could CAP help to avoid, or reduce the risks of piling up technical debt?
 
-### Less Code → Less Mistakes <UnderConstruction/>
+### Less Code → Less Mistakes 
 
 Every line of code not written is free of errors. {.quote}
 
 Moreover:
 
 - Relieving app dev teams from overly technical disciplines not only saves efforts and time, it also avoids **severe mistakes** which can be made in these fields, for example, in tenant isolation and security.
-- **Best practices** reproduce proven solution patterns to recurring tasks, found and refined in successful application projects. 
+- **Best practices** reproduce proven solution patterns to recurring tasks, found and refined in successful application projects; your peers.
 - Having them **served out of the box** paves the path for their adoption, and hence reduces the likelihood of picking anti patterns instead.
 
-### Single Points to Fix <UnderConstruction/>
+### Single Points to Fix 
 
-- Of course, we also make mistakes and errors in CAP
-- but we can fix them centrally and all CAP users benefit from that immediately 
-- and as CAP has increasing adoption and great community, those bugs are frequently found and fixed by your peers in crime, before you encounter them yourselves.
-- ( note that this wouldn't be the case if we had chosen a code generator approach )
+Of course, we also make mistakes and errors in CAP, but ...
 
-### Minimized Lock-Ins 
+- We can fix them centrally and all CAP users benefit from that immediately.
+- Those bugs are frequently found and fixed by your peers in crime, before you even encounter them yourselves.
+- And this effect increases with steadily growing adoption of CAP that we see, ...
+- And with the open culture we established successfully, e.g. **open issue reports** in GitHub instead of private support tickets.
+
+> Note that all of this is in contrast to code generators, where you can't fix code generated in the past → see also [*Avoid Code Generators*](bad-practices#code-generators) in the anti patterns guide. 
+
+### Minimized Lock-Ins
 
 Keeping pace with a rapidly changing world of volatile cloud technologies and platforms is a major challenge, as today's technologies that might soon become obsolete. CAP avoids such lock-ins and shields application developers from low-level things like:
 

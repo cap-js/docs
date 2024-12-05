@@ -202,7 +202,7 @@ Available for:
 
 
 
-## SAP Document Management Service
+## SAP Document Management Service {#sdm}
 
 SAP Document Management Service  plugin lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
 
@@ -234,7 +234,7 @@ Outlook:
 Available for:
 
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
-![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
+[![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/sdm/#readme)
 
 
 

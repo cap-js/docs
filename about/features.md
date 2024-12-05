@@ -188,18 +188,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Import AsyncAPI                                                                                                                                             | <O/>  |              |      |
 | Export AsyncAPI                                                                                                                                             | <X/>  |              |      |
 
-##### Internal Features <Internal />
-
-The following additional features are available SAP-internally:
-
-|                                                                                                                                                          |  CDS  |         Node.js          |          Java           |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:------------------------:|:-----------------------:|
-| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                             | <Na/> |           <X/>           |          <X/>           |
-| [SAP Cloud Application Event Hub (Multitenancy)](../guides/messaging/event-broker)                                                                       | <Na/> | <X/><br><sup>alpha</sup> |          <D/>           |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging#configuring-message-queuing-support)] | <Na/> |           <X/>           |          <X/>           |
-| [Event Logs (Kafka)](../java/messaging#configuring-apache-kafka-support)                                                                                 | <Na/> |           <O/>           | <X/><br><sup>beta</sup> |
-
-
+<span id="events-messaging-more" />
 
 ### Database Support
 

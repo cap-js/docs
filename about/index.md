@@ -159,7 +159,6 @@ The CAP runtimes in Node.js and Java provide many generic implementations for re
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
 - [Serving Nested Documents](../guides/providing-services#deep-reads-and-writes)
-- [Serving Hierarchical Data](../releases/jul24#hana-hierarchy-functions)  <Alpha/>
 - [Serving Variable Data](../releases/oct24#basic-support-for-cds-map) <Alpha/>
 - [Serving (Fiori) Drafts](../advanced/fiori#draft-support)
 - [Serving Media Data](../guides/providing-services#serving-media-data)
@@ -225,7 +224,6 @@ That initiative happened to be successful, and gave a boost to a steadily **grow
 - [Attachments → SAP Object Store /S3](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
 - [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
-- [Messaging → Kafka](../plugins/#apache-kafka)
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging → SAP Audit Logging](../plugins/#audit-logging)

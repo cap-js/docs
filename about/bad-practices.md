@@ -1,5 +1,5 @@
 ---
-# status: released
+status: released
 ---
 
 # Bad Practices
@@ -29,8 +29,8 @@ These would be in conflict with CAP's focus on stateless services processing pas
 
 ### Determinations & Validations <UnderConstruction/>
 
-- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks
-- Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context
+- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks.
+- Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context.
 - CAP is actually an offspring of a performance firefighting taskforce project, which identified such frameworks and their overly fragmented and fine-granular element level approach as one of a few root causes for framework-induced performance overheads.
 - Hence CAP intentionally does not offer element-level call-level validation or determination framework, and strongly discourages combining your use of CAP with such.
 - CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks.
@@ -45,7 +45,7 @@ Such as...
 - Database-specific things without need
 - Non-CAP client libraries for BTP services
 
-Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, late-cut µ services.
+Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, and late-cut µ services.
 It would also expose your projects to risks of disruptions by changes in those rather volatile technologies.
 
 ### Always done it this way <UnderConstruction/>
@@ -105,7 +105,7 @@ Alternative frameworks or toolsets follow code generation approaches. Swagger do
 | Fiori Draft Handling                 |                      |        &check;        |
 | Exclusive Locking                    |                      |        &check;        |
 | Conflict Detection (via ETags)       |                      |        &check;        |
-| Data Replication (upcomming)         |                      |        &check;        |
+| Data Replication (upcoming)         |                      |        &check;        |
 | Data Privacy                         |                      |        &check;        |
 | ...                                  |                      |        &check;        |
 
@@ -122,7 +122,7 @@ Even if we'd ignore all the other things, there still remains the difference bet
 ### Code-Generating AI <UnderConstruction/>
 
 - Don't confuse "[*Generative AI*](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with '*Code-generating AI*' ...
-- Even though it's AI generated the usual drawbacks for generated code apply:
+- Even though it's AI-generated the usual drawbacks for generated code apply:
   - **No single points to fix** all that code that was generated last year
   - One off approach → doesn't help much in evolutionary, iterative development
   - ...

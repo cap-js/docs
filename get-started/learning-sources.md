@@ -50,7 +50,7 @@ Here's a list of the badges and their meanings:
 
 ## Sample Projects
 
-In here, we collected several interesting sample projects for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well prepared sources we can recommend for your learning. From the short description we provide for every resource, you're hopefully able to tell if that fits to the need you're currently having.
+In here, we collected several interesting sample projects for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well-prepared sources we can recommend for your learning. From the short description we provide for every resource, you're hopefully able to tell if that fits to the need you're currently having.
 
 <style scoped>
   main .vp-doc a:has(> img) {
@@ -97,7 +97,7 @@ In here, we collected several interesting sample projects for you. Not all of th
 > [![]()](https://github.com/sap-samples/cloud-cap-samples){.node}
 
 The bookshop sample is our original sample provided by the CAP team and featured in the [getting started guides](../get-started/in-a-nutshell).
-It is available in both Node.js and Java. The Node.js variant contains additional samples besides bookshop that demonstrate various features of CAP.
+It's available in both Node.js and Java. The Node.js variant contains additional samples besides bookshop that demonstrate various features of CAP.
 
 
 ### Incidents Mgmt {.github}
@@ -112,7 +112,7 @@ A reference sample application for CAP and the SAP BTP Developer Guide.
 > [![]()](https://github.com/sap-samples/cap-sflight){.java}
 > [![]()](https://github.com/sap-samples/cap-sflight){.node}
 
-This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.com/what-is-sflight-and-the-flight-and-booking-data-model-for-abap) sample app in ABAP. It is a great source for how to add SAP **Fiori** applications to a CAP project, including adding UI test suites on various stacks.
+This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.com/what-is-sflight-and-the-flight-and-booking-data-model-for-abap) sample app in ABAP. It's a great source for how to add SAP **Fiori** applications to a CAP project, including adding UI test suites on various stacks.
 
 
 ### Star Wars App {.github}
@@ -121,7 +121,7 @@ This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.
 
 SWAPI - the Star Wars API. This sample is based upon the sample at [swapi.dev](https://swapi.dev) which in turn was based upon [swapi.co](https://swapi.dev/about). The original source can be found at https://github.com/Juriy/swapi.
 
-The projects described above have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provide a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
+The projects described previously have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provide a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
 
 
 ### BTP SusaaS App {.github}
@@ -136,7 +136,7 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 > [![]()](https://github.com/SAP-samples/partner-reference-application){.node}
 
-The Partner Reference Application repository provides you with a “golden path” to becoming a SaaS provider of multi-tenant applications based on the SAP Business Technology Platform (SAP BTP).
+The Partner Reference Application repository provides you with a “golden path” to becoming a SaaS provider of multitenant applications based on the SAP Business Technology Platform (SAP BTP).
 The guidance covers building, running, and integrating scalable full-stack cloud applications. It includes an ERP-agnostic design that lets you deliver your application as a side-by-side extension to consumers using any SAP solution, such as SAP S/4HANA Cloud, SAP Business One, and SAP Business ByDesign.
 
 By using BTP services and the SAP Cloud Application Programming Model (CAP), your application meets SAP standards for enterprise-class business solutions. It offers a harmonized user experience and seamless integration, including:
@@ -146,7 +146,7 @@ By using BTP services and the SAP Cloud Application Programming Model (CAP), you
 - and secure back-channel integration.
 
 The repository includes the “Poetry Slam Manager” application as a ready-to-run example. It also provides tutorials on how to build the application from scratch using an incremental development approach.
-Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
+Based on this sample application, you find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
 
 
 

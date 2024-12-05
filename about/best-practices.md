@@ -614,7 +614,7 @@ In a nutshell, this introduction to the objectives of hexagonal architecture tra
 
 #### CAP as an implementation of Hexagonal Architecture
 
-CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#fast-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#evolution-wo-disruption) in "the outside".
+CAP's [agnostic design principles](#agnostic-by-design) are very much in line with the goals of Hexagonal Architecture, and actually give you exactly what these are aiming for: as your applications greatly stay *agnostic* to protocols, and other low-level details, which could lock them in to one specific execution environment, they can be "*developed and tested in isolation*", which in fact is one of CAP's [key value propositions](./index#fast-inner-loops). Moreover, they become [*resilient* to disrupting changes](./index#minimized-lock-ins) in "the outside".
 
 Not only do we address the very same goals, we can also identify several symmetries in the way we address and achieve these goals as follows:
 

@@ -322,20 +322,30 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 
 ## Avoid Technical Debt
 
-There's a nice definition of technical debt found at this [glossary by ProductPlan](https://www.productplan.com/glossary/technical-debt/):
+There are several definitions of technical debt found in media which all boil down to:
 
-*"Technical debt (also known as tech debt or code debt) describes what results when development teams take actions to expedite the delivery of a piece of functionality or a project which later needs to be refactored, or fixed. In other words, it’s the result of prioritizing speedy delivery over perfect code."* {.indent style="font-family:serif"}
+Technical debt arises when speed of delivery is prioritized over quality. <br>The results must later be revised, thoroughly refactored, or completely rebuilt. {.quote}
 
-So, how could CAP help to avoid — or reduce the risks of — piling up technical debt?
+So, how could CAP help to avoid, or reduce the risks of piling up technical debt?
 
 ### Less Code → Less Mistakes <UnderConstruction/>
 
+Every line of code not written is free of errors. {.quote}
+
+Moreover:
+
+- Relieving app dev teams from overly technical disciplines not only saves efforts and time, it also avoids **severe mistakes** which can be made in these fields, for example, in tenant isolation and security.
+- **Best practices** reproduce proven solution patterns to recurring tasks, found and refined in successful application projects. 
+- Having them **served out of the box** paves the path for their adoption, and hence reduces the likelihood of picking anti patterns instead.
+
 ### Single Points to Fix <UnderConstruction/>
 
-### Minimized Lock-Ins <UnderConstruction/>
+- Of course, we also make mistakes and errors in CAP
+- but we can fix them centrally and all CAP users benefit from that immediately 
+- and as CAP has increasing adoption and great community, those bugs are frequently found and fixed by your peers in crime, before you encounter them yourselves.
+- ( note that this wouldn't be the case if we had chosen a code generator approach )
 
-### Evolution w/o Disruption
-{#evolution-wo-disruption}
+### Minimized Lock-Ins 
 
 Keeping pace with a rapidly changing world of volatile cloud technologies and platforms is a major challenge, as today's technologies that might soon become obsolete. CAP avoids such lock-ins and shields application developers from low-level things like:
 

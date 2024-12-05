@@ -16,11 +16,11 @@ The _Cloud Application Programming Model_ (CAP) is a framework of languages, lib
 
 In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical debts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
 
-Someone once said: 
+Someone once said:
 
 "CAP is like ABAP for the non-ABAP world" {.quote}
 
-... which is not completely true, of course 
+... which is not completely true, of course
 <br/>... ABAP is much older \:-)
 
 ## Jumpstart & Grow As You Go...
@@ -113,7 +113,7 @@ If service `A` and `B` are developed in different runtimes, for example, Node.js
 
 ### Late-cut Microservices
 
-You can, and should also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of whether and how to cut your application into microservices to a later phase of your project, when you know more about where to actually do the right cuts in the right way.
+You can (and should) also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of whether and how to cut your application into microservices to a later phase of your project, when you know more about where to actually do the right cuts in the right way.
 
 In general, we always propose that approach:
 

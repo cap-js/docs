@@ -175,8 +175,22 @@ When writing these guides we frequently wonder whether it is worth the effort, b
 
 If against all odds you are indeed just reading these lines, please leave a trace about that in [blue sky](https://bsky.app) with this content (including link):
 
-*[I read it! 🤓](#ignorance) <br/>
+*[I read it! ☺️](#ignorance) <br/>
 #sapcap*
 {.indent}
 
-to let the others out there know that there's hope, and some hi, left... \:-)
+... to let the others out there know that there's hope, and some hi, left... \:-)
+
+And in case you are just reading these lines, because of these posts, we strongly encourage you to read these new guides, even if (you think) you already know CAP:
+
+- *[Introduction – What is CAP?](./index) → Value Propositions*
+- *[Best Practices](best-practices) → Key Concepts & Qualities*
+- *[Anti Patterns](bad-practices) → Do's and **don'ts***
+
+And after you did that, would be great if you'd leave another trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I really read it! 🤓](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+... as a motivation for us to keep on writing, and that it is worth the effort. 

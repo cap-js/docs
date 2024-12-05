@@ -161,3 +161,22 @@ See also...
 - [What is Better: Modular Monolith vs. Microservices](https://medium.com/codex/what-is-better-modular-monolith-vs-microservices-994e1ec70994)
 - [Architecture Style: Modulith vs. Microservices](https://dzone.com/articles/architecture-style-modulith-vs-microservices)
 - [Death by a Thousand Microservices](https://www.reddit.com/r/programming/comments/18crnmz/death_by_a_thousand_microservices/).
+
+
+
+## Ignorance, TL;DR or alike
+
+When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ... 
+
+- Too long; didn't read (TL;DR)
+- Too busy (→ an [anti pattern on it's own](assets/too-busy) \;-)
+- Not required, as we've AI now 
+- I don't need to read that, as I already know (better) ...
+
+If against all odds you are indeed just reading these lines, please leave a trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I read it! 🤓](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+to let the others out there know that there's hope, and some hi, left... \:-)

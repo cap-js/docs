@@ -30,11 +30,11 @@ Someone once said:
 
 ### Jumpstarting Projects
 
-To get started with CAP there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
+To get started with CAP, there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
 
-- Start new CAP projects within seconds, ...
-- Create functional apps with full-fledged servers within minutes, ...
-- Without prior onboarding to or being connected to the cloud
+- Start new CAP projects within seconds.
+- Create functional apps with full-fledged servers within minutes.
+- Without prior onboarding to, or being connected to, the cloud.
 
 ```sh
 cds init
@@ -43,22 +43,22 @@ cds watch
 
 > [!tip]
 >
-> Following the principle of *convention over configuration*, CAP uses built-in configuration presets and defaults for different profiles. For development profile there's all set up for jumpstart development. In parallel, ops teams could setup the cloud, to be ready for first deployments later in time.
+> Following the principle of *convention over configuration*, CAP uses built-in configuration presets and defaults for different profiles. For the development profile, there's all set up for jumpstart development. In parallel, ops teams could set up the cloud, to be ready for first deployments later in time.
 
 
 
 ### Growing as You Go...
 
-Add things only when you need them or when you know more. Avoid any premature decisions or upfront overhead. For example, typical CAP projects adopt an *iterative* and *evolutionary* workflow like that:
+Add things only when you need them or when you know more. Avoid any premature decisions or up-front overhead. For example, typical CAP projects adopt an *iterative* and *evolutionary* workflow like that:
 
 1. **jumpstart a project** → no premature decisions made at that stage, just the name.
 2. **rapidly create** fully functional first prototypes or proof-of-concept versions.
-3. work in **fast inner loops** in airplane mode, and only occassionally go hybrid.
+3. work in **fast inner loops** in airplane mode, and only occasionally go hybrid.
 4. anytime **add new features** like Fiori UIs, message queues, different databases, etc.
 5. do a first **ad-hoc deployment** to the cloud some days later
-6. setup your **CI/CD pipelines** some weeks later
+6. set up your **CI/CD pipelines** some weeks later
 7. switch on **multitenancy** and **extensibility** for SaaS apps before going live
-8. optionally cut out some **micro services** only if required and months later earliest
+8. optionally cut out some **micro services** only if necessary and months later earliest
 
 ```sh
 cds add hana,redis,mta,helm,mtx,multitenancy,extensibility...
@@ -66,7 +66,7 @@ cds add hana,redis,mta,helm,mtx,multitenancy,extensibility...
 
 > [!tip]
 >
-> Avoid futile upfront setups and overhead and rather **get started rapidly**, having a first prototype up and running as fast as possible... by doing so, you might even find out soon that this product idea you or somebody else had doesn't work out anyways, so rather stop early ...
+> Avoid futile up-front setups and overhead and rather **get started rapidly**, having a first prototype up and running as fast as possible... by doing so, you might even find out soon that this product idea you or somebody else had doesn't work out anyways, so rather stop early ...
 
 
 
@@ -76,9 +76,9 @@ Most of your development happens in inner loops, where developers would **code**
 
 ![inner-loop](assets/inner-loop.png){.zoom75}
 
-CAP applications are [**agnostic by design**](best-practices#agnostic-by-design), which allows to stay in fast inner loops by using local mock variants as stand-ins for many platform services and features, thereby eliminating the need to always connect to or deploy to the cloud; developers can stay in fast inner loops, without connection to cloud – aka. ***airplane*** mode development. Only when neccessary, they can test in ***hybrid*** mode or do ad-hoc deployments to the cloud.
+CAP applications are [**agnostic by design**](best-practices#agnostic-by-design), which allows to stay in fast inner loops by using local mock variants as stand-ins for many platform services and features, thereby eliminating the need to always connect to or deploy to the cloud; developers can stay in fast inner loops, without connection to cloud – aka. ***airplane*** mode development. Only when necessary, they can test in ***hybrid*** mode or do ad-hoc deployments to the cloud.
 
-CAP provides mocked variants for several platform services out-of-the-box, which are used automatically through default configuration presets in ***development*** profile, while the real services are automatically used in ***production*** profile. Examples are:
+CAP provides mocked variants for several platform services out of the box, which are used automatically through default configuration presets in ***development*** profile, while the real services are automatically used in ***production*** profile. Examples are:
 
 | Platform Service | Development          | Production                       |
 | ---------------- | -------------------- | -------------------------------- |
@@ -101,21 +101,21 @@ CAP's thorough [agnostic design](best-practices#agnostic-by-design) not only all
 
 Assumed you plan for a microservices architecture, the team developing microservice `A` would always have a dependency to the availability of microservice `B`, which they need to connect to, at least in a hybrid setup, worst case even ending up in the need to always have both deployed to the cloud.
 
-With CAP you can (and should) instead just run both services in the same local process at development, basically by using `B` as a plain old library in `A`, and only deploy them to separate microservices in production, **without having to touch your models or code** (given `A` uses `B` through public APIs, which should always be the case anyways).
+With CAP, you can (and should) instead just run both services in the same local process at development, basically by using `B` as a plain old library in `A`, and only deploy them to separate microservices in production, **without having to touch your models or code** (given `A` uses `B` through public APIs, which should always be the case anyways).
 
 ![modulith](assets/modulith.png){.zoom66}
 
 ![late-cut-microservices](assets/late-cut-microservices.png){.zoom66}
 
-If service `A` and `B` are developed in different runtimes, e.g. Node.js and Java, you can't rune them in the same process. But even then you can (and should) leverage CAP's ability to easily serve a servic generically based on a service definition in CDS. So during development, `A`  would use a mocked variant of `B` served automatically by CAP generic providers.
+If service `A` and `B` are developed in different runtimes, for example, Node.js and Java, you can't run them in the same process. But even then you can (and should) leverage CAP's ability to easily serve a service generically based on a service definition in CDS. So during development, `A`  would use a mocked variant of `B` served automatically by CAP's generic providers.
 
 
 
 ### Late-cut Microservices
 
-You can, and should also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of wether and how to cut your application into micro services to a later phase of your project , when you know more about where to actually do the right cuts in the right way.
+You can, and should also leverage the offered options to have CAP services co-deployed in a single *modulithic* process to delay the decision of whether and how to cut your application into microservices to a later phase of your project, when you know more about where to actually do the right cuts in the right way.
 
-In general we always propose that approach:
+In general, we always propose that approach:
 
 1. **Avoid** premature cuts into microservices → ends up in lots of pain without gains
 2. **Go for** a *modulith* approach instead → with CAP services for modularization
@@ -127,9 +127,9 @@ In general we always propose that approach:
 >  - **Microservices** are **deployment units**.
 >  - **Valid** reasons for microservices are:
 >   1. need to scale things differently
->   2. different runtimes, e.g. Node.js vs Java
+>   2. different runtimes, for example, Node.js vs Java
 >   3. loosely coupled, coarse-grained subsystems with separate lifecycles
->  - **False** reasons are: distributed development, modularization, isolation, ... → there are well estaplished and proven better ways to address these things, without the pain which comes with microservices.
+>  - **False** reasons are: distributed development, modularization, isolation, ... → there are well established and proven better ways to address these things, without the pain which comes with microservices.
 
 [See also the anti pattern of *Microservices Mania*](bad-practices#microservices-mania) {.learn-more}
 
@@ -141,9 +141,9 @@ In general we always propose that approach:
 
 As shown in the [*Bookshop by capire*](../get-started/in-a-nutshell) walkthrough, a simple service definition in CDS is all we need to run a full-fledged REST, or OData, or GraphQL server
 
-There are more options to parallelize workflows. Fueled by service definition is all that is required to get a full-fledged REST or OData service **served out-of-the-box** by generic providers.
+There are more options to parallelize workflows. Fueled by service definition is all that is required to get a full-fledged REST or OData service **served out of the box** by generic providers.
 
-So, projects could spawn two teams in parallel: one working on the frontend using autmatically served backends, while the other one works on the actual implementations of the backend part.
+So, projects could spawn two teams in parallel: one working on the frontend using automatically served backends, while the other one works on the actual implementations of the backend part.
 
 
 
@@ -200,7 +200,7 @@ On top of the common request-serving related things handled by CAP's generic pro
 
 > [!tip]
 >
-> These best practice solutions mostly stem from close collaborations with as well as contributions by real, successful projects and SAP products, and from ABAP. Which means they have been proven in many years of adoption and real business use.
+> These best practice solutions mostly stem from close collaborations with as well as contributions by real, successful projects and SAP products, and from ABAP. Which means they've been proven in many years of adoption and real business use.
 
 
 
@@ -208,14 +208,14 @@ On top of the common request-serving related things handled by CAP's generic pro
 
 
 
-'**Calesi**' stands for "**CA**P-**le**vel **S**ervice **I**ntegrations" as well as for an innitiative we started late 2023 by rolling out the *CAP Plugins* techniques, which promotes plugins and add-ons contributions not only by the CAP team, but also by
+'**Calesi**' stands for "**CA**P-**le**vel **S**ervice **I**ntegrations" as well as for an initiative we started late 2023 by rolling out the *CAP Plugins* technique, which promotes plugins and add-ons contributions not only by the CAP team, but also by
 
 - **SAP BTP technology units** and service teams (beyond CAP team)
 - **SAP application teams**
 - **Partners** & **Customers**, as well as
 - **Contributors** from the CAP community
 
-That initiative happened to be quite successful, and gave a boost to a steadily **growing ecosystem** around CAP with an active **inner source** and **open source** community on one hand side. On the other hand it resulted into an impressive collection of production-level add-ons. Here are some highlights **maintained by SAP teams**:
+That initiative happened to be successful, and gave a boost to a steadily **growing ecosystem** around CAP with an active **inner source** and **open source** community on the one hand side. On the other hand, it resulted into an impressive collection of production-level add-ons. Here are some highlights **maintained by SAP teams**:
 
 - [GraphQL Adapter](../plugins/#graphql-adapter)
 - [OData V2 Adapter](../plugins/#odata-v2-proxy)
@@ -269,7 +269,7 @@ CAP's [service-centric paradigm](best-practices#services) is designed from the g
 On top of that, several built-in facilities address many things to care about in cloud-based apps out of the box, such as:
 
 - **Multitenancy** → tenant *isolation* at runtime; *deploy*, *subscribe*, *update* handled by MTX
-- **Extensibility** → for customers to tailor SaaS apps to their needs →  [see below...](#intrinsic-extensibility)
+- **Extensibility** → for customers to tailor SaaS apps to their needs →  [see Intrinsic...](#intrinsic-extensibility)
 - **Security** → CAP+plugins do authentications, certificates, mTLS, ...
 - **Scalability** → by stateless services, passive data, messaging, ...
 - **Resilience** → by messaging, tx outbox, outboxed audit logging, ...
@@ -279,11 +279,11 @@ On top of that, several built-in facilities address many things to care about in
 
 > [!tip]
 >
-> Application developers don't have to, and **should not have to care** about these complex non-functional requirements, instead they should [focus on domain](#focus-on-domain), that is, their functional requirements, as much as possible.
+> Application developers don't have to and **should not have to care** about these complex non-functional requirements. Instead they should [focus on domain](#focus-on-domain), that is, their functional requirements, as much as possible.
 
 > [!caution]
 >
-> Many of these crucial cloud qualities are of complex and critical nature, for example, **multitenancy**, **isolation** and **security**, but also scalability and resilience is not that easy to do right → it is a **high risk** to assume each application developer in each project is doing everything in the right ways
+> Many of these crucial cloud qualities are of complex and critical nature, for example, **multitenancy**, **isolation** and **security**, but also scalability and resilience isn't that easy to do right → it's a **high risk** to assume each application developer in each project is doing everything in the right ways
 
 
 
@@ -294,7 +294,7 @@ That might sound like a contradiction, but it isn't: While CAP certainly gives *
 
 | CAP is *Opinionated* in...                                   | CAP is *Open* as...                                          |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Platform-agnostic APIs** to avoid lock-ins to low-level stuff. | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if required |
+| **Platform-agnostic APIs** to avoid lock-ins to low-level stuff. | All abstractions follow a glass-box pattern that allows unrestricted access to lower-level things, if necessary |
 | **Best practices**, served out of the box by generic providers | You're free to do things your way in [custom handlers](../guides/providing-services#custom-logic), ... while CAP simply tries to get the tedious tasks out of your way. |
 | **Out-of-the-box support** for <br> **[SAP Fiori](https://developers.sap.com/topics/ui-development.html)** and **[SAP HANA](https://developers.sap.com/topics/hana.html)** | You can also choose other UI technologies, like [Vue.js](../get-started/in-a-nutshell#vue). Other databases are supported as well. |
 | **Tools support** in [SAP Build Code](../tools/cds-editors#bas) or [VS Code](../tools/cds-editors#vscode). | Everything in CAP can be done using the [`@sap/cds-dk`](../tools/cds-cli) CLI and any editor or IDE of your choice. |
@@ -350,7 +350,7 @@ Of course, we also make mistakes and errors in CAP, but ...
 - We can fix them centrally and all CAP users benefit from that immediately.
 - Those bugs are frequently found and fixed by your peers in crime, before you even encounter them yourselves.
 - And this effect increases with steadily growing adoption of CAP that we see, ...
-- And with the open culture we established successfully, e.g. **open issue reports** in GitHub, that is, the standard out there, instead of private support tickets — a relict of the past.
+- And with the open culture we established successfully, for example, **open issue reports** in GitHub, that is, the standard out there, instead of private support tickets — a relict of the past.
 
 > Note that all of this is in contrast to code generators, where you can't fix code generated in the past → see also [*Avoid Code Generators*](bad-practices#code-generators) in the anti patterns guide.
 

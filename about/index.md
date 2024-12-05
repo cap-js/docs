@@ -233,9 +233,7 @@ That initiative happened to be quite successful, and gave a boost to a steadily 
 
 
 
-### Intrinsic Extensibility
-
-<UnderConstruction/>
+### Intrinsic Extensibility <UnderConstruction/>
 
 SaaS customers, verticalization partners, or your teams can...
 
@@ -304,7 +302,7 @@ That might sound like a contradiction, but it isn't: While CAP certainly gives *
 
 
 
-## Focus on Domain 
+## Focus on Domain
 
 CAP places **primary focus on domain**, by capturing _domain knowledge_ and _intent_ instead of imperative coding — that means, _What, not How_ — which promotes the following:
 
@@ -360,9 +358,7 @@ Keeping pace with a rapidly changing world of volatile cloud technologies and pl
 
 
 
-## What about AI?
-
-<UnderConstruction/>
+## What about AI? <UnderConstruction/>
 
 - AI provides tremendous boosts to productivity → for example:
   - **Coding Assists** → for example, by [Copilot](https://en.wikipedia.org/wiki/Microsoft_Copilot) in `.cds`, `.js`, even `.md` sources

@@ -164,7 +164,7 @@ See also...
 
 
 
-## Ignorance, TL;DR or alike
+## Ignorance
 
 When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ... 
 

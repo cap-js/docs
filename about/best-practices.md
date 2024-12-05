@@ -4,7 +4,7 @@ status: released
 
 # Best Practices by CAP
 
-Key Concepts & Qualities
+Key Concepts & Rationales
 {.subtitle}
 
 [[toc]]

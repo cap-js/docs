@@ -38,7 +38,7 @@ features:
     •&nbsp; Minimized boilerplate coding <br/>
     •&nbsp; Developers + domain experts <br/>
   link: about/
-  linkText: Read Primer
+  linkText: Read the Primer
 
 - title: Rapid Development
   icon: 🌀
@@ -56,7 +56,7 @@ features:
     •&nbsp; Proven in SAP products <br/>
     •&nbsp; Served out of the box <br/>
   link: about/best-practices
-  linkText: Key Concepts
+  linkText: Key Concepts & Rationales
 
 - title: Cloud Native
   icon: 💯
@@ -65,7 +65,7 @@ features:
     •&nbsp; Resilience, Scalability, ... <br/>
     •&nbsp; Intrinsically taken care of <br/>
   link: about/#cloud-native-by-design
-  linkText: ... by Design
+  linkText: Intrinsic & by Design
 
 ---
 

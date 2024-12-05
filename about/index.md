@@ -2,7 +2,7 @@
 status: released
 ---
 
-# About CAP
+# Introduction to CAP
 
 Value Propositions {.subtitle}
 
@@ -14,7 +14,7 @@ Value Propositions {.subtitle}
 
 The _Cloud Application Programming Model_ (CAP) is a framework of languages, libraries, and tools for building *enterprise-grade* cloud applications. It guides developers along a *golden path* of **proven best practices**, which are **served out of the box** by generic providers cloud-natively, thereby relieving application developers from tedious recurring tasks.
 
-In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical depts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
+In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical debts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
 
 
 
@@ -44,7 +44,7 @@ cds watch
 
 ### Growing as You Go...
 
-Add things only when you need them or when you know more. Avoid any premature descisions or upfront overhead. For example, typical CAP projects adopt an *iterative* and *evolutionary* workflow like that:
+Add things only when you need them or when you know more. Avoid any premature decisions or upfront overhead. For example, typical CAP projects adopt an *iterative* and *evolutionary* workflow like that:
 
 1. **jumpstart a project** → no premature decisions made at that stage, just the name.
 2. **rapidly create** fully functional first prototypes or proof-of-concept versions.
@@ -94,7 +94,7 @@ CAP provides mocked variants for several platform services out-of-the-box, which
 
 CAP's thorough [agnostic design](best-practices#agnostic-by-design) not only allows to swap local mock variants as stand-ins for productive platform services, it also allows to do the same for your application services.
 
-Assumed you plan for a microservices arctitecure, the team developing microservice `A` would always have a dependency to the availability of microservice `B`, which they need to connect to, at least in a hybrid setup, worst case even ending up in the need to always have both deployed to the cloud.
+Assumed you plan for a microservices architecture, the team developing microservice `A` would always have a dependency to the availability of microservice `B`, which they need to connect to, at least in a hybrid setup, worst case even ending up in the need to always have both deployed to the cloud.
 
 With CAP you can (and should) instead just run both services in the same local process at development, basically by using `B` as a plain old library in `A`, and only deploy them to separate microservices in production, **without having to touch your models or code** (given `A` uses `B` through public APIs, which should always be the case anyways).
 
@@ -239,7 +239,7 @@ That initiative happened to be quite successful, and gave a boost to a steadily 
 
 SaaS customers, verticalization partners, or your teams can...
 
-- Add/overide annotations, translations, initial data
+- Add/override annotations, translations, initial data
 - Add extension fields, entities, relationships
 - Add custom logic → in-app + side-by-side
 - Bundle and share that as reuse extension packages
@@ -300,11 +300,11 @@ That might sound like a contradiction, but it isn't: While CAP certainly gives *
 
 > [!tip]
 >
-> And maybe most important: As CAP itself is designed as an open framework, everything what's not covered by CAP today can be solved in application projects, in specific custom code, or by [generic handlers](best-practices.md#extensible-framework) ... or by [plugins](../plugins/index.md) that you could build and contribute. <br/>⇒  **Contributions *are* welcome!**
+> And most important: As CAP itself is designed as an open framework, everything what's not covered by CAP today can be solved in application projects, in specific custom code, or by [generic handlers](best-practices.md#extensible-framework) ... or by [plugins](../plugins/index.md) that you could build and contribute. <br/>⇒  **Contributions *are* welcome!**
 
 
 
-## Focus on Domain
+## Focus on Domain 
 
 CAP places **primary focus on domain**, by capturing _domain knowledge_ and _intent_ instead of imperative coding — that means, _What, not How_ — which promotes the following:
 
@@ -312,21 +312,13 @@ CAP places **primary focus on domain**, by capturing _domain knowledge_ and _int
 - _Out-of-the-box_ implementations for _best practices_ and recurring tasks.
 - _Platform-agnostic_ approach to _avoid lock-ins_, hence _protecting investments_.
 
-### Conceptual Modeling by CDS
+### Conceptual Modeling by CDS <UnderConstruction/>
 
-<UnderConstruction/>
+### Domain-Driven Design <UnderConstruction/>
 
-### Domain-Driven Design
+### Rapid Development <UnderConstruction/>
 
-<UnderConstruction/>
-
-### Rapid Development
-
-<UnderConstruction/>
-
-### Minimal Distraction
-
-<UnderConstruction/>
+### Minimal Distraction <UnderConstruction/>
 
 
 
@@ -338,17 +330,11 @@ There's a nice definition of technical debt found at this [glossary by ProductPl
 
 So, how could CAP help to avoid — or reduce the risks of — piling up technical debt?
 
-### Less Code → Less Mistakes
+### Less Code → Less Mistakes <UnderConstruction/>
 
-<UnderConstruction/>
+### Single Points to Fix <UnderConstruction/>
 
-### Single Points to Fix
-
-<UnderConstruction/>
-
-### Minimized Lock-Ins
-
-<UnderConstruction/>
+### Minimized Lock-Ins <UnderConstruction/>
 
 ### Evolution w/o Disruption
 {#evolution-wo-disruption}

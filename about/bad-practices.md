@@ -8,25 +8,17 @@
 
 
 
-## Questionable Prior Arts
+## Questionable Prior Arts <UnderConstruction/>
 
-<UnderConstruction/>
-
-### DAOs, DTOs, Active Records
-
-<UnderConstruction/>
+### DAOs, DTOs, Active Records <UnderConstruction/>
 
 - → see [Best Practices / Passive Data](best-practices#data)
 
-### Object-Relational Mappers
-
-<UnderConstruction/>
+### Object-Relational Mappers <UnderConstruction/>
 
 - → see [Best Practices / Querying](best-practices#querying)
 
-### BO-centric Frameworks
-
-<UnderConstruction/>
+### BO-centric Frameworks <UnderConstruction/>
 
 ... which bypass or are in conflict with CAP's [key design principles](bad-practices.md), for example:
 
@@ -35,9 +27,7 @@
 
 These would be in conflict with CAP's focus on stateless services processing passive data, as well as with the querying-based approach to read and write data.
 
-### Determinations & Validations
-
-<UnderConstruction/>
+### Determinations & Validations <UnderConstruction/>
 
 - This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks
 - Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context
@@ -46,9 +36,7 @@ These would be in conflict with CAP's focus on stateless services processing pas
 - CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks.
 -
 
-### Sticking to DIY (or NIH)
-
-<UnderConstruction/>
+### Sticking to DIY (or NIH) <UnderConstruction/>
 
 Such as...
 
@@ -60,25 +48,19 @@ Such as...
 Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, late-cut µ services.
 It would also expose your projects to risks of disruptions by changes in those rather volatile technologies.
 
-### Always done it this way
-
-<UnderConstruction/>
+### Always done it this way <UnderConstruction/>
 
 - and CAP is different... for a reason, or more... ;-)
 
 
 
-## Abstracting from CAP
-
-<UnderConstruction/>
+## Abstracting from CAP <UnderConstruction/>
 
 - CAP already provides abstractions from the underlying database, the protocols, the deployment target, the client technology, and more.
 - CAP is also an implementation of Hexagonal Architecture, which is an abstraction of the same kind.
 - So, abstracting from CAP would be abstracting from an abstraction, which is a bad idea in general, and certainly will ensure that you won't benefit from the full power of CAP, any longer.
 
-### Squared Hexagons
-
-<UnderConstruction/>
+### Squared Hexagons <UnderConstruction/>
 
 - As documented in the best practices guide, CAP is not only very much in line with Hexagonal Architecture, it actually *is an implementation* of it.
 - So there's little need to invest into the outer hexagon → focus on the inner one

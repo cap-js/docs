@@ -155,7 +155,7 @@ After the [initial setup](#setup), we recommend to continue as follows while you
 | 1    | [Introduction – What is CAP?](../about/)                       | Learn about key benefits and value propositions.             |
 | 2    | [Bookshop by capire](in-a-nutshell)                          | Build your first CAP application within 4-44 minutes.        |
 | 3    | [Best Practices](../about/best-practices)                      | Key concepts and guiding principles to know → *should read*. |
-| 4    | [Anti Patterns](../about/best-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
+| 4    | [Anti Patterns](../about/bad-practices)                       | Misconceptions and bad practices to avoid → *must read*.     |
 | 5    | [Learn More](learning-sources)                               | Find samples, videos, blogs, tutorials, etc.                 |
 | 6    | [Cookbook](../guides/)                                         | Walkthroughs for the most common tasks.                      |
 | 7    | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.               |

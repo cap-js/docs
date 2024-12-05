@@ -30,7 +30,7 @@ Someone once said:
 
 ### Jumpstarting Projects
 
-To get started with CAP, there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can:
+To get started with CAP, there's only a [minimalistic initial setup](../get-started/index.md) required. Starting a project is a matter of seconds. No tedious long lasting platform onboarding ceremonies are required; instead you can (and should):
 
 - Start new CAP projects within seconds.
 - Create functional apps with full-fledged servers within minutes.

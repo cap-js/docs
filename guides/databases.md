@@ -22,7 +22,7 @@ impl-variants: true
 
 <div markdown="1" class="impl node">
 
-### Adding Database Packages  {.impl .node}
+### Adding Database Packages  {.node}
 
 Following are cds-plugin packages for CAP Node.js runtime that support respective databases:
 
@@ -56,7 +56,7 @@ npm add @cap-js/hana
 
 :::
 
-### Auto-Wired Configuration  {.impl .node}
+### Auto-Wired Configuration  {.node}
 
 The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this effectively results in this auto-wired configuration:
 
@@ -81,7 +81,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 
 
-### Custom Configuration  {.impl .node}
+### Custom Configuration  {.node}
 
 The auto-wired configuration uses configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
 
@@ -141,7 +141,7 @@ cds env cds.requires.db
 
 </div>
 
-### Built-in Database Support {.impl .java}
+### Built-in Database Support {.java}
 
 CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
@@ -339,7 +339,7 @@ Select.from(AUTHOR)
 
 </div>
 
-### Standard Operators {.impl .node}
+### Standard Operators {.node}
 
 The database services guarantee identical behavior of these operators:
 
@@ -354,7 +354,7 @@ The operator mappings are available for runtime queries only, but not in CDS fil
 :::
 
 
-### Functions Mappings for Runtime Queries {.impl .node}
+### Functions Mappings for Runtime Queries {.node}
 
 A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
 Note that these functions are only supported within runtime queries, but not in CDS files.
@@ -405,7 +405,7 @@ The function mappings are available for runtime queries only, but not in CDS fil
 :::
 
 
-### Session Variables {.impl .node}
+### Session Variables {.node}
 
 The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
 This allows you to write respective code once and run it on all these databases:
@@ -442,7 +442,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
-### Reading `LargeBinary` / BLOB {.impl .node}
+### Reading `LargeBinary` / BLOB {.node}
 
 Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
 
@@ -469,7 +469,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 <div markdown="1" class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 [Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
@@ -807,7 +807,7 @@ Find here a collection of resources on selected databases and their reference do
 
 
 
-## Database Constraints {#db-constraints}
+## Database Constraints
 
 The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 

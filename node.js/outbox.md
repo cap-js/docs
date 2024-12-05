@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about the outbox feature.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -236,4 +235,4 @@ Add the model path accordingly:
 }
 ```
 
-Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/jumpstart#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
+Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.

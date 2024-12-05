@@ -92,7 +92,7 @@ Use `cds init` to create new projects.
 The simplest form creates a minimal Node.js project.  For Java, use
 
 ```sh
-cds init --add java
+cds init --java
 ```
 
 In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.
@@ -148,12 +148,17 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | [`http`](#http)               |       <X/>       |       <X/>       |
 | `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
+| `esm`                         |       <X/>       |      <Na/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
-| [`handler`](#handler)         |       <Na/>      |       <X/>       |
+| [`handler`](#handler)         |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
+
+::: details See the full help text of `cds add`
+<!--@include: ./assets/help/cds-add.out.md -->
+:::
 
 ### data {.add}
 
@@ -319,30 +324,36 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
-### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+### handler <Since version="8.5.0" of="@sap/cds-dk" /> {.add}
 
-Generates handler stubs for actions and functions in Java projects.
+Generates handler stubs for actions and functions for both Java and Node.js projects.
 
-Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
-```sh
+To generate handler files, run:
+
+::: code-group
+```sh [Node.js]
 cds add handler
 ```
+```sh [Java]
+mvn compile  # let Java know what your model looks like
+cd srv       # following must be run from srv/
+cds add handler
+```
+:::
+
+The files contain handlers for
+- actions and functions
+- service entities (Node.js only)
 
 
 #### Filtering {#handler-filtering}
 
-Use the `--filter` option to create handlers for specific actions and functions.
+Use the `--filter` option to create handlers for specific actions/functions or entities.
 
 ```sh
 cds add handler --filter submitOrder
+cds add handler --filter Books
 ```
-
-#### More Options
-
-| Option | Description |
-| --- | --- |
-| `--out` | Specify custom output directories |
-| `--force` | Overwrite existing files |
 
 
 ## cds env
@@ -437,6 +448,43 @@ Query {
   kind: <em>'sqlite'</em>
 }
 </pre>
+
+## Debugging with `cds debug` <Beta /> {.nodejs}
+
+`cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
+
+To debug remote applications in the currently targeted CF space, run:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">bookshop-srv</span>
+
+Opening SSH tunnel for CF app 'bookshop-srv'
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
+
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+Without an app name, `cds debug` starts `cds watch --debug` locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'cds watch --debug'
+...
+Debugger listening on ws://127.0.0.1:9229/...
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+[cds] - ...
+</pre>
+
+::: tip Scale to one application instance only
+We recommend to only scale to _one_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
+
+However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+:::
+
 
 ## Debugging with `cds watch`
 

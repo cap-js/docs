@@ -24,29 +24,39 @@ type Price : Decimal;
 
 These types are used to define the structure of entities and services, and are mapped to respective database types when the model is deployed.
 
-| CDS Type | Arguments / Remarks | Example Value | SQL <sup>(6)</sup> |
-| --- | --- | ---  | --- |
-| `UUID` | an opaque string <sup>(1)</sup> | `'be071623-8699-4106-...'` | _NVARCHAR(36)_  |
-| `Boolean` | | `true` | _BOOLEAN_  |
-| `UInt8` | <sup>(2)</sup> | `133` | _TINYINT_  |
-| `Int16` | | `1337` | _SMALLINT_  |
-| `Int32` | | `1337` | _INTEGER_  |
-| `Integer` | | `1337` | _INTEGER_  |
-| `Int64` | | `1337` | _BIGINT_  |
-| `Integer64` | | `1337` | _BIGINT_  |
-| `Decimal` | (precision, scale) <sup>(3)</sup> | `15.2` | _DECIMAL_  |
-| `Double` | | `15.2` | _DOUBLE_  |
-| `Date` | | `'2021-06-27'` | _DATE_  |
-| `Time` | | `'07:59:59'` | _TIME_  |
-| `DateTime` | _sec_ precision | `'2021-06-27T14:52:23Z'` | _TIMESTAMP_  |
-| `Timestamp` | _µs_ precision <sup>(4)</sup> | `'2021-06-27T14:52:23.123Z'` |  _TIMESTAMP_  |
-| `String` | (length ) <sup>(5)</sup> | `'hello world'` | _NVARCHAR_  |
-| `Binary` | (length) <sup>(5)</sup> | |  _VARBINARY_  |
-| `LargeBinary` |  | | _BLOB_ |
-| `LargeString` |  | `'hello world'` | _NCLOB_  |
-| `Map` | a JSON Object | `{ "foo": "bar" }` | <sup>(7)</sup> |
-| `Vector` | (dimensionality) <sup>(8)</sup> | |  _REAL_VECTOR_  |
+| CDS Type | Remarks | ANSI SQL <sup>(1)</sup> |
+| --- | --- | --- |
+| `UUID` | CAP generates [RFC 4122](https://tools.ietf.org/html/rfc4122)-compliant UUIDs <sup>(2)</sup> | _NVARCHAR(36)_  |
+| `Boolean` | Values: `true`, `false`, `null`, `0`, `1` | _BOOLEAN_  |
+| `Integer` | Same as `Int32` by default | _INTEGER_  |
+| `Int16` | Signed 16-bit integer, range *[ -2<sup>15</sup> ... +2<sup>15</sup> )* | _SMALLINT_  |
+| `Int32` | Signed 32-bit integer, range *[ -2<sup>31</sup> ... +2<sup>31</sup> )* | _INTEGER_  |
+| `Int64` | Signed 64-bit integer, range *[ -2<sup>63</sup> ... +2<sup>63</sup> )* | _BIGINT_  |
+| `UInt8` | Unsigned 8-bit integer, range *[ 0 ... 255 ]* | _TINYINT_ <sup>(3)</sup> |
+| `Decimal` (`prec`, `scale`) | A *decfloat* type is used if arguments are omitted | _DECIMAL_  |
+| `Double` | Floating point with binary mantissa | _DOUBLE_  |
+| `Date` | e.g. `2022-12-31` | _DATE_  |
+| `Time` | e.g. `24:59:59` | _TIME_  |
+| `DateTime` | _sec_ precision | _TIMESTAMP_  |
+| `Timestamp` | _µs_ precision, with up to 7 fractional digits |  _TIMESTAMP_  |
+| `String` (`length`) | Default *length*: 255; on HANA: 5000 <sup>(4)</sup> | _NVARCHAR_  |
+| `Binary` (`length`) | Default *length*: 255; on HANA: 5000 <sup>(5)</sup> |  _VARBINARY_  |
+| `LargeBinary` | Unlimited data, usually streamed at runtime | _BLOB_ |
+| `LargeString` | Unlimited data, usually streamed at runtime | _NCLOB_  |
+| `Map` | Mapped to *NCLOB* for HANA. | *JSON* type |
+| `Vector` (`dimension `) | Requires SAP HANA Cloud QRC 1/2024, or later |  _REAL_VECTOR_  |
 
+```cds
+entity Books {
+  key ID : UUID;
+  title  : String(111);
+  stock  : Integer;
+  price  : Price;
+}
+type Price : Decimal;
+```
+
+These types are used to define the structure of entities and services, and are mapped to respective database types when the model is deployed.
 
 > <sup>(1)</sup> Concrete mappings to specific databases may differ.
 >
@@ -58,25 +68,10 @@ These types are used to define the structure of entities and services, and are m
 >
 > <sup>(5)</sup> Configurable through `cds.cdsc.defaultBinaryLength`.
 
+#### See also...
 
 [Additional Reuse Types and Aspects by `@sap/cds/common`](common) {.learn-more}
 
-> <sup>(2)</sup> Not supported on PostgreSQL, as there is no `TINYINT`. Not supported on H2, as `TINYINT` is signed on H2. Use `Int16` instead.
+[Mapping to OData EDM types](../advanced/odata#type-mapping) {.learn-more}
 
-> <sup>(3)</sup> Arguments `precision` and `scale` are optional → if omitted a *decfloat* type is used
-
-> <sup>(4)</sup> Up to 7 digits of fractional seconds; if a data is given with higher precision truncation may occur
-
-> <sup>(5)</sup> Argument `length` is optional → use options `cds.cdsc.defaultStringLength` and `cds.cdsc.defaultBinaryLength` to control the project-specific default length used for OData and SQL backends. If no option is specified, a hard-coded default length of 5000 for SAP HANA and 255 for all other SQL backends applies. Note that these hard-coded default lengths are only applied on database level. Specify fixed lengths to get length checks on service level and/or inbound data.
-
-> <sup>(6)</sup> Mapping to ANSI SQL types are given for comparison. Note though, that you need to have the specification of your target database in mind when considering, for example, length restrictions.
-
-> <sup>(7)</sup> SAP HANA: `NCLOB`, SQLite and H2: `JSON`, Postgres: `JSONB`
-
-> <sup>(8)</sup> requires SAP HANA Cloud (QRC 1/2024 or later).
-
-### See also...
-
-[**Mapping to OData EDM types**](../advanced/odata#type-mapping){.learn-more}
-
-[**HANA-native Data Types**](../advanced/hana#hana-types){.learn-more}
+[HANA-native Data Types](../advanced/hana#hana-types){.learn-more}

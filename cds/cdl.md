@@ -7,41 +7,33 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
 
-<!--@include: ../links.md-->
 
-# Definition Language (CDL)
-<!-- <style scoped>
-  h2 {
-    font-weight: 300; font-size: 2.8em; color: #222;
-    border-bottom: .5px solid silver;
-    padding-bottom: 5px;
-  }
-  h3 {
-    font-weight: 400;
-    font-size: 1.5em;
-  }
-</style> -->
 
-Find here a reference of all CDS concepts and features in the form of compact examples.
-The examples are given in **_CDL_**, a human-readable syntax for defining models, and **_CQL_**, an extension of SQL to write queries.
+
+
+# Conceptual Definition Language (CDL)
+
+
+
+The *Conceptual Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
+
+
 
 [[toc]]
 
 
-<br>
 
-Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./csn) to complete your understanding of CDS.
 
-<br>
 
+## Language Preliminaries
 
 
 
 - [Keywords & Identifiers](#keywords-identifiers)
 - [Built-in Types](#built-in-types)
 - [Literals](#literals)
-- [Model Imports](#imports)
-- [Namespaces](#namespace)
+- [Model Imports](#model-imports)
+- [Namespaces](#namespaces)
 - [Comments](#comments)
 
 
@@ -73,7 +65,7 @@ As indicated by the syntax coloring, `Association` is not a keyword, but a type 
 
 :::
 
-Keywords are *case-insensitive*, but most commonly used in lowercase notation.
+Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
 
@@ -154,7 +146,7 @@ Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`
 
 
 
-### Model Imports {#imports}
+### Model Imports
 
 
 
@@ -216,7 +208,7 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
 ### Namespaces
 
 
-#### The `namespace` Directive {#namespace}
+#### The `namespace` Directive
 
 To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
 
@@ -356,23 +348,24 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 ## Entities & Type Definitions
 
-- [Entity Definitions](#entities)
-- [Type Definitions](#types)
+- [Entity Definitions](#entity-definitions)
+- [Type Definitions](#type-definitions)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
-- [Literals](#literals)
-- [Delimited Identifiers](#delimited-identifiers)
 - [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
-- [Type References](#typereferences)
+- [Type References](#type-references)
 - [Constraints](#constraints)
 - [Enums](#enums)
 
 
 
 
-### Entity Definitions {#entities}
+
+### Entity Definitions
+{#entities}
+
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -389,7 +382,9 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions {#types}
+### Type Definitions
+{#types}
+
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -406,12 +401,6 @@ define type Currency : Association to Currencies;
 [Learn more about **Definitions of Named Aspects**.](#aspects){.learn-more}
 
 
-
-
-### Predefined Types
-
-
-[See list of **Built-in Types**](types){.learn-more}
 
 
 
@@ -498,78 +487,12 @@ entity Employees {
   virtual something : String(11);
 }
 ```
-### Literals
 
-Using literals in CDS models is commonly used, for example, to set default values. The literals in the following table show you how to define these values in your CDS source.
-
-| Kind      | Example |
-| --------- | --- |
-| Null      | `null` |
-| Boolean   | `true`, `false` |
-| Numbers   | `11`, `2.4`, or `1.34e10` |
-| Strings   | `'foo'` or `` `foo` `` or ```` ```foo``` ```` |
-| Dates     | `date'2016-11-24'` |
-| Times     | `time'16:11:32Z'` |
-| Timestamp | `timestamp'2016-11-24T16:11:32.4209753Z'` |
-| DateTime  | `'2016-11-24T16:11Z'` |
-| Records   | `{"foo":<literal>, ...}` |
-| Arrays    | `[<literal>, ...]` |
-
-[Learn more about literals and their representation in CSN.](./csn#literals){.learn-more}
-
-
-#### String Literals
-{#multiline-literals}
-
-String literals enclosed in single ticks, for example `'string'`,
-are limited to a single line. A single tick `'` inside the literal is escaped by doubling it: `'it''s escaped`.
-
-Use string literals enclosed in single or triple **backticks** for multiline strings. Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). Only for string literals inside triple backticks, indentation is stripped and tagging is possible.
-
-**Examples:**
-
-```cds
-@documentation: ```
-    This is a CDS multiline string.
-    - The indentation is stripped.
-    - \u{0055}nicode escape sequences are possible,
-      just like common escapes from JavaScript such as
-      \r \t \n and more!
-    ```
-
-@data: ```xml
-    <main>
-      The tag is ignored by the core-compiler but may be
-      used for syntax highlighting, similar to markdown.
-    </main>
-    ```
-@escaped: `OK Emoji: \u{1f197}`
-entity DocumentedEntity {
-  // ...
-}
-```
-
-
-### Delimited Identifiers
-
-Delimited identifiers allow you to use any identifier, even containing special characters or using a keyword.
-
-::: warning
-Special characters in identifiers or keywords as identifiers should be avoided for best interoperability.
-:::
-
-```cds
-entity ![Entity] {
-  bar           : ![Keyword];
-  ![with space] : Integer;
-}
-```
-
-> You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
 
-### Calculated Elements {#calculated-elements}
+
+### Calculated Elements
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -708,7 +631,7 @@ type Complex {
 ```
 
 
-### Type References {#typereferences}
+### Type References
 
 If you want to base an element's type on another element of the same structure, you can use the `type of` operator.
 
@@ -764,7 +687,7 @@ For localization of enum values, model them as [code list](./common#adding-own-c
 <br>
 
 
-## Views and Projections
+## Views & Projections
 {#views}
 
 Use `as select from` or `as projection on` to derive new entities from existing ones by projections, very much like views in SQL. When mapped to relational databases, such entities are in fact translated to SQL views but they're frequently also used to declare projections without any SQL views involved.
@@ -870,18 +793,43 @@ By using a cast, annotations and other properties are inherited from the provide
 
 ### Views with Parameters
 
-You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified. Refer to these parameters in the view's query using the prefix `:`.
+You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified.
+Refer to these parameters in the view's query using the prefix `:`.
 
 ```cds
 entity SomeView ( foo: Integer, bar: Boolean )
 as SELECT * from Employees where ID=:foo;
 ```
+
+When selecting from a view with parameters, the parameters are passed by name.
+In the following example, `UsingView` also has a parameter `bar` that is passed down to `SomeView`.
+
+```cds
+entity UsingView ( bar: Boolean )
+as SELECT * from SomeView(foo: 17, bar: :bar);
+```
+
+For Node.js, there's no programmatic API yet. You need to provide a [CQN snippet](/cds/cqn#select).
+
+In CAP Java, run a select statement against the view with named [parameter values](/java/working-with-cql/query-execution#querying-views):
+
+::: code-group
+```js [Node]
+SELECT.from({ id: 'UsingView'. args: { bar: { val: true }}})
+```
+```Java [Java]
+var params = Map.of("bar", true);
+Result result = service.run(Select.from("UsingView"), params);
+```
+:::
+
+
 [Learn more about how to expose views with parameters in **Services - Exposed Entities**.](#exposed-entities){ .learn-more}
 [Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.](../advanced/hana){ .learn-more}
 
 
 
-## Associations & Compositions {#associations}
+## Associations
 
 Associations capture relationships between entities. They are like forward-declared joins added to a table definition in SQL.
 
@@ -927,7 +875,7 @@ This example is equivalent to the [unmanaged example above](#unmanaged-associati
 key element `address_ID` being added automatically upon activation to a SQL database.
 The names of the automatically added foreign key elements cannot be changed.
 
-> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#database-constraints).
 
 If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:
@@ -1155,7 +1103,7 @@ entity P_Books as projection on Books {
 
 Publishing a _composition_ with a filter is similar, with an important difference:
 in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
-Thus the type of the resulting element is set to `cds.Association`. 
+Thus the type of the resulting element is set to `cds.Association`.
 
 [Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
 
@@ -1703,7 +1651,7 @@ extend Bar with @title:'Bar' {
 }
 ```
 
-::: details Note the nested `extend` for existing fielsd
+::: details Note the nested `extend` for existing fields
 Make sure that you prepend the `extend` keyword to nested elements if you want to modify them. Without that a new field with that name would be added. If you only want to add annotations to an existing field, you can use [the **annotate** directive.](#annotate) instead.
 :::
 
@@ -1728,7 +1676,7 @@ the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 ### The `annotate` Directive
 {#annotate}
 
-The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
+The `annotate` directive allows to annotate already existing definitions that may have been [imported](#model-imports) from other files or projects.
 
 ```cds
 annotate Foo with @title:'Foo';
@@ -1900,7 +1848,7 @@ service MyOrders {
   entity OrderWithParameter( foo: Integer ) as select from data.Orders where id=:foo;
 }
 ```
-A [`view with parameter`](#views-with-parameters) modeled in the previous example, can be exposed as follows:
+A parametrized view like modeled in the section on [`view with parameter`](#views-with-parameters) can be exposed as follows:
 
 ```cds
 service SomeService {
@@ -1938,7 +1886,8 @@ entity C { /*...*/ };
 :::
 
 
-### (Auto-) Redirected Associations {#auto-redirect}
+### (Auto-) Redirected Associations
+{#auto-redirect}
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -1994,7 +1943,10 @@ service AdminService {
 }
 ```
 
-### Auto-Exposed Entities {#auto-expose}
+
+
+### Auto-Exposed Entities
+{#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
 
@@ -2041,6 +1993,8 @@ service Sue {
 ```
 
 [Learn more about **CodeLists in `@sap/cds/common`**.](./common#code-lists){.learn-more}
+
+
 
 ### Custom Actions and Functions {#actions}
 
@@ -2103,6 +2057,7 @@ service CatalogService {
 Explicitly modelled binding parameters are ignored for OData V2.
 
 
+
 ### Custom-Defined Events {#events}
 
 Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
@@ -2123,6 +2078,7 @@ service MyOrders { ...
   event OrderCanceledNarrow : projection on OrderCanceled { orderID }
 }
 ```
+
 
 
 ### Extending Services {#extend-service}

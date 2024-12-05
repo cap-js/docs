@@ -16,7 +16,12 @@ The _Cloud Application Programming Model_ (CAP) is a framework of languages, lib
 
 In effect, CAP-based projects benefit from a primary **focus on domain**, with close collaboration of developers and domain experts, **rapid development** at **minimized costs**, as well as **avoiding technical debts** by eliminating exposure to, and lock-ins to volatile low-level technologies.
 
+Someone once said: 
 
+"CAP is like ABAP for the non-ABAP world" {.quote}
+
+... which is not completely true, of course 
+<br/>... ABAP is much older \:-)
 
 ## Jumpstart & Grow As You Go...
 ###### grow-as-you-go
@@ -328,7 +333,7 @@ Technical debt arises when speed of delivery is prioritized over quality. <br>Th
 
 So, how could CAP help to avoid, or reduce the risks of piling up technical debt?
 
-### Less Code → Less Mistakes 
+### Less Code → Less Mistakes
 
 Every line of code not written is free of errors. {.quote}
 
@@ -338,16 +343,16 @@ Moreover:
 - **Best practices** reproduce proven solution patterns to recurring tasks, found and refined in successful application projects; your peers.
 - Having them **served out of the box** paves the path for their adoption, and hence reduces the likelihood of picking anti patterns instead.
 
-### Single Points to Fix 
+### Single Points to Fix
 
 Of course, we also make mistakes and errors in CAP, but ...
 
-- We can fix them centrally and all CAP users benefit from that immediately. 
+- We can fix them centrally and all CAP users benefit from that immediately.
 - Those bugs are frequently found and fixed by your peers in crime, before you even encounter them yourselves.
 - And this effect increases with steadily growing adoption of CAP that we see, ...
 - And with the open culture we established successfully, e.g. **open issue reports** in GitHub, that is, the standard out there, instead of private support tickets — a relict of the past.
 
-> Note that all of this is in contrast to code generators, where you can't fix code generated in the past → see also [*Avoid Code Generators*](bad-practices#code-generators) in the anti patterns guide. 
+> Note that all of this is in contrast to code generators, where you can't fix code generated in the past → see also [*Avoid Code Generators*](bad-practices#code-generators) in the anti patterns guide.
 
 ### Minimized Lock-Ins
 

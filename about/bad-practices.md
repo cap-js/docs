@@ -166,11 +166,11 @@ See also...
 
 ## Ignorance
 
-When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ... 
+When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ...
 
 - Too long; didn't read (TL;DR)
 - Too busy (→ an [anti pattern on it's own](assets/too-busy) \;-)
-- Not required, as we've AI now 
+- Not required, as we've AI now
 - I don't need to read that, as I already know (better) ...
 
 If against all odds you are indeed just reading these lines, please leave a trace about that in [blue sky](https://bsky.app) with this content (including link):
@@ -184,7 +184,7 @@ If against all odds you are indeed just reading these lines, please leave a trac
 And in case you are just reading these lines, because of these posts, we strongly encourage you to read these new guides, even if (you think) you already know CAP:
 
 - *[Introduction – What is CAP?](./index) → Value Propositions*
-- *[Best Practices](best-practices) → Key Concepts & Qualities*
+- *[Best Practices](best-practices) → Key Concepts & Rationales*
 - *[Anti Patterns](bad-practices) → Do's and **don'ts***
 
 And after you did that, would be great if you'd leave another trace about that in [blue sky](https://bsky.app) with this content (including link):
@@ -193,4 +193,4 @@ And after you did that, would be great if you'd leave another trace about that i
 #sapcap*
 {.indent}
 
-... as a motivation for us to keep on writing, and that it is worth the effort. 
+... as a motivation for us to keep on writing, and that it is worth the effort.

@@ -182,7 +182,7 @@ There are two options to access audit logs:
 
 ### Behind the Scenes...
 
-The generic audit logging implementation does the following:
+The generic audit logging implementation does the following for all [defined services](../providing-services#service-definitions):
 
 - Intercept all write operations potentially involving personal data.
 - Intercept all read operations potentially involving sensitive data.

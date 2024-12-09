@@ -197,7 +197,11 @@ const { Test } = cds.test
 cds.test = (...args) => (new Test).run(...args)
 ```
 
+:::warning Run `cds.test` once per file!
 
+`@sap/cds` relies on objects like `cds.model` being globally available. If you run `cds.test` multiple times within the same file can lead to a conflicting state and erratic behavior.
+
+:::
 
 
 

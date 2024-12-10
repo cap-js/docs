@@ -377,7 +377,10 @@ Use the _.cdsrc.json_ file to add project specific configuration of `@sap/cds-dk
 
 ### Using a Local cds-dk
 
-By default, the build is configured to download a Node.js runtime and the `@sap/cds-dk` tools and install them locally within the project.
+By default, the build is configured to download a Node.js runtime and the `@sap/cds-dk' tools and install them locally in the project.
+Starting with version 3.6.0 of CAP Java, the default project setup has changed. The `install-cdsdk` goal is no longer used to install the @sap/cds-dk locally and the goal is also marked as deprecated. Now the @sap/cds-dk is maintained as a devDependency in package.json and installed with an `npm ci` during the Maven build.
+A `package-lock.json` is also created during project creation with the `cds-services-archetype`. This allows the `npm ci` to run successfully and all transitive dependencies of `@sap/cds-dk` to be pinned to fix versions.
+
 The `install-cdsdk` goal requires a version of `@sap/cds-dk`, which [needs to be provided explicitly](../../releases/archive/2022/oct22#important-changes-in-java) in the configuration. With this, you can ensure that the build is fully reproducible.
 You can provide this version by adding the following property to the `properties` section in your `pom.xml`:
 

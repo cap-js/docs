@@ -234,7 +234,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## Local Mocking {#local-mocking}
+## Local Mocking
 
 When developing your application, you can mock the remote service.
 

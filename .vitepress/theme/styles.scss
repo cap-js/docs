@@ -45,6 +45,7 @@
 
   --vp-c-text-1: #000;
   h1, h2, h3, h4, h5 { color: rgba(60, 60, 67) }
+  h6 { color: transparent; position: absolute; margin-top: -7.7em; right: 0px; } // we use h6 for alternative anchor targets
 
 
   /* inverts image colors in dark mode */
@@ -137,16 +138,32 @@ main {
       }
     }
 
-    .caption {
-      text-align: center;
-      color: #888;
+    table {
+      tr, th, td {
+        // &:nth-child(2n) {
+          background-color: transparent !important;
+        // }
+      }
+      td, th {
+        border-color: #bbb; .dark & { border-color: #555 };
+        border-right: none;
+        border-left: none;
+        padding-top: 7px;
+        padding-bottom: 7px;
+        line-height: 1.5em;
+      }
     }
-
     .centered table {
       margin-left: auto;
       margin-right: auto;
       width: max-content;
     }
+
+    .caption {
+      text-align: center;
+      color: #888;
+    }
+
 
     div.language-zsh pre code {
       line-height: 1.4em
@@ -340,13 +357,14 @@ main {
   img.zoom40 { zoom: 40% }
   img.zoom33 { zoom: 33% }
   img.zoom25 { zoom: 25% }
+  img.zoom20 { zoom: 20% }
 
   .best-practice::after { content: ' — Best Practice'; color: #777; font-style: italic; }
   .anti-pattern::after { content: ' — Anti Pattern'; color: #e00 }
   .prefer::before { content: 'Prefer: '; color: #0a0 }
   .avoid::before { content: 'Avoid: '; color: #e00 }
 
-  .good .green { color:#0a0 };
+  .good, .green { color:#0a0 };
   .bad, .red, .important { color:darkred; .dark & { color:#e00 } }
   .grey { color:#777 };
 
@@ -455,6 +473,12 @@ kbd {
 
 .indent {
   padding-left: 22px;
+}
+
+.quote {
+  padding-left: 22px;
+  font-family: serif;
+  font-style: italic;
 }
 
 a.learn-more, p.learn-more, .learn-more {

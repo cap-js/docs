@@ -249,7 +249,7 @@ SaaS customers, verticalization partners, or your teams can...
 All of these tasks are done in [the same way as you do in your own projects](best-practices.md#intrinsic-extensibility):
 
 - Using the same techniques of CDS Aspects and Event Handlers
-- Including adaption ad extensions of reuse types/models
+- Including adaption and extensions of reuse types/models
 - Including extensions to framework-provided services
 
 And all of that is available out of the box, that is, without you having to create extension points. You would want to restrict who can extend what, though.

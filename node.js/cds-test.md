@@ -199,7 +199,7 @@ cds.test = (...args) => (new Test).run(...args)
 
 :::warning Run `cds.test` once per test file
 
-`@sap/cds` relies on server state like `cds.model`. If you run `cds.test` multiple times within the same test file, this can lead to a conflicting state and erratic behavior.
+`@sap/cds` relies on server state like `cds.model`. Running `cds.test` multiple times within the same test file can lead to a conflicting state and erratic behavior.
 :::
 
 

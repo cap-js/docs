@@ -542,7 +542,7 @@ cds:
 ```
 :::
 
-[Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){.learn-more}
+[Learn more about SAP Event Mesh configuration options.](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue){.learn-more}
 
 <div id="queue-config-more" />
 

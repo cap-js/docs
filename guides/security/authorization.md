@@ -395,7 +395,7 @@ The resulting authorizations are illustrated in the following access matrix:
 | `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>              |
 | `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
 
-> <sup>1</sup> A `Vendor` user can only access the instances that they created. <br>
+> <sup>1</sup> A `Customer` user can only access the instances that they created. <br>
 
 The example models access rules for different roles in the same service. In general, this is _not recommended_ due to the high complexity. See [best practices](#dedicated-services) for information about how to avoid this.
 

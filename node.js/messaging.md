@@ -273,7 +273,7 @@ If you register at least one handler, a queue will automatically be created if n
 
 You have the following configuration options:
 
-- `queue`: An object containing the `name` property as the name of your queue, additional properties are described [here](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue).
+- `queue`: An object containing the `name` property as the name of your queue, additional properties are described [in the SAP Business Accelerator Hub](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue).
 - `amqp`: AQMP client options as described in the [`@sap/xb-msg-amqp-v100` documentation](https://www.npmjs.com/package/@sap/xb-msg-amqp-v100?activeTab=readme)
 
 If the queue name isn't specified, it's derived from `application_name` and the first four characters of `application_id` of your `VCAP_APPLICATION` environmental variable, as well as the `namespace` property of your SAP Event Mesh binding in `VCAP_SERVICES`: `{namespace}/{application_name}/{truncated_application_id}`.

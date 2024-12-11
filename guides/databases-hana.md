@@ -449,6 +449,8 @@ Direct migration from _.hdbcds_ to _.hdbmigrationtable_ isn't supported by HDI. 
 [Learn more in the **Enhance Project Configuration for SAP HANA Cloud** section.](#configure-hana){.learn-more}
 
 During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deploy version=1 of the _.hdbmigrationtable_ artifact, which must not include any migration steps.
+
+Ensure to add `"hdbmigrationtable": { "plugin_name": "com.sap.hana.di.table.migration" }` to your `.hdiconfig` file.
 :::
 
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.

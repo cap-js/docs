@@ -17,7 +17,8 @@ One of the key [CAP design principles](../../about/#open-and-opinionated) is to 
 Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java runtime stack.
 The [modular architecture](#modular_architecture) reflects this requirement, allowing a fine-grained and flexible [configuration](#stack_configuration) based on standard or custom modules.
 
-## Modular Stack Architecture { #modular_architecture}
+## Modular Stack Architecture
+{ #modular_architecture}
 
 ### Overview
 
@@ -56,7 +57,7 @@ You can recognize five different areas of the stack, which comprise components a
 * [Application features](#application-features) are optional application extensions, for instance to add multitenancy capabilities or a platform service integration.
 
 
-### Application Framework { #application-framework}
+### Application Framework
 
 Before starting the development of a new CAP-based application, an appropriate application framework to build on needs to be chosen.
 The architecture of the chosen framework not only has a strong impact on the structure of your project, but it also affects efforts for maintenance as well as support capabilities.
@@ -75,7 +76,7 @@ In this case, a solution based on plain Java Servlets could be favorable.
 Lastly, in case you want to run your application on a 3rd party application framework, you're free to bundle it with CAP modules and provide the glue code, which is necessary for integration.
 
 
-### Protocol Adapters { #protocol-adapters}
+### Protocol Adapters
 
 
 The CAP runtime is based on an [event](../../about/best-practices#events) driven approach.
@@ -339,7 +340,8 @@ It supports the following command-line options:
 | `-DcdsdkVersion=<a valid cds-dk version>` | Sets the provided cds-dk version in the project. If not specified, the default of CAP Java is used. |
 
 
-## Building Projects with Maven { #maven-build-options }
+## Building Projects with Maven
+{ #maven-build-options }
 
 You can build and run your application by means of the following Maven command:
 
@@ -348,7 +350,7 @@ mvn spring-boot:run
 ```
 
 
-### CDS Maven Plugin { #cds-maven-plugin}
+### CDS Maven Plugin
 
 CDS Maven plugin provides several goals to perform CDS-related build steps.
 For instance, the CDS model needs to be compiled to a CSN file which requires a Node.js runtime with module `@sap/cds-dk`.

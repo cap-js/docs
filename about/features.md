@@ -99,20 +99,20 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Providing Services
 
-| Core Framework Features                                                                |  CDS  | Node.js | Java |
-|----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)  | <Na/> |  <X/>   | <X/> |
-| [Deep-Read/Write Structured Documents](../guides/providing-services#deep-reads-writes) | <X/>  |  <X/>   | <X/> |
-| [Automatic Input Validation](../guides/providing-services#input-validation)            | <X/>  |  <X/>   | <X/> |
-| [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)            | <X/>  |  <X/>   | <X/> |
-| [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
-| [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/security/authorization)                                     | <X/>  |  <X/>   | <X/> |
-| [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/providing-services#serving-media-data)             | <X/>  |  <X/>   | <X/> |
-| [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication) | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)   | <Na/> |  <X/>   | <X/> |
+| Core Framework Features                                                                    |  CDS  | Node.js | Java |
+|--------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)      | <Na/> |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services#deep-reads-and-writes) | <X/>  |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services#input-validation)                | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)                | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services#implicit-pagination)                        | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services#implicit-sorting)                          | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/security/authorization)                                         | <X/>  |  <X/>   | <X/> |
+| [Arrayed Elements](../cds/cdl#arrayed-types)                                               | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/providing-services#serving-media-data)                 | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services#etag)                    | <X/>  |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication)     | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)       | <Na/> |  <X/>   | <X/> |
 
 
 <br>
@@ -188,18 +188,7 @@ Following is an index of the features currently covered by CAP, with status and 
 | Import AsyncAPI                                                                                                                                             | <O/>  |              |      |
 | Export AsyncAPI                                                                                                                                             | <X/>  |              |      |
 
-##### Internal Features <Internal />
-
-The following additional features are available SAP-internally:
-
-|                                                                                                                                                          |  CDS  |         Node.js          |          Java           |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:------------------------:|:-----------------------:|
-| [SAP Event Mesh (Multitenancy)](../guides/messaging/event-mesh#multitenancy)                                                                             | <Na/> |           <X/>           |          <X/>           |
-| [SAP Cloud Application Event Hub (Multitenancy)](../guides/messaging/event-broker)                                                                       | <Na/> | <X/><br><sup>alpha</sup> |          <D/>           |
-| SAP Message Queuing (Singletenancy) [[Node.js](../node.js/messaging#sap-message-queuing)\|[Java](../java/messaging#configuring-message-queuing-support)] | <Na/> |           <X/>           |          <X/>           |
-| [Event Logs (Kafka)](../java/messaging#configuring-apache-kafka-support)                                                                                 | <Na/> |           <O/>           | <X/><br><sup>beta</sup> |
-
-
+<span id="events-messaging-more" />
 
 ### Database Support
 

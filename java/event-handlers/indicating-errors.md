@@ -313,10 +313,6 @@ public void validateReview(BooksAddReviewContext context) {
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
         .messageTarget(b -> b.get("descr"));
 
-    // which is equivalent to
-    throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
-        .messageTarget(b -> b.descr());
-
     // or (using the typed API, referring to "cqn" implicitly)
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
         .messageTarget(Books_.class, b -> b.descr());

@@ -189,7 +189,7 @@ Foo2 = { type:"cds.String", kind:"type" }
 ```
 
 
-## Type Definitions {#type-definitions}
+## Type Definitions
 
 [type definitions]: #type-definitions
 
@@ -216,8 +216,6 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 #### Properties
 
-[kind]: #kind
-[type]: #type
 
 * `kind` &ndash; omitted or _`"type"`_
 * `type` &ndash; the base type, this definition is derived from
@@ -233,7 +231,6 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 ### Scalar Types
 
-[scalar]: #scalar-types
 
 Scalar types always have property `type` specified, plus optional type-specific parameter properties.
 
@@ -432,9 +429,8 @@ Use the `projection` property for views if you don't need the full power of SQL.
 
 ## Associations
 
-[Associations]: #associations
 
-Associations are like [scalar type definitions][scalar] with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
+Associations are like [scalar type definitions](#scalar-types) with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
 
 ### Basic to-one Associations
 

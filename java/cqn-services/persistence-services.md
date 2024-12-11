@@ -55,7 +55,7 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 
 ### H2 Database
 
-[H2](https://www.h2database.com/html/main.html) is the recommended in-memory databases for local development and testing with CAP Java. There's no production support for H2 from CAP and there are the following limitations:
+[H2](https://www.h2database.com/html/main.html) is the recommended in-memory database for local development and testing with CAP Java. There's no production support for H2 from CAP and there are the following limitations:
 
 1. H2 only supports database-level collation and the default sort order is by ASCII-code. You can set a [collation](https://www.h2database.com/html/commands.html#set_collation) to sort using dictionary order instead.
 2. Case-insensitive comparison isn't yet supported.

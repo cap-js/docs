@@ -6,7 +6,6 @@ synopsis: >
   This guide explains how to restrict access to data by adding respective declarations to CDS models, which are then enforced by CAP's generic service providers.
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
-redirect_from: guides/authorization
 ---
 
 <script setup>
@@ -277,7 +276,7 @@ whereas the properties are:
 * `where`: a filter condition that further restricts access on an instance level (optional).
 
 The following values are supported:
-- `grant` accepts all standard [CDS events](/about/#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
+- `grant` accepts all standard [CDS events](../../about/best-practices#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
 
 - The `to` property lists all [user roles](#roles) or [pseudo roles](#pseudo-roles) that the privilege applies to. Note that the `any` pseudo-role applies for all users and is the default if no value is provided.
 

@@ -4,9 +4,9 @@ synopsis: >
 status: released
 ---
 
-# Aspect-oriented Modelling
+# Aspect-Oriented Modeling
 
-The technique of [*Aspects*](cdl#aspects) provides very powerful means to organize your models in a way that keeps your core domain models concise and comprehensible by factoring out secondary concerns into separate files, defining and reusing common aspects, as well as adapting reused definitions to specific needs.
+The technique of [*Aspects*](cdl#aspects) provides a very powerful means to organize your models in a way that keeps your core domain models concise and comprehensible by factoring out secondary concerns into separate files, defining and reusing common aspects, as well as adapting reused definitions to specific needs.
 
 **See also:** Respective section in [*Five reasons to use CAP*](https://qmacro.org/blog/posts/2024/11/07/five-reasons-to-use-cap/) , and [*Separating concerns and focusing on important stuff*](https://qmacro.org/blog/posts/2024/11/04/separating-concerns-and-focusing-on-the-important-stuff/) blog posts by DJ Adams. {.learn-more}
 
@@ -16,15 +16,15 @@ The technique of [*Aspects*](cdl#aspects) provides very powerful means to organi
 
 
 
-## Similar to Aspect-oriented Programming
+## Similar to Aspect-Oriented Programming
 
-Aspect-oriented Modelling as promoted by CDS is very similar in goals and approaches to [Aspect-oriented Programming as defined in this Wikipedia article](https://en.wikipedia.org/wiki/Aspect-oriented_programming):
+Aspect-oriented Modeling as promoted by CDS is very similar in goals and approaches to [Aspect-oriented Programming as defined in this Wikipedia article](https://en.wikipedia.org/wiki/Aspect-oriented_programming):
 
 > *Aspect-oriented programming (AOP) is a programming paradigm that aims to increase modularity by allowing the [separation](https://en.wikipedia.org/wiki/Separation_of_concerns) of [cross-cutting concerns](https://en.wikipedia.org/wiki/Cross-cutting_concern). It does so by adding behavior to existing code (an [advice](https://en.wikipedia.org/wiki/Advice_(programming))) without modifying the code, [...].*
 
 ::: tip Extend anything from anywhere
 
-In essence [CDS Aspects](cdl#aspects) allow to arbitrarily spread a definition across different places in same files, or separate ones, in different projects, with different ownerships and different lifecycles.
+In essence [CDS Aspects](cdl#aspects) allow  you to arbitrarily spread a definition across different places in the same files, or separate ones, in different projects, with different ownerships and different lifecycles.
 
 :::
 
@@ -34,7 +34,7 @@ Use aspects to factor out secondary concerns into separate files as follows...
 
 
 
-### Avoid all-in-one models
+### All-in-one Models {.avoid}
 
 Instead of polluting your core domain models with a multitude of annotations, put such annotations into separate files. For example, instead of having a single-source model like that:
 
@@ -77,9 +77,9 @@ service CatalogService {
 ```
 :::
 
-### Keep your core clean
+### Keep Your Core Clean {.prefer}
 
-Rather keep your core model concise and comprehensible:
+Rather, keep your core model concise and comprehensible:
 
 ::: code-group
 ```cds [srv/cat-service.cds]
@@ -90,7 +90,7 @@ service CatalogService {
 ```
 :::
 
-### Factor out separate concerns
+### Factor Out Separate Concerns {.prefer}
 
 And factor out the UI concerns into a separate file like that:
 
@@ -145,12 +145,10 @@ annotate CatalogService.Books with @UI:{
 ## Common Reuse Aspects
 
 
-
-Quite frequently, you want some common aspects factored out and shared by and applied to multiple entities. For example, lets assume we'd want to factor out the common aspects of a standardized primary key, managed data, change tracking, extensibility, and temporal data...
-
+Quite frequently, you want some common aspects to be factored out and shared by and applied to multiple entities. For example, lets assume we'd want to factor out the common aspects of a standardized primary key, managed data, change tracking, extensibility, and temporal data...
 
 
-### Classic Class-based Approach
+### _Max Base Class_ Approach {.avoid}
 
 The classic way to do so, for example in class-based inheritance systems like Java, is to have a central team defining single base classes like `Object` for that, and either add all the aspects in question to that single base class, or have a base class hierarchy, like that:
 
@@ -214,7 +212,16 @@ One issue is that due to single inheritance limitations, these base classes freq
 
 :::
 
-### Prefer: Separate Reuse Aspects
+::: details `abstract entity` is deprecated...
+
+If you try to use `abstract entity` in CDS, you'll get a warning that it is deprecated.
+Reason for that we found it was used mostly for the _'Max Base Class'_ anti pattern.
+So we decided to deprecate it to encourage the use of [_Separate Reuse Aspects_](#separate-reuse-aspects) pattern instead.
+
+:::
+
+
+### Separate Reuse Aspects {.prefer}
 
 While, as shown above, the central single-inheritance-style base class approach is also possible with CDS, we can do better using CDS Aspects, leveraging the equivalent of multiple inheritance, and hence distributed ownership instead of central one:
 
@@ -268,7 +275,7 @@ entity Bar : cuid, managed, temporal {...}
 
 ::: tip Advantages of that approach
 
-Not only does that approach allow clearer separation of concerns, and thus freedom of choice which combinations of aspects to pick for consumers, it also allows distributed ownership of such reuse aspects, as they don't depend on each other.
+Not only does that approach allow clearer separation of concerns, and thus freedom of choice on which combinations of aspects to pick for consumers, it also allows distributed ownership of such reuse aspects, as they don't depend on each other.
 
 :::
 
@@ -283,7 +290,7 @@ Yet, it is not based on inheritance but on mixins, which are more powerful and a
 
 ## Adaptation of Reused Definitions
 
-Assumed there's reuse package offering some common types and entities which would nicely fit your needs. For example:
+Assumed there's a reuse package offering some common types and entities which would nicely fit your needs. For example:
 
 ::: code-group
 
@@ -298,7 +305,7 @@ type CodeList : {
 
 :::
 
-### Adding / Adapting Fields
+### Adding / Adapting Fields {.best-practice}
 
 Now also assumed, you'd want all code lists to have an additional field for long descriptions, and you also want currency symbols, and the `locale` field for languages needs to support values with up to 15 characters. With aspects, you could simply adapt the reuse types and entities accordingly as follows:
 
@@ -313,7 +320,7 @@ extend Languages:locale with (length:15);
 
 :::
 
-### Adding Relationships
+### Adding Relationships {.best-practice}
 
 You can even add [Associations](cdl#associations) and [Compositions](cdl#compositions) to definitions you obtained from somewhere else. For example, the following would extend the common reuse type `managed` obtained from `@sap/cds/common` to not only capture latest modifications, but a history of commented changes, with all entities inheriting from that aspect, own or reused ones, receiving this enhancement automatically:
 
@@ -332,7 +339,7 @@ extend managed with {
 
 
 
-### Adding Reuse Aspects
+### Adding Reuse Aspects {.best-practice}
 
 And as the `:` notation to *inherit* an aspect is essentially just [syntactical sugar](cdl#includes) for extending a given definition with a [*named* aspect](cdl#named-aspects), you can also adapt a reused definition to *inherit* from a common reuse aspect from 'the outside' like so:
 
@@ -348,11 +355,11 @@ extend SomeEntity with managed;
 
 ## Customization, Verticalization
 
-The same approach and techniques is used by SaaS customers when customizing a SaaS application to tailor it to their needs.
+The same approach and techniques are used by SaaS customers when customizing a SaaS application to tailor it to their needs.
 
 
 
-### Adding Custom Fields
+### Adding Custom Fields {.best-practice}
 
 For example, SaaS customers would quite frequently add extension fields like that:
 
@@ -368,7 +375,7 @@ extend ShipmentOrders with {
 
 
 
-### Overriding Annotations
+### Overriding Annotations {.best-practice}
 
 Sometimes they'd need to override existing annotations, such as for UI labels:
 
@@ -379,9 +386,9 @@ annotate Customers with @title:'Patients'; // e.g. for health care
 
 
 
-### Verticalization
+### Verticalization {.best-practice}
 
-Verticalization means to adapt a given application for different regions or industries, which can be accomplished by providing respective pre-defined extension packages and switch them on per customer using [feature toggles](../guides/extensibility/feature-toggles).
+Verticalization means to adapt a given application for different regions or industries, which can be accomplished by providing respective predefined extension packages and switch them on per customer using [feature toggles](../guides/extensibility/feature-toggles).
 
 
 
@@ -405,9 +412,9 @@ entity Groups : Grantees {
 
 When combining that with relational persistence, you'll always end up in trade-off decisions about which strategy to choose for mapping such class hierarchies to flat tables. As that choice heavily depends on the use cases, CDS intentionally doesn't provide any automatic mapping of such inheritance hierarchies, but you have to choose one of the [three commonly known approaches](https://wiki.c2.com/?MappingInheritanceHierarchiesToRelationalSchemataInvolvesCompromises) explicitly in your models as follows...
 
-### Table per leaf class strategy
+### Table Per Leaf Class Strategy {.avoid}
 
-If we'd keep the model as given above, we'd end up with two separate tables, one for each leaf entity. Problem with that approach is that we'd need expensive UNIONs to, for example, display a heterogeneous list of Users and Groups. For example:
+If we'd keep the model as given above, we'd end up with two separate tables, one for each leaf entity. The problem with that approach is that we'd need expensive UNIONs to, for example, display a heterogeneous list of Users and Groups. For example:
 
 ```cds
 entity UsersAndGroups as (
@@ -419,7 +426,7 @@ entity UsersAndGroups as (
 
 
 
-### Table per class strategy
+### Table Per Class Strategy {.avoid}
 
 If we want a separate table for each entity in our model above, including the 'superclass' entity `Grantees`, we'd have to rewrite our model to use composition over inheritance like that:
 
@@ -437,11 +444,11 @@ entity Groups {
 }
 ```
 
-This would allow to display heterogeneous lists of `Grantees` without UNIONs. A lot more JOINs would be required in real-world examples, though.
+This would allow you to display heterogeneous lists of `Grantees` without UNIONs. A lot more JOINs would be required in real-world examples, though.
 
 
 
-### Single table strategy
+### Single Table Strategy {.prefer}
 
 The third strategy is to put everything into a single table and an additional type discriminator element (→ `kind` in the sample below).
 

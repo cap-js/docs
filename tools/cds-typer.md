@@ -346,7 +346,18 @@ npx @cap-js/cds-typer "*" --outputDirectory @cds-models
 Make sure to add the quotes around the asterisk so your shell environment does not expand the pattern.
 
 ## Integrate Into Your Build Process
-Having `cds-typer` present as dependency provides a build task "`typescript`". If your project also depends on `typescript,` this build tasks is automatically included when you run `cds build`.
+Having `cds-typer` present as dependency provides the `typescript` build task. If your project also depends on the `typescript` package, this build task is automatically included when you run `cds build`.
+
+If you are [customizing your build task](../guides/deployment/custom-builds), you can add it after the `nodejs` build task:
+
+```json {3}
+"tasks": [
+  { "for": "nodejs" },
+  { "for": "typescript" },
+  …
+]
+```
+
 This build task will make some basic assumptions about the layout of your project. For example, it expects all source files to be contained within the root directory. If you find that the standard behavior does not match your project setup, you can customize this build step by providing a `tsconfig.cdsbuild.json` in the root directory of your project. We recommend the following basic setup for such a file:
 
 ::: code-group

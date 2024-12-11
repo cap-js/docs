@@ -66,10 +66,23 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 #### Add CDS Editor
 
 1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
-2. Choose *Install* and VS Code opens the details page for the extension **SAP CDS language support**.
+2. Click *Install* and confirm the popup dialog.
 3. In VS Code, choose *Install* to enable the extension.
 
 <span id="invscodeeditor" />
+
+
+
+#### Add Useful Plugins
+
+In addition we recommend installing these VS Code Extensions:
+
+   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+
 
 
 #### Run Services
@@ -400,7 +413,7 @@ A selection popup appears to choose one of three modes:
 1. **_File to file_ (detailed)**: shows every model file on its own. For very large models, the number of files and interdependencies may be too complex to be graphically shown. A message about insufficient memory will appear. In this case use the second option.
 2. **_File to file_ (reduced to folders)**: reduces the graph by only showing the folders of all involved files and their interdependencies. Only the files reachable from the start model where the command was invoked on are evaluated.
 4. **_Complete folder to complete folder_**: always considers all files in a folder and their dependencies.
-This can be useful to understand architectural violations.
+   This can be useful to understand architectural violations.
    > **Example for architectural violation:**<br>
    > You want a clean layering in your project: _app_ → _srv_ → _db_. With this option, you can visualize and identify that there is a dependency from a file in the service layer to an annotation file in the application layer.
 
@@ -492,9 +505,6 @@ A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.vis
 - Storing persistent code (notebook output cells)
 
 The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
-
-* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
-   ![The screenshot is explained in the accompanying text.](./assets/cap-notebook-button.png){width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888"}
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 

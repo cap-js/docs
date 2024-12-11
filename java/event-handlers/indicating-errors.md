@@ -2,7 +2,6 @@
 synopsis: >
   Learn about the error handling capabilities provided by the CAP Java SDK.
 status: released
-redirect_from: java/indicating-errors
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -313,10 +312,6 @@ public void validateReview(BooksAddReviewContext context) {
     // referring to the bound entity `Books`
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
         .messageTarget(b -> b.get("descr"));
-
-    // which is equivalent to
-    throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
-        .messageTarget(b -> b.descr());
 
     // or (using the typed API, referring to "cqn" implicitly)
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")

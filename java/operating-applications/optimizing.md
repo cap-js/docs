@@ -3,7 +3,6 @@ synopsis: >
   This section describes how to optimize resource consumption of productive CAP Java applications.
 
 status: released
-redirect_from: java/observability#profiling
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 

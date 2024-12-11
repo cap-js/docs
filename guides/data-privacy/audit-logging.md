@@ -47,13 +47,17 @@ npm add @cap-js/audit-logging
     {
        "audit-log": {
          "handle": [ "READ", "WRITE" ],
+         "outbox": true
          "[development]": {
-           "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
-           "outbox": false
+           "impl": "@cap-js/audit-logging/srv/log2console"
+         },
+         "[hybrid]": {
+           "impl": "@cap-js/audit-logging/srv/log2restv2",
+           "vcap": { "label": "auditlog" }
          },
          "[production]": {
-           "impl": "@cap-js/audit-logging/srv/audit-log-to-restv2",
-           "outbox": true
+           "impl": "@cap-js/audit-logging/srv/log2restv2",
+           "vcap": { "label": "auditlog" }
          }
        }
     }
@@ -65,7 +69,7 @@ npm add @cap-js/audit-logging
 - `outbox` — whether to use transactional outbox or not
 - `handle` — which events (`READ` and/or `WRITE`) to intercept and generate log messages from
 
-**The preset uses profile-specific configurations** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
+**The preset uses profile-specific configurations** for (hybrid) development and production. Use the `cds env` command to find out the effective configuration for your current environment:
 
 ::: code-group
 ```sh [w/o profile]
@@ -486,15 +490,4 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
-This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring outbox: false in the configuration, for example, as we do in the default configuration for development:
-
-```json
-{
-   "audit-log": {
-     "[development]": {
-       "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
-       "outbox": false // [!code focus]
-     }
-   }
-}
-```
+This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring <Config>cds.audit-log.[development].outbox = false</Config>.

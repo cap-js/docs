@@ -6,6 +6,7 @@ import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
 import Ribbon from './components/Ribbon.vue'
 import ScrollToTop from './components/ScrollToTopSimple.vue'
+import WasThisHelpful from './components/WasThisHelpful.vue'
 
 const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 
@@ -23,6 +24,9 @@ const { frontmatter } = useData()
     </template>
     <template #doc-top>
       <slot name="doc-top" />
+    </template>
+    <template #doc-after>
+      <WasThisHelpful />
     </template>
     <template #not-found>
       <slot name="not-found" />

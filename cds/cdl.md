@@ -1388,7 +1388,7 @@ Each path in the expression is checked:
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
 * For an annotation assigned to a bound action or function, elements of the respective entity
   can be accessed via `$self`.
-* The draft specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
+* The draft-specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
   respective magic variables `$draft.IsActiveEntity`, `$draft.HasActiveEntity`, and `$draft.HasDraftEntity`.
   During draft augmentation, `$draft.<...>` is rewritten to `$self.<...>` for all draft enabled
   entities (root and sub nodes, but not for named types or entity parameters).

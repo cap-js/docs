@@ -377,8 +377,7 @@ Use the _.cdsrc.json_ file to add project specific configuration of `@sap/cds-dk
 
 ### Using a Local cds-dk
 
-By default, the Maven build is configured to download a Node.js runtime and the `@sap/cds-dk` tools and install them locally in the project.
-Starting with version 3.6.0, the default setup of a CAP Java project has changed. The `@sap/cds-dk` is maintained as a `devDependency` in `package.json` and installed with an `npm ci` during the Maven build.
+Starting with version 3.6.0 of the `cds-services-archetype`, the default setup of a newly created CAP Java project has changed. The `@sap/cds-dk` is maintained as a `devDependency` in `package.json` and installed with an `npm ci` during the Maven build.
 The `install-cdsdk` goal is no longer used to install the `@sap/cds-dk` locally and it's also marked as deprecated. The version of the `@sap/cds-dk` is no longer maintained in `pom.xml`, it's configured in the `package.json`:
 ```json
 {
@@ -455,8 +454,8 @@ To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach
 Newly created CAP Java project are maintaining `@sap/cds-dk` as a devDependency in `package.json`, the version will also be maintained there. If the version is updated, it's necessary to do an npm install from the command line to update `package-lock.json`. The `npm ci` will then install the updated version of `@sap/cds-dk`.
 
 2. Goal install-cdsdk
-Older CAP Java might still using the goal `install-cdsdk` of the `cds-maven-plugin`. By default, the goal `install-cdsdk` skips the installation of the `@sap/cds-dk`, if the `@sap/cds-dk` is already installed.
-To update the `@sap/cds-dk` version in your application project do the following:
+Older CAP Java may still use the `install-cdsdk` goal of the `cds-maven-plugin`. By default, the `install-cdsdk` goal skips the installation of `@sap/cds-dk`, if it's already installed.
+To update the `@sap/cds-dk` version in your application project, do the following:
 
 1. Specify a newer version of `@sap/cds-dk` in your *pom.xml* file.
 2. Execute `mvn spring-boot:run` with an additional property `-Dcds.install-cdsdk.force=true`, to force the installation of a **`@sap/cds-dk`** in the configured version.

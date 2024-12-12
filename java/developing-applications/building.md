@@ -404,12 +404,14 @@ To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the 
 	<artifactId>cds-maven-plugin</artifactId>
 	<version>${cds.services.version}</version>
 	<executions>
+		<!-- Delete from here ...  -->
 		<execution>
 			<id>cds.install-cdsdk</id>
 			<goals>
 				<goal>install-cdsdk</goal>
 			</goals>
 		</execution>
+		<!-- ... to here -->
 ```
 2. Then add execution of goal `npm` with arguments `ci` instead to the `cds-maven-plugion` in `srv/pom.xml`:
 ```xml
@@ -427,7 +429,9 @@ To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the 
 3. Remove cds-dk version property `<cds.install-cdsdk.version` from `pom.xml`:
 ```xml
 	<properties>
+		<!-- Delete from here ...  -->
 		<cds.install-cdsdk.version>8.4.2</cds.install-cdsdk.version>
+		<!-- ... to here -->
 	</properties>
 ```
 

@@ -122,11 +122,14 @@ A dedicated build task for `cds build` is provided as part of the `cds-typer` pa
 
 [Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
 
-## TypeScript APIs in `@sap/cds`
+## TypeScript APIs in `@sap/cds` <Since version="8.0.0" of="@sap/cds" />
 
-~The package `@sap/cds` is shipped with TypeScript declarations~ [See release notes](https://cap.cloud.sap/docs/releases/jun24#cds-types-dependency). These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
+The package `@cap-js/cds-types` contains all TypeScript declarations for `@sap/cds` APIs. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code. Just add the `@cap-js/cds-types` package to your project as follows:
 
-Use them like this:
+`npm add @cap-ja/cds-types`
+
+
+Use the Typescript declarations like this:
 
 ```ts
 import { Request } from '@sap/cds'

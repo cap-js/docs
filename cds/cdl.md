@@ -1779,7 +1779,8 @@ extend SomeView with columns {
 }
 ```
 
-Enhancing nested structs isn't supported.
+Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
+is not accessible in such an extend. 
 
 You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 

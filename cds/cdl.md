@@ -1388,9 +1388,10 @@ Each path in the expression is checked:
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
 * For an annotation assigned to a bound action or function, elements of the respective entity
   can be accessed via `$self`.
-* The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
-  During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
-  entities (root and sub nodes but not for named types or entity parameters).
+* The draft specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
+  respective magic variables `$draft.IsActiveEntity`, `$draft.HasActiveEntity`, and `$draft.HasDraftEntity`.
+  During draft augmentation, `$draft.<...>` is rewritten to `$self.<...>` for all draft enabled
+  entities (root and sub nodes, but not for named types or entity parameters).
 * If a path can't be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`

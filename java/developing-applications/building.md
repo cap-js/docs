@@ -423,9 +423,24 @@ To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the 
 			</configuration>
 		</execution>
 ```
-4. Remove cds-dk version property `<cds.install-cdsdk.version` from `pom.xml`
-5. Add `@sap/cds-dk` as devDependency to package.json
-6. Perform `npm install` on the command line to get the `package-lock.json` created or updated
+
+3. Remove cds-dk version property `<cds.install-cdsdk.version` from `pom.xml`:
+```xml
+	<properties>
+		<cds.install-cdsdk.version>8.4.2</cds.install-cdsdk.version>
+	</properties>
+```
+
+4. Add `@sap/cds-dk` as devDependency to `package.json`:
+```json
+{
+  "devDependencies" : {
+    "@sap/cds-dk" : "^8.5.0"
+  }
+}
+```
+
+5. Perform `npm install` on the command line to get the `package-lock.json` created or updated.
 
 #### Maintaining cds-dk
 

@@ -387,7 +387,7 @@ The `install-cdsdk` goal is no longer used to install the `@sap/cds-dk` locally 
   }
 }
 ```
-A `package-lock.json` is also created during project creation with the `cds-services-archetype`. This allows the `npm ci` to run successfully and all transitive dependencies of @sap/cds-dk to be pinned to fix versions. With this, you can ensure that the CDS build is fully reproducible.
+A `package-lock.json` is also created during project creation with the `cds-services-archetype`. The lock file is needed for `npm ci` to run successfully and pins the transitive dependencies of @sap/cds-dk to fixed versions. Fixing the versions ensures that the CDS build is fully reproducible.
 
 ::: warning
 

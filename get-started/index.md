@@ -17,25 +17,14 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 
 
-We strongly recommend to follow this flow to get started with and proficient in using CAP:
-
-| # | Get started with...                 | to learn about...                                                            | Required Time |
-|---|-------------------------------------|------------------------------------------------------------------------------|---------------|
-| 1 | [Initial Setup](#setup)             | Minimalistic setup to get you jump-started.                                  | 1-11 minutes  |
-| 2 | [Bookshop by capire](in-a-nutshell) | Building your first CAP application.                                         | 4-44 minutes  |
-| 3 | [Best Practices](../about/)         | Key concepts and guiding principles, <br> as well as bad practices to avoid. | 4-14 hours    |
-
-So, fasten your seat belts and get started in the next section right below...
-
-
 
 ## Initial Setup {#setup}
 
-Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
+Follow the steps after this for a minimalistic local setup. Alternatively, you can use CAP in [SAP Build Code](https://pages.community.sap.com/topics/build-code), or other cloud-based setups, such as GitHub codespaces.
 
 
 
-#### Prerequisites
+### Prerequisites
 
 - [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
 - [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
@@ -43,9 +32,9 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 - **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
 
 
-#### Installation
+### Installation
 
-- With the prerequisites met, install the [`cds` toolkit](/tools/cds-cli) *globally*:
+- With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
     ```sh
     npm add -g @sap/cds-dk
@@ -59,7 +48,7 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
   cds
   ```
 
-  which should yield some output like that:
+  You see some output like that:
 
   ```sh
   USAGE
@@ -90,16 +79,16 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
 
 
 
-#### Optional
+### Optional
 
 - [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
-- [git](https://git-scm.com) — if you go for more than just some quick trials...
+- [git](https://git-scm.com) — if you go for more than just some quick trials.
 
 
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, ... then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VSCode:
 
    ```sh
    cds init bookshop
@@ -108,7 +97,7 @@ Follow the steps below for a local setup. Alternatively, you can use CAP in [SAP
    ```sh
    code bookshop
    ```
-   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
+   [Assumes you activated the `code` command on macOS as documented](../tools/cds-editors#vscode) {.learn-more}
 
 
 
@@ -125,7 +114,7 @@ bookshop/        # Your project's root folder
 └─ readme.md     # A readme placeholder
 ```
 
-CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these [defaults by specific configuration](../node.js/cds-env) if you need to do so.
+CAP has defaults for many things that you'd have to configure in other frameworks. The goal is that things should just work out of the box, with zero configuration, whenever possible. You can override these defaults by a specific configuration if you need to do so.
 
 ::: details See an example for configuring custom project layouts...
 
@@ -143,32 +132,46 @@ CAP has defaults for many things that you'd have to configure in other framework
 }
 ```
 
+```sh [Explore the defaults in your project]
+cds env ls defaults
+```
+
+[Learn more about project-specific configuration.](../node.js/cds-env){.learn-more}
 :::
 
 ::: tip Convention over configuration
-We recommend to stick to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
-
-To explore the defaults in your projects do as follows:
-```sh
-cds env ls defaults
-```
-cds env ls defaults
-```
-
+We recommend sticking to CAP's way of [Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) to benefit from things just working out of the  box. Only override the defaults if you really need to do so.
 :::
 
 
 
 
-## Next Steps...
+## Learning More
+{#next-steps}
 
-After you finished the [getting started](#) part, continue with the following learning sources as needed, while you grow as you go...:
+After the [initial setup](#setup), we recommend continuing as follows while you grow as you go...:
 
-| # | Guide                                                                        | Description                                    |
-|---|------------------------------------------------------------------------------|------------------------------------------------|
-| 4 | [Learn More](learning-sources)                                               | Find samples, videos, blogs, tutorials, etc.   |
-| 5 | [Cookbook](../guides/)                                                       | Walkthroughs for the most common tasks.        |
-| 6 | [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) | The reference docs for these respective areas. |
+| # | Guide                                     | Description                                            |
+|---|-------------------------------------------|--------------------------------------------------------|
+| 1 | [Introduction – What is CAP?](../about/)  | Learn about key benefits and value propositions.       |
+| 2 | [Bookshop by capire](in-a-nutshell)       | Build your first CAP application within 4-44 minutes.  |
+| 3 | [Best Practices](../about/best-practices) | Key concepts & rationales to understand → *must read*. |
+| 4 | [Anti Patterns](../about/bad-practices)   | Misconceptions & bad practices to avoid → *must read*. |
+| 5 | [Learn More](learning-sources)            | Find samples, videos, blogs, tutorials, and so on.     |
+
+
+
+## Grow as you go...
+
+After these getting started-level introductions, you would continuously revisit these guides to deepen your understanding and as reference docs:
+
+|  # | Guides & References                                                                   | Description                                    |
+|---:|---------------------------------------------------------------------------------------|------------------------------------------------|
+|  6 | [Cookbook](../guides/)                                                                | Walkthroughs for the most common tasks.        |
+|  7 | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas. |
+|  8 | [Plugins](../plugins/)                                                                | Curated list of recommended Calesi plugins.    |
+|  9 | [Releases](../releases/)                                                              | Your primary source to stay up to date.        |
+| 10 | [Resources](../resources/)                                                            | About support channels, community, ...         |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

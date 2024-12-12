@@ -3,6 +3,7 @@ name: PR Build (SAP)
 on:
   pull_request:
     branches: [main]
+  merge_group:
 
 concurrency:
   group: pr-sap-${{ github.workflow }}-${{ github.head_ref || github.run_id }}

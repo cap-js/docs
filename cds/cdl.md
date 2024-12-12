@@ -11,11 +11,11 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 
 
-# Conceptual Schema Definition Language (CDL)
+# Conceptual Definition Language (CDL)
 
 
 
-The *CDS Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
+The *Conceptual Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
 
 
 
@@ -32,8 +32,8 @@ The *CDS Definition Language (CDL)* is a human-readable language for defining CD
 - [Keywords & Identifiers](#keywords-identifiers)
 - [Built-in Types](#built-in-types)
 - [Literals](#literals)
-- [Model Imports](#imports)
-- [Namespaces](#namespace)
+- [Model Imports](#model-imports)
+- [Namespaces](#namespaces)
 - [Comments](#comments)
 
 
@@ -65,7 +65,7 @@ As indicated by the syntax coloring, `Association` is not a keyword, but a type 
 
 :::
 
-Keywords are *case-insensitive*, but most commonly used in lowercase notation.
+Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
 
@@ -146,7 +146,7 @@ Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`
 
 
 
-### Model Imports {#imports}
+### Model Imports
 
 
 
@@ -208,7 +208,7 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
 ### Namespaces
 
 
-#### The `namespace` Directive {#namespace}
+#### The `namespace` Directive
 
 To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
 
@@ -348,21 +348,24 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 ## Entities & Type Definitions
 
-- [Entity Definitions](#entities)
-- [Type Definitions](#types)
+- [Entity Definitions](#entity-definitions)
+- [Type Definitions](#type-definitions)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
 - [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
-- [Type References](#typereferences)
+- [Type References](#type-references)
 - [Constraints](#constraints)
 - [Enums](#enums)
 
 
 
 
-### Entity Definitions {#entities}
+
+### Entity Definitions
+{#entities}
+
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -379,7 +382,9 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions {#types}
+### Type Definitions
+{#types}
+
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -486,7 +491,8 @@ entity Employees {
 
 <span id="calculated-fields"/>
 
-### Calculated Elements {#calculated-elements}
+
+### Calculated Elements
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -625,7 +631,7 @@ type Complex {
 ```
 
 
-### Type References {#typereferences}
+### Type References
 
 If you want to base an element's type on another element of the same structure, you can use the `type of` operator.
 
@@ -869,7 +875,7 @@ This example is equivalent to the [unmanaged example above](#unmanaged-associati
 key element `address_ID` being added automatically upon activation to a SQL database.
 The names of the automatically added foreign key elements cannot be changed.
 
-> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#database-constraints).
 
 If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:
@@ -1670,7 +1676,7 @@ the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 ### The `annotate` Directive
 {#annotate}
 
-The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
+The `annotate` directive allows to annotate already existing definitions that may have been [imported](#model-imports) from other files or projects.
 
 ```cds
 annotate Foo with @title:'Foo';
@@ -1881,7 +1887,8 @@ entity C { /*...*/ };
 :::
 
 
-### (Auto-) Redirected Associations {#auto-redirect}
+### (Auto-) Redirected Associations
+{#auto-redirect}
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -1939,7 +1946,8 @@ service AdminService {
 
 
 
-### Auto-Exposed Entities {#auto-expose}
+### Auto-Exposed Entities
+{#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
 

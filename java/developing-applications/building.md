@@ -395,7 +395,7 @@ For multitenant applications, ensure that the `@sap/cds-dk` version in the sidec
 
 #### Migrate from goal `install-cdsdk` to `npm ci`
 
-To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the following steps are required:
+To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach, the following steps are required:
 
 1. Remove execution of goal `install-cdsdk` from the `cds-maven-plugin` in `srv/pom.xml`:
 ```xml
@@ -413,6 +413,7 @@ To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the 
 		</execution>
 		<!-- ... to here -->
 ```
+
 2. Then add execution of goal `npm` with arguments `ci` instead to the `cds-maven-plugion` in `srv/pom.xml`:
 ```xml
 		<execution>
@@ -446,8 +447,14 @@ To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the 
 
 5. Perform `npm install` on the command line to get the `package-lock.json` created or updated.
 
+6. Finally, do a `mvn clean install' and verify that the installation of `@sap/cds-dk' is done with the new approach.
+
 #### Maintaining cds-dk
 
+1. package.json and npm ci
+If the CAP Java project maintains `@sap/cds-dk` as a devDependency in `package.json`, the version will also be maintained there. If the version is updated, it's necessary to do an npm install from the command line to update `package-lock.json`. The `npm ci` will then install the updated version of `@sap/cds-dk`.
+
+2. Goal install-cdsdk
 By default, the goal `install-cdsdk` of the `cds-maven-plugin` skips the installation of the `@sap/cds-dk`, if the `@sap/cds-dk` is already installed.
 To update the `@sap/cds-dk` version in your application project do the following:
 

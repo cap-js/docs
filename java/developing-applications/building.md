@@ -390,10 +390,42 @@ The `install-cdsdk` goal is no longer used to install the `@sap/cds-dk` locally 
 A `package-lock.json` is also created during project creation with the `cds-services-archetype`. The lock file is needed for `npm ci` to run successfully and pins the transitive dependencies of @sap/cds-dk to fixed versions. Fixing the versions ensures that the CDS build is fully reproducible.
 
 ::: warning
-
 For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
-
 :::
+
+#### Migrate from goal `install-cdsdk` to `npm ci`
+
+To migrate from the deprecated goal `install-cdsdk` to the npm ci approach, the following steps are required:
+
+1. Remove execution of goal `install-cdsdk` from the `cds-maven-plugin` in `srv/pom.xml`:
+```xml
+<plugin>
+	<groupId>com.sap.cds</groupId>
+	<artifactId>cds-maven-plugin</artifactId>
+	<version>${cds.services.version}</version>
+	<executions>
+		<execution>
+			<id>cds.install-cdsdk</id>
+			<goals>
+				<goal>install-cdsdk</goal>
+			</goals>
+		</execution>
+```
+2. Then add execution of goal `npm` with arguments `ci` instead to the `cds-maven-plugion` in `srv/pom.xml`:
+```xml
+		<execution>
+			<id>cds.npm-ci</id>
+			<goals>
+				<goal>npm</goal>
+			</goals>
+			<configuration>
+				<arguments>ci</arguments>
+			</configuration>
+		</execution>
+```
+4. Remove cds-dk version property `<cds.install-cdsdk.version` from `pom.xml`
+5. Add `@sap/cds-dk` as devDependency to package.json
+6. Perform `npm install` on the command line to get the `package-lock.json` created or updated
 
 #### Maintaining cds-dk
 

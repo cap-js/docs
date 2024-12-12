@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - node.js/requests
 status: released
 ---
 

@@ -1,6 +1,5 @@
 ---
 status: released
-redirect_from: guides/data-privacy/introduction
 ---
 
 <style>

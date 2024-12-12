@@ -4,7 +4,6 @@ synopsis: >
   CAP provides out-of-the-box support for SAP Fiori elements front ends.
 permalink: advanced/fiori
 # trailing slash fixes issue w/ Github not serving fiori/ and nested fiori/annotations, see jekyll/jekyll#6459
-redirect_from: guides/fiori
 status: released
 impl-variants: true
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
@@ -462,12 +461,12 @@ If you're editing data in multiple languages, the _General_ tab in the example a
 You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
 
 
-###### ... in Java
+##### ... in Java
 
 You can add your validation logic before operation event handlers. Specific events for draft operations exist. See [Java > Fiori Drafts > Editing Drafts](../java/fiori-drafts#draftevents) for more details.
 
 
-###### ... in Node.js
+##### ... in Node.js
 
 You can add your validation logic before the operation handler for either CRUD or draft-specific events. See [Node.js > Fiori Support > Handlers Registration](../node.js/fiori#draft-support) for more details about handler registration.
 
@@ -517,7 +516,7 @@ annotate service.Books with @(
 );
 ```
 
-The Entity Container is OData specific and refers to the `$metadata` of the OData service in which all accessible entities are located within the Entity Container. 
+The Entity Container is OData specific and refers to the `$metadata` of the OData service in which all accessible entities are located within the Entity Container.
 
 :::details SAP Fiori elements also allows to not include it in the path
 ```cds

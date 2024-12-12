@@ -59,9 +59,10 @@
     }
   )
 
-  const { java, keyOnly } = defineProps<{
+  const { java, keyOnly, label:labelProp } = defineProps<{
     java?: boolean,
-    keyOnly?: boolean
+    keyOnly?: boolean,
+    label?: string
   }>()
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
@@ -69,7 +70,7 @@
   const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
-  const label = `${keyOnly ? key: slotVal}`
+  const label = labelProp || `${keyOnly ? key: slotVal}`
 
   const cfgKey = ref()
   const popperVisible = ref(false)

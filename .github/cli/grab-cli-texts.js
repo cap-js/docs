@@ -35,8 +35,9 @@ try {
         throw new Error(`unexpected version: ${version}`)
     }
 
-    const cmdString = `npm exec --package=${pkg}@${version} -c "${cmd}"`
-    // const cmdString = `${cmd}` // for local testing
+    const cmdString = process.env.CDS_GLOBAL
+        ? `${cmd}` // for local testing
+        : `npm exec --package=${pkg}@${version} -c "${cmd}"`
     console.error(`> ${cmdString}`) // use stderr for debugging output
     const { stdout: cmdOut }   = await exec(cmdString, {cwd, env: { FORCE_COLOR: 'true', ...process.env }})
 

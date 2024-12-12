@@ -1,7 +1,6 @@
 ---
 synopsis: API to execute CQL statements on services accepting CQN queries.
 status: released
-redirect_from: java/query-execution
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -195,7 +194,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#db-constraints).
+The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#database-constraints).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}
@@ -434,10 +433,10 @@ SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
-::: tip
-Runtime views are supported for [CDS projections](../../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+::: warning Limitations
+Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Constant values, expressions such as *case when* and [association filters](../../cds/cdl#publish-associations-with-filter) are currently ignored.
 
-Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
+Complex views using aggregations or union/join/subqueries in `FROM` are not supported.
 :::
 
 ### Using I/O Streams in Queries

@@ -6,10 +6,57 @@ status: released
 ---
 
 
-# The Nature of CDS Models
+# On The Nature of Models
 
 {{ $frontmatter.synopsis }}
 
+
+## Metaphysics of Languages
+
+A *model* is a *thing* that describes *something*.
+For example, a *data model describes the type structure (commonly also called *'schema*') of *data*.
+
+### Languages
+
+### Representations
+
+Models can come in different *representations*, which follow different *syntaxes*. For example, we use the *CDL* syntax for *human-readable* representations of CDS models, while CSN is an *object notation*, i.e. a special form of *syntax*, used for *machine-readable* representations of CDS models. 
+
+::: details On CSN representations... 
+
+We can go one meta-level further and distinguish between different representations of CSN representations: in a Node.js process at runtime they are just native in-memory JavaScript objects, when shared they are serialized to JSON format, which can in turn be translated to YAML, and so forth. When we create CSN objects at runtime, they could be plain JavaScript code. 
+
+:::
+
+### Reflections
+
+CDS models can be compiled to other languages, that play in the same fields, yet not covering the same information, but rather with some loss of information — we call these '*reflections*'. 
+
+Examples are:
+
+- SQL DDL covers the persistence model interface only → only flat tables and views
+- OData EDMX covers the service interfaces only → queryable entities still exist, with implicit features
+- GraqhQL also covers service interfaces → queryable entities still exist, but without less features
+- OpenAPI also covers the service interfaces, with → queryable entities got 'flattened' to paths with input and output types
+
+---
+
+The above principles apply not only to CDS models, but also to Queries:
+
+- CQL is a syntax for human-readable representations
+- CQN is an object notation for machine-readable representations
+
+And for Expressions:
+
+- CXL is a syntax for human-readable representations
+- CXN is an object notation for machine-readable representations
+
+...
+
+
+
+
+## What is a CDS Model?
 
 Models in `cds` are plain JavaScript objects conforming to the _[Core Schema Notation (CSN)](./csn)_. They can be parsed from [_.cds_ sources](./cdl), read from _.json_ or _.yaml_ files or dynamically created in code at runtime.
 

@@ -1,7 +1,6 @@
 ---
 # layout: node-js
 status: released
-redirect_from: get-started/using-typescript
 ---
 
 # Using TypeScript
@@ -32,7 +31,7 @@ Follow these steps to add TypeScript support:
 
 
 
-## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> <Beta /> { #cds-tsx}
+## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> { #cds-tsx}
 
 Use the `cds-tsx` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 
@@ -119,7 +118,9 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 ## Building TypeScript Projects
 
-A dedicated build task for `cds build` is provided as part of the `cds-typer` package. See [Integrate Into Your Multitarget Application](../tools/cds-typer#integrate-into-your-build-process) for more information on how to customize this task.
+A dedicated build task for `cds build` is provided as part of the `cds-typer` package.
+
+[Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
 
 ## TypeScript APIs in `@sap/cds`
 

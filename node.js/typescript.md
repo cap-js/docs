@@ -32,7 +32,7 @@ Follow these steps to add TypeScript support:
 ## Writing TypeScript Files
 
 Once you've setup everything correctly, you can start writing TypeScript files
-instead of JavaScript files. This applies for service handlers, as well as a custom _server.ts_ file or database _init.ts_ seeding files.
+instead of JavaScript files. This applies for service handlers, as well as a custom _server.ts_ file, or database _init.ts_ seeding files.
 
 ## Samples
 
@@ -73,7 +73,7 @@ cds-tsx serve
 ```
 :::
 
-Under the hoods, the [tsx](https://tsx.is/) engine is used to run the files instead of the default `node` engine.
+Under the hood, the [tsx](https://tsx.is/) engine is used to run the files instead of the default `node` engine.
 Install it globally with:
 ```sh
 npm i -g tsx
@@ -100,7 +100,7 @@ cds-ts serve
 It uses the [ts-node](https://github.com/TypeStrong/ts-node) engine under the hood.
 
 ::: tip _tsx_ or _ts-node_?
-In general, `tsx` seems to be the better choice as `tsx` is much faster than `ts-node` because it does not perform type checks.
+In general, `tsx` is the better choice, as `tsx` is much faster than `ts-node` because it does not perform type checks.
 See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
 :::
 

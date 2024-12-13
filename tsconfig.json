@@ -14,11 +14,11 @@
     "allowJs": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "types": ["node", "vite/client"]
+    "types": ["node", "vite/client", "@cap-js/cds-types"]
   },
   "include": [
     ".vitePress/**/*.ts",
-    ".vitePress/**/*.vue",
+    ".vitePress/**/*.vue", ".vitepress/config.js",
   ],
   "exclude": [
     "**/node_modules/**", "**/dist/**"

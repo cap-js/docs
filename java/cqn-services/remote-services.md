@@ -2,7 +2,6 @@
 synopsis: >
   Remote Services are CQN-based clients to remote APIs that a CAP application consumes. This section describes how to configure and use these services.
 status: released
-redirect_from: java/remote-services
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -163,12 +162,12 @@ cds:
 :::
 
 The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore, it needs to be explicitly configured in the `options` section.
-Since the URL is typically not known during development, you can define it as an environment variable. For the previous example, use `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL`. 
+Since the URL is typically not known during development, you can define it as an environment variable. For the previous example, use `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL`.
 
 [Learn more about Binding From Environment Variables in the Spring Boot documentation.](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables){.learn-more}
 
 :::tip
-Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token, see [ProofOfPossession validation](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation). 
+Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token, see [ProofOfPossession validation](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation).
 CAP _Remote Services_ automatically takes care of this by initiating a mutual TLS handshake with the remote API.
 :::
 

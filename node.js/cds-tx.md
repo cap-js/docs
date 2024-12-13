@@ -1,5 +1,4 @@
 ---
-redirect_from: node.js/transactions
 # layout: node-js
 status: released
 label: Transactions

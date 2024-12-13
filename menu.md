@@ -1,8 +1,10 @@
 
 # [Getting Started](get-started/)
 
+  ## [Introduction — What is CAP?](about/)
   ## [Bookshop by capire](get-started/in-a-nutshell)
-  ## [Best Practices](about/)
+  ## [Best Practices](about/best-practices)
+  ## [Anti Patterns](about/bad-practices)
   ## [Next Steps](get-started/#next-steps)
   ## [Learn More](get-started/learning-sources)
   ## [Features Matrix](about/features)
@@ -139,13 +141,14 @@
 ## [CDS Command Line Interface](tools/cds-cli)
 ## [CDS Editors & IDEs](tools/cds-editors)
 ## [CDS Lint](tools/cds-lint/)
-  ### [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
+  ### [Rules Reference](tools/cds-lint/rules/_menu.md)
 ## [CDS Typer](tools/cds-typer)
 ## [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
 ## [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 ## [CDS Design Time APIs](tools/apis/)
   ### [cds. add()](tools/apis/cds-add)
   ### [cds. import()](tools/apis/cds-import)
+  ### [cds. build()](../guides/deployment/custom-builds#custom-build-plugins)
 
 # [Plugins](plugins/)
 

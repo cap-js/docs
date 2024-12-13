@@ -1,7 +1,5 @@
 ---
 status: released
-  - node.js/protocols
-  - node.js/middlewares
 ---
 
 

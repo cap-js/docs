@@ -1,25 +1,18 @@
-// This script creates a Markdown document from the CDS Lint Rules Reference.
-// It uses VitePress' dynamic routing to create a single page.
-// See https://vitepress.dev/guide/routing#dynamic-routes for how this works
+---
+label: cds-lint-rules
+synopsis: >
+  This page lists the rules contained in the ESLint plugin for CDS in depth.
+status: released
+---
 
-export default {
-  async paths() {
-    const content = await getRules()
-    return [{ // we always just return one entry
-      params: { 'rules': 'rules' }, // must match to file name
-      content // raw MD
-    }]
-  }
-}
+<script setup>
+  import RulesRefTable from '../components/RulesRefTable.vue'
+</script>
 
 
-async function getRules() {
-  try {
-    // @ts-ignore
-    await import('@sap/eslint-plugin-cds');
+# Rules Reference
 
-    // console.debug('Reading CDS Lint sources...')
-    let result = `Below you can find all rules of the \`@sap/eslint-plugin-cds\` ESLint plugin.
+Below you can find all rules of the \`@sap/eslint-plugin-cds\` ESLint plugin.
 
 They are grouped by categories [Model Validation](#model-validation) and [Environment](#environment) to help you understand their purpose.
 
@@ -48,18 +41,4 @@ Environment rules are used to check for proper and up-to-date CDS project enviro
 These are only run via the command line and are not available in the editor as they often can't be
 pinpointed to any particular file.
 
-<RulesRefTable category="Environment"/>`
-
-    return result
-  } catch (e) {
-    if (e.code !== 'ERR_MODULE_NOT_FOUND') {
-      throw e;
-    }
-    return `::: danger No content here
-You need install the CDS ESLint plugin locally to see data here:
-\`\`\`sh
-npm i --no-save @sap/eslint-plugin-cds
-\`\`\`
-The CI does that in production.`
-  }
-}
+<RulesRefTable category="Environment"/>

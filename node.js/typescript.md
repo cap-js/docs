@@ -31,7 +31,7 @@ Follow these steps to add TypeScript support:
 
 
 
-## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> <Beta /> { #cds-tsx}
+## Developing with `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> { #cds-tsx}
 
 Use the `cds-tsx` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
 
@@ -118,13 +118,18 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 
 ## Building TypeScript Projects
 
-A dedicated build task for `cds build` is provided as part of the `cds-typer` package. See [Integrate Into Your Multitarget Application](../tools/cds-typer#integrate-into-your-build-process) for more information on how to customize this task.
+A dedicated build task for `cds build` is provided as part of the `cds-typer` package.
 
-## TypeScript APIs in `@sap/cds`
+[Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
 
-The package `@sap/cds` is shipped with TypeScript declarations. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
+## TypeScript APIs in `@sap/cds` <Since version="8.0.0" of="@sap/cds" />
 
-Use them like this:
+The package `@cap-js/cds-types` contains all TypeScript declarations for `@sap/cds` APIs. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code. Just add the `@cap-js/cds-types` package to your project as follows:
+
+`npm add @cap-ja/cds-types`
+
+
+Use the Typescript declarations like this:
 
 ```ts
 import { Request } from '@sap/cds'

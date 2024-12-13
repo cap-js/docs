@@ -15,7 +15,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-## Intro: Core Concepts {#introduction}
+## Intro: Core Concepts
+{#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -160,7 +161,8 @@ The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealt
 In effect, a service definition [as introduced above](#service-definitions) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Custom Logic](#custom-logic) picks that up.
 
 
-### Serving CRUD Requests {#serving-crud}
+### Serving CRUD Requests
+{#serving-crud}
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](databases).
 
@@ -180,7 +182,7 @@ filtering and sorting is not available for `virtual` elements.
 :::
 
 
-### Deep Reads / Writes
+### Deep Reads and Writes
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data.
 The runtimes provide generic handlers for serving deeply nested document structures out of the box as documented in here.
@@ -728,7 +730,7 @@ Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only
 CAP runtimes automatically validate user input, controlled by the following annotations.
 
 
-### `@readonly` {#readonly}
+### `@readonly`
 
 Elements annotated with `@readonly`, as well as [_calculated elements_](../cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
 
@@ -738,7 +740,7 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 
  :::
 
-### `@mandatory` {#mandatory}
+### `@mandatory`
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
 
@@ -761,7 +763,17 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 
 
-### `@assert.unique` {#unique}
+### `@Common.FieldControl` 
+{#common-fieldcontrol}
+
+The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
+::: warning
+Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
+:::
+
+
+
+### `@assert .unique`
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
 
@@ -790,7 +802,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target` {#assert-target}
+### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -806,14 +818,14 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#database-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's
 content adheres to the standard OData specification for an error
 [response body](https://docs.oasis-open.org/odata/odata-json-format/v4.01/cs01/odata-json-format-v4.01-cs01.html#sec_ErrorResponse).
 
-#### Example {#assert-target-example}
+#### Example
 
 Add `@assert.target` annotation to the service definition as previously mentioned:
 
@@ -867,7 +879,7 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert.format` {#assert-format}
+### `@assert .format`
 
 Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
@@ -877,7 +889,7 @@ entity Foo {
 }
 ```
 
-### `@assert.range` {#assert-range}
+### `@assert .range`
 
 Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
 
@@ -914,8 +926,7 @@ Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sa
 :::
 
 
-
-### `@assert.notNull` {#assert-notNull}
+### `@assert .notNull`
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 
@@ -1339,7 +1350,8 @@ To disable this default behavior, you can set the environment variable <Config>c
 
 
 
-## Single-Purposed Services {.best-practice}
+## Single-Purposed Services
+{.best-practice}
 
 
 We strongly recommend designing your services for single use cases.

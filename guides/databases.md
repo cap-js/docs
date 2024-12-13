@@ -382,7 +382,7 @@ This set of functions are by large the same as specified in OData:
 * `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
 * `now()` — returns the current datetime
-* `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
+* `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
 * `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
 > <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'

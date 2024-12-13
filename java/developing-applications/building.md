@@ -446,7 +446,7 @@ To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach
 
 5. Perform `npm install` on the command line to get the `package-lock.json` created or updated.
 
-6. Finally, do a `mvn clean install' and verify that the installation of `@sap/cds-dk' is done with the new approach.
+6. Finally, do a `mvn clean install` and verify that the installation of `@sap/cds-dk` is done with the new approach.
 
 #### Maintaining cds-dk
 

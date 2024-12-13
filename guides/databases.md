@@ -782,12 +782,33 @@ The following rules apply:
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For SAP HANA tables, there's an implicit  that is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA tables, there's an implicit `@sql.prepend: 'COLUMN'` that is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
+
+
+#### Creating a row table on SAP HANA
+
+By using `@sql.prepend: 'ROW'`, you can create a row table:
+
+```cds
+@sql.prepend: 'ROW'
+entity E {
+  key id: Integer;
+}
+```
+
+Running the above through `cds compile - 2 hdbtable` will result in the following:
+
+```sql [E.hdbtable]
+ROW TABLE E (
+  id INTEGER NOT NULL,
+  PRIMARY KEY(id)
+)
+```
 
 ### Reserved Words
 

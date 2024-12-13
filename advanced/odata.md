@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -338,14 +336,16 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-Rendering a `null` value must be done as dynamic expression or as an [annotation expression](#expression-annotations):
+#### Null Value { #null-value }
+
+A `null` value can be set either as an [annotation expression](#expression-annotations) or as a [dynamic expression](#dynamic-expressions):
 
 ```cds
-@Some.Null: { $edmJson: { $Null } }
-// or
-@Some.Null: (null)
+@Some.NullXpr:  (null)                  // annotation expression, short form
+@Some.NullFunc: ($Null())               // annotation expression, functional form
+@Some.NullDyn:  { $edmJson: { $Null } } // dynamic expression
 ```
-Both result in the following:
+All three expressions result in the following rendering:
 ```xml
 <Annotation Term="Some.Null">
   <Null/>
@@ -664,7 +664,8 @@ The following operators and clauses of CDL are supported:
 * Logical: `and`,  `or`,  `not`
 * Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and ...`
 * Unary `+` and `-`
-* Arithmetic: `+`,  `-`,  `*`,  `/`, `||`
+* Arithmetic: `+`,  `-`,  `*`,  `/`
+* Concat: `||`
 * `cast(...)`
 
 Example:
@@ -720,7 +721,7 @@ service S {
 
 In addition, the following functions are supported:
 
-* `$Null()` representing the `null` value
+* `$Null()` representing the `null` value [`Null`]([annotation expression](#null-value)).
 * `Div(...)` (or `$Div(...)`) and `Mod(...)` (or `$Mod(...)`) for integer division and modulo
 * [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
 * the functions listed in sections
@@ -1246,7 +1247,7 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
 
 Example 1:
 

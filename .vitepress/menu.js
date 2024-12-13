@@ -44,10 +44,10 @@ export class MenuItem {
    * Reads a submenu from the given file and adds all its items
    * into this item's child items.
    */
-  async include (filename, parent='.', _rewrite = rewrites) {
+  async include (filename, parent='.', _rewrite = rewrites, include, exclude) {
     const root = dirname(parent), folder = dirname(filename)
     const rewrite = link => link[0] === '/' ? link : _rewrite (normalize(join(folder,link)))
-    const {items} = await Menu.from (join(root,filename), rewrite)
+    const {items} = await Menu.from (join(root,filename), rewrite, include, exclude)
     const children = this.items ??= []; children.push (...items)
     this.link = '/'+folder+'/'
     this.collapsed = true
@@ -92,7 +92,7 @@ export class Menu extends MenuItem {
 
       // Add new item to parent, and to the stack of children
       let child = !text ? parent : children[hashes.length] = parent.add (text, link)
-      if (is_submenu) await child.include (link, file, rewrite, !text)
+      if (is_submenu) await child.include (link, file, rewrite, include, exclude)
     }
 
     // Return menu when all includes are done

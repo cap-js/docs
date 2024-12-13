@@ -1,7 +1,6 @@
 ---
 embed: link
 status: released
-redirect_from: java/development/properties
 ---
 
 <script setup>

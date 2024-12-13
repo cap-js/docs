@@ -2,9 +2,6 @@
 index: 22
 synopsis: >
   Learn how to use uniform APIs to consume local or remote services.
-redirect_from:
-  - guides/consuming-services
-# layout: cookbook
 status: released
 impl-variants: true
 # uacp: Used as link target from Help Portal at
@@ -237,7 +234,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
-## Local Mocking {#local-mocking}
+## Local Mocking
 
 When developing your application, you can mock the remote service.
 
@@ -1613,18 +1610,18 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 
 ### Querying API Features
 
-| Feature                           | Java | Node.js |
-|-----------------------------------|:----:|:-------:|
-| READ                              | <Y/> |  <Y/>   |
-| INSERT/UPDATE/DELETE              | <Y/> |  <Y/>   |
-| Actions                           | <Y/> |  <Y/>   |
-| `columns`                         | <Y/> |  <Y/>   |
-| `where`                           | <Y/> |  <Y/>   |
-| `orderby`                         | <Y/> |  <Y/>   |
-| `limit` (top & skip)              | <Y/> |  <Y/>   |
-| `$apply` (groupedby, ...)         | <X/> |  <X/>   |
-| `$search` (OData v4)              | <Y/> |  <Y/>   |
-| `search` (SAP OData v2 extension) | <Y/> |  <Y/>   |
+| Feature                            | Java | Node.js |
+|------------------------------------|:----:|:-------:|
+| READ                               | <Y/> |  <Y/>   |
+| INSERT/UPDATE/DELETE               | <Y/> |  <Y/>   |
+| Actions                            | <Y/> |  <Y/>   |
+| `columns`                          | <Y/> |  <Y/>   |
+| `where`                            | <Y/> |  <Y/>   |
+| `orderby`                          | <Y/> |  <Y/>   |
+| `limit` (top & skip)               | <Y/> |  <Y/>   |
+| `$apply` (aggregate, groupby, ...) | <X/> |  <X/>   |
+| `$search` (OData v4)               | <Y/> |  <Y/>   |
+| `search` (SAP OData v2 extension)  | <Y/> |  <Y/>   |
 
 ### Supported Projection Features
 

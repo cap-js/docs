@@ -2,12 +2,6 @@
 synopsis: >
   Persistence Services are CQN-based database clients. This section describes which database types are supported, how datasources to these databases are created and how they are turned into Persistence Services.
 status: released
-redirect_from:
-- java/persistence-services
-- java/cds4j/static-model
-- java/cds4j/typed-access
-- java/cds4j/datastore
-- java/advanced
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -156,7 +150,7 @@ cds.sql.hana.optimizationMode: legacy
 Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
 ::: warning Rare error in `HEX` mode
-In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-object), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode.
+In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-objects), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode.
 If you know upfront that a query can't be executed by the HEX engine, you can add a `hdb.NO_USE_HEX_PLAN` hint to the query, so the SQL generator won't use features that require the HEX engine.
 :::
 
@@ -553,7 +547,7 @@ cds:
 
 ### Native SQL with JDBC Templates { #jdbctemplate}
 
-The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](../../advanced/hana#create-native-sap-hana-object)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.
+The JDBC template is the Spring API, which in contrast to the CQN APIs allows executing native SQL statements and call stored procedures (alternative to [Native HANA Object](../../advanced/hana#create-native-sap-hana-objects)). It seamlessly integrates with Spring's transaction and connection management. The following example shows the usage of `JdbcTemplate` in the custom handler of a Spring Boot enabled application. It demonstrates the execution of the stored procedure and native SQL statement.
 
 ```java
 @Autowired

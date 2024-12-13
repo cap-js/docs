@@ -637,7 +637,7 @@ One prominent exception of that, which you would frequently add to your _package
       "[development]": {
         "kind": "sqlite",
         "credentials": {
-          "database": "db/bookshop.db"
+          "url": "db/bookshop.sqlite"
         }
       }
     }
@@ -694,7 +694,7 @@ The latter is appropriate in test suites. In productive code, you never provide 
     },
     "db": {
       "credentials": {
-        "database": "sqlite.db"
+        "url": "db.sqlite"
       }
     }
   }

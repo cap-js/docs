@@ -13,22 +13,44 @@ status: released
 
 ## This Documentation
 
-This documentation — named _'capire'_, italian for understand — is the primary source of information for the SAP Cloud Application Programming Model. It is organized as follows:
+This documentation — named _'capire'_, italian for understand — is the primary source of information for the SAP Cloud Application Programming Model.
 
-- [Cookbook](../guides/) and [Advanced](../advanced/) — are collections of task-oriented guides that help you with the most common tasks and advanced topics in CAP-based development.
+It's organized as follows:
 
-- [CDS](../cds/), [Java](../java/), [Node.js](../node.js/), [Tools](../tools/) — are respective reference docs for these areas.
+| Section                                                                                  | Description                                                                                                        |
+|------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| [Getting&nbsp;Started](./) <br/> [Cookbook](../guides/) <br/> [Advanced](../advanced/)   | **Task-oriented guides** that walk you through the most common tasks and advanced topics in CAP-based development. |
+| [CDS](../cds/) <br/> [Java](../java/) <br/> [Node](../node.js/) <br/> [Tools](../tools/) | **Reference docs** for respective areas.                                                                           |
+| [Plugins](../plugins/)                                                                   | **Curated list of plugins** that extend the capabilities of the CAP framework.                                     |
+| [Releases](../releases/)                                                                 | The place where you can stay up to date with the most recent information about new features and changes in CAP.        |
 
-- [Plugins](../plugins/) — is a currated list of plugins that extend the capabilities of the CAP framework.
 
-- [Releases](../releases/) — is the place where you can stay up to date with most recent information about new features and changes in CAP.
+### Node/Java Toggles
+
+
+### Feature Status Badges
+
+Within the docs, you find badges that indicate the status of a feature, or API.
+Here's a list of the badges and their meanings:
+
+| Badge                                   | Description                                                                                                                                                        |
+|-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <Since version="1.2.3" of="@sap/..." /> | The marked feature is available with the given version or higher                                                                                                   |
+| <Alpha />                               | Alpha features are experimental. They may never be generally available. If released subsequently, the APIs and behavior might change                               |
+| <Beta />                                | Beta features are planned to be generally available in subsequent releases, however, APIs and their behavior are not final and may change in the general release   |
+| <Concept />                             | Concept features are ideas for potential future enhancements and an opportunity for you to give feedback. This is not a commitment to implement the feature though |
+| <Internal />                            | SAP specific features, processes, or infrastructure. Examples are _Deploy with Confidence_, _SAP product standards_, or _xMake_                                    |
+
+
+### CAP Notebooks Integration
+
 
 
 
 
 ## Sample Projects
 
-In here, we collected several interesting sample projects for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well prepared sources we can recommend for your learning. From the short description we provide for every resource, you're hopefully able to tell if that fits to the need you're currently having.
+In here, we collected several interesting sample projects for you. Not all of them are maintained by the CAP team, not all of them cover CAP in its entirety, but they are well-prepared sources we can recommend for your learning. From the short description we provide for every resource, you're hopefully able to tell if that fits to the need you're currently having.
 
 <style scoped>
   main .vp-doc a:has(> img) {
@@ -75,9 +97,7 @@ In here, we collected several interesting sample projects for you. Not all of th
 > [![]()](https://github.com/sap-samples/cloud-cap-samples){.node}
 
 The bookshop sample is our original sample provided by the CAP team and featured in the [getting started guides](../get-started/in-a-nutshell).
-It is available in both Node.js and Java. The Node.js variant contains additional samples besides bookshop that demonstrate various features of CAP.
-
-
+It's available in both Node.js and Java. The Node.js variant contains additional samples besides bookshop that demonstrate various features of CAP.
 
 
 ### Incidents Mgmt {.github}
@@ -87,16 +107,12 @@ It is available in both Node.js and Java. The Node.js variant contains additiona
 A reference sample application for CAP and the SAP BTP Developer Guide.
 
 
-
-
 ### CAP SFlight {.github}
 
 > [![]()](https://github.com/sap-samples/cap-sflight){.java}
 > [![]()](https://github.com/sap-samples/cap-sflight){.node}
 
-This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.com/what-is-sflight-and-the-flight-and-booking-data-model-for-abap) sample app in ABAP. It is a great source for how to add SAP **Fiori** applications to a CAP project, including adding UI test suites on various stacks.
-
-
+This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.com/what-is-sflight-and-the-flight-and-booking-data-model-for-abap) sample app in ABAP. It's a great source for how to add SAP **Fiori** applications to a CAP project, including adding UI test suites on various stacks.
 
 
 ### Star Wars App {.github}
@@ -105,9 +121,7 @@ This sample is a CAP adaptation of the popular [SFLIGHT](https://blog.sap-press.
 
 SWAPI - the Star Wars API. This sample is based upon the sample at [swapi.dev](https://swapi.dev) which in turn was based upon [swapi.co](https://swapi.dev/about). The original source can be found at https://github.com/Juriy/swapi.
 
-The projects described above have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provides a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
-
-
+The projects described previously have fallen out of maintenance but still offered the opportunity for a fun yet challenging learning experience from a non-trivial data model. The many bi-directional, many-to-many relationships with the data provide a good basis for an SAP Cloud Application Programming Model and Fiori Draft UI sample. {.indent}
 
 
 ### BTP SusaaS App {.github}
@@ -122,7 +136,7 @@ The Sustainable SaaS (SusaaS) sample application has been built in a partner col
 
 > [![]()](https://github.com/SAP-samples/partner-reference-application){.node}
 
-The Partner Reference Application repository provides you with a “golden path” to becoming a SaaS provider of multi-tenant applications based on the SAP Business Technology Platform (SAP BTP).
+The Partner Reference Application repository provides you with a “golden path” to becoming a SaaS provider of multitenant applications based on the SAP Business Technology Platform (SAP BTP).
 The guidance covers building, running, and integrating scalable full-stack cloud applications. It includes an ERP-agnostic design that lets you deliver your application as a side-by-side extension to consumers using any SAP solution, such as SAP S/4HANA Cloud, SAP Business One, and SAP Business ByDesign.
 
 By using BTP services and the SAP Cloud Application Programming Model (CAP), your application meets SAP standards for enterprise-class business solutions. It offers a harmonized user experience and seamless integration, including:
@@ -132,9 +146,15 @@ By using BTP services and the SAP Cloud Application Programming Model (CAP), you
 - and secure back-channel integration.
 
 The repository includes the “Poetry Slam Manager” application as a ready-to-run example. It also provides tutorials on how to build the application from scratch using an incremental development approach.
-Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
+Based on this sample application, you find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
 
 
+
+## Open Source Projects
+
+- Plugins by SAP + CAP Teams
+- Plugins by Community
+- ...
 
 
 ## Learning Journeys

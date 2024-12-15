@@ -392,7 +392,7 @@ A `package-lock.json` is also created during project creation with the `cds-serv
 For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
 :::
 
-#### Migrate from goal `install-cdsdk` to `npm ci`
+#### Migrate from goal `install-cdsdk` to `npm ci` { #migration-install-cdsdk }
 
 To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach, the following steps are required:
 

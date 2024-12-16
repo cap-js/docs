@@ -47,9 +47,6 @@
 
 <script setup>
 import { ref, computed, watchEffect } from 'vue'
-import { useRoute } from 'vitepress'
-
-const route = useRoute()
 
 const charLimit = 140
 const feedbackText = ref('')
@@ -59,28 +56,20 @@ const selection = ref(null)
 
 const handleYes = () => {
   if (selection.value === 'yes') return
-  trackYes()
+  if (typeof window !== 'undefined' && window._paq) {
+    window._paq.push(['trackEvent', 'Feedback', 'Yes', window.location.href])
+  }
   feedbackSelected.value = true
   selection.value = 'yes'
 }
 
 const handleNo = () => {
   if (selection.value === 'no') return
-  trackNo()
-  feedbackSelected.value = true
-  selection.value = 'no'
-}
-
-const trackYes = () => {
-  if (typeof window !== 'undefined' && window._paq) {
-    window._paq.push(['trackEvent', 'Feedback', 'Yes', window.location.href])
-  }
-}
-
-const trackNo = () => {
   if (typeof window !== 'undefined' && window._paq) {
     window._paq.push(['trackEvent', 'Feedback', 'No', window.location.href])
   }
+  feedbackSelected.value = true
+  selection.value = 'no'
 }
 
 const sendFeedback = () => {

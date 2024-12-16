@@ -3,14 +3,14 @@
     <p v-if="!feedbackSent">Was this page helpful?</p>
     <div v-if="!feedbackSent" class="button-row">
       <button
-        :class="{ selected: selection === 'positive' }"
+        :class="{ selected: selection === 'Positive' }"
         @click="handlePositive"
         title="This page was helpful"
       >
         👍
       </button>
       <button
-        :class="{ selected: selection === 'negative' }"
+        :class="{ selected: selection === 'Negative' }"
         @click="handleNegative"
         title="This page was not helpful"
       >
@@ -61,39 +61,37 @@ const feedbackSent = ref(false)
 const selection = ref(null)
 
 const handlePositive = () => {
-  if (selection.value === 'positive') return
+  if (selection.value === 'Positive') return
   if (typeof window !== 'undefined' && window._paq) {
     const path = new URL(window.location.href).pathname
     window._paq.push(['trackEvent', path, 'Positive'])
   }
   feedbackSelected.value = true
-  selection.value = 'positive'
+  selection.value = 'Positive'
 }
 
 const handleNegative = () => {
-  if (selection.value === 'negative') return
+  if (selection.value === 'Negative') return
   if (typeof window !== 'undefined' && window._paq) {
     const path = new URL(window.location.href).pathname
     window._paq.push(['trackEvent', path, 'Negative'])
   }
   feedbackSelected.value = true
-  selection.value = 'negative'
+  selection.value = 'Negative'
 }
 
 const sendFeedback = () => {
   if (typeof window !== 'undefined' && window._paq) {
     const path = new URL(window.location.href).pathname
-    const action = selection.value === 'positive' ? 'Positive' : 'Negative'
     const name = feedbackText.value.trim()
-
-    window._paq.push(['trackEvent', path, action, name])
+    window._paq.push(['trackEvent', path, selection.value, name])
     feedbackSent.value = true
   }
 }
 
 const placeholderText = computed(() => {
-  if (selection.value === 'positive') return 'What did you like about the page?'
-  if (selection.value === 'negative') return 'What did you miss on this page?'
+  if (selection.value === 'Positive') return 'What did you like about the page?'
+  if (selection.value === 'Negative') return 'What did you miss on this page?'
   return ''
 })
 </script>

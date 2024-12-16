@@ -4,316 +4,367 @@ shorty: Query Notation
 synopsis: >
   Specification of the Core Query Notation (CQN) format that is used to capture queries as plain JavaScript objects.
 status: released
-uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
 
 # Query Notation (CQN)
 
-[expr]: cxn#expressions
-[xpr]: cxn#operators
-[ref]: cxn#references
-[val]: cxn#literal-values
-[_xpr]: cxn#operators
-
-
-CQN is a canonical plain object representation of CDS queries. Such query objects can be obtained by parsing [CQL](./cql), by using the [query builder APIs](../node.js/cds-ql), or by simply constructing respective objects directly in your code.
-
-
-#### Examples
-
-The following three snippets all construct the same query object:
-
-```js
-// Parsing CQL
-let query = cds.parse.cql (`SELECT from Foo`)
-```
-
-```js
-// Query building
-let query = SELECT.from('Foo')
-```
-
-```js
-// Constructing CQN objects in your code
-let query = {SELECT:{from:[{ref:['Foo']}]}}
-```
-
-That object can be [executed with `cds.run`](../node.js/core-services#srv-run-query):
-
-```js
-cds.run (query)
-```
-
-::: warning _❗ Warning_ <!--  -->
-Because of SQL injection, it's strongly discouraged to use `cds.parse.cql` in your request handlers.
-:::
-
-
-#### Content
 
 [[toc]]
 
 
+
+## Introduction
+
+CQN is a canonical plain object representation of CDS queries. Such query objects can be obtained by parsing [CQL](./cql), by using the [query builder APIs](../node.js/cds-ql), or by simply constructing respective objects directly in your code.
+
+For example, the following three snippets all construct the same query object:
+
+```js
+// Parsing CQL tagged template strings
+let query = cds.ql `SELECT from Foo`
+```
+
+```js
+// Query building
+let query = SELECT.from (ref`Foo`)
+```
+
+```js
+// Constructing plain CQN objects
+let query = {SELECT:{from:[{ref:['Foo']}]}}
+```
+
+Such queries can be [executed with `cds.run`](../node.js/core-services#srv-run-query):
+
+```js
+let results = await cds.run (query)
+```
+
+
+
 ## SELECT
-[SELECT]: #select
 
-A fully equipped `SELECT` query is represented as an object following this template (all properties except `from` are optional):
+Following is the TypeScript declaration of `SELECT` query objects:
 
-```js
-SELECT = {SELECT:{
-  distinct: true,
-  from: source | join,
-  mixin: { ...element },
-  columns: projection,
-  excluding: [ ...string ],
-  where: _xpr,
-  groupBy: [ ...expr ],
-  having: _xpr,
-  orderBy: [ ...ordering_term ],
-  limit: { rows:expr, offset:expr },
-  forUpdate: { wait: number },
-  forShareLock: { wait: number },
-  search: _xpr,
-  count: Boolean
+```tsx
+class SELECT { SELECT: {
+  distinct?   : true
+  count?      : true
+  one?        : true
+  from        : source
+  columns?    : column[]
+  where?      : xo[]
+  having?     : xo[]
+  search?     : xo[]
+  groupBy?    : expr[]
+  orderBy?    : order[]
+  limit?      : { rows: val, offset: val }
 }}
 ```
+> Using:
+> [`source`](#source),
+> [`colum`](#column),
+> [`xo`](#xo),
+> [`expr`](#expr),
+> [`order`](#order),
+> [`val`](#val)
 
-| Property    | Description                                                               |
-|-------------|---------------------------------------------------------------------------|
-| `from`      | a primary [source] or [joined sources][joins]                             |
-| `mixin`     | a dictionary of several [CSN element definitions](./csn#structured-types) |
-| `columns`   | an array of [column expressions](#columns)                                |
-| `excluding` | an array of names                                                         |
-| `where`     | a [predicate expression][_xpr]                                            |
-| `groupBy`   | an array of [expressions][expr]                                           |
-| `having`    | a [predicate expression][_xpr]                                            |
-| `orderBy`   | an array of [ordering terms](#ordering-terms)                             |
-| `limit`     | a dictionary of two [expressions][expr]: rows and offset                  |
-| `search`    | a [predicate expression][_xpr]                                            |
-| `count`     | a Boolean                                                                 |
+CQL SELECT queries enhance SQL's SELECT statements with these noteworthy additions:
+
+- The `from` clause supports [`{ref}`](#ref) paths with *[infix filters](#infix)*.
+- The `columns` clause supports deeply *[nested projections](#expand)*.
+- The `count` property requests the total count, similar to OData's `$count`.
+- The `one` property causes a single row object to be read instead of an array.
+
+Also `SELECT` statements with `from` as the only mandatory property are allowed,
+which is equivalent to SQL's `SELECT * from ...`.
 
 
-```js
-source         =  ( ref | SELECT ) + { as:string }
-join           =  { join:string, args:[...source], on:_xpr }
-projection     =  [ ...column_expr ]
-column_expr    =  expr + { as:string, cast:def, (expand|inline):projection }
-ordering_term  =  expr + { sort: 'asc'|'desc', nulls: 'first'|'last' }
+
+### `.from`
+
+{#source}
+
+Property `from` specifies the source of the query, which can be a table, a view, or a subquery.
+It is specified with type `source` as follows:
+
+```tsx
+class SELECT { SELECT: { //...
+  from : source // [!code focus]
+}}
 ```
-
-**Sources** are [references][ref] or [subqueries][SELECT] with an optional: { #sources}
-
-[source]: #sources
-[sources]: #sources
-
-* `as` – a string specifying a chosen source alias
-
-**Joins** combine two [sources] with these properties: { #joins}
-
-[joins]: #joins
-[join]: #joins
-
-* `join` is one of `'left'`, `'right'`, `'full'`, `'inner'`, or `'cross'`
-* `args` is an array of two [sources] or [joins]
-* `on` is a [predicate expression][_xpr] capturing the JOIN condition
-
-**Column Expressions** are a plain string `'*'`, or [expressions][expr] with these optional additional properties: { #columns}
-
-* `as` is a string with the chosen name in the result set
-* `cast` is a [CSN type definition](./csn#type-definitions)
-* `inline` \| `expand` are nested [projections][SELECT]
-
-
-**Ordering Terms** are [expressions][expr], usually [references][ref], with one or none of... { #ordering-terms}
-
-* `sort` = 'asc' \| 'desc'
-* `nulls` = 'first' \| 'last'
-
-### Example
-
-For example, the following query in CQL:
-
-```sql
-SELECT from samples.bookshop.Books {
-  title, author.name as author,
-  1 as one,
-  x+2 as two : Integer,
-} excluding {
-  dummy
+```tsx
+type source = ref &as | SELECT | {
+  join : 'inner' | 'left' | 'right'
+  args : [ source, source ]
+  on?  : expr
 }
-WHERE ID=111
-GROUP BY x.y
-HAVING x.y<9
-ORDER BY title asc
-LIMIT 11 OFFSET 22
 ```
+> Using:
+> [`ref`](#ref),
+> [`as`](#as),
+> [`expr`](#expr)
+>
+> Used in:
+> [`SELECT`](#select)
 
-is represented in CQN as:
 
-```js
-CQN = {SELECT:{
-  from: {ref:["samples.bookshop.Books"]},
-  columns: [
-    {ref:["title"]},
-    {ref:["author","name"], as: "author"},
-    {val:1, as: "one"},
-    {xpr:[{ref:['x']}, '+', {val:2}], as: "two",
-      cast: {type:"cds.Integer"}
-    }
-  ],
-  excluding: [
-    "dummy"
-  ],
-  where: [{ref:["ID"]}, "=", {val: 111}],
-  groupBy: [{ref:["x","y"]}],
-  having: [{ref:["x","y"]}, "<", {val: 9}],
-  orderBy: [{ref:["title"], sort:'asc' }],
-  limit: {rows:{val:11}, offset:{val:22}}
+
+### `.columns`
+
+{#column}
+
+{#as}
+
+Property `columns` specifies the columns to be selected, projected, or aggregated, and is specified as an array of `column`s:
+
+```tsx
+class SELECT { SELECT: { //...
+  columns : column[] // [!code focus]
+}}
+```
+```tsx
+type column = '*' | expr &as &cast | ref &as &(
+  { expand?: column[] } |
+  { inline?: column[] }
+) &infix
+interface as { as?: name }
+interface cast { cast?: {type:name} }
+```
+> A `cast` is essentially a CSN [type definition](./csn#type-definitions).
+>
+> Using:
+> [`expr`](#expr),
+> [`name`](#name)
+> [`ref`](#ref),
+> [`infix`](#infix)
+>
+> Used in:
+> [`SELECT`](#select)
+
+
+### `.where`
+### `.having`
+### `.search`
+
+Properties `where`, and `having`, specify the filter predicates to be applied to the rows selected, or grouped, respectively. Property `search` is of same kind and is used for full-text search.
+
+```tsx
+class SELECT { SELECT: {
+  where  : xo[] // [!code focus]
+  having : xo[] // [!code focus]
+  search : xo[] // [!code focus]
 }}
 ```
 
-<div id="afterexample" />
 
-<div id="beforeupsert" />
+### `.orderBy`
 
-## UPSERT
-
-```js
-UPSERT = {UPSERT:{
-   into: ref + { as:string },
-   entries: [ ...{ ...column:any } ],
-   as: SELECT
+```tsx
+class SELECT { SELECT: { //...
+  orderBy : order[] // [!code focus]
 }}
 ```
+```tsx
+type order = expr & {
+  sort  : 'asc' | 'desc'
+  nulls : 'first' | 'last'
+}
+```
+> Using:
+> [`expr`](#expr)
+>
+> Used in:
+> [`SELECT`](#select)
+>
+<style>
+  h2#insert { margin-bottom: 0px }
+  main .vp-doc h2 + h2,
+  main .vp-doc h3 + h3 { margin-top: 0px }
+</style>
 
 ## INSERT
+## UPSERT
 
-```js
-INSERT = {INSERT:{
-   into: ref + { as:string },
-   columns: [ ...string ],
-   values: [ ...any ],
-   rows: [ ...[ ...any ] ],
-   entries: [ ...{ ...column:any } ],
-   as: SELECT
+CQN representations for `INSERT` and `UPSERT` are essentially identical:
+
+```tsx
+class INSERT { INSERT: UPSERT['UPSERT'] }
+class UPSERT { UPSERT: {
+  into      : ref
+  entries?  : data[]
+  columns?  : string[]
+  values?   : scalar[]
+  rows?     : scalar[][]
+  from?     : SELECT
 }}
 ```
+```tsx
+interface data  { [elm:string]: scalar | data | data[] }
+```
 
-Either and only one of the properties `values` or `rows` or `entries` is expected to be specified. Each of which is expected to have one or more entries:
+> Using:
+> [`ref`](#ref),
+> [`expr`](#expr)
+> [`scalar`](#scalar),
+> [`SELECT`](#select)
+>
+> See also:
+> [`UPDATE.data`](#data),
 
-* `values` is an array of values, which positionally match to specified `columns`.
-* `rows` is an array of one or more `values`.
-* `entries` is an array of records with name-value pairs.
+Data to be inserted can be specified in one of the following ways:
 
-Examples:
+* Using [`entries`](#entries) as an array of records with name-value pairs.
+* Using [`values`](#values) as in SQL's _values_ clauses.
+* Using [`rows`](#rows) as an array of one or more `values`.
+
+The latter two options require a `columns` property to specify names of columns
+to be filled with the values in the same order.
+
+
+### `.entries`
+
+Allows input data to be specified as records with name-value pairs,
+including _deep_ inserts.
 
 ```js
-CQN = {INSERT:{
-  into: { ref: ['Books'] },
+let q = {INSERT:{ into: { ref: ['Books'] }, entries: [
+  { ID:201, title:'Wuthering Heights' },
+  { ID:271, title:'Catweazle' }
+]}}
+```
+```js
+let q = {INSERT:{ into: { ref: ['Authors'] }, entries: [
+  { ID:150, name:'Edgar Allen Poe', books: [
+    { ID:251, title:'The Raven' },
+    { ID:252, title:'Eleonora' }
+  ]}
+]}}
+```
+[See definition in `INSERT` summary](#insert) {.learn-more}
+
+
+
+### `.values`
+
+Allows input data to be specified as an single array of values, as in SQL.
+
+```js
+let q = {INSERT:{ into: { ref: ['Books'] },
   columns: [ 'ID', 'title', 'author_id', 'stock' ],
   values: [ 201, 'Wuthering Heights', 101, 12 ]
 }}
 ```
+[See definition in `INSERT` summary](#insert) {.learn-more}
+
+
+### `.rows`
+
+Allows input data for multiple rows to be specified as arrays of values.
+
 ```js
-CQN = {INSERT:{
-  into: { ref: ['Books'] },
-  columns: [ 'ID', 'title', 'author_id', 'stock' ],
+let q = {INSERT:{ into: { ref: ['Books'] },
+  columns: [
+    'ID', 'title', 'author_id', 'stock'
+  ],
   rows: [
     [ 201, 'Wuthering Heights', 101, 12 ],
-    [ 251, 'The Raven', 150, 333 ],
     [ 252, 'Eleonora', 150, 234 ]
   ]
 }}
 ```
-```js
-CQN = {INSERT:{
-  into: { ref: ['Books'], as: 'NewBooks' },
-  entries: [
-    { ID:201, title:'Wuthering Heights', author_id:101, stock:12 },
-    { ID:251, title:'The Raven', author_id:150, stock:333 },
-    { ID:271, title:'Catweazle', author_id:170, stock:222 }
-  ]
-}}
-```
+[See definition in `INSERT` summary](#insert) {.learn-more}
 
-The last one also allows to express so-called 'deep inserts'. Let's assume we want to store an author with two books:
-
-```js
-CQN = {INSERT:{ into: { ref: ['Authors'] }, entries: [
-  { ID:150, name:'Edgar Allen Poe', books:[
-    { ID:251, title:'The Raven' },
-    { ID:252, title:'Eleonora' }
-  ] }
-]}}
-```
-
-Instead of inserting new entries for books we might want to just add relationships to already existing books, in that case just specify one or more primary key values of the target instance.
-
-```js
-CQN = {INSERT:{ into: { ref: ['Authors'] }, entries: [
-  { ID:150, name:'Edgar Allen Poe', books:[
-    251, 252,
-  ] }
-]}}
-```
 
 
 ## UPDATE
 
-```js
-UPDATE = {UPDATE:{
-   entity: ref + { as:string },
-   data: { ...column:any },
-   where: _xpr
+```tsx
+class UPDATE { UPDATE: {
+  entity  : ref
+  where?  : expr
+  data    : data
+  with    : changes
 }}
 ```
+> Using:
+> [`ref`](#ref),
+> [`expr`](#expr),
+> [`data`](#data),
+> [`changes`](#changes)
+
+
+### `.data`
+
+Data to be updated can be specified in property `data` as records with name-value pairs, same as in [`INSERT.entries`](#entries).
+
+```tsx
+interface data  { [element:name]: scalar | data | data[] }
+```
+> Using:
+> [`name`](#name),
+> [`scalar`](#scalar)
+
+
+### `.with`
+
+{#changes}
+
+Property `with` specifies the changes to be applied to the data, very similar to property [`data`](#data) with the difference to also allow [expressions](#expressions) as values.
+
+```tsx
+interface changes { [element:name]: scalar | expr | changes | changes[] }
+```
+
+> Using:
+> [`name`](#name),
+> [`expr`](#expr),
+> [`scalar`](#scalar)
+
 
 
 ## DELETE
 
 ```js
-DELETE = {DELETE:{
-   from: ref + { as:string },
-   where: _xpr
+class DELETE { DELETE: {
+  from    : ref
+  where?  : expr
 }}
+```
+> Using:
+> [`ref`](#ref),
+> [`expr`](#expr)
+
+
+## Expressions
+
+{#expr}
+
+{#ref}
+
+{#val}
+
+{#xpr}
+
+{#list}
+
+{#func}
+
+{#param}
+
+Following are the axiomatic building blocks used in CQN expressions:
+
+```tsx
+type expr  = ref | val | xpr | list | func | param | SELECT
+```
+```tsx
+type ref   = { ref: ( name | { id:name &infix })[] }
+type val   = { val: scalar }
+type xpr   = { xpr: xo[] }
+type list  = { list: expr[] }
+type func  = { func: string, args: expr[] }
+type param = { ref: [ '?' | number | string ], param: true }
 ```
 
 
-## CREATE
-
-```js
-CREATE = {CREATE:{
-   entity: entity | string,
-   as: SELECT
-}}
-```
-
-
-## DROP
-
-```js
-DROP = {DROP:{
-   table: ref,
-   view: ref,
-   entity: ref
-}}
-```
-Examples:
-
-```js
-CQN = {DROP:{
-  table: { ref: ['Books'] }
-}}
-```
-
-```js
-CQN = {DROP:{
-  view: { ref: ['Books'] }
-}}
-```
-
-```js
-CQN = {DROP:{
-  entity: { ref: ['Books'] }
-}}
-```
+<div id="hierarchy-queries" />

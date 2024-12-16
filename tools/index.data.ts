@@ -7,7 +7,6 @@ const basePath = basename(__dirname)
 export default createContentLoader([
   `**/${basePath}/*.md`,
   `**/${basePath}/**/index.md`,
-  `**/cds-dk.md`,
   `**/hybrid-testing.md`,
 ], {
   transform(rawData) {

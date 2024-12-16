@@ -116,6 +116,10 @@ type source = ref &as | SELECT | {
 
 {#as}
 
+{#expand}
+
+{#name}
+
 Property `columns` specifies the columns to be selected, projected, or aggregated, and is specified as an array of `column`s:
 
 ```tsx
@@ -159,6 +163,9 @@ class SELECT { SELECT: {
 
 
 ### `.orderBy`
+{#order}
+
+{#ordering-terms}
 
 ```tsx
 class SELECT { SELECT: { //...
@@ -246,6 +253,8 @@ let q = {INSERT:{ into: { ref: ['Authors'] }, entries: [
 
 
 ### `.values`
+
+{#scalar}
 
 Allows input data to be specified as an single array of values, as in SQL.
 
@@ -351,6 +360,10 @@ class DELETE { DELETE: {
 {#func}
 
 {#param}
+
+{#xo}
+
+{#infix}
 
 Following are the axiomatic building blocks used in CQN expressions:
 

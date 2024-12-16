@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed } from 'vue'
 
 const charLimit = 140
 const feedbackText = ref('')
@@ -63,7 +63,8 @@ const selection = ref(null)
 const handlePositive = () => {
   if (selection.value === 'positive') return
   if (typeof window !== 'undefined' && window._paq) {
-    window._paq.push(['trackEvent', 'Feedback', 'Positive', window.location.href])
+    const path = new URL(window.location.href).pathname
+    window._paq.push(['trackEvent', path, 'Positive'])
   }
   feedbackSelected.value = true
   selection.value = 'positive'
@@ -72,7 +73,8 @@ const handlePositive = () => {
 const handleNegative = () => {
   if (selection.value === 'negative') return
   if (typeof window !== 'undefined' && window._paq) {
-    window._paq.push(['trackEvent', 'Feedback', 'Negative', window.location.href])
+    const path = new URL(window.location.href).pathname
+    window._paq.push(['trackEvent', path, 'Negative'])
   }
   feedbackSelected.value = true
   selection.value = 'negative'
@@ -80,11 +82,11 @@ const handleNegative = () => {
 
 const sendFeedback = () => {
   if (typeof window !== 'undefined' && window._paq) {
-    const category = 'Feedback Message'
+    const path = new URL(window.location.href).pathname
     const action = selection.value === 'positive' ? 'Positive' : 'Negative'
-    const name = window.location.href + ': ' + feedbackText.value.trim()
+    const name = feedbackText.value.trim()
 
-    window._paq.push(['trackEvent', category, action, name])
+    window._paq.push(['trackEvent', path, action, name])
     feedbackSent.value = true
   }
 }
@@ -93,13 +95,6 @@ const placeholderText = computed(() => {
   if (selection.value === 'positive') return 'What did you like about the page?'
   if (selection.value === 'negative') return 'What did you miss on this page?'
   return ''
-})
-
-watchEffect(() => {
-  feedbackText.value = ''
-  feedbackSelected.value = false
-  feedbackSent.value = false
-  selection.value = null
 })
 </script>
 

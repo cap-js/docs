@@ -46,7 +46,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
+import { useRoute } from 'vitepress'
+
+const route = useRoute()
 
 const charLimit = 140
 const feedbackText = ref('')
@@ -95,6 +98,13 @@ const placeholderText = computed(() => {
   if (selection.value === 'yes') return 'What did you like about the page?'
   if (selection.value === 'no') return 'What did you miss on this page?'
   return ''
+})
+
+watchEffect(() => {
+  feedbackText.value = ''
+  feedbackSelected.value = false
+  feedbackSent.value = false
+  selection.value = null
 })
 </script>
 

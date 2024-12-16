@@ -421,3 +421,41 @@ Examples:
 > cds.resolve('none')       // > undefined
 ```
 > Try this in cds repl launched from your project root to see that in action.
+
+
+## Lifecycle Events
+
+The following [lifecycle events](cds-facade#lifecycle-events) are emitted via the `cds` facade object during the server bootstrapping process.
+You can register event handlers using `cds.on()` like so:
+
+
+```js
+const cds = require('@sap/cds')
+cds.on('compile.for.runtime', ...)
+cds.on('compile.to.dbx', ...)
+cds.on('compile.to.edmx', ...)
+```
+
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered.
+
+> [!tip] Note that several of these events coud be emitted for the same model, so ensure your handlers are idempodent.
+
+
+### compile.for.runtime {.event}
+
+A one-time event, emitted before the model is compiled for usage in Node.js or Java runtime.
+This is the right place to, for example, add custom elements required at runtime.
+
+
+### compile.to.dbx {.event}
+
+A one-time event, emitted before database-specific artifacts, i.e. SQL DDL scripts, are generated from the model.
+This is the right place to, for example, add custom elements required in your persistence.
+
+
+### compile.to.edmx {.event}
+
+A one-time event, emitted immediately before the model is compiled to edmx.
+This is the right place to add custom transformations to the model, for example, to add custom Fiori annotations.

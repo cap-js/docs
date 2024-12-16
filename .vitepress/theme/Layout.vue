@@ -7,11 +7,14 @@ import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
 import Ribbon from './components/Ribbon.vue'
 import ScrollToTop from './components/ScrollToTopSimple.vue'
 import WasThisHelpful from './components/WasThisHelpful.vue'
+import { useRoute } from 'vitepress'
 
 const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 
 const { Layout } = DefaultTheme
 const { frontmatter } = useData()
+
+const route = useRoute()
 
 </script>
 
@@ -26,7 +29,7 @@ const { frontmatter } = useData()
       <slot name="doc-top" />
     </template>
     <template #doc-after>
-      <WasThisHelpful />
+      <WasThisHelpful :key="route.path" />
     </template>
     <template #not-found>
       <slot name="not-found" />

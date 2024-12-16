@@ -5,12 +5,14 @@
       <button
         :class="{ selected: selection === 'positive' }"
         @click="handlePositive"
+        title="This page was helpful"
       >
         👍
       </button>
       <button
         :class="{ selected: selection === 'negative' }"
         @click="handleNegative"
+        title="This page was not helpful"
       >
         👎
       </button>
@@ -19,6 +21,10 @@
     <p v-if="feedbackSent" class="thank-you">Thank you for your feedback!</p>
 
     <div class="feedback-section" v-if="feedbackSelected && !feedbackSent">
+      <div>
+        <p>Thank you for your feedback!</p>
+        <p><br>Feel free to add an optional comment below.<br>Make sure not to include any personal information.</p>
+      </div>
       <div class="textarea-container">
         <textarea
           ref="feedbackInput"
@@ -27,11 +33,12 @@
           :maxlength="charLimit"
           class="feedback-textarea"
         ></textarea>
+
         <p class="char-count">{{ feedbackText.length }}/140</p>
       </div>
 
       <div class="send-feedback">
-        <button class="feedback-button" @click="sendFeedback">Send</button>
+        <button class="feedback-button" @click="sendFeedback" :disabled="!feedbackText.trim()">Send</button>
       </div>
     </div>
 
@@ -145,6 +152,11 @@ button.selected {
   opacity: 0.8;
 }
 
+.feedback-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .feedback-section {
   display: flex;
   flex-direction: column;
@@ -154,6 +166,7 @@ button.selected {
   gap: 0.5rem;
   margin-top: 1rem;
   position: relative;
+  text-align: center;
 }
 
 .textarea-container {

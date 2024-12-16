@@ -126,7 +126,9 @@ A dedicated build task for `cds build` is provided as part of the `cds-typer` pa
 
 The package `@cap-js/cds-types` contains all TypeScript declarations for `@sap/cds` APIs. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code. Just add the `@cap-js/cds-types` package to your project as follows:
 
-`npm add @cap-ja/cds-types`
+```sh
+npm add @cap-js/cds-types
+```
 
 
 Use the Typescript declarations like this:

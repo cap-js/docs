@@ -13,6 +13,12 @@ status: released
 
 ## Constructing Queries
 
+Module `cds.ql` provides facilities to construct queries in [*Core Query Notation (CQN)*](../cds/cqn) in three major ways: 
+
+1. Using tagged template literals
+2. Using a fluent API
+3. Using CQN constructors 
+
 Module `cds.ql` provides a SQL-like fluent API to construct queries:
 
 ```js
@@ -22,14 +28,36 @@ let q3 = UPDATE('Books',201).with({ title: 'Sturmhöhe' })
 let q4 = DELETE.from('Books').where({ID:201})
 ```
 
-Alternative to classic method calls we can also use the fluent API with tagged templates:
+We can also use the fluent API with tagged template literals:
 
-```sql
+```js
 let q1 = SELECT.from `Books` .where `ID=${201}`
 let q2 = INSERT.into `Books` .entries ({ title:'Wuthering Heights' })
 let q3 = UPDATE `Books` .where `ID=${201}` .with `title=${'Sturmhöhe'}`
 let q4 = DELETE.from `Books` .where `ID=${201}`
 ```
+
+As well as with full queries in TTL:
+
+```js
+let q3 = UPDATE `Books where ID=${201}` .with `title=${'Sturmhöhe'}`
+let q1 = SELECT.from `Books where ID=${201}`
+let q4 = DELETE.from `Books where ID=${201}`
+```
+
+
+
+Constructing individual CQN objects:
+
+```js
+const { ref } = cds.ql
+let q1 = SELECT.from (ref`Books`) .where (ref`ID`,'=',val(201))
+let q2 = INSERT.into (ref`Books`) .entries ({ title:'Wuthering Heights' })
+let q3 = UPDATE (ref`Books`) .where (ref`ID`,'=',val(201)) .with (ref`title`,'=',val`Sturmhöhe`)
+let q4 = DELETE.from (ref`Books`) .where (ref`ID`,'=',val(201))
+```
+
+
 
 The API is made available through global objects `SELECT`, `INSERT`, `UPSERT`, `UPDATE`, `DELETE`. Alternatively, you can obtain these objects from `cds.ql` like so:
 

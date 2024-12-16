@@ -1,17 +1,16 @@
 <template>
   <div class="helpful-container">
     <p v-if="!feedbackSent">Was this page helpful?</p>
-
     <div v-if="!feedbackSent" class="button-row">
       <button
-        :class="{ selected: selection === 'yes' }"
-        @click="handleYes"
+        :class="{ selected: selection === 'positive' }"
+        @click="handlePositive"
       >
         👍
       </button>
       <button
-        :class="{ selected: selection === 'no' }"
-        @click="handleNo"
+        :class="{ selected: selection === 'negative' }"
+        @click="handleNegative"
       >
         👎
       </button>
@@ -54,28 +53,28 @@ const feedbackSelected = ref(false)
 const feedbackSent = ref(false)
 const selection = ref(null)
 
-const handleYes = () => {
-  if (selection.value === 'yes') return
+const handlePositive = () => {
+  if (selection.value === 'positive') return
   if (typeof window !== 'undefined' && window._paq) {
-    window._paq.push(['trackEvent', 'Feedback', 'Yes', window.location.href])
+    window._paq.push(['trackEvent', 'Feedback', 'Positive', window.location.href])
   }
   feedbackSelected.value = true
-  selection.value = 'yes'
+  selection.value = 'positive'
 }
 
-const handleNo = () => {
-  if (selection.value === 'no') return
+const handleNegative = () => {
+  if (selection.value === 'negative') return
   if (typeof window !== 'undefined' && window._paq) {
-    window._paq.push(['trackEvent', 'Feedback', 'No', window.location.href])
+    window._paq.push(['trackEvent', 'Feedback', 'Negative', window.location.href])
   }
   feedbackSelected.value = true
-  selection.value = 'no'
+  selection.value = 'negative'
 }
 
 const sendFeedback = () => {
   if (typeof window !== 'undefined' && window._paq) {
     const category = 'Feedback Message'
-    const action = selection.value === 'yes' ? 'Positive' : 'Negative'
+    const action = selection.value === 'positive' ? 'Positive' : 'Negative'
     const name = window.location.href + ': ' + feedbackText.value.trim()
 
     window._paq.push(['trackEvent', category, action, name])
@@ -84,8 +83,8 @@ const sendFeedback = () => {
 }
 
 const placeholderText = computed(() => {
-  if (selection.value === 'yes') return 'What did you like about the page?'
-  if (selection.value === 'no') return 'What did you miss on this page?'
+  if (selection.value === 'positive') return 'What did you like about the page?'
+  if (selection.value === 'negative') return 'What did you miss on this page?'
   return ''
 })
 

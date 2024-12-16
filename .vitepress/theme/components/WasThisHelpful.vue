@@ -87,7 +87,7 @@ const sendFeedback = () => {
   if (typeof window !== 'undefined' && window._paq) {
     const category = 'Feedback Message'
     const action = selection.value === 'yes' ? 'Positive' : 'Negative'
-    const name = feedbackText.value.trim()
+    const name = window.location.href + ': ' + feedbackText.value.trim()
 
     window._paq.push(['trackEvent', category, action, name])
     feedbackSent.value = true

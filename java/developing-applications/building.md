@@ -451,7 +451,7 @@ To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach
 #### Maintaining cds-dk
 
 1. package.json and npm ci
-Newly created CAP Java projects maintain the `@sap/cds-dk` with a specific version as a devDependency in `package.json`. So, when you update the version, run npm install from the command line to update the `package-lock.json`. After that when `npm ci` is run, it uses the updated version of `@sap/cds-dk`.
+Newly created CAP Java projects maintain the `@sap/cds-dk` with a specific version as a devDependency in `package.json`. So, when you update the version, run npm install from the command line to update the `package-lock.json`. `npm ci` will then install the updated version of `@sap/cds-dk`.
 
 2. Goal install-cdsdk
  Older CAP Java projects that use the `install-cdsdk` goal of the `cds-maven-plugin` don't update `@sap/cds-dk`. By default, the goal skips the installation if it's already installed.

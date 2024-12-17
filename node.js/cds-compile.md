@@ -292,40 +292,40 @@ The three main methods are offered as classic functions, as well as [tagged temp
 
 
 
-### `CDL`, cds. parse. cdl() {.method #parse-cdl }
+### cds. parse. cdl() {.method #parse-cdl }
 
-Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
+Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn). Supports tagged template strings as well as plain string arguments.
 It's essentially a [shortcut to `cds.compile (..., {flavor:'parsed'})`](#cds-compile).
 
 Examples:
 ```js
-let csn = CDL`entity Foo{}`
-let csn = cds.parse (`entity Foo{}`)  //= shortcut to:
 let csn = cds.parse.cdl (`entity Foo{}`)
+let csn = cds.parse.cdl `entity Foo{}`
+let csn = cds.parse `entity Foo{}`  //> shortcut to the above
 ```
 
 
 
-### `CQL`, cds. parse. cql() {.method #parse-cql }
+### cds. parse. cql() {.method #parse-cql }
 
-Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn).
+Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cqn = CQL`SELECT * from Foo`
 let cqn = cds.parse.cql (`SELECT * from Foo`)
+let cqn = cds.parse.cql `SELECT * from Foo`
 ```
 
 
 
-### `CXL`, cds. parse. expr() {.method #parse-cxl }
+### cds. parse. expr() {.method #parse-cxl }
 
-Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators).
+Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cxn = CXL`foo.bar > 9`
 let cxn = cds.parse.expr (`foo.bar > 9`)
+let cxn = cds.parse.expr `foo.bar > 9`
 //> {xpr:[ {ref:['foo', 'bar']}, '>', {val:9} ] }
 ```
 

@@ -426,7 +426,7 @@ To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach
 		</execution>
 ```
 
-3. Remove cds-dk version property `<cds.install-cdsdk.version` from `pom.xml`:
+3. Remove cds-dk version property `cds.install-cdsdk.version` from `pom.xml`:
 ```xml
 	<properties>
 		<!-- Delete from here ...  -->
@@ -451,11 +451,11 @@ To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach
 #### Maintaining cds-dk
 
 1. package.json and npm ci
-Newly created CAP Java project are maintaining `@sap/cds-dk` as a devDependency in `package.json`, the version will also be maintained there. If the version is updated, it's necessary to do an npm install from the command line to update `package-lock.json`. The `npm ci` will then install the updated version of `@sap/cds-dk`.
+Newly created CAP Java projects maintain the `@sap/cds-dk` with a specific version as a devDependency in `package.json`. So, when you update the version, run npm install from the command line to update the `package-lock.json`. After that when `npm ci` is run, it uses the updated version of `@sap/cds-dk`.
 
 2. Goal install-cdsdk
-Older CAP Java may still use the `install-cdsdk` goal of the `cds-maven-plugin`. By default, the `install-cdsdk` goal skips the installation of `@sap/cds-dk`, if it's already installed.
-To update the `@sap/cds-dk` version in your application project, do the following:
+ Older CAP Java projects that use the `install-cdsdk` goal of the `cds-maven-plugin` don't update `@sap/cds-dk`. By default, the goal skips the installation if it's already installed.
+To update the `@sap/cds-dk` version:
 
 1. Specify a newer version of `@sap/cds-dk` in your *pom.xml* file.
 2. Execute `mvn spring-boot:run` with an additional property `-Dcds.install-cdsdk.force=true`, to force the installation of a **`@sap/cds-dk`** in the configured version.

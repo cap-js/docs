@@ -31,8 +31,7 @@ Follow these steps to add TypeScript support:
 
 ## Writing TypeScript Files
 
-Once you've setup everything correctly, you can start writing TypeScript files
-instead of JavaScript files. This applies for service handlers, as well as a custom _server.ts_ file, or database _init.ts_ seeding files.
+Once you have setup everything correctly, you can start using TypeScript files instead of JavaScript files. This setup applies for service handlers, and to a custom _server.ts_ file, or database _init.ts_ seeding files as well.
 
 ## Samples
 
@@ -45,7 +44,7 @@ It features both [CAP service handlers](https://github.com/SAP-samples/cap-sflig
 ### Using `cds watch` <Since version="8.6.0" of="@sap/cds-dk" /> { #cds-watch}
 
 Preferably use `cds watch` in a TypeScript project as if it was a Javascript project.
-It will detect TypeScript mode based on a `tsconfig.json` and run [`cds-tsx`](#cds-tsx) under the hood.
+It detects TypeScript mode based on a `tsconfig.json` and run [`cds-tsx`](#cds-tsx) under the hood.
 
 ```sh
 cap/sflight $ cds watch
@@ -80,7 +79,7 @@ npm i -g tsx
 ```
 
 ::: warning Not for production
-Both `cds-watch` and `cds-tsx` / `tsx` should be used for development only. **For productive usage always precompile TypeScript code** to JavaScript for best performance and use `cds-serve` as usual.
+Use `cds-watch` and `cds-tsx` / `tsx` during development only. **For productive usage, always precompile TypeScript code** to JavaScript for best performance and use `cds-serve` as usual.
 :::
 
 ### Using `cds-ts` { #cds-ts}
@@ -100,7 +99,7 @@ cds-ts serve
 It uses the [ts-node](https://github.com/TypeStrong/ts-node) engine under the hood.
 
 ::: tip _tsx_ or _ts-node_?
-In general, `tsx` is the better choice, as `tsx` is much faster than `ts-node` because it does not perform type checks.
+In general, `tsx` is the better choice, as `tsx` is considerably faster than `ts-node` because it doesn't perform type checks.
 See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
 :::
 

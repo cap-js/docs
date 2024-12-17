@@ -790,7 +790,7 @@ If you use native database clauses in combination with `@cds.persistence.journal
 
 
 
-#### Creating a row table on SAP HANA
+#### Creating a Row Table on SAP HANA
 
 By using `@sql.prepend: 'ROW'`, you can create a row table:
 

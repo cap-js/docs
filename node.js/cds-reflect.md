@@ -520,7 +520,7 @@ This property gives you access to all prototypes of the builtin classes as well 
 
 Actually, at runtime CDS is in fact bootstrapped out of this using core [CSN](../cds/csn) object structures and [`cds.linked`] techniques. Think of it to be constructed as follows:
 
-```cds
+```js
 cds.builtin.types = cds.linked`
   using from './roots';
   context cds {

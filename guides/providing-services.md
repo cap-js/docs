@@ -1121,10 +1121,10 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
 > Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
-> For convenience, the Node.js runtime also allows
-> - calling bound actions/functions without prefixing them with the service name
-> - omitting the `()` if no parameter required
-> - using query options to provide function parameters like `sue/sum?x=1&y=2`
+> For convenience, the CAP Node.js runtime also allows the following:
+> - Call bound actions/functions without prefixing them with the service name.
+> - Omit the `()` if no parameter is required.
+> - Use query options to provide function parameters like `sue/sum?x=1&y=2`
 
 <br>
 

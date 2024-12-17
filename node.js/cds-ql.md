@@ -13,11 +13,11 @@ status: released
 
 ## Constructing Queries
 
-Module `cds.ql` provides facilities to construct queries in [*Core Query Notation (CQN)*](../cds/cqn) in three major ways: 
+Module `cds.ql` provides facilities to construct queries in [*Core Query Notation (CQN)*](../cds/cqn) in three major ways:
 
 1. Using tagged template literals
 2. Using a fluent API
-3. Using CQN constructors 
+3. Using CQN constructors
 
 Module `cds.ql` provides a SQL-like fluent API to construct queries:
 
@@ -235,8 +235,6 @@ The kind of query, that is one of these strings:
 - `'UPSERT'`
 - `'UPDATE'`
 - `'DELETE'`
-- `'CREATE'`
-- `'DROP'`
 
 This is usefull for generic query processors, such as outbound protocol adapters or database services, which need to translate given queries into target representations.
 

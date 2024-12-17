@@ -801,7 +801,7 @@ entity E {
 }
 ```
 
-Running the above through `cds compile - 2 hdbtable` will result in the following:
+Run `cds compile - 2 hdbtable` on the previous sample and this is the result:
 
 ```sql [E.hdbtable]
 ROW TABLE E (

@@ -55,7 +55,6 @@ class SELECT { SELECT: {
   columns?    : column[]
   where?      : xo[]
   having?     : xo[]
-  search?     : xo[]
   groupBy?    : expr[]
   orderBy?    : order[]
   limit?      : { rows: val, offset: val }
@@ -82,8 +81,7 @@ which is equivalent to SQL's `SELECT * from ...`.
 
 
 ### `.from`
-
-{#source}
+###### source
 
 Property `from` specifies the source of the query, which can be a table, a view, or a subquery.
 It is specified with type `source` as follows:
@@ -112,9 +110,11 @@ type source = ref &as | SELECT | {
 
 ### `.columns`
 
-{#column}
+###### column
+###### as
+###### cast
+###### expand
 
-{#as}
 
 Property `columns` specifies the columns to be selected, projected, or aggregated, and is specified as an array of `column`s:
 
@@ -128,6 +128,8 @@ type column = '*' | expr &as &cast | ref &as &(
   { expand?: column[] } |
   { inline?: column[] }
 ) &infix
+```
+```tsx
 interface as { as?: name }
 interface cast { cast?: {type:name} }
 ```
@@ -135,7 +137,7 @@ interface cast { cast?: {type:name} }
 >
 > Using:
 > [`expr`](#expr),
-> [`name`](#name)
+> [`name`](#name),
 > [`ref`](#ref),
 > [`infix`](#infix)
 >
@@ -159,6 +161,7 @@ class SELECT { SELECT: {
 
 
 ### `.orderBy`
+###### order
 
 ```tsx
 class SELECT { SELECT: { //...
@@ -247,6 +250,8 @@ let q = {INSERT:{ into: { ref: ['Authors'] }, entries: [
 
 ### `.values`
 
+{#scalar}
+
 Allows input data to be specified as an single array of values, as in SQL.
 
 ```js
@@ -307,8 +312,7 @@ interface data  { [element:name]: scalar | data | data[] }
 
 
 ### `.with`
-
-{#changes}
+###### changes
 
 Property `with` specifies the changes to be applied to the data, very similar to property [`data`](#data) with the difference to also allow [expressions](#expressions) as values.
 
@@ -337,22 +341,21 @@ class DELETE { DELETE: {
 
 
 ## Expressions
+###### expr
+###### ref
+###### val
+###### xpr
+###### list
+###### func
+###### param
+###### infix
+###### xo
+###### name
+###### scalar
 
-{#expr}
-
-{#ref}
-
-{#val}
-
-{#xpr}
-
-{#list}
-
-{#func}
-
-{#param}
-
-Following are the axiomatic building blocks used in CQN expressions:
+Expressions can be entity or element references, query parameters,
+literal values, lists of all the former, function calls, sub selects,
+or compound expressions.
 
 ```tsx
 type expr  = ref | val | xpr | list | func | param | SELECT
@@ -365,6 +368,20 @@ type list  = { list: expr[] }
 type func  = { func: string, args: expr[] }
 type param = { ref: [ '?' | number | string ], param: true }
 ```
+
+```tsx
+type xo       = expr | keyword | operator
+type operator = '=' | '==' | '!=' | '<' | '<=' | '>' | '>='
+type keyword  = 'in' | 'like' | 'and' | 'or' | 'not'
+type scalar   = number | string | boolean | null
+type name     = string
+```
+
+>[!note]
+> CQN by intent does not _understand_ expressions and therefore
+> keywords and operators are just represented as plain strings in flat
+> `xo` sequences. This allows us to translate to and from any other query languages,
+> including support for native SQL features.
 
 
 <div id="hierarchy-queries" />

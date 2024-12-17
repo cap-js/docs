@@ -147,7 +147,7 @@ You can set the property to one of the following:
 - number of milliseconds like `1000`
 
 ::: info Technical background
-It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there is no periodic job that does the garbage collection.
+It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there's no periodic job that does the garbage collection.
 :::
 
 ### Differences to Previous Version

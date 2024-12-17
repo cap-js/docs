@@ -292,40 +292,40 @@ The three main methods are offered as classic functions, as well as [tagged temp
 
 
 
-### `CDL`, cds. parse. cdl() {.method #parse-cdl }
+### cds. parse. cdl() {.method #parse-cdl }
 
-Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
+Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn). Supports tagged template strings as well as plain string arguments.
 It's essentially a [shortcut to `cds.compile (..., {flavor:'parsed'})`](#cds-compile).
 
 Examples:
 ```js
-let csn = CDL`entity Foo{}`
-let csn = cds.parse (`entity Foo{}`)  //= shortcut to:
 let csn = cds.parse.cdl (`entity Foo{}`)
+let csn = cds.parse.cdl `entity Foo{}`
+let csn = cds.parse `entity Foo{}`  //> shortcut to the above
 ```
 
 
 
-### `CQL`, cds. parse. cql() {.method #parse-cql }
+### cds. parse. cql() {.method #parse-cql }
 
-Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn).
+Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cqn = CQL`SELECT * from Foo`
 let cqn = cds.parse.cql (`SELECT * from Foo`)
+let cqn = cds.parse.cql `SELECT * from Foo`
 ```
 
 
 
-### `CXL`, cds. parse. expr() {.method #parse-cxl }
+### cds. parse. expr() {.method #parse-cxl }
 
-Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators).
+Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cxn = CXL`foo.bar > 9`
 let cxn = cds.parse.expr (`foo.bar > 9`)
+let cxn = cds.parse.expr `foo.bar > 9`
 //> {xpr:[ {ref:['foo', 'bar']}, '>', {val:9} ] }
 ```
 
@@ -421,3 +421,41 @@ Examples:
 > cds.resolve('none')       // > undefined
 ```
 > Try this in cds repl launched from your project root to see that in action.
+
+
+## Lifecycle Events
+
+The following [lifecycle events](cds-facade#lifecycle-events) are emitted via the `cds` facade object during the server bootstrapping process.
+You can register event handlers using `cds.on()` like so:
+
+
+```js
+const cds = require('@sap/cds')
+cds.on('compile.for.runtime', ...)
+cds.on('compile.to.dbx', ...)
+cds.on('compile.to.edmx', ...)
+```
+
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered.
+
+> [!tip] Note that several of these events coud be emitted for the same model, so ensure your handlers are idempodent.
+
+
+### compile.for.runtime {.event}
+
+A one-time event, emitted before the model is compiled for usage in Node.js or Java runtime.
+This is the right place to, for example, add custom elements required at runtime.
+
+
+### compile.to.dbx {.event}
+
+A one-time event, emitted before database-specific artifacts, i.e. SQL DDL scripts, are generated from the model.
+This is the right place to, for example, add custom elements required in your persistence.
+
+
+### compile.to.edmx {.event}
+
+A one-time event, emitted immediately before the model is compiled to edmx.
+This is the right place to add custom transformations to the model, for example, to add custom Fiori annotations.

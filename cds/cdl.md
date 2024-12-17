@@ -595,7 +595,7 @@ No restrictions apply for reading a calculated element on-write.
 
 #### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a filtered association or composition, like in this example:
+A calculated element can also define a filtered association/composition using infix filters:
 
 ```cds
 entity Employees {
@@ -607,7 +607,7 @@ entity Employees {
 For such a calculated element, no explicit type can be specified.
 Only a single association or composition can occur in the expression, and a filter must be specified.
 
-The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
+The effect essentially is like [publishing an association with an infix filter](#publish-associations-with-filter).
 
 
 ### Default Values
@@ -1062,7 +1062,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter {#publish-associations-with-filter}
+#### Publish Associations with Infix Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original

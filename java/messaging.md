@@ -700,7 +700,7 @@ private void handleError(MessagingErrorEventContext ctx) {
        // tenant of the received message
       String tenant = ctx.getTenant();
 
-      // receieved message
+      // received message
       Map<String, Object> headers = ctx.getMessageHeaders(); 
       Map<String, Object> message = ctx.getMessageData();
 

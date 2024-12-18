@@ -27,6 +27,8 @@
       <em>side-by-side-extensibility</em>   - logic extensibility via extension points
       <em>mtx</em>                          - multitenancy + toggles + extensibility
       <em>xsuaa</em>                        - authentication via XSUAA
+      <em>ias</em>                          - authentication via IAS
+      <em>ams</em>                          - authorization via AMS
       <em>hana</em>                         - database support for SAP HANA
       <em>postgres</em>                     - database support for PostgreSQL
       <em>sqlite</em>                       - database support for SQLite

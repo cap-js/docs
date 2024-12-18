@@ -4,11 +4,11 @@
 
 <em>@cap-js/asyncapi</em>: 1.0.2
 <em>@cap-js/cds-types</em>: 0.8.0
-<em>@cap-js/db-service</em>: 1.16.0
+<em>@cap-js/db-service</em>: 1.16.1
 <em>@cap-js/openapi</em>: 1.1.0
-<em>@cap-js/sqlite</em>: 1.7.7
+<em>@cap-js/sqlite</em>: 1.7.8
 <em>@sap/cds</em>: 8.5.1
-<em>@sap/cds-compiler</em>: 5.5.2
+<em>@sap/cds-compiler</em>: 5.6.0
 <em>@sap/cds-dk (global)</em>: 8.5.1
 <em>@sap/cds-fiori</em>: 1.2.8
 <em>@sap/cds-foss</em>: 5.0.1

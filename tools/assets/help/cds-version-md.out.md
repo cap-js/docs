@@ -6,11 +6,11 @@
 | ---------------------- | --------------------------------------- |
 | @cap-js/asyncapi       | 1.0.2                                   |
 | @cap-js/cds-types      | 0.8.0                                   |
-| @cap-js/db-service     | 1.16.0                                  |
+| @cap-js/db-service     | 1.16.1                                  |
 | @cap-js/openapi        | 1.1.0                                   |
-| @cap-js/sqlite         | 1.7.7                                   |
+| @cap-js/sqlite         | 1.7.8                                   |
 | @sap/cds               | 8.5.1                                   |
-| @sap/cds-compiler      | 5.5.2                                   |
+| @sap/cds-compiler      | 5.6.0                                   |
 | @sap/cds-dk (global)   | 8.5.1                                   |
 | @sap/cds-fiori         | 1.2.8                                   |
 | @sap/cds-foss          | 5.0.1                                   |

@@ -6,7 +6,7 @@
   ],
   "rebaseWhen": "conflicted",
   "includePaths": [
-    ".vitepress/config.ts",
+    ".vitepress/config.*",
     ".github/workflows/",
     "package.json",
     "**/*.md"
@@ -37,7 +37,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [ ".vitepress/config.ts" ],
+      "fileMatch": [ ".vitepress/config.*" ],
       "matchStrings": [
         "java_services\\s*:\\s*'(?<currentValue>.*?)'"
       ],
@@ -47,7 +47,7 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [ ".vitepress/config.ts" ],
+      "fileMatch": [ ".vitepress/config.*" ],
       "matchStrings": [
         "java_cds4j\\s*:\\s*'(?<currentValue>.*?)'"
       ],

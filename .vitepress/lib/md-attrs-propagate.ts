@@ -4,7 +4,7 @@ import { MarkdownRenderer } from 'vitepress'
  * Propagates `impl java|node` classes that are set on a header
  * down to sub headers. Example:
  * ```md
- * # Header 1 {.impl .node}
+ * # Header 1 {.node}
  * Text
  * ## Header 2
  * ```

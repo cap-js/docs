@@ -796,19 +796,13 @@ book.put("title", "Capire");
 CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```
 
- or it can be a [path expression](#path-expressions), for example:
+ or it can be a [path expression](#path-expressions), for example to add an item for Order 1001:
 
  ```java
-import static bookshop.Bookshop_.BOOKS;
+import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> bookId = Collections.singletonMap("ID", 85);
-
-Map<String, Object> publisher = new HashMap<>();
-publisher.put("ID", 101);
-publisher.put("name", "Penguin");
-
-CqnInsert insert = Insert.into(BOOKS, b -> b.matching(bookId)).publisher())
-                         .entry(publisher);
+Insert.into(ORDERS, o -> o.matching(Map.of("ID", 1001))).items())
+	.entry(Map.of("book", Map.of("ID", 251), "amount", 1));
 ```
 
 

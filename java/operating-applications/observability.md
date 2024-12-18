@@ -394,7 +394,7 @@ Open Telemetry support using SAP BTP Cloud Logging Service leverages the [Open T
       - name: <srv-module>
         # ...
         requires:
-          - cloud-logging-instance
+          - name: cloud-logging-instance
     # ...
     resources:
       - name: cloud-logging-instance

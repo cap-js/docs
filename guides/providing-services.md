@@ -379,7 +379,7 @@ Searches the `title` element only.
 ##### Extend Search to *Associated* Entities
 
 ::: warning Node.js: Only w/ streamlined database services
-For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
+For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/archive/2024/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
 :::
 
 ```cds
@@ -763,7 +763,7 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 
 
-### `@Common.FieldControl` 
+### `@Common.FieldControl`
 {#common-fieldcontrol}
 
 The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.

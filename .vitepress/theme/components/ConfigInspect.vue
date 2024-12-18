@@ -10,7 +10,7 @@
       <div class="vp-code-group vp-doc" v-if="java">
         <CodeGroup :groups="[
           { id: 'java-appyml',  label: 'application.yml', lang: 'yml',        group, code: javaAppyml },
-          { id: 'java-sysprop', label: 'System property', lang: 'properties', group, code: javaEnvStr }
+          { id: 'java-sysprop', label: 'System property', lang: 'properties', group, code: javaEnvStr, transient: true }
         ]" />
       </div>
       <div class="vp-code-group vp-doc" v-else>
@@ -19,9 +19,9 @@
           { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
           { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
-          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr },
-          { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr },
-          { id: 'shw', label: 'Cmd Shell',           lang: 'cmd',        group, code: 'set '+envStr }
+          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr, transient: true },
+          { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr, transient: true },
+          { id: 'shw', label: 'Cmd Shell',           lang: 'cmd',        group, code: 'set '+envStr, transient: true }
         ]" />
       </div>
     </template>
@@ -34,12 +34,21 @@
   import FloatingVue from 'floating-vue'
   import yaml from 'yaml'
 
+  const { java, keyOnly, filesOnly, label:labelProp } = defineProps<{
+    java?: boolean,
+    keyOnly?: boolean,
+    filesOnly?: boolean,
+    label?: string
+  }>()
+
   // sub component that renders code blocks similar to the markdown `::: code-block` syntax
   const CodeGroup = defineComponent(
     ({ groups }) => () => [
-      h('div', { class: 'tabs' }, groups.flatMap((b, idx) => [
-        h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
-        h('label', { for: `${b.group}-${b.id}` }, b.label)
+      h('div', { class: 'tabs' }, groups
+        .filter((b) => filesOnly ? !b.transient : true)
+        .flatMap((b, idx) => [
+          h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
+          h('label', { for: `${b.group}-${b.id}` }, b.label)
       ])),
       h('div', { class: 'blocks' }, groups.flatMap((b, idx) => [
         h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
@@ -56,16 +65,11 @@
       ]))
     ], {
       props: {
-        groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string }>, required: true }
+        groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string, transient?:boolean }>, required: true }
       }
     }
   )
 
-  const { java, keyOnly, label:labelProp } = defineProps<{
-    java?: boolean,
-    keyOnly?: boolean,
-    label?: string
-  }>()
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()

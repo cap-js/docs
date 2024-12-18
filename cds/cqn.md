@@ -182,7 +182,7 @@ type order = expr & {
 > Used in:
 > [`SELECT`](#select)
 >
-<style>
+<style scoped>
   h2#insert { margin-bottom: 0px }
   main .vp-doc h2 + h2,
   main .vp-doc h3 + h3 { margin-top: 0px }

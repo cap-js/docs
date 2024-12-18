@@ -111,7 +111,7 @@ function toggleContent(variant) {
 // All other DOM content is handled at build time on MD level (see md-attrs-propagate.ts)
 function markOutlineItems() {
   const hashes = {}
-  const impls = document.querySelectorAll('.impl.node, .impl.java')
+  const impls = document.querySelectorAll('.node, .java')
   for (let each of impls) {
     hashes['#' + each.id] = each
   }
@@ -125,7 +125,6 @@ function markOutlineItems() {
 }
 
 function markClasses(el, classes) {
-  el.classList.add('impl') // in IE, add() only accepts one element
   if (classes.contains('node'))   el.classList.add('node')
   if (classes.contains('java'))   el.classList.add('java')
 }

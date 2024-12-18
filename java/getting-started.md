@@ -2,7 +2,6 @@
 synopsis: >
   How to start a new CAP Java project and how to run it locally.
 #notebook: true
-redirect_from: java/overview
 status: released
 ---
 
@@ -41,7 +40,7 @@ Excited? The following sections describe how to set up a development environment
 
 This section describes the prerequisites and tools to build a CAP application locally.
 
-1. Install the CDS tools (`cds-dk`) by following the steps in section *[Getting Started > Local Set Up](../get-started/jumpstart#setup)*.
+1. Install the CDS tools (`cds-dk`) by following the steps in the central *[Getting Started](../get-started/#setup)* guide.
 
 2. Install a Java VM. At least, Java 17 is required. For example, [download](https://github.com/SAP/SapMachine/releases/latest) and [install](https://github.com/SAP/SapMachine/wiki/Installation) SapMachine 17.
 
@@ -81,7 +80,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
 
@@ -99,10 +98,10 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=TINY_SAMPLE
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../get-started/grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](./assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){target="_blank"} using the following command:
+Following the "[Grow As You Go](../about/#grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `add` of the [CDS Maven plugin](./assets/cds-maven-plugin-site/add-mojo.html){target="_blank"} using the following command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=CF
 ```
 
 This command adds the following dependency to the pom.xml:
@@ -148,7 +147,7 @@ The generated folders have the following content:
 For a quick start, you can use `cds init` to bootstrap a CAP Java application based on Spring Boot. Run the following command:
 
 ```sh
-cds init <PROJECT-ROOT> --add java
+cds init <PROJECT-ROOT> --java
 ```
 
 You can also specify the package name through parameter `--java:package`. Default for the package name is: `org.<PROJECT-ROOT>`.

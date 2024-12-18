@@ -1,8 +1,5 @@
 ---
 status: released
-redirect_from: 
-  - node.js/protocols
-  - node.js/middlewares
 ---
 
 

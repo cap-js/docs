@@ -3,9 +3,6 @@ synopsis: >
   This guide introduces how to define and implement services, leveraging
   generic implementations provided by the CAP runtimes, complemented by
   domain-specific custom logic.
-redirect_from:
-- guides/services
-- guides/generic
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -18,11 +15,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-<style>
-  .best-practice::before { content: 'Best Practice:  '; color: teal }
-</style>
-
-## Intro: Core Concepts {#introduction}
+## Intro: Core Concepts
+{#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -167,7 +161,8 @@ The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealt
 In effect, a service definition [as introduced above](#service-definitions) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Custom Logic](#custom-logic) picks that up.
 
 
-### Serving CRUD Requests {#serving-crud}
+### Serving CRUD Requests
+{#serving-crud}
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](databases).
 
@@ -187,7 +182,7 @@ filtering and sorting is not available for `virtual` elements.
 :::
 
 
-### Deep Reads / Writes
+### Deep Reads and Writes
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data.
 The runtimes provide generic handlers for serving deeply nested document structures out of the box as documented in here.
@@ -421,15 +416,15 @@ You can explicitly annotate calculated elements to make them searchable, even th
 
 #### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
+> Prerequisite: For CAP Java, you need to run in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud and enable <Config java keyOnly>cds.sql.hana.search.fuzzy = true</Config>
+
 Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
 
-If you run CAP Java in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud, you can enable fuzzy search in the *application.yaml* and configure the default fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search. The default fuzziness is 0.8.
+You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
-```yml
-cds.sql.hana.search
-   fuzzy: true
-   fuzzinessThreshold: 0.9
-```
+- Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
@@ -457,9 +452,6 @@ When using wildcards in search terms, an *exact pattern search* is performed.
 Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
 :::
 
-::: warning Only Java
-Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
-:::
 
 
 ### Pagination & Sorting
@@ -512,8 +504,8 @@ Don't use reliable pagination if an entity set is sorted by elements that contai
 :::
 
 The feature can be enabled with the following [configuration options](../node.js/cds-env#project-settings) set to `true`:
-- Java: `cds.query.limit.reliablePaging.enabled`
-- Node.js: `cds.query.limit.reliablePaging`
+- Java: <Config java keyOnly>cds.query.limit.reliablePaging.enabled: true</Config>
+- Node.js: <Config keyOnly>cds.query.limit.reliablePaging: true</Config>
 
 
 #### Paging Limits
@@ -738,7 +730,7 @@ Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only
 CAP runtimes automatically validate user input, controlled by the following annotations.
 
 
-### `@readonly` {#readonly}
+### `@readonly`
 
 Elements annotated with `@readonly`, as well as [_calculated elements_](../cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
 
@@ -748,7 +740,7 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 
  :::
 
-### `@mandatory` {#mandatory}
+### `@mandatory`
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
 
@@ -771,7 +763,17 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 
 
-### `@assert.unique` {#unique}
+### `@Common.FieldControl` 
+{#common-fieldcontrol}
+
+The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
+::: warning
+Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
+:::
+
+
+
+### `@assert .unique`
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
 
@@ -800,7 +802,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target` {#assert-target}
+### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -816,14 +818,14 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#database-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's
 content adheres to the standard OData specification for an error
 [response body](https://docs.oasis-open.org/odata/odata-json-format/v4.01/cs01/odata-json-format-v4.01-cs01.html#sec_ErrorResponse).
 
-#### Example {#assert-target-example}
+#### Example
 
 Add `@assert.target` annotation to the service definition as previously mentioned:
 
@@ -877,7 +879,7 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert.format` {#assert-format}
+### `@assert .format`
 
 Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
@@ -887,7 +889,7 @@ entity Foo {
 }
 ```
 
-### `@assert.range` {#assert-range}
+### `@assert .range`
 
 Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
 
@@ -899,11 +901,32 @@ entity Foo {
   zoo : String   @assert.range enum { high; medium; low; };
 }
 ```
-::: tip
-Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
+#### ... with open intervals
+
+By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
+
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),100]    // 0 < input ≤ 100
+@assert.range: [0,(100)]    // 0 ≤ input < 100
+@assert.range: [(0),(100)]  // 0 < input < 100
+```
+In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
+@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
+```
+>  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
+
+::: warning Support in latest runtimes
+
+Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
+
 :::
 
-### `@assert.notNull` {#assert-notNull}
+
+### `@assert .notNull`
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 
@@ -1097,7 +1120,11 @@ GET .../sue/Foo(2)/Sue.getStock()     // bound function
 POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
-> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`. For convenience, however, the Node.js runtime also allows calling bound actions/functions without prefixing them with the service name.
+> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
+> For convenience, the CAP Node.js runtime also allows the following:
+> - Call bound actions/functions without prefixing them with the service name.
+> - Omit the `()` if no parameter is required.
+> - Use query options to provide function parameters like `sue/sum?x=1&y=2`
 
 <br>
 
@@ -1113,7 +1140,7 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: {id:2} })
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1164,10 +1191,6 @@ You can use the following annotations in the service model to indicate that an e
 
 `@Core.ContentDisposition.Type`
 : Can be used to instruct the browser to display the element inline, even if `@Core.ContentDisposition.Filename` is specified, by setting to `inline` (see the fifth example). If omitted, the behavior is `@Core.ContentDisposition.Type: 'attachment'`.
-
-::: warning
-`@Core.ContentDisposition.Type` is currently only available for the Node.js runtime.
-:::
 
 [Learn more how to enable stream support in SAP Fiori elements.](https://ui5.sap.com/#/topic/b236d32d48b74304887b3dd5163548c1){.learn-more}
 
@@ -1325,13 +1348,14 @@ a CDS query, a binary string is used to query data stored as binary, this wouldn
 binary data differently. For example, HDB automatically converts binary strings into binary data, whereas SAP HANA
 Client doesn't.
 - In the Node.js Runtime, all binary strings are converted into binary data according to SAP HANA property types.
-To disable this default behavior, you can set the environment variable `cds.env.hana.base64_to_buffer` to `false`.
+To disable this default behavior, you can set the environment variable <Config>cds.hana.base64_to_buffer: false</Config>.
 
 # Best Practices
 
 
 
-## Single-Purposed Services {.best-practice}
+## Single-Purposed Services
+{.best-practice}
 
 
 We strongly recommend designing your services for single use cases.

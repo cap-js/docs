@@ -1,11 +1,7 @@
 ---
 section: Tools
 shorty: Tools
-redirect_from:
-  - get-started/dev-tools
-  - get-started/tools
 status: released
-# outline: 2
 ---
 
 # Choose Your Preferred Tools

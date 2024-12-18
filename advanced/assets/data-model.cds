@@ -13,3 +13,7 @@ entity Chapters {
   chapterName : String;
   book        : Association to one Books on book.ID=book_ID;
 };
+
+extend entity Books with @foo:11 {
+  author : String;
+};

@@ -16,6 +16,8 @@
       <div class="vp-code-group vp-doc" v-else>
         <CodeGroup :groups="[
           { id: 'pkg', label: 'package/.cdsrc.json', lang: 'json',       group, code: pkgStr },
+          { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
+          { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
           { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr },
           { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr },
@@ -76,6 +78,8 @@
   const popperVisible = ref(false)
   const group = ref()
   const pkgStr = ref()
+  const jsStr = ref()
+  const ymlStr = ref()
   const propStr = ref()
   const envStr = ref()
   const javaAppyml = ref()
@@ -100,12 +104,12 @@
     const pkg = toJson(key, jsonVal ?? value)
 
     pkgStr.value = JSON.stringify(pkg, null, 2)
+    jsStr.value = 'module.exports = ' + pkgStr.value.replace(/"(\w*?)":/g, '$1:')
     propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
     envStr.value = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
-    javaAppyml.value = yaml.stringify(pkg)
+    javaAppyml.value = ymlStr.value = yaml.stringify(pkg)
     javaEnvStr.value = `-D${propStr.value}`
-
   })
 
 function toJson(key:string, value:string): Record<string, any> {

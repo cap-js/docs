@@ -115,6 +115,7 @@ type source = ref &as | SELECT | {
 ###### column
 ###### as
 ###### cast
+###### infix
 ###### expand
 
 
@@ -134,14 +135,16 @@ type column = '*' | expr &as &cast | ref &as &(
 ```tsx
 interface as { as?: name }
 interface cast { cast?: {type:name} }
+interface infix {
+  orderBy?  : order[]
+  where?    : expr
+  limit?    : { rows: val, offset: val }
+}
 ```
-> A `cast` is essentially a CSN [type definition](./csn#type-definitions).
->
 > Using:
 > [`expr`](#expr),
 > [`name`](#name),
 > [`ref`](#ref),
-> [`infix`](#infix)
 >
 > Used in:
 > [`SELECT`](#select)
@@ -350,7 +353,6 @@ class DELETE { DELETE: {
 ###### list
 ###### func
 ###### param
-###### infix
 ###### xo
 ###### name
 ###### scalar

@@ -43,7 +43,7 @@ It features both [CAP service handlers](https://github.com/SAP-samples/cap-sflig
 
 ### Using `cds watch` <Since version="8.6.0" of="@sap/cds-dk" /> { #cds-watch}
 
-Preferably use `cds watch` in a TypeScript project as if it was a Javascript project.
+Preferably use `cds watch` in a TypeScript project as if it was a JavaScript project.
 It detects TypeScript mode based on a `tsconfig.json` and run [`cds-tsx`](#cds-tsx) under the hood.
 
 ```sh

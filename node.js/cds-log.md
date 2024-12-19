@@ -60,7 +60,7 @@ LOG.info("it's a foo")
 
 ### _Logger usage → much like `console`_ { #logger-api }
 
-Loggers returned by `cds.log()` look and behave very much like [Javascript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
+Loggers returned by `cds.log()` look and behave very much like [JavaScript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
 
 ```js
 cds.log() → {

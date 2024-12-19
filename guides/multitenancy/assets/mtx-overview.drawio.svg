@@ -1,0 +1,551 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="591px" height="551px" viewBox="-0.5 -0.5 591 551" content="&lt;mxfile&gt;&lt;diagram id=&quot;qf-so5wQnZS6PiSJSE2D&quot; name=&quot;Page-1&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="140" width="120" height="60" fill="#e6e6e6" stroke="#ffffff" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 170px; margin-left: 1px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 13px">
+                                    CAP Services
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="174" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    CAP Services
+                </text>
+            </switch>
+        </g>
+        <path d="M 530 50 L 530 131.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 530 138.88 L 526.5 131.88 L 533.5 131.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 95px; margin-left: 530px;">
+                        <div data-drawio-colors="color: #FFFFFF; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 30%;">
+                                    <font color="#000000">
+                                        PUT tenant
+                                    </font>
+                                </p>
+                                <p style="line-height: 30%;">
+                                    <font color="#000000">
+                                        <br/>
+                                        DELETE tenant
+                                    </font>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="530" y="98" fill="#FFFFFF" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    PUT tenant...
+                </text>
+            </switch>
+        </g>
+        <rect x="470" y="0" width="120" height="50" fill="#e6e6e6" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 25px; margin-left: 471px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 12px">
+                                    BTP SaaS
+                                    <br style="font-size: 12px"/>
+                                    Provisioning
+                                    <br/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="530" y="29" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    BTP SaaS...
+                </text>
+            </switch>
+        </g>
+        <path d="M 0 510 L 0 470 C 0 464.48 26.86 460 60 460 C 93.14 460 120 464.48 120 470 L 120 510 C 120 515.52 93.14 520 60 520 C 26.86 520 0 515.52 0 510 Z" fill="#e6e6e6" stroke="#ffffff" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 0 470 C 0 475.52 26.86 480 60 480 C 93.14 480 120 475.52 120 470" fill="none" stroke="#ffffff" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 490px; margin-left: 1px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <br/>
+                                DB container
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="494" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    DB container
+                </text>
+            </switch>
+        </g>
+        <rect x="470" y="300" width="120" height="60" fill="#1ba1e2" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 330px; margin-left: 471px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 13px">
+                                    Deployment
+                                    <br/>
+                                    Service
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="530" y="334" fill="#ffffff" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    Deployment...
+                </text>
+            </switch>
+        </g>
+        <rect x="240" y="300" width="120" height="60" fill="#1ba1e2" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 330px; margin-left: 241px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                ModelProvider
+                                <br/>
+                                Service
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="300" y="334" fill="#ffffff" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    ModelProvider...
+                </text>
+            </switch>
+        </g>
+        <path d="M 300 200 L 300 291.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/>
+        <path d="M 300 298.88 L 296.5 291.88 L 303.5 291.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 250px; margin-left: 300px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 120%;">
+                                    store extension
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="300" y="253" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    store extension
+                </text>
+            </switch>
+        </g>
+        <path d="M 240 170 L 128.12 170" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke"/>
+        <path d="M 121.12 170 L 128.12 166.5 L 128.12 173.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" text-anchor="middle" font-size="11px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="145" y="164" width="72" height="14" stroke-width="0"/>
+            <text x="179.5" y="174">
+                invalidate (t)
+            </text>
+        </g>
+        <path d="M 339.23 200 L 463.55 295.07" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 469.11 299.32 L 461.43 297.85 L 465.68 292.29 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 250px; margin-left: 402px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 60%;">
+                                    activate
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="402" y="253" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    activate
+                </text>
+            </switch>
+        </g>
+        <rect x="240" y="140" width="120" height="60" fill="#1ba1e2" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 170px; margin-left: 241px;">
+                        <div data-drawio-colors="color: #ffffff; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 13px">
+                                    Extensibility
+                                    <br/>
+                                    Service
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="300" y="174" fill="#ffffff" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    Extensibility...
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="520" width="120" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 535px; margin-left: 1px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; font-style: italic; white-space: normal; overflow-wrap: normal;">
+                                per tenant
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="539" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle" font-style="italic">
+                    per tenant
+                </text>
+            </switch>
+        </g>
+        <path d="M 233.39 295.28 L 99.96 200" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 239.09 299.35 L 231.36 298.13 L 235.43 292.43 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 250px; margin-left: 170px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 30%;">
+                                    getCsn
+                                </p>
+                                <p style="line-height: 30%;">
+                                    <br/>
+                                    getEdmx
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="170" y="253" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    getCsn...
+                </text>
+            </switch>
+        </g>
+        <path d="M 368.12 330 L 470 330" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 361.12 330 L 368.12 326.5 L 368.12 333.5 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 330px; margin-left: 415px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 30%;">
+                                    getCsn
+                                </p>
+                                <p style="line-height: 30%;">
+                                    <br/>
+                                    getResources
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="415" y="333" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    getCsn...
+                </text>
+            </switch>
+        </g>
+        <path d="M 106.7 456.27 L 233.42 364.75" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 102.44 459.35 L 106.07 452.41 L 106.7 456.27 L 110.17 458.08 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 239.09 360.65 L 235.47 367.59 L 231.37 361.92 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 410px; margin-left: 171px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 60%;">
+                                    cds.xt.Extensions
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="171" y="413" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    cds.xt.Extensions
+                </text>
+            </switch>
+        </g>
+        <path d="M 90 299 L 190 299 L 190 367 Q 165 345.4 140 367 Q 115 388.6 90 367 L 90 311 Z" fill="#3680b7" stroke="#ffffff" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 98px; height: 1px; padding-top: 327px; margin-left: 91px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 13px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <p style="line-height: 140%;">
+                                    Base Model
+                                    <br/>
+                                    + Features
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="140" y="331" fill="#FFFFFF" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="13px" text-anchor="middle">
+                    Base Model...
+                </text>
+            </switch>
+        </g>
+        <path d="M 198.12 329.96 L 240 329.98" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 191.12 329.96 L 198.12 326.46 L 198.12 333.46 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 60 208.12 L 60 451.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 60 201.12 L 63.5 208.12 L 56.5 208.12 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 60 458.88 L 56.5 451.88 L 63.5 451.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 300 50 L 300 131.88" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 300 138.88 L 296.5 131.88 L 303.5 131.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 96px; margin-left: 277px;">
+                        <div data-drawio-colors="color: #FFFFFF; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: left;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 80%;">
+                                    <font color="#000000">
+                                        cds pull
+                                    </font>
+                                </p>
+                                <p style="line-height: 0%;">
+                                    <font color="#000000">
+                                        <br/>
+                                        cds push
+                                    </font>
+                                    <br/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="277" y="99" fill="#FFFFFF" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px">
+                    cds pull...
+                </text>
+            </switch>
+        </g>
+        <rect x="240" y="0" width="120" height="50" fill="#e6e6e6" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 25px; margin-left: 241px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 12px">
+                                    @sap/cds-dk
+                                    <br/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="300" y="29" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    @sap/cds-dk
+                </text>
+            </switch>
+        </g>
+        <rect x="0" y="0" width="120" height="50" fill="#e6e6e6" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 25px; margin-left: 1px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 12px">
+                                    Clients
+                                    <br/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="29" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    Clients
+                </text>
+            </switch>
+        </g>
+        <path d="M 60 58.12 L 60 131.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 60 51.12 L 63.5 58.12 L 56.5 58.12 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 60 138.88 L 56.5 131.88 L 63.5 131.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 95px; margin-left: 60px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; font-style: italic; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 100%;">
+                                    Requests (t,f)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="60" y="98" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle" font-style="italic">
+                    Requests (t,f)
+                </text>
+            </switch>
+        </g>
+        <path d="M 530 460 L 530 368.12" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 530 361.12 L 533.5 368.12 L 526.5 368.12 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 414px; margin-left: 531px;">
+                        <div data-drawio-colors="color: #FFFFFF; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 100%;">
+                                    <font color="#000000">
+                                        upgrade
+                                    </font>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="531" y="417" fill="#FFFFFF" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    upgrade
+                </text>
+            </switch>
+        </g>
+        <rect x="470" y="460" width="120" height="50" fill="#e6e6e6" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 485px; margin-left: 471px;">
+                        <div data-drawio-colors="color: #333333; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <span style="font-size: 12px">
+                                    <i>
+                                        DevOps
+                                    </i>
+                                    <br/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="530" y="489" fill="#333333" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    DevOps
+                </text>
+            </switch>
+        </g>
+        <path d="M 530 200 L 530 291.88" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 530 298.88 L 526.5 291.88 L 533.5 291.88 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 251px; margin-left: 531px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 30%;">
+                                    subscribe
+                                </p>
+                                <p style="line-height: 30%;">
+                                    unsubscribe
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="531" y="254" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    subscribe...
+                </text>
+            </switch>
+        </g>
+        <rect x="470" y="140" width="120" height="60" fill="#1ba1e2" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 170px; margin-left: 530px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                <span style="font-size: 13px">
+                                    <font color="#ffffff">
+                                        SaasProvisioning
+                                        <br/>
+                                        Service
+                                    </font>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="530" y="174" fill="#000000" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="12px" text-anchor="middle">
+                    SaasProvisioning...
+                </text>
+            </switch>
+        </g>
+        <path d="M 500 360 L 340 420 L 127.74 487.54" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 121.07 489.66 L 126.67 484.2 L 128.8 490.87 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 420px; margin-left: 337px;">
+                        <div data-drawio-colors="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 100%;">
+                                    deploy
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="337" y="424" fill="rgb(0, 0, 0)" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px" text-anchor="middle">
+                    deploy
+                </text>
+            </switch>
+        </g>
+        <path d="M 330 50 L 495.44 293.29" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 499.37 299.08 L 492.54 295.26 L 498.33 291.32 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 95px; margin-left: 342px;">
+                        <div data-drawio-colors="color: #FFFFFF; background-color: rgb(255, 255, 255); " style="box-sizing: border-box; font-size: 0px; text-align: left;">
+                            <div style="display: inline-block; font-size: 11px; font-family: &quot;Avenir Next&quot;, &quot;Inter var&quot;, Inter, Helvetica, Arial, sans-serif; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; background-color: rgb(255, 255, 255); white-space: nowrap;">
+                                <p style="line-height: 80%;">
+                                    <font color="#000000">
+                                        cds subscribe
+                                    </font>
+                                </p>
+                                <p style="line-height: 0%;">
+                                    <font color="#000000">
+                                        <br/>
+                                        cds upgrade
+                                    </font>
+                                    <br/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="342" y="99" fill="#FFFFFF" font-family="'Avenir Next', 'Inter var', 'Inter', Helvetica, Arial, sans-serif" font-size="11px">
+                    cds subscribe...
+                </text>
+            </switch>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>

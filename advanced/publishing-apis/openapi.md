@@ -87,7 +87,7 @@ See [Frequently Asked Questions](#faq) for examples on how to use these annotati
 | `Computed`         | Property                                                                      | omit from Create and Update structures                            |
 | `DefaultNamespace` | Schema                                                                        | path templates for actions and functions without namespace prefix |
 | `Description`      | Action, ActionImport, Function, FunctionImport                                | `summary` of Operation Object                                     |
-| `Description`      | EntitySet, Singleton                                                          | `title` of Tag Object                                             |
+| `Description`      | EntitySet, Singleton                                                          | `description` of Tag Object                                       |
 | `Description`      | EntityType                                                                    | `title` of Request Body Object                                    |
 | `Description`      | ComplexType, EntityType, EnumerationType, Parameter, Property, TypeDefinition | `title` of Schema Object                                          |
 | `Description`      | Schema, EntityContainer                                                       | `info.title`                                                      |
@@ -181,6 +181,13 @@ annotate MyService with @(
 );
 ```
 [See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
+
+
+## [Common](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Common.md)
+
+| Term               | Annotation Target            | OpenAPI field                                                      |
+|--------------------|------------------------------|--------------------------------------------------------------------|
+| `Label`            | EntitySet, Singleton         | `name` of Tag Object and entry in `tags` array of Operation Object |
 
 
 ## OpenAPI

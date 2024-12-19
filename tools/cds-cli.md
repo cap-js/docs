@@ -431,23 +431,69 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 
 ## cds repl
 
-Use `cds repl` to live-interact with Node.js APIs:
+Use `cds repl` to live-interact with cds' JavaScript APIs in an interactive read-eval-print-loop.
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
 <em>Welcome to cds repl</em>
-> SELECT.from(Foo)
-Query {
-  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
+
+> <i>cds.parse`
+  entity Foo { bar : Association to Bar }
+  entity Bar { key ID : UUID }
+`</i>
+{
+  definitions: {
+    Foo: {
+      kind: <em>'entity'</em>,
+      elements: {
+        bar: { type: <em>'cds.Association'</em>, target: <em>'Bar'</em> }
+      }
+    },
+    Bar: ...
+  }
 }
 
-> cds.requires.db
-{
-  impl: <em>'@cap-js/sqlite'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  kind: <em>'sqlite'</em>
+> <i>SELECT.from(Foo)</i>
+cds.ql {
+  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
 }
 </pre>
+
+There a couple of shortcuts and convenience functions:
+
+- `.run` (a [REPL dot commands](https://nodejs.org/en/learn/command-line/how-to-use-the-nodejs-repl#dot-commands)) allows to start Node.js `cds.server`s:
+
+  ```sh
+  .run cap/samples/bookshop
+  ```
+
+- CLI option `--run` does the same from command line, for example:
+
+  ```sh
+  cds repl --run cap/samples/bookshop
+  ```
+
+- CLI option `--use` allows to use the features of a `cds` module, for example:
+
+  ```sh
+  cds repl --use ql # as a shortcut of that within the repl:
+  ```
+
+  ```js
+  var { expr, ref, columns, /* ...and all other */ } = cds.ql
+  ```
+
+- `.inspect` command displays objects with configurable depth:
+
+  ```sh
+  .inspect cds .depth=1
+  .inspect CatalogService.handlers .depth=1
+  ```
+
+::: details See the full help text of `cds repl`
+<!--@include: ./assets/help/cds-repl.out.md-->
+:::
+
 
 ## Debugging with `cds debug` <Beta /> {.nodejs}
 

@@ -11,7 +11,7 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 [**capire** [ca·pì·re] — Italian for _"understand"_](https://translate.google.com/details?sl=it&tl=en&text=capire){.learn-more .dict}
 
-<style>
+<style scoped>
   a.dict { font-family: serif; font-weight: 100 }
 </style>
 
@@ -24,7 +24,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 
 
 
-#### Prerequisites
+### Prerequisites
 
 - [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
 - [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
@@ -32,7 +32,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 - **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
 
 
-#### Installation
+### Installation
 
 - With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
@@ -79,7 +79,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 
 
 
-#### Optional
+### Optional
 
 - [Java](https://sapmachine.io) & [Maven](https://maven.apache.org/download.cgi) — if you're going for Java development → [see instructions](../java/getting-started#local).
 - [git](https://git-scm.com) — if you go for more than just some quick trials.
@@ -146,19 +146,32 @@ We recommend sticking to CAP's way of [Convention over Configuration](https://en
 
 
 
-## Next Steps...
+## Learning More
+{#next-steps}
 
 After the [initial setup](#setup), we recommend continuing as follows while you grow as you go...:
 
-| # | Guide                                                                                 | Description                                            |
-|---|---------------------------------------------------------------------------------------|--------------------------------------------------------|
-| 1 | [Introduction – What is CAP?](../about/)                                              | Learn about key benefits and value propositions.       |
-| 2 | [Bookshop by capire](in-a-nutshell)                                                   | Build your first CAP application within 4-44 minutes.  |
-| 3 | [Best Practices](../about/best-practices)                                             | Key concepts & rationales to understand → *must read*. |
-| 4 | [Anti Patterns](../about/bad-practices)                                               | Misconceptions & bad practices to avoid → *must read*. |
-| 5 | [Learn More](learning-sources)                                                        | Find samples, videos, blogs, tutorials, and so on.     |
-| 6 | [Cookbook](../guides/)                                                                | Walkthroughs for the most common tasks.                |
-| 7 | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas.         |
+| # | Guide                                     | Description                                            |
+|---|-------------------------------------------|--------------------------------------------------------|
+| 1 | [Introduction – What is CAP?](../about/)  | Learn about key benefits and value propositions.       |
+| 2 | [Bookshop by capire](in-a-nutshell)       | Build your first CAP application within 4-44 minutes.  |
+| 3 | [Best Practices](../about/best-practices) | Key concepts & rationales to understand → *must read*. |
+| 4 | [Anti Patterns](../about/bad-practices)   | Misconceptions & bad practices to avoid → *must read*. |
+| 5 | [Learn More](learning-sources)            | Find samples, videos, blogs, tutorials, and so on.     |
+
+
+
+## Grow as you go...
+
+After these getting started-level introductions, you would continuously revisit these guides to deepen your understanding and as reference docs:
+
+|  # | Guides & References                                                                   | Description                                    |
+|---:|---------------------------------------------------------------------------------------|------------------------------------------------|
+|  6 | [Cookbook](../guides/)                                                                | Walkthroughs for the most common tasks.        |
+|  7 | [CDS](../cds/)<br/>[Java](../java/)<br/>[Node.js](../node.js/)<br/>[Tools](../tools/) | The reference docs for these respective areas. |
+|  8 | [Plugins](../plugins/)                                                                | Curated list of recommended Calesi plugins.    |
+|  9 | [Releases](../releases/)                                                              | Your primary source to stay up to date.        |
+| 10 | [Resources](../resources/)                                                            | About support channels, community, ...         |
 
 
 This also reflects the overall structure of [this documentation](./learning-sources.md#this-documentation).

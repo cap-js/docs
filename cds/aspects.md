@@ -8,7 +8,7 @@ status: released
 
 The technique of [*Aspects*](cdl#aspects) provides a very powerful means to organize your models in a way that keeps your core domain models concise and comprehensible by factoring out secondary concerns into separate files, defining and reusing common aspects, as well as adapting reused definitions to specific needs.
 
-**See also:** Respective section in [*Five reasons to use CAP*](https://qmacro.org/blog/posts/2024/11/07/five-reasons-to-use-cap/) , and [*Separating concerns and focusing on important stuff*](https://qmacro.org/blog/posts/2024/11/04/separating-concerns-and-focusing-on-the-important-stuff/) blogs by DJ Adams. {.learn-more}
+**See also:** Respective section in [*Five reasons to use CAP*](https://qmacro.org/blog/posts/2024/11/07/five-reasons-to-use-cap/) , and [*Separating concerns and focusing on important stuff*](https://qmacro.org/blog/posts/2024/11/04/separating-concerns-and-focusing-on-the-important-stuff/) blog posts by DJ Adams. {.learn-more}
 
 
 
@@ -145,9 +145,7 @@ annotate CatalogService.Books with @UI:{
 ## Common Reuse Aspects
 
 
-
 Quite frequently, you want some common aspects to be factored out and shared by and applied to multiple entities. For example, lets assume we'd want to factor out the common aspects of a standardized primary key, managed data, change tracking, extensibility, and temporal data...
-
 
 
 ### _Max Base Class_ Approach {.avoid}
@@ -343,7 +341,7 @@ extend managed with {
 
 ### Adding Reuse Aspects {.best-practice}
 
-And as the `:` notation to *inherit* an aspect is essentially just [syntactical sugar](cdl#includes) to extending a given definition with a [*named* aspect](cdl#named-aspects), you can also adapt a reused definition to *inherit* from a common reuse aspect from 'the outside' like so:
+And as the `:` notation to *inherit* an aspect is essentially just [syntactical sugar](cdl#includes) for extending a given definition with a [*named* aspect](cdl#named-aspects), you can also adapt a reused definition to *inherit* from a common reuse aspect from 'the outside' like so:
 
 ```cds
 using { SomeEntity } from 'some-reuse-package';
@@ -398,7 +396,7 @@ Verticalization means to adapt a given application for different regions or indu
 
 ## Inheritance Hierarchies
 
-Sometimes you'd be tempted to create deeply nested inheritance hierarchies as you might be used to do in Java. For example, lets assume we're tempted to model something like that:
+Sometimes you'd be tempted to create deeply nested inheritance hierarchies as you might be used to do in Java. For example, let's assume we're tempted to model something like that:
 
 ```cds
 abstract entity Grantees { // equivalent to aspect

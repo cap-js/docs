@@ -498,6 +498,15 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 
 <div id="hana-ips" />
 
+#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_ 
+{#missingPlugin}
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | Your project configuration is missing some configuration in your _.hdiconfig_ file. |
+| _Solution_ | Use `cds add hana` to add the needed configuration to your project. Or maintain the _hdbmigrationtable_ plugin in your _.hdiconfig_ file manually: `"hdbmigrationtable": { "plugin_name": "com.sap.hana.di.table.migration" }`
+
+
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:
 + You [added native SAP HANA objects](../advanced/hana#add-native-objects) to your CAP model.
@@ -593,7 +602,7 @@ mbt build -t gen --mtar mta.tar -e less.mtaext
 
 ::: warning
 This approach is only recommended
-- For test deployments during _development_.  For _production_ deployments,  self-contained archives ar preferrable.
+- For test deployments during _development_.  For _production_ deployments,  self-contained archives are preferrable.
 - If all your dependencies are available in _public_ registries like npmjs.org or Maven Central.  Dependencies from _corporate_ registries are not resolvable in this mode.
 :::
 

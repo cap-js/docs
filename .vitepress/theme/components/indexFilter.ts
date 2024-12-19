@@ -15,12 +15,13 @@ export default (pages:ContentDataCustom[], basePath:string):ContentDataCustom[] 
 
   return pages
     .map(p => {
-      p.url = p.url?.replaceAll('@external/', '')?.replace(/\/index$/, '/') || ''
-      p.url = join(base, p.url)
-      return p
+      const res = { ...p } // do not mutate original data
+      res.url = res.url?.replaceAll('@external/', '')?.replace(/\/index$/, '/') || ''
+      res.url = join(base, res.url)
+      return res
     })
     .filter(p => {
-      const item = items.find(item => item.link && p.url.endsWith(item.link))
+      const item = items.find(item => item.link && p.url.endsWith(item.link.replace(/#.*/, '')))
       if (item)  p.title = item.text
       return !!item
     })

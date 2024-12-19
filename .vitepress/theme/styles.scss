@@ -370,7 +370,9 @@ main {
 
   .constructor::before { content: 'Constructor: '; color: #999 }
   .annotation::before { content: 'Annotation: '; color: #999 }
+  .interface::before { content: 'Interface: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
+  .type::before { content: 'Type: '; color: #999 }
   .method::before { content: 'Method: '; color: #999 }
   .event::before { content: 'Event: '; color: #999 }
   .class::before { content: 'Class: '; color: #999 }

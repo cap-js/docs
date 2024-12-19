@@ -139,6 +139,24 @@ The `req` object in your express middleware is not the same as `req` in your CDS
 
 ## Lifecycle Events
 
+The following [lifecycle events](cds-facade#lifecycle-events) are emitted via the `cds` facade object during the server bootstrapping process.
+You can register event handlers using `cds.on()` like so:
+
+
+```js
+const cds = require('@sap/cds')
+cds.on('bootstrap', ...)
+cds.on('served', ...)
+cds.on('listening', ...)
+```
+
+
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered, with `served` and `shutdown`
+> events as the only exeptions.
+
+
 ### bootstrap {.event}
 
 A one-time event, emitted immediately after the [express.js app](cds-facade#cds-app)
@@ -150,7 +168,6 @@ const cds = require('@sap/cds')
 const express = require('express')
 cds.on('bootstrap', app => {
   // add your own middleware before any by cds are added
-
   // for example, serve static resources incl. index.html
   app.use(express.static(__dirname+'/srv/public'))
 })
@@ -204,40 +221,6 @@ A one-time event, emitted when the server is closed and/or the process finishes.
 
 This event supports _asynchronous_ event handlers.
 
-
-### Event Handlers
-
-#### Synchronous vs. asynchronous
-
-Unless otherwise noted, event handlers execute **synchronously** in the order they are registered.
-This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous) contract.
-
-In other words this asynchronous handler code does **not work** as expected:
-
-```js twoslash
-// @noErrors
-const cds = require('@sap/cds')
-const asyncCode = async () => Promise.resolve()
-// ---cut---
-cds.on ('bootstrap', async ()=> {
-  await asyncCode() // [!code error] // will NOT be awaited
-})
-```
-
-You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
-
-```js twoslash
-const cds = require('@sap/cds')
-// ---cut---
-let done
-cds.on('bootstrap', ()=> {
-  done = asyncCode()
-})
-cds.on('served', async ()=> {
-  await moreCode()
-  await done
-})
-```
 
 
 

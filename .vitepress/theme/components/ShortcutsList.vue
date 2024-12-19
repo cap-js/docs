@@ -84,6 +84,8 @@ watch(visible, isVisible => {
 })
 
 function onKeyDown(event) {
+  const { tagName, isContentEditable } = document.activeElement
+  if (tagName === 'INPUT' || tagName === 'TEXTAREA' || isContentEditable)  return
   if (document.activeElement === document.querySelectorAll(querySelectorSearchInput)[0])  return // search is active
   if (event.altKey || event.ctrlKey || event.metaKey)  return // only simple keys for now
   if (event.key === 'Shift' && visible.value) {
@@ -92,7 +94,7 @@ function onKeyDown(event) {
   }
   const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k.value === event.key))
   const enabled = cmd && cmd.run && ('enabled' in cmd ? cmd.enabled() : true)
-  if (enabled)  {
+  if (enabled) {
     event.preventDefault()
     cmd.run(event)
   }

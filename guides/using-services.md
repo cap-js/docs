@@ -786,8 +786,6 @@ The list of [required implementations for mashups](#required-implementations-for
 
 Expands add data from associated entities to the response. For example, for a risk, you want to display the suppliers name instead of just the technical ID. But this property is part of the (remote) supplier and not part of the (local) risk.
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-consume-ui.html#7d36d433-2b88-407c-a6cc-d6a05dcc8547){.learn-more}
-
 To handle expands, you need to add a handler for the main entity:
 1. Check if a relevant `$expand` column is present.
 2. Remove the `$expand` column from the request.

@@ -139,9 +139,9 @@ To avoid this problem, you can configure the outbox to use an event version that
 The configured deployment versions must be in ascending order. The messages are only processed by the outbox collector if the event version is less than or equal to the deployment version.
 :::
 
-To make things easier, you can automate versioning by using the Maven App Version. This requires you to increment the version for each new deployment.
+To make things easier, you can automate versioning by using the Maven app version. This requires you to increment the version for each new deployment.
 
-To do this, the Maven resource filtering configuration in the `srv/pom.xml` must be activated as follows, so that the app version placeholder `${project.version}` can be used in [<Config java keyOnly filesOnly>cds.environment.deployment.version: ${project.version}</Config>](../java/developing-applications/properties#cds-environment-deployment-version).
+To do this, the Maven `resource.filtering` configuration in the `srv/pom.xml` must be activated as follows, so that the app version placeholder `${project.version}` can be used in [<Config java keyOnly filesOnly>cds.environment.deployment.version: ${project.version}</Config>](../java/developing-applications/properties#cds-environment-deployment-version).
 
 ::: code-group
 ```xml [srv/pom.xml]

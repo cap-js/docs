@@ -542,7 +542,7 @@ cds:
 ```
 :::
 
-[Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){.learn-more}
+[Learn more about SAP Event Mesh configuration options.](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue){.learn-more}
 
 <div id="queue-config-more" />
 
@@ -666,6 +666,44 @@ private void handleError(MessagingErrorEventContext ctx) {
       errorCode.equals(CdsErrorStatuses.INVALID_DATA_FORMAT.getCodeString())) {
       // error handling for infrastructure error
       ctx.setResult(false); // no acknowledgement
+    } else {
+      // error handling for application errors
+
+      // how to access the event context of the raised exception:
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
+      // });
+
+      ctx.setResult(true); // acknowledge
+    }
+}
+```
+
+In a multi-tenant setup with several microservices, messages of a tenant not yet subscribed to the own microservice would be already received from the message queue. In this case, the message cannot be processed for the tenant because the tenant context is not yet available. By default, the standard error handler still acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant. 
+
+
+```java
+@On(service = "messaging")
+private void handleError(MessagingErrorEventContext ctx) {
+
+  String errorCode = ctx.getException().getErrorStatus().getCodeString();
+  if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
+      errorCode.equals(CdsErrorStatuses.INVALID_DATA_FORMAT.getCodeString())) {
+      // error handling for infrastructure error
+      ctx.setResult(false); // no acknowledgement
+    
+    } else if (errorCode.equals(CdsErrorStatuses.TENANT_NOT_EXISTS.getCodeString())) {
+      // error handling for unknown tenant context
+      
+       // tenant of the received message
+      String tenant = ctx.getTenant();
+
+      // received message
+      Map<String, Object> headers = ctx.getMessageHeaders(); 
+      Map<String, Object> message = ctx.getMessageData();
+
+      ctx.setResult(true); // acknowledge
     } else {
       // error handling for application errors
 

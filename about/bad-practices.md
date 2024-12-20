@@ -1,5 +1,5 @@
 ---
-# status: released
+status: released
 ---
 
 # Bad Practices
@@ -8,24 +8,35 @@
 
 
 
-## Questionable Prior Arts
+## Questionable Prior Arts <UnderConstruction/>
 
-### DAOs, DTOs, Active Records, et al
+### DAOs, DTOs, Active Records <UnderConstruction/>
 
-### Object-Relational Mappers
+- → see [Best Practices / Passive Data](best-practices#data)
 
-### BO-centric Frameworks
+### Object-Relational Mappers <UnderConstruction/>
 
-... which bypass or are in conflict with CAP's [key design principles](), for example:
+- → see [Best Practices / Querying](best-practices#querying)
+
+### BO-centric Frameworks <UnderConstruction/>
+
+... which bypass or are in conflict with CAP's [key design principles](bad-practices.md), for example:
 
 - ORM techniques like Spring repositories
 - Active Records, DAOs
 
 These would be in conflict with CAP's focus on stateless services processing passive data, as well as with the querying-based approach to read and write data.
 
-### Determinations & Validations
+### Determinations & Validations <UnderConstruction/>
 
-### Sticking to DIY, or NIH
+- This might be a special thing if you come from a background where these terms were prominently positioned, accompanied by corresponding frameworks.
+- Quite likely that is an SAP background, as we didn't find the term "determination" used outside of these SAP circles in that context.
+- CAP is actually an offspring of a performance firefighting taskforce project, which identified such frameworks and their overly fragmented and fine-granular element level approach as one of a few root causes for framework-induced performance overheads.
+- Hence CAP intentionally does not offer element-level call-level validation or determination framework, and strongly discourages combining your use of CAP with such.
+- CAP does provide declarative element-level validations though → these are advisable, as we can optimize the implementations behind the scenes, which is just not possible in the imperative call-level frameworks.
+-
+
+### Sticking to DIY (or NIH) <UnderConstruction/>
 
 Such as...
 
@@ -34,27 +45,33 @@ Such as...
 - Database-specific things without need
 - Non-CAP client libraries for BTP services
 
-Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, late-cut µ services.
+Doing so would spoil the party, for example regarding rapid local development at minimized costs, fast test pipelines, and late-cut µ services.
 It would also expose your projects to risks of disruptions by changes in those rather volatile technologies.
 
-### Always done it this way
+### Always done it this way <UnderConstruction/>
 
-## Squared Hexagons
+- and CAP is different... for a reason, or more... ;-)
 
-### Hexagonal Arch ** 2 = ?
 
-CAP's design principles are very much in line with the approaches of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture) or [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html), and actually give you exactly what hexagonal architecture is aiming for:
 
-- domain logic stays agnostic to protocols and changing low-level technologies
-- resilience to disrupting changes in those spaces
+## Abstracting from CAP <UnderConstruction/>
 
-So, there's little need to homebrew your own hexagonal architecture on top of CAP, and high risks you miss CAP's advantages in this regard.
+- CAP already provides abstractions from the underlying database, the protocols, the deployment target, the client technology, and more.
+- CAP is also an implementation of Hexagonal Architecture, which is an abstraction of the same kind.
+- So, abstracting from CAP would be abstracting from an abstraction, which is a bad idea in general, and certainly will ensure that you won't benefit from the full power of CAP, any longer.
 
-### Same for DDD...
+### Squared Hexagons <UnderConstruction/>
 
-...
+- As documented in the best practices guide, CAP is not only very much in line with Hexagonal Architecture, it actually *is an implementation* of it.
+- So there's little need to invest into the outer hexagon → focus on the inner one
+- Yet, we saw projects insisting on doing Hexagonal Architecture their own way, or maybe the very way that was discussed in some other paper, done with some other framework ...
+- ... Hexagonal Arch ** 2 = ?
 
-### Abstracting from CAP
+### Same for DDD... <UnderConstruction/>
+
+- Focus on Domain is exactly what domain-driven design is also striving for... and there are some many commonalities in concepts and approaches.
+- Yet, we saw projects insisting on doing DDD a very specific way, for example using Active Records, Spring repositories, etc.... → things [we list as bad practices above](#daos-dtos-active-records)
+
 
 
 
@@ -88,7 +105,7 @@ Alternative frameworks or toolsets follow code generation approaches. Swagger do
 | Fiori Draft Handling                 |                      |        &check;        |
 | Exclusive Locking                    |                      |        &check;        |
 | Conflict Detection (via ETags)       |                      |        &check;        |
-| Data Replication (upcomming)         |                      |        &check;        |
+| Data Replication (upcoming)         |                      |        &check;        |
 | Data Privacy                         |                      |        &check;        |
 | ...                                  |                      |        &check;        |
 
@@ -102,28 +119,78 @@ Even if we'd ignore all the other things, there still remains the difference bet
 
 :::
 
-### Code-Generating AI
+### Code-Generating AI <UnderConstruction/>
 
-- → don't confuse "[Generative AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with 'Code-generating AI'
+- Don't confuse "[*Generative AI*](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)" with '*Code-generating AI*' ...
+- Even though it's AI-generated the usual drawbacks for generated code apply:
+  - **No single points to fix** all that code that was generated last year
+  - One off approach → doesn't help much in evolutionary, iterative development
+  - ...
 
-## Overly Generic Approaches
+- There's a different between a GPT-generated one-off thesis and long-lived enterprise software, which needs to adapt and scale to new requirements.
 
-### The 'ODatabase' Anti Pattern
+## Overly Generic Approaches <UnderConstruction/>
 
-### Overdesigned Architectures
+### The 'ODatabase' Anti Pattern <UnderConstruction/>
 
-### Tons of Glue Code
+- Assume you have a domain model with 123 entities
+- Then the easiest thing is to add a single service with 123 1:1 projections...?
+- As all the rest can be done by CAP's and OData's powerful query languages, right?
+- → that service is the exact opposite of a use case-oriented facade
+- if you want that, don't use CAP, don't use any layered architecture at all ...s
+- just connect your client directly to a SQL database in a two tier model ;-)
 
 
 
-## Microservices Mania
+### Tons of Glue Code <UnderConstruction/>
 
-- https://blog.payara.fish/microservices-mania-are-moduliths-the-saner-path-to-scalable-architecture
-- https://www.f5.com/de_de/company/blog/mainstream-microservices-mania-challenges-increasing-with-adoption
-- https://www.reddit.com/r/programming/comments/18crnmz/death_by_a_thousand_microservices/
-- https://dzone.com/articles/architecture-style-modulith-vs-microservices
-- https://medium.com/codex/what-is-better-modular-monolith-vs-microservices-994e1ec70994
+- as stated, while CAP cares about the vast majority of non-functional requirements, qualities, wire protocols, low-level stuff... so that you, as an application developer should be able to put primary focus on domain.
+- if you still find yourself lost in a high ratio of glue code, something has certainly gone wrong
 
-### Premature Fragmentation {.avoid}
 
-### Late-cut Microservices {.prefer}
+
+
+## Microservices Mania <UnderConstruction/>
+
+Avoid eager fragmentation into microservices. Instead, start with a monolith and cut out microservices later, when you really need them. This is what we call "late-cut microservices".
+
+See also...
+
+- [Microservices Mania: Are Moduliths the Saner Path to Scalable Architecture?](https://blog.payara.fish/microservices-mania-are-moduliths-the-saner-path-to-scalable-architecture)
+- [Mainstream Microservices Mania Challenges Increasing with Adoption](https://www.f5.com/de_de/company/blog/mainstream-microservices-mania-challenges-increasing-with-adoption)
+- [What is Better: Modular Monolith vs. Microservices](https://medium.com/codex/what-is-better-modular-monolith-vs-microservices-994e1ec70994)
+- [Architecture Style: Modulith vs. Microservices](https://dzone.com/articles/architecture-style-modulith-vs-microservices)
+- [Death by a Thousand Microservices](https://www.reddit.com/r/programming/comments/18crnmz/death_by_a_thousand_microservices/).
+
+
+
+## Ignorance
+
+When writing these guides we frequently wonder whether it is worth the effort, because we likely have to understand and to accept that we're living in times of ...
+
+- Too long; didn't read (TL;DR)
+- Too busy (→ an [anti pattern on it's own](assets/too-busy) \;-)
+- Not required, as we've AI now
+- I don't need to read that, as I already know (better) ...
+
+If against all odds you are indeed just reading these lines, please leave a trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I read it! ☺️](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+... to let the others out there know that there's hope, and some hi, left... \:-)
+
+And in case you are just reading these lines, because of these posts, we strongly encourage you to read these new guides, even if (you think) you already know CAP:
+
+- *[Introduction – What is CAP?](./index) → Value Propositions*
+- *[Best Practices](best-practices) → Key Concepts & Rationales*
+- *[Anti Patterns](bad-practices) → Do's and **don'ts***
+
+And after you did that, would be great if you'd leave another trace about that in [blue sky](https://bsky.app) with this content (including link):
+
+*[I really read it! 🤓](#ignorance) <br/>
+#sapcap*
+{.indent}
+
+... as a motivation for us to keep on writing, and that it is worth the effort.

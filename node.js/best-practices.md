@@ -380,7 +380,7 @@ srv.before("UPDATE", "EntityName", (req) => {
 });
 ```
 
-Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
+Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }

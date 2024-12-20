@@ -14,6 +14,7 @@ ${dir}/grab-cli-texts.js @sap/cds-dk       "cds add --help"          ${proj} > $
 ${dir}/grab-cli-texts.js @cap-js/cds-typer "cds-typer --help"        ${proj} > ${dir}/../../tools/assets/help/cds-typer.out.md
 ${dir}/grab-cli-texts.js @sap/cds-dk       "cds --help"              ${proj} > ${dir}/../../tools/assets/help/cds-help.out.md
 ${dir}/grab-cli-texts.js @sap/cds-dk       "cds watch --help"        ${proj} > ${dir}/../../tools/assets/help/cds-watch.out.md
+${dir}/grab-cli-texts.js @sap/cds-dk       "cds repl --help"         ${proj} > ${dir}/../../tools/assets/help/cds-repl.out.md
 ${dir}/grab-cli-texts.js @sap/cds-dk       "cds version"             ${proj} > ${dir}/../../tools/assets/help/cds-version.out.md
 ${dir}/grab-cli-texts.js @sap/cds-dk       "cds version --markdown"  ${proj} > ${dir}/../../tools/assets/help/cds-version-md.out.md
 ${dir}/grab-cli-texts.js @sap/cds-dk       "cds env requires.db"     ${proj} > ${dir}/../../tools/assets/help/cds-env-requires-db.out.md

@@ -721,7 +721,7 @@ In order to send a request to an app, it must be associated with a route.
 Please see [Cloud Foundry Documentation -> Routes](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#routes) for details.
 As this is done automatically by default, the process is mostly transparent for developers.
 
-If you receive an error response "404 Not Found: Requested route ('<route>') does not exist", this can have two reasons:
+If you receive an error response `404 Not Found: Requested route ('<route>') does not exist`, this can have two reasons:
 1. The route really does not exist or is not bound to an app.
   You can check this in SAP BTP cockpit either in the app details view or in the list of routes in the Cloud Foundry space.
 2. The app (or all app instances, in case of horizontal scale-out) failed the readiness check.

@@ -432,6 +432,8 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 
 Use `cds watch` to watch for changed files, restarting your server.
 
+### Includes and Excludes <Since version="8.7.0" of="@sap/cds-dk" />
+
 Additional watched or ignored paths can be specified via CLI options:
 
 ```sh

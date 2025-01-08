@@ -392,21 +392,26 @@ cds.exit() //> will rune above handlers before stopping the server
 
 
 
-
 ## Lifecycle Events
 
-[Learn more about Lifecycle Events in `cds.server`](cds-server#lifecycle-events){.learn-more}
+The `cds` facade object is an [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+which frameworks emits events to, during the server bootstrapping process, or when we compile models.
+You can register event handlers using `cds.on()` like so:
 
-#### cds. once '*bootstrap*' {.event}
 
-#### cds. on '*loaded*' {.event}
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('bootstrap', ...)
+cds.on('served', ...)
+cds.on('listening', ...)
+```
 
-#### cds. on '*connect*' {.event}
+- [Learn more about Lifecycle Events emitted by `cds.compile`](cds-compile#lifecycle-events) {.learn-more}
+- [Learn more about Lifecycle Events emitted by `cds.server`](cds-server#lifecycle-events) {.learn-more}
 
-#### cds. on '*serving*' {.event}
 
-#### cds. once '*served*' {.event}
-
-#### cds. once '*listening*' {.event}
-
-#### cds. once '*shutdown*' {.event}
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered, with `served` and `shutdown`
+> events as the only exeptions.

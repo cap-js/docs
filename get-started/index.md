@@ -11,7 +11,7 @@ Welcome to CAP, and to *capire*, its one-stop documentation.
 
 [**capire** [ca·pì·re] — Italian for _"understand"_](https://translate.google.com/details?sl=it&tl=en&text=capire){.learn-more .dict}
 
-<style>
+<style scoped>
   a.dict { font-family: serif; font-weight: 100 }
 </style>
 

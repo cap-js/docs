@@ -727,15 +727,20 @@ If you receive an error response `404 Not Found: Requested route ('<route>') doe
 2. The app (or all app instances, in case of horizontal scale-out) failed the readiness check.
   Please see [Cookbook -> Deployment -> Health Checks](../guides/deployment/health-checks.md) and [Using Cloud Foundry health checks](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html) for details on how to set up the check.
 
-Check 2. using the Cloud Foundry CLI as follows:
+::: details Troubleshoot using the Cloud Foundry CLI
 
 ```sh
-cf apps -> list all apps
-cf app <your app name> --guid -> get your app's guid
-cf curl "/v3/processes/<your app guid>/stats" -> list of processes (one per app instance) with property "routable" indicating whether the most recent readiness check was successful
+cf apps # -> list all apps
+cf app <your app name> # -> get details on your app, incl. state and routes
+cf app <your app name> --guid # -> get your app's guid
+cf curl "/v3/processes/<your app guid>/stats"
+  # -> list of processes (one per app instance) with property "routable"
+  #    indicating whether the most recent readiness check was successful
 ```
 
 See [cf curl](https://cli.cloudfoundry.org/en-US/v7/curl.html) and [The process stats object](https://v3-apidocs.cloudfoundry.org/version/3.184.0/index.html#the-process-stats-object) for details on how to use the CLI.
+
+:::
 
 
 

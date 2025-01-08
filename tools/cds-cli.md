@@ -428,6 +428,34 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 - [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
 - [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
+## cds watch
+
+Use `cds watch` to watch for changed files, restarting your server.
+
+Additional watched or ignored paths can be specified via CLI options:
+
+```sh
+cds watch --include ../other-app --exclude .idea/
+```
+
+Alternatively, you can add the settings to your CDS configuration:
+
+```json
+{
+  "cds": {
+    "watch": {
+      "include": [
+        "../other-app"
+      ],
+      "exclude": [
+        ".idea/"
+      ]
+    }
+  }
+}
+```
+
+
 
 ## cds repl
 

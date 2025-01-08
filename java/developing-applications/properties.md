@@ -25,15 +25,15 @@ In property files `<index>` should be replaced with a number and `<key>` with an
     <tr>
       <th class="anchor"></th>
       <th class="prop">Property</th>
-      <th class="type">Type</th>
+      <th class="java-type">Type</th>
       <th class="default">Default Value</th>
       <th class="descr">Description</th>
     </tr>
   </thead>
   <tr v-for="p in properties" :key="p.name" :id="p.anchor">
     <td class="anchor"><a :href="'#'+p.anchor" class="header-anchor"></a></td>
-    <td class="prop"    v-html="p.name" :class="{ group: p.header }"></td>
-    <td class="type"    v-html="p.type"></td>
+    <td class="prop"      v-html="p.name" :class="{ group: p.header }"></td>
+    <td class="java-type" v-html="p.type"></td>
     <td class="default" v-html="p.defaultValue"></td>
     <td class="descr"   v-html="p.description"></td>
   </tr>

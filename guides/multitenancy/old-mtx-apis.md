@@ -8,6 +8,7 @@ breadcrumbs:
   - Old MTX
 # layout: cookbook
 status: released
+search: false
 ---
 
 

@@ -435,26 +435,10 @@ Use `cds watch` to watch for changed files, restarting your server.
 Additional watched or ignored paths can be specified via CLI options:
 
 ```sh
-cds watch --include ../other-app --exclude .idea/
+cds watch --include ../other-app --exclude .stuff
 ```
 
-Alternatively, you can add the settings to your CDS configuration:
-
-```json
-{
-  "cds": {
-    "watch": {
-      "include": [
-        "../other-app"
-      ],
-      "exclude": [
-        ".idea/"
-      ]
-    }
-  }
-}
-```
-
+Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".stuff"]</Config> to your project configuration.
 
 
 ## cds repl

@@ -126,7 +126,7 @@ All technical clients that have access to the application's XSUAA or IAS service
 
 Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name, tenant and attributes:
 
-| CAP User Property   | XSUAA JWT Property                           | IAS JWT Property        |
+| CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
 | `$user.tenant`      | `zid`                            | `app_tid`               |

@@ -18,63 +18,72 @@ export default {
 </script>
 
 <template>
-  <div class="tip custom-block github-alert">
-    <ul class="legend-list">
-      <li>
-        ✅ &nbsp; <b>Recommended</b>: If the plugin's
-        <i>recommended</i> configuration enables the rule
-      </li>
-      <li>
-        🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are
-        automatically fixable (<code>--fix</code>)
-      </li>
-      <li>
-        💡 &nbsp; <b>Has Suggestions</b>: If problems reported by the rule are
-        manually fixable
-      </li>
-      <li v-if="category !== 'Environment'">
-        👀 &nbsp; <b>Editor default</b>: If the rule is shown in the editor by
-        default
-      </li>
-    </ul>
-  </div>
-  <table class="lint-ref-table">
-    <thead hidden>
-      <tr>
-        <th class="col-prop">Recommended</th>
-        <th class="col-prop">Fixable</th>
-        <th class="col-prop">Suggestions</th>
-        <th class="col-prop" v-if="category !== 'Environment'">Editor</th>
-        <th class="lint-rule">Rule</th>
+  <div v-if="data && Object.keys(data).length">
+    <div class="tip custom-block github-alert">
+      <ul class="legend-list">
+        <li>
+          ✅ &nbsp; <b>Recommended</b>: If the plugin's
+          <i>recommended</i> configuration enables the rule
+        </li>
+        <li>
+          🔧 &nbsp; <b>Fixable</b>: If problems reported by the rule are
+          automatically fixable (<code>--fix</code>)
+        </li>
+        <li>
+          💡 &nbsp; <b>Has Suggestions</b>: If problems reported by the rule are
+          manually fixable
+        </li>
+        <li v-if="category !== 'Environment'">
+          👀 &nbsp; <b>Editor default</b>: If the rule is shown in the editor by
+          default
+        </li>
+      </ul>
+    </div>
+    <table class="lint-ref-table">
+      <thead hidden>
+        <tr>
+          <th class="col-prop">Recommended</th>
+          <th class="col-prop">Fixable</th>
+          <th class="col-prop">Suggestions</th>
+          <th class="col-prop" v-if="category !== 'Environment'">Editor</th>
+          <th class="lint-rule">Rule</th>
+        </tr>
+      </thead>
+      <tr v-for="entry in data[category]" :key="entry.rule">
+        <td class="lint-rule-prop">
+          <text class="lint-prop-symbol">{{ entry.isRecommended }}</text>
+        </td>
+        <td class="lint-rule-prop">
+          <text class="lint-prop-symbol">
+            {{ entry.hasFix }}
+          </text>
+        </td>
+        <td class="lint-rule-prop">
+          <text class="lint-prop-symbol">
+            {{ entry.hasSuggestions }}
+          </text>
+        </td>
+        <td class="lint-rule-prop" v-if="category !== 'Environment'">
+          <text class="lint-prop-symbol">
+            {{ entry.model }}
+          </text>
+        </td>
+        <td class="lint-rule">
+          <span v-if="!entry.url" class="col-name">{{ entry.rule }}</span>
+          <a :href="entry.url" v-if="!!entry.url">{{ entry.rule }}</a>
+          <br />
+          <text class="lint-rule-desc" v-html="entry.description" />
+        </td>
       </tr>
-    </thead>
-    <tr v-for="entry in data[category]">
-      <td class="lint-rule-prop">
-        <text class="lint-prop-symbol">{{ entry.isRecommended }}</text>
-      </td>
-      <td class="lint-rule-prop">
-        <text class="lint-prop-symbol">
-          {{ entry.hasFix }}
-        </text>
-      </td>
-      <td class="lint-rule-prop">
-        <text class="lint-prop-symbol">
-          {{ entry.hasSuggestions }}
-        </text>
-      </td>
-      <td class="lint-rule-prop" v-if="category !== 'Environment'">
-        <text class="lint-prop-symbol">
-          {{ entry.model }}
-        </text>
-      </td>
-      <td class="lint-rule">
-        <span v-if="!entry.url" class="col-name">{{ entry.rule }}</span>
-        <a :href="entry.url" v-if="!!entry.url">{{ entry.rule }}</a>
-        <br />
-        <text class="lint-rule-desc" v-html="entry.description" />
-      </td>
-    </tr>
-  </table>
+    </table>
+  </div>
+  <div v-else class="danger custom-block">
+    <div class="custom-block-title">You need install the CDS ESLint plugin locally to see data here</div>
+    <p>
+      <code>npm i --no-save @sap/eslint-plugin-cds</code><br>
+      The CI does that in production.
+    </p>
+  </div>
 </template>
 
 <style scoped>

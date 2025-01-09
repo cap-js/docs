@@ -26,7 +26,7 @@ _The following is mainly written from a Node.js perspective. For Java's perspect
 
 First identify entities and elements (potentially) holding personal data using `@PersonalData` annotations, as explained in detail in the [*Annotating Personal Data* chapter](annotations) of these guides.
 
-
+> We keep using the [Incidents Management reference sample app](https://github.com/cap-js/incidents-app).
 
 ## Add the Plugin { #setup }
 
@@ -40,29 +40,27 @@ npm add @cap-js/audit-logging
 
 [CDS Plugin Packages](../../node.js/cds-plugins) are self-contained extensions. They not only include the relevant code but also bring their own default configuration. In our case, next to bringing the respective code, the plugin does the following:
 
-1. Sets `cds.requires.audit-log: true` in `cds.env`, equivalent to:
-    ```json
-    {"cds":{
-      "requires": {
-        "audit-log": true
-      }
-    }}
-    ```
+1. Sets <Config>cds.requires.audit-log: true</Config>
 
-2. Which in turn activates the `audit-log` configuration **presets**:
+2. Which in turn activates the effective `audit-log` configuration via **presets**:
     ```jsonc
     {
-       "audit-log": {
-         "handle": [ "READ", "WRITE" ],
-         "[development]": {
-           "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
-           "outbox": false
-         },
-         "[production]": {
-           "impl": "@cap-js/audit-logging/srv/audit-log-to-restv2",
-           "outbox": true
-         }
-       }
+      "audit-log": {
+        "handle": ["READ", "WRITE"],
+        "outbox": true,
+        "[development]": { "kind": "audit-log-to-console" },
+        "[hybrid]": { "kind": "audit-log-to-restv2" },
+        "[production]": { "kind": "audit-log-to-restv2" }
+      },
+      "kinds": {
+        "audit-log-to-console": {
+          "impl": "@cap-js/audit-logging/srv/log2console"
+        },
+        "audit-log-to-restv2": {
+          "impl": "@cap-js/audit-logging/srv/log2restv2",
+          "vcap": { "label": "auditlog" }
+        }
+      }
     }
     ```
 
@@ -72,7 +70,7 @@ npm add @cap-js/audit-logging
 - `outbox` — whether to use transactional outbox or not
 - `handle` — which events (`READ` and/or `WRITE`) to intercept and generate log messages from
 
-**The preset uses profile-specific configurations** for development and production. Use the `cds env` command to find out the effective configuration for your current environment:
+**The preset uses profile-specific configurations** for (hybrid) development and production. Use the `cds env` command to find out the effective configuration for your current environment:
 
 ::: code-group
 ```sh [w/o profile]
@@ -94,7 +92,7 @@ cds env requires.audit-log --profile production
 
 ## Test-drive Locally
 
-The steps above is all we need to automatically log personal data-related events. Let's see that in action…
+The previous step is all we need to do to automatically log personal data-related events. Let's see that in action…
 
 1. **Start the server** as usual:
 
@@ -103,39 +101,42 @@ The steps above is all we need to automatically log personal data-related events
     ```
 
 2. **Send an update** request that changes personal data:
-
-    ```http
-    PATCH http://localhost:4004/admin/Customers(8e2f2640-6866-4dcf-8f4d-3027aa831cad) HTTP/1.1
+    ::: code-group
+    ```http [test/audit-logging.http]
+    PATCH http://localhost:4004/admin/Customers(2b87f6ca-28a2-41d6-8c69-ccf16aa6389d) HTTP/1.1
     Authorization: Basic alice:in-wonderland
     Content-Type: application/json
 
     {
-      "firstName": "Johnny",
-      "lastName": "Doey"
+      "firstName": "Jane",
+      "lastName": "Doe"
     }
     ```
+    :::
+
+    [Find more sample requests in the Incident Management sample.](https://github.com/cap-js/incidents-app/blob/attachments/test/audit-logging.http){.learn-more}
 
 3. **See the audit logs** in the server's console output:
 
     ```js
     {
       data_subject: {
-        type: 'AdminService.Customers',
-        id: { ID: '8e2f2640-6866-4dcf-8f4d-3027aa831cad' },
+        id: { ID: '2b87f6ca-28a2-41d6-8c69-ccf16aa6389d' },
         role: 'Customer',
+        type: 'AdminService.Customers'
       },
       object: {
-       type: 'AdminService.Customers',
-       id: { ID: '8e2f2640-6866-4dcf-8f4d-3027aa831cad' }
+        type: 'AdminService.Customers',
+        id: { ID: '2b87f6ca-28a2-41d6-8c69-ccf16aa6389d' }
       },
       attributes: [
-        { name: 'firstName', old: 'John', new: 'Johnny' },
-        { name: 'lastName', old: 'Doe', new: 'Doey' }
+        { name: 'firstName', old: 'Sunny', new: 'Jane' },
+        { name: 'lastName', old: 'Sunshine', new: 'Doe' }
       ],
-      user: 'alice',
+      uuid: '5cddbc91-8edf-4ba2-989b-87869d94070d',
       tenant: 't1',
-      uuid: '1391A703E2CBE52E817269EC7527368C',
-      time: '2023-02-26T08:13:48.287Z'
+      user: 'alice',
+      time: 2024-02-08T09:21:45.021Z
     }
     ```
 
@@ -152,7 +153,7 @@ A more comprehensive guide, incl. tutorials, is currently under development.
 
 <span id="audit-logging-in-saas" />
 
-For deployment in general, please follow the [deployment guide](../deployment/). Check the rest of this guide before actually triggering the deployment (i.e., executing `cf deploy`).
+For deployment in general, please follow the [deployment guide](../deployment/). Check the rest of this guide before actually triggering the deployment (that is, executing `cf deploy`).
 
 Here is what you need to do additionally,  to integrate with SAP Audit Log Service:
 
@@ -490,15 +491,4 @@ This provides an ultimate level of resiliency, plus additional benefits:
 
 - **False log messages are avoided** &mdash;  messages are forwarded to the audit log service on successfully committed requests; and skipped in case of rollbacks.
 
-This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring outbox: false in the configuration, for example, as we do in the default configuration for development:
-
-```json
-{
-   "audit-log": {
-     "[development]": {
-       "impl": "@cap-js/audit-logging/srv/audit-log-to-console",
-       "outbox": false // [!code focus]
-     }
-   }
-}
-```
+This transparently applies to all implementations, even [custom implementations](#custom-implementation). You can opt out of this default by configuring <Config>cds.audit-log.[development].outbox = false</Config>.

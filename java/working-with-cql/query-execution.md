@@ -1,7 +1,6 @@
 ---
 synopsis: API to execute CQL statements on services accepting CQN queries.
 status: released
-redirect_from: java/query-execution
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -94,25 +93,26 @@ The maximum batch size for update and delete can be configured via `cds.sql.max-
 
 #### Querying Parameterized Views on SAP HANA { #querying-views}
 
-To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, you need to build a select statement and execute it with the corresponding named parameters.
+To query [views with parameters](../../advanced/hana#views-with-parameters) on SAP HANA, build a select statement and execute it with [named parameter](#named-parameters) values that correspond to the view's parameters.
 
-Let's consider the following `Book` entity and a parameterized view that returns the `ID` and `title` of `Books` with number of pages less than `numOfPages`:
+Let's consider the following `Books` entity and a parameterized view `BooksView`, which returns the `ID` and `title` of `Books` with `stock` greater or equal to the value of the parameter `minStock`:
 
 ```cds
-entity Book {
-    key ID : Integer;
+entity Books {
+    key ID : UUID;
     title  : String;
-    pages  : Integer;
+    stock  : Integer;
 }
 
-entity BookView(numOfPages : Integer) as SELECT FROM Book {ID, title} WHERE pages < :numOfPages;
+entity BooksView(minStock : Integer) as
+   SELECT from Books {ID, title} where stock >= :minStock;
 ```
 
-The Java query that returns books with number of pages less than *200*:
+To query `BooksView` in Java, run a select statement and provide values for all view parameters:
 
 ```java
-CqnSelect query = Select.from("BookView");
-Map<String, Object> params = Collections.singletonMap("numOfPages", 200);
+CqnSelect query = Select.from("BooksView");
+var params = Map.of("minStock", 100);
 
 Result result = service.run(query, params);
 ```
@@ -194,7 +194,7 @@ For inactive draft entities `@cascade` annotations are ignored.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#db-constraints).
+The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#database-constraints).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}
@@ -276,7 +276,8 @@ The `@odata.etag` annotation indicates to the OData protocol adapter that the va
 ```cds
 entity Order : cuid {
     @odata.etag
-    @cds.on.update : $now @cds.on.insert : $now
+    @cds.on.update : $now
+    @cds.on.insert : $now
     modifiedAt : Timestamp;
     product : Association to Product;
 }
@@ -288,7 +289,7 @@ An ETag can also be used programmatically in custom code. Use the `CqnEtagPredic
 
 ```java
 PersistenceService db = ...
-Instant expectedLastModification = ...
+Instant expectedLastModification = ...;
 CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
@@ -361,7 +362,7 @@ orders.forEach(o -> o.setStatus("cancelled"));
 
 Result rs = db.execute(Update.entity(ORDER).entries(orders));
 
-for(int i = 0; i orders.size(); i++) if (rs.rowCount(i) == 0) {
+for(int i = 0; i < orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
 }
 ```
@@ -401,7 +402,7 @@ The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock
 
 ## Runtime Views { #runtimeviews}
 
-The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-and-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
+The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements based on your CDS model, which include SQL views for all CDS [views and projections](../../cds/cdl#views-projections). This means adding or changing CDS views requires a deployment of the database schema changes.
 
 To avoid schema updates due to adding or updating CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). In this case the CDS compiler won't generate corresponding static database views. Instead, the CDS views are dynamically resolved by the CAP Java runtime.
 
@@ -427,15 +428,15 @@ Select BooksWithLowStock where author = 'Kafka'
 is executed against SQL databases as
 
 ```SQL
-SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS B
-  LEFT OUTER JOIN AUTHORS A ON B.AUTHOR_ID = A.ID
+SELECT B.ID, B.TITLE, A.NAME as "author" FROM BOOKS AS B
+  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
 WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
-::: tip
-Runtime views are supported for [CDS projections](../../cds/cdl#as-projection-on). Constant values and expressions such as *case when* are currently ignored.
+::: warning Limitations
+Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Constant values, expressions such as *case when* and [association filters](../../cds/cdl#publish-associations-with-filter) are currently ignored.
 
-Complex views using aggregations or union/join/subqueries in `FROM` are not yet supported.
+Complex views using aggregations or union/join/subqueries in `FROM` are not supported.
 :::
 
 ### Using I/O Streams in Queries

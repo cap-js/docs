@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about the outbox feature.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -156,8 +155,8 @@ for example to expose it in a service.
 
 #### Known Limitations
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The emitting service must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
-- The emitting service must not perform any database modifications, because a global database transaction is used when dispatching the events.
+- The service that handles the outboxed event must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
+- The service that handles the outboxed event must not perform any database modifications, because a global database transaction is used when dispatching the events. The outbox must only be used for services which communicate with external systems.
 
 
 ## In-Memory Outbox
@@ -236,4 +235,4 @@ Add the model path accordingly:
 }
 ```
 
-Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/jumpstart#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
+Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.

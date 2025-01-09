@@ -43,7 +43,7 @@ let linked = cds.linked(csn) // linked === csn
 Instead of a already compiled CSN, you can also pass a string containing CDL source code:
 
 ```js
-let linked = cds.linked(`
+let linked = cds.linked`
   entity Books {
   	key ID: UUID;
   	title: String;
@@ -53,7 +53,7 @@ let linked = cds.linked(`
   	key ID: UUID;
   	name: String;
   }
-`)
+`
 ```
 
 The passed in model gets **modified**, and the returned linked model is actually the modified passed-in csn.
@@ -79,7 +79,7 @@ A tag property which is `true` for linked models. {.indent}
 
 The [CSN definitions](../cds/csn#definitions) of the model, turned into an instance of [`LinkedDefinitions`].  {.indent}
 
-### . services {.property}
+### . services {.property alt="The following documentation on entities also applies to services. "}
 
 ### . entities {.property}
 
@@ -88,7 +88,7 @@ These are convenient shortcuts to access all *[service](../cds/cdl#services)* or
 For example:
 
 ```js
-let csn = CDL`
+let m = cds.linked`
   namespace my.bookshop;
   entity Books {...}
   entity Authors {...}
@@ -96,7 +96,6 @@ let csn = CDL`
     entity ListOfBooks as projection on Books {...}
   }
 `
-let m = cds.linked (csn)
 
 // Object nature
 let { CatalogService, AdminService } = m.services
@@ -259,17 +258,6 @@ for (let each in linked.definitions) {
 }
 ```
 
-
-Moreover, you can use common array methods like these:
-
-```js
-linked.definitions .forEach (d => console.log(d.name))
-linked.definitions .filter (d => d.is_entity)
-linked.definitions .find (d => d.name === 'Foo')
-linked.definitions .some (d => d.name === 'Foo')
-linked.definitions .map (d => d.name)
-```
-
 Each entry in an instance of `LinkedDefinitions` is a [`LinkedDefinition`].
 
 
@@ -331,9 +319,9 @@ class cds.service extends cds.context {...}
 
 A tag property which is `true` for linked entity definitions. {.indent}
 
-### . entities {.property}
+### . entities {.property alt="The following documentation on actions also applies to entities. "}
 
-### . events {.property}
+### . events {.property alt="The following documentation on actions also applies to events. "}
 
 ### . actions {.property}
 
@@ -357,12 +345,12 @@ class cds.entity extends cds.struct {...}
 A tag property which is `true` for linked entity definitions.
 {.indent}
 
-### . keys {.property}
+### . keys {.property alt="The following documentation on actions also applies to keys. "}
 
 
-### . associations {.property}
+### . associations {.property alt="The following documentation on actions also applies to associations. "}
 
-### . compositions {.property}
+### . compositions {.property alt="The following documentation on actions also applies to compositions. "}
 
 ### . actions {.property}
 
@@ -394,7 +382,7 @@ class cds.struct extends cds.type {...}
 ### . is_struct {.property}
 
 A tag property which is `true` for linked struct definitions (types and elements). <br>
-It is also `true` for linked entity definitions, i.e., instances of as [`cds.entity`](#cds-entity). {.indent}
+It is also `true` for linked entity definitions, that is, instances of as [`cds.entity`](#cds-entity). {.indent}
 
 ### . elements {.property}
 
@@ -469,11 +457,10 @@ cds.Composition = class Composition extends Association {...}
 For example, you can use these classes as follows:
 
 ```js
-let model = CDL`
+let m = cds.linked`
    entity Books { author: Association to Authors; }
    entity Authors { key ID: UUID; }
 `)
-let m = cds.linked(model)
 let { Books, Authors } = m.entities
 let isEntity = Books instanceof cds.entity
 let keys = Books.keys
@@ -513,12 +500,12 @@ cds.linked.classes .mixin (
 )
 
 // test drive
-let csn = CDL`
-entity Books : cuid { title:String; author: Association to Authors }
-entity Authors : cuid { name:String; }
-aspect cuid : { key ID:UUID; }
+let m = cds.linked`
+  entity Books : cuid { title:String; author: Association to Authors }
+  entity Authors : cuid { name:String; }
+  aspect cuid : { key ID:UUID; }
 `
-cds.linked(csn).foreach (d => console.log(d.toCDL()))
+m.foreach (d => console.log(d.toCDL()))
 ```
 
 
@@ -533,8 +520,8 @@ This property gives you access to all prototypes of the builtin classes as well 
 
 Actually, at runtime CDS is in fact bootstrapped out of this using core [CSN](../cds/csn) object structures and [`cds.linked`] techniques. Think of it to be constructed as follows:
 
-```cds
-cds.builtin.types = cds.linked (CDL`
+```js
+cds.builtin.types = cds.linked`
   using from './roots';
   context cds {
     type UUID         : String(36);
@@ -556,7 +543,7 @@ cds.builtin.types = cds.linked (CDL`
     type LargeString  : string;
     type LargeBinary  : string;
   }
-`) .definitions
+`.definitions
 ```
 
 With `./roots` being this in-memory CSN:

@@ -21,21 +21,7 @@ See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) fo
 
 ## Lean Draft
 
-Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity and enables more features like storing active instances in remote systems while keeping the corresponding drafts in the local persistence.
-
-### Enablement
-
-Lean draft is enabled by default. Add this to your `cds` configuration to disable the feature:
-
-```json
-{
-  "cds": {
-    "fiori": {
-      "lean_draft": false
-    }
-  }
-}
-```
+Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity.
 
 ### Handlers Registration {#draft-support}
 
@@ -95,10 +81,6 @@ You can set the property to one of the following:
 - number of minutes like `'10min'`
 - number of milliseconds like `1000`
 
-::: warning
-`cds.drafts.cancellationTimeout` is deprecated and will be removed in an upcoming release. Please mind that the `cds.fiori.draft_lock_timeout` expects a different value.
-:::
-
 ### Bypassing the SAP Fiori Draft Flow
 
 Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
@@ -146,20 +128,20 @@ payloads rather than the complete business object.
 
 ### Garbage Collection of Stale Drafts
 
-Inactive drafts can be deleted automatically after a timeout. You can configure this timeout by the following configuration:
+Inactive drafts are deleted automatically after the default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
 
 ```json
 {
   "cds": {
     "fiori": {
-      "draft_deletion_timeout": true
+      "draft_deletion_timeout": "28d"
     }
   }
 }
 ```
 
 You can set the property to one of the following:
-- `true` in order to obtain the default timeout of 30 days
+- `false` in order to deactivate the timeout
 - number of days like `'30d'` 
 - number of hours like `'72h'`
 - number of milliseconds like `1000`
@@ -192,3 +174,15 @@ You can set the property to one of the following:
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 
+
+### Programmatic Invocation of Draft Actions <Beta />
+
+You can programmatically invoke draft actions with the following APIs:
+
+```js
+await srv.new(MyEntity, data)            // create new draft
+await srv.discard(MyEntity.drafts, keys) // discard draft
+await srv.edit(MyEntity, keys)           // create draft from active instance
+await srv.new(MyEntity).for(keys)        // same as above
+await srv.save(MyEntity.drafts, keys)    // activate draft
+```

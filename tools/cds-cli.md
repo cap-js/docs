@@ -20,7 +20,8 @@ synopsis: >
   .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 
-  .add::before { content: 'cds add '; color: #999 }
+  .add::before     { content: 'cds add '; color: #999 }
+  .compile::before { content: 'cds compile --to '; color: #999 }
 </style>
 
 # CDS Command Line Interface (CLI) {#cli}
@@ -39,29 +40,12 @@ npm i -g @sap/cds-dk
 
 Use `cds version` to get information about your installed package version:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span>
+<!--@include: ./assets/help/cds-version.out.md-->
 
-<em>@capire/samples:</em> 2.0.0
-<em>@sap/cds:</em> 7.9.1
-<em>@sap/cds-compiler:</em> 4.9.2
-<em>@sap/cds-dk:</em> 7.9.2
-<em>@sap/cds-dk (global):</em> 6.7.0
-<em>@sap/cds-mtxs:</em> 1.18.1
-<em>@sap/eslint-plugin-cds:</em> 3.0.3
-<em>Node.js:</em> v18.13.0
-<em>home:</em> .../node_modules/@sap/cds
+Using `--markdown` you can get the information in markdown format:
 
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">version</span> <span class="flags">--markdown</span>
+<!--@include: ./assets/help/cds-version-md.out.md-->
 
-| @capire/samples        | https://github.com/sap-samples/cloud-cap-samples.git |
-|------------------------|------------------------------------------------------|
-| Node.js                | v18.13.0                                             |
-| @sap/cds               | 7.9.1                                                |
-| @sap/cds-compiler      | 4.9.2                                                |
-| @sap/cds-dk            | 7.9.2                                                |
-| @sap/eslint-plugin-cds | 3.0.3                                                |
-</pre>
 
 ## cds completion <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -78,10 +62,10 @@ After that, restart your shell (or source the shell configuration) and enjoy she
 Currently supported shells:
 | Operating System  | Shell |
 |-------------------|-------|
-| Linux             | bash, zsh |
-| macOS             | bash, zsh |
+| Linux             | bash, fish (version 8 or higher), zsh |
+| macOS             | bash, fish (version 8 or higher), zsh |
 | Windows           | PowerShell, Git Bash |
-| WSL               | bash, zsh |
+| WSL               | bash, fish (version 8 or higher), zsh |
 
 To remove the shell completion, run the following command:
 ```sh
@@ -94,89 +78,11 @@ Then source or restart your shell.
 
 Use `cds help` to see an overview of all commands:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">help</span>
-
-USAGE
-
-    <em>cds</em> &lt;command&gt; [&lt;args&gt;]
-    <em>cds</em> &lt;src&gt;  =  cds compile &lt;src&gt;
-    <em>cds</em>        =  cds help
-
-COMMANDS
-
-    <em>i | init</em>       jump-start cds-based projects
-    <em>a | add</em>        add a feature to an existing project
-    <em>y | bind</em>       bind application to remote services
-    <em>m | import</em>     add models from external sources
-    <em>c | compile</em>    compile cds models to different outputs
-    <em>p | parse</em>      parses given cds models
-    <em>s | serve</em>      run your services in local server
-    <em>w | watch</em>      run and restart on file changes
-    <em>r | repl</em>       read-eval-event loop
-    <em>e | env</em>        inspect effective configuration
-    <em>b | build</em>      prepare for deployment
-    <em>d | deploy</em>     deploy to databases or cloud
-    <em>l | login</em>      login to extendable SaaS application
-    <em>t | lint</em>       [beta] run linter for env or model checks
-    <em>v | version</em>    get detailed version information
-    <em>? | help</em>       get detailed usage information
-    <em>  | pull</em>       pull base model for a SaaS app extension
-    <em>  | push</em>       push extension to SaaS app to enable or update it
-    <em>  | subscribe</em>  subscribe a tenant to a multitenant SaaS app
-    <em>  | completion</em> add/remove shell completion for cds commands
-    <em>  | mock</em>       call cds serve with mocked service
-
-  Learn more about each command using:
-  <em>cds help</em> &lt;command&gt; or
-  <em>cds</em> &lt;command&gt; <em>--help</em>
-</pre>
-
+<!--@include: ./assets/help/cds-help.out.md-->
 
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">watch</span> <span class="flags">--help</span>
-
-<em>SYNOPSIS</em>
-
-  <em>cds watch</em> [&lt;project&gt;]
-
-  Tells cds to watch for relevant things to come or change in the specified
-  project or the current work directory. Compiles and (re-)runs the server
-  on every change detected.
-
-  Actually, cds watch is just a convenient shortcut for:
-  <em>cds serve all --with-mocks --in-memory?</em>
-
-OPTIONS
-
-  <em>--port</em> &lt;number&gt;
-
-    Specify the port on which the launched server listens.
-    If you specify '0', the server picks a random free port.
-    Alternatively, specify the port using env variable PORT.
-
-  <em>--ext</em> &lt;extensions&gt;
-
-    Specify file extensions to watch for in a comma-separated list.
-    Example: cds w --ext cds,json,js.
-
-  <em>--livereload</em> &lt;port | false&gt;
-
-    Specify the port for the livereload server. Defaults to '35729'.
-    Disable it with value false.
-
-  <em>--open</em> &lt;url&gt;
-
-    Open the given URL (suffix) in the browser after starting.
-    If none is given, the default application URL will be opened.
-
-SEE ALSO
-
-  <em>cds serve --help</em> for the different start options.
-</pre>
-
+<!--@include: ./assets/help/cds-watch.out.md-->
 
 
 ## cds init
@@ -186,7 +92,7 @@ Use `cds init` to create new projects.
 The simplest form creates a minimal Node.js project.  For Java, use
 
 ```sh
-cds init --add java
+cds init --java
 ```
 
 In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.
@@ -207,39 +113,52 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 
 | Feature                       |     Node.js      |       Java       |
 |-------------------------------|:----------------:|:----------------:|
-| `hana`                        |       <X/>       |       <X/>       |
-| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `liquibase`                   |      <Na/>       |       <X/>       |
-| `h2`                          |      <Na/>       |       <X/>       |
+| `tiny-sample`                 |       <X/>       |       <X/>       |
+| `sample`                      |       <X/>       |       <X/>       |
+| `mta`                         |       <X/>       |       <X/>       |
+| `cf-manifest`                 |       <X/>       |       <X/>       |
+| `helm`                        |       <X/>       |       <X/>       |
+| `helm-unified-runtime`        |       <X/>       |       <X/>       |
+| `containerize`                |       <X/>       |       <X/>       |
 | `multitenancy`                |       <X/>       |       <X/>       |
 | `toggles`                     |       <X/>       |       <X/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
-| `application-logging`         | <X/><sup>1</sup> | <X/><sup>1</sup> |
-| `audit-logging`               |       <O/>       |       <O/>       |
-| `html5-repo`                  |       <X/>       |       <X/>       |
-| `approuter`                   |       <X/>       |       <X/>       |
-| `connectivity`                |       <X/>       |       <X/>       |
-| [`data`](#data)               |       <X/>       |       <X/>       |
-| [`http`](#http)               |       <X/>       |       <X/>       |
-| `destination`                 |       <X/>       |       <X/>       |
+| `xsuaa`                       |       <X/>       |       <X/>       |
+| `hana`                        |       <X/>       |       <X/>       |
+| `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
+| `sqlite`                      |       <X/>       |       <X/>       |
+| `h2`                          |      <Na/>       |       <X/>       |
+| `liquibase`                   |      <Na/>       |       <X/>       |
+| `local-messaging`             |       <X/>       |       <O/>       |
+| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging`        |       <X/>       |       <O/>       |
 | `enterprise-messaging-shared` |       <X/>       |       <O/>       |
 | `redis-messaging`             | <X/><sup>1</sup> |       <O/>       |
-| `local-messaging`             |       <X/>       |       <O/>       |
-| `file-based-messaging`        |       <X/>       |       <O/>       |
 | `kafka`                       |       <X/>       |       <X/>       |
-| `helm`                        |       <X/>       |       <X/>       |
-| `helm-unified-runtime`        |       <X/>       |       <X/>       |
-| `mta`                         |       <X/>       |       <X/>       |
+| `approuter`                   |       <X/>       |       <X/>       |
+| `connectivity`                |       <X/>       |       <X/>       |
+| `destination`                 |       <X/>       |       <X/>       |
+| `html5-repo`                  |       <X/>       |       <X/>       |
+| `portal`                      |       <X/>       |       <X/>       |
+| `application-logging`         |       <X/>       |       <X/>       |
+| `audit-logging`               |       <X/>       |       <X/>       |
 | `notifications`               |       <X/>       |       <O/>       |
+| `attachments`                 |       <X/>       |       <X/>       |
+| [`data`](#data)               |       <X/>       |       <X/>       |
+| [`http`](#http)               |       <X/>       |       <X/>       |
+| `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
-| `sample`                      |       <X/>       |       <X/>       |
-| `tiny-sample`                 |       <X/>       |       <X/>       |
-| `sqlite`                      |       <X/>       |       <X/>       |
+| `esm`                         |       <X/>       |      <Na/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
-| `xsuaa`                       |       <X/>       |       <X/>       |
+| `typescript`                  |       <X/>       |      <Na/>       |
+| `completion`                  |       <X/>       |       <X/>       |
+| [`handler`](#handler)         |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
+
+::: details See the full help text of `cds add`
+<!--@include: ./assets/help/cds-add.out.md -->
+:::
 
 ### data {.add}
 
@@ -271,7 +190,7 @@ cds add data --filter "books$"
 
 ::: details Special characters like `?` or `*` need escaping or quoting in shells
 
-The escape character is usually the backslash, e.g. `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
+The escape character is usually the backslash, for example, `\?`.  Quote characters are `'` or `"` with varying rules between shells.  Consult the documentation for your shell here.
 :::
 
 #### Sample records <Since version="7.9.0" of="@sap/cds-dk" />
@@ -284,6 +203,7 @@ This example creates 2 records for each entity:
 cds add data --records 2
 ```
 
+[Watch a short video by DJ Adams to see this in action.](https://www.youtube.com/shorts/_YVvCA2oSco){.learn-more}
 
 #### Formats <Since version="7.9.0" of="@sap/cds-dk" />
 
@@ -404,41 +324,213 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
+### handler <Since version="8.5.0" of="@sap/cds-dk" /> {.add}
+
+Generates handler stubs for actions and functions for both Java and Node.js projects.
+
+To generate handler files, run:
+
+::: code-group
+```sh [Node.js]
+cds add handler
+```
+```sh [Java]
+mvn compile  # let Java know what your model looks like
+cd srv       # following must be run from srv/
+cds add handler
+```
+:::
+
+The files contain handlers for
+- actions and functions
+- service entities (Node.js only)
+
+
+#### Filtering {#handler-filtering}
+
+Use the `--filter` option to create handlers for specific actions/functions or entities.
+
+```sh
+cds add handler --filter submitOrder
+cds add handler --filter Books
+```
+
 
 ## cds env
 
 Use `cds env` to inspect currently effective config settings:
 
-<pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">env get</span> <span class="flags">requires.db</span>
-{
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  kind: <em>'sqlite'</em>
-}
-</pre>
+<!--@include: ./assets/help/cds-env-requires-db.out.md -->
+
+
+## cds compile
+
+### mermaid <Since version="8.0.0" of="@sap/cds-dk" /> {.compile}
+
+This produces text for a [Mermaid class diagram](https://mermaid.js.org/syntax/classDiagram.html):
+
+```sh
+cds compile db/schema.cds --to mermaid
+```
+
+Output:
+
+```log
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    class `sap.fe.cap.travel.Booking`["Booking"]
+    class `sap.fe.cap.travel.Airline`["Airline"]
+    class `sap.fe.cap.travel.Airport`["Airport"]
+    class `sap.fe.cap.travel.Flight`["Flight"]
+  }
+```
+
+If wrapped in a markdown code fence of type `mermaid`, such diagram text is supported by many markdown renderers, for example, on [GitHub](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+
+````md
+```mermaid
+classDiagram
+  namespace sap_fe_cap_travel {
+    class `sap.fe.cap.travel.Travel`["Travel"]
+    ...
+  }
+```
+````
+
+To customize the diagram layout, use these environment variables when calling `cds compile`:
+
+```sh
+CDS_MERMAID_ASSOCNAMES=false|true    # show association/composition names
+CDS_MERMAID_ELEMENTS=false|all|keys  # no, all, or only key elements
+CDS_MERMAID_MIN=false|true           # remove unused entities
+CDS_MERMAID_NAMESPACES=false|true    # group entities by namespace
+CDS_MERMAID_QUERIES=false|true       # show queries/projections
+CDS_MERMAID_DIRECTION=TB|BT|LR|RL    # layout direction of the diagram
+```
+
+<div id="mermaid-cli-more" />
+
+#### Interactively in VS Code
+
+To visualize your CDS model as a diagram in VS Code, open a `.cds` file and use the dropdown in the editor toolbar or the command _CDS: Preview as diagram_:
+
+![The screenshot is described in the accompanying text.](assets/mermaid-preview.png) {style="filter: drop-shadow(0 2px 5px rgba(0,0,0,.40));"}
+
+If you don't see the graphics rendered, but only text, install the [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) extension for VS Code.
+
+To customize the diagram layout, use these settings in the _Cds > Preview_ category:
+
+- [Diagram: Associations](vscode://settings/cds.preview.diagram.associations)
+- [Diagram: Direction](vscode://settings/cds.preview.diagram.direction)
+- [Diagram: Elements](vscode://settings/cds.preview.diagram.elements)
+- [Diagram: Minify](vscode://settings/cds.preview.diagram.minify)
+- [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
+- [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
 
 ## cds repl
 
-Use `cds repl` to live-interact with Node.js APIs:
+Use `cds repl` to live-interact with cds' JavaScript APIs in an interactive read-eval-print-loop.
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
-<em>Welcome to cds repl v6.7.0</em>
-> SELECT.from(Foo)
-Query {
-  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
+<em>Welcome to cds repl</em>
+
+> <i>cds.parse`
+  entity Foo { bar : Association to Bar }
+  entity Bar { key ID : UUID }
+`</i>
+{
+  definitions: {
+    Foo: {
+      kind: <em>'entity'</em>,
+      elements: {
+        bar: { type: <em>'cds.Association'</em>, target: <em>'Bar'</em> }
+      }
+    },
+    Bar: ...
+  }
 }
 
-> cds.requires.db
-{
-  impl: <em>'@sap/cds/libx/_runtime/sqlite/Service.js'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  use: [Getter],
-  kind: <em>'sqlite'</em>
+> <i>SELECT.from(Foo)</i>
+cds.ql {
+  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
 }
 </pre>
+
+There a couple of shortcuts and convenience functions:
+
+- `.run` (a [REPL dot commands](https://nodejs.org/en/learn/command-line/how-to-use-the-nodejs-repl#dot-commands)) allows to start Node.js `cds.server`s:
+
+  ```sh
+  .run cap/samples/bookshop
+  ```
+
+- CLI option `--run` does the same from command line, for example:
+
+  ```sh
+  cds repl --run cap/samples/bookshop
+  ```
+
+- CLI option `--use` allows to use the features of a `cds` module, for example:
+
+  ```sh
+  cds repl --use ql # as a shortcut of that within the repl:
+  ```
+
+  ```js
+  var { expr, ref, columns, /* ...and all other */ } = cds.ql
+  ```
+
+- `.inspect` command displays objects with configurable depth:
+
+  ```sh
+  .inspect cds .depth=1
+  .inspect CatalogService.handlers .depth=1
+  ```
+
+::: details See the full help text of `cds repl`
+<!--@include: ./assets/help/cds-repl.out.md-->
+:::
+
+
+## Debugging with `cds debug` <Beta /> {.nodejs}
+
+`cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
+
+To debug remote applications in the currently targeted CF space, run:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">bookshop-srv</span>
+
+Opening SSH tunnel for CF app 'bookshop-srv'
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
+
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+Without an app name, `cds debug` starts `cds watch --debug` locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'cds watch --debug'
+...
+Debugger listening on ws://127.0.0.1:9229/...
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+[cds] - ...
+</pre>
+
+::: tip Scale to one application instance only
+We recommend to only scale to _one_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
+
+However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+:::
+
 
 ## Debugging with `cds watch`
 

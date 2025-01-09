@@ -66,10 +66,23 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 #### Add CDS Editor
 
 1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
-2. Choose *Install* and VS Code opens the details page for the extension **SAP CDS language support**.
+2. Click *Install* and confirm the popup dialog.
 3. In VS Code, choose *Install* to enable the extension.
 
 <span id="invscodeeditor" />
+
+
+
+#### Add Useful Plugins
+
+In addition we recommend installing these VS Code Extensions:
+
+   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+
+
 
 
 #### Run Services
@@ -119,87 +132,197 @@ Using the CDS language server implementation, editors can provide additional sou
 
 [Watch the **SAP CDS language support** extension for VS Code in action by DJ Adams.](https://www.youtube.com/watch?v=eY7BTzch8w0){.learn-more}
 
-
 ### Features and Functions
 
-#### Syntax Highlighting
+#### Syntax Coloring & Code Completion
 
-#### Code Completion
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/syntax-coloring-completions_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - Keywords
-- Identifiers including not yet imported identifiers with corresponding `using` statement
-- Using paths and artifacts including showing README.md documentation as details
+- Annotations
+- Identifiers including ones defined in `using` references
+- `using` paths <!--and artifacts including _README.md_ documentation-->
 - i18n translation IDs
-- Turn on/off formatting regions
+<!-- - Turn on/off formatting regions -->
 
-#### Where-used Navigation
+</div>
 
-- Navigate to definitions
-- Navigate to references
-- Highlight occurrences
+</div>
 
-#### Quick Fixes
+#### Snippets
 
-+ Create using statement for unknown artifacts.
-+ Maintain missing translation.
-+ Convert `@cds.doc` and `@description` annotations to doc comments.
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/snippets_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
+- `using`
+- `namespace` and `context`
+- `service` and `type`
+- `entity` and `projection`
+- `Association` and `Composition`
+- `extend` and `annotate`
+- Elements
+- Annotations for documentation
+
+</div>
+
+</div>
+
 
 #### Code Formatting
 
-Format...
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/format_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
 - the whole document
 - a selected range
 - on-the-fly when completing statements using ```;``` or ```}```
 - on save (depending on the IDE)
 - on paste (depending on the IDE)
 
-Use...
+<!-- Use...
 - many options, configurable using
   - settings file
   - command line switches
   - config UI with simulation of options for VS Code
   - JSON schema for textual support
-- also for markdown in doc comments
+- also for markdown in doc comments -->
 
-#### Inventory (symbols)
+</div>
+
+</div>
+
+<!-- #### Inventory (symbols)
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/inventory_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - An inventory for the current file.
 - An inventory for the workspace including query capabilities to select. For example, artifact types, names, also include reuse models.
 
-#### Snippets
+</div>
 
-- Namespace and context
-- `using`
-- `service`
-- `type`
-- Entity and projections, ...
-- Element, associations, and compositions
-- Extend and annotate
-- Annotations for documentation
-
-> With documentation extracts of [capire](../cds/cdl) explaining language concepts.
+</div> -->
 
 #### Hover Information
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/hover_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
 
 - Doc comments
 - `@title`, `@description`, and ~~`@cds.doc`~~ (deprecated) annotations
 - Translations
 
+> With documentation extracts of [capire](../cds/cdl) explaining language concepts.
+
+</div>
+
+</div>
+
+#### Where-used Navigation
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/where-used_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
+- Navigate to definitions
+- Navigate to references
+- Highlight occurrences
+
+</div>
+
+</div>
+
+#### Quick Fixes
+
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/quick-fixes_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
++ Create using statement for unknown artifacts.
++ Maintain missing translation.
++ Convert `@cds.doc` and `@description` annotations to doc comments.
+
+</div>
+
+</div>
+
 #### Translation Support
 
+<div class="cols-2">
+
+<div>
+
+<video src="./assets/vscode/translation-support_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+
+</div>
+
+<div>
+
 - Properties, JSON, and CSV files
-- Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`.
-- Show translations on hover.
-- Quickfix to maintain missing translations
+- Navigate to translation definitions from translation IDs like `'{i18n>customerName}'`
+- Show translations on hover
+
+</div>
+
+</div>
 
 #### And More…
 
 - Plugin framework for external handlers of annotation domains
+- Dependency graph visualization
 
 
 ### Settings
 
-##### Code formatting settings
+##### Code formatting
 
 These are settings coming with the CDS language server implementation.
 Use the command *CDS: Show Formatting Options Configuration*.
@@ -214,13 +337,13 @@ These are settings from the editor in VS Code:
 1. Filter for _Format_.
 1. Tick the checkboxes to enable the settings.
 
-##### Cds: Workspace Validation Mode
+##### Cds: [Workspace Validation Mode](vscode://settings/cds.workspaceValidationMode)
 
 Default: *ActiveEditorOnly*
 
 Keeps track of the active editor in focus. Only changes there are immediately validated.
 
-The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is having multiple files open (even if they are not shown as tabs)
+The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is, having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
 
 ::: warning Large models can lead to **high CPU and memory load**
@@ -231,13 +354,13 @@ If switched to _OpenEditorsOnly_, all open files, for example split tabs, are re
 The high resource consumption might impact the editor's responsiveness.
 :::
 
-##### Cds > Contributions > Enablement: Odata
+##### Cds > Contributions > [Enablement: Odata](vscode://settings/cds.contributions.enablement.odata)
 
 Default: *on*
 
-This setting enables extended support for annotations, that is refined diagnostics and code completion. Can be switched *off* for performance gains.
+This setting enables extended support for annotations, that is, refined diagnostics and code completion. Can be switched *off* for performance gains.
 
-##### Cds > Workspace: ScanCsn
+##### Cds > [Workspace: ScanCsn](vscode://settings/cds.workspace.scanCsn)
 
 Default: *off*
 
@@ -245,7 +368,7 @@ Switch *on* to scan the workspace also for CSN files, additionally to CDS source
 
 Note: CSN files are still considered if used from a CDS source file.
 
-##### Cds > Quickfix: ImportArtifact
+##### Cds > [Quickfix: ImportArtifact](vscode://settings/cds.quickfix.importArtifact)
 
 Default: *off*
 
@@ -258,7 +381,7 @@ Enable to get quickfix proposals for artifact names, like entities, that aren't 
 1. Press <kbd>F1</kbd>
 1. Open *CDS: Show CAP Release Notes*
 
-If there are new release notes, this page opens on startup. You can disable this behavior using the *CDS > Release Notes: Show Automatically* (`cds.releaseNotes.showAutomatically`) setting.
+If there are new release notes, this page opens on startup. You can disable this behavior using the *Cds > [Release Notes: Show Automatically](vscode://settings/cds.releaseNotes.showAutomatically)* setting.
 
 ##### CAP Notebooks Page { #cap-notebooks-page }
 
@@ -287,29 +410,14 @@ Use the command from the context menu on a folder or CDS file.
 
 A selection popup appears to choose one of three modes:
 
-1. _File to file_ (detailed)
-2. _File to file_ (reduced to folders)
-3. _Complete folder to complete folder_
+1. **_File to file_ (detailed)**: shows every model file on its own. For very large models, the number of files and interdependencies may be too complex to be graphically shown. A message about insufficient memory will appear. In this case use the second option.
+2. **_File to file_ (reduced to folders)**: reduces the graph by only showing the folders of all involved files and their interdependencies. Only the files reachable from the start model where the command was invoked on are evaluated.
+4. **_Complete folder to complete folder_**: always considers all files in a folder and their dependencies.
+   This can be useful to understand architectural violations.
+   > **Example for architectural violation:**<br>
+   > You want a clean layering in your project: _app_ → _srv_ → _db_. With this option, you can visualize and identify that there is a dependency from a file in the service layer to an annotation file in the application layer.
 
-The _first option_ shows every model file on its own.
-For very large models, the number of files and interdependencies may be too complex to be graphically shown.
-A message about insufficient memory will appear. In this case use the second option.
-
-The _second option_ reduces the graph by only showing the folders of all involved files and their interdependencies.
-::: tip
-Only those files are evaluated that are reachable from the start model where the command was invoked on.
-:::
-
-The _third option_ always considers all files in a folder and their dependencies.
-This can be useful to understand architectural violations.
-> **Example for architectural violation:**<br>
-> You want a clean layering in your project: _app_ -> _srv_ -> _db_. With this option, you can visualize and identify that there is a dependency from a file in the service layer to an annotation file in the application layer.
-
-
-Hovering over a node will show the number of files involved and the combined size of all involved files. Use this function to get a rough understanding about the complexity and the compilation speed.
-
-The command requires the third-party extension _Graphviz (dot) language support for Visual Studio Code_ (joaompinto.vscode-graphviz). If you haven't installed it already, it will be suggested to install.
-
+Hovering over a node will show the number of files involved and their combined size. Use this function to get a rough understanding about complexity and compilation speed.
 
 ### Editor Performance
 
@@ -335,7 +443,7 @@ To enable the limit value above, switch *on*.
 - Commands _Go to References_ / _Find All References_ will recompile all models that might have changed due to a change in a depending model. If there are index models, it often means that the complete workspace is being recompiled.
 Until a further change, reference calculation is reasonably fast.
 - Command _Go to Symbol in Workspace_ will recompile the complete workspace once, after that it is reasonable fast.
-- Changing settings in _CDS_ section will currently perform a complete workspace invalidation i.e. required indexes will lead to recompilations on demand as described above.
+- Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
 ### CDS Source Formatter <Beta /> { #cds-formatter}
@@ -372,6 +480,21 @@ Use `-f` switch to force an overwrite without creating a backup.
 This is on your own risk. Should there be problems data loss might occur, especially when formatting in a pre-commit hook.
 Better add _.bak_ to your _.gitignore_ file and not use `-f`.
 
+### GitHub Integration
+
+CAP is registered with GitHub [`linguist`](https://github.com/github-linguist/linguist) repository, which means you can use Markdown rendering on GitHub in `cds` code fences like so:
+
+````md
+```cds
+entity Books {};
+```
+````
+
+This will render like so:
+```cds
+entity Books {};
+```
+
 
 ## CAP Notebooks { #cap-vscode-notebook }
 
@@ -382,10 +505,6 @@ A **CAP Notebook** is a [Custom Notebook in Visual Studio Code](https://code.vis
 - Storing persistent code (notebook output cells)
 
 The cell inputs/outputs are especially useful at later points in time when the project's details have long been forgotten. In addition, notebooks are a good way to share, compare, and also reproduce projects.
-
-* If you are new to CAP Notebooks, try out the notebooks based on our documentation. When available for a given page, these are accessible via the "Download Notebook" button on the top of the screen and enable you to try things out on your local machine, for example the [Getting Started in a Nutshell](../get-started/in-a-nutshell) guide.
-
-  <img src="./assets/cap-notebook-button.png"  width="800px" style="width:800px; box-shadow: 1px 1px 5px #888888" alt="The screenshot is explained in the accompanying text.">
 
 * To see which features are available in a CAP Notebook, open our [CAP Notebook page](#cap-notebooks-page): <kbd>F1</kbd> → *CDS: Open CAP Notebooks Page*
 

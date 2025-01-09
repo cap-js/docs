@@ -4,13 +4,14 @@ status: released
 
 <script setup>
   import { h } from 'vue'
-  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
-  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
-  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
-  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
-  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, ['contrib?'] )
-  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  ['contrib'] )
+  const X =  () => h('span', { class: 'ga',      title: 'Available' },              [ '✓'        ])
+  const Na = () => h('i',    { class: 'na',      title: 'not applicable' },         [ 'n/a'      ])
+  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },           [ 'in prog.' ])
+  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },               [ 'planned'  ])
+  const C =  () => h('i',    { class: 'contrib', title: 'contributions welcome'  }, [ 'contrib?' ])
+  const Ac = () => h('i',    { class: 'contrib', title: 'active contributions'  },  [ 'contrib'  ])
 </script>
+
 <style scoped>
   .ga   { color: var(--vp-c-green-2);}
   .na   { color: gray; font-size:90%; }
@@ -18,6 +19,7 @@ status: released
   .plan { color: gray; font-size:90% }
   .contrib { color: gray; font-size:90% }
 </style>
+
 
 # Features Overview
 
@@ -37,25 +39,25 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### CLI & Tools Support
 
-| CLI commands                                                                    |                            |
-|---------------------------------------------------------------------------------|----------------------------|
-| [Jump-start cds-based projects](../get-started/in-a-nutshell#jumpstart)         | `cds init <project>`       |
-| [Add a feature to an existing project](../tools/cds-cli#cds-add)                | `cds add <facets>`         |
-| [Add models from external sources](../guides/using-services#local-mocking)      | `cds import <api>`         |
-| [Compile cds models to different outputs](../node.js/cds-compile)               | `cds compile <models>`     |
-| [Run your services in local server](../node.js/cds-serve)                       | `cds serve <services>`     |
-| [Run and restart on file changes](../get-started/in-a-nutshell#jumpstart)       | `cds watch`                |
-| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->                   | `cds repl`                 |
-| Inspect effective configuration                                                 | `cds env`                  |
-| Prepare for deployment                                                          | `cds build`                |
-| Deploy to databases or cloud                                                    | `cds deploy`               |
-| Login to multitenant SaaS application                                           | `cds login <app-url>`      |
-| Upgrade tenant(s) subscribed to a multitenant SaaS app to its latest base model.| `cds upgrade`              |
-| Logout from multitenant SaaS application                                        | `cds logout`               |
-| Subscribe a tenant to a SaaS application                                        | `cds subscribe <tenant>`   |
-| Unsubscribe a tenant from a SaaS application                                    | `cds unsubscribe <tenant>` |
-| Pull the base model for a SaaS extension                                        | `cds pull`                 |
-| Push a SaaS extension                                                           | `cds push`                 |
+| CLI commands                                                               |                            |
+|----------------------------------------------------------------------------|----------------------------|
+| [Jump-start cds-based projects](../get-started/)                           | `cds init <project>`       |
+| [Add a feature to an existing project](../tools/cds-cli#cds-add)           | `cds add <facets>`         |
+| [Add models from external sources](../guides/using-services#local-mocking) | `cds import <api>`         |
+| [Compile cds models to different outputs](../node.js/cds-compile)          | `cds compile <models>`     |
+| [Run your services in local server](../node.js/cds-serve)                  | `cds serve <services>`     |
+| [Run and restart on file changes](../get-started/in-a-nutshell)            | `cds watch`                |
+| [Read-eval-event loop](../node.js/cds-env#cli)  <!-- TODO -->              | `cds repl`                 |
+| Inspect effective configuration                                            | `cds env`                  |
+| Prepare for deployment                                                     | `cds build`                |
+| Deploy to databases or cloud                                               | `cds deploy`               |
+| Login to multitenant SaaS application                                      | `cds login <app-url>`      |
+| Upgrade SaaS tenant(s) to latest versions                                  | `cds upgrade`              |
+| Logout from multitenant SaaS application                                   | `cds logout`               |
+| Subscribe a tenant to a SaaS application                                   | `cds subscribe <tenant>`   |
+| Unsubscribe a tenant from a SaaS application                               | `cds unsubscribe <tenant>` |
+| Pull the base model for a SaaS extension                                   | `cds pull`                 |
+| Push a SaaS extension                                                      | `cds push`                 |
 
 
 > Run `cds help <command>` to find details about an individual command. Use `cds version` to check the version that you've installed. To know what is the latest version, see the [Release Notes](../releases/) for CAP.
@@ -93,46 +95,46 @@ Following is an index of the features currently covered by CAP, with status and 
 | [Calculated Elements](../cds/cdl#calculated-elements)                                                             | <X/> |
 | Managed _n:m_ Associations                                                                                        | <O/> |
 | Pluggable CDS Linter                                                                                              | <D/> |
-| [CDS Linter](../tools/cds-lint/)                                                                                   | <X/> |
+| [CDS Linter](../tools/cds-lint/)                                                                                  | <X/> |
 
 ### Providing Services
 
-| Core Framework Features                                                                |  CDS  | Node.js | Java |
-|----------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)  | <Na/> |  <X/>   | <X/> |
-| [Deep-Read/Write Structured Documents](../guides/providing-services#deep-reads-writes) | <X/>  |  <X/>   | <X/> |
-| [Automatic Input Validation](../guides/providing-services#input-validation)            | <X/>  |  <X/>   | <X/> |
-| [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)            | <X/>  |  <X/>   | <X/> |
-| [Implicit Paging](../guides/providing-services#implicit-pagination)                    | <X/>  |  <X/>   | <X/> |
-| [Implicit Sorting](../guides/providing-services#implicit-sorting)                      | <X/>  |  <X/>   | <X/> |
-| [Access Control](../guides/security/authorization)                                              | <X/>  |  <X/>   | <X/> |
-| [Arrayed Elements](../cds/cdl#arrayed-types)                                           | <X/>  |  <X/>   | <X/> |
-| [Streaming & Media Types](../guides/providing-services#serving-media-data)                                        | <X/>  |  <X/>   | <X/> |
-| [Conflict Detection through _ETags_](../guides/providing-services#etag)                | <X/>  |  <X/>   | <X/> |
-| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication)          | <Na/> |  <X/>   | <X/> |
-| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)            | <Na/> |  <X/>   | <X/> |
+| Core Framework Features                                                                    |  CDS  | Node.js | Java |
+|--------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Automatically Serving CRUD Requests](../guides/providing-services#generic-providers)      | <Na/> |  <X/>   | <X/> |
+| [Deep-Read/Write Structured Documents](../guides/providing-services#deep-reads-and-writes) | <X/>  |  <X/>   | <X/> |
+| [Automatic Input Validation](../guides/providing-services#input-validation)                | <X/>  |  <X/>   | <X/> |
+| [Auto-filled Primary Keys](../guides/domain-modeling#prefer-uuids-for-keys)                | <X/>  |  <X/>   | <X/> |
+| [Implicit Paging](../guides/providing-services#implicit-pagination)                        | <X/>  |  <X/>   | <X/> |
+| [Implicit Sorting](../guides/providing-services#implicit-sorting)                          | <X/>  |  <X/>   | <X/> |
+| [Access Control](../guides/security/authorization)                                         | <X/>  |  <X/>   | <X/> |
+| [Arrayed Elements](../cds/cdl#arrayed-types)                                               | <X/>  |  <X/>   | <X/> |
+| [Streaming & Media Types](../guides/providing-services#serving-media-data)                 | <X/>  |  <X/>   | <X/> |
+| [Conflict Detection through _ETags_](../guides/providing-services#etag)                    | <X/>  |  <X/>   | <X/> |
+| [Authentication via JWT](../guides/security/authorization#prerequisite-authentication)     | <Na/> |  <X/>   | <X/> |
+| [Basic Authentication](../guides/security/authorization#prerequisite-authentication)       | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
-| Enterprise Features                                                                         |  CDS  | Node.js | Java |
-|---------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Authorization](../guides/security/authorization)                                                    | <X/>  |  <X/>   | <X/> |
-| [Analytics in Fiori](../advanced/odata#data-aggregation)                                    | <X/>  |  <D/>   | <X/> |
-| [Localization/i18n](../guides/i18n)                                                         | <X/>  |  <X/>   | <X/> |
-| [Localized Data](../guides/localized-data)                                                  | <X/>  |  <X/>   | <X/> |
-| [Temporal Data](../guides/temporal-data)                                                    | <X/>  |  <X/>   | <X/> |
-| [Managed Data](../guides/domain-modeling#managed-data)                                      | <X/>  |  <X/>   | <X/> |
-| [Dynamic Extensibility](../guides/extensibility/)                                           | <X/>  |  <X/>   | <X/> |
+| Enterprise Features                                                                                                |  CDS  | Node.js | Java |
+|--------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
+| [Authorization](../guides/security/authorization)                                                                  | <X/>  |  <X/>   | <X/> |
+| [Analytics in Fiori](../advanced/odata#data-aggregation)                                                           | <X/>  |  <D/>   | <X/> |
+| [Localization/i18n](../guides/i18n)                                                                                | <X/>  |  <X/>   | <X/> |
+| [Localized Data](../guides/localized-data)                                                                         | <X/>  |  <X/>   | <X/> |
+| [Temporal Data](../guides/temporal-data)                                                                           | <X/>  |  <X/>   | <X/> |
+| [Managed Data](../guides/domain-modeling#managed-data)                                                             | <X/>  |  <X/>   | <X/> |
+| [Dynamic Extensibility](../guides/extensibility/)                                                                  | <X/>  |  <X/>   | <X/> |
 | Monitoring / Logging [[Node.js](../node.js/cds-log)\|[Java](../java/operating-applications/observability#logging)] | <Na/> |  <X/>   | <X/> |
-| Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]   | <Na/> |  <X/>   | <X/> |
+| Audit Logging [[Node.js](../guides/data-privacy/audit-logging)\|[Java](../java/auditlog)]                          | <Na/> |  <X/>   | <X/> |
 
 
 <br>
 
 | Inbound Protocol Support                              | CDS <sup>1</sup> |      Node.js      |       Java        |
 |-------------------------------------------------------|:----------------:|:-----------------:|:-----------------:|
-| [REST/OpenAPI](/advanced/publishing-apis/openapi)                   |       <X/>       |       <X/>        |       <X/>        |
+| [REST/OpenAPI](/advanced/publishing-apis/openapi)     |       <X/>       |       <X/>        |       <X/>        |
 | [OData V2](../advanced/odata#v2-support) <sup>2</sup> |       <X/>       | <X/> <sup>3</sup> |       <X/>        |
 | OData V4                                              |       <X/>       |       <X/>        |       <X/>        |
 | OData V4 for APIs                                     |       <D/>       |       <D/>        |       <D/>        |
@@ -143,7 +145,7 @@ Following is an index of the features currently covered by CAP, with status and 
 
 > <sup>1</sup> Export CDS models to ... <br>
 > <sup>2</sup> To support customers with existing OData V2 UIs<br>
-> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-proxy-node)  <br>
+> <sup>3</sup> Through [V2 proxy](../advanced/odata#odata-v2-adapter-node)  <br>
 > <sup>4</sup> Could be a good case for 3rd-party contribution <br>
 > <sup>5</sup> For Node.js try out the [GraphQL Adapter](/plugins/#graphql-adapter) <br>
 > <sup>6</sup> For Java try out the provided [sample code](https://github.com/SAP-samples/cloud-cap-samples-java/commit/16dc5d9a1f103eb1336405ee601dc7004f70538f). <br>
@@ -176,29 +178,30 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Events / Messaging
 
-|                                                                                                                                                                        |  CDS  | Node.js | Java |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------:|:----:|
-| [Declared Events in CDS](../cds/cdl#events)                                                                                                                            | <X/>  |  <X/>   | <X/> |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |  <X/>   | <X/> |
-| SAP Event Mesh (Singletenancy) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]            | <Na/> |  <X/>   | <X/> |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |  <X/>   | <X/> |
-| Import AsyncAPI                                                                                                                                                        | <O/>  |         |      |
-| Export AsyncAPI                                                                                                                                                        | <X/>  |         |      |
+|                                                                                                                                                             |  CDS  |   Node.js    | Java |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:------------:|:----:|
+| [Declared Events in CDS](../cds/cdl#events)                                                                                                                 | <X/>  |     <X/>     | <X/> |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |     <X/>     | <X/> |
+| SAP Event Mesh (For single-tenant apps) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]   | <Na/> |     <X/>     | <X/> |
+| SAP Cloud Application Event Hub (For single-tenant apps) [[Node.js](../node.js/messaging#event-broker)]                                                     | <Na/> | <X/><br>beta | <D/> |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |     <X/>     | <X/> |
+| Import AsyncAPI                                                                                                                                             | <O/>  |              |      |
+| Export AsyncAPI                                                                                                                                             | <X/>  |              |      |
 
 <span id="events-messaging-more" />
 
 ### Database Support
 
-|                                                    | CDS/deploy | Node.js | Java |
-|----------------------------------------------------|:----------:|:-------:|:----:|
-| [SAP HANA](../guides/databases)                    |    <X/>    |  <X/>   | <X/> |
-| [SAP HANA Cloud](../guides/databases-hana)         |    <X/>    |  <X/>   | <X/> |
-| [PostgreSQL](../guides/databases-postgres)         |    <X/>    |  <X/>   | <X/> |
-| [SQLite](../guides/databases-sqlite) <sup>1</sup>  |    <X/>    |  <X/>   | <X/> |
+|                                                                 | CDS/deploy | Node.js | Java |
+|-----------------------------------------------------------------|:----------:|:-------:|:----:|
+| [SAP HANA](../guides/databases)                                 |    <X/>    |  <X/>   | <X/> |
+| [SAP HANA Cloud](../guides/databases-hana)                      |    <X/>    |  <X/>   | <X/> |
+| [PostgreSQL](../guides/databases-postgres)                      |    <X/>    |  <X/>   | <X/> |
+| [SQLite](../guides/databases-sqlite) <sup>1</sup>               |    <X/>    |  <X/>   | <X/> |
 | [H2](../java/cqn-services/persistence-services#h2) <sup>1</sup> |    <X/>    |  <Na/>  | <X/> |
-| [MongoDB](../guides/databases) out of the box      |   <Na/>    |  <Na/>  | <D/> |
-| Pluggable drivers architecture                     |    <D/>    |  <D/>   | <X/> |
-| Out-of-the-box support for other databases?        |    <C/>    |  <C/>   | <C/> |
+| [MongoDB](../guides/databases) out of the box                   |   <Na/>    |  <Na/>  | <D/> |
+| Pluggable drivers architecture                                  |    <D/>    |  <D/>   | <X/> |
+| Out-of-the-box support for other databases?                     |    <C/>    |  <C/>   | <C/> |
 
 
 > <sup>1</sup> To speed up development. Not for productive use! <br>
@@ -215,15 +218,15 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### UIs/Frontend Support
 
-|                                                                                                  | CDS  | Node.js | Java |
-|--------------------------------------------------------------------------------------------------|:----:|:-------:|:----:|
-| [Serving Fiori UIs](../advanced/fiori)                                                           | <X/> |  <X/>   | <X/> |
-| [Fiori Annotations in CDS](../advanced/fiori#fiori-annotations)                                  | <X/> |  <X/>   | <X/> |
-| [Advanced Value Help](../advanced/fiori#value-helps)                                             | <X/> |  <X/>   | <X/> |
-| [Draft Support](../advanced/fiori#draft-support)                                                 | <X/> |  <X/>   | <X/> |
-| [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                           | <X/> |  <X/>   | <X/> |
-| [Support for Fiori Analytics](../advanced/analytics)                                             | <X/> |  <D/>   | <X/> |
-| [Support for other UI technologies, e.g. Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
+|                                                                                                         | CDS  | Node.js | Java |
+|---------------------------------------------------------------------------------------------------------|:----:|:-------:|:----:|
+| [Serving Fiori UIs](../advanced/fiori)                                                                  | <X/> |  <X/>   | <X/> |
+| [Fiori Annotations in CDS](../advanced/fiori#fiori-annotations)                                         | <X/> |  <X/>   | <X/> |
+| [Advanced Value Help](../advanced/fiori#value-helps)                                                    | <X/> |  <X/>   | <X/> |
+| [Draft Support](../advanced/fiori#draft-support)                                                        | <X/> |  <X/>   | <X/> |
+| [Draft for Localized Data](../advanced/fiori#draft-for-localized-data)                                  | <X/> |  <X/>   | <X/> |
+| [Support for Fiori Analytics](../advanced/analytics)                                                    | <X/> |  <D/>   | <X/> |
+| [Support for other UI technologies, for example Vue.js](../get-started/in-a-nutshell#vue)  <sup>1</sup> | <X/> |  <X/>   | <X/> |
 
 >  <sup>1</sup> through standard REST/AJAX
 
@@ -259,5 +262,4 @@ Following is an index of the features currently covered by CAP, with status and 
 | Declarative Constraints                                                                  | <O/> |
 | Execute Sandboxed Code                                                                   | <O/> |
 | Runtime API for In-App Extensibility                                                     | <D/> |
-| [Key-User Extensibility (incl. UI)](../guides/extensibility/ui-flex)                     | <D/> |
 | Propagating Extensions across (µ) Services                                               | <O/> |

@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - node.js/requests
 status: released
 ---
 
@@ -52,7 +50,7 @@ Prefer local  `req`  objects in your handlers for accessing event context proper
 
 
 
-## Class `cds.EventContext` { #cds-event-context }
+## `cds.EventContext` { .class #cds-event-context }
 
 [`cds.EventContext`]: #cds-event-context	"Class cds.EventContext"
 
@@ -79,14 +77,17 @@ In addition, you can access the current event context from wherever you are in y
 
 ### . http {.property}
 
-If the inbound process came from an HTTP channel, this property provides access to express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects. The property is propagated from `cds.context` to all child requests. So, on all handlers, even the ones in your database services, you can always access that property like so:
+If the inbound process came from an HTTP channel, you can now access express's common [`req`](https://expressjs.com/en/4x/api.html#req) and [`res`](https://expressjs.com/en/4x/api.html#res) objects through this property. It is propagated from `cds.context` to all child requests, so `Request.http` is accessible in all handlers including your database service ones like so:
 
 ```js
 this.on ('*', req => {
   let { res } = req.http
+  res.set('Content-Type', 'text/plain')
   res.send('Hello!')
 })
 ```
+
+Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
 
 
 
@@ -104,8 +105,6 @@ For inbound HTTP requests the implementation fills it from these sources in orde
 - a newly created UUID
 
 On outgoing HTTP messages, it's propagated as `x-correlation-id` header.
-
-For inbound [CloudEvents](https://cloudevents.io) messages, it's taken from [the `id` context property](https://github.com/cloudevents/spec/blob/v1.0.1/spec.md#id) and propagated to the same on outgoing CloudEvents messages.
 
 
 
@@ -138,6 +137,11 @@ The current user, an instance of `cds.User` as identified and verified by the au
 
 [See reference docs for `cds.User`.](authentication#cds-user){.learn-more .indent}
 
+::: tip
+Please note the difference between `req` in a service handler (instance of `cds.EventContext`) and `req` in an express middleware (instance of `http.IncomingMessage`).
+Case in point, `req.user` in a service handler is an official API and, if not explicitely set, points to `cds.context.user`.
+On the other hand, setting `req.user` in a custom authentication middleware is deprecated.
+:::
 
 
 
@@ -145,7 +149,7 @@ The current user, an instance of `cds.User` as identified and verified by the au
 
 
 
-## Class `cds.Event`  { #cds-event}
+## `cds.Event`  { .class #cds-event}
 [`cds.Event`]: #cds-event	"Class cds.Event"
 
 
@@ -187,11 +191,11 @@ Provides access to headers of the event message or request. In the case of async
 
 
 
-### eve. before 'commit' {.event}
+### eve. before 'commit' {.event alt="The following documentation on done also applies to commit. "}
 
-### eve. on 'succeeded' {.event}
+### eve. on 'succeeded' {.event alt="The following documentation on done also applies to succeeded. "}
 
-### eve. on 'failed' {.event}
+### eve. on 'failed' {.event alt="The following documentation on done also applies to failed. "}
 
 ### eve. on 'done' {.event}
 
@@ -231,7 +235,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 
 
 
-## Class `cds.Request` { #cds-request }
+## `cds.Request` { .class #cds-request }
 
 [`cds.Request`]: #cds-request	"Class cds.Request"
 
@@ -243,17 +247,6 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 [Router]: https://expressjs.com/en/4x/api.html#router
 [routing]: https://expressjs.com/en/guide/routing.html
 [middleware]: https://expressjs.com/en/guide/using-middleware.html
-
-
-
-
-### . _  {.property}
-
-Provides access to original inbound protocol-specific request objects. For events triggered by an HTTP request, it contains the original `req` and `res` objects as obtained from [express.js](https://expressjs.com). {.indent}
-
-::: warning
-Please refrain from using internal properties of that object, that is, the ones starting with '_'. They might be removed in any future release without notice.
-:::
 
 
 

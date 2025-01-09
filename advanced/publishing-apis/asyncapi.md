@@ -2,7 +2,6 @@
 shorty: AsyncAPI
 synopsis: >
   About how to convert events in CDS models to AsyncAPI documentation.
-redirect_from: advanced/asyncapi
 status: released
 ---
 
@@ -22,6 +21,7 @@ status: released
 
 You can convert events in CDS models to the [AsyncAPI specification](https://www.asyncapi.com), a widely adopted standard used to describe and document message-driven asynchronous APIs.
 
+[[toc]]
 
 ## Usage from CLI { #cli}
 

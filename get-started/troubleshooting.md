@@ -1,9 +1,6 @@
 ---
 synopsis: >
   Find here common solutions to frequently occurring issues.
-redirect_from:
-  - advanced/troubleshooting
-  - resources/troubleshooting
 status: released
 outline: 2
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d2ee648522044ea19d3b5126c29692b5.html
@@ -16,6 +13,13 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 [[toc]]
 
 ## Setup {#setup}
+
+
+### Can't start VS Code from Command Line on macOS {#vscode-macos}
+
+In order to start VS Code via the `code` CLI, users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
+
+
 
 ### Check the Node.js version { #node-version}
 
@@ -141,6 +145,8 @@ Always make sure that database transactions are either committed or rolled back.
 1. Couple it to your request (this happens automatically): Once the request is succeeded, the database service commits the transaction. If there was an error in one of the handlers, the database service performs a rollback.
 2. For manual transactions (for example, by writing `const tx = cds.tx()`), you need to perform the commit/rollback yourself: `await tx.commit()`/`await tx.rollback()`.
 
+If you're using [@sap/hana-client](https://www.npmjs.com/package/@sap/hana-client), make sure to adjust the environment variable [`HDB_NODEJS_THREADPOOL_SIZE`](https://help.sap.com/docs/SAP_HANA_CLIENT/f1b440ded6144a54ada97ff95dac7adf/31a8c93a574b4f8fb6a8366d2c758f21.html?version=2.11) which specifies the amount of workers that concurrently execute asynchronous method calls for different connections.
+
 
 ### Why are requests rejected with status `502` and do not seem to reach the application?
 
@@ -182,6 +188,55 @@ module.exports = cds.server
 | _Root Cause_ | In case the application has a service binding with the same name as the requested destination, the SAP Cloud SDK prioritized the service binding. This service of course does have different endpoints than the originally targeted remote service. For more information, please refer to the [SAP Cloud SDK documentation](https://sap.github.io/cloud-sdk/docs/js/features/connectivity/destinations#referencing-destinations-by-name).
 | _Solution_ | Use different names for the service binding and the destination.
 
+### Why does my remote service call not work?
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | The destination, the remote system or the request details are not configured correctly.
+| _Solution_ | To further troubleshoot the root cause, you can enable logging with environment variables `SAP_CLOUD_SDK_LOG_LEVEL=silly` and `DEBUG=remote`.
+
+## TypeScript
+
+### Type definitions for `@sap/cds` not found or incomplete
+
+|                | Explanation                                                           |
+|----------------|-----------------------------------------------------------------------|
+| _Root Cause 1_ | The package `@cap-js/cds-typer` is not installed.                     |
+| _Solution 1_   | Install the package as a dev dependency.                              |
+| _Root Cause 2_ | Symlink is missing.                                                   |
+| _Solution 2_   | Try `npm rebuild` or add `@cap-js/cds-types` in your _tsconfig.json_. |
+
+
+#### Install package as dev dependency
+The type definitions for `@sap/cds` are maintained in a separate package `@cap-js/cds-types` and have to be explicitly installed as a dev dependency. This can be done by adding the `typescript` facet:
+
+::: code-group
+```sh [facet]
+cds add typescript
+```
+```sh [manually]
+npm i -D @cap-js/cds-types
+```
+:::
+
+#### Fix missing symlink
+
+Installing `@cap-js/cds-types` leverages VS Code's automatic type resolution mechanism by symlinking the package in `node_modules/@types/sap__cds` in a postinstall script. If you find that this symlink is missing, try `npm rebuild` to trigger the postinstall script again.
+
+If the symlink still does not persist, you can explicitly point the type resolution mechanism to `@cap-js/cds-types` in your _tsconfig.json_:
+
+::: code-group
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    "types": ["@cap-js/cds-types"],
+  }
+}
+```
+:::
+
+If you find that the types are still incomplete, open a bug report in [the `@cap-js/cds-types` repository](https://github.com/cap-js/cds-types/issues/new/choose).
+
 ## Java
 
 ### How can I make sure that a user passes all authorization checks?
@@ -216,7 +271,7 @@ To fix this, either switch the Node.js version using a Node version manager, or 
 
 ```
 
-[Learn more about the install-node goal.](https://cap.cloud.sap/docs/java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more}
+[Learn more about the install-node goal.](../java/assets/cds-maven-plugin-site/install-node-mojo.html){.learn-more target="_blank"}
 
 ### How can I expose custom REST APIs with CAP?
 
@@ -229,8 +284,8 @@ The project skeleton generated by the CAP Java archetype adds the relevant Sprin
 However, using an SQL database in CAP Java is fully optional. You can also develop CAP applications that don't use persistence at all.
 To remove the SQL database support, you need to exclude the JDBC-related dependencies of Spring Boot and CAP Java. This means that CAP Java won't create a Persistence Service instance.
 
-::: tip
-Keep in mind, that the default event handlers of Application Services delegate to the Persistence Service. You need to implement your own custom handlers in case you remove the SQL database support.
+::: tip Default Application Service event handlers delegate to Persistence Service
+You need to implement your own custom handlers in case you remove the SQL database support.
 :::
 
 You can exclude those dependencies from the `cds-starter-spring-boot` dependency in the `srv/pom.xml`:
@@ -262,22 +317,9 @@ If you don't want to exclude dependencies completely, but make sure that an in-m
 - Errors like _'Plugin execution not covered by lifecycle configuration: org.codehaus.mojo:exec-maven-plugin)_ can be ignored. Do so in _Problems_ view > _Quick fix_ context menu > _Mark goal as ignored in Eclipse preferences_.
 - In case, there are still errors in the project, use _Maven > Update Project..._ from the project's context menu.
 
-### How to Avoid ClassNotFoundExceptions While Running CAP Java Code Async on Cloud Foundry and in Containers
-
-In recent versions of the JVM (starting with Java 11), the container resource usage has been optimized. These optimizations cause CAP Java code that is executed asynchronously (for example, using [`CompletableFuture`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html)) within the [common thread pool](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ForkJoinPool.html#commonPool()) that has more than one worker thread to throw a `ContextualizedServiceException` with the message "Cannot find implementation for `com.sap.cds.CdsDataProcessor`". Classes `Cds4jServiceLoader`, `CqnAnalyzer` or `CdsDataStoreConnector` also can be mentioned.
-
-The proper solution for this issue is to always execute your asynchronous tasks within [an executor or an executor service](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html). This includes the thread factory that sets the classloader provided by your application server, for example Spring Boot or Tomcat, for the worker threads.
-
-The following workarounds are known:
- * On *Cloud Foundry* you can provide this Java option [`-XX:+UseContainerCpuShares`](https://bugs.openjdk.org/browse/JDK-8281571) or use the Java Build pack >= 1.64.1 and Java 17. 
- * For *Docker* containers you can provide this Java option [-XX:ActiveProcessorCount=\<n\>](https://docs.oracle.com/en/java/javase/11/tools/java.html)
- * For *Kubernetes* or *Kyma* you can follow the instructions [here](https://bugs.openjdk.org/browse/JDK-8281571).
-
-We recommend to implement a proper thread pool and not to rely on these workarounds.
-
 ## OData
 
-### How Do I Generate an OData Response for Error 404?
+### How Do I Generate an OData Response in Node.js for Error 404?
 
 If your application(s) endpoints are served with OData and you want to change the standard HTML response to an OData response, adapt the following snippet to your needs and add it in your [custom _server.js_ file](../node.js/cds-serve#custom-server-js).
 
@@ -336,7 +378,7 @@ In case you want a visual interface tool to work with SQLite, you can use [SQLTo
 
 To configure this service in the SAP BPT cockpit on trial, refer to the [SAP HANA Cloud Onboarding Guide](https://www.sap.com/documents/2021/09/7476f8c4-f77d-0010-bca6-c68f7e60039b.html). See [SAP HANA Cloud](https://help.sap.com/docs/HANA_CLOUD) documentation or visit the [SAP HANA Cloud community](https://pages.community.sap.com/topics/hana/cloud) for more details.
 
-::: tip
+::: warning HANA needs to be restarted on trial accounts
 On trial, your SAP HANA Cloud instance will be automatically stopped overnight, according to the server region time zone. That means you need to restart your instance every day before you start working with your trial.
 :::
 
@@ -351,28 +393,46 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 | _Solution_ | Add an _undeploy.json_ file to the root of your database module (the _db_ folder by default). This file defines the files **and data** to be deleted. See section [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html) for more details.
 
 ::: tip
-If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://launchpad.support.sap.com/#/notes/2922271) for more details.
+If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://me.sap.com/notes/2922271) for more details.
 :::
 
-You can apply this solution also when using the `cds-mtx` library. You can either set the options via the environment variable `HDI_DEPLOY_OPTIONS` or you can add them to the model update request as `advancedOptions`:
+You can apply this solution also when using the `cds-mtxs` library. You can either set the options via the environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the CDS configuration or you can add them to the model update request as `hdi` parameter:
 
+CDS configuration for [Deployment Service](../guides/multitenancy/mtxs#deployment-config)
 ```json
-"advancedOptions": {
-  "undeploy": [
-    "src/gen/data/my.bookshop-Books.hdbtabledata"
-  ],
-  "path-parameter": {
-    "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+"cds.xt.DeploymentService": {
+  "hdi": {
+    "deploy": {
+      "undeploy": [
+        "src/gen/data/my.bookshop-Books.hdbtabledata"
+      ],
+      "path_parameter": {
+        "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+      }
+    },
+    ...
   }
 }
 ```
 
-### How Do I Resolve Service Creation Errors?
-
-- If there's more than one SAP HANA database mapped to your Cloud Foundry space, service creation fails. In this case, you need to specify the database: `cf create-service [...] -c "{\"database_id\":\"XXX\" }"` where `XXX` is the ID of the database instance.
-- On trial landscapes, you need to use `hanatrial` instead of `hana` as service type: `cf create-service hanatrial [...]`
-- When using the `cds-mtx` library with more than one SAP HANA database mapped to your Cloud Foundry space, you can add the service creation parameters via the environment variable `CDS_MTX_PROVISIONING_CONTAINER="{\"provisioning_parameters\":{\"database_id\":\"XXX\"}}"`, where `XXX` represents the ID of the database instance. You can also pass the ID of the database with the subscription request.
-
+Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#example-usage-1) call payload
+```json
+{
+  "tenants": ["*"],
+  "_": {
+      "hdi": {
+        "deploy": {
+          "undeploy": [
+            "src/gen/data/my.bookshop-Books.hdbtabledata"
+          ],
+          "path_parameter": {
+            "src/gen/data/my.bookshop-Books.hdbtabledata:skip_data_deletion": "true"
+          }
+        }
+      }
+  }
+}
+```
 
 ### How Do I Resolve Deployment Errors?
 
@@ -438,12 +498,13 @@ You can apply this solution also when using the `cds-mtx` library. You can eithe
 
 <div id="hana-ips" />
 
-#### Deployment fails — _Connection failed (RTE:[89013] Socket closed by peer_ {#connection-failed-89013}
+#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_ 
+{#missingPlugin}
 
 |  | Explanation |
 | --- | ---- |
-| _Root Cause_ | Your HANA Cloud instance is not accessible from your Kyma cluster. |
-| _Solution_ | Specify the trusted source IP addresses for your SAP HANA Cloud instance as described in this tutorial at [Step 11: Check SAP HANA Cloud trusted IP addresses](https://developers.sap.com/tutorials/btp-app-kyma-deploy-application.html#6dca3a73-b42a-4432-892d-a74803389e79).
+| _Root Cause_ | Your project configuration is missing some configuration in your _.hdiconfig_ file. |
+| _Solution_ | Use `cds add hana` to add the needed configuration to your project. Or maintain the _hdbmigrationtable_ plugin in your _.hdiconfig_ file manually: `"hdbmigrationtable": { "plugin_name": "com.sap.hana.di.table.migration" }`
 
 
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
@@ -470,60 +531,21 @@ The _cds runtime_ sets the session variable `APPLICATIONUSER`. This should alway
 
 Do not use a `XS_` prefix.
 
+## MTXS
 
-## MTX (legacy)
+### I get a 401 error when logging in to MTXS through App Router { #mtxs-sidecar-approuter-401}
 
-This refers to potential problems with the **deprecated** [@sap/cds-mtx](../guides/multitenancy/old-mtx-apis) package.
+See [How to configure your App Router](../guides/extensibility/customization#app-router) to verify your setup.
+Also check the [documentation about `cds login`](../guides/extensibility/customization#cds-login).
 
-### How do I set up MTX with App Router? { #mtx-as-sidecar-with-approuter}
+### When running a tenant upgrade, I get the message 'Extensions exist, but extensibility is disabled.'
 
-See [Deploy to Cloud Foundry](../guides/deployment/to-cf) for the basic project and deployment setup.
+This message indicates that extensions exist, but the application is not configured for extensibility. To avoid accidental data loss by removing existing extensions from the database, the upgrade is blocked in that case.
+Please check the [configuration for extensibility](../guides/extensibility/customization#_1-enable-extensibility).
 
-### I get a 401 error when logging in to MTX through App Router { #mtx-sidecar-approuter-401}
-
-See [App Router configuration](../guides/multitenancy/old-mtx-apis#approuter-config) to ensure a correct handling of authentication by both `@sap/approuter` and `@sap/cds-mtx`.
-
-When logging in, remember to specify the same subdomain you used to get a passcode. Normally this will be the subdomain of the customer subaccount:
-
-```sh
-cds login … -s <subdomain>
-```
-
-Alternatively, without login:
-
-```sh
-cds extend … -s <subdomain>
-```
-
-### I get errors with response code 429 from the service-manager service when subscribing a tenant
-
-You can reduce the number of request by adapting the configuration of the `@sap/instance-manager` library. See also [`@sap/instance-manager` documentation](https://www.npmjs.com/package/@sap/instance-manager).
-  ```json
-  "cds": {
-    "mtx": {
-      "provisioning": {
-        "instancemanageroptions": {
-          "polling_interval_millis": 3000
-        }
-      }
-    }
-  }
-  ```
-
-### I get errors with response code 429 from the service-manager service when running a tenant upgrade for all tenants
-
-You can disable the database clustering for the update.
-  ```json
-  "cds": {
-    "mtx": {
-      "jobs": {
-        "clusterbydb": false
-      }
-    }
-  }
-  ```
-This setting requires at least `@sap/cds-mtx@2.6.2`.
-
+::: danger
+If data loss is intended, you can disable the check by adding <Config>cds.requires.cds.xt.DeploymentService.upgrade.skipExtensionCheck = true</Config> to the configuration.
+:::
 
 ## MTA { #mta}
 
@@ -560,7 +582,8 @@ You can reduce MTA archive sizes, and thereby speedup deployments, by omitting `
 
 First, add a file `less.mtaext` with the following content:
 
-```yaml
+::: code-group
+```yaml [less.mtaext]
 _schema-version: '3.1'
 ID: bookshop-small
 extends: capire.bookshop
@@ -569,6 +592,7 @@ modules:
    build-parameters:
      ignore: ["node_modules/"]
 ```
+:::
 
 Now you can build the archive with:
 
@@ -578,7 +602,7 @@ mbt build -t gen --mtar mta.tar -e less.mtaext
 
 ::: warning
 This approach is only recommended
-- For test deployments during _development_.  For _production_ deployments,  self-contained archives ar preferrable.
+- For test deployments during _development_.  For _production_ deployments,  self-contained archives are preferrable.
 - If all your dependencies are available in _public_ registries like npmjs.org or Maven Central.  Dependencies from _corporate_ registries are not resolvable in this mode.
 :::
 
@@ -702,5 +726,11 @@ To fix this error, run `npm i --package-lock-only` to update your `package-lock.
 ::: tip
 For SAP HANA deployment errors see [The HANA section](#how-do-i-resolve-deployment-errors).
 :::
+
+
+## CAP on Windows
+
+Please note that Git Bash on Windows, despite offering a Unix-like environment, may encounter interoperability issues with specific scripts or tools due to its hybrid nature between Windows and Unix systems.
+When using Windows, we recommend testing and verifying all functionalities in the native Windows Command Prompt (cmd.exe) or PowerShell for optimal interoperability. Otherwise, problems can occur when building the mtxs extension on Windows, locally, or in the cloud.
 
 <div id="end" />

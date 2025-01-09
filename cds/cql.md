@@ -2,7 +2,7 @@
 # layout: cds-ref
 shorty: Query Language
 synopsis: >
-  Documents the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
+  Specification of the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -14,7 +14,9 @@ CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
 [[toc]]
 
-## Postfix Projections {#postfix-projections}
+
+## Postfix Projections
+{#postfix-projections}
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:
 
@@ -25,7 +27,8 @@ SELECT name, address.street from Authors
 SELECT from Authors { name, address.street }
 ```
 
-### Nested Expands <Beta /> {#nested-expands}
+### Nested Expands <Beta />
+{#nested-expands}
 
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:

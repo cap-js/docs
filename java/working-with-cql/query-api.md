@@ -2,9 +2,6 @@
 synopsis: >
   API to fluently build CQL statements in Java.
 status: released
-redirect_from:
-- java/query-api
-- java/cds-ql
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -19,7 +16,7 @@ API to fluently build [CQL](../../cds/cql) statements in Java.
 
 ## Introduction
 
-The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices) or the [CDS Data Store](../cqn-services/persistence-services#cdsdatastore).
+The [CDS Query Language (CQL)](../../cds/cql) statement builders allow to fluently construct [CQL](../../cds/cql) statements, which can be [executed](query-execution) by [CDS Services](../cqn-services/#cdsservices).
 
 ## Concepts
 
@@ -256,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
-#### From `entity set` {#from-entity-set}
+#### `FROM` Entity Set {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -272,7 +269,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {#from-reference}
+#### `FROM` Reference {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 
@@ -280,7 +277,7 @@ This query selects from the items of the order 23.
 
 ```sql
 --CQL query
-SELECT from Orders[23].items
+SELECT from Orders[ID = 23]:items
 ```
 
 ```java
@@ -290,7 +287,7 @@ import static bookshop.Bookshop_.ORDERS;
 Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 ```
 
-#### From `subquery` {#from-select}
+#### `FROM` Subquery {#from-select}
 
 It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
@@ -356,10 +353,8 @@ Select.from(AUTHORS)
     .columns(a -> a.name().as("author"),
              a -> a.books().expand(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
-
-<span id="indeepread" />
 
 It expands the elements `title`, and `year` of the `Books` entity into a substructure with the name of the association `books`:
 
@@ -382,6 +377,8 @@ It expands the elements `title`, and `year` of the `Books` entity into a substru
 ]
 ```
 
+<span id="indeepread" />
+
 To only expand entities that fulfill a certain condition, use [infix filters](#target-entity-sets) on the association:
 
 ```java
@@ -389,7 +386,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books()
                    .filter(b -> b.year().eq(1897))
-                   .expand(b -> b.title())
+                   .expand(b -> b.title()))
     .where(a -> name().in("Bram Stroker", "Edgar Allen Poe"));
 ```
 
@@ -415,7 +412,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().as("novels").expand(
                       b -> b.title(),
-                      b -> b.publisher().expand(p -> p.name()));
+                      b -> b.publisher().expand(p -> p.name())));
 ```
 
 Which returns a deeply structured result:
@@ -480,8 +477,6 @@ and make sure the parent entity has all key elements exposed.
 To flatten deeply structured documents or include elements of associated entities into a flat result,
 you can use `inline` as a short notation for using multiple paths.
 
-<span id="inflattenedresults" />
-
 ```java
 // Java example
 import static bookshop.Bookshop_.AUTHORS;
@@ -497,7 +492,7 @@ Select.from(AUTHORS)
     .columns(a -> a.name(),
              a -> a.books().inline(
                       b -> b.title().as("book"),
-                      b -> b.year());
+                      b -> b.year()));
 ```
 
 Both queries are equivalent and have the same result: a _flat_ structure:
@@ -516,6 +511,8 @@ Both queries are equivalent and have the same result: a _flat_ structure:
   }
 ]
 ```
+
+<span id="inflattenedresults" />
 
 #### Managed Associations on the Select List
 
@@ -537,7 +534,7 @@ Object authorId = book.get("author.Id"); // path access
 ```
 
 ::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#db-constraints) on the database.
+Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#database-constraints) on the database.
 :::
 
 
@@ -551,7 +548,7 @@ The `search` method adds a predicate to the query that filters out all entities 
 
 By default all elements of type `cds.String` of an entity are searchable. However, using the `@cds.search` annotation the set of elements to be searched can be defined. You can extend the search also to associated entities. For more information on `@cds.search`, refer to [Search Capabilities](../../guides/providing-services#searching-data).
 
-Consider following CDS Entity. There are 2 elements, `title` and `name`, of type String, making them both searchable by default.
+Consider following CDS Entity. There are two elements, `title` and `name`, of type String, making them both searchable by default.
 
 ```cds
 entity Book {
@@ -670,7 +667,7 @@ The following example selects authors where count is higher than 2:
 
 ```java
 Select.from("bookshop.Authors")
-    .columns(c -> c.get("name")), c -> func("count", c.get("name")).as("count")
+    .columns(c -> c.get("name"), c -> func("count", c.get("name")).as("count"))
     .groupBy(c -> c.get("name"))
     .having(c -> func("count", c.get("name")).gt(2));
 ```
@@ -799,19 +796,13 @@ book.put("title", "Capire");
 CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```
 
- or it can be a [path expression](#path-expressions), for example:
+ or it can be a [path expression](#path-expressions), for example to add an item for Order 1001:
 
  ```java
-import static bookshop.Bookshop_.BOOKS;
+import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> bookId = Collections.singletonMap("ID", 85);
-
-Map<String, Object> publisher = new HashMap<>();
-publisher.put("ID", 101);
-publisher.put("name", "Penguin");
-
-CqnInsert insert = Insert.into(BOOKS, b -> b.matching(bookId)).publisher())
-                         .entry(publisher);
+Insert.into(ORDERS, o -> o.matching(Map.of("ID", 1001))).items())
+	.entry(Map.of("book", Map.of("ID", 251), "amount", 1));
 ```
 
 
@@ -834,17 +825,9 @@ CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```java
 import static bookshop.Bookshop_.BOOKS;
 
-Map<String, Object> b1;
-b1.put("ID", 101);
-b2.put("title", "Capire 1");
-
-Map<String, Object> b2;
-b2.put("ID", 103);
-b2.put("title", "Capire 2");
-
-List<Map<String, Object>> data = new ArrayList<>();
-data.add(b1);
-data.add(b2);
+var data = List.of(
+	Map.of("ID", 101, "title", "Capire"),
+	Map.of("ID", 103, "title", "CAP Java"));
 
 CqnInsert insert = Insert.into(BOOKS).entries(data);
 ```
@@ -879,15 +862,8 @@ Java:
 ```java
 import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> item;
-item.put("ID", 1);
-item.put("book_ID", 101);
-item.put("quantity", 1);
-List<Map<String, Object>> items;
-items.add(item);
-Map<String, Object> order;
-order.put("OrderNo", "1000");
-order.put("Items", items);
+var items = List.of(Map.of("ID", 1, "book_ID", 101, "quantity", 1));
+var order = Map.of("OrderNo", "1000", "Items", items);
 
 CqnInsert insert = Insert.into(ORDERS).entry(order);
 ```
@@ -1272,7 +1248,7 @@ Authors_ authors = CQL.entity(Books_.class).filter(b -> b.year().eq(2020)).autho
 StructuredType<?> authors =
    CQL.entity("bookshop.Books").filter(b -> b.get("year").eq(2020)).to("author");
 
-// SELECT from bookshop.Books[year = 2020].author { name } // [!code focus]
+// SELECT from bookshop.Books[year = 2020]:author { name } // [!code focus]
 Select.from(authors).columns("name"); // [!code focus]
 ```
 
@@ -1306,7 +1282,7 @@ import static com.sap.cds.ql.CQL.val;
 
 Select.from(EMPLOYEE)
       .columns(e -> e.name())
-      .where(e -> val(50).gt(e.age());
+      .where(e -> val(50).gt(e.age()));
 ```
 
 Alternatively, the factory methods for comparison predicates directly accept Java values. The query could also be written as:
@@ -1446,6 +1422,18 @@ Scalar functions are values that are calculated from other values. This calculat
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
 
+#### Case-When-Then Expressions
+
+Use a case expression to compute a value based on the evaluation of conditions. The following query converts the stock of Books into a textual representation as 'stockLevel':
+
+```java
+Select.from(BOOKS).columns(
+  b -> b.title(),
+  b -> b.when(b.stock().lt(10)).then("low")
+        .when(b.stock().gt(100)).then("high")
+        .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
+```
+
 #### Arithmetic Expressions
 
 Arithmetic Expressions are captured by scalar functions as well:
@@ -1497,18 +1485,21 @@ Predicates are expressions with a Boolean value, which are used in [filters](#wh
 These comparison operators are supported:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Predicate
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 EQ
@@ -1649,6 +1640,7 @@ BETWEEN
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `ETag Predicate` {#etag-predicate}
@@ -1656,7 +1648,7 @@ BETWEEN
 The [ETag predicate](query-execution#etag-predicate) specifies expected ETag values for [conflict detection](query-execution#optimistic) in an [update](#update) or [delete](#delete) statement:
 
 ```java
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(o -> o.id().eq(85).and(o.eTag(expectedLastModification)));
@@ -1667,7 +1659,7 @@ You can also use the `eTag` methods of the `CQL` interface to construct an ETag 
 ```java
 import static com.sap.cds.ql.CQL.*;
 
-Instant expectedLastModification = ... ;
+Instant expectedLastModification = ...;
 Update.entity(ORDER)
       .entry(newData)
       .where(and(get("id").eq(85), eTag(expectedLastModification)));
@@ -1678,18 +1670,21 @@ Update.entity(ORDER)
 Predicates can be combined using logical operators:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 AND
@@ -1739,6 +1734,7 @@ NOT
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `Predicate Functions` {#predicate-functions}
@@ -1746,18 +1742,21 @@ NOT
 These boolean-valued functions can be used in filters:
 
 <table>
+<thead>
 <tr>
-<td>
+<th>
     Operator
-</td>
-<td width="400">
+</th>
+<th width="400">
     Description
-</td>
-<td>
+</th>
+<th>
      Example
-</td>
+</th>
 </tr>
+</thead>
 
+<tbody>
 <tr>
 <td>
 CONTAINS
@@ -1805,6 +1804,7 @@ ENDS WITH
 
 </td>
 </tr>
+</tbody>
 </table>
 
 #### `matchesPattern` Predicate {#matches-pattern}
@@ -1826,7 +1826,7 @@ As a general rule, consider regular expressions as a last resort. They are power
 In the following example, the title of the book must start with the letter `C` and end with the letter `e` and contains any number of letters in between:
 
 ```java
-Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\w*e$"));
+Select.from("bookshop.Books").where(t -> t.get("title").matchesPattern("^C\\w*e$"));
 ```
 
 The behavior of the regular expression can be customized with the options that can be passed as a second argument of the predicate. The set of the supported options and their semantics depends on the underlying database.
@@ -1879,22 +1879,22 @@ Select.from(AUTHORS).where(a -> a.books().anyMatch(
 
 #### `EXISTS` Subquery {#exists-subquery}
 
-An `EXISTS` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
-You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
+An `exists` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
+You construct an `exists` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
-import static spaceflight.Astronautics_.ASTRONAUTS;
+import static socialmedia.Journalists_.JOURNALISTS;
 
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name())))
+      Select.from(JOURNALISTS).where(journalist -> journalist.name().eq($outer.name()))
     )
-  )
+  );
 ```
 
-This query selects all authors with the name of an astronaut.
+This query selects all authors with the name of an journalist.
 ::: tip
 With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
@@ -1904,9 +1904,31 @@ When using the [tree-style API](#composing-predicates) the _outer_ query is addr
 ```java
 // tree style
 CqnSelect subquery =
-  Select.from("Astronauts")
+  Select.from("Journalists")
         .where(a -> a.get("name").eq(CQL.get("$outer.name")));
 Select.from("Authors").where(CQL.exists(subquery));
+```
+
+> **Note:** Chaining `$outer` in nested subqueries is not supported.
+
+### `IN` Subquery
+
+An `in` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `in` subquery in fluent style or in tree style:
+
+```java
+// fluent style
+Select.from(AUTHORS).where(author -> author.name().in(
+    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
+));
+```
+
+In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+
+```java
+// tree style
+CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
+CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
+Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
 ```
 
 ## Parsing CQN
@@ -1914,8 +1936,10 @@ Select.from("Authors").where(CQL.exists(subquery));
 [CQL](../../cds/cql) queries can also be constructed from a [CQN](../../cds/cqn) string<sup>*</sup>:
 
 ```java
-String cqnQuery = "{'SELECT': {'from': {'ref': ['my.bookshop.Books']},
-    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}";
+String cqnQuery = """
+    {'SELECT': {'from': {'ref': ['my.bookshop.Books']},
+    'where': [{'ref': ['title']}, '=', {'val': 'Capire'}]}}
+    """;
 CqnSelect query = Select.cqn(cqnQuery);
 ```
 
@@ -1940,16 +1964,16 @@ As opposed to fluent API it's possible to build the queries in a tree-style. Con
 
 ```java
 // CQL: SELECT from Books where year >= 2000 and year <= 2010
-
-                        AND
-                         |
-               +---------+---------+
-               |                   |
-               =>                 <=
-               |                   |
-          +----+----+         +----+----+
-          |         |         |         |
-        year       2000      year     2010
+//
+//                      AND
+//                       |
+//             +---------+---------+
+//             |                   |
+//             =>                 <=
+//             |                   |
+//        +----+----+         +----+----+
+//        |         |         |         |
+//      year       2000      year     2010
 
 import static com.sap.cds.ql.CQL.*;
 import com.sap.cds.sql.cqn.CqnComparisonPredicate;

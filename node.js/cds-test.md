@@ -104,8 +104,9 @@ Authorization: Basic alice:
 
 ### Using Jest or Mocha
 
- [*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
-The `cds.test` library is designed to write tests that run with both, as in this sample:
+[*Mocha*](https://mochajs.org) and [*Jest*](https://jestjs.io) are the most used test runners at the moment, with each having its user base.
+
+The `cds.test` library is designed to allow you to write tests that can run with both. Here's an example:
 
 ```js
 describe('my test suite', ()=>{
@@ -120,6 +121,7 @@ describe('my test suite', ()=>{
   })
 })
 ```
+> To ensure that your tests run with both `jest` and `mocha`, start a test server with `cds.test(...)` inside a `describe` block of the test.
 
 You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in your tests, as well as the common `describe, test, it` methods. In addition, to be portable, you should use the [Chai Assertion Library's](#chai)  variant of `expect`.
 
@@ -127,7 +129,13 @@ You can use Mocha-style `before/after` or Jest-style `beforeAll/afterAll` in you
 Run them with `npm run jest` or with `npm run mocha`.
 :::
 
+::: warning Helpers can cause conflicts
+_jest_ helpers might cause conflicts with the generic implementation of `@sap/cds`.
 
+To avoid such conflicts, do not use the following helpers:
+- _jest.resetModules_ as it leaves the server in an inconsistent state. 
+- _jest.useFakeTimers_ as it intercepts the server shutdown causing test timeouts.
+:::
 
 ### Using Test Watchers
 
@@ -189,7 +197,10 @@ const { Test } = cds.test
 cds.test = (...args) => (new Test).run(...args)
 ```
 
+:::warning Run `cds.test` once per test file
 
+`@sap/cds` relies on server state like `cds.model`. Running `cds.test` multiple times within the same test file can lead to a conflicting state and erratic behavior.
+:::
 
 
 
@@ -200,7 +211,7 @@ To write tests that run in [*Mocha*](https://mochajs.org) as well as in [*Jest*]
 :::warning Using `chai` requires these dependencies added to your project:
 
 ```sh
-npm add -D chai@4 chai-as-promised chai-subset jest
+npm add -D chai@4 chai-as-promised@7 chai-subset jest
 ```
 
 :::

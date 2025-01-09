@@ -25,18 +25,18 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 Run this to use SAP HANA Cloud for production:
 
 ```sh
-npm add @sap/cds-hana
+npm add @cap-js/hana
 ```
 
 ::: details Using other SAP HANA drivers...
 
-Package `@sap/cds-hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
+Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
 
 :::
 
 ::: tip Prefer `cds add`
 
-... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @sap/cds-hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
 
 :::
 
@@ -63,7 +63,7 @@ The [modules](../java/developing-applications/building#standard-modules) `cds-st
 
 The datasource for HANA is then auto-configured based on available service bindings of type *service-manager* and *hana*.
 
-Learn more about the [configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
+[Learn more about the configuration of an SAP HANA Cloud Database](../java/cqn-services/persistence-services#sap-hana){ .learn-more}
 
 </div>
 
@@ -180,7 +180,7 @@ There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid 
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../get-started/troubleshooting#get-hana) to learn about your options.
 
-### Prepare for Production { #configure-hana .impl .node }
+### Prepare for Production { #configure-hana .node }
 
 To prepare the project, execute:
 
@@ -198,7 +198,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 
 
-### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana .impl .node }
+### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana .node }
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
@@ -206,7 +206,7 @@ Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with
 Then in the project root folder, just execute:
 
 ```sh
-cds deploy --to hana --profile hybrid
+cds deploy --to hana
 ```
 
 > To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid`.
@@ -217,7 +217,15 @@ Behind the scenes, `cds deploy` does the following:
 * Generates _[.hdbtabledata](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-deployment-infrastructure-hdi-reference/table-data-hdbtabledata?)_ files for the [CSV files](databases#providing-initial-data) in the project. If a _[.hdbtabledata](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-deployment-infrastructure-hdi-reference/table-data-hdbtabledata?)_ file is already present next to the CSV files, no new file is generated.
 * Creates a Cloud Foundry service of type `hdi-shared`, which creates an HDI container. Also, you can explicitly specify the name like so: `cds deploy --to hana:<myService>`.
 * Starts `@sap/hdi-deploy` locally. If you need a tunnel to access the database, you can specify its address with `--tunnel-address <host:port>`.
-* Stores the binding information in the _.cdsrc-private.json_ file of your project. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
+* Stores the binding information with profile `hybrid` in the _.cdsrc-private.json_ file of your project. You can use a different profile with parameter `--for`. With this information, `cds watch`/`run` can fetch the SAP HANA credentials at runtime, so that the server can connect to it.
+
+Specify `--profile` when running `cds deploy` as follows:
+
+```sh
+cds deploy --to hana --profile hybrid
+```
+
+Based on these profile settings, `cds deploy` executes `cds build` and also resolves additionally binding information. If a corresponding binding exists, its service name and service key are used. The development profile is used by default.
 
 [Learn more about the deployment using HDI.](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/sap-hdi-deployer?){.learn-more}
 [Learn more about hybrid testing using service bindings to Cloud services.](../advanced/hybrid-testing#run-with-service-bindings){.learn-more}
@@ -246,7 +254,7 @@ This takes the logon information and the service name from the `someEnvFile.json
 
 This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
 
-### Using `cf deploy` or `cf push` { .impl .node }
+### Using `cf deploy` or `cf push` { .node }
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
@@ -262,7 +270,7 @@ Vector embeddings are numerical representations that capture important features 
 
 Typically vector embeddings are computed using an **embedding model**. The embedding model is specifically designed to capture important features and semantics of a specific type of data, it also determines the dimensionality of the vector embedding space. Unified consumption of embedding models and LLMs across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
-In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types):
 
 ```cds
 entity Books : cuid { // [!code focus]
@@ -283,10 +291,10 @@ let similarBooks = await SELECT.from('Books')
 ```
 
 ```java [Java]
-// Vector embedding of text, e.g. from SAP GenAI Hub or via LangChain4j
+// Vector embedding of text, for example, from SAP GenAI Hub or via LangChain4j
 float[] embedding = embeddingModel.embed(bookDescription).content().vector();
 
-Result similarBooks = service.run(Select.from(BOOKS).where(b -> 
+Result similarBooks = service.run(Select.from(BOOKS).where(b ->
   CQL.cosineSimilarity(b.embedding(), CQL.vector(embedding)).gt(0.9)));
 ```
 :::
@@ -445,6 +453,12 @@ During the transition from _.hdbtable_ to _.hdbmigrationtable_ you have to deplo
 
 HDI supports the _hdbcds → hdbtable → hdbmigrationtable_ migration flow without data loss. Even going back from _.hdbmigrationtable_ to _.hdbtable_ is possible. Keep in mind that you lose the migration history in this case.
 For all transitions you want to execute in HDI, you need to specify an undeploy allowlist as described in [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/hdi-delta-deployment-and-undeploy-allow-list?) in the SAP HANA documentation.
+
+:::tip Moving From _.hdbcds_ To _.hdbtable_
+There a migration guide providing you step-by-step instructions for making the switch.
+
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler/hdbcds-to-hdbtable){.learn-more}
+:::
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
 
@@ -637,3 +651,56 @@ If you need to remove deployed CSV files, also add this entry:
 :::
 
 *See this [troubleshooting](../get-started/troubleshooting#hana-csv) entry for more information.*{.learn-more}
+
+### SAP HANA Cloud System Limits
+
+All limitations for the SAP HANA Cloud database can be found in the [SAP Help Portal](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/system-limitations?version=2024_2_QRC).
+
+
+### Native Associations
+
+For SAP HANA, CDS associations are by default reflected in the respective database tables and views
+by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
+
+CAP no longer needs these native associations (provided you use the new database
+service _@cap-js/hana_ for the CAP Node.js stack).
+
+Unless you explicitly use them in other native HANA objects, we recommend
+switching off the generation of native HANA associations, as they increase deploy times:
+They need to be validated in the HDI deployment, and they can introduce
+indirect dependencies between other objects, which can trigger other unnecessary revalidations
+or even unnecessary drop/create of indexes. By switching them off, all this effort is saved.
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "sql": {
+      "native_hana_associations": false
+    }
+  }
+}
+```
+
+```json [cdsrc.json]
+{
+  "sql": {
+    "native_hana_associations": false
+  }
+}
+```
+
+:::
+
+
+For new projects, `cds add hana` automatically adds this configuration.
+
+::: warning Initial full table migration
+Be aware, that the first deployment after this **configuration change may take longer**.
+
+For each entity with associations, the respective database object will be touched
+(DROP/CREATE for views, full table migration via shadow table and data copy for tables).
+This is also the reason why we haven't changed the default so far.
+Subsequent deployments will benefit, however.
+:::

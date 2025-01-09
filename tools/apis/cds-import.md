@@ -2,7 +2,6 @@
 status: released
 synopsis: >
   Programmatically use <code>cds.import</code>
-redirect_from: node.js/cds-dk
 ---
 
 # CDS Import API

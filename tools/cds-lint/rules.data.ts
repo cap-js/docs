@@ -16,9 +16,9 @@ export default {
     allRules.forEach((rule: string) => {
       rule = rule.replace('@sap/cds/', '');
       const description = md2Html(plugin.rules[rule]?.meta.docs.description);
-      const ruleDocs = path.join(__dirname, `meta/${rule}.md`)
+      const ruleDocs = path.join(__dirname, `rules/${rule}.md`)
       const hasRuleDocs = fs.existsSync(ruleDocs)
-      const url = hasRuleDocs ? `./meta/${rule}` : null
+      const url = hasRuleDocs ? `./${rule}` : null
       const isRecommended = plugin.rules[rule]?.meta.docs.recommended ? '✅' : '';
       const hasFix = plugin.rules[rule]?.meta.fixable ? '🔧' : '';
       const hasSuggestions = plugin.rules[rule]?.meta.hasSuggestions ? '💡' : '';

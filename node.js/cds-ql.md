@@ -13,23 +13,58 @@ status: released
 
 ## Constructing Queries
 
-Module `cds.ql` provides a SQL-like fluent API to construct queries:
+Module `cds.ql` provides facilities to construct queries in [*Core Query Notation (CQN)*](../cds/cqn) in different flavours and styles:
+
+1. Fluent API style, with query-by-example objects for where clauses and order by clauses:
 
 ```js
-let q1 = SELECT.from('Books').where({ID:201})
-let q2 = INSERT.into('Books',{ title: 'Wuthering Heights' })
-let q3 = UPDATE('Books',201).with({ title: 'Sturmhöhe' })
-let q4 = DELETE.from('Books').where({ID:201})
+let q = SELECT.from('Books').where({ID:201}).orderBy({title:1})
 ```
 
-Alternative to classic method calls we can also use the fluent API with tagged templates:
+2. Using with [tagged template literals (TTL)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates):
 
-```sql
-let q1 = SELECT.from `Books` .where `ID=${201}`
-let q2 = INSERT.into `Books` .entries ({ title:'Wuthering Heights' })
-let q3 = UPDATE `Books` .where `ID=${201}` .with `title=${'Sturmhöhe'}`
-let q4 = DELETE.from `Books` .where `ID=${201}`
+```js
+let q = cds.ql `SELECT from Books where ID=${201} order by title`
 ```
+
+3. Fluent API with interspersed [tagged template literals (TTL)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates):
+
+```js
+let q = SELECT.from `Books where ID=${201} order by title`
+let p = SELECT.from `Books`.where`ID=${201}`.orderBy`title`
+```
+
+4. Manually constructing CQN objects:
+
+```js
+const { expr, ref, val, columns, expand, where, orderBy } = cds.ql
+```
+```js
+let q = {
+  SELECT: {
+    from: ref`Books`,
+    where: [ref`ID`, '=', val(201)],
+    orderBy: [ref`title`],
+  }
+}
+```
+```js
+let q = {
+  SELECT: {
+    from: ref`Authors`,
+    columns: [
+      ref`ID`,
+      ref`name`,
+      expand (ref`books`, where`stock>7`, orderBy`title`,
+        columns`ID,title`
+      )
+    ],
+    where: [ref`name`, 'like', val('%Poe%')]
+  }
+}
+```
+
+#### API Facades
 
 The API is made available through global objects `SELECT`, `INSERT`, `UPSERT`, `UPDATE`, `DELETE`. Alternatively, you can obtain these objects from `cds.ql` like so:
 
@@ -38,25 +73,20 @@ const cds = require('@sap/cds')
 const { SELECT, INSERT, UPDATE, DELETE } = cds.ql
 ```
 
-The API is also available through [`cds.Service`'s CRUD-style Convenience API](core-services#crud-style-api) {.learn-more}
+#### Using Reflected Definitions
 
-::: details Using Reflected Definitions
+It is recommended best practice to use entity definitions reflected from a service's model to construct queries. Doing so simplifies code as it avoids repeating namespaces all over the place.
 
-It is recommended best practice to use entity definitions reflected from a service's model to construct queries.
-Doing so greatly simplifies code as it avoids repeating namespaces all over the place.
-
-```sql
+```js
 const { Books } = cds.entities
 let q1 = SELECT.from (Books) .where `ID=${201}`
 ```
 
 [Learn more about using reflected definitions from a service's model](core-services#entities){.learn-more}
 
-:::
+####  Not Locked in to SQL
 
-::: details *Not Locked in to SQL*
 While both [CQL](../cds/cql) / [CQN](../cds/cqn) as well as the fluent API of `cds.ql` resemble well-known SQL syntax neither of them are locked in to SQL. In fact, queries can be sent to any kind of services, including NoSQL databases or remote services for execution.
-:::
 
 
 
@@ -83,6 +113,13 @@ let books = await cats.run (query)
 ```
 
 > `CatalogService` might be a remote service connected via OData. In this case, the query would be translated to an OData request sent via http.
+
+The APIs are also available through [`cds.Service`'s CRUD-style Convenience API](core-services#crud-style-api), e.g.:
+
+```js
+const db = cds.db
+let books = await db.read`Books`.where`ID=${201}`.orderBy`title`
+```
 
 
 
@@ -137,8 +174,7 @@ for (let a of Authors) { //> looping over eagerly materialized Authors
 
 
 ## Avoiding SQL Injection
-All the APIs are designed to easily avoid [SQL Injection](https://wikipedia.org/wiki/SQL_injection) by default.
-For example, let's see how the following code would be executed:
+All the APIs are designed to avoid [SQL Injection](https://wikipedia.org/wiki/SQL_injection) by default. For example, let's see how the following code would be executed:
 
 ```js
 let input = 201 //> might be entered by end users
@@ -149,7 +185,7 @@ The query is...
 
 1. captured as a CQN object with the where clause represented as:
 ```js
-..., where:[ {ref:['title']}, '=', {val:201} ]
+..., where:[ {ref:['ID']}, '=', {val:201} ]
 ```
 
 2. translated to plain SQL string with binding parameters
@@ -162,7 +198,7 @@ SELECT ID from Books where ID=?
 dbc.run (sql, [201])
 ```
 
-The only mistake you could do is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
+The only mistake you could make is to imperatively concatenate user input with CQL or SQL fragments, instead of using the tagged strings or other options promoted by `cds.ql`. For example, assumed you had written the above code sample like that:
 
 ```js
 let input = 201 //> might be entered by end users
@@ -190,6 +226,88 @@ Never use string concatenation when constructing queries!
 Never surround tagged template strings with parentheses!
 :::
 
+## Using `cds repl`
+
+Event though being a reference doc, the sections below will never be able to cover any possible query you might want to construct. For that reason, we recommend to use the `cds repl` command to experiment with queries interactively. It is a great way to learn how to construct queries and to experiment with them. Here is an example session:
+
+```sh
+cds repl -u ql
+```
+```js
+cds.ql`SELECT from Authors {
+  ID, name, books [order by title] {
+    ID, title, genre.name as genre
+  }
+} where exists books.genre[name = 'Mystery']`
+```
+... which will display this:
+```js
+cds.ql {
+  SELECT: {
+    from: { ref: [ 'Authors' ] },
+    columns: [
+      { ref: [ 'ID' ] },
+      { ref: [ 'name' ] },
+      {
+        ref: [
+          {
+            id: 'books',
+            orderBy: [ { ref: [ 'title' ] } ]
+          }
+        ],
+        expand: [
+          { ref: [ 'ID' ] },
+          { ref: [ 'title' ] },
+          { ref: [ 'genre', 'name' ], as: 'genre' }
+        ]
+      }
+    ],
+    where: [
+      'exists',
+      {
+        ref: [
+          'books',
+          {
+            id: 'genre',
+            where: [ { ref: [ 'name' ] }, '=', { val: 'Mystery' } ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+You can also test-drive the query by executing it with a running application:
+
+```sh
+cds repl -u ql -r cap/samples/bookshpop
+```
+```js
+await cds.ql`SELECT from Authors {
+  ID, name, books [order by title] {
+    ID, title, genre.name as genre
+  }
+} where exists books.genre[name = 'Mystery']`
+```
+... which would display the results like that:
+```js
+[
+  {
+    ID: 150,
+    name: 'Edgar Allen Poe',
+    books: [
+      { ID: 251, title: 'The Raven', genre: 'Mystery' },
+      { ID: 252, title: 'Eleonora', genre: 'Romance' }
+    ]
+  }
+]
+```
+
+> [!TIP]
+> Using `cds repl` as shown above is likely the best way to learn how to construct queries in detail.
+> When doing so, ensure to use the `cds.ql` functions with full queries in CQL syntax, as shown in the example above, as that is the most reliable way to ensure correctness.
+
 
 
 ## cds.ql. Query {#class-cds-ql-query .class}
@@ -198,18 +316,15 @@ Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent 
 
 
 
-### .cmd {.property}
+### .kind {.property}
 
-
-The current command, that is one of these strings:
+The kind of query, that is one of these strings:
 
 - `'SELECT'`
 - `'INSERT'`
 - `'UPSERT'`
 - `'UPDATE'`
 - `'DELETE'`
-- `'CREATE'`
-- `'DROP'`
 
 This is usefull for generic query processors, such as outbound protocol adapters or database services, which need to translate given queries into target representations.
 
@@ -326,10 +441,10 @@ SELECT.distinct.from (Authors)
 ### columns() {.method}
 
 ```tsx
-function SELECT.colums ( projection : function )
-function SELECT.colums ( cql : tagged template string )
-function SELECT.colums ( columns[] : CQL expr string | CQN expr object )
-function SELECT.colums ( ...columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( projection : function )
+function SELECT.columns ( cql : tagged template string )
+function SELECT.columns ( columns[] : CQL expr string | CQN expr object )
+function SELECT.columns ( ...columns[] : CQL expr string | CQN expr object )
 ```
 
 Specifies which columns to be fetched, very much like SQL select clauses, enhanced by [CQL](../cds/cql) projections and path expressions. The arguments can be a projection function, a tagged template string, or individual column expressions as CQL string snippets, or as [CQN column expression objects](../cds/cqn.md#select).
@@ -441,9 +556,11 @@ SELECT.from ('Authors').alias('a').where({
 
 
 
-### where() {.method}
+### where(){.method alt="The following documentation on having also applies to where"}
 
 ### having() {.method}
+
+These two methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions.
 
 ```tsx
 function SELECT.where/having ( qbeobj : query-by-example object )
@@ -451,7 +568,7 @@ function SELECT.where/having ( clause : tagged template string )
 function SELECT.where/having ( expr: string, value: any, ... )
 ```
 
-These methods fill in corresponding  [CQL](../cds/cql) clauses with predicate  expressions, which can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
+Expressions can be specified as a query-by-example object, a tagged template string, or as an alternating string / value arguments list:
 
 ```js
 SELECT.from `Books` .where ({ ID: req.data.ID }) // qbe
@@ -542,7 +659,7 @@ try {
 
 The `options` argument is optional; currently supported is:
 
-* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via `cds.env.sql.lock_acquire_timeout`. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
+* `wait` — an integer specifying the timeout after which to fail with an error in case a lock couldn't be obtained. The time unit is database-specific. On SAP HANA, for example, the time unit is seconds. A default `wait` value that is used if `options.wait == null` can be specified via <Config keyOnly>cds.sql.lock_acquire_timeout: -1</Config>. A value of `-1` can be used to deactivate the default for the individual call. If the wait option isn't specified, the database-specific default behavior applies.
 
 All acquired locks are released when the current transaction is finished, that is, committed  or rolled back.
 
@@ -670,7 +787,7 @@ INSERT.into(Books).entries(await SELECT.from(Products))
 
 
 
-### values() {.method}
+### values() {.method alt="The following documentation on rows also applies to values. "}
 
 ### rows() {.method}
 
@@ -698,15 +815,16 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
-### as() {.method}
+### from() {.method #from}
 
 
 Constructs a _INSERT into SELECT_ statement.
 ```js
-INSERT.into('Bar') .as (SELECT.from('Foo'))
+INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
+### as() {.method}
 
-
+The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.
 
 
 ## UPSERT {.class}
@@ -817,7 +935,7 @@ UPDATE (Books.texts, {ID:201, locale:'de'}) ...
 
 
 
-### set() {.method}
+### set() {.method alt="The following documentation on with also applies to set. "}
 
 ### with() {.method}
 
@@ -836,7 +954,7 @@ let [ ID, quantity ] = [ 201, 1 ]
 UPDATE (Books,ID) .with ({
   title: 'Sturmhöhe',       //>  simple value
   stock: {'-=': quantity},    //>  qbe expression
-  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.'])
+  descr: {xpr: [{ref:[descr]}, '||', 'Some addition to descr.']}
 })
 ```
 
@@ -878,3 +996,169 @@ function DELETE.from (
 ### where() {.method}
 
 [As in SELECT.where](#where) {.learn-more}
+
+
+
+## Expressions
+
+The following methods facilitate constructing CXN objects manually.
+
+> [!note]
+> Many sections below are still under construction. We are working on it... Please refer to the [CXL](../cds/cxn) documentation for more information on the CXN syntax for the time being.
+
+### expr() {.method}
+
+Constructs a CXN expression object from given input.
+Same as [`xpr`](#xpr), but if the result contains only single
+entries these are returned as is.
+
+```js
+const { expr } = cds.ql
+expr([ref`foo`,'=',val(11)]) //> {xpr:[{ref:['foo']},'=',{val:11}]}
+expr(ref`foo`,'=',val(11))   //> {xpr:[{ref:['foo']},'=',{val:11}]}
+expr`foo = 11`               //> {xpr:[{ref:['foo']},'=',{val:11}]}
+expr`foo`                    //> {ref:['foo']}
+expr`11`                     //> {val:11}
+```
+
+### ref() {.method}
+
+Constructs a CXN `{ref}` object from given input, which can be one of:
+
+- several path segment strings
+- a single array of the same
+- a tagged template literal in CXL path syntax
+
+
+```js
+const { ref } = cds.ql
+ref('foo')        //> {ref:['foo']}
+ref('foo','bar')  //> {ref:['foo','bar']}
+ref`foo.bar`      //> {ref:['foo','bar']}
+ref`foo`          //> {ref:['foo']}
+```
+
+Note that only simple paths are supported, that is, without infix filters or functions.
+
+[Use `expr()` to parse paths with infix filters via a tagged template literals.](#expr) {.learn-more}
+
+
+### val() {.method}
+
+Constructs CXN `{val}` object from given input, which can be one of:
+- a single `string`, `number`, `boolean`, or `null`
+- a tagged template literal in CXL literal syntax
+
+```js
+const { val } = cds.ql
+val(`foo`) //> {val:'foo'}`
+val`foo`   //> {val:'foo'}
+val`11`    //> {val:11}
+val(11)    //> {val:11}
+```
+
+### xpr() {.method}
+
+Constructs a CXN `xpr` object from given input, which can be one of:
+- multiple CXN `expr` objects, or strings representing keywords or operators
+- a single array of the same
+- a tagged template literal in CXL syntax
+
+```js
+const { xpr } = cds.ql
+xpr([ref`foo`,'=',val(11)]) //> {xpr:[{ref:['foo']},'=',{val:11}]}
+xpr(ref`foo`,'=',val(11))   //> {xpr:[{ref:['foo']},'=',{val:11}]}
+xpr`foo = 11`               //> {xpr:[{ref:['foo']},'=',{val:11}]}
+xpr`foo`                    //> {xpr:[{ref:['foo']}]}
+xpr`'foo'`                  //> {xpr:[{val:'foo'}]}
+xpr`11`                     //> {xpr:[{val:11}]}
+xpr('=')                    //> {xpr:['=']}
+xpr('like')                 //> {xpr:['like']}
+```
+
+[See also `expr()`](#expr) {.learn-more}
+
+
+### list() {.method}
+
+ Constructs a CXN `list` object from given input, with can be one of:
+ - multiple CXN `expr` objects, or values turned into `{val}`s, including strings
+ - a single array of the same
+ ```js
+ const { list } = cds.ql
+ list([`foo`,11]) //> {list:[{val:'foo'},{val:11}]}
+ list(`foo`,11)   //> {list:[{val:'foo'},{val:11}]}
+ expr`'foo',11`   //> {list:[{val:'foo'},{val:11}]}
+ expr`foo,11`     //> {list:[{ref:['foo']},{val:11}]}
+ ```
+[Use `expr()` to get the same via a tagged template literals.](#expr) {.learn-more}
+
+
+### func() {.method}
+
+Constructs a CXN `func` object from given input. The first argument is the
+function name, the remaining `args` can the same as in {@link ql.list `list()`},
+and are handled the same way.
+```js
+const { func } = cds.ql
+func('substring',[`foo`,1]) //> {func:'substring',args:[{val:'foo'},{val:1}]}
+func('substring',`foo`,1)   //> {func:'substring',args:[{val:'foo'},{val:1}]}
+expr`substring('foo',1)`    //> {func:'substring',args:[{val:'foo'},{val:1}]}
+expr`substring(foo,1)`      //> {func:'substring',args:[{ref:['foo']},{val:1}]}
+expr`substring(foo,1)`      //> {func:'substring',args:[{ref:['foo']},{val:1}]}
+```
+[Use `expr()` to get the same via a tagged template literals.](#expr) {.learn-more}
+
+
+### predicate() {.method}
+<UnderConstruction/>
+
+TODO: Add description
+
+```js
+const { predicate } = cds.ql
+predicate`a=1 and b=2 or c=3 and d=4`
+predicate ({ a:1, b:2, or:{ c:3, d:4 }})
+predicate ('a=',1,'and ( b=',2,'or c=',3,')')
+```
+
+### columns() {.method}
+<UnderConstruction/>
+
+TODO
+
+### nested() {.method}
+<UnderConstruction/>
+
+TODO
+
+### expand() {.method}
+<UnderConstruction/>
+
+TODO: Add description
+
+```js
+expand (ref`books`, where`stock>7`, orderBy`title`,
+   columns`ID,title`
+)
+```
+
+### inline() {.method}
+<UnderConstruction/>
+
+TODO
+
+### where() {.method}
+<UnderConstruction/>
+
+TODO
+
+### orderBy() {.method}
+<UnderConstruction/>
+
+TODO
+
+### orders() {.method}
+<UnderConstruction/>
+
+TODO

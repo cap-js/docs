@@ -1,5 +1,4 @@
 ---
-redirect_from: node.js/transactions
 # layout: node-js
 status: released
 label: Transactions
@@ -102,7 +101,7 @@ This usage variant, which accepts a function with nested operations ...
 <br>
 
 ::: tip
-**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, i.e., when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already.
+**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, that is, when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
@@ -307,7 +306,7 @@ tx = Object.create (srv, Object.getOwnPropertyDescriptors({
 
 In effect, `tx` objects ...
 
-* are concrete context-specific — i.e. tenant-specific — incarnations of `srv`es
+* are concrete context-specific — that is tenant-specific — incarnations of `srv`es
 * support all the [Service API](core-services) methods like `run`, `create` and `read`
 * support methods `tx.commit` and `tx.rollback` as documented below.
 

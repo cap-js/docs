@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '**.md'
+  merge_group:
   workflow_dispatch:
 
 jobs:
@@ -29,9 +30,9 @@ jobs:
         GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
         GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 22
         cache: 'npm'
         cache-dependency-path: docs/package-lock.json
     - run: npm ci

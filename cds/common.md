@@ -262,7 +262,7 @@ entity sap.common.Timezones : CodeList {
 }
 ```
 
-[Learn more about time zones in Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) {.learn-more}
+[Learn more about time zones in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) {.learn-more}
 
 [Learn more about time zones in Java](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/ZoneId.html) {.learn-more}
 
@@ -597,7 +597,7 @@ using sap from '@sap/cds/common';
 
 // new code list for regions
 entity Regions : sap.common.CodeList {
-  key code : String(5); // ISO 3166-2 alpha5 codes, e.g. DE-BW
+  key code : String(5); // ISO 3166-2 alpha5 codes, like DE-BW
   country  : Association to sap.common.Countries;
 }
 

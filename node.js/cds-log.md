@@ -60,7 +60,7 @@ LOG.info("it's a foo")
 
 ### _Logger usage → much like `console`_ { #logger-api }
 
-Loggers returned by `cds.log()` look and behave very much like [Javascript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
+Loggers returned by `cds.log()` look and behave very much like [JavaScript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
 
 ```js
 cds.log() → {
@@ -164,14 +164,14 @@ const LOG = cds.log('foo', cds.log.levels.WARN)
 
 ### *Configuring Log Levels*
 
-Configure initial log-levels per module through `cds.env.log.levels`, for example like that in your `package.json`:
+Configure initial log-levels per module through `cds.log.levels`, for example like that in your `package.json`:
 
 ```json
 {
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -306,10 +306,6 @@ Will be debug-enabled by both, `DEBUG=db`, as well as `DEBUG=sql ...`.
 
 **Note:** The alternative ids specified after `|` have no impact on the unique logger ids. That is, the logger above will have the id `'db'`, while `'sql'` will only be used for matching against `DEBUG` env variable.
 
-### *Capture stack trace with SQLite*
-
-Set `DEBUG=sqlite` to activate capturing the stack trace on the way to executing a query.
-
 ## Configuration
 Configuration for `cds.log()` can be specified through `cds.env.log`, for example like that in your `package.json`:
 
@@ -318,7 +314,7 @@ Configuration for `cds.log()` can be specified through `cds.env.log`, for exampl
   "cds": {
     "log": {
       "levels": {
-        "sqlite": "debug",
+        "sql": "debug",
         "cds": "info"
       }
     }
@@ -346,9 +342,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 | CLI output                               | `cli`             |
 | CDS build output                         | `build`           |
 | [Application Service](./app-services)    | `app`             |
-| [SQLite Database](databases)             | `db\|sql\|sqlite` |
-| [SAP HANA Database](databases)           | `db\|sql\|hana`   |
-| [SAP HANA Database Pool](databases#pool) | `db\|pool`        |
+| [Databases](databases)                   | `db\|sql`         |
 | [Messaging Service](messaging)           | `messaging`       |
 | [Remote Service](remote-services)        | `remote`          |
 | AuditLog Service                         | `audit-log`       |
@@ -364,7 +358,7 @@ The runtime uses the same logger facade, that is `cds.log()`. For each component
 
 During development, we want concise, human-readable output in the console, with clickable stack traces in case of errors. You should not be overloaded with information that is additionally obfuscated by a bad rendering. Hence, [console.log()](https://nodejs.org/api/console.html#console_console_log_data_args), that makes use of [util.format()](https://nodejs.org/api/util.html#util_util_format_format_args) out of the box, with raw arguments is a good choice.
 
-The *plain log formatter* does exactly that, prepending the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
+The *plain log formatter*, which is the default in non-production environments, prepends the list of arguments with `[<module> -]`. The following screenshot shows the log output for the previous warning and rejection with the plain log formatter.
 
 ![The screenshot is explained in the accompanying text.](./assets/plain-formatter-output.png)
 
@@ -373,9 +367,9 @@ The plain log formatter is the default formatter in non-production.
 
 ## Logging in Production
 
-The SAP BTP platform offers the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/r/product/APPLICATION_LOGGING) to which bound Cloud Foundry applications can stream logs. Operators can access and analyze the [application log, container metrics and custom metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics).
-
-To get connected with the SAP BTP Application Logging Service, the application needs to be [bound to the service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
+SAP BTP offers two services, [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging) and [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service), to which bound Cloud Foundry applications can stream logs.
+In both services, operators can access and analyze observability data, as described in [Access and Analyze Observability Data](https://help.sap.com/docs/cloud-logging/cloud-logging/access-and-analyze-observability-data) for SAP Cloud Logging and [Access and Analyze Application Logs, Container Metrics and Custom Metrics](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/access-and-analyze-application-logs-container-metrics-and-custom-metrics) for SAP Application Logging Service.
+To get connected with either of those services, the application needs to be bound to the respective service instance(s) as described for [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging/cloud-logging/ingest-via-cloud-foundry-runtime?version=Cloud) and [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/produce-logs-container-metrics-and-custom-metrics).
 
 Additionally, the log output needs to be formatted in a way that enables the respective dashboard technology to optimally support the user, for example, filtering for logs of specific levels, modules, status, etc.
 
@@ -384,12 +378,12 @@ The *JSON log formatter* constructs a loggable object from the passed arguments 
 The JSON log formatter is the default formatter in production.
 
 ::: tip
-Since `@sap/cds^7.5`, running `cds add kibana-logging` or setting `cds.env.features.kibana_formatter = true` are no longer needed. If you want to opt-out of the JSON formatter in production, set `cds.env.log.format = 'plain'`.
+Since `@sap/cds 7.5`, running `cds add kibana-logging` or setting <Config>cds.features.kibana_formatter: true</Config> are no longer needed. If you want to opt-out of the JSON formatter in production, set <Config>cds.log.format: plain</Config>.
 :::
 
 Further, there are two formatting aspects that are activated automatically, if appropriate, and add the following information to the loggable object:
 1. Running on Cloud Foundry: `tenant_subdomain`, `CF_INSTANCE_IP` and information from `VCAP_APPLICATION`
-1. Bound to an instance of the [SAP Application Logging Service for the Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment): `categories` and *custom fields* as described in [Custom Fields](#als-custom-fields)
+1. Bound to an instance of the [SAP Application Logging Service](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/sap-application-logging-service-for-cloud-foundry-environment) or [SAP Cloud Logging](https://help.sap.com/docs/cloud-logging/sap-cloud-logging/what-is-sap-cloud-logging): `categories` and *custom fields* as described in [Custom Fields](#custom-fields)
 
 The following screenshot shows the log output for the rejection in the previous example with the JSON log formatter including the two aspects.
 
@@ -402,26 +396,27 @@ The SAP Application Logging Service offers [different plans with different quota
 
 ### Header Masking
 
-Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option `cds.env.log.mask_headers = [...]` allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default config is `['/authorization/i', '/cookie/i', '/cert/i', '/ssl/i']`.
+Some header values shall not appear in logs, for example when pertaining to authorization. Configuration option <Config keyOnly>cds.log.mask_headers: ["/authorization/i", "/cookie/i", "/cert/i", "/ssl/i"]</Config> allows to specify a list of matchers for which the header value shall be masked. Masked values are printed as `***`. The default value is `["/authorization/i", "/cookie/i", "/cert/i", "/ssl/i"]`.
 
 ::: warning
 In case your application shares any sensitive data (for example, secrets) via headers, please ensure that you adjust the configuration as necessary.
 :::
 
 
-### Custom Fields { #als-custom-fields }
+### Custom Fields { #custom-fields }
 
 Information that is not included in the [list of supported fields](https://help.sap.com/docs/application-logging-service/sap-application-logging-service/supported-fields) of the SAP Application Logging Service can be shown as additional information. This information needs to be provided as custom fields.
 
-By default, the JSON formatter uses the following custom fields configuration, which is configurable using [cds.env](cds-env#cds-env):
+By default, the JSON formatter uses the following custom fields configuration for SAP Application Logging Service:
 
 ```jsonc
 {
   "log": {
     "als_custom_fields": {
       // <key>: <index>
-      "query": 0,               //> sql
-      "target": 1, "details": 2 //> generic validations
+      "query": 0,                //> sql
+      "target": 1, "details": 2, //> generic validations
+      "reason": 3                //> errors
     }
   }
 }
@@ -473,6 +468,32 @@ Without the additional custom field `query` and it's respective value, it would 
 Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
 :::
 
+For SAP Cloud Logging, the JSON formatter uses the following default configuration:
+
+```jsonc
+{
+  "log": {
+    "cls_custom_fields": [
+      "query",             //> sql
+      "target", "details", //> generic validations
+      "reason"             //> errors
+    ]
+  }
+}
+```
+
+In order for the JSON formatter to detect the binding to SAP Cloud Logging via user-provided service, the user-provided service must have a tag `cloud-logging`.
+(For existing user-provided services, tags can be added via [`cf update-user-provided-service`](https://cli.cloudfoundry.org/en-US/v7/update-user-provided-service.html).)
+
+The key-value pairs can either be part of the first argument or an exclusive object thereafter:
+
+```js
+LOG.info({ message: 'foo', reason: 'bar' })
+LOG.info('foo', { reason: 'bar' })
+```
+
+As always, both defaults are overridable via [cds.env](cds-env#cds-env).
+
 
 ## Request Correlation { #node-observability-correlation }
 
@@ -489,6 +510,13 @@ if (!cds.context) cds.context = { id }
 req.headers['x-correlation-id'] = cds.context.id
 ```
 
-The following screenshot shows an example for log correlation in a log analytic dashboard of the [SAP BTP Application Logging Service for Cloud Foundry Environment](https://help.sap.com/docs/application-logging-service).
+Subsequently, the JSON log formatter (see [Logging in Production](#logging-in-production)) sets the following fields:
+- `cds.context.id` &rarr; `correlation_id`
+- Request header `x_vcap_request_id` &rarr; `request_id`
+- Request header `traceparent` (cf. [W3C Trace Context](https://www.w3.org/TR/trace-context/)) &rarr; `w3c_traceparent`
+
+Specifically field `w3c_traceparent` is then used by both SAP Application Logging Service and SAP Cloud Logging to determine field `trace_id` in order to correlate requests, logs, and traces across multiple applications.
+
+The following screenshot shows an example for log correlation based on field `correlation_id` in a log analytic dashboard of the [SAP Application Logging Service for SAP BTP](https://help.sap.com/docs/application-logging-service).
 
 ![Default Formatter Output](assets/correlation.png)

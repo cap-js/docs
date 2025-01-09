@@ -6,7 +6,6 @@ synopsis: >
   This guide explains how to restrict access to data by adding respective declarations to CDS models, which are then enforced by CAP's generic service providers.
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
-redirect_from: guides/authorization
 ---
 
 <script setup>
@@ -142,8 +141,9 @@ Here a combination of `user_name` and `origin` mapped to `$user` might be a feas
 
 - [Set up Authentication in Node.js.](/node.js/authentication)
 - [Custom Authentication in Java.](/java/security#custom-authentication)
-::: warning
-Be very careful when redefining `$user`. The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
+
+::: warning Be very careful when redefining `$user`
+The user name is frequently stored with business data (for example, `managed` aspect) and might introduce migration efforts. Also consider data protection and privacy regulations when storing user data.
 :::
 
 ## Restrictions { #restrictions}
@@ -255,7 +255,7 @@ annotate ShopService.ReplicationAction with @(requires: 'system-user');
 
 In this example, the `BrowseBooksService` service is open for authenticated but not for anonymous users. A user who has the `Vendor` _or_ `ProcurementManager` role is allowed to access the `ShopService.Books` entity. Unbound action `ShopService.ReplicationAction` can only be triggered by a technical user.
 ::: tip
-When restricting service access through `@requires`, the service's metadata endpoints (that means, `/$metadata` as well as the service root `/`) are restricted by default as well. If you require public metadata, you can disable the check through config `cds.env.odata.protectMetadata = false` (Node.js) or `cds.security.authentication.authenticateMetadataEndpoints = false` (Java), respectively. Please be aware that the `/$metadata` endpoint is *not* checking for authorizations implied by `@restrict` annotation.
+When restricting service access through `@requires`, the service's metadata endpoints (that means, `/$metadata` as well as the service root `/`) are restricted by default as well. If you require public metadata, you can disable the check with [a custom express middleware](../../node.js/cds-serve#add-mw-pos) using the [privileged user](../../node.js/authentication#privileged-user) (Node.js) or through config <Config java>cds.security.authentication.authenticateMetadataEndpoints = false</Config> (Java), respectively. Please be aware that the `/$metadata` endpoint is *not* checking for authorizations implied by `@restrict` annotation.
 :::
 
 
@@ -276,7 +276,7 @@ whereas the properties are:
 * `where`: a filter condition that further restricts access on an instance level (optional).
 
 The following values are supported:
-- `grant` accepts all standard [CDS events](/about/#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
+- `grant` accepts all standard [CDS events](../../about/best-practices#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
 
 - The `to` property lists all [user roles](#roles) or [pseudo roles](#pseudo-roles) that the privilege applies to. Note that the `any` pseudo-role applies for all users and is the default if no value is provided.
 
@@ -340,10 +340,11 @@ Restrictions can be defined on different types of CDS resources, but there are s
 | CDS Resource    | `grant` | `to` |      `where`      | Remark        |
 |-----------------|:-------:|:----:|:-----------------:|---------------|
 | service         |  <Na/>  | <Y/> |       <Na/>       | = `@requires` |
-| entity          |  <Y/>   | <Y/> |       <Y/>        |               |
-| action/function |  <Na/>  | <Y/> | <Na/><sup>1</sup> | = `@requires` |
+| entity          |  <Y/>   | <Y/> | <Y/><sup>1</sup>  |               |
+| action/function |  <Na/>  | <Y/> | <Na/><sup>2</sup> | = `@requires` |
 
-> <sup>1</sup> Node.js supports static expressions *that don't have any reference to the model* such as `where: $user.level = 2`. <br>
+> <sup>1</sup>For bound actions and functions that aren't bound against a collection, Node.js supports instance-based authorization at the entity level. For example, you can use `where` clauses that *contain references to the model*, such as `where: CreatedBy = $user`. For all bound actions and functions, Node.js supports simple static expressions at the entity level that *don't have any reference to the model*, such as `where: $user.level = 2`.
+> <sup>2</sup> For unbound actions and functions, Node.js supports simple static expressions that *don't have any reference to the model*, such as `where: $user.level = 2`.
 
 Unsupported privilege properties are ignored by the runtime. Especially, for bound or unbound actions, the `grant` property is implicitly removed (assuming `grant: '*'` instead). The same also holds for functions:
 
@@ -386,13 +387,13 @@ service CustomerService @(requires: 'authenticated-user') {
 
 The resulting authorizations are illustrated in the following access matrix:
 
-| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | `anonymous` |
-|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------|
-| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>        |
-| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
-| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>        |
-| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>        |
-| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>        |
+| Operation                            | `Vendor` |    `Customer`    | `authenticated-user` | not authenticated |
+|--------------------------------------|:--------:|:----------------:|:--------------------:|-------------------|
+| `CustomerService.Products` (`READ`)  |   <Y/>   |       <Y/>       |         <Y/>         | <X/>              |
+| `CustomerService.Products` (`WRITE`) |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
+| `CustomerService.Products.addRating` |   <X/>   |       <Y/>       |         <X/>         | <X/>              |
+| `CustomerService.Orders` (*)         |   <X/>   | <Y/><sup>1</sup> |         <X/>         | <X/>              |
+| `CustomerService.monthlyBalance`     |   <Y/>   |       <X/>       |         <X/>         | <X/>              |
 
 > <sup>1</sup> A `Vendor` user can only access the instances that they created. <br>
 
@@ -488,12 +489,13 @@ A service level entity can't inherit a restriction with a `where` condition that
 
 The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*.
 
-The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies following standard CDS events only<sup>1</sup>:
+The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies to following standard CDS events only<sup>1</sup>:
 - `READ` (as result filter)
-- `UPDATE` (as reject condition)
-- `DELETE` (as reject condition)
+- `UPDATE` (as reject condition<sup>2</sup>)
+- `DELETE` (as reject condition<sup>2</sup>)
 
- > <sup>1</sup> Node.js supports _static expressions_ *that don't have any reference to the model* such as `where: $user.level = 2` for all events including action and functions.
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.  
+ > <sup>2</sup> CAP Java uses a filter condition by default.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 
@@ -516,6 +518,16 @@ Supported features are:
 * Value references to constants, [user attributes](#user-attrs), and entity data (elements including [paths](#association-paths))
 * [Exists predicate](#exists-predicate) based on subselects.
 
+
+<div class="impl java">
+
+CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it using the configuration option <Config java keyOnly label="reject-selected-unauthorized-entity">cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>.
+
+</div>
+
+::: info Avoid enumerable keys
+In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.
+:::
 
 ### User Attribute Values { #user-attrs}
 
@@ -723,8 +735,8 @@ In some cases it can be helpful to restrict entity access as much as possible an
 ```cds
 service GitHubRepositoryService @(requires: 'authenticated-user') {
   @readonly entity Organizations as projection on GitHub.Organizations actions {
-    action rename @(requires: 'Admin') (newName : String);
-    action delete @(requires: 'Admin') ();
+    @(requires: 'Admin') action rename(newName : String);
+    @(requires: 'Admin') action delete();
   };
 }
 ```
@@ -862,9 +874,9 @@ If generic enforcement doesn't fit your needs, you can override or adapt it with
 
 The Authorization Management Service (AMS) as part of SAP Cloud Identity Services (SCI) provides libraries and services for developers of cloud business applications to declare, enforce and manage instance based authorization checks. When used together with CAP the AMS  "Policies” can contain the CAP roles as well as additional filter criteria for instance based authorizations that can be defined in the CAP model. transformed to AMS policies and later on refined by customers user and authorization administrators in the SCI administration console and assigned to business users.
 
-### Use AMS as Authorization Management System on SAP BTP 
+### Use AMS as Authorization Management System on SAP BTP
 
-SAP BTP is currently replacing the authorization management done with XSUAA by an integrated solution with AMS. AMS is integrated into SAP Cloud Identity (SCI), which will offer authentication, authorization, user provisioning and management in one place. 
+SAP BTP is currently replacing the authorization management done with XSUAA by an integrated solution with AMS. AMS is integrated into SAP Cloud Identity (SCI), which will offer authentication, authorization, user provisioning and management in one place.
 
 For newly build applications the usage of AMS is generally recommended. The only constraint that comes with the usage of AMS is that customers need to copy their users to the Identity Directory Service as the central place to manage users for SAP BTP applications. This is also the general SAP strategy to simplify user management in the future.
 
@@ -872,7 +884,7 @@ For newly build applications the usage of AMS is generally recommended. The only
 
 There is one use case where currently an XSUAA based authorization management is preferable: When XSUAA based services to be consumed by a CAP application come with their own business user roles and thus make user role assignment in the SAP Cloud Cockpit necessary. This will be resolved in the future when the authorization management will be fully based on the SCI Admin console.
 
-For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS. 
+For example, SAP Task Center you want to consume an XSUAA-based service that requires own end user role. Apart from this, most services should be technical services that do not require an own authorization management that is not yet integrated in AMS.
 
 
 <!-- [Learn more about using IAS and AMS with CAP Java.](/java/ams){.learn-more} -->
@@ -889,7 +901,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa
+cds add xsuaa --for production
 ```
 
 This generates an _xs-security.json_ file:

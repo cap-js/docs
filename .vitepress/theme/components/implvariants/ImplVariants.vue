@@ -32,7 +32,6 @@ function scrollTo(id) {
 
 function currentCheckState() {
   const url = new URL(window.location)
-  let variant = url.searchParams.get('impl-variant')
   if (url.searchParams.has('impl-variant'))
     return url.searchParams.get('impl-variant') === 'java'
   return localStorage.getItem('impl-variant') === 'java'
@@ -87,7 +86,8 @@ transition: none !important;
 
   cb()
 
-  // @ts-expect-error keep unused declaration, used to force the browser to redraw
+  // keep unused declaration, used to force the browser to redraw
+  // eslint-disable-next-line no-unused-vars
   const _ = window.getComputedStyle(css).opacity
   document.head.removeChild(css)
 }
@@ -100,7 +100,7 @@ watchEffect(() => {
   }, 20)
 })
 
-function toggleContent(variant, initial) {
+function toggleContent(variant) {
   const htmlClassList = document.documentElement.classList
   knownImplVariants.forEach(v => htmlClassList.remove(v))
   htmlClassList.add(variant)
@@ -111,7 +111,7 @@ function toggleContent(variant, initial) {
 // All other DOM content is handled at build time on MD level (see md-attrs-propagate.ts)
 function markOutlineItems() {
   const hashes = {}
-  const impls = document.querySelectorAll('.impl.node, .impl.java')
+  const impls = document.querySelectorAll('.node, .java')
   for (let each of impls) {
     hashes['#' + each.id] = each
   }
@@ -125,7 +125,6 @@ function markOutlineItems() {
 }
 
 function markClasses(el, classes) {
-  el.classList.add('impl') // in IE, add() only accepts one element
   if (classes.contains('node'))   el.classList.add('node')
   if (classes.contains('java'))   el.classList.add('java')
 }

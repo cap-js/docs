@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -94,7 +93,7 @@ Example:
 
 ```cds
 service OwnService {
-    @topic: 'my.custom/topic'
+    @topic: 'my.custom.topic'
     event OwnEvent { ID: UUID; name: String; }
 }
 ```
@@ -157,6 +156,9 @@ If you want to receive all messages without creating topic subscriptions, you ca
 messaging.on('*', async msg => { /*...*/ })
 ```
 
+::: tip
+In general, messages do not contain user information but operate with a technical user. As a consequence, the user of the message processing context (`cds.context.user`) is set to [`cds.User.privileged`](/node.js/authentication#privileged-user) and, hence, any necessary authorization checks must be done in custom handlers.
+:::
 
 ## CloudEvents Protocol
 
@@ -249,7 +251,7 @@ To safely send and receive messages between applications, you need a message bro
 
 In CDS, you can configure one of the available broker services in your [`requires` section](cds-connect#cds-env-requires).
 
-According to our [grow as you go principle](../get-started/grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
+According to our [grow as you go principle](../about/#grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
 
 ### Configuring Message Brokers
 
@@ -271,7 +273,7 @@ If you register at least one handler, a queue will automatically be created if n
 
 You have the following configuration options:
 
-- `queue`: An object containing the `name` property as the name of your queue, additional properties are described in section [QueueP](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep).
+- `queue`: An object containing the `name` property as the name of your queue, additional properties are described [in the SAP Business Accelerator Hub](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue).
 - `amqp`: AQMP client options as described in the [`@sap/xb-msg-amqp-v100` documentation](https://www.npmjs.com/package/@sap/xb-msg-amqp-v100?activeTab=readme)
 
 If the queue name isn't specified, it's derived from `application_name` and the first four characters of `application_id` of your `VCAP_APPLICATION` environmental variable, as well as the `namespace` property of your SAP Event Mesh binding in `VCAP_SERVICES`: `{namespace}/{application_name}/{truncated_application_id}`.
@@ -399,11 +401,114 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
+### SAP Cloud Application Event Hub <Beta/> { #event-broker }
+
+`kind`: `event-broker`
+
+Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).
+
+The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+Hence, you first need to install the plugin:
+
+```bash
+npm add @cap-js/event-broker
+```
+
+Then, set the `kind` of your messaging service to `event-broker`:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "kind": "event-broker"
+    }
+  }
+}
+```
+
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
+
+Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
+If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
+
+```jsonc
+"cds": {
+  "requires": {
+    "ias": { // any name
+      "vcap": {
+        "label": "identity"
+      }
+    }
+  }
+}
+```
+
+#### Deployment
+
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
+Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
+Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
+
+::: code-group
+```yaml [mta.yaml]
+ID: cap.incidents
+
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in webhookUrl and home-url below
+    requires:
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+    requires:
+      - name: incidents-srv-api
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: incidents-srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+       	xsuaa-cross-consumption: true #> if token exchange from IAS token to XSUAA token is needed
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+```
+:::
+
+
+<div id="aftereventbroker" />
+
 <div id="queuing-sap" />
 
 <div id="kafka-sap" />
-
-<div id="event-broker-sap" />
 
 ### Redis PubSub <Beta />
 ::: warning

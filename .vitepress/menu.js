@@ -1,67 +1,149 @@
-import path from 'node:path'
-import fs  from 'node:fs'
+/* eslint-disable no-console */
 
-import rulesSidebar from '../tools/cds-lint/sidebar.js'
-const dynamicItems = (item) => {
-  if (item.text.includes('#items:rules-sidebar')) {
-    item.text = item.text.replace('#items:rules-sidebar', '')
-    item.items = rulesSidebar()
-    item.collapsed = true
+import { dirname, relative, resolve, join, normalize } from 'node:path'
+import { promises as fs } from 'node:fs'
+import rewrites from './rewrites.js'
+
+const DEBUG = process.env.DEBUG?.match(/\bmenu\b/) ? (...args) => console.debug ('[menu.js] -', ...args) : undefined
+const cwd = process.cwd()
+
+
+/**
+ * A MenuItem represents a menu item with text and link.
+ * It can have sub-items which are collapsed by default.
+ */
+export class MenuItem {
+
+  /**
+   * Constructs a new menu item with the given text, link, and sub-items.
+   */
+  constructor (text, link, items) {
+    if (text) this.text = text.replace(/<!--.*-->/, '')
+    if (link) this.link = link[0] === '/' ? link : '/'+ link
+    if (items) this.items = items
+  }
+
+  /**
+   * Constructs and adds a new sub-item to this item's child items.
+   */
+  add (text, link, subitems) {
+    const item = new MenuItem (text, link, subitems)
+    const items = this.items ??= []; items.push (item)
+    this.collapsed = true
+    return item
+  }
+
+  /**
+   * Returns a clone of this item with the given overrides.
+   */
+  with (overrides) {
+    return {__proto__:this, ...this, ...overrides }
+  }
+
+  /**
+   * Reads a submenu from the given file and adds all its items
+   * into this item's child items.
+   */
+  async include (filename, parent='.', _rewrite = rewrites, include, exclude) {
+    const root = dirname(parent), folder = dirname(filename)
+    const rewrite = link => link[0] === '/' ? link : _rewrite (normalize(join(folder,link)))
+    const {items} = await Menu.from (join(root,filename), rewrite, include, exclude)
+    const children = this.items ??= []; children.push (...items)
+    this.link = '/'+folder+'/'
+    this.collapsed = true
   }
 }
 
-/**
- * Construct sidebar from markdown
-*/
-export function sidebar (file = 'menu.md', filter=(_)=>true) {
-  const source = file
-  const markdown = fs.readFileSync(source,'utf8')
-  const sidebar = []
-  let section, item, subitem
 
-  for ( let line of markdown.split('\n').filter(l=>l)) {
-    let [, text, link ] = /^###\s*\[(.*)\]\((.*)\)/.exec(line) || /^###\s*(.*)/.exec(line) || []
-    if (text && filter(link)) sidebar.push (section = _item({ link, text, items:[], collapsed: true }))
-    else {
-      let [, text, link ] = /^-\s*\[(.*)\]\((.*)\)/.exec(line) || /^-\s*(.*)/.exec(line) || []
-      if (text && filter(link)) section.items.push (item = _item({ link, text }))
-      else {
-        let [, text, link ] = /^  -\s*\[(.*)\]\((.*)\)/.exec(line) || /^  -\s*(.*)/.exec(line) || []
-        if (text && filter(link)) {
-          (item.items ??= []).push (subitem = _item({ link, text }))
-          item.collapsed = true
-        }
-        else {
-          let [, text, link ] = /^    -\s*\[(.*)\]\((.*)\)/.exec(line) || /^    -\s*(.*)/.exec(line) || []
-          if (text && filter(link)) {
-            (subitem.items ??= []).push (_item({ link, text }))
-            subitem.collapsed = true
-          }
+export class Menu extends MenuItem {
+
+  /**
+   * Parses a menu.md markdown file into menu structures that
+   * can be used for VitePress sidebar.
+   */
+  static async from (file = 'menu.md', rewrite = rewrites, include = ()=> true, exclude = l => l?.startsWith('../')) {
+
+    DEBUG?.('reading:', relative(cwd,file))
+    const lines = await fs.readFile(resolve(file),'utf8') .then (s => s.split('\n'))
+    const menu = new this, children = [ menu ] // stack of recent children, used below
+
+    for (let i=0; i<lines.length; i++) {
+      const each = lines[i]; if (!each) continue //> skip empty lines
+
+      // Parse line into hashes, text, and link
+      let [, hashes, text, link ] =
+        /^\s*(#+)\s*\[(.*)\]\((.*)\)/.exec(each) || // with link
+        /^\s*(#+)\s(.*)/.exec(each) || []          // without link
+      if (!hashes) continue //> skip lines not starting with #es
+
+      // Get parent from stack -> it's the recent stack entry with less hashes
+      let parent = children [hashes.length-1]
+      if (!parent) throw new Error (`Missing parent for: ${each.trim()} at ${relative(cwd,file)}:${i+1}`)
+
+      // Rewrite link and skip if excluded
+      let is_submenu = /\/(_?menu.md)$/.exec(link)
+      if (link) {
+        if (link[0] !== '/' && !is_submenu) link = rewrite(link)
+        if (exclude(link) || !include(link)) {
+          DEBUG?.('skipped:', each.trim(), 'at', relative(cwd,file)+'.'+(i+1))
+          continue
         }
       }
+
+      // Add new item to parent, and to the stack of children
+      let child = !text ? parent : children[hashes.length] = parent.add (text, link)
+      if (is_submenu) await child.include (link, file, rewrite, include, exclude)
     }
+
+    // Return menu when all includes are done
+    return menu
   }
-  return sidebar
-}
 
-const _absolute = link => link && ( link[0] === '/' ? link : '/'+link ).replace('@external/', '')
-const _item = ({ link, text, ...etc }) => {
-  const item = {
-    text: text.replace(/<!--.*-->/, ''), ...(link ? { link: _absolute(link) } : {}),
-    ...etc
+  /**
+   * Returns the level 1 and level 2 items of the menu for use
+   * by VitePress nav bar. @returns {MenuItem[]}
+   */
+  get navbar() {
+    const navbar = new Menu
+    for (let {text,items} of this.items) if (items) {
+      items = items.filter (it => it.link) .map (({text,link}) => ({text,link}))
+      if (items.length) navbar.add (text, null, items)
+    }
+    return this.navbar = navbar.items
   }
-  dynamicItems(item)
-  return item
+  set navbar (v) { super.navbar = v }
+
+
+  /**
+   * CLI methods for ad-hoc tests
+   */
+  static async exec (args) {
+
+    // Parse command line options
+    const options = { depth: 11, colors: true }
+    for (let o; (o = /^--?(.*)/.exec(args[0])?.[1]); args.shift()) {
+      if (o === 'help' || o === '?') return console.log ('Usage: \n\n  ', this.usage(), '\n')
+      let [, k, v=true] = /^([^=]*)(?:=(.*))?/.exec(o)
+      options[k] = v
+    }
+    DEBUG?.('options:', options)
+
+    // Parse menu.md file(s) with optional rewrites
+    const {default:rewrites} = options.rewrites ? await import (resolve (options.rewrites)) : {}
+    const menu = await this.from (args.shift(), rewrites)
+
+    // Print result
+    const result = options.navbar ? menu.navbar : menu
+    const {inspect} = await import ('node:util')
+    console.log (inspect(result, options))
+  }
+
+  static usage() {
+    const me = relative (cwd, import.meta.url.slice(7)) // skipping file:// prefix
+    return `node ${me} [--rewrites] [--navbar] <menu.md>`
+  }
 }
 
-/**
- * Use sidebar as nav
- */
-export function nav4(sidebar) {
-  return sidebar.map(({text,items}) => ({ text, items: items.filter(i => i.link) }))
-}
 
-if (process.argv[1] === import.meta.url.slice(7)) {
-  let {inspect} = await import ('node:util')
-  console.log(inspect(sidebar('menu.md'),{depth:11,colors:true}))
-}
+// Run the CLI method if invoked from command line
+if (typeof __filename === 'undefined') Menu.exec (process.argv.slice(2))

@@ -2,7 +2,6 @@
 synopsis: >
   The Model Reflection API is a set of interfaces, which provide the ability to introspect a CDS model and retrieve details on
   the services, types, entities, and their elements that are defined by the model.
-redirect_from: java/cds-reflect
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -18,15 +17,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## The CDS Model
 
- The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
+The interface `CdsModel` represents the complete CDS model of the CAP application and is the starting point for the introspection.
 
- The `CdsModel` can be obtained from the `EventContext`:
+The `CdsModel` can be obtained from the `EventContext`:
 
  ```java
+import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.EventContext;
 import com.sap.cds.reflect.CdsModel;
 
-@On(event = "READ", entity = "my.catalogservice.books")
+@On(event = "READ", entity = "CatalogService.Books")
 public void readBooksVerify(EventContext context) {
     CdsModel model = context.getModel();
    ...
@@ -43,9 +43,15 @@ CdsModel model;
 On a lower level, the `CdsModel` can be obtained from the `CdsDataStoreConnector`, or using the `read` method from a [CSN](../cds/csn) String or [InputStream](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-InputStream csnJson = ...
+InputStream csnJson = ...;
 CdsModel model = CdsModel.read(csnJson);
 ```
+
+::: tip
+Instead of bare string literals, you can also use auto-generated string constants and interfaces in event handlers.
+
+[Learn more about event handlers.](./event-handlers/){.learn-more}
+:::
 
 ## Examples
 
@@ -80,6 +86,7 @@ CdsEntity books = model.getEntity("my.bookshop.Books");
 CdsElement title = books.getElement("title");
 
 boolean key = title.isKey();      // false
+boolean localized = title.isLocalized(); // true
 CdsType type = title.getType();   // CdsSimpleType
 
 if (type.isSimple()) {   // true
@@ -88,7 +95,6 @@ if (type.isSimple()) {   // true
   String typeName = simple.getQualifiedName();  // "cds.String"
   CdsBaseType baseType = simple.getType();      // CdsBaseType.STRING
   Class<?> javaType = simple.getJavaType();     // String.class
-  Boolean localized = simple.get("localized");  // true
   Integer length = simple.get("length");        // 111
 }
 ```
@@ -142,16 +148,6 @@ String displayName = annotation.map(CdsAnnotation::getValue)
         .orElse(orderNo.getName());   // "Order Number"
 ```
 
-### Filter a Stream of Services for non-abstract Services
-
-Using a stream we determine all non-abstract services:
-
-```java
-Stream<CdsService> services = model.services()
-    .filter(s -> !s.isAbstract());
-List<CdsService> serviceList = services.collect(Collectors.toList());
-```
-
 ### Filter a Stream of Entities by Namespace
 
 The static method `com.sap.cds.reflect.CdsDefinition.byNamespace` allows to create a predicate to filter a stream of definitions
@@ -193,22 +189,22 @@ CAP Java does not make any assumption _how_ the set of enabled features (_active
 Features are modeled in CDS by dividing up CDS code concerning separate features into separate subfolders of a common `fts` folder of your project, as shown by the following example:
 
 ```txt
-|-- [db]
-|   |-- my-model.cds
-|   `-- ...
-|-- [srv]
-|   |-- my-service.cds
-|   `-- ...
-`-- [fts]
-    |-- [X]
-    |   |-- model.cds
-    |   `-- ...
-    |-- [Y]
-    |   |-- feature-model.cds
-    |   `-- ...
-    `-- [Z]
-        |-- wrdlbrmpft.cds
-        `-- ...
+├─ [db]
+│  ├─ my-model.cds
+│  └─ ...
+├─ [srv]
+│  ├─ my-service.cds
+│  └─ ...
+└─ [fts]
+   ├─ [X]
+   │  ├─ model.cds
+   │  └─ ...
+   ├─ [Y]
+   │  ├─ feature-model.cds
+   │  └─ ...
+   └─ [Z]
+      ├─ wrdlbrmpft.cds
+      └─ ...
 ```
 
 In this example, three _CDS features_ `X`, `Y` and `Z` are defined. Note that the name of a feature (by which it is referenced in a _feature toggle_) corresponds to the name of the feature's subfolder. A CDS feature can contain arbitrary CDS code. It can either define new entities or extensions of existing entities.
@@ -222,7 +218,7 @@ The database schema resulting from CDS build at design time contains *all* featu
 At runtime, per request, an effective CDS model is used that reflects the active feature set. To obtain the effective model that the runtime delegates to the *Model Provider Service*, which uses this feature set to resolve the CDS model code located in the `fts` folder of the active features and compiles to effective CSN and EDMX models for the current request to operate on.
 
 ::: warning
-The active features set can't be changed within an active transaction.
+The active feature set can't be changed within an active transaction.
 :::
 
 ### Toggling SAP Fiori UI Elements
@@ -244,8 +240,8 @@ By default all features are deactivated (`FeatureTogglesInfo` represents an empt
 #### From Mock User Configuration
 
 If mock users are used, a default [`FeatureToggleProvider`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) is registered, which assigns feature toggles to users based on the [mock user configuration](./security#mock-users). Feature toggles can be configured per user or [per tenant](./security#mock-tenants). The following configuration enables the feature `wobble` for the user `Bob` while for `Alice` the features `cruise` and `parking` are enabled:
-
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 cds:
   security:
     mock:
@@ -260,7 +256,7 @@ cds:
             - cruise
             - parking
 ```
-
+:::
 #### Custom Implementation
 
 Applications can implement a custom [`FeatureTogglesInfoProvider`](https://javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/runtime/FeatureTogglesInfoProvider.html) that computes a `FeatureTogglesInfo` based on the request's [`UserInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/UserInfo.html) and [`ParameterInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/ParameterInfo.html).
@@ -312,7 +308,7 @@ Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
 
 ### Using Feature Toggles in Custom Code
 
-Custom code, which depend on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./spring-boot-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
+Custom code, which depends on a feature toggle can evaluate the [`FeatureTogglesInfo`](https://www.javadoc.io/static/com.sap.cds/cds-services-api/latest/com/sap/cds/services/request/FeatureTogglesInfo.html) to determine if the feature is enabled. The `FeatureTogglesInfo` can be obtained from the [RequestContext](./event-handlers/request-contexts) or `EventContext` by the `getFeatureTogglesInfo()` method or by [dependency injection](./spring-boot-integration#exposed-beans). This is shown in the following example where custom code depends on the feature `discount`:
 
 ```java
 @After

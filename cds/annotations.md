@@ -40,12 +40,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 |---------------------|----------------------------------------------------------------------|
 | `@readonly `        | see [Input Validation](../guides/providing-services#readonly)       |
 | `@mandatory`        | see [Input Validation](../guides/providing-services#mandatory)      |
-| `@assert.unique`    | see [Input Validation](../guides/providing-services#unique)         |
-| `@assert.integrity` | see [Input Validation](../guides/databases#db-constraints)           |
+| `@assert.unique`    | see [Input Validation](../guides/providing-services#assert-unique)         |
+| `@assert.integrity` | see [Input Validation](../guides/databases#database-constraints)           |
 | `@assert.target`    | see [Input Validation](../guides/providing-services#assert-target)  |
 | `@assert.format`    | see [Input Validation](../guides/providing-services#assert-format)  |
 | `@assert.range`     | see [Input Validation](../guides/providing-services#assert-range)   |
-| `@assert.notNull`   | see [Input Validation](../guides/providing-services#assert-notNull) |
+| `@assert.notNull`   | see [Input Validation](../guides/providing-services#assert-notnull) |
 
 
 
@@ -102,4 +102,4 @@ Intrinsically supported OData Annotations:
 | `@Core.IsMediaType`    | see [Media Data](../guides/providing-services#serving-media-data)                          |
 | `@Core.IsUrl`          | see [Media Data](../guides/providing-services#serving-media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
-| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#input-validation)) |
+| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#common-fieldcontrol) |

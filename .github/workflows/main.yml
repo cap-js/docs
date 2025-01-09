@@ -31,7 +31,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 22
           cache: 'npm'
       - run: npm ci
       - run: npm test
@@ -42,7 +42,7 @@ jobs:
           SITE_HOSTNAME: https://cap.js.org
           VITE_CAPIRE_PREVIEW: true
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2
         with:
           name: github-pages
           path: .vitepress/dist
@@ -57,4 +57,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v3

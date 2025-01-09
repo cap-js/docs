@@ -2,7 +2,7 @@
 status: released
 ---
 
-<style>
+<style scoped>
     .annotation::before { content: '@PersonalData '; color: grey; }
     .annotation { font-style: italic; }
 </style>

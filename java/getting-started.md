@@ -1,6 +1,6 @@
 ---
 synopsis: >
-  How to start a new CAP Java project and how to run it locally.
+  How to start a new CAP Java project and how to run it locally.
 #notebook: true
 status: released
 ---
@@ -98,10 +98,10 @@ mvn com.sap.cds:cds-maven-plugin:add -Dfeature=TINY_SAMPLE
 
 ### Add CloudFoundry target platform
 
-Following the "[Grow As You Go](../about/#grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `addTargetPlatform` of the [CDS Maven plugin](./assets/cds-maven-plugin-site/addTargetPlatform-mojo.html){target="_blank"} using the following command:
+Following the "[Grow As You Go](../about/#grow-as-you-go)" principle, the generated CAP Java project doesn't contain support for Cloud Foundry as the target platform. To enhance your project with dependencies required for Cloud Foundry, execute the goal `add` of the [CDS Maven plugin](./assets/cds-maven-plugin-site/add-mojo.html){target="_blank"} using the following command:
 
 ```sh
-mvn com.sap.cds:cds-maven-plugin:addTargetPlatform -DtargetPlatform=cloudfoundry
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=CF
 ```
 
 This command adds the following dependency to the pom.xml:

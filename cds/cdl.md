@@ -32,8 +32,8 @@ The *Conceptual Definition Language (CDL)* is a human-readable language for defi
 - [Keywords & Identifiers](#keywords-identifiers)
 - [Built-in Types](#built-in-types)
 - [Literals](#literals)
-- [Model Imports](#imports)
-- [Namespaces](#namespace)
+- [Model Imports](#model-imports)
+- [Namespaces](#namespaces)
 - [Comments](#comments)
 
 
@@ -65,7 +65,7 @@ As indicated by the syntax coloring, `Association` is not a keyword, but a type 
 
 :::
 
-Keywords are *case-insensitive*, but most commonly used in lowercase notation.
+Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
 
@@ -146,7 +146,7 @@ Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`
 
 
 
-### Model Imports {#imports}
+### Model Imports
 
 
 
@@ -208,7 +208,7 @@ To allow for loading from precompiled _.json_ files it's recommended to **omit _
 ### Namespaces
 
 
-#### The `namespace` Directive {#namespace}
+#### The `namespace` Directive
 
 To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
 
@@ -348,21 +348,24 @@ In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](..
 
 ## Entities & Type Definitions
 
-- [Entity Definitions](#entities)
-- [Type Definitions](#types)
+- [Entity Definitions](#entity-definitions)
+- [Type Definitions](#type-definitions)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
 - [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
-- [Type References](#typereferences)
+- [Type References](#type-references)
 - [Constraints](#constraints)
 - [Enums](#enums)
 
 
 
 
-### Entity Definitions {#entities}
+
+### Entity Definitions
+{#entities}
+
 Entities are structured types with named and typed elements,
 representing sets of (persisted) data that can be read and manipulated using usual CRUD operations.
 They usually contain one or more designated primary key elements:
@@ -379,7 +382,9 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions {#types}
+### Type Definitions
+{#types}
+
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
 Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
 
@@ -486,7 +491,8 @@ entity Employees {
 
 <span id="calculated-fields"/>
 
-### Calculated Elements {#calculated-elements}
+
+### Calculated Elements
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
@@ -589,7 +595,7 @@ No restrictions apply for reading a calculated element on-write.
 
 #### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a filtered association or composition, like in this example:
+A calculated element can also define a filtered association/composition using infix filters:
 
 ```cds
 entity Employees {
@@ -601,7 +607,7 @@ entity Employees {
 For such a calculated element, no explicit type can be specified.
 Only a single association or composition can occur in the expression, and a filter must be specified.
 
-The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
+The effect essentially is like [publishing an association with an infix filter](#publish-associations-with-filter).
 
 
 ### Default Values
@@ -625,7 +631,7 @@ type Complex {
 ```
 
 
-### Type References {#typereferences}
+### Type References
 
 If you want to base an element's type on another element of the same structure, you can use the `type of` operator.
 
@@ -869,7 +875,7 @@ This example is equivalent to the [unmanaged example above](#unmanaged-associati
 key element `address_ID` being added automatically upon activation to a SQL database.
 The names of the automatically added foreign key elements cannot be changed.
 
-> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#database-constraints).
 
 If the target has a single primary key, a default value can be provided.
 This default applies to the generated foreign key element `address_ID`:
@@ -1056,7 +1062,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter {#publish-associations-with-filter}
+#### Publish Associations with Infix Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original
@@ -1382,9 +1388,10 @@ Each path in the expression is checked:
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
 * For an annotation assigned to a bound action or function, elements of the respective entity
   can be accessed via `$self`.
-* The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
-  During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
-  entities (root and sub nodes but not for named types or entity parameters).
+* The draft-specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
+  respective magic variables `$draft.IsActiveEntity`, `$draft.HasActiveEntity`, and `$draft.HasDraftEntity`.
+  During draft augmentation, `$draft.<...>` is rewritten to `$self.<...>` for all draft enabled
+  entities (root and sub nodes, but not for named types or entity parameters).
 * If a path can't be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
@@ -1670,7 +1677,7 @@ the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 ### The `annotate` Directive
 {#annotate}
 
-The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
+The `annotate` directive allows to annotate already existing definitions that may have been [imported](#model-imports) from other files or projects.
 
 ```cds
 annotate Foo with @title:'Foo';
@@ -1773,7 +1780,8 @@ extend SomeView with columns {
 }
 ```
 
-Enhancing nested structs isn't supported.
+Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
+is not accessible in such an extend. 
 
 You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 
@@ -1880,7 +1888,8 @@ entity C { /*...*/ };
 :::
 
 
-### (Auto-) Redirected Associations {#auto-redirect}
+### (Auto-) Redirected Associations
+{#auto-redirect}
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -1938,7 +1947,8 @@ service AdminService {
 
 
 
-### Auto-Exposed Entities {#auto-expose}
+### Auto-Exposed Entities
+{#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
 

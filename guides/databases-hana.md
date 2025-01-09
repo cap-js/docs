@@ -693,10 +693,14 @@ or even unnecessary drop/create of indexes. By switching them off, all this effo
 
 :::
 
+
 For new projects, `cds add hana` automatically adds this configuration.
 
-Note that the first deployment after this configuration change may take longer, as for
-each entity with associations the respective database object will be touched
+::: warning Initial full table migration
+Be aware, that the first deployment after this **configuration change may take longer**.
+
+For each entity with associations, the respective database object will be touched
 (DROP/CREATE for views, full table migration via shadow table and data copy for tables).
 This is also the reason why we haven't changed the default so far.
 Subsequent deployments will benefit, however.
+:::

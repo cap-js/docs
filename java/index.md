@@ -26,7 +26,7 @@ import { useData } from 'vitepress'
 const { theme } = useData()
 const { versions } = theme.value.capire
 
-import { data as pages } from './index.data.js'
+import { data as pages } from './index.data.ts'
 </script>
 
 <br>

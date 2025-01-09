@@ -4,7 +4,6 @@ synopsis: >
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
-<!--- Migrated: @external/java/900-Migration/0-index.md -> @external/java/migration.md -->
 
 <script setup>
   import Cds4j from './components/Cds4jLink.vue'
@@ -24,8 +23,255 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [[toc]]
 
+## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
-## CAP Java 1.34 to CAP Java 2.0 { #one-to-two}
+### Minimum Versions
+
+CAP Java 3.0 increased some minimum required versions:
+
+| Dependency | Minimum Version |
+| --- | --- |
+| Cloud SDK | 5.9.0 |
+| @sap/cds-dk | ^7 |
+| Maven | 3.6.3 |
+
+CAP Java 3.0 no longer supports @sap/cds-dk ^6.
+
+### Production Profile `cloud`
+
+The Production Profile now defaults to `cloud`. This ensures that various property defaults suited for local development are changed to recommended secure values for production.
+
+One of the effects of the production profile is that the index page is disabled by default.
+If you are using the root path `/` for a readiness or liveness probe in Kyma you will need to adjustment them. in this case the recommended approach would be to use the Spring Boot actuator's `/actuator/health` endpoint instead.
+
+[Learn more about the Production Profile.](developing-applications/configuring#production-profile){.learn-more}
+
+### Removed MTX Classic Support
+
+Support for classic MTX (@sap/cds-mtx) has been removed. Using streamlined MTX (@sap/cds-mtxs) is mandatory for multitenancy.
+If you're still using MTX Classic refer to the [multitenancy migration guide](../guides/multitenancy/old-mtx-migration).
+
+In addition, the deprecated `MtSubscriptionService` API, has been removed. It has now been superseeded by the `DeploymentService` API.
+As part of this change the compatibility mode for the `MtSubscriptionService` API has been removed. Besides the removal of the Java APIs this includes the following behavioural changes:
+
+- During unsubscribe, the tenant's content (like HDI container) is now deleted by default when using the new `DeploymentService` API.
+- The HTTP-based tenant upgrade APIs provided by the CAP Java app have been removed, use the [`Deploy` main method](/java/multitenancy#deploy-main-method) instead. This includes the following endpoints:
+  - `/mt/v1.0/subscriptions/deploy/**` (GET & POST)
+  - `/messaging/v1.0/em/<tenant>` (PUT)
+
+### Removed feature `cds-feature-xsuaa`
+
+The feature `cds-feature-xsuaa` has been removed. Support for XSUAA and IAS has been unified under the umbrella of `cds-feature-identity`.
+
+It utilizes [SAP´s `spring-security` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) instead of the deprecated [`spring-xsuaa` library](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-xsuaa).
+
+If your application relies on the standard security configuration by CAP Java and depend on one of the CAP starter bundles, it is expected that you won't need to adapt code.
+
+If you have customized the security configuration, you need to adapt it to the new library. If your application had a direct dependency to `cds-feature-xsuaa`, we recommend using one of our starter bundles `cds-starter-cloudfoundry` or `cds-starter-k8s`.
+
+Though CAP does not support multiple XSUAA bindings, it was possible in previous versions to extend the standard security configuration to work with multiple bindings. If you require this, you need to set `cds.security.xsuaa.allowMultipleBinding` to `true` so that all XSUAA bindings are available in custom spring auto-configurations. Note: CAP Java still does not process multiple bindings and requires a dedicated spring configuration. In general, applications should refrain from configuring several XSUAA bindings.
+
+[Learn more about the security configuration.](./security#xsuaa-ias){.learn-more}
+[Learn more about migration to SAP´s `spring-security` library.](https://github.com/SAP/cloud-security-services-integration-library/blob/main/spring-security/Migration_SpringXsuaaProjects.md)
+
+### Proof-Of-Possession enforced for IAS-based authentication
+
+In IAS scenarios, the [Proof-Of-Possession](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation) is now enforced by default for incoming requests for versions starting from `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security).
+
+Because of this, applications calling a CAP Java application will need to send a valid client certificate in addition to the JWT token. In particular, applications using an Approuter have to set `forwardAuthCertificates: true` on the Approuter destination pointing to your CAP backend.
+
+[Learn more about Proof-Of-Possession.](./security.md#proof-of-possession){.learn-more}
+
+### Lazy Localization by default
+
+EDMX resources served by the OData V4 `/$metadata` endpoints are now localized lazily by default.
+This significantly reduces EDMX cache memory consumption when many languages are used.
+Note, that this requires at least `@sap/cds-mtxs` in version `1.12.0`.
+
+The cds build no longer generates localized EDMX files by default anymore, but instead generates templated EDMX files and a `i18n.json` containing text bundles.
+If you need localized EDMX files to be generated, set `--opts contentLocalizedEdmx=true` when calling `cds build`.
+
+### Star-expand and inline-all are no longer permitted
+
+Previously, you could not use expand or inline without explicit paths on draft-enabled entities. Now they are rejected for all entities on application service level.
+
+For example, following statement will not be executed when submitted to an instance of [`ApplicationService`](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/cds/ApplicationService.html).
+
+```java
+Select.from(BOOKS).columns(b -> b.expand());
+```
+
+This does not impact OData where `expand=*` is transformed into expands for all associations.
+
+### Adjusted POJO class generation
+
+Some parameter defaults of the goal `generate` have been adjusted:
+
+| Parameter | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `sharedInterfaces` | `false` | `true` | Interfaces for global arrayed types with inline anonymous type are now generated exactly once. `sharedInterfaces` ensures such types are not generated as inline interfaces again, if used in events, actions or functions. |
+| `uniqueEventContexts` | `false` | `true` | Determines whether the event context interfaces should be unique for bound actions and functions, by prefixing the interfaces with the entity name. |
+
+Both these changes result in the generation of incompatible POJOs. To get the former POJOs, the new defaults can be overwritten by setting the parameters to the old values.
+
+Consider the following example:
+
+```cds
+service MyService {
+  entity MyEntity {
+	key ID: UUID
+  } actions {
+	// bound action
+	action doSomething(values: MyArray);
+  }
+}
+
+// global arrayed type
+type MyArray: many {
+	value: String;
+}
+```
+
+With the new defaults the generated interface for the `doSomething` action looks like this:
+
+```java
+// uniqueEventContexts: true =>
+// interface is prefixed with entity name "MyEntity"
+public interface MyEntityDoSomethingContext extends EventContext {
+
+  // sharedInterfaces: true => global MyArray type is used
+  Collection<MyArray.Item> getValues();
+  void setValues(Collection<MyArray.Item> values);
+
+}
+```
+
+Formerly the generated interface looked like this:
+
+```java
+// uniqueEventContexts: false =>
+// interface is not prefixed with entity name
+public interface DoSomethingContext extends EventContext {
+
+  // sharedInterfaces: false => global MyArray type is not used,
+  // instead an additional interface Values is generated inline
+  Collection<Values> getValues();
+  void setValues(Collection<Values> values);
+
+  interface Values extends CdsData {
+    // ...
+  }
+}
+```
+
+### Adjusted Property Defaults
+
+Some property defaults have been adjusted:
+
+| Property | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+| `cds.remote.services.<key>.http.csrf.enabled` | `true` | `false` | Most APIs don't require CSRF tokens. |
+| `cds.sql.hana.optimizationMode` | `legacy` | `hex` | SQL for SAP HANA is optimized for the HEX engine. |
+| `cds.odataV4.lazyI18n.enabled` | `null` | `true` | Lazy localization is now enabled by default in multitenant scenarios. |
+| `cds.auditLog.personalData.`<br>`throwOnMissingDataSubject` | `false` | `true` | Raise errors for incomplete personal data annotations by default. |
+| `cds.messaging.services.<key>.structured` | `false` | `true` | [Enhanced message representation](./messaging.md#enhanced-messages-representation) is now enabled by default. |
+
+### Adjusted Property Behavior
+
+| Property | New Behavior |
+| --- | --- |
+| `cds.outbox.persistent.enabled` | When set to `false`, all persistent outboxes are disabled regardless of their specific configuration. |
+
+### Removed Properties
+
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement / Explanation |
+| --- | --- |
+| `cds.auditlog.outbox.persistent.enabled` | `cds.auditlog.outbox.name` |
+| `cds.dataSource.csvFileSuffix` | `cds.dataSource.csv.fileSuffix` |
+| `cds.dataSource.csvInitializationMode` | `cds.dataSource.csv.initializationMode` |
+| `cds.dataSource.csvPaths` | `cds.dataSource.csv.paths` |
+| `cds.dataSource.csvSingleChangeset` | `cds.dataSource.csv.singleChangeset` |
+| `cds.security.identity.authConfig.enabled` | `cds.security.authentication.`<br>`authConfig.enabled` |
+| `cds.security.xsuaa.authConfig.enabled` | `cds.security.authentication.`<br>`authConfig.enabled` |
+| `cds.security.mock.users.<key>.unrestricted` | Special handling of unrestricted attributes has been removed, in favor of [explicit modelling](../guides/security/authorization#unrestricted-xsuaa-attributes). |
+| `cds.messaging.services.<key>.outbox.persistent.enabled` | `cds.messaging.services.<key>.outbox.name` |
+| `cds.multiTenancy.compatibility.enabled` | MtSubscriptionService API [has been removed](#removed-mtx-classic-support) and compatibility mode is no longer available. |
+| `cds.multiTenancy.healthCheck.intervalMillis` | `cds.multiTenancy.healthCheck.interval` |
+| `cds.multiTenancy.mtxs.enabled` | MTXS is enabled [by default](#removed-mtx-classic-support). |
+| `cds.multiTenancy.security.deploymentScope` | HTTP-based tenant upgrade endpoints [have been removed](#removed-mtx-classic-support). |
+| `cds.odataV4.apply.inCqn.enabled` | `cds.odataV4.apply.transformations.enabled` |
+| `cds.odataV4.serializer.enabled` | The legacy serializer has been removed. |
+| `cds.outbox.persistent.maxAttempts` | `cds.outbox.services.<key>.maxAttempts` |
+| `cds.outbox.persistent.storeLastError` | `cds.outbox.services.<key>.storeLastError` |
+| `cds.outbox.persistent.ordered` | `cds.outbox.services.<key>.ordered` |
+| `cds.remote.services.<key>.destination.headers` | `cds.remote.services.<key>.http.headers` |
+| `cds.remote.services.<key>.destination.queries` | `cds.remote.services.<key>.http.queries` |
+| `cds.remote.services.<key>.destination.service` | `cds.remote.services.<key>.http.service` |
+| `cds.remote.services.<key>.destination.suffix` | `cds.remote.services.<key>.http.suffix` |
+| `cds.remote.services.<key>.destination.type` | `cds.remote.services.<key>.type` |
+| `cds.sql.search.useLocalizedView` | `cds.sql.search.model` |
+| `cds.sql.supportedLocales` | All locales are supported by default for localized entities, as session variables can now be leveraged on all databases. |
+
+### Deprecated Session Context Variables
+
+| Old Variable | Replacement |
+| --- | --- |
+| `$user.tenant` | `$tenant` |
+| `$at.from` | `$valid.from` |
+| `$at.to` | `$valid.to` |
+
+### Removed Java APIs
+
+- Removed deprecated classes:
+  - `com.sap.cds.services.environment.ServiceBinding`
+  - `com.sap.cds.services.environment.ServiceBindingAdapter`
+  - `com.sap.cds.services.mt.MtAsyncDeployEventContext`
+  - `com.sap.cds.services.mt.MtAsyncDeployStatusEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncSubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeEventContext`
+  - `com.sap.cds.services.mt.MtAsyncUnsubscribeFinishedEventContext`
+  - `com.sap.cds.services.mt.MtDeployEventContext`
+  - `com.sap.cds.services.mt.MtGetDependenciesEventContext`
+  - `com.sap.cds.services.mt.MtSubscribeEventContext`
+  - `com.sap.cds.services.mt.MtSubscriptionService`
+  - `com.sap.cds.services.mt.MtUnsubscribeEventContext`
+
+- Removed deprecated methods:
+  - `com.sap.cds.services.request.ModifiableUserInfo.addUnrestrictedAttribute`
+  - `com.sap.cds.services.request.ModifiableUserInfo.setUnrestrictedAttributes`
+  - `com.sap.cds.services.request.ModifiableUserInfo.removeUnrestrictedAttribute`
+  - `com.sap.cds.services.request.UserInfo.getUnrestrictedAttributes`
+  - `com.sap.cds.services.request.UserInfo.isUnrestrictedAttribute`
+  - `com.sap.cds.ql.Insert.cqn(String)`
+  - `com.sap.cds.ql.Update.cqn(String)`
+  - `com.sap.cds.ql.Upsert.cqn(String)`
+
+- Deprecations:
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`, instead use `CqnSearchTermPredicate`
+  - `com.sap.cds.ql.cqn.Modifier.search(String)`, instead use `searchTerm(CqnSearchTermPredicate)`
+  - `com.sap.cds.services.messaging.MessageService.emit(String, String)` instead use `emit(String, Map)` or `emit(String, Map, Map)`
+
+### Removed goals in `cds-maven-plugin`
+
+The goal `addSample` from the `cds-maven-plugin` has been removed. Use the new goal `add` with the property `-Dfeature=TINY_SAMPLE` instead.
+
+## Cloud SDK 4 to 5 { #cloudsdk5 }
+
+CAP Java `2.6.0` and higher is compatible with Cloud SDK in version 4 and 5. For reasons of backward compatibility, CAP Java assumes Cloud SDK 4 as the default. However, we highly recommend that you use at least version `5.9.0` of Cloud SDK. If you relied on the Cloud SDK integration package (`cds-integration-cloud-sdk`), you won't need to adapt any code to upgrade your CAP Java application to Cloud SDK 5. In these cases, it's sufficient to add the following maven dependency to your CAP Java application:
+
+```xml
+<dependency>
+	<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
+	<artifactId>connectivity-apache-httpclient4</artifactId>
+</dependency>
+```
+
+If you are using Cloud SDK APIs explicitly in your code consider the migration guide for Cloud SDK 5 itself: https://sap.github.io/cloud-sdk/docs/java/guides/5.0-upgrade-steps
+
+## CAP Java 1.34 to CAP Java 2.0 { #one-to-two }
 
 This section describes the changes in CAP Java between the major versions 1.34 and 2.0. It provides also helpful information how to migrate a CAP Java application to the new major version 2.0.
 
@@ -63,7 +309,7 @@ Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring S
 
 Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
 
-CAP Java 2.0 itself requires updated [dependency versions](./development/#dependencies-version-2) of:
+CAP Java 2.0 itself requires updated [dependency versions](./versions#dependencies-version-2) of:
 - `@sap/cds-dk`
 - `@sap/cds-compiler`
 - XSUAA library
@@ -111,7 +357,7 @@ The interfaces <Cds4j link="ql/cqn/CqnLimit.html">CqnLimit</Cds4j> and <Cds4j li
 #### Statement Modification {#modification}
 
 ##### Removal of Deprecated CqnModifier
-The deprecated <Cds4j link="ql/cqn/CqnModifier.html">CqnModifier</Cds4j>, whose default methods make expensive copies of literal values, is removed. Instead, use the <Cds4j latest link="ql/cqn/Modifier.html">Modifier</Cds4j> as documented in [Modifying CQL Statements](query-api#copying-modifying-cql-statements).
+The deprecated <Cds4j link="ql/cqn/CqnModifier.html">CqnModifier</Cds4j>, whose default methods make expensive copies of literal values, is removed. Instead, use the <Cds4j latest link="ql/cqn/Modifier.html">Modifier</Cds4j> as documented in [Modifying CQL Statements](working-with-cql/query-api#copying-modifying-cql-statements).
 
 If your modifier overrides one or more of the `CqnModifier:literal` methods that take `value` and `cdsType` as arguments, override `Modifier:literal(CqnLiteral<?> literal)` instead. You can create new values using `CQL.val(value).type(cdsType);`.
 
@@ -133,7 +379,7 @@ Modifier modifier = new Modifier() {
 		segments.add(0, CQL.refSegment(segments.get(0).id(), filter));
 		return CQL.get(segments).as(alias);
 	}
-}
+};
 CqnStatement copy = CQL.copy(statement, modifier);
 ```
 
@@ -298,13 +544,13 @@ Some CdsProperties were already marked as deprected in CAP Java 1.x and are now 
 
 ### Removed Annotations Overview
 
-- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#using-cds-search-annotation).
+- `@search.cascade` is no longer supported. It's replaced by [@cds.search](../guides/providing-services#cds-search).
 
 ### Changed Behavior
 
 #### Immutable Values
 
-The implementations of `Value` are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
+The implementations of `Value` are now immutable. This change makes [copying & modifying CQL statements](./working-with-cql/query-api#copying-modifying-cql-statements) cheaper, which significantly improves the performance.
 
 Changing the type of a value via `Value::type` now returns a new (immutable) value or throws an exception if the type change is not supported:
 
@@ -317,7 +563,7 @@ Value<String>   string = number.type(CdsBaseType.STRING); // number is unchanged
 
 In CDS QL, a [reference](../cds/cxn#references) (_ref_) identifies an entity set or element of a structured type. References can have multiple segments and ref segments can have filter conditions.
 
-The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This change makes [copying & modifying CQL statements](./query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
+The default implementations of references (`ElementRef` and `StructuredTypeRef`), as well as ref segments (`RefSegment`) are now immutable. This change makes [copying & modifying CQL statements](./working-with-cql/query-api#copying-modifying-cql-statements) much cheaper, which significantly improves the performance.
 
 ##### - Set alias or type
 
@@ -347,7 +593,7 @@ With CAP Java 2.0, `null` values are not removed from the result of CDS QL queri
 
 #### Result of Updates Without Matching Entity
 
-The `Result` rows of CDS QL Updates are not cleared anymore if no entity was updated. To find out if the entity has been updated, check the [update count](./query-api#update):
+The `Result` rows of CDS QL Updates are not cleared anymore if no entity was updated. To find out if the entity has been updated, check the [update count](./working-with-cql/query-api#update):
 
 ```Java
 CqnUpdate update = Update.entity(BOOKS).entry(book); // w/ book: {ID: 0, stock: 3}
@@ -356,7 +602,7 @@ Result result = service.run(update);
 long updateCount = result.rowCount(); // 0 matches with ID 0
 ```
 
-For batch updates use `Result::rowCount` with the [batch index](./query-execution#batch-execution):
+For batch updates use `Result::rowCount` with the [batch index](./working-with-cql/query-execution#batch-execution):
 
 ```Java
 // books: [{ID: 251, stock: 11}, {ID: 252, stock: 7}, {ID: 0, stock: 3}]
@@ -427,7 +673,7 @@ We strongly recommend adopting the new CAP Java SDK when starting a new project.
 
 ### OData Protocol Version
 
-The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](architecture#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
+The classic CAP Java Runtime came in several different flavors supporting either the OData V2 or V4 protocols. The new CAP Java SDK streamlines this by providing a common [protocol adapter layer](./developing-applications/building#protocol-adapters), which enables to handle any OData protocol version or even different protocols with *one* application backend. Hence, if you decide to change the protocol that exposes your domain model, you no longer have to change your business logic.
 
 ::: tip
 By default, the CAP Java Runtime comes with protocol adapters for OData V4 and [OData V2 (Beta)](#v2adapter). Therefore, you can migrate your frontend code to new CAP Java SDK without change. In addition, you have the option to move from SAP Fiori Elements V2 to SAP Fiori Elements V4 at any time.
@@ -597,6 +843,7 @@ The subfolder structure reflects the Java package names of your Java classes.
 
 Annotate all of your event handler classes with the following annotations and ensure a unique service name:
 
+<!-- java-mode: ignore, no annotation target -->
 ```java
 @org.springframework.stereotype.Component
 @com.sap.cds.services.handler.annotations.ServiceName("serviceName")
@@ -616,7 +863,7 @@ import com.sap.cds.services.handler.annotations.ServiceName;
 @Component
 @ServiceName("AdminService")
 public class AdminServiceHandler implements EventHandler {
-
+  // ...
 }
 ```
 
@@ -641,7 +888,7 @@ The new CAP Java SDK introduces new annotations for event handlers. Replace even
 | `@AfterDelete(entity = "yourEntityName")` | `@After(event = CqnService.EVENT_DELETE, entity = "yourEntityName")` |
 
 ::: tip
-The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](query-introspection#using-the-iterator) in custom code.
+The `sourceEntity` annotation field doesn't exist in the new CAP Java SDK. In case your event handler should only be called for specific source entities you need to achieve this by [analyzing the CQN](./working-with-cql/query-introspection#using-the-iterator) in custom code.
 :::
 
 ##### Event Handler Signatures
@@ -667,7 +914,7 @@ You can also get your entities injected by adding an additional argument with on
 - `java.util.stream.Stream<yourEntityType>`
 - `java.util.List<yourEntityType>`
 
-[See section **Event Handler Method Signatures** for more details.](provisioning-api#handlersignature){.learn-more}
+[See section **Event Handler Method Signatures** for more details.](event-handlers/#handlersignature){.learn-more}
 
 Also replace the classic handler return types with the corresponding new implementation:
 
@@ -687,21 +934,21 @@ Don't copy any of the following files to the new project:
 
 ```txt
 <PROJECT-ROOT>/
-|-- db/
-|   |-- .build.js
-|   `-- package.json
-`-- srv/src/main/
-            |-- resources/
-            |    |-- application.properties
-            |    `-- connection.properties
-            `-- webapp/
-                 |-- META-INF/
-                 |   |-- sap_java_buildpack/config/resources_configuration.xml
-                 |   `-- context.xml
-                 `-- WEB-INF/
-                     |-- resources.xml
-                     |-- spring-security.xml
-                     `-- web.xml
+├─ db/
+│  ├─ .build.js
+│  └─ package.json
+└─ srv/src/main/
+           ├─ resources/
+           │  ├─ application.properties
+           │  └─ connection.properties
+           └─ webapp/
+              ├─ META-INF/
+              │  ├─ sap_java_buildpack/config/resources_configuration.xml
+              │  └─ context.xml
+              └─ WEB-INF/
+                 ├─ resources.xml
+                 ├─ spring-security.xml
+                 └─ web.xml
 ```
 
 
@@ -717,7 +964,7 @@ The method annotated with `@EndTransaction` was invoked after all the operations
 
 The new CAP Java SDK doesn't support these annotations anymore. Instead, it supports registering a `ChangeSetListener` at the `ChangeSetContext` supporting hooks for `beforeClose` and `afterClose`.
 
-[See section **Reacting on ChangeSets** for more details.](changeset-contexts#reacting-on-changesets){.learn-more}
+[See section **Reacting on ChangeSets** for more details.](./event-handlers/changeset-contexts#reacting-on-changesets){.learn-more}
 
 To replace the `@InitTransaction` handler, you can use the `beforeClose` method, instead. This method is called at the end of the transaction and can be used, for example, to validate incoming data across multiple requests in an OData batch *before* the transaction is committed. It's possible to cancel the transaction in this phase by throwing an `ServiceException`.
 
@@ -725,15 +972,14 @@ The CAP Java SDK sample application shows how such a validation using the `Chang
 
 Note that to validate incoming data for *single* requests, we recommend to use a simple `@Before` handler, instead.
 
-[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](provisioning-api#before){.learn-more}
+[See section **Introduction to Event Handlers** for a detailed description about `Before` handler.](event-handlers/#before){.learn-more}
 
 
-<!--- Migrated: @external/java/900-Migration/04-security.md -> @external/java/migration/security.md -->
 ### Security Settings
 
 For applications based on Spring Boot, the new CAP Java SDK simplifies configuring *authentication* significantly: Using the classic CAP Java Runtime, you had to configure authentication for all application endpoints (including the endpoints exposed by your CDS model) explicitly. The new CAP Java SDK configures authentication for all exposed endpoints automatically, based on the security declarations in your CDS model.
 
-*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/authorization). Making use of the declarative approach in the CDS model is highly recommended.
+*Authorization* can be accomplished in both runtimes with CDS model annotations  `@requires` and `@restrict` as described in section [Authorization and Access Control](../guides/security/authorization). Making use of the declarative approach in the CDS model is highly recommended.
 
 In addition, the new CAP Java SDK enables using additional authentication methods. For instance, you can use basic authentication for mock users, which are useful for local development and testing. See section [Mock Users](./security#mock-users) for more details.
 
@@ -820,7 +1066,6 @@ With the help of these interfaces, the classic enforcement API can be mapped to 
 <span id="moreenforcement" />
 
 
-<!--- Migrated: @external/java/900-Migration/05-database.md -> @external/java/migration/database.md -->
 ### Data Access and Manipulation
 
 There are several ways of accessing data. The first and most secure way is to use the Application Service through an `CqnService` instance. The second is to use `PersistenceService`, in that case the query execution is done directly against underlying datasource, bypassing all authority checks available on service layer. The third one is to use CDS4J component called `CdsDataStore`, which also executes queries directly.
@@ -835,7 +1080,7 @@ To access an Application Service in custom handler and to execute queries, perfo
 	@Resource(name = "CatalogService")
 	private CqnService catalogService;
 ```
-[See section **Services Accepting CQN Queries** for more details.](consumption-api#cdsservices){.learn-more}
+[See section **Services Accepting CQN Queries** for more details.](cqn-services/#cdsservices){.learn-more}
 
 2) In each custom handler, replace instance of `DataSourceHandler` as well as `CDSDataSourceHandler` with the `CqnService` instance.
 
@@ -844,11 +1089,13 @@ To access an Application Service in custom handler and to execute queries, perfo
 Example of query execution in *Classic Java Runtime*:
 
 ```java
-CDSDataSourceHandler cdsHandler = DataSourceHandlerFactory.getInstance().getCDSHandler(getConnection(), queryRequest.getEntityMetadata().getNamespace());
+CDSDataSourceHandler cdsHandler = DataSourceHandlerFactory
+    .getInstance()
+    .getCDSHandler(getConnection(), queryRequest.getEntityMetadata().getNamespace());
 
 CDSQuery cdsQuery = new CDSSelectQueryBuilder("CatalogService.Books")
 	.selectColumns("id", "title")
-	.where(new ConditionBuilder().columnName("title").IN("Spring", Java"))
+	.where(new ConditionBuilder().columnName("title").IN("Spring", "Java"))
 	.orderBy("title", true)
 	.build();
 
@@ -869,7 +1116,7 @@ Select query =  Select.from("CatalogService.Books")
 catalogService.run(query);
 ```
 
-[See section **Query Builder API** for more details.](./query-api){.learn-more}
+[See section **Query Builder API** for more details.](./working-with-cql/query-api){.learn-more}
 
 4) Rewrite and execute the CRUD operations (if any).
 
@@ -882,7 +1129,7 @@ catalogService.run(query);
 
 As you can see in *New CAP Java SDK* it's possible to either directly execute a CQN of the event, or you can construct and execute your own custom query.
 
-[See section **Query Builder API** for more details.](./query-api){.learn-more}
+[See section **Query Builder API** for more details.](./working-with-cql/query-api){.learn-more}
 
 #### Accessing `PersistenceService`
 
@@ -893,7 +1140,7 @@ If for any reason you decided to use `PersistenceService` instead of `CqnService
 private PersistenceService persistence;
 ```
 
-[See section **Persistence API** for more details.](./consumption-api#persistenceservice){.learn-more}
+[See section **Persistence API** for more details.](./cqn-services/#persistenceservice){.learn-more}
 
 Example of Query execution in *Classic Java Runtime*:
 
@@ -902,7 +1149,7 @@ CDSDataSourceHandler cdsHandler = ...;
 
 CDSQuery cdsQuery = new CDSSelectQueryBuilder("CatalogService.Books")
 	.selectColumns("id", "title")
-	.where(new ConditionBuilder().columnName("title").IN("Spring", Java"))
+	.where(new ConditionBuilder().columnName("title").IN("Spring", "Java"))
 	.orderBy("title", true)
 	.build();
 
@@ -982,7 +1229,7 @@ To be able to migrate the backend from the *Classic Java Runtime* without making
 
 	```json
 	{
-		[...]
+		...
 		"odata": {
 			"version": "v2"
 		}
@@ -1014,6 +1261,12 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	```
 
 	This command picks up all service definitions in the Java project base directory (`srv` by default) and generates EDMX for OData V2. It also localizes the generated EDMX files with all available translations. For more information on the previous command, call `cds help compile` on the command line. If your service definitions are located in a different directory, adopt the previous command. If your service definitions are contained in multiple directories, add the previous command for each directory separately. Make sure to use at least `cds-dk 3.2.0` for this step.
+If you are using feature toggles in your CAP Java project, the list of models must also contain the features' root folder:
+
+	```xml
+	<command>compile ${project.basedir} ${session.executionRootDirectory}/fts/* -s all -l all -2 edmx-v2 -o ${project.basedir}/src/main/resources/edmx/v2</command>
+	```
+	This command includes the folder _/fts_ and all sub-folders into the CDS model.
 
 3. Make sure that the dependencies to the OData V2 and V4 adapters are present in your *pom.xml* file:
 
@@ -1036,7 +1289,7 @@ You can also use OData V2 and V4 in parallel. However, by default the Maven buil
 	</dependency>
 	```
 
-4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./application-services#serve-configuration) for more details.
+4. Optionally it's possible to configure different serve paths for the application services for different protocols. See [Serve configuration](./cqn-services/application-services#serve-configuration) for more details.
 
 After rebuilding and restarting your application, your Application Services are exposed as OData V2 and OData V4 in parallel. This way, you can migrate your frontend code iteratively to OData V4.
 

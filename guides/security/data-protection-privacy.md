@@ -1,7 +1,6 @@
 ---
 synopsis: >
   This section describes how you can make your CAP application compliant with data protection and privacy requirements.
-redirect_from: security/data-protection-privacy
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
@@ -9,6 +8,9 @@ uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/
 # Data Protection & Privacy
 
 {{ $frontmatter.synopsis }}
+
+[[toc]]
+
 
 ## General Statement { #dpp-statement }
 
@@ -34,7 +36,7 @@ Connect an adequate logging service to meet compliance requirements such as [SAP
 - Messages temporarily written to transaction outbox might contain personal data. The entries are mandatory to operate the system.
 If necessary, applications can process these messages by standard CAP functionality (CDS model `@sap/cds/srv/outbox`).
 
-- Be aware that personal data might be added automatically when using the [managed](../providing-services#managed-data) aspect.
+- Be aware that personal data might be added automatically when using the [managed](../domain-modeling#managed-data) aspect.
 
 Dependent on the business scenario, custom CDS models served by CAP runtime will most likely contain personal data that is also stored in a backing service.
 

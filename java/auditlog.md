@@ -51,7 +51,7 @@ Alternatively the AuditLog service can be retrieved from the `ServiceCatalog`:
 ServiceCatalog catalog = context.getServiceCatalog();
 auditLogService = (AuditLogService) catalog.getService(AuditLogService.DEFAULT_NAME);
 ```
-[See section **Using Services** for more details about retrieving services.](./consumption-api#using-services){.learn-more}
+[See section **Using Services** for more details about retrieving services.](./services#using-services){.learn-more}
 
 
 #### Emit Personal Data Access Event { #data-access}
@@ -102,7 +102,7 @@ auditLogService.logSecurityEvent(action, data);
 
 ### Deferred AuditLog Events { #deferred}
 
-Instead of processing the audit log events synchronously in the [audit log handler](#auditlog-handlers), the `AuditLogService` can store the event in the [outbox](./outbox). This is done in the *same* transaction of the business request. Hence, a cancelled business transaction will not send any audit log events that are bound to it. To gain fine-grained control, for example to isolate a specific event from the current transaction, you may refine the transaction scope. See [ChangeSetContext API](./changeset-contexts#defining-changeset-contexts) for more information.
+Instead of processing the audit log events synchronously in the [audit log handler](#auditlog-handlers), the `AuditLogService` can store the event in the [outbox](./outbox). This is done in the *same* transaction of the business request. Hence, a cancelled business transaction will not send any audit log events that are bound to it. To gain fine-grained control, for example to isolate a specific event from the current transaction, you may refine the transaction scope. See [ChangeSetContext API](./event-handlers/changeset-contexts#defining-changeset-contexts) for more information.
 
 As the stored events are processed asynchronously, the business request is also decoupled from the audit log handler which typically sends the events synchronously to a central audit log service. This improves resilience and performance.
 
@@ -115,26 +115,58 @@ By default, not all events are send asynchronously via (persistent) outbox.
 * All other events are stored to persistent outbox, if available. The in-memory outbox acts as a fallback otherwise.
 
 
-::: warning _❗ Warning_
-* It is up to the application developer to make sure that audit log events stored in the persistent outbox don't violate given **compliances rules**.
-For instance, it might be appropriate not to persist audit log events triggered by users who have operator privileges. Such logs could be modified on DB level by the same user afterwards.
+::: warning _❗ Compliance & Data Privacy_
+* It is up to the application developer to make sure that audit log events stored in the persistent outbox don't violate given **compliance rules**.
+  For instance, it might be appropriate not to persist audit log events triggered by users who have operator privileges. Such logs could be modified on DB level by the same user afterward.
 * For technical reasons, the AuditLog service temporarily stores audit log events enhanced with personal data such as the request's _user_ and _tenant_.
-In case of persistent outbox, the application needs to do the necessary to comply with **data privacy rules**.
+  In case of persistent outbox, this needs to be handled individually by the application to comply with **data privacy rules**.
 :::
 
 ## AuditLog Handlers { #auditlog-handlers}
 
 ### Default Handler
 
-By default, the CAP Java SDK provides an AuditLog handler that writes the AuditLog messages to the application log. This default handler is registered on all AuditLog events, but the log entries are not written to the application log, as the corresponding log level is `DEBUG`. To enable audit logging to the application log, the log level of the default handler needs to be set to `DEBUG` level:
+By default, the CAP Java SDK provides an AuditLog handler that writes the AuditLog messages to the application log.
+This default handler is registered on all AuditLog events and writes `DEBUG` log entries.
+However, the application log does not log `DEBUG` entries by default.
+To enable audit logging to the application log, the log level of the default handler needs to be set to `DEBUG` level:
 
-```yaml
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
 logging:
   level:
     com.sap.cds.auditlog: DEBUG
 ```
+:::
 
-<div id="handler-v2"/>
+### AuditLog v2 Handler { #handler-v2}
+
+Additionally, the CAP Java SDK provides an _AuditLog v2_ handler that writes the audit messages to the SAP Audit Log service via its API version 2. To enable this handler, an additional feature dependency must be added to the `srv/pom.xml` of the CAP Java project:
+
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-auditlog-v2</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+Also a service binding to the AuditLog v2 service has to be added to the CAP Java application, then this handler is activated. The Auditlog v2 handler supports the `premium` plan of the AuditLog Service as described [here](https://help.sap.com/docs/btp/sap-business-technology-platform/audit-log-write-api-for-customers?#prerequisites-for-using-the-audit-log-write-api-for-customers).
+
+<div id="handler-service-plans"/>
+
+If it's required to disable the AuditLog v2 handler for some reason, this can be achieved by setting the CDS property [`cds.auditLog.v2.enabled`](../java/developing-applications/properties#cds-auditLog-v2-enabled) to `false` in _application.yaml_:
+
+::: code-group
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  auditlog.v2.enabled: false
+```
+:::
+
+The default value of this parameter is `true` and the AuditLog v2 handler is automatically enabled, if all other requirements are fulfilled.
+
+<div id="handler-mt-v2"/>
 
 ### Custom AuditLog Handler
 
@@ -186,5 +218,5 @@ class CustomAuditLogHandler implements EventHandler {
 }
 ```
 
-[Learn more about implementing an event handler in **Event Handler Classes**.](./provisioning-api#handlerclasses){.learn-more}
+[Learn more about implementing an event handler in **Event Handler Classes**.](./event-handlers/#handlerclasses){.learn-more}
 

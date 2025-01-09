@@ -1,15 +1,15 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
-<!--- Migrated: @external/node.js/Messaging/0-index.md -> @external/node.js/messaging.md -->
 
 # Messaging
 
 {{$frontmatter?.synopsis}}
+
+[[toc]]
 
 <!--- % include links-for-node.md %} -->
 <!--- % include _chapters toc="2,3" %} -->
@@ -93,7 +93,7 @@ Example:
 
 ```cds
 service OwnService {
-    @topic: 'my.custom/topic'
+    @topic: 'my.custom.topic'
     event OwnEvent { ID: UUID; name: String; }
 }
 ```
@@ -127,7 +127,7 @@ this.after(['CREATE', 'UPDATE', 'DELETE'], 'Reviews', async (_, req) => {
 ```
 ::: tip
 The messages are sent once the transaction is successful.
-Per default, an in-memory outbox is used.See [Messaging - Outbox](#transactional-outbox) for more information.
+Per default, a persistent outbox is used. See [Messaging - Outbox](./outbox) for more information.
 :::
 
 ## Receiving Events
@@ -156,6 +156,9 @@ If you want to receive all messages without creating topic subscriptions, you ca
 messaging.on('*', async msg => { /*...*/ })
 ```
 
+::: tip
+In general, messages do not contain user information but operate with a technical user. As a consequence, the user of the message processing context (`cds.context.user`) is set to [`cds.User.privileged`](/node.js/authentication#privileged-user) and, hence, any necessary authorization checks must be done in custom handlers.
+:::
 
 ## CloudEvents Protocol
 
@@ -248,7 +251,7 @@ To safely send and receive messages between applications, you need a message bro
 
 In CDS, you can configure one of the available broker services in your [`requires` section](cds-connect#cds-env-requires).
 
-According to our [grow as you go principle](../get-started/grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
+According to our [grow as you go principle](../about/#grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
 
 ### Configuring Message Brokers
 
@@ -270,7 +273,7 @@ If you register at least one handler, a queue will automatically be created if n
 
 You have the following configuration options:
 
-- `queue`: An object containing the `name` property as the name of your queue, additional properties are described in section [QueueP](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep).
+- `queue`: An object containing the `name` property as the name of your queue, additional properties are described [in the SAP Business Accelerator Hub](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue).
 - `amqp`: AQMP client options as described in the [`@sap/xb-msg-amqp-v100` documentation](https://www.npmjs.com/package/@sap/xb-msg-amqp-v100?activeTab=readme)
 
 If the queue name isn't specified, it's derived from `application_name` and the first four characters of `application_id` of your `VCAP_APPLICATION` environmental variable, as well as the `namespace` property of your SAP Event Mesh binding in `VCAP_SERVICES`: `{namespace}/{application_name}/{truncated_application_id}`.
@@ -301,7 +304,7 @@ When using `enterprise-messaging-shared` in a multitenant scenario, only the pro
 :::
 
 ::: tip
-You need to install the latest version of the NPM package `@sap/xb-msg-amqp-v100`.
+You need to install the latest version of the npm package `@sap/xb-msg-amqp-v100`.
 :::
 
 ::: tip
@@ -360,9 +363,8 @@ Example:
 <!-- ``` -->
 If your server is authenticated using [XSUAA](authentication#jwt), you need to grant the scope `$XSAPPNAME.emcallback` to SAP Event Mesh for it to be able to trigger the handshake and send messages.
 
-In _xs-security.json_:
-
-```js
+::: code-group
+```js [xs-security.json]
 {
   ...,
   "scopes": [
@@ -377,6 +379,7 @@ In _xs-security.json_:
   ]
 }
 ```
+:::
 
 Make sure to add this to the service descriptor of your SAP Event Mesh instance:
 
@@ -398,9 +401,116 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
+### SAP Cloud Application Event Hub <Beta/> { #event-broker }
+
+`kind`: `event-broker`
+
+Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).
+
+The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
+Hence, you first need to install the plugin:
+
+```bash
+npm add @cap-js/event-broker
+```
+
+Then, set the `kind` of your messaging service to `event-broker`:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "kind": "event-broker"
+    }
+  }
+}
+```
+
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
+
+Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
+If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
+
+```jsonc
+"cds": {
+  "requires": {
+    "ias": { // any name
+      "vcap": {
+        "label": "identity"
+      }
+    }
+  }
+}
+```
+
+#### Deployment
+
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication.
+Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
+Here's an example configuration based on the _mta.yaml_ file of the [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker) application, bringing it all together:
+
+::: code-group
+```yaml [mta.yaml]
+ID: cap.incidents
+
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in webhookUrl and home-url below
+    requires:
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+    requires:
+      - name: incidents-srv-api
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: incidents-srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+       	xsuaa-cross-consumption: true #> if token exchange from IAS token to XSUAA token is needed
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+```
+:::
+
+
+<div id="aftereventbroker" />
+
 <div id="queuing-sap" />
 
-### Redis PubSub (beta)
+<div id="kafka-sap" />
+
+### Redis PubSub <Beta />
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
 :::
@@ -412,8 +522,13 @@ Use [Redis PubSub](https://redis.io/) as a message broker.
 There are no queues:
 - Messages are lost when consumers are not available.
 - All instances receive the messages independently.
+
+::: warning No tenant isolation in multitenant scenario
+When using `redis-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 ::: tip
-You need to install the latest version of the NPM package `redis`.
+You need to install the latest version of the npm package `redis`.
 :::
 
 
@@ -440,6 +555,11 @@ Example:
     }
 }
 ```
+
+::: warning No tenant isolation in multitenant scenario
+When using `file-based-messaging` in a multitenant scenario, only the provider account will have an event bus. There is no tenant isolation.
+:::
+
 
 ### Local Messaging
 
@@ -492,169 +612,5 @@ module.exports = async srv => {
   messaging.on('cap/msg/system/review/reviewed', msg => {
     // comes from myEnterpriseMessagingReview
   })
-}
-```
-
-
-
-## Transactional Outbox
-
-Usually the emit of messages should be delayed until the main transaction succeeded. Otherwise recipients will also receive messages in case of a rollback.
-To solve this problem, an outbox is used internally to defer the emit of messages until the success of the current transaction.
-
-### In-Memory Outbox (Default)
-
-Per default, messages are emitted when the current transaction is successful. Until then, messages are kept in memory.
-This is similar to the following code if done manually:
-```js
-cds.context.on('succeeded', () => this.emit(msg))
-```
-::: warning
-The message is lost if its emit fails, there is no retry mechanism.
-The app will crash if the error is identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
-:::
-
-
-<span id="ininmemoryoutbox" />
-
-
-### Persistent Outbox
-
-Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
-as for other operations, therefore transactional consistency is guaranteed.
-
-To enable the persistent outbox globally for all deferrable services (that means [cds.MessagingService](messaging) and `cds.AuditLogService`), you need to add the service `outbox` of kind `persistent-outbox` to the `cds.requires` section.
-
-```json
-{
-  "requires": {
-    "outbox": {
-      "kind": "persistent-outbox"
-    }
-  }
-}
-```
-
-The optional parameters are:
-
-- `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
-- `chunkSize` (default `100`): The number of messages which are read from the database table in one go.
-- `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the outbox table.
-- `parallel` (default `false`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
-
-
-Once the transaction succeeds, the messages are read from the database table and emitted. If an emit was successful, the respective message
-is deleted from the database table. If not, there will be retries after (exponentially growing) waiting times.
-After a maximum number of attempts, the message is ignored for processing and remains in the database table which
-therefore also acts as a dead letter queue.
-There is only one active message processor per service, tenant and app instance, hence there won't be
-duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the
-message entry.
-::: tip
-Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
-The respective message is then updated and the `attempts` field is set to `maxAttempts` to prevent further processing.
-[Programming errors](./best-practices#error-types) crash the server instance and must be fixed.
-:::
-
-
-After adding the `outbox` service to your _package.json_, your database model is automatically extended by the entity `cds.outbox.Messages`, as follows:
-
-```cds
-using cuid from '@sap/cds/common';
-
-namespace cds.outbox;
-
-entity Messages : cuid {
-  timestamp: Timestamp;
-  target: String;
-  msg: LargeString;
-  attempts: Integer default 0;
-  partition: Integer default 0;
-  lastError: LargeString;
-  lastAttemptTimestamp: Timestamp @cds.on.update : $now;
-}
-```
-::: tip
-In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`,
-for example to expose it in a service.
-:::
-
-::: warning
-- Make sure to redeploy your model.
-- If the app crashes, another emit for the respective tenant and service is necessary to restart.
-- The user id is stored to recreate the correct context.
-:::
-
-To overwrite the outbox configuration for a particular service, you can specify the `outbox` option.
-
-Example:
-
-```json
-{
-  "requires": {
-    "messaging": {
-      "kind": "enterprise-messaging",
-      "outbox": {
-        "maxAttempts": 10,
-        "chunkSize": 10
-      }
-    }
-  }
-}
-```
-
-#### Troubleshooting
-
-##### Delete Entries in the Outbox Table
-
-To manually delete entries in the table `cds.outbox.Messages`, you can either
-expose it in a service or programmatically modify it using the `cds.outbox.Messages`
-entity:
-
-```js
-const db = await cds.connect.to('db')
-const { Messages } = db.entities('cds.outbox')
-await DELETE.from(Messages)
-```
-
-##### Outbox Table Not Found
-
-If the outbox table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
-
-In case you have overwritten `requires.db.model` there, make sure to add the outbox model path `@sap/cds/srv/outbox`:
-
-```jsonc
-"requires": {
-  "db": { ...
-    "model": [..., "@sap/cds/srv/outbox"]
-  }
-}
-```
-
-The following is only relevant if you're using @sap/cds version < 6.7.0 and you've configured `options.model` in custom build tasks.
-Add the model path accordingly:
-
-```jsonc
-"build": {
-  "tasks": [{ ...
-    "options": { "model": [..., "@sap/cds/srv/outbox"] }
-  }]
-}
-```
-
-Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/jumpstart#project-structure) that contain the folders `db`, `srv`, and `app`. In this case, you can delete the entire `model` configuration.
-
-### Immediate Emit
-
-To disable deferred emitting for a particular service, you can set the `outbox` option of your service to `false`:
-
-```json
-{
-  "requires": {
-    "messaging": {
-      "kind": "enterprise-messaging",
-      "outbox": false
-    }
-  }
 }
 ```

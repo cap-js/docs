@@ -1,3 +1,14 @@
 # This files defines code ownership.
 
-* @renejeglinsky @smahati
+# General content
+* @renejeglinsky
+node.js/ @smahati
+java/ @smahati
+
+# Infra
+.github/    @chgeo @swaldmann
+.vitepress/ @chgeo @swaldmann
+
+# allow dependencies updates through renovate w/o code owners
+package.json
+package-lock.json

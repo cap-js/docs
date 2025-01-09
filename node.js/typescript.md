@@ -1,12 +1,13 @@
 ---
 # layout: node-js
 status: released
-redirect_from: get-started/using-typescript
 ---
 
 # Using TypeScript
 
 While CAP itself is written in _JavaScript_, it's possible to use _TypeScript_ within your project as outlined here.
+
+[[toc]]
 
 
 ## Enable TypeScript Support
@@ -19,41 +20,88 @@ Follow these steps to add TypeScript support:
     npm i -g typescript ts-node
     ```
 
-2. Add a _tsconfig.json_ file to your project.
+2. Add a basic _tsconfig.json_ file to your project:
 
-    You need to provide a _tsconfig.json_ file in which you configure how you want
-    to use TypeScript. See the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for more details.
+    ```sh
+    cds add typescript
+    ```
+
+    You can modify this configuration file to match your project setup. See the [official TypeScript documentation](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) for more details.
+    Note that adding the `typescript` facet, [`cds-typer`](../tools/cds-typer) is also automatically added to your project.
+
+## Writing TypeScript Files
+
+Once you have setup everything correctly, you can start using TypeScript files instead of JavaScript files. This setup applies for service handlers, and to a custom _server.ts_ file, or database _init.ts_ seeding files as well.
+
+## Samples
+
+For a full TypeScript application, check out the [SFlight application](https://github.com/SAP-samples/cap-sflight).
+It features both [CAP service handlers](https://github.com/SAP-samples/cap-sflight/tree/206faf29801ca25b8601d75a23284da07d2ebf4a/srv) and [client-side code for SAP Fiori Elements](https://github.com/SAP-samples/cap-sflight/tree/206faf29801ca25b8601d75a23284da07d2ebf4a/app/travel_processor/webapp/ext/controller) written in TypeScript.
 
 
+## Developing TypeScript Projects
 
-## Developing with `cds-ts` { #cds-ts}
+### Using `cds watch` <Since version="8.6.0" of="@sap/cds-dk" /> { #cds-watch}
 
-Use the `cds-ts` CLI command instead of `cds` to avoid having to precompile TypeScript files to JavaScript each time and speed up development:
+Preferably use `cds watch` in a TypeScript project as if it was a JavaScript project.
+It detects TypeScript mode based on a `tsconfig.json` and run [`cds-tsx`](#cds-tsx) under the hood.
 
 ```sh
-cds-ts serve world.cds
+cap/sflight $ cds watch
+
+Detected tsconfig.json. Running with tsx.
+...
+[cds] serving TravelService { impl: 'srv/travel-service.ts', path: '/processor' }
+...
 ```
 
+The same applies to `cds serve`.
+
+
+### Using `cds-tsx` <Since version="8.2.0" of="@sap/cds-dk" /> { #cds-tsx}
+
+Alternatively, you can use the `cds-tsx` CLI command instead of `cds` for automatic TypeScript transpilation:
+
+::: code-group
+```sh [watch]
+cds-tsx watch
+```
+
+```sh [serve]
+cds-tsx serve
+```
+:::
+
+Under the hood, the [tsx](https://tsx.is/) engine is used to run the files instead of the default `node` engine.
+Install it globally with:
 ```sh
+npm i -g tsx
+```
+
+::: warning Not for production
+Use `cds-watch` and `cds-tsx` / `tsx` during development only. **For productive usage, always precompile TypeScript code** to JavaScript for best performance and use `cds-serve` as usual.
+:::
+
+### Using `cds-ts` { #cds-ts}
+
+Much like `cds-tsx`, you can also use the `cds-ts` CLI command:
+
+::: code-group
+```sh [watch]
 cds-ts watch
 ```
 
-When using the binary `cds-ts`, the [ts-node](https://github.com/TypeStrong/ts-node) engine is used to start the project instead of the default node engine.
-
-::: warning
-Note that this binary should be used **for development only**. For productive usage
-always precompile TypeScript code to JavaScript due to performance reasons and use the `cds` binary.
+```sh [serve]
+cds-ts serve
+```
 :::
 
+It uses the [ts-node](https://github.com/TypeStrong/ts-node) engine under the hood.
 
-### Writing TypeScript Files
-
-Once you've setup everything correctly, you can start writing TypeScript files
-instead of JavaScript files. This applies for service handlers, as well as a custom _server.ts_ file or database _init.ts_ seeding files.
-
-### Samples
-
-You can also download the [*Hello World!* TypeScript sample](https://github.com/SAP-samples/cloud-cap-samples/tree/master/hello) or try out the [Full Stack TypeScript App](https://github.com/SAP-samples/btp-full-stack-typescript-app).
+::: tip _tsx_ or _ts-node_?
+In general, `tsx` is the better choice, as `tsx` is considerably faster than `ts-node` because it doesn't perform type checks.
+See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
+:::
 
 ## Testing with `ts-jest`
 
@@ -62,10 +110,10 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 1. Install `ts-jest` locally:
 
     ```sh
-    npm add ts-jest
+    npm install -D ts-jest
     ```
 
-2. Tell Jest to use the preset `ts-jest`, e.g. in your _jest.config.js_:
+2. Tell Jest to use the preset `ts-jest`, for example, in your _jest.config.js_:
 
     ```js
     module.exports = {
@@ -93,19 +141,63 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
     jest
     ```
 
+## Building TypeScript Projects
+
+A dedicated build task for `cds build` is provided as part of the `cds-typer` package.
+
+[Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
+
+## TypeScript APIs in `@sap/cds` <Since version="8.0.0" of="@sap/cds" />
+
+The package `@cap-js/cds-types` contains all TypeScript declarations for `@sap/cds` APIs. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code. Just add the `@cap-js/cds-types` package to your project as follows:
+
+```sh
+npm add @cap-js/cds-types
+```
 
 
-## TypeScript APIs in `@sap/cds`
+Use the Typescript declarations like this:
 
-The package `@sap/cds` is shipped with TypeScript declarations. These declarations are used automatically when you write TypeScript files, but also enable IntelliSense and type checking for standard JavaScript development in Visual Studio Code.
+```ts
+import { Request } from '@sap/cds'
 
-::: warning
-As `@sap/cds` is a JavaScript library, typings aren't always up to date. You should expect a delay for typings related to the latest release, even gaps, and errors.
-:::
+function myHandler(req: Request) { }
+```
 
-::: tip
-We invite you to contribute and help us complete the typings as appropriate. Sounds interesting? Reach out to us.
-:::
+Types are available even in JavaScript through [JSDoc comments](https://jsdoc.app/):
+
+```js
+/**
+ * @param { import('@sap/cds').Request } req
+ */
+function myHandler(req) { }
+```
+
+### Type Imports
+
+Import types through the [`cds` facade class](../node.js/cds-facade) only:
+
+##### **Good:** {.good}
+
+```ts
+import { ... } from '@sap/cds' // [!code ++]
+```
+
+##### **Bad:** {.bad}
+
+Never code against paths inside `@sap/cds/apis/`:
+
+```ts
+import { ... } from '@sap/cds/apis/events' // [!code --]
+```
+
+### Community
+
+#### Help us improve the types
+
+We invite you to contribute and help us complete the typings as appropriate.  Find the [sources on GitHub](https://github.com/cap-js/cds-types) and open a pull request or an issue.
+
+Still, as `@sap/cds` is a JavaScript library, typings aren't always up to date. You should expect a delay for typings related to the latest release, even gaps, and errors.
 
 
 

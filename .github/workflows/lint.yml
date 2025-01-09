@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '**.md'
+  merge_group:
   workflow_dispatch:
 
 jobs:
@@ -29,9 +30,9 @@ jobs:
         GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
         GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 22
         cache: 'npm'
         cache-dependency-path: docs/package-lock.json
     - run: npm ci
@@ -44,12 +45,14 @@ jobs:
       run: |
         echo "DIFF_FILES=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} -- '*.md' | xargs)" >> "$GITHUB_OUTPUT"
     - name: Run cspell
+      if: steps.changes.outputs.DIFF_FILES != ''
       id: cspell
       continue-on-error: true
       working-directory: docs/@external
       run: |
         npx cspell --no-progress --show-suggestions --show-context ${{ steps.changes.outputs.DIFF_FILES }} >> ${{ github.workspace }}/docs/@external/CSPELL.log
     - name: Run markdownlint
+      if: steps.changes.outputs.DIFF_FILES != ''
       id: markdownlint
       continue-on-error: true
       working-directory: docs/@external

@@ -86,14 +86,14 @@ app.listen()
 
 This uses these defaults for all options:
 
-| Option | Description | Default |
-| ------ | ----------- | ------- |
-| cds.serve ... | which services to construct |  `'all'` services
-| <i>&#8627;</i>.from  | models to load definitions from | `'./srv'` folder
-| <i>&#8627;</i>.in  | express app to mount to | — none —
-| <i>&#8627;</i>.to  | client protocol to serve to | `'fiori'`
-| <i>&#8627;</i>.at  | endpoint path to serve at | `@path` or `.name`
-| <i>&#8627;</i>.with  | implementation function | `@impl` or `._source`.js
+| Option               | Description                     | Default                     |
+|----------------------|---------------------------------|-----------------------------|
+| cds.serve ...        | which services to construct     | `'all'` services            |
+| <i>&#8627;</i> .from | models to load definitions from | `'./srv'` folder            |
+| <i>&#8627;</i> .in   | express app to mount to         | — none —                    |
+| <i>&#8627;</i> .to   | client protocol to serve to     | `'fiori'`                   |
+| <i>&#8627;</i> .at   | endpoint path to serve at       | [`@path`](#path) or `.name` |
+| <i>&#8627;</i> .with | implementation function         | `@impl` or `._source`.js    |
 
 Alternatively you can construct services individually, also from other models, and also mount them yourself, as document in the subsequent sections on individual fluent API options.
 
@@ -144,7 +144,7 @@ cds.serve('CatalogService').at('/cat')
 cds.serve('all').at('/cat') //> error
 ```
 
-**If omitted**, the mount point is determined from annotation `@path`, if present, or from the service's lowercase name, excluding trailing _Service_.
+**If omitted**, the mount point is determined from annotation [`@path`](#path), if present, or from the service's lowercase name, excluding trailing _Service_.
 
 ```cds
 service MyService @(path:'/cat'){...}  //> served at: /cat
@@ -208,43 +208,45 @@ srv/cat-service.js   #> service implementation used by default
 For each service served at a certain protocol, the framework registers a configurable set of express middlewares by default like so:
 
 ```js
-app.use (cds.middlewares.before, protocol_adapter, cds.middlewares.after)
+app.use (cds.middlewares.before, protocol_adapter)
 ```
 
 The standard set of middlewares uses the following order:
+
 ```js
 cds.middlewares.before = [
-  context,
-  trace,
-  auth,
-  ctx_auth,
-  ctx_model
+  context(),   // provides cds.context
+  trace(),     // provides detailed trace logs when DEBUG=trace
+  auth(),      // provides cds.context.user & .tenant
+  ctx_model(), // fills in cds.context.model, in case of extensibility
 ]
 ```
 
+::: warning _Be aware of the interdependencies of middlewares_ <!--  -->
+_ctx_model_ requires that _cds.context_ middleware has run before.
+_ctx_auth_ requires that _authentication_ has run before.
+:::
 
 
 ### . context() {.method}
 
 This middleware initializes [cds.context](events#cds-context) and starts the continuation. It's required for every application.
 
-### . auth() {.method}
-
-[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy.
-
-### . ctx_auth() {.method}
-
-This middleware adds user and tenant identified by authentication middleware to [cds.context](events#cds-context).
-
-### . ctx_model() {.method}
-
-It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 ### . trace() {.method}
 
 The tracing middleware allows you to do a first-level performance analysis. It logs how much time is spent on which layer of the framework when serving a request.
 To enable this middleware, you can set for example the [environment variable](cds-log#debug-env-variable) `DEBUG=trace`.
 
+
+### . auth() {.method}
+
+[By configuring an authentication strategy](./authentication#strategies), a middleware is mounted that fulfills the configured strategy and subsequently adds the user and tenant identified by that strategy to [cds.context](events#cds-context).
+
+
+### . ctx_model() {.method}
+
+It adds the currently active model to the continuation. It's required for all applications using extensibility or feature toggles.
 
 
 ### .add(mw, pos?) {.method}
@@ -253,13 +255,92 @@ Registers additional middlewares at the specified position.
 `mw` must be a function that returns an express middleware.
 `pos` specified the index or a relative position within the middleware chain. If not specified, the middleware is added to the end.
 
- ```js
- cds.middlewares.add (mw, {at:0}) // to the front
- cds.middlewares.add (mw, {at:2})
- cds.middlewares.add (mw, {before:'auth'})
- cds.middlewares.add (mw, {after:'auth'})
- cds.middlewares.add (mw) // to the end
- ```
+```js
+cds.middlewares.add (mw, {at:0}) // to the front
+cds.middlewares.add (mw, {at:2})
+cds.middlewares.add (mw, {before:'auth'})
+cds.middlewares.add (mw, {after:'auth'})
+cds.middlewares.add (mw) // to the end
+```
+
+<div id="beforecustomization" />
+
+
+### Custom Middlewares
+
+The configuration of middlewares must be done programmatically before bootstrapping the CDS services, for example, in a [custom server.js](cds-serve#custom-server-js).
+
+The framework exports the default middlewares itself and the list of middlewares which run before the protocol adapter starts processing the request.
+
+```js
+cds.middlewares = {
+  auth,
+  context,
+  ctx_model,
+  errors,
+  trace,
+  before = [
+    context(),
+    trace(),
+    auth(),
+    ctx_model()
+  ]
+}
+```
+
+In order to plug in custom middlewares, you can override the complete list of middlewares or extend the list programmatically.
+
+::: warning
+Be aware that overriding requires constant updates as new middlewares by the framework are not automatically taken over.
+:::
+
+[Learn more about the middlewares default order.](#cds-middlewares){.learn-more}
+
+#### Customization of `cds.context.user`
+
+You can register middlewares to customize `cds.context.user`.
+It must be done after authentication.
+If `cds.context.tenant` is manipulated as well, it must also be done before `cds.context.model` is set for the current request.
+
+```js
+cds.middlewares.before = [
+  cds.middlewares.context(),
+  cds.middlewares.trace(),
+  cds.middlewares.auth(),
+  function ctx_user (_,__,next) {
+    const ctx = cds.context
+    ctx.user.id = '<my-idp>' + ctx.user.id
+    next()
+  },
+  cds.middlewares.ctx_model()
+]
+```
+
+#### Enabling Feature Flags
+
+You can register middlewares to customize `req.features`.
+It must be done before `cds.context.model` is set for the current request.
+
+```js
+cds.middlewares.before = [
+  cds.middlewares.context(),
+  cds.middlewares.trace(),
+  cds.middlewares.auth(),
+  function req_features (req,_,next) {
+    req.features = ['<feature-1>', '<feature-2>']
+    next()
+  },
+  cds.middlewares.ctx_model()
+]
+```
+
+[Learn more about Feature Vector Providers.](../guides/extensibility/feature-toggles#feature-vector-providers){.learn-more}
+
+
+### Current Limitations
+
+- Configuration of middlewares must be done programmatically.
+
 
 
 ## cds. protocols
@@ -301,7 +382,7 @@ Note, that
 - `@protocol.path` has precedence over `@path`.
 - the default protocol is OData V4.
 - `odata` is a shortcut for `odata-v4`.
-- `@protocol: none` will treat the service as _internal_.
+- `@protocol: 'none'` will treat the service as _internal_.
 
 ### @path
 
@@ -318,3 +399,21 @@ service CatalogService {}
 ```
 
 Be aware that using an absolute path will disallow serving the service at multiple protocols.
+
+### Custom Protocol Adapter
+
+Similar to the configuration of the GraphQL Adapter, you can plug in your own protocol.
+The `impl` property must point to the implementation of your protocol adapter.
+Additional options for the protocol adapter are provided on the same level.
+
+```js
+cds.env.protocols = {
+  'custom-protocol': { path: '/custom', impl: '<custom-impl.js>', ...options }
+}
+```
+
+### Current Limitations
+
+- Configuration of protocols must be done programmatically.
+- Additional protocols do not respect `@protocol` annotation yet.
+- The configured protocols do not show up in the `index.html` yet.

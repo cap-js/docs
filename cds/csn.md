@@ -11,11 +11,13 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [JSON Schema]: https://json-schema.org
 [OpenAPI]: https://www.openapis.org
 
-# Schema Notation (CSN)
+# Core Schema Notation (CSN)
 
 CSN (pronounced as "_Season_") is a notation for compact representations of CDS models — tailored to serve as an optimized format to share and interpret models with minimal footprint and dependencies.
 
 It's similar to [JSON Schema] but goes beyond JSON's abilities, in order to capture full-blown _Entity-Relationship Models_ and [Extensions](#aspects). This makes CSN models a perfect source to generate target models, such as [OData/EDM](../advanced/odata) or [OpenAPI] interfaces, as well as persistence models for SQL or NoSQL databases.
+
+[[toc]]
 
 
 ## Anatomy
@@ -97,11 +99,13 @@ For the remainder of this spec, you see examples in plain JavaScript representat
 * [`extensions`](#aspects) &ndash; an array of unnamed [aspects](#aspects)
 * [`i18n`](#i18n) &ndash; a dictionary of dictionaries of [text translations](#i18n)
 
-::: tip
-All properties are optional. For example, one model could contain a few definitions, while another one only contains some extensions.
-:::
+> [!TIP] All properties are optional
+> For example, one model could contain a few definitions, while another one only contains some extensions.
 
-> References are case-sensitive. All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
+
+> [!NOTE] References are case-sensitive
+> All references in properties like `type` or `target` use exactly the same notation regarding casing as their targets' names. To avoid problems when translating models to case-insensitive environments like SQL databases, avoid case-significant names and references. For example, avoid two different definitions in the same scope whose names only differ in casing, such as `foo` and `Foo`.
+
 
 
 
@@ -185,7 +189,7 @@ Foo2 = { type:"cds.String", kind:"type" }
 ```
 
 
-## Type Definitions {#type-definitions}
+## Type Definitions
 
 [type definitions]: #type-definitions
 
@@ -203,17 +207,15 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 ```js
 ({definitions: {
-  'scalar.type': {type:"cds.String", length:3 },
-  'struct.type': {elements:{ 'foo': {type:"cds.Integer"}}},
+  'scalar.type':  {type:"cds.String", length:3 },
+  'struct.type':  {elements:{'foo': {type:"cds.Integer"}}},
   'arrayed.type': {items:{type:"cds.Integer"}},
-  'enum.type':   {enum:{ 'asc':{}, 'desc':{} }}
+  'enum.type':    {enum:{ 'asc':{}, 'desc':{} }}
 }})
 ```
 
 #### Properties
 
-[kind]: #kind
-[type]: #type
 
 * `kind` &ndash; omitted or _`"type"`_
 * `type` &ndash; the base type, this definition is derived from
@@ -229,7 +231,6 @@ Custom-defined types are entries in [`definitions`](#definitions) with an option
 
 ### Scalar Types
 
-[scalar]: #scalar-types
 
 Scalar types always have property `type` specified, plus optional type-specific parameter properties.
 
@@ -428,9 +429,8 @@ Use the `projection` property for views if you don't need the full power of SQL.
 
 ## Associations
 
-[Associations]: #associations
 
-Associations are like [scalar type definitions][scalar] with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
+Associations are like [scalar type definitions](#scalar-types) with `type` being `cds.Association` or `cds.Composition` plus additional properties specifying the association's `target` and optional information like `on` conditions or foreign `keys`.
 
 ### Basic to-one Associations
 
@@ -448,7 +448,7 @@ The basic form of associations are *to-one* associations to a designated target:
 
 
 
-### With Specified `cardinality`
+### With Specified `cardinality` {#assoc-card}
 
 Add property `cardinality` to explicitly specify a *to-one* or *to-many* relationship:
 
@@ -468,7 +468,7 @@ Property `cardinality` is an object `{src?,min?,max}` with...
 
 In summary, the default cardinality is _[0..1]_, which means *to-one*.
 
-### With Specified `on` Condition
+### With Specified `on` Condition {#assoc-on}
 
 So-called *unmanaged* associations have an explicitly specified `on` condition:
 
@@ -484,7 +484,7 @@ So-called *unmanaged* associations have an explicitly specified `on` condition:
 
 
 
-### With Specified `keys`
+### With Specified `keys` {#assoc-keys}
 
 Managed to-one associations automatically use the target's designated primary `key` elements. You can overrule this by explicitly specifying alternative target properties to be used in the `keys` property:
 
@@ -547,7 +547,7 @@ with:
 
 ### Extend with \<named aspect\>
 
-The most basic form allows to express an extension of a named definition with another named definition (&rarr; see [Named Aspects](cdl#aspect)):
+The most basic form allows to express an extension of a named definition with another named definition (&rarr; see [Named Aspects](cdl#named-aspects)):
 
 ```js
 csn = { extensions:[
@@ -581,7 +581,7 @@ csn = { extensions:[
 
 ### annotate with \<anonymous aspect\>
 
-The form `{ annotate:<target>, with:{...} }` allows to add or override annotations of the target definition as well as those of nested elements:
+The form `{ annotate:<target>, <property>: <value>, … }` allows to add or override annotations of the target definition as well as those of nested elements:
 
 ```js
 csn = {extensions:[
@@ -612,7 +612,7 @@ Services are definitions with _kind =`'service'`_:
 
 
 
-### Actions / Functions { .h2}
+### Actions / Functions
 
 Entity definitions (for _bound_ actions/functions) can have an additional property `actions`.
 The keys of these `actions` are the (local) names of actions/functions.
@@ -650,7 +650,7 @@ Example:
 * `returns` &ndash; a [Type Definition](#type-definitions)
   describing the response
 
-> The definition of the response can be a reference to a declared type or the inline definition of a new (structured) type.
+> Note: The definition of the response can be a reference to a declared type or the inline definition of a new (structured) type.
 
 
 
@@ -659,13 +659,14 @@ Example:
 ## Imports
 
 The `requires` property lists other models to import definitions from.
+It is the CSN equivalent of the CDL [`using` directive](./cdl#using).
 
 #### Example
 
 ```js
 ({
-  requires:[ '@sap/cds/common', './db/schema' ],
-  ...
+  requires: [ '@sap/cds/common', './db/schema' ],
+  // [...]
 })
 ```
 
@@ -677,9 +678,9 @@ A CSN may optionally contain a top-level `i18n` property, which can contain tran
 
 ```js
 ({
-  "i18n": {
-    "language-key": {
-      "text-key": "some string"
+  i18n: {
+    'language-key': {
+      'text-key': "some string"
     }
   }
 })

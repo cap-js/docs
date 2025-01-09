@@ -20,13 +20,13 @@ You create a new database object or there's an existing object (table, view, tab
 
 ### Add Existing SAP HANA Objects from Other HDI Containers
 
-To access database artifacts residing in other HDI containers, you need the permissions granted for that container and you need to introduce them into your own container using synonyms. This synonym establishes a link between both needed HDI containers. The _.hdbsynonym_ file you create for this, [is a native SAP HANA object in your project](#create-native-sap-hana-object).
+To access database artifacts residing in other HDI containers, you need the permissions granted for that container and you need to introduce them into your own container using synonyms. This synonym establishes a link between both needed HDI containers. The _.hdbsynonym_ file you create for this, [is a native SAP HANA object in your project](#create-native-sap-hana-objects).
 
 ::: tip
 Synonyms can be used to rename database objects.
 :::
 
-### Create Native SAP HANA Object in Your Project { #create-native-sap-hana-object}
+### Create Native SAP HANA Objects
 
 To create SAP HANA native tables or use SAP HANA native features, use the folder _db/src_ at design time and build, for example, your _.hdbtable_ or _.hdbsynonym_ files. This folder stays untouched during the `cds` build and the content is copied over to the _gen/db/src_ folder during the build. Use this process for all tables and features that can't be modeled using _CDS_.
 
@@ -48,8 +48,9 @@ Steps to match the signature of a database object in a facade entity:
 * Choose the names of the facade entity's elements, which are identical to the resulting database names of the existing database object's column names.
 * After applying the CDS-to-DB type mapping, check that the types of the facade entity's elements match the types of the database object's columns.
 * For a view, table function, or calculation view with parameters, check that the parameter names and types match, too.
+  Functions with table-like input parameters are not supported.
 
-> If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add [`@assert.notNull: false`](../guides/providing-services#assert-notNull). This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
+> Note: If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add [`@assert.notNull: false`](../guides/providing-services#assert-notnull). This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
 
 
 As a result, the database name is defined by the name of the entity or its elements, after applying the SQL name mapping.
@@ -62,7 +63,7 @@ We can distinguish two types of names - __plain__ and __quoted__.
 |Quoted    | If the existing database name also contains lower-case characters or characters that can't occur in regular SQL identifiers, it's not possible to choose a name in the CDS model that matches this name. Let's call such a database name "quoted", as the only possibility to create such a name is to quote it in the CREATE statement. In this case, it's necessary to introduce an additional database object (a synonym or a view) on top of the existing database object and construct the facade entity for this newly introduced mapping object.
 
 
-[Find here troubleshooting related to SAP HANA.](../advanced/troubleshooting#hana){.learn-more}
+[Find here troubleshooting related to SAP HANA.](../get-started/troubleshooting#hana){.learn-more}
 
 
 ### Tables and Views Without Parameters
@@ -219,7 +220,7 @@ context Bookshop {
 #### Quoted Names
 
 Assume the SQL view with parameters has quoted names. Put a mapping view on top of the existing one that maps all the names, except the parameter names, to plain ones.
-> Names of parameters in SQL views and in table functions can't be quoted.
+> Note: Names of parameters in SQL views and in table functions can't be quoted.
 
 ::: code-group
 ```sql [existing-view-quoted-names.hdbview]
@@ -395,7 +396,7 @@ FROM AddressUDF() AS AddressUDF_0;
 
 This section describes how associations and compositions to artifacts with `@cds.persistence.skip/exists` are treated during the generation of the database model with `forHana`.
 
-###### `@cds.persistence.skip`
+##### `@cds.persistence.skip`
 Denotes that the artifact isn't available in the database but eventually implemented by custom code.
 
 No association can point to a nonexisting database object and no query can be executed against such a nonexisting source. As `@cds.persistence.skip` is *propagated*, projections also don't become part of the database schema.
@@ -429,7 +430,7 @@ view ItemSelection as select from Items;
 
 The view `Orders` will be rejected with an error message as `items.name` isn't resolvable to a valid JOIN expression and view `ItemSelection` is effectively annotated with `@cds.persistence.skip`.
 
-###### `@cds.persistence.exists`
+##### `@cds.persistence.exists`
 
 Denotes that there already exists a native database object, which should be used during runtime.
 

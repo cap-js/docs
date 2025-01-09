@@ -1,31 +1,97 @@
 ---
-shorty: in a Nutshell
-synopsis: >
-  Get started with CAP in a minimalistic setup.
 notebook: true
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
 impl-variants: true
 ---
 
+
 # Getting Started in a Nutshell
-
-Using a minimal setup
-{ .subtitle}
+Build Your First App with CAP {.subtitle}
 
 
-This guide is a step-by-step walkthrough to build a CAP application, using a minimal setup with Node.js and SQLite.
+
+
 
 [[toc]]
 
 
-## ⓪ Preliminaries
 
-1. **Prerequisite:** The following steps assume you've installed Node.js, Visual Studio Code, and `@sap/cds-dk` as described in the [_Setup_ section of the _Jumpstart_ guide](jumpstart#setup).
+## Jumpstart a Project {#jumpstart}
 
-2. **Hands-On Walkthrough:** The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step.
 
-3. **Option: Download from GitHub** – Instead of going for this hand-on step-by-step experience, you can get the final sample content from GitHub. If you choose to do so clone the repo as follows:
+
+After you completed the [*Initial Setup*](./), you jumpstart a project as follows:
+
+- Create a new project using `cds init`
+
+   <span class="impl node">
+
+   ```sh [Node.js]
+   cds init bookshop
+   ```
+
+   </span>
+
+   <span class="impl java">
+
+   ```sh [Java]
+   cds init bookshop --java --java:mvn -DgroupId=com.sap.capire
+   ```
+
+   </span>
+
+- Open the project in VS Code
+
+   ```sh
+   code bookshop
+   ```
+   [Assumes you activated the `code` command on macOS as documented](/tools/cds-editors#vscode) {.learn-more}
+
+   For Java development in VS Code you need to [install extensions](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack). {.learn-more .java}
+
+
+- Run the following command in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
+
+   <span class="impl node">
+
+   ```sh [Node.js]
+   cds watch
+   ```
+
+   </span>
+
+   <span class="impl java">
+
+   ```sh [Java]
+   cd srv && mvn cds:watch
+   ```
+
+   </span>
+
+   ::: details `cds watch` is waiting for things to come...
+
+   ```log
+   [dev] cds w
+
+   cds serve all --with-mocks --in-memory?
+   live reload enabled for browsers
+
+         ___________________________
+
+     No models found in db/,srv/,app/,schema,services. // [!code focus]
+     Waiting for some to arrive... // [!code focus]
+
+   ```
+
+   So, let's go on feeding it...
+
+   :::
+
+
+::: details Optionally clone sample from GitHub ...
+
+The sections below describe a hands-on walkthrough, in which you'd create a new project and fill it with content step by step. Alternatively, you can get the final sample content from GitHub as follows:
 
 ::: code-group
 
@@ -39,77 +105,16 @@ npm install
 git clone https://github.com/sap-samples/cloud-cap-samples-java bookshop
 ```
 
-:::
-
-> Just keep in mind that the sample code on GitHub is an already complete application showcasing a lot of features. So you might find more code in the app than in the code that is created in this step-by-step guide.
-
-
-
-## ① Jumpstart a Project { #start-a-project}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
-
-1. Create a new project using `cds init`
-
-::: code-group
-```sh [Node.js]
-cds init bookshop
-```
-```sh [Java]
-cds init bookshop --add java
-```
-:::
-
-2. Open the project in VS Code
-
-```sh
-code bookshop
-```
-
-::: details **Note:** VS Code CLI on macOS needs extra setup
-
-Users on macOS must first run a command (*Shell Command: Install 'code' command in PATH*) to add the VS Code executable to the `PATH` environment variable. Read VS Code's [macOS setup guide](https://code.visualstudio.com/docs/setup/mac) for help.
-
-:::
-
-3. Run `cds watch` in an [*Integrated Terminal*](https://code.visualstudio.com/docs/terminal/basics)
-
-::: code-group
-
-```sh [Node.js]
-cds watch
-```
-
-```sh [Java]
-cd srv && mvn cds:watch
-```
-
-:::
-
-::: details `cds watch` is waiting for things to come...
-
-```log
-[dev] cds w
-
-cds serve all --with-mocks --in-memory?
-live reload enabled for browsers
-
-      ___________________________
-
-   No models found in db/,srv/,app/,schema,services. // [!code focus]
-   Waiting for some to arrive... // [!code focus]
-
-```
-
-So, let's go on adding some CDS model as follows...
+Note: When comparing the code from the *cap/samples* on GitHub to the snippets given in the sections below you will recognise additions showcasing enhanced features. So, what you find in there is a superset of what we describe in this getting started guide.
 
 :::
 
 
 
-## ② Capture Domain Models { #domain-models }
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+## Capture Domain Models
 
-Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ (also indicated in the code box's label) and copy the following definitions into it:
+
+Let's feed our project by adding a simple domain model. Start by creating a file named _db/schema.cds_ and copy the following definitions into it:
 
 ::: code-group
 
@@ -144,38 +149,36 @@ entity Genres : sap.common.CodeList { // [!code focus]
 ```
 :::
 
-<!--- % include _code from='bookshop:db/schema.cds' %} -->
-
 _Find this source also in `cap/samples` [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/schema.cds), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/db/books.cds)_{ .learn-more}
 [Learn more about **Domain Modeling**.](../guides/domain-modeling){ .learn-more}
 [Learn more about **CDS Modeling Languages**.](../cds/){ .learn-more}
 
 
-### Deployed to Databases Automatically {#deployed-in-memory}
+### Deployed to Databases {#deployed-in-memory}
 
-<div class="impl node">
+<span class="impl node">
 
-As soon as you save your file, the still running `cds watch` reacts immediately with new output like this:
+As soon as you save the *schema.cds* file, the still running `cds watch` reacts immediately with new output like this:
 
 ```log
-[cds] - connect to db { database: ':memory:' }
+[cds] - connect to db > sqlite { database: ':memory:' }
 /> successfully deployed to in-memory database.
 ```
 
 This means that `cds watch` detected the changes in _db/schema.cds_ and automatically bootstrapped an in-memory _SQLite_ database when restarting the server process.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 As soon as you save your CDS file, the still running `mvn cds:watch` command reacts immediately with a CDS
 compilation and reload of the CAP Java application. The embedded database of the started application will reflect the schema defined in your CDS file.
 
-</div>
+</span>
 
-### Compiling Models (Optional) {#cli}
+### Compiling Models {#cli}
 
-We can also test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
+We can optionally test-compile models individually to check for validity and produce a parsed output in [CSN format](../cds/csn). For example, run this command in a new terminal:
 
 ```sh
 cds db/schema.cds
@@ -194,11 +197,10 @@ cds db/schema.cds -2 sql
 
 
 
-## ③ Providing Services { #defining-services}
+## Providing Services {#services}
 
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
 
-<div class="impl node">
+<span class="impl node">
 
 After the recent changes, `cds watch` also prints this message:
 
@@ -207,20 +209,21 @@ No service definitions found in loaded models.
 Waiting for some to arrive...
 ```
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 After the recent changes, the running CAP Java application is still not exposing any service endpoints.
 
-</div>
+</span>
 
 So, let's go on feeding it with two service definitions for different use cases:
 
-- An `AdminService` for administrators to maintain `Books` and `Authors`
-- A `CatalogService` for end users to browse and order `Books`
+An `AdminService` for administrators to maintain `Books` and `Authors`.
 
-Create the following two files in folder _./srv_ and fill them wih this content:
+A `CatalogService` for end users to browse and order `Books` under path `/browse`.
+
+To do so, create the following two files in folder _./srv_ and fill them with this content:
 
 ::: code-group
 ```cds [srv/admin-service.cds]
@@ -234,7 +237,7 @@ service AdminService @(requires:'authenticated-user') { // [!code focus]
 using { sap.capire.bookshop as my } from '../db/schema';
 service CatalogService @(path:'/browse') { // [!code focus]
 
-  @readonly entity Books as SELECT from my.Books {*,
+  @readonly entity Books as select from my.Books {*,
     author.name as author
   } excluding { createdBy, modifiedBy };
 
@@ -245,34 +248,29 @@ service CatalogService @(path:'/browse') { // [!code focus]
 :::
 
 *Find this source also on GitHub [for Node.js](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv), and [for Java](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv)*{.learn-more}
+
 [Learn more about **Defining Services**.](../guides/providing-services){ .learn-more}
 
 
-### Served to OData out of the box
 
-<div class="impl node">
+### Served via OData
+
+<span class="impl node">
 
 This time `cds watch` reacted with additional output like this:
 
 ```log
-[cds] - serving AdminService { at: '/admin' }
-[cds] - serving CatalogService { at: '/browse', impl: 'bookshop/srv/cat-service.js' }
+[cds] - serving AdminService { at: '/odata/v4/admin' }
+[cds] - serving CatalogService { at: '/browse' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
 ```
 
-As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/admin_ and _/browse_.
+As you can see, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/admin_ and _/browse_.
 
-<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
+</span>
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"} {.impl .node}
-
-> User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
-
-</div>
-
-<div class="impl java">
+<span class="impl java">
 
 In case the CDS service definitions were compiled correctly the Spring Boot runtime is reloaded automatically and should output a log line like this:
 
@@ -283,31 +281,29 @@ c.s.c.services.impl.ServiceCatalogImpl : Registered service CatalogService
 
 As you can see in the log output, the two service definitions have been compiled and generic service providers have been constructed to serve requests on the listed endpoints _/odata/v4/AdminService_ and _/odata/v4/browse_.
 
-::: warning
-Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the srv/pom.xml in order to activate mock user and authentication support:
-:::
+::: warning Add the dependency to spring-boot-security-starter
+Both services defined above contain security annotations that restrict access to certain endpoints. Please add the dependency to spring-boot-security-starter to the _srv/pom.xml_ in order to activate mock user and authentication support:
 
-<!-- TODO Notebooks: can't be automated yet as it requires insert in pom.xml -->
-```xml
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
+```sh
+mvn com.sap.cds:cds-maven-plugin:add -Dfeature=SECURITY
 ```
 
-<!-- TODO: explain "Why" is there a generic index.html and from where is it served? Link zu cds.server-->
-Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
+:::
 
-![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/in-a-nutshell/welcome_java.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
-
-> User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
-
-</div>
+</span>
 
 
-### Compiling APIs (Optional) { #repl}
+> [!tip]
+>
+>  CAP-based services are full-fledged OData services out of the box. Without adding any provider implementation code, they translate OData request into corresponding database requests, and return the results as OData responses.
 
-You can also compile service definitions explicitly, for example to an [OData model](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
+[Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
+
+
+
+### Generating APIs
+
+We can optionally also compile service definitions explicitly, for example to [OData EDMX metadata documents](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html):
 
 ```sh
 cds srv/cat-service.cds -2 edmx
@@ -316,21 +312,45 @@ cds srv/cat-service.cds -2 edmx
 Essentially, using a CLI, this invokes what happened automatically behind the scenes in the previous steps.
 While we don't really need such explicit compile steps, you can do this to test correctness on the model level, for example.
 
-## ④ Using Databases {#databases}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
+### Generic *index.html*
+
+<span class="impl node">
+
+Open _<http://localhost:4004>_ in your browser and see the generic _index.html_ page:
+
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](assets/welcome.png){style="width:450px; box-shadow: 1px 1px 5px #888888"}
+
+> Note: User `alice` is a [default user with admin privileges](../node.js/authentication#mocked). Use it to access the _/admin_ service. You don't need to enter a password.
+
+</span>
+
+<span class="impl java">
+
+Open _<http://localhost:8080>_ in your browser and see the generic _index.html_ page:
+
+![Generic welcome page generated by CAP that list all endpoints. Eases jumpstarting development and is not meant for productive use.](./assets/welcome-java.png)
+
+> Note: User `authenticated` is a [prepared mock user](../java/security#mock-users) which will be authenticated by default. Use it to access the _/admin_ service. You don't need to enter a password.
+
+</span>
 
 
-### Using _sqlite_ In-Memory Database {.impl .node}
+
+
+
+## Using Databases {#databases}
+
+### SQLite In-Memory {.impl .node}
 
 As [previously shown](#deployed-in-memory), `cds watch` automatically bootstraps an SQLite in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up development turn-around times, essentially by mocking your target database, for example, SAP HANA. {.impl .node}
 
-[Learn more about mocking options in **Grow as you go**.](./grow-as-you-go){.learn-more .impl .node}
 
-### Using _H2_ In-Memory Database {.impl .java}
+### H2 In-Memory {.impl .java}
 
 As [previously shown](#deployed-in-memory), `mvn cds:watch` automatically bootstraps an H2 in-process and in-memory database by default — that is, unless told otherwise. While this **isn't meant for productive use**, it drastically speeds up turn-around times in local development and furthermore allows self-contained testing. {.impl .java}
 
-### Adding Initial Data in `.csv` Files
+### Adding Initial Data
 
 Now, let's fill your database with initial data by adding a few plain CSV files under _db/data_ like this:
 
@@ -344,10 +364,6 @@ ID,title,author_ID,stock
 252,Eleonora,150,555
 271,Catweazle,170,22
 ```
-:::
-
-::: code-group
-
 ```csvc [db/data/sap.capire.bookshop-Authors.csv]
 ID,name
 101,Emily Brontë
@@ -360,12 +376,7 @@ ID,name
 
 [Find a full set of `.csv` files in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/data){ .learn-more target="_blank"}
 
-<div class="impl node">
-
-<!-- Add a file named `init.js` in your `db` folder. The next time you run `cds deploy` it will automatically detect that file and run it after the schema has been deployed.
-
-% include _code from='bookshop:db/init.js' %}
-[learn more about using `cds.ql` for reading and writing data](../node.js/cds-ql){ .learn-more}  -->
+<span class="impl node">
 
 After you've added these files, `cds watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
@@ -380,11 +391,11 @@ After you've added these files, `cds watch` restarts the server with output, tel
 /> successfully deployed to in-memory database.
 ```
 
-> This is the output when you're using the [samples](https://github.com/sap-samples/cloud-cap-samples). It's less if you've followed the manual steps here.
+> Note: This is the output when you're using the [samples](https://github.com/sap-samples/cloud-cap-samples). It's less if you've followed the manual steps here.
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 After you've added these files, `mvn cds:watch` restarts the server with output, telling us that the files have been detected and their content has been loaded into the database automatically:
 
@@ -393,191 +404,253 @@ c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books fro
 c.s.c.s.impl.persistence.CsvDataLoader   : Filling sap.capire.bookshop.Books from db/data/sap.capire.bookshop-Books.csv
 ```
 
-</div>
+</span>
 
 [Learn more about **Using Databases**.](../guides/databases){.learn-more}
 
 
-### Querying Through OData Out of the Box
+### Querying via OData
 
-Now that we've a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
+Now that we have a connected, fully capable SQL database, filled with some initial data, we can send complex OData queries, served by the built-in generic providers:
 
-- _[…/Books?$select=ID,title](http://localhost:4004/odata/v4/browse/Books?$select=ID,title)_ {.impl .node}
+- _[…/Books?$select=ID,title](http://localhost:4004/browse/Books?$select=ID,title)_ {.impl .node}
 - _[…/Authors?$search=Bro](http://localhost:4004/odata/v4/admin/Authors?$search=Bro)_ {.impl .node}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:4004/odata/v4/admin/Authors?$expand=books($select=ID,title))_ {.impl .node}
 - _[…/Books?$select=ID,title](http://localhost:8080/odata/v4/browse/Books?$select=ID,title)_ {.impl .java}
 - _[…/Authors?$search=Bro](http://localhost:8080/odata/v4/AdminService/Authors?$search=Bro)_ {.impl .java}
 - _[…/Authors?$expand=books($select=ID,title)](http://localhost:8080/odata/v4/AdminService/Authors?$expand=books($select=ID,title))_ {.impl .java}
 
-> Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
+> Note: Use [_alice_](../node.js/authentication#mocked) as user to query the `admin` service. You don't need to enter a password. {.impl .node}
 
-> Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
+> Note: Use [_authenticated_](../java/security#mock-users) to query the `admin` service. You don't need to enter a password. {.impl .java}
 
 [Learn more about **Generic Providers**.](../guides/providing-services){.learn-more}
 [Learn more about **OData's Query Options**.](../advanced/odata){.learn-more}
 
 
-<div class="impl node">
 
-### Deploying Persistent Databases
+### Persistent Databases {.impl .node}
 
-We can also use persistent instead of in-memory databases. For example, still with SQLite:
+Instead of in-memory databases we can also use persistent ones. For example, still with SQLite, add the following configuration:
 
-```sh
-npm add sqlite3 -D
-cds deploy --to sqlite:my.sqlite
+
+::: code-group
+
+```json [package.json]
+{
+  "cds": {
+    "requires": {
+      "db": {
+          "kind": "sqlite",
+          "credentials": { "url": "db.sqlite" } // [!code focus]
+      }
+    }
+  }
+}
 ```
 
-The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./my.sqlite_. This is also recorded in the _package.json_.
+:::
 
-To see what that did, use the `sqlite3` CLI with the newly created database:
+Then deploy:
 
 ```sh
-sqlite3 my.sqlite .dump
-sqlite3 my.sqlite .tables
+cds deploy
 ```
 
-You could also deploy to a provisioned SAP HANA database using this variant:
+The difference from the automatically provided in-memory database is that we now get a persistent database stored in the local file _./db.sqlite_. This is also recorded in the _package.json_.
 
+::: details To see what that did, use the `sqlite3` CLI with the newly created database.
+```sh
+sqlite3 db.sqlite .dump
+sqlite3 db.sqlite .tables
+```
+:::
+
+[Learn how to install SQLite on Windows.](troubleshooting#how-do-i-install-sqlite-on-windows){.learn-more}
+
+:::details You could also deploy to a provisioned SAP HANA database using this variant.
 ```sh
 cds deploy --to hana
 ```
-</div>
-
+:::
 
 [Learn more about deploying to SAP HANA.](../guides/databases){.learn-more .impl .node}
 
 
-## ⑤ Adding/Serving UIs {#adding-serving-uis}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
+## Serving UIs {#uis}
+
+
 You can consume the provided services, for example, from UI frontends, using standard AJAX requests.
 Simply add an _index.html_ file into the _app/_ folder, to replace the generic index page.
 
 
-### Vue.js UIs {#vue .impl .node}
-
-For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#defining-services). {.impl .node}
-
-![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/in-a-nutshell/vue-app.png){style="margin:0" .impl .node .adapt}
-
-
 ### SAP Fiori UIs {#fiori}
 
-Besides, being usable from any UI frontends using standard AJAX requests, CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori draft.
+CAP provides out-of-the-box support for SAP Fiori UIs, for example, with respect to SAP Fiori annotations and advanced features such as search, value helps and SAP Fiori Draft.
 
-![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/in-a-nutshell/fiori-app.png){.mute-dark}
+![Shows the famous bookshop catalog service in an SAP Fiori UI.](assets/fiori-app.png)
 
 [Learn more about **Serving Fiori UIs**.](../advanced/fiori){.learn-more}
 
 
-### Using OData Protocol
+### Vue.js UIs {#vue .impl .node}
 
-As CAP-based services are full-fledged OData services out of the box, you can use advanced
-query options, such as `$select`, `$expand`, `$search`, and many more.
+Besides Fiori UIs, CAP services can be consumed from any UI frontends using standard AJAX requests.
+For example, you can [find a simple Vue.js app in **cap/samples**](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/app/vue), which demonstrates browsing and ordering books using OData requests to [the `CatalogService` API we defined above](#services). {.impl .node}
 
-[Learn more about **Serving OData Protocol**.](../advanced/odata){.learn-more}
+![Shows the famous bookshop catalog service in a simple Vue.js UI.](assets/vue-app.png){style="margin:0" .impl .node .adapt}
 
 
-## ⑥ Adding Custom Logic {#adding-custom-logic}
-<!--Used as link target from Help Portal: https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html -->
+
+## Adding Custom Logic
+
+
 
 While the generic providers serve most CRUD requests out of the box, you can add custom code to deal with the specific domain logic of your application.
 
 
-### Providing Service Implementations
+
+### Service Implementations
 
 In Node.js, the easiest way to provide implementations for services is through equally named _.js_ files placed next to a service definition's _.cds_ file: {.impl .node}
 
-<div class="impl node">
+<span class="impl node">
 
-```console
-./srv
-  - cat-service.cds  # service definitions
-  - cat-service.js   # service implementation
-...
+```zsh
+bookshop/
+├─ srv/
+│ ├─ ...
+│ ├─ cat-service.cds # [!code focus]
+│ └─ cat-service.js # [!code focus]
+└─ ...
 ```
 
 [See these files also in **cap/samples**/bookshop/srv folder.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv){.learn-more}
 [Learn more about providing service implementations **in Node.js**.](../node.js/core-services#implementing-services){.learn-more .impl .node}
-[Learn also **how to do that in Java** using Event Handler Classes.](../java/provisioning-api#handlerclasses){.learn-more .impl .java}
+[Learn also **how to do that in Java** using Event Handler Classes.](../java/event-handlers/#handlerclasses){.learn-more .impl .java}
 
-</div>
+You can have this _.js_ file created automatically with [`cds add handler`](../tools/cds-cli#handler). {.learn-more}
 
-<div class="impl java">
+</span>
 
-In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`or `@Service`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
+<span class="impl java">
 
-```java
+In CAP Java, you can add custom handlers for your service as so called EventHandlers. As CAP Java integrates with Spring Boot, you need to provide your custom code in classes, annotated with `@Component`, for example. Use your favorite Java IDE to add a class like the following to the `srv/src/main/java/` folder of your application. {.impl .java}
+
+::: code-group
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
-public class CatalogHandler implements EventHandler {
+public class CatalogServiceHandler implements EventHandler {
   // your custom code will go here
 }
 ```
+:::
 
 ::: tip
 Place the code in your package of choice and use your IDE to generate the needed `import` statements.
 :::
 
-</div>
+</span>
 
 
 
-### Adding Custom Event Handlers
+### Adding Event Handlers
 
 Service implementations essentially consist of one or more event handlers.
 
-<div class="impl node">
+<span class="impl node">
 
 Copy this into _srv/cat-service.js_ to add custom event handlers:
 
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = function (){
-  // Register your event handlers in here, for example, ...
-  this.after ('READ','Books', each => {
-    if (each.stock > 111) {
-      each.title += ` -- 11% discount!`
-    }
-  })
-}
+class CatalogService extends cds.ApplicationService { init() {
+  const { Books } = cds.entities('CatalogService')
+
+  // Register your event handlers in here, for example:  // [!code focus]
+  this.after ('each', Books, book => { // [!code focus]
+    if (book.stock > 111) { // [!code focus]
+      book.title += ` -- 11% discount!` // [!code focus]
+    } // [!code focus]
+  }) // [!code focus]
+
+  return super.init()
+}}
+module.exports = CatalogService
 ```
 :::
 
 [Learn more about adding **event handlers** using `<srv>.on/before/after`.](../node.js/core-services#srv-on-before-after){.learn-more}
 
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
 Now that you have created the classes for your custom handlers it's time to add the actual logic. You can achieve this by adding methods annotated with CAP's `@Before`,  `@On`, or `@After` to your new class. The annotation takes two arguments: the event that shall be handled and the entity name for which the event is handled.
 
-```java
-@After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
-public void addDiscountIfApplicable(List<Books> books) {
-	for (Books book : books) {
-		if (book.getStock() > 111) {
-			book.setTitle(book.getTitle() + " -- 11% discount!");
-		}
-	}
+::: code-group
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
+  @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+  public void addDiscountIfApplicable(List<Books> books) {
+    for (Books book : books) {
+      if (book.getStock() != null && book.getStock() > 111) {
+        book.setTitle(book.getTitle() + " -- 11% discount!");
+      }
+    }
+  }
+```
+:::
+
+:::details Code including imports
+::: code-group
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogServiceHandler.java]
+package com.sap.capire.bookshop.handlers;
+
+import java.util.List;
+import org.springframework.stereotype.Component;
+import com.sap.cds.services.cds.CqnService;
+import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.After;
+import com.sap.cds.services.handler.annotations.ServiceName;
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+public class CatalogServiceHandler implements EventHandler {
+  @After(event = CqnService.EVENT_READ, entity = Books_.CDS_NAME)
+  public void addDiscountIfApplicable(List<Books> books) {
+    for (Books book : books) {
+      if (book.getStock() != null && book.getStock() > 111) {
+        book.setTitle(book.getTitle() + " -- 11% discount!");
+      }
+    }
+  }
 }
 ```
+:::
 
-[Learn more about **event handlers** in the  CAP Java documentation.](../java/provisioning-api#handlerclasses){.learn-more}
 
-</div>
+[Learn more about **event handlers** in the  CAP Java documentation.](../java/event-handlers/#handlerclasses){.learn-more}
+
+</span>
+
+
 
 ### Consuming Other Services
 
 Quite frequently, event handler implementations consume other services, sending requests and queries, as in the completed example below.
 
-<div class="impl node">
+<span class="impl node">
 
 ::: code-group
 ```js [srv/cat-service.js]
 const cds = require('@sap/cds')
-module.exports = async function (){
+class CatalogService extends cds.ApplicationService { async init() {
 
   const db = await cds.connect.to('db') // connect to database service
   const { Books } = db.entities         // get reflected definitions
@@ -592,67 +665,156 @@ module.exports = async function (){
   })
 
   // Add some discount for overstocked books
-  this.after ('READ','Books', each => {
-    if (each.stock > 111)  each.title += ` -- 11% discount!`
+  this.after ('each','Books', book => {
+    if (book.stock > 111) book.title += ` -- 11% discount!`
   })
-}
+
+  return super.init()
+}}
+module.exports = CatalogService
 ```
 :::
-</div>
+</span>
 
-<div class="impl java">
+<span class="impl java">
 
-```java
+::: code-group
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/SubmitOrderHandler.java]
 @Component
 @ServiceName(CatalogService_.CDS_NAME)
 public class SubmitOrderHandler implements EventHandler {
 
-	private final PersistenceService persistenceService;
+  private final PersistenceService persistenceService;
 
-	public SubmitOrderHandler(PersistenceService persistenceService) {
-		this.persistenceService = persistenceService;
-	}
+  public SubmitOrderHandler(PersistenceService persistenceService) {
+    this.persistenceService = persistenceService;
+  }
 
-	@On()
-	public void onSubmitOrder(SubmitOrderContext context) {
-		Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
-		Books book = persistenceService.run(byId).single().as(Books.class);
-		book.setStock(book.getStock() - context.getQuantity());
-
-		persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
-
-		context.setCompleted();
-	}
+  @On
+  public void onSubmitOrder(SubmitOrderContext context) {
+    Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
+    Books book = persistenceService.run(byId).single().as(Books.class);
+    if (context.getQuantity() > book.getStock())
+      throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+    book.setStock(book.getStock() - context.getQuantity());
+    persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
+    context.setCompleted();
+  }
 }
 ```
-</div>
+:::
+
+:::details Code including imports
+::: code-group
+```java [srv/src/main/java/com/sap/capire/bookshop/handlers/CatalogService.java]
+package com.sap.capire.bookshop.handlers;
+
+import org.springframework.stereotype.Component;
+import com.sap.cds.ql.Select;
+import com.sap.cds.ql.Update;
+import com.sap.cds.services.handler.EventHandler;
+import com.sap.cds.services.handler.annotations.On;
+import com.sap.cds.services.handler.annotations.ServiceName;
+import com.sap.cds.services.persistence.PersistenceService;
+import cds.gen.catalogservice.Books;
+import cds.gen.catalogservice.Books_;
+import cds.gen.catalogservice.CatalogService_;
+import cds.gen.catalogservice.SubmitOrderContext;
+
+@Component
+@ServiceName(CatalogService_.CDS_NAME)
+public class SubmitOrderHandler implements EventHandler {
+
+  private final PersistenceService persistenceService;
+
+  public SubmitOrderHandler(PersistenceService persistenceService) {
+    this.persistenceService = persistenceService;
+  }
+
+  @On
+  public void onSubmitOrder(SubmitOrderContext context) {
+    Select<Books_> byId = Select.from(cds.gen.catalogservice.Books_.class).byId(context.getBook());
+    Books book = persistenceService.run(byId).single().as(Books.class);
+    if (context.getQuantity() > book.getStock())
+      throw new IllegalArgumentException(context.getQuantity() + " exceeds stock for book #" + book.getTitle());
+    book.setStock(book.getStock() - context.getQuantity());
+
+    persistenceService.run(Update.entity(Books_.CDS_NAME).data(book));
+
+    context.setCompleted();
+  }
+}
+
+
+```
+:::
+
+</span>
 
 [Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/srv/cat-service.js){ .learn-more .impl .node target="_blank"}
 [Find this source also in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples-java/blob/main/srv/src/main/java/my/bookshop/handlers/CatalogServiceHandler.java#L166){ .impl .java .learn-more target="_blank"}
 [Learn more about **connecting to services** using `cds.connect`.](../node.js/cds-connect){ .learn-more .impl .node}
-[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/consumption-api){.learn-more .impl .java}
+[Learn more about **connecting to services** using `@Autowired`, `com.sap.cds.ql`, etc.](../java/services){.learn-more .impl .java}
 [Learn more about **reading and writing data** using `cds.ql`.](../node.js/cds-ql){ .learn-more .impl .node}
-[Learn more about **reading and writing data** using `cds.ql`.](../java/query-api){ .learn-more .impl .java}
+[Learn more about **reading and writing data** using `cds.ql`.](../java/working-with-cql/query-api){ .learn-more .impl .java}
 [Learn more about **using reflection APIs** using `<srv>.entities`.](../node.js/core-services#entities){ .learn-more .impl .node}
-[Learn more about **typed access to data** using the CAP Java SDK.](../java/data#typed-access){ .learn-more .impl .java}
+[Learn more about **typed access to data** using the CAP Java SDK.](../java/cds-data#typed-access){ .learn-more .impl .java}
 
 **Test this implementation**, [for example using the Vue.js app](#vue), and see how discounts are displayed in some book titles. {.impl .node}
 
-Or submit orders until you see the error messages. {.impl .node}
+### Sample HTTP Requests
+
+Test the implementation by submitting orders until you see the error messages. Create a file called _test.http_ and copy the request into it.
+
+<span class="impl node">
+
+::: code-group
+
+```http [test.http]
+### Submit Order
+POST http://localhost:4004/browse/submitOrder
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "book": 201,
+  "quantity": 2
+}
+```
+
+:::
+
+</span>
+
+<span class="impl java">
+
+::: code-group
+
+```http [test.http]
+### Submit Order
+POST http://localhost:8080/odata/v4/browse/submitOrder
+Content-Type: application/json
+Authorization: Basic authenticated:
+
+{
+  "book": 201,
+  "quantity": 2
+}
+```
+
+:::
+
+</span>
 
 
-## Summary and Next Steps
+## Summary
+
 With this getting started guide we introduced many of the basics of CAP, such as:
 
-- [Jump-Starting Projects and Grow-as-you-go](./grow-as-you-go) <!-- Airplane Mode is still empty concept -->
 - [Domain Modeling](../guides/domain-modeling)
-- [Defining Services and APIs](../guides/providing-services)
 - [Providing Services](../guides/providing-services)
 - [Consuming Services](../guides/using-services)
 - [Using Databases](../guides/databases)
-- [Adding/Serving UIs](../advanced/fiori)
-- [Adding Custom Logic](../guides/providing-services#adding-custom-logic)
+- [Serving UIs](../advanced/fiori)
 
-[**Visit our Cookbook**](../guides/) to find more task-oriented guides. For example, you can find guides about potential next steps such as adding [Authentication](../node.js/authentication) and [Authorization](../guides/authorization) or [Deploying to SAP BTP](../guides/deployment/).
-
-Also **see the reference sections** to find detailed documentation about [**CDS**](../cds/), as well as [**Node.js**](../node.js/) and [**Java**](../java/) Service SDKs and runtimes.
+Visit the [***Cookbook***](../guides/) for deep dive guides on these topics and more. Also see the reference documentations for [***CDS***](../cds/), as well as [***Node.js***](../node.js/) and [***Java***](../java/) Service SDKs and runtimes.

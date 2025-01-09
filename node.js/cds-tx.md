@@ -1,5 +1,4 @@
 ---
-redirect_from: node.js/transactions
 # layout: node-js
 status: released
 label: Transactions
@@ -13,18 +12,13 @@ Transaction management in CAP deals with (ACID) database transactions, principal
 As an application developer, **you don't have to care** about transactions, principal propagation, or tenant isolation at all. CAP runtime manages that for you automatically. Only in rare cases, you need to go beyond that level, and use one or more of the options documented hereinafter.
 :::
 
+[[toc]]
+
 <br>
-
-<!--- % include links-for-node.md %} -->
-<!--- % include _toc levels="2,3" %} -->
-
-<!--- % assign tx = '<span style="color:#088; font-weight:500">tx</span>' %} -->
-
 
 
 ## Automatic Transactions
 
-#### Root Transactions {.h2}
 
 Whenever an instance of `cds.Service` processes requests, the core framework automatically cares for starting and committing or rolling back database transactions, connection pooling, principal propagation and tenant isolation.
 
@@ -53,7 +47,7 @@ COMMIT;
 
 
 
-#### Nested Transactions {.h2}
+## Nested Transactions
 
 Services commonly process requests in event handlers, which in turn send requests to other services, like in this simplistic implementation of a bank transfer operation:
 
@@ -107,7 +101,7 @@ This usage variant, which accepts a function with nested operations ...
 <br>
 
 ::: tip
-**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, i.e., when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already.
+**Only in non-managed environments** — as said above: you don't need to care for that if you are in a managed environment, that is, when implementing an event handler. In that case, the core service runtime automatically created a transaction for you already.
 :::
 
 ::: warning _❗ Warning_ <!--  -->
@@ -117,7 +111,7 @@ If you're using the database SQLite, it leads to deadlocks when two transactions
 
 ## Background Jobs
 
-Background jobs are tasks to be executed *outside of the current transaction*, possibly also with other users, and maybe repeatedly. Use `cds.spawn()` to to so:
+Background jobs are tasks to be executed *outside of the current transaction*, possibly also with other users, and maybe repeatedly. Use `cds.spawn()` to do so:
 
 ```js
 // run in current tenant context but with privileged user
@@ -133,11 +127,12 @@ cds.spawn ({ user: cds.User.privileged, every: 1000 /* ms */ }, async ()=>{
 
 
 
-## Event Contexts
+## cds. context {#event-contexts .property}
 
 Automatic transaction management, as offered by the CAP, needs access to properties of the invocation context — most prominently, the current **user** and **tenant**, or the inbound HTTP request object.
 
-#### Accessing Context Information {.h2}
+
+### Accessing Context
 
 Access that information anywhere in your code through `cds.context` like that:
 
@@ -155,7 +150,7 @@ if (!req.is('application/json')) res.send(415)
 
 [Learn more about available `cds.context` properties](events#cds-context){.learn-more}
 
-#### Setting Contexts {.h2}
+### Setting Contexts
 
 Setting `cds.context` usually happens in inbound authentication middlewares or in inbound protocol adapters. You can also set it in your code, for example, you might implement a simplistic custom authentication middleware like so:
 
@@ -169,13 +164,14 @@ app.use ((req, res, next) => {
 
 
 
-#### Continuation-local Variable {.h2}
+### Continuation-local Variable
 
 `cds.context` is implemented as a so-called *continuation-local* variable.
 
 As JavaScript is single-threaded, we cannot capture request-level invocation contexts such (as current user, tenant, or locale) in what other languages like Java call thread-local variables. But luckily, starting with Node v12, means for so-called *"Continuation-Local Storage (CLS)"* were given to us. Basically, the equivalent of thread-local variables in the asynchronous continuations-based execution model of Node.js.
 
-#### Context Propagation {.h2}
+
+### Context Propagation
 
 When creating new root transactions in calls to `cds.tx()`, all properties not specified in the `context` argument are inherited from `cds.context`, if set in the current continuation.
 
@@ -195,7 +191,7 @@ cds.context.user.id === 'u1'          //> true
 
 
 
-## cds. tx ( ctx, fn ) {.method}
+## cds/srv. tx() {#srv-tx .method}
 
 ```tsx
 function srv.tx ( ctx?, fn? : tx<srv> => {...} ) => Promise
@@ -275,8 +271,6 @@ Note though, that with this usage we've **not** started a new async context, and
 
 
 
-## cds/srv.tx  <i>  (...) → tx\<srv\> </i> {#srv-tx  .h2}
-
 
 ### srv.tx  <i>  (context?, fn?) → tx\<srv\> </i>
 
@@ -312,7 +306,7 @@ tx = Object.create (srv, Object.getOwnPropertyDescriptors({
 
 In effect, `tx` objects ...
 
-* are concrete context-specific — i.e. tenant-specific — incarnations of `srv`es
+* are concrete context-specific — that is tenant-specific — incarnations of `srv`es
 * support all the [Service API](core-services) methods like `run`, `create` and `read`
 * support methods `tx.commit` and `tx.rollback` as documented below.
 
@@ -416,7 +410,7 @@ In case of database services, this sends `ROLLBACK` command to the database and 
 
 
 
-## cds.spawn  <i>  (options, fn) </i> {#cds-spawn}
+## cds.spawn() {#cds-spawn .method}
 
 Runs the given function as detached continuation in a specified event context (not inheriting from the current one).
 Options `every` or `after` allow to run the function repeatedly or deferred. For example:
@@ -435,10 +429,10 @@ Even though the callback function is executed as a background job, all asynchron
 
 **Arguments:**
 
-* `options` is the same as the `context` argument for `cds.tx()`, plus:
+* `options` is the same as the `ctx` argument for `cds.tx()`, plus:
   * `every: <n>` number of milliseconds to use in `setInterval(fn,n)`
   * `after: <n>` number of milliseconds to use in `setTimeout(fn,n)`
-  * if non of both is given `setImmediate(fn)` is used to run the job
+  * if non of both is given, `setImmediate(fn)` is used to run the job
 * `fn` is a function representing the background task
 
 **Returns:**
@@ -462,17 +456,17 @@ The implementation guarantees decoupled execution from request-handling threads/
 
 - constructing a new root transaction `tx` per run using `cds.tx()`
 - setting that as the background run's continuation's `cds.context`
-- invokes `fn` passing `tx` as argument to it.
+- invoking `fn`, passing `tx` as argument to it.
 
 Think of it as if each run happens in an own thread with own context, with automatic transaction management.
 
-Use argument `options` if you want to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
+By default, the nested context inherits all values except `timestamp` from `cds.context`, especially user and tenant. Use the argument `options` if you want to override values, for example to run the background thread with different user or tenant than the one you called `cds.spawn()` from.
 
 
 
 ## DEPRECATED APIs
 
-### srv.tx <i> (req) → tx\<srv\> </i> {#srv-tx-req}
+#### srv.tx <i> (req) → tx\<srv\> </i> {#srv-tx-req}
 
 Prior to release 5, you always had to write application code like that to ensure context propagation and correctly managed transactions:
 

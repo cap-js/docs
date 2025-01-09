@@ -13,6 +13,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [Learn more about the syntax of annotations.](./cdl#annotations){.learn-more}
 
+[[toc]]
+
 
 ## General Purpose
 
@@ -28,8 +30,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 |---------------|------------------------------------------------------------------|
 | `@readonly`   | see [Input Validation](../guides/providing-services#readonly)   |
 | `@insertonly` | see [Generic Handlers](../guides/providing-services)            |
-| `@restrict`   | see [Authorization](../guides/authorization#restrict-annotation) |
-| `@requires`   | see [Authorization](../guides/authorization#requires)            |
+| `@restrict`   | see [Authorization](../guides/security/authorization#restrict-annotation) |
+| `@requires`   | see [Authorization](../guides/security/authorization#requires)            |
 
 
 ## Input Validation
@@ -38,12 +40,12 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 |---------------------|----------------------------------------------------------------------|
 | `@readonly `        | see [Input Validation](../guides/providing-services#readonly)       |
 | `@mandatory`        | see [Input Validation](../guides/providing-services#mandatory)      |
-| `@assert.unique`    | see [Input Validation](../guides/providing-services#unique)         |
-| `@assert.integrity` | see [Input Validation](../guides/databases#db-constraints)           |
+| `@assert.unique`    | see [Input Validation](../guides/providing-services#assert-unique)         |
+| `@assert.integrity` | see [Input Validation](../guides/databases#database-constraints)           |
 | `@assert.target`    | see [Input Validation](../guides/providing-services#assert-target)  |
 | `@assert.format`    | see [Input Validation](../guides/providing-services#assert-format)  |
 | `@assert.range`     | see [Input Validation](../guides/providing-services#assert-range)   |
-| `@assert.notNull`   | see [Input Validation](../guides/providing-services#assert-notNull) |
+| `@assert.notNull`   | see [Input Validation](../guides/providing-services#assert-notnull) |
 
 
 
@@ -64,15 +66,16 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## Persistence
 
-| Annotation                | Description                                                        |
-|---------------------------|--------------------------------------------------------------------|
-| `@cds.persistence.exists` | tells `compile.to.sql` this is created otherwise                   |
-| `@cds.persistence.table`  | tells `compile.to.sql` to create a table, not a view               |
-| `@cds.persistence.skip`   | tells the compiler, this entity shall not exist in database at all |
-| `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                |
-| `@cds.on.insert`          | see [Providing Services](../guides/providing-services)            |
-| `@cds.on.update`          | see [Providing Services](../guides/providing-services)            |
-
+| Annotation                | Description                                                            |
+|---------------------------|------------------------------------------------------------------------|
+| `@cds.persistence.exists` | see [Generating DDL Files](../guides/databases#cds-persistence-exists) |
+| `@cds.persistence.table`  | see [Generating DDL Files](../guides/databases#cds-persistence-table)  |
+| `@cds.persistence.skip`   | see [Generating DDL Files](../guides/databases#cds-persistence-skip)   |
+| `@cds.persistence.mock`   | `false` excludes this entity from automatic mocking                    |
+| `@cds.on.insert`          | see [Providing Services](../guides/providing-services)                 |
+| `@cds.on.update`          | see [Providing Services](../guides/providing-services)                 |
+| `@sql.prepend`            | see [Generating DDL Files](../guides/databases#sql-prepend-append)     |
+| `@sql.append`             | see [Generating DDL Files](../guides/databases#sql-prepend-append)     |
 
 ## OData
 
@@ -95,8 +98,8 @@ Intrinsically supported OData Annotations:
 |------------------------|------------------------------------------------------------------|
 | `@Core.Computed`       | see [Providing Services](../guides/providing-services#readonly) |
 | `@Core.Immutable`      | see [Providing Services](../guides/providing-services#readonly) |
-| `@Core.MediaType`      | see [Media Data](../guides/media-data)                          |
-| `@Core.IsMediaType`    | see [Media Data](../guides/media-data)                          |
-| `@Core.IsUrl`          | see [Media Data](../guides/media-data)                          |
+| `@Core.MediaType`      | see [Media Data](../guides/providing-services#serving-media-data)                          |
+| `@Core.IsMediaType`    | see [Media Data](../guides/providing-services#serving-media-data)                          |
+| `@Core.IsUrl`          | see [Media Data](../guides/providing-services#serving-media-data)                          |
 | `@Capabilities...`     | see [Fiori](../advanced/fiori)                                   |
-| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#input-validation)) |
+| `@Common.FieldControl` | see [Input Validation](../guides/providing-services#common-fieldcontrol) |

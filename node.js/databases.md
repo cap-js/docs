@@ -2,13 +2,15 @@
 label: Databases
 synopsis: >
   Class <code>cds.DatabaseService</code> and subclasses thereof are technical services representing persistent storage.
-# layout: node-js
 status: released
 ---
 
-# Databases
+# Database Services
 
-{{ $frontmatter.synopsis }}
+<div v-html="$frontmatter?.synopsis" />
+
+[[toc]]
+
 
 ## cds.**DatabaseService**  <i>  class </i> { #cds-db-service}
 
@@ -147,8 +149,6 @@ UPSERT.into('db.Books')
 
 The following actions are *not* performed on upsert:
  * UUID key values are _not generated_.
- * The `@cds.on.insert` annotation is _not handled_.
- * Elements are _not initialized_ with default values if the element's value is not given.
  * Generic CAP handlers, such as audit logging, are not invoked.
 
 ::: warning

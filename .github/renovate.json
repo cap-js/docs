@@ -4,20 +4,40 @@
     "config:base",
     ":disableDependencyDashboard"
   ],
+  "rebaseWhen": "conflicted",
   "includePaths": [
-    ".vitepress/config.ts",
-    ".github/workflows/"
+    ".vitepress/config.*",
+    ".github/workflows/",
+    "package.json",
+    "**/*.md"
   ],
   "packageRules": [
     {
       "matchPackageNames": [ "com.sap.cds:cds-services-api", "com.sap.cds:cds4j-api" ],
       "rangeStrategy": "bump",
       "groupName": "CAP Java SDK"
+    },
+    {
+      "matchPackageNames": [ "vitepress" ],
+      "groupName": "Vitepress"
+    },
+    {
+      "matchPackagePatterns": [ ".*eslint.*" ],
+      "groupName": "ESLint"
+    },
+    {
+      "matchDepTypes": ["action"],
+      "groupName": "Github actions"
+    },
+    {
+      "matchFileNames": [ "**/*.md" ],
+      "separateMajorMinor": false
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [ ".vitepress/config.ts" ],
+      "customType": "regex",
+      "fileMatch": [ ".vitepress/config.*" ],
       "matchStrings": [
         "java_services\\s*:\\s*'(?<currentValue>.*?)'"
       ],
@@ -26,7 +46,8 @@
       "versioningTemplate": "maven"
     },
     {
-      "fileMatch": [ ".vitepress/config.ts" ],
+      "customType": "regex",
+      "fileMatch": [ ".vitepress/config.*" ],
       "matchStrings": [
         "java_cds4j\\s*:\\s*'(?<currentValue>.*?)'"
       ],

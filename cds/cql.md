@@ -2,7 +2,7 @@
 # layout: cds-ref
 shorty: Query Language
 synopsis: >
-  Documents the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
+  Specification of the CDS Query Language (aka CQL) which is an extension of the standard SQL SELECT statement.
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -14,7 +14,9 @@ CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
 [[toc]]
 
-## Postfix Projections {#postfix-projections }
+
+## Postfix Projections
+{#postfix-projections}
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:
 
@@ -25,8 +27,146 @@ SELECT name, address.street from Authors
 SELECT from Authors { name, address.street }
 ```
 
+### Nested Expands <Beta />
+{#nested-expands}
 
-<div id="afterpostfix" />
+Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
+This allows **expand** results along associations and hence read deeply structured documents:
+
+```sql
+SELECT from Authors {
+   name, address { street, town { name, country }}
+};
+```
+
+This actually executes three correlated queries to authors, addresses, and towns and returns a structured result set like that:
+
+```js
+results = [
+  {
+    name: 'Victor Hugo',
+    address: {
+      street: '6 Place des Vosges', town: {
+        name: 'Paris',
+        country: 'France'
+      }
+    }
+  }, {
+    name: 'Emily Brontë', …
+  }, …
+]
+```
+
+> This is rather a feature tailored to NoSQL databases and has no equivalent in standard SQL as it requires structured result sets. Some SQL vendors allow things like that with non-scalar subqueries in SELECT clauses.
+
+::: warning
+Nested Expands following _to-many_ associations are not supported.
+:::
+
+
+
+#### Alias
+
+As the name of the struct element or association preceding the postfix projection appears in the result set,
+an alias can be provided for it:
+
+```sql
+SELECT from Authors {
+   name, address as residence { street, town as city { name, country }}
+};
+```
+
+The result set now is:
+```js
+results = [
+  {
+    name: 'Victor Hugo',
+    residence: {
+      street: '6 Place des Vosges', city: {
+        name: 'Paris',
+        country: 'France'
+      }
+    }
+  }, …
+]
+```
+
+
+#### Expressions
+
+Nested Expands can contain expressions.
+In addition, it's possible to define new structures that aren't present in the data source. In this case
+an alias is mandatory and is placed *behind* the `{…}`:
+
+```sql
+SELECT from Books {
+   title,
+   author { name, dateOfDeath - dateOfBirth as age },
+   { stock as number, stock * price as value } as stock
+};
+```
+
+The result set contains two structured elements:
+
+```js
+results = [
+  {
+    title: 'Wuthering Heights',
+    author: {
+      name: 'Emily Brontë',
+      age: 30
+    },
+    stock: {
+      number: 12,
+      value: 133.32
+    }
+  }, …
+]
+```
+
+### Nested Inlines <Beta /> {#nested-inlines}
+
+Put a **`"."`** before the opening brace to **inline** the target elements and avoid writing lengthy lists of paths to read several elements from the same target. For example:
+
+```sql
+SELECT from Authors {
+   name, address.{ street, town.{ name, country }}
+};
+```
+
+… is equivalent to:
+
+```sql
+SELECT from Authors {
+  name,
+  address.street,
+  address.town.name,
+  address.town.country
+};
+```
+
+Nested Inlines can contain expressions:
+
+```sql
+SELECT from Books {
+   title,
+   author.{
+     name, dateOfDeath - dateOfBirth as author_age,
+     address.town.{ concat(name, '/', country) as author_town }
+   }
+};
+```
+
+The previous example is equivalent to the following:
+
+```sql
+SELECT from Books {
+   title,
+   author.name,
+   author.dateOfDeath - author.dateOfBirth as author_age,
+   concat(author.address.town.name, '/', author.address.town.country) as author_town
+};
+```
 
 
 ## Smart `*` Selector
@@ -55,8 +195,8 @@ For example, assume the following definitions:
 
 ```cds
 entity Foo { foo : String; bar : String; car : String; }
-entity Bar as SELECT from Foo excluding { bar };
-entity Boo as SELECT from Foo { foo, car };
+entity Bar as select from Foo excluding { bar };
+entity Boo as select from Foo { foo, car };
 ```
 
 A `SELECT * from Bar` would result into the same as a query of `Boo`:
@@ -80,7 +220,47 @@ SELECT * from Boo --> { foo, car }
 ```
 
 
-<div id="afterexcludingclause" />
+### In Nested Expands <Beta />
+
+If the `*` selector is used following an association, it selects all elements of the association target.
+For example, the following queries are equivalent:
+
+```sql
+SELECT from Books { title, author { * } }
+```
+```sql
+SELECT from Books { title, author { ID, name, dateOfBirth, … } }
+```
+
+
+A `*` selector following a struct element selects all elements of the structure and thus is equivalent to selecting the struct element itself.
+The following queries are all equivalent:
+```sql
+SELECT from Authors { name, struc { * } }
+SELECT from Authors { name, struc { elem1, elem2 } }
+SELECT from Authors { name, struc }
+```
+
+The `excluding` clause can also be used for Nested Expands:
+```sql
+SELECT from Books { title, author { * } excluding { dateOfDeath, placeOfDeath } }
+```
+
+
+
+### In Nested Inlines <Beta />
+
+The expansion of `*` in Nested Inlines is analogous. The following queries are equivalent:
+
+```sql
+SELECT from Books { title, author.{ * } }
+SELECT from Books { title, author.{ ID, name, dateOfBirth, … } }
+```
+
+The `excluding` clause can also be used for Nested Inlines:
+```sql
+SELECT from Books { title, author.{ * } excluding { dateOfDeath, placeOfDeath } }
+```
 
 
 ## Path Expressions
@@ -250,7 +430,7 @@ Define an unmanaged association directly in the select list of the query to add 
 In contrast to mixins, these association definitions are also possible in projections.
 
 ```cds
-entity BookReviews as SELECT from Reviews {
+entity BookReviews as select from Reviews {
   ...,
   subject as bookID,
   book : Association to Books on book.ID = bookID

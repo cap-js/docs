@@ -1,61 +1,76 @@
 ---
+# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 status: released
+title: Home
 
 hero:
-  name: Welcome to CAP
-  text: The Cloud Application Programming Model
+  name: "SAP Cloud Application Programming Model"
+  image: /cap-logo.svg
+
   tagline:
-    Building Cloud-native Applications with Maximized Productivity at Minimized Costs, based on Proven Best Practices Served Out of the Box.
-  image: /assets/logos/cap.svg
+    Build cloud-native applications
+    with maximized productivity
+    at minimized costs,
+    and proven best practices
+    served out of the box.
+
   actions:
-  - theme: brand
-    text: About CAP
-    link: /about/
-  - theme: brand
-    text: Get Started
-    link: /get-started/in-a-nutshell
-  - theme: alt
-    text: See Samples
-    link: /resources/#public-resources
-  - theme: alt
-    text: See Release Notes
-    link: /releases/
+
+    - theme: alt
+      text: Get Started
+      link: /get-started/
+
+    - theme: alt
+      text: Learn More
+      link: /about/
+
+    - theme: brand
+      text: What's New?
+      link: /releases
 
 features:
-- title: Jumpstart & Grow as You Go
-  icon: ⚒️
-  details:
-    Jumpstart with minimum setup.
-    Develop locally in fast turn-arounds with mocked production services.
-    Add things only when they are actually required.
-  link: about/
-- title: Intrinsic Cloud Qualities
-  icon: ⛅️
-  details:
-    Multitenancy, Extensibility, Security, Scalability, Resilience, Messaging, Observability, ...
-    CAP facilitates these to great extents in <b>platform-agnostic</b> ways.
-  link: about/#services
-- title: Enterprise Best Practices
-  icon: 📂
-  details:
-    Proven best practices for Authorization, Localization/i18n, Localized Data, Temporal Data, Data Privacy, Verticalization are served out of the box.
-  link: about/#generic-providers
+
 - title: Focus on Domain
-  icon: 🎯
+  icon: ⭕️
   details:
-    All this + CDS to capture intent instead of imperative coding, greatly reduces boilerplate, and fosters close collaboration of developers and domain experts.
-  link: about/#domain-modeling
+    •&nbsp; Capture intent ⇒ What, not how! <br/>
+    •&nbsp; Minimized boilerplate coding <br/>
+    •&nbsp; Developers + domain experts <br/>
+  link: about/
+  linkText: Read the Primer
+
+- title: Rapid Development
+  icon: 🌀
+  details:
+    •&nbsp; Jumpstart with minimal setup <br/>
+    •&nbsp; Rapid dev at minimized costs <br/>
+    •&nbsp; Grow as you go... <br/>
+  link: get-started/in-a-nutshell
+  linkText: Get Started in a Nutshell
+
+- title: Proven Best Practices
+  icon: 🧩
+  details:
+    •&nbsp; Enterprise-grade solutions <br/>
+    •&nbsp; Proven in SAP products <br/>
+    •&nbsp; Served out of the box <br/>
+  link: about/best-practices
+  linkText: Key Concepts & Rationales
+
+- title: Cloud Native
+  icon: 💯
+  details:
+    •&nbsp; Multitenancy, Extensibility, ... <br/>
+    •&nbsp; Resilience, Scalability, ... <br/>
+    •&nbsp; Intrinsically taken care of <br/>
+  link: about/#cloud-native-by-design
+  linkText: Intrinsic & by Design
+
 ---
 
 <style>
-
-/* make hero text a bit wider to avoid unlucky wrapping */
-@media (min-width: 960px) {
-  .VPHero.has-image .main,
-  .VPHero .text {
-    max-width: 620px !important;
-  }
+.VPFeature .details li {
+  white-space: nowrap;
 }
-
 </style>

@@ -1,60 +1,369 @@
 ---
 # shorty: Definition Language
 synopsis: >
-  A reference and overview of all CDS concepts and features with compact examples written in CDS' definition language.
+  Specification of the definition language used to model data models and services in an easy and user-centric syntax. Includes a reference and overview of all CDS concepts and features with compact examples.
 #permalink: /cds/cdl/
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
 
-<!--@include: ../links.md-->
 
-# Definition Language (CDL)
-<!-- <style scoped>
-  h2 {
-    font-weight: 300; font-size: 2.8em; color: #222;
-    border-bottom: .5px solid silver;
-    padding-bottom: 5px;
+
+
+
+# Conceptual Definition Language (CDL)
+
+
+
+The *Conceptual Definition Language (CDL)* is a human-readable language for defining CDS models. Sources are commonly provided in files with`.cds` extensions and get compiled into [CSN representations](csn). Following sections provide a reference of all language constructs in CDL, which also serves as a reference of all corresponding CDS concepts and features.
+
+
+
+[[toc]]
+
+
+
+
+
+## Language Preliminaries
+
+
+
+- [Keywords & Identifiers](#keywords-identifiers)
+- [Built-in Types](#built-in-types)
+- [Literals](#literals)
+- [Model Imports](#model-imports)
+- [Namespaces](#namespaces)
+- [Comments](#comments)
+
+
+
+### Keywords & Identifiers
+
+*Keywords* in CDL are used to prelude statements, such as imports and namespace directives as well as entity and type declarations. *Identifiers* are used to refer to definitions.
+
+```cds
+namespace capire.bookshop;
+using { managed } from `@sap/cds/common`;
+aspect entity : managed { key ID: Integer }
+
+entity Books : entity {
+  title  : String;
+  author : Association to Authors;
+}
+
+entity Authors : entity {
+  name   : String;
+}
+```
+
+::: details Noteworthy...
+
+In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
+
+As indicated by the syntax coloring, `Association` is not a keyword, but a type name identifier, similar to `String`, `Integer`, `Books` and `Authors`.
+
+:::
+
+Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
+
+Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
+
+Identifiers have to comply to `/[$A-Za-z_]\w*/` or be enclosed in `![`...`]` like that:
+
+```cds
+type ![Delimited Identifier] : String;
+```
+
+::: warning Avoid using delimited identifiers
+Delimited identifiers in general, but in articular non-ansi characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
+:::
+
+
+
+### Built-in Types
+
+<!--@include: ./types.md{11,}-->
+
+
+
+
+
+### Literals
+
+The following literals can be used in CDL (mostly as in JavaScript, Java, and SQL):
+
+<!-- cds-mode: ignore; values only, no valid CDS file -->
+```cds
+true , false , null        // as in all common languages
+11 , 2.4 , 1e3, 1.23e-11   // for numbers
+'A string''s literal'      // for strings
+{ foo:'boo', bar:'car' }   // for records
+[ 1, 'two', {three:4} ]    // for arrays
+```
+
+[Learn more about literals and their representation in CSN.](./csn#literals) {.learn-more}
+
+#### Date & Time Literals
+
+In addition, type-keyword-prefixed strings can be used for date & time literals:
+
+<!-- cds-mode: ignore; values only, no valid CDS file -->
+```cds
+date'2016-11-24'
+time'16:11:32'
+timestamp'2016-11-24T12:34:56.789Z'
+```
+
+
+
+
+#### Multiline String Literals {#multiline-literals}
+
+Use string literals enclosed in **single or triple backticks** for multiline strings:
+
+```cds
+@escaped: `OK Emoji: \u{1f197}`
+@multiline: ```
+    This is a CDS multiline string.
+    - The indentation is stripped.
+    - \u{0055}nicode escape sequences are possible,
+      just like common escapes from JavaScript such as
+      \r \t \n and more! ```
+@data: ```xml
+    <main>
+      The tag is ignored by the core-compiler but may be
+      used for syntax highlighting, similar to markdown.
+    </main> ```
+entity DocumentedEntity {
+  // ...
+}
+```
+
+Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). For string literals inside triple backticks, indentation is stripped and tagging is possible.
+
+
+
+
+
+### Model Imports
+
+
+
+
+#### The `using` Directive {#using}
+
+Using directives allows to import definitions from other CDS models. As shown in line three below you can specify aliases to be used subsequently. You can import single definitions as well as several ones with a common namespace prefix. Optional: Choose a local alias.
+
+::: code-group
+
+```cds [using-from.cds]
+using foo.bar.scoped.Bar from './contexts';
+using foo.bar.scoped.nested from './contexts';
+using foo.bar.scoped.nested as specified from './contexts';
+
+entity Car : Bar {}            //> : foo.bar.scoped.Bar
+entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
+entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
+```
+
+:::
+
+Multiple named imports through ES6-like deconstructors:
+
+```cds
+using { Foo as Moo, sub.Bar } from './base-model';
+entity Boo : Moo { /*...*/ }
+entity Car : Bar { /*...*/ }
+```
+
+> Also in the deconstructor variant of `using` shown in the previous example, specify fully qualified names.
+
+
+
+
+#### Model Resolution
+
+Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
+In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
+Hence, the same rules apply:
+
+- Relative path resolution<br>
+  Names starting with `./` or `../` are resolved relative to the current model.
+- Resolving absolute references<br>
+  Names starting with `/` are resolved absolute to the file system.
+- Resolving module references<br>
+  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
+   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
+   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
+
+::: tip
+To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
+:::
+
+
+
+
+
+### Namespaces
+
+
+#### The `namespace` Directive
+
+To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
+
+::: code-group
+
+```cds[namespace.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+entity Bar : Foo {}     //> foo.bar.Bar
+```
+
+:::
+
+A namespace is not an object of its own. There is no corresponding definition in CSN.
+
+#### The `context` Directive {#context}
+
+Use `contexts` for nested namespace sections.
+
+::: code-group
+
+```cds[contexts.cds]
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+context scoped {
+  entity Bar : Foo {}   //> foo.bar.scoped.Bar
+  context nested {
+    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
   }
-  h3 {
-    font-weight: 400;
-    font-size: 1.5em;
-  }
-</style> -->
+}
+```
 
-Find here a reference of all CDS concepts and features in the form of compact examples.
-The examples are given in **_CDL_**, a human-readable syntax for defining models, and **_CQL_**, an extension of SQL to write queries.
-
-<!-- [[toc]] -->
+:::
 
 
-<br>
+#### Scoped Definitions {#scoped-names}
 
-Refer also to [_The Nature of Models_](models) and the [_CSN specification_](./csn) to complete your understanding of CDS.
+You can define types and entities with other definitions' names as prefixes:
 
-<br>
+```cds
+namespace foo.bar;
+entity Foo {}           //> foo.bar.Foo
+entity Foo.Bar {}       //> foo.bar.Foo.Bar
+type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
+```
 
 
-## Entity and Type Definitions
+#### Fully Qualified Names
 
-- [Entity Definitions](#entities) — `define entity`
-- [Type Definitions](#types) — `define type`
-- [Predefined Types](#predefined-types)
+A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
+
+::: code-group
+
+```json [contexts.json]
+{"definitions":{
+  "foo.bar.Foo": { "kind": "entity" },
+  "foo.bar.scoped": { "kind": "context" },
+  "foo.bar.scoped.Bar": { "kind": "entity",
+    "includes": [ "foo.bar.Foo" ]
+  },
+  "foo.bar.scoped.nested": { "kind": "context" },
+  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
+}}
+```
+
+:::
+
+
+
+
+
+### Comments
+
+CDL supports line-end, block comments, and *doc* comments as in Java and JavaScript:
+
+```cds
+// line-end comment
+/* block comment */
+/** doc comment */
+```
+
+#### Doc Comments {#doc-comment}
+
+A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
+
+```cds
+/**
+ * I am the description for "Employee"
+ */
+entity Employees {
+  key ID : Integer;
+  /**
+   * I am the description for "name"
+   */
+  name : String;
+}
+```
+
+The text of a doc comment is stored in CSN in the property `doc`.
+When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
+
+When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
+
+```sql
+CREATE TABLE Employees (
+  ID INTEGER,
+  name NVARCHAR(...) COMMENT 'I am the description for "name"'
+) COMMENT 'I am the description for "Employee"'
+```
+
+::: tip
+Propagation of doc comments can be stopped via an empty one: `/** */`.
+:::
+
+In CAP Node.js, doc comments need to be switched on when calling the compiler:
+
+::: code-group
+
+```sh [CLI]
+cds compile foo.cds --docs
+```
+
+```js [JavaScript]
+cds.compile(..., { docs: true })
+```
+
+:::
+
+::: tip Doc comments are enabled by default in CAP Java.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
+:::
+
+
+
+
+
+
+## Entities & Type Definitions
+
+- [Entity Definitions](#entity-definitions)
+- [Type Definitions](#type-definitions)
 - [Structured Types](#structured-types)
 - [Arrayed Types](#arrayed-types)
 - [Virtual Elements](#virtual-elements)
-- [Literals](#literals)
-- [Delimited Identifiers](#delimited-identifiers)
 - [Calculated elements](#calculated-elements)
 - [Default Values](#default-values)
-- [Type References](#typereferences)
+- [Type References](#type-references)
 - [Constraints](#constraints)
 - [Enums](#enums)
 
 
 
 
-### Entity Definitions — `define entity`
+
+### Entity Definitions
 {#entities}
 
 Entities are structured types with named and typed elements,
@@ -73,7 +382,7 @@ define entity Employees {
 > The `define` keyword is optional, that means `define entity Foo` is equal to `entity Foo`.
 
 
-### Type Definitions — `define type`
+### Type Definitions
 {#types}
 
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
@@ -92,12 +401,6 @@ define type Currency : Association to Currencies;
 [Learn more about **Definitions of Named Aspects**.](#aspects){.learn-more}
 
 
-
-
-### Predefined Types
-
-
-[See list of **Built-in Types**](types){.learn-more}
 
 
 
@@ -149,7 +452,7 @@ With OData V4, arrayed types are rendered as `Collection` in the EDM(X).
 
 
 ::: warning
-Filter expressions, [instance-based authorization](../guides/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
+Filter expressions, [instance-based authorization](../guides/security/authorization#instance-based-auth) and [search](../guides/providing-services#searching-data) are not supported on arrayed elements.
 :::
 
 #### Null Values
@@ -180,99 +483,27 @@ By default virtual elements are annotated with `@Core.Computed: true`, not writa
 
 ```cds
 entity Employees {
-  ...
+  [...]
   virtual something : String(11);
 }
 ```
-### Literals
 
-Using literals in CDS models is commonly used, for example, to set default values. The literals in the following table show you how to define these values in your CDS source.
-
-| Kind      | Example |
-| --------- | --- |
-| Null      | `null` |
-| Boolean   | `true`, `false` |
-| Numbers   | `11`, `2.4`, or `1.34e10` |
-| Strings   | `'foo'` or `` `foo` `` or ```` ```foo``` ```` |
-| Dates     | `date'2016-11-24'` |
-| Times     | `time'16:11:32Z'` |
-| Timestamp | `timestamp'2016-11-24T16:11:32.4209753Z'` |
-| DateTime  | `'2016-11-24T16:11Z'` |
-| Records   | `{"foo":<literal>, ...}` |
-| Arrays    | `[<literal>, ...]` |
-
-[Learn more about literals and their representation in CSN.](./csn#literals){.learn-more}
-
-
-#### Multiline String Literals
-{#multiline-literals}
-
-String literals enclosed in single ticks, for example `'string'`,
-are limited to a single line.
-
-Use string literals enclosed in single or triple **backticks** for multiline strings. Within those strings, escape sequences from JavaScript, such as `\t` or `\u0020`, are supported. Line endings are normalized. If you don't want a line ending at that position, end a line with a backslash (`\`). Only for string literals inside triple backticks, indentation is stripped and tagging is possible.
-
-**Examples:**
-
-```cds
-@documentation: ```
-    This is a CDS multiline string.
-    - The indentation is stripped.
-    - \u{0055}nicode escape sequences are possible,
-      just like common escapes from JavaScript such as
-      \r \t \n and more!
-    ```
-
-@data: ```xml
-    <main>
-      The tag is ignored by the core-compiler but may be
-      used for syntax highlighting, similar to markdown.
-    </main>
-    ```
-@escaped: `OK Emoji: \u{1f197}`
-entity DocumentedEntity {
-  // ...
-}
-```
-
-
-### Delimited Identifiers
-
-Delimited identifiers allow you to use any identifier, even containing special characters or using a keyword.
-
-::: warning
-Special characters in identifiers or keywords as identifiers should be avoided for best interoperability.
-:::
-
-```cds
-entity ![Entity] {
-  bar           : ![Keyword];
-  ![with space] : Integer;
-}
-```
-
->You can escape `]` by `]]`, for example `![L[C]]R]` which will be parsed as `L[C]R`.
 
 <span id="calculated-fields"/>
 
-### Calculated Elements (beta) {#calculated-elements}
 
-::: warning
-This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
-For more information, see [Important Disclaimers and Legal Information](https://help.sap.com/viewer/disclaimer).
-:::
+### Calculated Elements
 
 Elements of entities and aspects can be specified with a calculation expression, in which you can
 refer to other elements of the same entity/aspect.
+This can be either a value expression or an expression that resolves to an association.
 
-Today CAP CDS only supports calculated elements with a value expression.
-They are read-only, no value must be provided for them in a WRITE operation.
-When reading a calculated element, the result of the expression is returned.
-
-Calculated elements with a value expression come in two variants: "on-read" and "on-write".
+Calculated elements with a value expression are read-only, no value must be provided for
+them in a WRITE operation. When reading such a calculated element, the result of the
+expression is returned. They come in two variants: "on-read" and "on-write".
 The difference between them is the point in time when the expression is evaluated.
 
-#### On-read (beta)
+#### On-read
 
 ```cds
 entity Employees {
@@ -326,7 +557,7 @@ A calculated element can be *used* in every location where an expression can occ
  For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
-#### On-write (beta)
+#### On-write
 
 Calculated elements "on-write" (also referred to as "stored" calculated elements) are defined
 by adding the keyword `stored`. A type specification is mandatory.
@@ -360,9 +591,24 @@ In addition, there are restrictions that depend on the particular database. Curr
 supported by CAP have a common restriction: The calculation expression may only refer to fields of the same
 table row. Therefore, such an expression must not contain subqueries, aggregate functions, or paths with associations.
 
-No restrictons apply for reading a calculated element on-write.
+No restrictions apply for reading a calculated element on-write.
 
-<div id="concept-alce" />
+#### Association-like calculated elements {#association-like-calculated-elements}
+
+A calculated element can also define a filtered association/composition using infix filters:
+
+```cds
+entity Employees {
+  addresses : Association to many Addresses;
+  homeAddress = addresses [1: kind='home'];
+}
+```
+
+For such a calculated element, no explicit type can be specified.
+Only a single association or composition can occur in the expression, and a filter must be specified.
+
+The effect essentially is like [publishing an association with an infix filter](#publish-associations-with-filter).
+
 
 ### Default Values
 
@@ -385,7 +631,7 @@ type Complex {
 ```
 
 
-### Type References {#typereferences}
+### Type References
 
 If you want to base an element's type on another element of the same structure, you can use the `type of` operator.
 
@@ -441,7 +687,7 @@ For localization of enum values, model them as [code list](./common#adding-own-c
 <br>
 
 
-## Views and Projections
+## Views & Projections
 {#views}
 
 Use `as select from` or `as projection on` to derive new entities from existing ones by projections, very much like views in SQL. When mapped to relational databases, such entities are in fact translated to SQL views but they're frequently also used to declare projections without any SQL views involved.
@@ -462,9 +708,9 @@ The entity signature is inferred from the projection.
 Use the `as select from` variant to use all possible features an underlying relational database would support using any valid [CQL](./cql) query including all query clauses.
 
 ```cds
-entity Foo1 as SELECT from Bar; //> implicit {*}
-entity Foo2 as SELECT from Employees { * };
-entity Foo3 as SELECT from Employees LEFT JOIN Bar on Employees.ID=Bar.ID {
+entity Foo1 as select from Bar; //> implicit {*}
+entity Foo2 as select from Employees { * };
+entity Foo3 as select from Employees LEFT JOIN Bar on Employees.ID=Bar.ID {
   foo, bar as car, sum(boo) as moo
 } where exists (
   SELECT 1 as anyXY from SomeOtherEntity as soe where soe.x = y
@@ -506,7 +752,7 @@ The `key` property is only inherited if all of the following applies:
 For example, the following definition:
 
 ```cds
-entity SomeView as SELECT from Employees {
+entity SomeView as select from Employees {
   ID,
   name,
   job.title as jobTitle
@@ -530,7 +776,7 @@ Use a CDL cast to set an element's type, if one of the following conditions appl
 + The query column is an expression (no inferred type is computed).
 
 ```cds
-entity SomeView as SELECT from Employees {
+entity SomeView as select from Employees {
   ID : Integer64,
   name : LargeString,
   'SAP SE' as company : String
@@ -547,18 +793,43 @@ By using a cast, annotations and other properties are inherited from the provide
 
 ### Views with Parameters
 
-You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified. Refer to these parameters in the view's query using the prefix `:`.
+You can equip views with parameters that are passed in whenever that view is queried. Default values can be specified.
+Refer to these parameters in the view's query using the prefix `:`.
 
 ```cds
 entity SomeView ( foo: Integer, bar: Boolean )
 as SELECT * from Employees where ID=:foo;
 ```
+
+When selecting from a view with parameters, the parameters are passed by name.
+In the following example, `UsingView` also has a parameter `bar` that is passed down to `SomeView`.
+
+```cds
+entity UsingView ( bar: Boolean )
+as SELECT * from SomeView(foo: 17, bar: :bar);
+```
+
+For Node.js, there's no programmatic API yet. You need to provide a [CQN snippet](/cds/cqn#select).
+
+In CAP Java, run a select statement against the view with named [parameter values](/java/working-with-cql/query-execution#querying-views):
+
+::: code-group
+```js [Node]
+SELECT.from({ id: 'UsingView'. args: { bar: { val: true }}})
+```
+```Java [Java]
+var params = Map.of("bar", true);
+Result result = service.run(Select.from("UsingView"), params);
+```
+:::
+
+
 [Learn more about how to expose views with parameters in **Services - Exposed Entities**.](#exposed-entities){ .learn-more}
 [Learn more about views with parameters for existing HANA artifacts in **Native SAP HANA Artifacts**.](../advanced/hana){ .learn-more}
 
 
 
-## Associations & Compositions {#associations}
+## Associations
 
 Associations capture relationships between entities. They are like forward-declared joins added to a table definition in SQL.
 
@@ -602,9 +873,18 @@ entity Employees {
 
 This example is equivalent to the [unmanaged example above](#unmanaged-associations), with the foreign
 key element `address_ID` being added automatically upon activation to a SQL database.
+The names of the automatically added foreign key elements cannot be changed.
 
-> For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#db-constraints).
+> Note: For adding foreign key constraints on database level, see [Database Constraints.](../guides/databases#database-constraints).
 
+If the target has a single primary key, a default value can be provided.
+This default applies to the generated foreign key element `address_ID`:
+
+```cds
+entity Employees {
+  address : Association to Addresses default 17;
+}
+```
 
 ### To-many Associations
 
@@ -632,7 +912,7 @@ For many-to-many association, follow the common practice of resolving logical ma
 For example:
 
 ```cds
-entity Employees { ...
+entity Employees { [...]
   addresses : Association to many Emp2Addr on addresses.emp = $self;
 }
 entity Emp2Addr {
@@ -653,7 +933,7 @@ entity Emp2Addr {
 
 ### Compositions
 
-Compositions constitute document structures through 'contained-in' relationships.
+Compositions constitute document structures through _contained-in_ relationships.
 They frequently show up in to-many header-child scenarios.
 
 ```cds
@@ -669,8 +949,15 @@ entity Orders.Items {
 }
 ```
 
-> Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a contained-in relationship so the same syntax and rules apply in their base form.
+:::info Contained-in relationship
+Essentially, Compositions are the same as _[associations](#associations)_, just with the additional information that this association represents a _contained-in_ relationship so the same syntax and rules apply in their base form.
+:::
 
+::: warning Limitations of Compositions of one
+Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
+- Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
+- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+:::
 
 ### Managed Compositions of Aspects {#managed-compositions}
 
@@ -687,7 +974,7 @@ entity Orders {
     product : Association to Products;
     quantity : Integer;
   }
-}
+};
 ```
 
 Managed Compositions are mostly syntactical sugar: Behind the scenes, they are unfolded to the [unmanaged equivalent as shown above](#compositions)
@@ -697,7 +984,10 @@ You can safely use this name at other places, for example to define an associati
 
 <!-- cds-mode: ignore -->
 ```cds
+entity Orders {
+  // …
   specialItem : Association to Orders.Items;
+};
 ```
 
 
@@ -719,17 +1009,17 @@ aspect OrderItems {
 
 #### Default Target Cardinality
 
-If not otherwise specified, a managed composition of an aspect has the default target cardinality *to many*.
+If not otherwise specified, a managed composition of an aspect has the default target cardinality *to-one*.
 
 #### For Many-to-many Relationships
 
 Managed Compositions are handy for [many-to-many relationships](#many-to-many-associations), where a link table usually is private to one side.
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many { key user: Association to Users; }
 }
-entity Users { ...
+entity Users { [...]
   teams: Association to many Teams.members on teams.user = $self;
 }
 ```
@@ -737,7 +1027,7 @@ entity Users { ...
 And here's an example of an attributed many-to-many relationship:
 
 ```cds
-entity Teams { ...
+entity Teams { [...]
   members : Composition of many {
     key user : Association to Users;
     role : String enum { Lead; Member; Collaborator; }
@@ -747,13 +1037,89 @@ entity Users { ... }
 ```
 
 To navigate between _Teams_ and _Users_, you have to follow two associations: `members.user` or `teams.up_`.
-In OData, use a query like:
+In OData, to get all users of all teams, use a query like the following:
 
 ```cds
 GET /Teams?$expand=members($expand=user)
 ```
 
-to get all users of all teams.
+
+
+
+### Publish Associations in Projections {#publish-associations}
+
+As associations are first class citizens, you can put them into the select list
+of a view or projection ("publish") like regular elements. A `select *` includes all associations.
+If you need to rename an association, you can provide an alias.
+
+```cds
+entity P_Employees as projection on Employees {
+  ID,
+  addresses
+}
+```
+
+The effective signature of the projection contains an association `addresses` with the same
+properties as association `addresses` of entity `Employees`.
+
+#### Publish Associations with Infix Filter {#publish-associations-with-filter}
+
+When publishing an unmanaged association in a view or projection, you can add a filter condition.
+The ON condition of the resulting association is the ON condition of the original
+association plus the filter condition, combined with `and`.
+
+```cds
+entity P_Authors as projection on Authors {
+  *,
+  books[stock > 0] as availableBooks
+};
+```
+
+In this example, in addition to `books` projection `P_Authors` has a new association `availableBooks`
+that points only to those books where `stock > 0`.
+
+If the filter condition effectively reduces the cardinality of the association
+to one, you should make this explicit in the filter by adding a `1:` before the condition:
+
+```cds
+entity P_Employees as projection on Employees {
+  *,
+  addresses[1: kind='home'] as homeAddress  // homeAddress is to-one
+}
+```
+
+Filters usually are provided only for to-many associations, which usually are unmanaged.
+Thus publishing with a filter is almost exclusively used for unmanaged associations.
+Nevertheless you can also publish a managed association with a filter. This will automatically
+turn the resulting association into an unmanaged one. You must ensure that all foreign key elements
+needed for the ON condition are explicitly published.
+
+```cds
+entity P_Books as projection on Books {
+  author.ID as authorID,  // needed for ON condition of deadAuthor
+  author[dateOfDeath is not null] as deadAuthor  // -> unmanaged association
+};
+```
+
+Publishing a _composition_ with a filter is similar, with an important difference:
+in a deep Update, Insert, or Delete statement the respective operation does not cascade to the target entities.
+Thus the type of the resulting element is set to `cds.Association`.
+
+[Learn more about `cds.Association`.](/cds/csn#associations){.learn-more}
+
+In [SAP Fiori Draft](../advanced/fiori#draft-support), it behaves
+like an "enclosed" association, that means, it points to the target draft entity.
+
+In the following example, `singleItem` has type `cds.Association`.
+In draft mode, navigating along `singleItems` doesn't leave the draft tree.
+
+```cds
+@odata.draft.enabled
+entity P_orders as projection on Orders {
+  *,
+  Items[quantity = 1] as singleItems
+}
+```
 
 
 ## Annotations
@@ -763,8 +1129,9 @@ This section describes how to add Annotations to model definitions written in CD
 - [Annotation Syntax](#annotation-syntax)
 - [Annotation Targets](#annotation-targets)
 - [Annotation Values](#annotation-values)
-- [Annotation Propagation](#annotation-propagation)
+- [Expressions as Annotation Values](#expressions-as-annotation-values)
 - [Records as Syntax Shortcuts](#records-as-syntax-shortcuts)
+- [Annotation Propagation](#annotation-propagation)
 - [The `annotate` Directive](#annotate)
 - [Extend Array Annotations](#extend-array-annotations)
 
@@ -796,6 +1163,22 @@ entity Foo { /* elements */ }
 
 For an `@inner` annotation, only the syntax `@(...)` is available.
 
+
+#### Using `annotate` Directives
+
+Instead of interspersing annotations with definitions, you can also use the `annotate` directive to add annotations to existing definitions.
+
+```cds
+annotate Foo with @(
+  my.annotation: foo,
+  another.one: 4711
+);
+```
+
+[Learn more about the `annotate` directive in the _Aspects_ chapter below.](#annotate){.learn-more}
+
+
+
 ### Annotation Targets
 
 You can basically annotate any named thing in a CDS model, such as:
@@ -804,23 +1187,18 @@ Contexts and services:
 
 <!-- cds-mode: ignore, because it shows syntax alternatives -->
 ```cds
-@before [define] (context|service) Foo @inner { ... }
+@before context foo.bar @inner { ... }
+@before service Sue @inner { ... }
 ```
 
-Definitions and elements with simple types:
+Definitions and elements with simple or struct types:
 
 <!-- cds-mode: ignore, because it shows syntax alternatives -->
 ```cds
-@before [define] type Foo @inner : String @after;
-@before [key] anElement @inner : String @after;
-```
-
-Entities, aspects, and other struct types and elements thereof:
-
-<!-- cds-mode: ignore, because it shows syntax alternatives -->
-```cds
-@before [define] (entity|type|aspect|annotation) Foo @inner {
-  @before simple @inner : String @after;
+@before type Foo @inner : String @after;
+@before entity Foo @inner {
+  @before key ID @inner : String @after;
+  @before title @inner : String @after;
   @before struct @inner { ...elements... };
 }
 ```
@@ -830,7 +1208,11 @@ Enums:
 <!-- cds-mode: ignore, because it shows only partial CDS -->
 ```cds
 … status : String @inner enum {
-  fulfilled @after;
+  open @after;
+  closed @after;
+  cancelled @after;
+  accepted @after;
+  rejected @after;
 }
 ```
 
@@ -838,7 +1220,7 @@ Columns in a view definition's query:
 
 <!-- cds-mode: ignore, because it shows only partial CDS -->
 ```cds
-… as SELECT from Foo {
+… as select from Foo {
   @before expr as alias @inner : String,
   …
 }
@@ -855,7 +1237,6 @@ Parameters in view definitions:
 
 Actions/functions including their parameters and result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
 @before action doSomething @inner (
   @before param @(inner) : String @after
@@ -864,9 +1245,8 @@ Actions/functions including their parameters and result:
 
 Or in case of a structured result:
 
-<!-- cds-mode: upcoming, cds-compiler v4 -->
 ```cds
-action doSomething returns @before {
+action doSomething() returns @before {
   @before resultElem @inner : String @after;
 };
 ```
@@ -874,7 +1254,8 @@ action doSomething returns @before {
 
 ### Annotation Values
 
-Values can be literals or references. If no value is given, the default value is `true` as for `@aFlag` in the following example:
+Values can be literals, references, or expressions. Expressions are explained in more detail in the next section.
+If no value is given, the default value is `true` as for `@aFlag` in the following example:
 
 ```cds
 @aFlag //= true, if no value is given
@@ -885,6 +1266,7 @@ Values can be literals or references. If no value is given, the default value is
 @aSymbol: #foo
 @aReference: foo.bar
 @anArray: [ /* can contain any kind of value */ ]
+@anExpression: ( foo.bar * 17 )  // expression, see next section
 ```
 
 As described in the [CSN spec](./csn#literals), the previously mentioned annotations would compile to CSN as follows:
@@ -898,12 +1280,15 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
   "@aDecimal": 11.1,
   "@aSymbol": {"#":"foo"},
   "@aReference": {"=":"foo.bar"},
-  "@anArray": [ /* … */ ]
+  "@anArray": [ /* … */ ],
+  "@anExpression": { /* see next section */ }
 }
 ```
 
 ::: tip
-References (and expressions in general) aren't checked or resolved by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules. For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
+In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked or resolved
+by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
+For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
 
@@ -945,15 +1330,15 @@ For example, given this view definition:
 
 ```cds
 using Books from './bookshop-model';
-entity BooksList as SELECT from Books {
+entity BooksList as select from Books {
   ID, genre : Genre, title,
   author.name as author
 };
 ```
 
 * `BooksList` would inherit annotations from `Books`
-* `BooksList.ID` would inherit from `Books.ID`
-* `BooksList.author` would inherit from `Books.author.name`
+* `BooksList:ID` would inherit from `Books:ID`
+* `BooksList:author` would inherit from `Books:author.name`
 * `BooksList.genre` would inherit from type `Genre`
 
 The rules are:
@@ -968,48 +1353,181 @@ The rules are:
 Propagation of annotations can be stopped via value `null`, for example, `@anno: null`.
 :::
 
-### The `annotate` Directive
-{#annotate}
 
-The `annotate` directive allows to annotate already existing definitions that may have been [imported](#imports) from other files or projects.
+### Expressions as Annotation Values <Beta /> {#expressions-as-annotation-values}
+
+In order to use an expression as an annotation value, it must be enclosed in parentheses:
+```cds
+@anExpression: ( foo.bar * 11 )
+```
+
+Syntactically, the same expressions are supported as in a select item or in the where clause of a query,
+except subqueries. The expression can of course also be a single reference or a simple value:
+```cds
+@aRefExpr: ( foo.bar )
+@aValueExpr: ( 11 )
+```
+
+Some advantages of using expressions as "first class" annotation values are:
+* syntax and references are checked by the compiler
+* code completion
+* [automatic path rewriting in propagated annotations](#propagation)
+* [automatic translation of expressions in OData annotations](#odata-annotations)
+
+::: info Limitations
+Elements that are not available to the compiler, for example the OData draft decoration, can't be used in annotation expressions.
+:::
+
+#### Name resolution
+
+Each path in the expression is checked:
+* For an annotation assigned to an entity, the first path step is resolved as element of the entity.
+* For an annotation assigned to an entity element, the first path step is resolved as the annotated element or its siblings.
+* If the annotation is assigned to a subelement of a structured element, the top level
+  elements of the entity can be accessed via `$self`.
+* A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
+* For an annotation assigned to a bound action or function, elements of the respective entity
+  can be accessed via `$self`.
+* The draft-specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
+  respective magic variables `$draft.IsActiveEntity`, `$draft.HasActiveEntity`, and `$draft.HasDraftEntity`.
+  During draft augmentation, `$draft.<...>` is rewritten to `$self.<...>` for all draft enabled
+  entities (root and sub nodes, but not for named types or entity parameters).
+* If a path can't be resolved successfully, compilation fails with an error.
+
+In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
+is checked by the compiler.
 
 ```cds
-annotate Foo with @title:'Foo' {
-  nestedStructField {
-    existingField @title:'Nested Field';
+@MyAnno: (a)            // reference to element
+entity Foo (par: Integer) {
+  key ID : Integer;
+  @MyAnno: (:par)       // reference to entity parameter
+  a : Integer;
+  @MyAnno: (a)          // reference to sibling element
+  b : Integer;
+  s {
+    @MyAnno: (y)        // reference to sibling element
+    x : Integer;
+    @MyAnno: ($self.a)  // reference to top level element
+    y : Integer;
   }
 }
-annotate Bar with @title:'Bar';
-```
-
-You can also directly annotate a single element:
-```cds
-annotate Foo:nestedStructField.existingField @title:'Nested Field';
-```
-
-Actions, functions, their parameters and `returns` can be annotated:
-
-
-<!-- cds-mode: upcoming, cds-compiler v4 -->
-```cds
-service SomeService {
-  entity SomeEntity { key id: Integer } actions
-  {
-    action boundAction(P: Integer) returns String;
-  };
-  action unboundAction(P: Integer) returns String;
-};
-
-annotate SomeService.unboundAction with @label: 'Action Label' (@label: 'First Parameter' P)
-                                        returns @label: 'Returns a string';
-annotate SomeService.SomeEntity with actions {
-     @label: 'Action label'
-     boundAction(@label: 'firstParameter' P) returns @label: 'Returns a string';
+actions {
+  @MyAnno: ($self.a)
+  action A ()
 }
 ```
 
-The `annotate` directive is a variant of the [`extend` directive](#extend).
-Actually, `annotate` is just a shortcut with the default mode being switched to `extend`ing existing fields instead of adding new ones.
+#### CSN Representation
+
+In CSN, the expression is represented as a record with two properties:
+* A string representation of the expression is stored in property `=`.
+* A tokenized representation of the expression is stored in one of the properties
+`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
+
+```json
+{
+  "@anExpression": {
+    "=": "foo.bar * 11",
+    "xpr": [ {"ref": ["foo", "bar"]}, "*", {"value": 11} ]
+  },
+  "@aRefExpr": {
+    "=": "foo.bar",
+    "ref": ["foo", "bar"]
+  },
+  "@aValueExpr": {
+    "=": "11",
+    "val": 11
+  }
+}
+```
+
+Note the different CSN representations for a [plain value](#annotation-values) `"@anInteger": 11`
+and a value written as expression `@aValueExpr: ( 11 )`, respectively.
+
+#### Propagation
+
+[Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
+If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
+during propagation, for example, when a referenced element is renamed in a projection.
+The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
+is rewritten, the `=` property is set to `true`.
+
+Example:
+```cds
+entity E {
+  @Common.Text: (text)
+  code : Integer;
+  text : String;
+}
+
+entity P as projection on E {
+  code,
+  text as descr
+}
+```
+When propagated to element `code` of projection `P`, the annotation is automatically
+rewritten to `@Common.Text: (descr)`.
+
+::: details Resulting CSN
+```jsonc
+{
+  "definitions": {
+    "E": {  // ...
+      "elements": {  // ...
+        "code": {
+          // original annotation
+          "@Common.Text": { "=": "text",
+                            "ref": ["text"] },
+          "type": "cds.Integer"
+        },
+        "text": {"type": "cds.String"}
+      }
+    },
+    "P": {  // ...
+      "elements": {  // ...
+        "code": {
+          // propagated annotation, reference adapted
+          "@Common.Text": { "=": true,
+                            "ref": ["descr"] },
+          "type": "cds.Integer"
+        },
+        "descr": {"type": "cds.String"}
+      }
+} } }
+```
+:::
+
+::: info
+
+There are situations where automatic rewriting doesn't work, resulting in the compiler error
+[`anno-missing-rewrite`](https://cap.cloud.sap/docs/cds/compiler/messages#anno-missing-rewrite).
+Some of these situations are going to be addressed in upcoming releases.
+
+:::
+
+
+#### CDS Annotations
+
+Using an expression as annotation value only makes sense if the evaluator of the annotation is
+prepared to deal with the new CSN representation.
+Currently, the CAP runtimes only support expressions in the `where` property of the `@restrict` annotation.
+
+```cds
+entity Orders @(restrict: [
+    { grant: 'READ', to: 'Auditor', where: (AuditBy = $user.id) }
+  ]) {/*...*/}
+```
+
+More annotations are going to follow in upcoming releases.
+
+Of course, you can use this feature also in your custom annotations, where you control the code that evaluates
+the annotations.
+
+#### OData Annotations
+
+The OData backend of the CAP CDS compiler supports expression-valued annotations.
+See [Expressions in OData Annotations](../advanced/odata#expression-annotations).
 
 
 
@@ -1079,7 +1597,7 @@ Example: Insert a new entry after `BeginDate`.
 
 ```cds
 @UI.LineItem: [
-    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel',  Label: '{i18n>AcceptTravel}'   },
+    { $Type: 'UI.DataFieldForAction', Action: 'TravelService.acceptTravel', Label: '{i18n>AcceptTravel}' },
     { Value: TravelID,  Label: 'ID'    },
     { Value: BeginDate, Label: 'Begin' },
     { Value: EndDate,   Label: 'End'   }
@@ -1097,7 +1615,9 @@ annotate TravelService.Travel with @UI.LineItem: [
 ];
 ```
 
-
+::: tip
+Only direct annotations can be extended using `...`. It's not supported to extend propagated annotations, for example, from aspects or types.
+:::
 
 <br>
 
@@ -1107,32 +1627,35 @@ CDS's aspects allow to flexibly extend definitions by new elements as well as ov
 They're based on a mixin approach as known from Aspect-oriented Programming methods.
 
 - [The `extend` Directive](#extend)
-- [Named Aspects](#aspect) — `define aspect`
+- [The `annotate` Directive](#annotate)
+- [Named Aspects](#named-aspects)
 - [Shortcut Syntax `:`](#includes)
-- [Looks Like Inheritance](#looks-like-inheritance)
 - [Extending Views / Projections](#extend-view)
+- See also: [Aspect-oriented Modelling](aspects)
 
 
-### The `extend` Directive { #extend}
+
+
+### The `extend` Directive
+{#extend}
 
 Use `extend` to add extension fields or to add/override metadata to existing definitions, for example, annotations, as follows:
 
 ```cds
-extend Foo with @(title: 'Foo') {
+extend Foo with @title:'Foo';
+extend Bar with @title:'Bar' {
   newField : String;
   extend nestedStructField {
     newField : String;
     extend existingField @title:'Nested Field';
   }
 }
-extend Bar with @title: 'Bar'; // nothing for elements
 ```
 
-::: tip
-Make sure that you prepend the `extend` keyword to nested elements, otherwise this would mean that you want to add a new field with that name:
+::: details Note the nested `extend` for existing fields
+Make sure that you prepend the `extend` keyword to nested elements if you want to modify them. Without that a new field with that name would be added. If you only want to add annotations to an existing field, you can use [the **annotate** directive.](#annotate) instead.
 :::
 
-[Learn more about the **annotate** Directive.](#annotate){.learn-more}
 
 You can also directly extend a single element:
 ```cds
@@ -1146,25 +1669,62 @@ extend Books:price.value with (precision:12,scale:3);
 ```
 The extended type or element directly must have the respective property.
 
-For multiple conflicting `extend` statements, the last `extend` wins, i.e. in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
+For multiple conflicting `extend` statements, the last `extend` wins, that means in three files `a.cds <- b.cds <- c.cds`, where `<-` means `using from`,
 the `extend` from `c.cds` is applied, as it is the last in the dependency chain.
 
 
-### Named Aspects — `define aspect` {#aspect}
+
+### The `annotate` Directive
+{#annotate}
+
+The `annotate` directive allows to annotate already existing definitions that may have been [imported](#model-imports) from other files or projects.
+
+```cds
+annotate Foo with @title:'Foo';
+annotate Bar with @title:'Bar' {
+  nestedStructField {
+    existingField @title:'Nested Field';
+  }
+}
+```
+
+::: details `annotate` is a shortcut for `extend` ...
+
+The `annotate` directive is essentially a shortcut variant of the [`extend` directive](#extend), with the default mode being switched to `extend`ing existing fields instead of adding new ones. For example, the following is equivalent to the previous example:
+
+```cds
+extend Foo with @title:'Foo';
+extend Bar with @title:'Bar' {
+  extend nestedStructField {
+    extend existingField @title:'Nested Field';
+  }
+}
+```
+:::
+
+
+You can also directly annotate a single element:
+```cds
+annotate Foo:existingField @title: 'Simple Field';
+annotate Foo:nestedStructField.existingField @title:'Nested Field';
+```
+
+
+
+
+### Named Aspects
 
 You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
 
 ```cds
-extend Foo with ManagedObject;
-extend Bar with ManagedObject;
-```
-```cds
-aspect ManagedObject {
+aspect SomeAspect {
   created { at: Timestamp; _by: User; }
 }
 ```
-
-> The `define` keyword is optional, that means `define aspect Foo` is equal to `aspect Foo`.
+```cds
+extend Foo with SomeAspect;
+extend Bar with SomeAspect;
+```
 
 If you use `extend`, all nested fields in the named aspect are interpreted as being extension fields. If you use `annotate`, the nested fields are interpreted as existing fields and the annotations are copied to the corresponding target elements.
 
@@ -1175,14 +1735,14 @@ Use keyword `aspect` as shown in the example to declare definitions that are onl
 
 ### Includes -- `:` as Shortcut Syntax {#includes}
 
-You can use an inheritance-like syntax option to extend a definition with one or more [named aspects](#aspect)
+You can use an inheritance-like syntax option to extend a definition with one or more [named aspects](#named-aspects)
 as follows:
 
 ```cds
-define entity Foo : ManagedObject, AnotherAspect {
+define entity Foo : SomeAspect, AnotherAspect {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
@@ -1190,25 +1750,18 @@ This is syntactical sugar and equivalent to using a sequence of [extends](#exten
 
 ```cds
 define entity Foo {}
-extend Foo with ManagedObject;
+extend Foo with SomeAspect;
 extend Foo with AnotherAspect;
 extend Foo with {
   key ID : Integer;
   name : String;
-  ...
+  [...]
 }
 ```
 
 You can apply this to any definition of an entity or a structured type.
 
 
-
-### Looks Like Inheritance
-
-The `:`-based syntax option described before looks very much like (multiple) inheritance and in fact has very much the same effects. Yet, as mentioned in the beginning of this
-section, it isn't based on inheritance but on mixins, which are more powerful and also avoid common problems like the infamous diamond shapes in type derivations.
-
-When combined with persistence mapping there are a few things to note, that goes down to which strategy to choose to map inheritance to, for example, relational models. See [_Aspects vs Inheritance_](./aspects-inheritance) for more details.
 
 
 ### Extending Views and Projections { #extend-view}
@@ -1220,16 +1773,17 @@ Use the `extend <entity> with columns` variant to extend the select list of a pr
 * Add new unmanaged associations.
 
 ```cds
-extend Foo with @title:'Foo' columns {
+extend SomeView with columns {
   foo as moo @woo,
   1 + 1 as two,
   bar : Association to Bar on bar.ID = moo
 }
 ```
 
-::: tip
-Enhancing nested structs isn't supported. Note also that you can use the common [`annotate`](#annotate) syntax, to just add/override annotations of a view's elements.
-:::
+Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
+is not accessible in such an extend. 
+
+You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 
 <br>
 
@@ -1264,11 +1818,12 @@ The endpoint of the exposed service is constructed by its name, following some c
 service SomeService { ... }
 ```
 
+[Watch a short video by DJ Adams on how the `@path` annotations works.](https://www.youtube.com/shorts/Q_PipD_7yBs){.learn-more}
 
 ### Exposed Entities
 
 The entities exposed by a service are most frequently projections on entities from underlying data models.
-Standard view definitions, using [`as SELECT from`](#views) or [`as projection on`](#as-projection-on), can be used for
+Standard view definitions, using [`as select from`](#views) or [`as projection on`](#as-projection-on), can be used for
 exposing entities.
 
 ```cds
@@ -1295,7 +1850,7 @@ service MyOrders {
   entity OrderWithParameter( foo: Integer ) as select from data.Orders where id=:foo;
 }
 ```
-A [`view with parameter`](#views-with-parameters) modeled in the previous example, can be exposed as follows:
+A parametrized view like modeled in the section on [`view with parameter`](#views-with-parameters) can be exposed as follows:
 
 ```cds
 service SomeService {
@@ -1309,8 +1864,32 @@ GET: /OrderWithParameter(foo=5)/Set or GET: /OrderWithParameter(5)/Set
 GET: /ViewInService(p1=5, p2=true)/Set
 ```
 
+To expose an entity, it's not necessary to be lexically enclosed in the service definition. An entity's affiliation to a service is established using its fully qualified name, so you can also use one of the following options:
 
-### (Auto-) Redirected Associations {#auto-redirect}
+- Add a namespace.
+- Use the service name as prefix.
+
+In the following example, all entities belong to/are exposed by the same service:
+
+::: code-group
+```cds [myservice.cds]
+service foo.MyService {
+  entity A { /*...*/ };
+}
+entity foo.MyService.B { /*...*/ };
+```
+:::
+
+::: code-group
+```cds [another.cds]
+namespace foo.MyService;
+entity C { /*...*/ };
+```
+:::
+
+
+### (Auto-) Redirected Associations
+{#auto-redirect}
 
 When exposing related entities, associations are automatically redirected. This ensures that clients can navigate between projected entities as expected. For example:
 
@@ -1335,7 +1914,7 @@ service AdminService {
   entity ListOfBooks as projection on my.Books;
   entity Books as projection on my.Books;
   entity Authors as projection on my.Authors;
-  //> which one should AdminService.Authors.books refers to?
+  //> which one should AdminService.Authors.books refer to?
 }
 ```
 
@@ -1345,9 +1924,10 @@ You can use `redirected to` to resolve the ambiguity as follows:
 
 ```cds
 service AdminService {
-  ...
-  entity Authors as projection on my.Authors { *,
-    books : redirected to Books //> resolved ambiguity
+  entity ListOfBooks as projection on my.Books;
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors { *, // [!code focus]
+    books : redirected to Books //> resolved ambiguity // [!code focus]
   };
 }
 ```
@@ -1358,13 +1938,17 @@ Alternatively, you can use the boolean annotation `@cds.redirection.target` with
 
 ```cds
 service AdminService {
-  @cds.redirection.target: true
-  entity ListOfBooks as projection on my.Books;
-  ...
+  @cds.redirection.target: true // [!code focus]
+  entity ListOfBooks as projection on my.Books; // [!code focus]
+  entity Books as projection on my.Books;
+  entity Authors as projection on my.Authors;
 }
 ```
 
-### Auto-Exposed Entities {#auto-expose}
+
+
+### Auto-Exposed Entities
+{#auto-expose}
 
 Annotate entities with `@cds.autoexpose` to automatically expose them in services containing entities with associations referring to them.
 
@@ -1411,6 +1995,8 @@ service Sue {
 ```
 
 [Learn more about **CodeLists in `@sap/cds/common`**.](./common#code-lists){.learn-more}
+
+
 
 ### Custom Actions and Functions {#actions}
 
@@ -1473,6 +2059,7 @@ service CatalogService {
 Explicitly modelled binding parameters are ignored for OData V2.
 
 
+
 ### Custom-Defined Events {#events}
 
 Similar to [Actions and Functions](../cds/cdl#actions) you can declare `events`, which a service emits via messaging channels. Essentially, an event declaration looks very much like a type definition, specifying the event's name and the type structure of the event messages' payload.
@@ -1485,6 +2072,16 @@ service MyOrders { ...
   }
 }
 ```
+
+An event can also be defined as projection on an entity, type, or another event.
+Only the effective signature of the projection is relevant.
+```cds
+service MyOrders { ...
+  event OrderCanceledNarrow : projection on OrderCanceled { orderID }
+}
+```
+
+
 
 ### Extending Services {#extend-service}
 
@@ -1508,212 +2105,3 @@ extend entity CatalogService.Products with actions {
 ```
 
 <div id="beforenamespaces" />
-
-## Namespaces
-
-- [The `namespace` Directive](#namespace)
-- [The `context` Directive](#context)
-- [Scoped Definitions](#scoped-names)
-- [Fully Qualified Names](#fully-qualified-names)
-
-
-### The `namespace` Directive {#namespace}
-
-To prefix the names of all subsequent definitions, place a `namespace` directive at the top of a model. This is comparable to other languages, like Java.
-
-::: code-group
-```cds[namespace.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Bar : Foo {}     //> foo.bar.Bar
-```
-:::
-
-
-### The `context` Directive {#context}
-
-Use `contexts` for nested namespace sections.
-
-::: code-group
-```cds[contexts.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-context scoped {
-  entity Bar : Foo {}   //> foo.bar.scoped.Bar
-  context nested {
-    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
-  }
-}
-```
-:::
-
-
-### Scoped Definitions {#scoped-names}
-
-You can define types and entities with other definitions' names as prefixes:
-
-```cds
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Foo.Bar {}       //> foo.bar.Foo.Bar
-type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
-```
-
-
-### Fully Qualified Names
-
-A model ultimately is a collection of definitions with unique, fully qualified names. For example, the second model above would compile to this [CSN](./csn):
-
-::: code-group
-```json [contexts.json]
-{"definitions":{
-  "foo.bar.Foo": { "kind": "entity" },
-  "foo.bar.scoped": { "kind": "context" },
-  "foo.bar.scoped.Bar": { "kind": "entity",
-    "includes": [ "foo.bar.Foo" ]
-  },
-  "foo.bar.scoped.nested": { "kind": "context" },
-  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
-}}
-```
-:::
-
-<br>
-
-## Import Directives {#imports}
-
-- [The `using` Directive](#using)
-
-<span id="tocimport" />
-
-- [Model Resolution](#model-resolution)
-
-
-### The `using` Directive {#using}
-
-Using directives allows to import definitions from other CDS models. As shown in line three below you can specify aliases to be used subsequently. You can import single definitions as well as several ones with a common namespace prefix. Optional: Choose a local alias.
-
-::: code-group
-```cds [using-from.cds]
-using foo.bar.scoped.Bar from './contexts';
-using foo.bar.scoped.nested from './contexts';
-using foo.bar.scoped.nested as specified from './contexts';
-
-entity Car : Bar {}            //> : foo.bar.scoped.Bar
-entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
-entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
-```
-:::
-
-Multiple named imports through ES6-like deconstructors:
-
-```cds
-using { Foo as Moo, sub.Bar } from './base-model';
-entity Boo : Moo { /*...*/ }
-entity Car : Bar { /*...*/ }
-```
-
-> Also in the deconstructor variant of `using` shown in the previous example, specify fully qualified names.
-
-
-<span id="import-dir"/>
-
-### Model Resolution
-
-Imports in `cds` work very much like [`require` in Node.js](https://nodejs.org/api/modules.html#requireid) and `import`s in [ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import).
-In fact, we reuse **[Node's module loading mechanisms](https://nodejs.org/api/modules.html#modules_all_together)**.
-Hence, the same rules apply:
-
-- Relative path resolution<br>
-  Names starting with `./` or `../` are resolved relative to the current model.
-- Resolving absolute references<br>
-  Names starting with `/` are resolved absolute to the file system.
-- Resolving module references<br>
-  Names starting with neither `.` nor `/` such as `@sap/cds/common` are fetched for in `node_modules` folders:
-   - Files having _.cds_, _.csn_, or _.json_ as suffixes, appended in order
-   - Folders, from either the file set in `cds.main` in the folder's _package.json_ or `index.<cds|csn|json>` file.
-
-::: tip
-To allow for loading from precompiled _.json_ files it's recommended to **omit _.cds_ suffixes** in import statements, as shown in the provided examples.
-:::
-
-
-
-## Comments {#comments}
-
-- [Single-Line Comments](#single-comment)
-- [Multi-Line Comments](#multi-comment)
-- [Doc comments](#doc-comment)
-
-
-### Single-Line Comments — `//` {#single-comment}
-
-Any text between `//` and the end of the line is ignored:
-
-```cds
-entity Employees {
-  key ID : Integer;  // a single-line comment
-  name : String;
-}
-```
-
-### Multi-Line Comments — `/*  */` {#multi-comment}
-
-Any text between `/*` and `*/` is ignored:
-
-```cds
-entity Employees {
-  key ID : Integer;
-/*
-  a multi-line comment
-*/
-  name : String;
-}
-```
-
-unless it is a doc comment.
-
-### Doc Comments — `/**  */`
-{#doc-comment}
-
-A multi-line comment of the form `/** … */` at an [annotation position](#annotation-targets) is considered a *doc comment*:
-
-```cds
-/**
- * I am the description for "Employee"
- */
-entity Employees {
-  key ID : Integer;
-  /**
-   * I am the description for "name"
-   */
-  name : String;
-}
-```
-
-The text of a doc comment is stored in CSN in the property `doc`.
-When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
-
-When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
-
-```sql
-CREATE TABLE Employees (
-  ID INTEGER,
-  name NVARCHAR(...) COMMENT 'I am the description for "name"'
-) COMMENT 'I am the description for "Employee"'
-```
-
-Doc comments need to be switched on when calling the compiler:
-
-```sh
-# in CLI:
-cds compile foo.cds --docs
-```
-```js
-// in JavaScript:
-cds.compile(..., { docs: true })
-```
-
-::: tip
-Propagation of doc comments can be stopped via an empty one: `/** */`.
-:::

@@ -18,14 +18,14 @@ status: released
 
 
 
-## Introduction — Ubiquitous Events in CAP {#intro}
+## Ubiquitous Events in CAP {#intro}
 
 We're starting with an introduction to the core concepts in CAP. If you want to skip the introduction, you can fast-forward to the samples part starting at [Books Reviews Sample](#books-reviews-sample).
 
 
 ### Intrinsic Eventing in CAP Core
 
-As introduced in [About CAP](../../about/#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
+As introduced in [About CAP](../../about/best-practices#events), everything happening at runtime is in response to events, and all service implementations take place in [event handlers](../providing-services#event-handlers). All CAP services intrinsically support emitting and reacting to events, as shown in this simple code snippet (you can copy & run it in `cds repl`):
 
 ```js
 let srv = new cds.Service
@@ -59,7 +59,7 @@ class Receiver extends cds.Service { async init() {
 }}
 ```
 
-::: tip
+::: tip Emitters vs Receivers
 **Emitters** usually emit messages to *themselves* to inform *potential* listeners about certain events.
 **Receivers** connect to *Emitters* to register handlers to such emitted events.
 :::
@@ -119,7 +119,7 @@ The following explanations walk us through a books review example from cap/sampl
 Follow the instructions in [*cap/samples/readme*](https://github.com/SAP-samples/cloud-cap-samples#readme) for getting the samples and exercising the following steps.
 :::
 
-### Declaring Events in CDS {.h2}
+### Declaring Events in CDS
 
 Package `@capire/reviews` essentially provides a `ReviewsService`, [declared like that](https://github.com/sap-samples/cloud-cap-samples/blob/main/reviews/srv/reviews-service.cds):
 
@@ -149,7 +149,7 @@ As you can read from the definitions, the service's synchronous API allows to cr
 **Services in CAP** combine **synchronous** *and* **asynchronous** APIs. Events are declared on conceptual level focusing on domain, instead of low-level wire protocols.
 :::
 
-### Emitting Events {.h2}
+### Emitting Events
 
 Find the code to emit events in *[@capire/reviews/srv/reviews-service.js](https://github.com/SAP-samples/cloud-cap-samples/blob/139d9574950d1a5ead475c7b47deb174418500e4/reviews/srv/reviews-service.js#L12-L20)*:
 
@@ -165,7 +165,7 @@ class ReviewsService extends cds.ApplicationService { async init() {
 }}
 ```
 [Learn more about `srv.emit()` in Node.js.](../../node.js/core-services#srv-emit-event){.learn-more}
-[Learn more about `srv.emit()` in Java.](../../java/consumption-api#an-event-based-api){.learn-more}
+[Learn more about `srv.emit()` in Java.](../../java/services#an-event-based-api){.learn-more}
 
 Method `srv.emit()` is used to emit event messages. As you can see, emitters usually emit messages to themselves, that is, `this`, to inform potential listeners about certain events. Emitters don't know the receivers of the events they emit. There might be none, there might be local ones in the same process, or remote ones in separate processes.
 
@@ -173,7 +173,7 @@ Method `srv.emit()` is used to emit event messages. As you can see, emitters usu
 Simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
 :::
 
-### Receiving Events {.h2}
+### Receiving Events
 
 Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://github.com/SAP-samples/cloud-cap-samples/blob/30764b261b6bf95854df59f54a8818a4ceedd462/bookstore/srv/mashup.js#L39-L47)* (which is the basic bookshop app enhanced by reviews, hence integration with `ReviewsService`):
 
@@ -186,9 +186,14 @@ Find the code to receive events in *[@capire/bookstore/srv/mashup.js](https://gi
 ```
 
 [Learn more about registering event handlers in Node.js.](../../node.js/core-services#srv-on-before-after){.learn-more}
-[Learn more about registering event handlers in Java.](../../java/provisioning-api#introduction-to-event-handlers){.learn-more}
+[Learn more about registering event handlers in Java.](../../java/event-handlers/#introduction-to-event-handlers){.learn-more}
 
 The message payload is in the `data` property of the inbound `msg` object.
+
+
+::: tip
+To have more control over imported service definitions, you can set the `model` configuration of your external service to a cds file where you define the external service and only use the imported definitions your app needs. This way, plugins like [Open Resource Discovery (ORD)](../../plugins/#ord-open-resource-discovery) know which parts of the external service you actually use in your application.
+:::
 
 
 ## In-Process Eventing
@@ -506,7 +511,7 @@ If you want to manually define the topic, you can use the `@topic` annotation:
 
 ```cds
 //...
-@topic: 'some/very/different/topic-name'
+@topic: 'some.very.different.topic-name'
 event SomeEvent { ... }
 ```
 
@@ -551,9 +556,8 @@ Application developers shouldn't have to care for such technical details. CAP en
 
 ## [Using SAP Event Mesh](./event-mesh) {#sap-event-mesh}
 
-CAP has out-of-the-box support for SAP Event Mesh. As an
-application developer, all you need to do is configuring CAP to use `enterprise-messaging`,
-usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
+CAP has out-of-the-box support for SAP Event Mesh.
+As an application developer, all you need to do is configuring CAP to use `enterprise-messaging`, usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
 
 ```jsonc
 "cds": {
@@ -571,9 +575,36 @@ usually in combination with `cloudevents` format, as in this excerpt from a _pac
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 
-::: tip
+::: tip Read the guide
 Find additional information about deploying SAP Event Mesh on SAP BTP in this guide:
 [&rarr; **_Using SAP Event Mesh in BTP_**](./event-mesh)
+:::
+
+
+
+## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
+
+CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
+As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "[production]": {
+        "kind": "event-broker"
+      }
+    }
+  }
+}
+```
+
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+
+
+::: tip Read the guide
+Find additional information about deploying SAP Event Broper on SAP BTP in this guide:
+[&rarr; **_Using SAP Cloud Application Event Hub in BTP_**](./event-broker)
 :::
 
 
@@ -581,8 +612,8 @@ Find additional information about deploying SAP Event Mesh on SAP BTP in this gu
 ## [Events from SAP S/4HANA](./s4)
 <!-- {.toc-redirect} -->
 
-SAP S/4HANA integrates SAP Event Mesh for messaging. That makes it relatively easy
-for CAP-based applications to receive events from SAP S/4HANA systems.
+SAP S/4HANA integrates SAP Event Mesh as well as SAP Cloud Application Event Hub for messaging.
+That makes it relatively easy for CAP-based applications to receive events from SAP S/4HANA systems.
 
 In contrast to CAP, the asynchronous APIs of SAP S/4HANA are separate from the synchronous ones (OData, REST).
 So, the effort on the CAP side is to fill this gap.
@@ -610,7 +641,7 @@ const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
 S4Bupa.on ('BusinessPartner.Changed', msg => {...})
 ```
 
-::: tip
+::: tip Read the guide
 Find more detailed information specific to receiving events from SAP S/4HANA in this separate guide:
 [&rarr; **_Receiving Events from SAP S/4HANA_**](./s4)
 :::

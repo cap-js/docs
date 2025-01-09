@@ -1,31 +1,47 @@
 <script lang="ts" setup>
 import DefaultTheme from 'vitepress/theme'
+import { useData } from 'vitepress'
 import ShortcutsList from './components/ShortcutsList.vue'
 import ImplVariants from './components/implvariants/ImplVariants.vue'
 import NavScreenMenuItem from './components/implvariants/NavScreenMenuItem.vue'
-import NotFound from './components/NotFound.vue'
 import Ribbon from './components/Ribbon.vue'
+import ScrollToTop from './components/ScrollToTopSimple.vue'
+import WasThisHelpful from './components/WasThisHelpful.vue'
+import { useRoute } from 'vitepress'
 
 const isPreview = !!import.meta.env.VITE_CAPIRE_PREVIEW
 
 const { Layout } = DefaultTheme
+const { frontmatter } = useData()
+
+const route = useRoute()
+
 </script>
 
 <template>
 
   <Layout>
     <template #layout-top>
+      <ScrollToTop />
       <slot name="layout-top" />
     </template>
+    <template #doc-top>
+      <slot name="doc-top" />
+    </template>
+    <template #doc-after>
+      <WasThisHelpful :key="route.path" />
+    </template>
     <template #not-found>
-      <NotFound />
+      <slot name="not-found" />
+    </template>
+    <template #nav-bar-title-after>
+      <slot name="nav-bar-title-after" />
+      <div class="ImplVariantsInNavbar" v-if="frontmatter?.layout !== 'home'">
+        <ImplVariants/>
+      </div>
     </template>
     <template #nav-bar-content-before>
       <slot name="nav-bar-content-before" />
-      <div class="ImplVariantsInNavbar">
-        <ImplVariants/>
-      </div>
-      <slot name="nav-bar-implvariants-after" />
     </template>
     <template #nav-bar-content-after>
       <slot name="nav-bar-content-after" />
@@ -48,13 +64,12 @@ const { Layout } = DefaultTheme
 <style scoped>
 
 .ImplVariantsInNavbar {
-  padding-left: 32px
+  margin-left: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .ImplVariantsInNavbar {
     display: none;
   }
 }
-
 </style>

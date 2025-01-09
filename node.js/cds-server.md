@@ -10,7 +10,7 @@ status: released
 
 
 
-CAP Node.js servers a bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
+CAP Node.js servers are bootstrapped through a [built-in `server.js` module](#built-in-server-js), which can be accessed through [`cds.server`](#cds-server). You can plug-in custom logic to the default bootstrapping choreography using a [custom `server.js`](#custom-server-js) in your project.
 
 
 
@@ -44,32 +44,38 @@ with `cds run` and `cds watch` as convenience variants.
 The built-in `server.js` constructs an [express.js app](cds-facade#cds-app), and bootstraps all CAP services using [`cds.connect`](cds-connect) and [`cds.serve`](cds-serve).
 Its implementation essentially is as follows:
 
-```js
+```js twoslash
 const cds = require('@sap/cds')
-cds.server = module.exports = async function (options) {
+module.exports = async function cds_server(options) {
 
+  // prepare express app
+  const o = { ...options, __proto__:defaults }
   const app = cds.app = o.app || require('express')()
   cds.emit ('bootstrap', app)
 
-  // load model from all sources
-  const csn = await cds.load('*')
-  cds.model = cds.compile.for.nodejs(csn)
+  // mount static resources and middlewares
+  if (o.cors)      app.use (o.cors)                     //> if not in prod
+  if (o.health)    app.get ('/health', o.health)
+  if (o.static)    app.use (express.static (o.static))  //> defaults to ./app
+  if (o.favicon)   app.use ('/favicon.ico', o.favicon)  //> if none in ./app
+  if (o.index)     app.get ('/',o.index)                //> if none in ./app and not in prod
+
+  // load and prepare models
+  const csn = await cds.load('*') .then (cds.minify)
+  cds.model = cds.compile.for.nodejs (csn)
   cds.emit ('loaded', cds.model)
 
-  // connect to prominent required services
-  if (cds.requires.db)  cds.db = await cds.connect.to ('db')
-  if (cds.requires.messaging)    await cds.connect.to ('messaging')
+  // connect to essential framework services
+  if (cds.requires.db) cds.db = await cds.connect.to ('db') .then (_init)
+  if (cds.requires.messaging)   await cds.connect.to ('messaging')
 
-  // serve own services as declared in model
-  await cds.serve ('all') .from(csn) .in (app)
+  // serve all services declared in models
+  await cds.serve ('all') .in (app)
   await cds.emit ('served', cds.services)
 
-  // launch HTTP server
-  cds .emit ('launching', app)
-  const port = o.port ?? process.env.PORT || 4004
-  const server = app.server = app.listen(port) .once ('listening', ()=>
-    cds.emit('listening', { server, url: `http://localhost:${port}` })
-  )
+  // start http server
+  const port = o.port || process.env.PORT || 4004
+  return app.server = app.listen (port)
 }
 ```
 
@@ -97,7 +103,8 @@ The CLI command `cds serve` optionally bootstraps from project-local `./server.j
 
 In custom `server.js`, you can plugin to all parts of `@sap/cds`.  Most commonly you'd register own handlers to lifecycle events emitted to [the `cds` facade object](cds-facade) as below:
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 // react on bootstrapping events...
 cds.on('bootstrap', ...)
@@ -107,10 +114,11 @@ cds.on('served', ...)
 ### Override `cds.server()`
 
 Provide an own bootstrapping function if you want to access and process the command line options.
-This also allows you to override certain options before delegating to the built-in server.js.
+This also allows you to override certain options before delegating to the built-in `server.js`.
 In the example below, we construct the express.js app ourselves and fix the models to be loaded.
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 // react on bootstrapping events...
 cds.on('bootstrap', ...)
@@ -123,7 +131,7 @@ module.exports = (o)=>{
 }
 ```
 
-::: tip
+::: tip `req` != `req`
 The `req` object in your express middleware is not the same as `req` in your CDS event handlers.
 :::
 
@@ -131,17 +139,35 @@ The `req` object in your express middleware is not the same as `req` in your CDS
 
 ## Lifecycle Events
 
+The following [lifecycle events](cds-facade#lifecycle-events) are emitted via the `cds` facade object during the server bootstrapping process.
+You can register event handlers using `cds.on()` like so:
+
+
+```js
+const cds = require('@sap/cds')
+cds.on('bootstrap', ...)
+cds.on('served', ...)
+cds.on('listening', ...)
+```
+
+
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered, with `served` and `shutdown`
+> events as the only exeptions.
+
+
 ### bootstrap {.event}
 
 A one-time event, emitted immediately after the [express.js app](cds-facade#cds-app)
 has been created and before any middleware or CDS services are added to it.
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 const express = require('express')
-cds.on('bootstrap', (app)=>{
+cds.on('bootstrap', app => {
   // add your own middleware before any by cds are added
-
   // for example, serve static resources incl. index.html
   app.use(express.static(__dirname+'/srv/public'))
 })
@@ -170,7 +196,8 @@ Emitted for each service constructed by [`cds.serve`](cds-serve).
 
 A one-time event, emitted when all services have been bootstrapped and added to the [express.js app](cds-facade#cds-app).
 
-```js
+```js twoslash
+// @noErrors
 const cds = require('@sap/cds')
 cds.on('served', (services)=>{
   // We can savely access service instances through the provided argument:
@@ -195,33 +222,54 @@ A one-time event, emitted when the server is closed and/or the process finishes.
 This event supports _asynchronous_ event handlers.
 
 
-### Event Handlers
 
-#### Synchronous vs. asynchronous
 
-Unless otherwise noted, event handlers execute **synchronously** in the order they are registered.
-This is due to `cds.on()` and `cds.emit()` using Node's [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous) contract.
+## Configuration
 
-In other words this asynchronous handler code does **not work** as expected:
+The behavior of the built-in `server.js` can be customized through the options documented in the following sections.
 
-```js
-cds.on ('bootstrap', async ()=> {
-  await asyncCode() // [!code error] // will NOT be awaited
+### CORS Middleware
+
+The built-in CORS middleware can be enabled explicitly with <Config>cds.server.cors: true</Config>.  By default, this is `false` if in production.
+
+[Learn more about best practices regarding **Cross-Origin Resource Sharing (CORS)**.](../node.js/best-practices.md#cross-origin-resource-sharing-cors) {.learn-more}
+
+
+
+### Toggle Generic Index Page
+
+The default generic _index.html_ page is not served if `NODE_ENV` is set to `production`. Set <Config>cds.server.index: true</Config> to restore the generic index page in production.
+
+[See the **Generic *index.html*** page in action.](../get-started/in-a-nutshell.md#generic-index-html) {.learn-more}
+
+
+
+### Maximum Request Body Size
+
+There are two ways to restrict the maximum request body size of incoming requests, globally for all endpoints and for individual services. If the payload exceeds the configured value, the request is rejected with _413 - Payload too large_. The configured values are passed through to the underlying Express body parser middlewares. Therefore, the default limit is _100kb_, as this is the default of the Express built-in [body parsers](https://expressjs.com/en/api.html#express.json).
+
+The maximum request body size can be limited globally, for all services and protocols, using the configuration `cds.server.body_parser.limit`, like so:
+
+```jsonc
+{
+  "cds": {
+    "server": {
+      "body_parser": {
+        "limit": "1mb" // also accepts b, kb, etc...
+      }
+    }
+  }
 }
 ```
 
-You can use the [served](#served) event's asynchronous nature though to wait for such bootstrap code:
+To restrict the maximum request body size of requests received by an individual service, the service specific annotation `@cds.server.body_parser.limit` can be used, like so:
 
-```js
-let done
-cds.on('bootstrap', ()=> {
-  done = asyncCode()
-}
-cds.on('served', async ()=> {
-  await moreCode()
-  await done
-})
+```cds
+annotate AdminService with @cds.server.body_parser.limit: '1mb';
 ```
+
+This is useful when the expected request body sizes might vary for services within the application. If both the global configuration and the service specific annotation are set, the service specific annotation takes precedence for the respective service.
+
 
 
 ## See Also...

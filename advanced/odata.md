@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -24,6 +22,8 @@ status: released
 
 # Serving OData APIs
 
+[[toc]]
+
 ## Feature Overview { #overview}
 
 OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
@@ -40,9 +40,11 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 | `$apply`       | For [data aggregation](#data-aggregation) | <X/>      | <X/>   |
 | `$expand`      | Deep-read associated entities             | <X/>      | <X/>   |
 | [Lambda Operators](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361024)   | Boolean expressions on a collection       | <X/>      | <X/> <sup>(2)</sup> |
+| [Parameters Aliases](https://docs.oasis-open.org/odata/odata/v4.01/os/part1-protocol/odata-v4.01-os-part1-protocol.html#sec_ParameterAliases) | Replace literal value in URL with parameter alias | <X/> | <X/> <sup>(3)</sup>   |
 
 - <sup>(1)</sup> The elements to be searched are specified with the [`@cds.search` annotation](../guides/providing-services#searching-data).
 - <sup>(2)</sup> The navigation path identifying the collection can only contain one segment.
+- <sup>(3)</sup> Supported for key values and for parameters of functions only.
 
 System query options can also be applied to an [expanded navigation property](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
 
@@ -52,7 +54,7 @@ System query options can also be applied to an [expanded navigation property](ht
 | `$filter`      | Filter associated entities                | <X/>     | <X/>   |
 | `$expand`      | Nested expand                             | <X/>     | <X/>   |
 | `$orderby`     | Sort associated entities                  | <X/>     | <X/>   |
-| `$top`,`$skip` | Paginate associated entities              | <Na/>    | <X/>   |
+| `$top`,`$skip` | Paginate associated entities              | <X/>     | <X/>   |
 | `$count`       | Count associated entities                 | <Na/>    | <X/>   |
 | `$search`      | Search associated entities                | <Na/>    | <Na/>  |
 
@@ -67,7 +69,7 @@ System query options can also be applied to an [expanded navigation property](ht
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
 | [Delete an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeleteanEntity) | `DELETE` request on Entity |  <X/> | <X/> |
 | [Delta Payloads](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | For nested entity collections in [deep updates](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateRelatedEntitiesWhenUpdatinganE) | <D/> | <X/> |
-| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup>(beta)</sup> |
+| [Patch Collection](#odata-patch-collection) | Update Entity collection with [delta](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_DeltaPayloads) | <Na/> | <X/><sup><Beta /></sup> |
 
 
 ## PATCH Entity Collection with Mass Data (Java) { #odata-patch-collection }
@@ -100,7 +102,7 @@ Content-Type: application/json
 }
 ```
 
-PATCH requests with delta payload are executed using batch delete and [upsert](../java/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
+PATCH requests with delta payload are executed using batch delete and [upsert](../java/working-with-cql/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
 
 Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by annotating the entity with
 
@@ -115,35 +117,39 @@ Limitations:
  * [Added and deleted links](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_IteminaDeltaPayloadResponse) are not supported.
  * The header `Prefer=representation` is not yet supported.
  * The `continue-on-error` preference is not yet supported.
- * The generic CAP handler support for [upsert](../java/query-api#upsert) is limited, for example, audit logging is not supported.
+ * The generic CAP handler support for [upsert](../java/working-with-cql/query-api#upsert) is limited, for example, audit logging is not supported.
 
 
 ## Mapping of CDS Types { #type-mapping}
 
 The table below lists [CDS's built-in types](../cds/types) and their mapping to the OData EDM type system.
 
-| CDS Type       | OData V4                                |
-| -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>.              |
-| `Boolean`      | _Edm.Boolean_                           |
-| `UInt8  `      | _Edm.Byte_                              |
-| `Int16`        | _Edm.Int16_                             |
-| `Int32`        | _Edm.Int32_                             |
-| `Integer`      | _Edm.Int32_                             |
-| `Int64`        | _Edm.Int64_                             |
-| `Integer64`    | _Edm.Int64_                             |
-| `Decimal`      | _Edm.Decimal_                           |
-| `Double`       | _Edm.Double_                            |
-| `Date`         | _Edm.Date_                              |
-| `Time`         | _Edm.TimeOfDay_                         |
-| `DateTime`     | _Edm.DateTimeOffset_                    |
-| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7" |
-| `String`       | _Edm.String_                            |
-| `Binary`       | _Edm.Binary_                            |
-| `LargeBinary`  | _Edm.Binary_                            |
-| `LargeString`  | _Edm.String_                            |
+| CDS Type       | OData V4                                  |
+| -------------- | ---------------------------------------   |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>                 |
+| `Boolean`      | _Edm.Boolean_                             |
+| `UInt8  `      | _Edm.Byte_                                |
+| `Int16`        | _Edm.Int16_                               |
+| `Int32`        | _Edm.Int32_                               |
+| `Integer`      | _Edm.Int32_                               |
+| `Int64`        | _Edm.Int64_                               |
+| `Integer64`    | _Edm.Int64_                               |
+| `Decimal`      | _Edm.Decimal_                             |
+| `Double`       | _Edm.Double_                              |
+| `Date`         | _Edm.Date_                                |
+| `Time`         | _Edm.TimeOfDay_                           |
+| `DateTime`     | _Edm.DateTimeOffset_                      |
+| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7"   |
+| `String`       | _Edm.String_                              |
+| `Binary`       | _Edm.Binary_                              |
+| `LargeBinary`  | _Edm.Binary_                              |
+| `LargeString`  | _Edm.String_                              |
+| `Map`          | represented as empty, open complex type   |
+| `Vector`       | not supported <sup>(2)</sup>              |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
+
+> <sup>(2)</sup> Type `cds.Vector` must not appear in an OData service
 
 OData V2 has the following differences:
 
@@ -151,6 +157,7 @@ OData V2 has the following differences:
 | ------------ | ----------------------------------------------- |
 | `Date`       | _Edm.DateTime_ with `sap:display-format="Date"` |
 | `Time`       | _Edm.Time_                                      |
+| `Map`        | not supported                                   |
 
 
 ### Overriding Type Mapping { #override-type-mapping}
@@ -164,7 +171,7 @@ the import of external service APIs, see [Using Services](../guides/using-servic
 
 ```cds
 entity Foo {
-  ...,
+  // ...
   @odata: { Type: 'Edm.GeometryPolygon', SRID: 0 }
   geoCollection : LargeBinary;
 };
@@ -177,12 +184,13 @@ Therefore, you can override the default mapping as follows:
 ```cds
 entity Books {
   key ID : UUID @odata.Type:'Edm.String';
-  ...
+  // ...
 }
 ```
 
 ::: warning
-It is possible to "cast" any scalar CDS type into any (in-)compatible EDM type:
+This annotation affects the client side facing API only. There's no automatic data modification of any kind behind the scenes, like rounding, truncation, conversion, and so on. It's your responsibility to perform all required modifications on the data stream such that the values match their type in the API.
+If you are not doing the required conversions, you can "cast" any scalar CDS type into any incompatible EDM type:
 
 ```cds
 entity Foo {
@@ -198,7 +206,7 @@ This translates into the following OData API contract:
 <Property Name="str" Type="Edm.Decimal" Scale="floating" DefaultValue="17.4"/>
 ```
 
-The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings. There is no automatic data conversion behind the scenes.
+The client can now rightfully expect that float numbers are transmitted but in reality the values are still strings.
 :::
 
 
@@ -216,22 +224,25 @@ OData defines a strict two-fold key structure composed of `@<Vocabulary>.<Term>`
 
 ```cds
 @Common.Label: 'Customer'
-@Common.ValueList: {
-  Label: 'Customers',
-  CollectionPath: 'Customers'
+@UI.HeaderInfo: {
+  TypeName       : 'Customer',
+  TypeNamePlural : 'Customers',
+  Title          : { Value : name }
 }
-entity Customers { }
+entity Customers { /* ... */ }
 ```
 
 This is represented in CSN as follows:
 
-```json
+```jsonc
 {"definitions":{
   "Customers":{
     "kind": "entity",
     "@Common.Label": "Customer",
-    "@Common.ValueList.Label": "Customers",
-    "@Common.ValueList.CollectionPath": "Customers"
+    "@UI.HeaderInfo.TypeName": "Customer",
+    "@UI.HeaderInfo.TypeNamePlural": "Customers",
+    "@UI.HeaderInfo.Title.Value": {"=": "name"},
+    /* ... */
   }
 }}
 ```
@@ -241,17 +252,23 @@ And would render to EDMX as follows:
 ```xml
 <Annotations Target="MyService.Customers">
   <Annotation Term="Common.Label" String="Customer"/>
-  <Annotation Term="Common.ValueList">
-    <Record Type="Common.ValueListType">
-      <PropertyValue Property="Label" String="Customers"/>
-      <PropertyValue Property="CollectionPath" String="Customers"/>
+  <Annotation Term="UI.HeaderInfo">
+    <Record Type="UI.HeaderInfoType">
+      <PropertyValue Property="TypeName" String="Customer"/>
+      <PropertyValue Property="TypeNamePlural" String="Customers"/>
+      <PropertyValue Property="Title">
+        <Record Type="UI.DataField">
+          <PropertyValue Property="Value" Path="name"/>
+        </Record>
+      </PropertyValue>
     </Record>
   </Annotation>
 </Annotations>
 ```
 
 ::: tip
-The value for `@Common.ValueList` is flattened to individual key-value pairs in CSN and 'restructured' to a record for OData exposure in EDMX.
+The value for `@UI.HeaderInfo` is flattened to individual key-value pairs in CSN and 'restructured'
+to a record for OData exposure in EDMX.
 :::
 
 For each annotated target definition in CSN, the rules for restructuring from CSN sources are:
@@ -301,9 +318,7 @@ Note that there's no interpretation and no special handling for these qualifiers
 
 ### Primitives
 
-::: tip
-The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
-:::
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of primitive values.
 
 Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are mapped to corresponding OData annotations as follows:
 
@@ -321,12 +336,16 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-Rendering a `null` value must be done as dynamic expression:
+#### Null Value { #null-value }
+
+A `null` value can be set either as an [annotation expression](#expression-annotations) or as a [dynamic expression](#dynamic-expressions):
 
 ```cds
-@Some.Null: { $edmJson: { $Null } }
+@Some.NullXpr:  (null)                  // annotation expression, short form
+@Some.NullFunc: ($Null())               // annotation expression, functional form
+@Some.NullDyn:  { $edmJson: { $Null } } // dynamic expression
 ```
-
+All three expressions result in the following rendering:
 ```xml
 <Annotation Term="Some.Null">
   <Null/>
@@ -337,13 +356,13 @@ Rendering a `null` value must be done as dynamic expression:
 
 ### Records
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of record values.
 
 Record-like source structures are mapped to `<Record>` nodes in EDMX, with primitive types translated analogously to the above:
 
 ```cds
 @Some.Record: {
-  Null: null,
+  Null: (null),
   Boolean: true,
   Integer: 1,
   Number: 3.14,
@@ -417,13 +436,13 @@ To overwrite the default, use an explicit `$Type` like shown previously.
 
 ### Collections
 
-> The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of collection values.
 
 Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as direct elements of the array, these elements are wrapped into individual primitive child nodes of the resulting collection as is. The rules for records and collections are applied recursively:
 
 ```cds
 @Some.Collection: [
-  true, 1, 3.14, 'foo',
+  null, true, 1, 3.14, 'foo',
   { $Type:'UI.DataField', Label:'Whatever', Hidden }
 ]
 ```
@@ -444,11 +463,11 @@ Arrays are mapped to `<Collection>` nodes in EDMX and if primitives show up as d
 </Annotation>
 ```
 
-### References
+### References { #references }
 
->  The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
+> Note: The `@Some` annotation isn't a valid term definition. The following example illustrates the rendering of reference values.
 
-References in `cds` annotations are mapped to `.Path` properties or nested `<Path>` elements respectively:
+References in CDS annotations are mapped to `Path` properties or nested `<Path>` elements, respectively:
 
 ```cds
 @Some.Term: My.Reference
@@ -473,6 +492,10 @@ References in `cds` annotations are mapped to `.Path` properties or nested `<Pat
   </Collection>
 </Annotation>
 ```
+
+As the compiler isn't aware of the semantics of such references, the mapping is very simplistic:
+each `.` in a path is replaced by a `/`.
+Use [expression-valued annotations](#expression-annotations) for more convenience.
 
 Use a [dynamic expression](#dynamic-expressions) if the generic mapping can't produce the desired `<Path>`:
 
@@ -517,6 +540,243 @@ The second example is for a (record type) term in the [Communication vocabulary]
   </Record>
 </Annotation>
 ```
+
+
+### Expressions <Beta /> { #expression-annotations }
+
+If the value of an OData annotation is an [expression](../cds/cdl#expressions-as-annotation-values),
+the OData backend provides improved handling of references and automatic mapping from
+CDS expression syntax to OData expression syntax.
+
+#### Flattening
+
+In contrast to [simple references](#references), the references in expression-like
+annotation values are correctly handled during model transformations, like other references in the model.
+When the CDS model is flattened for OData, the flattening is consequentially also applied
+to these references, and they are translated to the flat model.
+
+::: tip
+
+Although CAP supports structured types and elements, we recommend to use them only
+if they bring a real benefit. In general, you should keep your models as flat as possible.
+
+:::
+
+Example:
+```cds
+type Price {
+  @Measures.ISOCurrency: (currency)
+  amount : Decimal;
+  currency : String(3);
+}
+
+service S {
+  entity Product {
+    key id : Integer;
+    name : String;
+    price : Price;
+  }
+}
+```
+Structured element `price` of `S.Product` is unfolded to flat elements
+`price_amount` and `price_currency`. Accordingly, the reference in the annotation
+is rewritten from `currency` to `price_currency`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Product">
+    <!-- ... -->
+    <Property Name="price_amount" Type="Edm.Decimal" Scale="variable"/>
+    <Property Name="price_currency" Type="Edm.String" MaxLength="3"/>
+  </EntityType>
+  <Annotations Target="S.Product/price_amount">
+    <Annotation Term="Measures.ISOCurrency" Path="price_currency"/>
+  </Annotations>
+</Schema>
+```
+
+
+Example:
+```cds
+service S {
+  entity E {
+    key id : Integer;
+    f : Association to F;
+    @Some.Term: (f.struc.y)
+    val : Integer;
+  }
+  entity F {
+    key id : Integer;
+    struc {
+      y : Integer;
+    }
+  }
+}
+```
+The OData backend is aware of the semantics of a path and distinguishes association path steps from structure access.
+The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="E">
+    <!-- ... -->
+    <NavigationProperty Name="f" Type="S.F"/>
+    <Property Name="val" Type="Edm.Int32"/>
+  </EntityType>
+  <EntityType Name="F">
+    <!-- ... -->
+    <Property Name="struc_y" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.E/val">
+    <Annotation Term="Some.Term" Path="f/struc_y"/>
+  </Annotations>
+</Schema>
+```
+
+::: warning Restrictions concerning the foreign key elements of managed associations
+
+1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
+This is a workaround for the lack of possibility to directly annotate a foreign key element.
+This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
+to use expression-valued annotations for annotating foreign keys of a managed association.
+
+2. In an expression-valued annotation, it is not possible to reference the foreign key element
+of a managed association.
+
+:::
+
+#### Expression Translation
+
+If the expression provided as annotation value is more complex than just a reference,
+the OData backend translates CDS expressions to the corresponding OData expression syntax and rejects those expressions that are not applicable in an OData API.
+
+::: info
+
+While the flattening of references described in the section above is applied to all
+annotations, the syntactic translation of expressions is only done for annotations
+defined in one of the [OData vocabularies](#vocabularies).
+
+:::
+
+The following operators and clauses of CDL are supported:
+
+* `case when ... then ... else ...` and the logical ternary operator ` ? : `
+* Logical: `and`,  `or`,  `not`
+* Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and ...`
+* Unary `+` and `-`
+* Arithmetic: `+`,  `-`,  `*`,  `/`
+* Concat: `||`
+* `cast(...)`
+
+Example:
+```cds
+@Some.Xpr: ( -(a + b) )
+```
+
+```xml
+<Annotation Term="Some.Xpr">
+  <Neg>
+    <Add>
+      <Path>a</Path>
+      <Path>b</Path>
+    </Add>
+  </Neg>
+</Annotation>
+```
+
+Such expressions can for example be used
+for [some Fiori UI annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048):
+
+```cds
+service S {
+  @UI.LineItem: [ // ...
+  {
+    Value: (status),
+    Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) )
+  }]
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  }
+}
+```
+
+If you need to access an element of an entity in an annotation for a bound action or function,
+use a path that navigates via an explicitly defined [binding parameter](../cds/cdl#bound-actions).
+
+Example:
+```cds
+service S {
+  entity Order {
+    key id : Integer;
+    // ...
+    status : String;
+  } actions {
+    @Core.OperationAvailable: ( :in.status <> 'A' )
+    action accept (in: $self)
+  }
+}
+```
+
+In addition, the following functions are supported:
+
+* `$Null()` representing the `null` value [`Null`]([annotation expression](#null-value)).
+* `Div(...)` (or `$Div(...)`) and `Mod(...)` (or `$Mod(...)`) for integer division and modulo
+* [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
+* the functions listed in sections
+  [5.1.1.5](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#StringandCollectionFunctions)
+  through [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions)
+  of [OData URL conventions](https://docs.oasis-open.org/odata/odata/v4.02/odata-v4.02-part2-url-conventions.html)
+  + See examples below for the syntax for `cast` and `isof` (section [5.1.1.10](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#TypeFunctions))
+  + The names of the geo functions (section [5.1.1.11](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#GeoFunctions))
+    need to be escaped like <br> `![geo.distance]`
+* [`fillUriTemplate(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatafillUriTemplate)
+  and [`uriEncode(...)`](https://docs.oasis-open.org/odata/odata-csdl-xml/v4.01/odata-csdl-xml-v4.01.html#sec_FunctionodatauriEncode)
+* `Type(...)` (or `$Type(...)`) is to be used to specify a type name with their corresponding type facets such as `MaxLength(...)`, `Precision(...)`, `Scale(...)` and `SRID(...)`
+   (or `$MaxLength(...)`, `$Precision(...)`, `$Scale(...)`, `$SRID(...)`)
+
+Example:
+```cds
+@Some.Func1: ( concat(a, b, c) )
+@Some.Func2: ( round(aNumber) )
+@Some.Func3: ( $Cast(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func4: ( $IsOf(aValue, $Type('Edm.Decimal', $Precision(38), $Scale(19)) ) )
+@Some.Func5: ( ![geo.distance](a, b) )
+@Some.Func6: ( fillUriTemplate(a, b) )
+```
+
+If a functional expression starts with a `$`, all inner function must also be `$` functions and vice versa.
+Instead of `[$]Type(...)` an EDM primitive type name can be directly used as function name like in CDL.
+
+It is worth to mention that there are two alternatives for the cast function, one in the EDM and one in the CDS domain:
+
+<!-- cds-mode: ignore -->
+```cds
+@Some.ODataStyleCast:  ( Cast(aValue, Decimal(38, 'variable') ) )  // => Edm.Decimal
+@Some.ODataStyleCast2: ( Cast(aValue, PrimitiveType()) )           // => Edm.PrimitiveType
+@Some.SQLStyleCast:    ( cast(aValue as Decimal(38, variable)) )   // => cds.Decimal
+@Some.SQLStyleCast2:   ( cast(aValue as String) )                  // => cds.String without type facets
+```
+
+Both `cast` functions look similar, but there are some differences:
+
+The OData style `Cast` _function_ starts with a capital letter and the SQL `cast` _operator_ uses the keyword `as`
+to delimit the element reference from the type specifier. The OData `Cast` requires an EDM primitive type to be used
+either as `[$]Type()` or as direct type function whereas the SQL `cast` requires a scalar CDS type as argument which is then
+converted into the corresponding EDM primitive type.
+
+::: info
+
+CAP only provides a syntactic translation. It is up to each client
+whether an expression value is supported for a particular annotation.
+See for example [Firori's list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+:::
+
+Use a [dynamic expression](#dynamic-expressions) if the desired EDMX expression cannot be
+obtained via the automatic translation of a CDS expression.
+
 
 ### Annotating Annotations { #annotating-annotations}
 
@@ -581,8 +841,8 @@ In any case, the resulting EDMX is:
 
 ### Dynamic Expressions { #dynamic-expressions}
 
-OData supports dynamic expressions in annotations. CDS syntax doesn't allow writing expressions
-in annotation values, but for OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
+OData supports dynamic expressions in annotations.
+For OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
 in the [JSON representation of the OData Common Schema Language](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
 
 Note that here the CDS syntax for string literals with single quotes (`'foo'`) applies,
@@ -606,6 +866,20 @@ is translated to:
   </Ne>
 </Annotation>
 ```
+
+One of the main use cases for such dynamic expressions is SAP Fiori,
+but note that SAP Fiori supports dynamic expressions only for
+[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
+::: tip Use expression-like annotation values
+
+Instead of writing annotations directly with EDM JSON syntax,
+try using [expression-like annotation values](#expression-annotations), which
+are automatically translated. For the example above you would
+simply write `@UI.Hidden: (status <> 'visible')`.
+
+:::
+
 
 ### `sap:` Annotations
 
@@ -746,7 +1020,7 @@ The annotation is added to the OData API, as well as the mandatory reference to 
 </Annotations>
 ```
 
-The compiler neither evaluates the annotation values nor the URI.
+The compiler evaluates neither annotation values nor the URI.
 It is your responsibility to make the URI accessible if required.
 Unlike for the standard vocabularies listed above, the compiler has no access to the content of
 the vocabulary, so the values are translated completely generically.
@@ -769,6 +1043,10 @@ GET /Orders(10)/books?
 ```
 
 This request operates on the books of the order with ID 10. First it filters out the books from the year 2000 to an intermediate result set. The intermediate result set is then grouped by author name and the price is averaged. Finally, the result set is sorted by title and only the top 3 entries are retained.
+
+::: warning
+If the `groupby` transformation only includes a subset of the entity keys, the result order might be unstable.
+:::
 
 ### Transformations
 
@@ -818,6 +1096,46 @@ GET /Order(10)/books?
 ```
 
 This query groups the 500 most expensive books by author name and determines the price of the most expensive book per author.
+
+
+### Hierarchical Transformations
+
+Provide support for hierarchy attribute calculation and navigation, and allow the execution of typical hierarchy operations directly on relational data.
+
+| Transformation                                | Description                                                        | Node.js | Java               |
+|-----------------------------------------------|--------------------------------------------------------------------|---------|--------------------|
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data   | <Na/>   | <X/><sup>(1)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy        | <Na/>   | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy      | <Na/>   | <X/><sup>(1)</sup> |
+
+- <sup>(1)</sup> Beta feature, API may change
+
+::: warning
+Generic implementation is supported on SAP HANA only
+:::
+
+:::info
+The source elements of the entity defining the recursive parent-child relation are identified by a naming convention or aliases `node_id` and `parent_id`.
+For more refer to [SAP HANA Hierarchy Developer Guide](https://help.sap.com/docs/SAP_HANA_PLATFORM/4f9859d273254e04af6ab3e9ea3af286/f29c70e984254a6f8df76ad84e78f123.html?locale=en-US&version=2.0.05)
+:::
+
+#### `com.sap.vocabularies.Hierarchy.v1.TopLevels`
+
+The [`TopLevels` transformation](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Hierarchy.xml) produces the hierarchical result based on recursive parent-child relationship:
+
+```http
+GET /SalesOrganizations?$apply=
+     com.sap.vocabularies.Hierarchy.v1.TopLevels(..., NodeProperty='ID', Levels=2)
+```
+#### `ancestors` and `descendants`
+
+The [`ancestors` and `descendants` transformations](https://docs.oasis-open.org/odata/odata-data-aggregation-ext/v4.0/cs03/odata-data-aggregation-ext-v4.0-cs03.html#Transformationsancestorsanddescendants) compute the subset of a given recursive hierarchy, which contains all nodes that are ancestors or descendants of a start nodes set. Its output is the ancestors or descendants set correspondingly.
+
+```http
+GET SalesOrganizations?$apply=
+    descendants(..., ID, filter(ID eq 'US'), keep start)
+   /ancestors(..., ID, filter(contains(Name, 'New York')), keep start)
+```
 
 
 ### Aggregation Methods
@@ -888,7 +1206,7 @@ The CAP Java SDK exposes all properties annotated with `@Semantics.currencyCode`
 * The property's value if it's unique within a group of dimensions
 * `null` otherwise
 
-A custom aggregate for a currency code or unit of measure should be also exposed by the `@Aggregation.CustomAggregate` annotation. Moreover, a property for a monetary amount or a measured quantity should be annotated with `@Semantics.amount.currencyCode` or `@Semantics.quantity.unitOfMeasure` to reference the corresponding property that holds the amount's currency code or the quantity's unit of measure, respectively.
+A custom aggregate for a currency code or unit of measure should also be exposed by the `@Aggregation.CustomAggregate` annotation. Moreover, a property for a monetary amount or a measured quantity should be annotated with `@Semantics.amount.currencyCode` or `@Semantics.quantity.unitOfMeasure` to reference the corresponding property that holds the amount's currency code or the quantity's unit of measure, respectively.
 
 ### Other Features
 
@@ -929,12 +1247,14 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties, e.g.:
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
+
+Example 1:
 
 ```json
 {"id": 1, "title": "Tow Sawyer"}
 ```
-or
+Example 2:
 
 ```json
 {"title": "Tow Sawyer",
@@ -954,7 +1274,7 @@ service CatalogService {
   type Book {} // [!code focus]
 }
 ```
-Following payload for `Order` is allowed:
+The following payload for `Order` is allowed:
 
 `{"guid": 1, "book": {"id": 2, "title": "Tow Sawyer"}}`
 
@@ -988,11 +1308,6 @@ The complex and structured types are deserialized to `java.util.Map`, whereas co
 |`{"value":[{"name": "Mark Twain"}, {"name": "Charlotte Bronte"}}]}`| `java.util.List<Map<String, Object>>`|
 
 
-::: warning
-The full support of Open Types (`@open`) in OData is currently available for the Java Runtime only.
-The Node.js runtime supports the feature only in REST Adapter as well as for parameters and return types of actions and functions.
-:::
-
 
 ## Singletons
 
@@ -1003,7 +1318,7 @@ Annotate an entity with `@odata.singleton` or `@odata.singleton.nullable`, to us
 ```cds
 service Sue {
   @odata.singleton entity MySingleton {
-    key id : String; // can be omitted
+    key id : String; // can be omitted in OData v4.01
     prop : String;
     assoc : Association to myEntity;
   }
@@ -1051,13 +1366,20 @@ Since singletons  represent a one-element entity, a `POST` request is not suppor
 
 ## V2 Support
 
-While CAP defaults to OData V4, the latest protocol version, some projects need to fallback to OData V2, for example, to keep using existing V2-based UIs.
+While CAP defaults to OData V4, the latest protocol version, older projects may need to fallback to OData V2, for example, to keep using existing V2-based UIs.
 
-### Enabling OData V2 via Proxy in Node.js Apps { #odata-v2-proxy-node}
+
+::: warning
+
+OData V2 is deprecated. Use OData V2 only if you need to support existing UIs or if you need to use specific controls that don't work with V4 **yet** like, tree tables (sap.ui.table.TreeTable).
+
+:::
+
+### Enabling OData V2 via CDS OData V2 Adapter in Node.js Apps { #odata-v2-adapter-node}
 
 CAP Node.js supports serving the OData V2 protocol through the [_OData V2 adapter for CDS_](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter), which translates between the OData V2 and V4 protocols.
 
-For Node.js projects, add the proxy as express.js middleware as follows:
+For Node.js projects, add the CDS OData V2 adapter as express.js middleware as follows:
 
 1. Add the adapter package to your project:
 
@@ -1065,30 +1387,8 @@ For Node.js projects, add the proxy as express.js middleware as follows:
     npm add @cap-js-community/odata-v2-adapter
     ```
 
-2. Add this as a plugin to your project:
-
-    ::: code-group
-    ```json [package.json]
-    {...
-    "cds" {
-      "cov2ap" : {
-        "plugin" : true
-        }
-      }
-    }
-    ```
-
-    ```json [.cdsrc.json]
-    {
-    "cov2ap" : {
-      "plugin" : true
-      }
-    }
-    ```
-    :::
-
-3. Access OData V2 services at [http://localhost:4004/v2/${path}](http://localhost:4004/v2).
-4. Access OData V4 services at [http://localhost:4004/${path}](http://localhost:4004) (as before).
+2. Access OData V2 services at [http://localhost:4004/odata/v2/${path}](http://localhost:4004/odata/v2).
+3. Access OData V4 services at [http://localhost:4004/odata/v4/${path}](http://localhost:4004/odata/v4) (as before).
 
 Example: Read service metadata for `CatalogService`:
 
@@ -1099,8 +1399,8 @@ Example: Read service metadata for `CatalogService`:
     service CatalogService { ... }
     ```
 
-- OData V2: `GET http://localhost:4004/v2/browse/$metadata`
-- OData V4: `GET http://localhost:4004/browse/$metadata`
+- OData V2: `GET http://localhost:4004/odata/v2/browse/$metadata`
+- OData V4: `GET http://localhost:4004/odata/v4/browse/$metadata`
 
 [Find detailed instructions at **@cap-js-community/odata-v2-adapter**.](https://www.npmjs.com/package/@cap-js-community/odata-v2-adapter){.learn-more}
 

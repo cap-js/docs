@@ -7,18 +7,10 @@ uacp: This page is linked from the Help Portal at https://help.sap.com/products/
 ---
 
 # Best Practices
-<!-- <style scoped>
-  h1:before {
-    content: "CAP Node.js SDK"; display: block; font-size: 60%; margin: 0 0 .2em;
-  }
-</style> -->
 
 From generic Node.js best practices like dependency management and error handling to CAP-specific topics like transaction handling and testing, this [video](https://www.youtube.com/watch?v=WTOOse-Flj8&t=87s) provides some tips and tricks to improve the developer experience and avoid common pitfalls, based on common customer issues. In the following section we explain these best practices.
 
-<!-- #### Content -->
-
-<!--- % include links.md %} -->
-<!--- % include _chapters toc="2,3" %} -->
+[[toc]]
 
 
 ## Managing Dependencies {#dependencies}
@@ -26,9 +18,9 @@ From generic Node.js best practices like dependency management and error handlin
 Projects using CAP need to manage dependencies to the respective tools and libraries in their _package.json_ and/or _pom.xml_ respectively. Follow the guidelines to make sure that you consume the latest fixes and avoid vulnerabilities and version incompatibilities. These guidelines apply to you as a _consumer_ of reuse packages as well as a _provider_ of such reuse packages.
 
 
-### Always Use the _Latest Minor_ Releases &rarr; for Example, `^5.5.0` {#use-caret }
+### Always Use the _Latest Minor_ Releases &rarr; for Example, `^7.2.0` {#use-caret }
 
-This applies to both, *@sap* packages as well as open source ones. It makes sure that your projects receive the latest features and important fixes during development. It also makes sure that bundles have a minimal footprint by leveraging [npm's dedupe](https://docs.npmjs.com/cli/dedupe.html) feature.
+This applies to both, *@sap* packages as well as open source ones. It ensures your projects receive the latest features and important fixes during development. It also leverages [NPM's dedupe](https://docs.npmjs.com/cli/dedupe.html) to make sure bundles have a minimal footprint.
 
 Example:
 
@@ -39,17 +31,19 @@ Example:
   "express": "^4.17.0"
 }
 ```
-::: tip
-We **recommend** using the caret form, that is, `^1.0.2` to add your dependencies, which are also the default for `npm install`, as that clearly captures the minimum patch version.
+::: tip We **recommend** using the caret form such as `^1.0.2`
+Caret form is the default for `npm install`, as that format clearly captures the minimum patch version.
 :::
 
 ### Keep Open Ranges When *Publishing* for Reuse {#publish }
 
 <!-- TODO: revisit duplicated attribute { #reuse} -->
 
-Let's explain this by looking at counter examples.
+Let's explain this by looking at two examples.
 
-Let's assume that you've developed a reuse package that others can use in their projects, and you also use a reuse package. For whatever reason, you decided to violate the previous rules and use exact dependencies in your _package.json_ as follows:
+#### Bad {.bad}
+
+Assume that you've developed a reuseable package, and consume a reuse package yourself. You decided to violate the previous rules and use exact dependencies in your _package.json_:
 
 ```json
 "name": "@sap/your-reuse-package",
@@ -63,9 +57,11 @@ Let's assume that you've developed a reuse package that others can use in their 
 
 The effect would be as follows:
 
-1. Consuming projects would get duplicate versions of each package that they also use directly, for example, `@sap/cds`, `@sap/foundation`, and `express`.
-2. Consuming projects wouldn't receive important fixes for the packages used in your implementations unless you also provide an update.
+1. Consuming projects get duplicate versions of each package they also use directly, for example, `@sap/cds`, `@sap/foundation`, and `express`.
+2. Consuming projects don't receive important fixes for the packages used in your _package.json_ unless you also provide an update.
 3. It wouldn't be possible to reuse CDS models from common reuse packages (for example, would already fail for `@sap/cds/common`).
+
+#### Good {.good}
 
 Therefore, the rules when publishing packages for reuse are:
 
@@ -73,7 +69,7 @@ Therefore, the rules when publishing packages for reuse are:
 * **Do** an *npm update* before publishing and test thoroughly.
   (&rarr; ideally automated in your CI/CD pipeline).
 * **Do** the vulnerability checks for your software and all open-source software used by you **or by packages you used** (&rarr; [Minimize Usage of Open Source Packages](#oss)).
-* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v7/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
+* **Don't** do `npm shrinkwrap` &rarr; see also [npm's docs](https://docs.npmjs.com/cli/v10/configuring-npm/npm-shrinkwrap-json): *"It's discouraged for library authors to publish this file, ..."*
 
 ::: tip
 If both your package and a consuming package reuse the same CDS models, loading those models would fail because it's impossible to automatically merge the two versions, nor is it possible to load two independent versions. The reason for this is that it's reusing models that share the **same** single definitions.
@@ -98,9 +94,7 @@ The _package-lock.json_ file in your project root freezes all dependencies and i
 
 This ensures that the deployed tool/service/app doesn't receive new vulnerabilities, for example, through updated open source packages, without you being able to apply the necessary tests as prescribed by our security standards.
 
-:::tip
-
-We recommend running `npm update` regularly and frequently during development to ensure that you receive the latest fixes.<br>
+::: tip Run `npm update` frequently to receive latest fixes regularly
 Tools like [renovate](https://github.com/renovatebot/renovate) or [GitHub's dependabot](https://docs.github.com/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) can help you automate this process.
 
 <div id="renovate-sap" />
@@ -140,16 +134,16 @@ To make sure that you receive ongoing fixes, make sure to also adopt the latest 
 
 ### Additional Advice
 
-**Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to NPM.  Unlike _package-lock.json_, it _does_ get packaged and published to NPM registries.  See the [NPM documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
+**Using  _npm-shrinkwrap.json_** — only if you want to publish CLI tools or other 'sealed' production packages to npm.  Unlike _package-lock.json_, it _does_ get packaged and published to npm registries.  See the [npm documentation](https://docs.npmjs.com/cli/v8/configuring-npm/package-lock-json#package-lockjson-vs-npm-shrinkwrapjson) for more.
 
 
 <div id="prerelease-sap" />
 
 ## Securing Your Application
 
-To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet) and [`csurf`](https://www.npmjs.com/package/csurf).
+To keep builds as small as possible, the Node.js runtime doesn't bring any potentially unnecessary dependencies and, hence, doesn't automatically mount any express middlewares, such as the popular [`helmet`](https://www.npmjs.com/package/helmet).
 
-However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-serve#cds-server).
+However, application developers can easily mount custom or best-practice express middlewares using the [bootstrapping mechanism](./cds-server#cds-server).
 
 Example:
 
@@ -188,21 +182,21 @@ cds.on('bootstrap', app => {
   )
 })
 ```
-::: tip
-Consult [OpenUI5 Content Security Policy documentation](https://openui5.hana.ondemand.com/topic/fe1a6dba940e479fb7c3bc753f92b28c) for the list of directives that SAPUI5 requires.
-:::
+Find required directives in the [OpenUI5 Content Security Policy documentation](https://openui5.hana.ondemand.com/topic/fe1a6dba940e479fb7c3bc753f92b28c) {.learn-more}
 
 ### Cross-Site Request Forgery (CSRF) Token
 
-Protect against cross-side request forgery (CSRF) attacks by enabling CSRF token handling either through the _App Router_ or by adding it manually.
-::: tip
-For a SAPUI5 (SAP Fiori/SAP Fiori Elements) application developer, CSRF token handling is transparent.
-There's no need to program or to configure anything in additional. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
+Protect against cross-side request forgery (CSRF) attacks by enabling CSRF token handling through the _App Router_.
+::: tip For a SAPUI5 (SAP Fiori/SAP Fiori Elements) developer, CSRF token handling is transparent
+There's no need to program or to configure anything in addition. In case the server rejects the request with _403_ and _“X-CSRF-Token: required”_, the UI sends a _HEAD_ request to the service document to fetch a new token.
 :::
 
 [Learn more about CSRF tokens and SAPUI5 in the **Cross-Site Scripting** documentation.](https://sapui5.hana.ondemand.com/#/topic/91f0bd316f4d1014b6dd926db0e91070){.learn-more}
 
-::: warning _❗ The request must never be cacheable._ <!--  -->
+Alternatively, you can add a CSRF token handler manually.
+
+::: warning This request must never be cacheable
+If a CSRF token is cached, it can potentially be reused in multiple requests, defeating its purpose of securing each individual request. Always set appropriate cache-control headers to `no-store, no-cache, must-revalidate, proxy-revalidate` to prevent caching of the CSRF token.
 :::
 
 #### Using App Router
@@ -222,73 +216,77 @@ If you use SAP Fiori Elements, requests to the backend are sent as batch request
 As already mentioned, in case the server rejects because of a bad CSRF token, the response with a status _403_ and a header _“X-CSRF-Token: required”_ should be returned to the UI. For this purpose, the error handling in the following example is extended:
 
 ```js
-cds.on('bootstrap', async app => {
-  var csrfProtection = csrf({ cookie: true })
-  var parseForm = express.urlencoded({ extended: false })
+const csrfProtection = csrf({ cookie: true })
+const parseForm = express.urlencoded({ extended: false })
 
+cds.on('bootstrap', app => {
   app.use(cookieParser())
 
   // Must: Provide actual <service endpoint>s of served services.
   // Optional: Adapt for non-Fiori Elements UIs.
-  app.head('/<service endpoint>', csrfProtection, function (req, res) {
-    res.set('X-CSRF-Token', req.csrfToken())
-    res.send()
+  .head('/<service endpoint>', csrfProtection, (req, res) => {
+    res.set({
+      'X-CSRF-Token': req.csrfToken(),
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate'
+    }).send()
   })
 
   // Must: Provide actual <service endpoint>s of served services.
   // Optional: Adapt for non-Fiori Elements UIs.
-  app.post('/<service endpoint>/$batch', parseForm, csrfProtection, function (req, res, next) {
-    next()
-  })
+  .post('/<service endpoint>/$batch', parseForm, csrfProtection, (req, res, next) => next())
 
-  app.use(function (err, req, res, next) {
+  .use((err, req, res, next) => {
     if (err.code !== 'EBADCSRFTOKEN') return next(err)
-
-    res.status(403)
-    res.set('X-CSRF-Token', 'required')
-    res.send()
+    res.status(403).set('X-CSRF-Token', 'required').send()
   })
 })
 ```
 
 [Learn more about backend coding in the **csurf** documentation.](https://www.npmjs.com/package/csurf){.learn-more}
-::: tip
-If you're using horizontal scaling of Node.js virtual machines, the CSRF handling should be done at the approuter level.
+::: tip Use _App Router_ CSRF handling when scaling Node.js VMs horizontally
+Handling CSRF at the _App Router_ level ensures consistency across instances. This avoids potential token mismatches that could occur if each VM handled CSRF independently.
 :::
+
 
 ### Cross-Origin Resource Sharing (CORS)
 
 With _Cross-Origin Resource Sharing_ (CORS) the server that hosts the UI can tell the browser about servers it trusts to provide resources. In addition, so-called "preflight" requests tell the browser if the cross-origin server will process a request with a specific method and a specific origin.
-::: tip
-CORS should either be configured in the _App Router_ or in the backend, but not in both places.
-:::
 
-#### Using App Router
+If not running in production, CAP's [built-in server.js](cds-server#built-in-server-js) allows all origins.
+
+#### Custom CORS Implementation
+
+For production, you can add CORS to your CAP server as follows:
+
+```js
+const ORIGINS = { 'https://example.com': 1 }
+cds.on('bootstrap', app => app.use ((req, res, next) => {
+  if (req.headers.origin in ORIGINS) {
+    res.set('access-control-allow-origin', req.headers.origin)
+    if (req.method === 'OPTIONS') // preflight request
+      return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
+  }
+  next()
+})
+```
+
+[Learn more about CORS in CAP in **this article by DJ Adams**](https://qmacro.org/blog/posts/2024/03/30/cap-cors-and-custom-headers/){.learn-more}
+
+[Learn more about CORS in general in the **MDN Web Docs**.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){.learn-more}
+
+
+
+#### Configuring CORS in App Router
 
 The _App Router_ has full support for CORS. Thus, by adding the _App Router_ as described in the [Deployment Guide: Using App Router as Gateway](../guides/deployment/to-cf#add-app-router), CORS can be configured in the _App Router_ configuration.
 
 [Learn more about CORS handling with the **App Router**](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/ba527058dc4d423a9e0a69ecc67f4593.html?q=allowedOrigin#loioba527058dc4d423a9e0a69ecc67f4593__section_nt3_t4k_sz){.learn-more}
 
-#### Manual Implementation
+::: warning Avoid configuring CORS in both _App Router_ and CAP server
+Configuring CORS in multiple places can lead to confusing debugging scenarios. Centralizing CORS settings in one location decreases complexity, and thus, improves security.
+:::
 
-If not running in production, CAP's default server allows all origins. For production, you can add CORS to your server as follows:
 
-```js
-const ORIGINS = { 'https://example.com': 1 }
-cds.on('bootstrap', async app => {
-  app.use((req, res, next) => {
-    const { origin } = req.headers
-    // standard request
-    if (origin && ORIGINS[origin]) res.set('access-control-allow-origin', origin)
-    // preflight request
-    if (origin && ORIGINS[origin] && req.method === 'OPTIONS')
-      return res.set('access-control-allow-methods', 'GET,HEAD,PUT,PATCH,POST,DELETE').end()
-    next()
-  })
-})
-```
-
-[Learn more about CORS in the **MDN Web Docs** documentation.](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS){.learn-more}
 
 
 ## Availability Checks
@@ -299,18 +297,19 @@ To proactively identify problems, projects should set up availability monitoring
 
 An *anonymous ping* service should be implemented with the least overhead possible. Hence, it should not use any authentication or authorization mechanism, but simply respond to whoever is asking.
 
-The Node.js runtime does not yet provide an out of the box solution for availability monitoring. However, the anonymous ping endpoint can be easily provided via a custom express middleware as follows.
+From `@sap/cds^7.8` onwards, the Node.js runtime provides such an endpoint for availability monitoring out of the box at `/health` that returns `{ status: 'UP' }` (with status code 200).
+
+You can override the default implementation and register a custom express middleware during bootstrapping as follows:
 
 ```js
-cds.on('bootstrap', app => {
-  app.get('/health', (_, res) => {
-    res.status(200).send('OK')
-  })
-})
+cds.on('bootstrap', app => app.get('/health', (_, res) => {
+  res.status(200).send(`I'm fine, thanks.`)
+}))
 ```
 
+More sophisticated health checks, like database availability for example, should use authentication to prevent Denial of Service attacks!
 
-<!--- Migrated: @external/node.js/Best-Practices/41-Error-Handling.md -> @external/node.js/best-practices/error-handling.md -->
+
 ## Error Handling
 
 Good error handling is important to ensure the correctness and performance of the running app and developer productivity.
@@ -361,7 +360,7 @@ In rare cases, throwing a new error is necessary, for example, if the original e
 ### Further Readings
 
 The following articles might be of interest:
-- [Error Handling in Node.js](https://www.joyent.com/node-js/production/design/errors)
+- [Error Handling in Node.js](https://web.archive.org/web/20220417042018/https://www.joyent.com/node-js/production/design/errors)
 - [Let It Crash](https://wiki.c2.com/?LetItCrash)
 - [Don't Catch Exceptions](https://wiki.c2.com/?DontCatchExceptions)
 - [Report And Die](https://wiki.c2.com/?ReportAndDie)
@@ -381,12 +380,12 @@ srv.before("UPDATE", "EntityName", (req) => {
 });
 ```
 
-Internally the [timestamp](events#timestamp) is a Javascript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
+Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that is converted to the right format, when sent to the database. So if in any case a date string is needed, the best solution would be to initialize a Date object, that is then translated to the correct UTC String for the database.
 
 
-## Custom Streaming (beta)
+## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When using [Media Data](../guides/media-data) the Node.js runtime offers a possibility to
+When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
 return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
 
 Example:
@@ -397,9 +396,9 @@ srv.on('READ', 'Books', (req, next) => {
     const readable = new Readable()
     return {
       value: readable,
-      $mediaContentType = 'image/jpeg',
-      $mediaContentDispositionFilename = 'cover.jpg', // > optional
-      $mediaContentDispositionType = 'inline' // > optional
+      $mediaContentType: 'image/jpeg',
+      $mediaContentDispositionFilename: 'cover.jpg', // > optional
+      $mediaContentDispositionType: 'inline' // > optional
     }
   }
   return next()
@@ -407,3 +406,25 @@ srv.on('READ', 'Books', (req, next) => {
 ```
 
 In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+
+## Custom $count { #custom-count }
+
+When you write custom `READ` on-handlers, you should also support requests that contain `$count`, such as `GET /Books/$count` or `GET /Books?$count=true`. For more details, consider the following example:
+
+```js
+srv.on('READ', 'Books', function (req) {
+  // simple '/$count' request
+  if (req.query.SELECT.columns?.length === 1 && req.query.SELECT.columns[0].as === '$count')
+    return [{ $count: 100 }]
+  // support other '/$count' requests
+  ...
+
+  const resultSet = [ ... ]
+
+  // request contains $count=true 
+  if (req.query.SELECT.count === true) resultSet.$count = 100
+
+  return resultSet
+})
+```
+

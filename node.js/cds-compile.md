@@ -1,6 +1,4 @@
 ---
-redirect_from:
-  - cds/js-api
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/855e00bd559742a3b8276fbed4af1008.html
 ---
@@ -116,7 +114,7 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 | Option      | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
 | `flavor`    | By default the returned CSN is in `'inferred'` flavor, which is an effective model, with all aspects, includes, extensions and redirects applied and all views and projections inferred. Specify `'parsed'` to only have single models parsed. |
-| `min`       | Specify `true` to have [`cds.minify)`](#cds-minify) applied after compiling the models. |
+| `min`       | Specify `true` to have [`cds.minify()`](#cds-minify) applied after compiling the models. |
 | `docs`      | Specify `true` to have the all `/** ... */` doc comments captured in the CSN. |
 | `locations` | Specify `true` to have the all `$location` properties preserved in serialized CSN. |
 | `messages`  | Pass an empty array to get all compiler messages collected in there. |
@@ -124,41 +122,17 @@ let csn = await cds.compile('*',{ min:true, docs:true })
 
 
 
+## cds. compile .to ... {.property}
 
-## cds. compile (...) .to.xyz() {.method}
-
-This is a fluent variant that combines calls to [`cds.compile()`](#cds-compile) with calls to one of [`cds.compile.to.xyz()`](#cds-compile-1).
-
-For example:
+Following are a collection of model processors which take a CSN as input and compile it to a target output. They can be used in two API flavors:
 
 ```js
-let csn = await cds.compile('*')
-let sql = cds.compile.to.sql(csn)
-```
-
-Can also be done like that using this fluent API:
-
-```js
-let sql = await cds.compile('*').to.sql()
-```
-
-As model argument can also be a CSN, we can also use it as a plain fluent API alternative, so these usages are equivalent:
-
-```js
-let sql = cds.compile.to.sql(csn,{dialect:'sqlite'})
-let sql = cds.compile(csn).to.sql({dialect:'sqlite'})
+let sql = cds.compile(csn).to.sql ({dialect:'sqlite'}) //> fluent
+let sql = cds.compile.to.sql (csn,{dialect:'sqlite'}) //> direct
 ```
 
 
-
-
-
-## cds. compile ... {.property}
-
-Following are a collection of model processors which take a CSN as input and compile it to a target output.
-
-
-### .to .json() {.method}
+### .json() {.method}
 
 ```tsx
 function cds.compile.to.json ( options: {
@@ -174,25 +148,25 @@ Option `indents` is the indent as passed to `JSON.stringify`.
 
 
 
-### .to .yaml() {.method}
+### .yaml() {.method}
 
 Renders the given model to a formatted JSON  or YAML string.
 
 
 
-### .to .edm() {.method}
+### .edm() {.method alt="The following documentation on .edmx also applies to .edm."}
 
-### .to .edmx() {.method}
+### .edmx() {.method}
 
 
 Compiles and returns an OData v4 [EDM](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html), respectively [EDMX](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) model object for the passed in model, which is expected to contain at least one service definition.
 
-Accepted `options` the same [as documented for `cds.compile.for.odata`](#for-odata) above, with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
+Accepted `options` are the same [as documented for `cds.compile`](#additional-options), with one addition: If the model contains more than one service definition, use `{service:...}` option parameter to:
 
 * Either choose exactly one, for example, `{service:'Catalog'}`
 * Choose to return EDM objects for all, that means, `{service:'all'}`
 
-In case of the latter, a generator is returned that yields `[ edm, {name} ]` for each service.
+In case of the latter, a generator is returned that yields `[ edm, {file, suffix} ]` for each service.
 For example, use it as follows:
 
 ```js
@@ -203,30 +177,41 @@ console.log (edm)
 ```js
 // for all services
 let all = cds.compile.to.edm (csn, {service:'all'})
-for (let [edm,{name}] of all)  console.log (name,edm)
+for (let [edm,{file,suffix}] of all)
+  console.log (file,suffix,edm)
 ```
 
 
+### .hdbcds() {.method .deprecated}
 
+Generates `hdbcds` output.
 
-### .to .hdbtable() {.method}
+Current SAP HANA Cloud versions do no longer support `.hdbcds`. The command is supported for backward compatibility with older versions of [SAP HANA Service for SAP BTP](https://help.sap.com/docs/HANA_SERVICE).
 
-### .to .hdbcds() {.method}
+Use [`cds.compile.to.hana`](#hana) instead.
 
+### .hdbtable() {.method .deprecated}
 
-Generates `hdbtable/view` or `hdbcds` output.
-Returns a generator that yields `[ src, {file} ]` for each resulting `.hdbtable`, `.hdbview`, or `.hdbcds` file.
+Use [`cds.compile.to.hana`](#hana) instead.
+
+### .hana() <Since version="8.0.0" of="@sap/cds" /> {.method}
+
+Generates `hdbtable/hdbview` output.
+
+Returns a generator function that produces `[ content, {file} ]` for each artifact. The variable `content` contains the SQL DDL statements for the `.hdb*` artifacts, and `file` is the filename.
+
 For example, use it as follows:
 
 ```js
-let all = cds.compile.to.hdbtable (csn)
-for (let [src,{file}] of all)
-  console.log (file,src)
+const all = cds.compile.to.hana(csn);
+for (const [content, { file }] of all) {
+  console.log(file, content);
+}
 ```
 
+Additional data for `.hdbmigrationtable` files is calculated if a `beforeImage` parameter is passed in. This is only relevant for build tools to determine the actual migration table changes.
 
-
-### .to .sql() {.method}
+### .sql() {.method}
 
 
 Generates SQL DDL statements for the given model.
@@ -247,13 +232,13 @@ let script = cds.compile(csn).to.sql({as:'str'})
 
 
 
-### .to .cdl() {.method}
+### .cdl() {.method}
 
 Reconstructs [CDL](../cds/cdl.md) source code for the given csn model.
 
 
 
-### .to .asyncapi() {.method}
+### .asyncapi() {.method}
 
 
 Convert the CSN file into an AsyncAPI document:
@@ -307,40 +292,40 @@ The three main methods are offered as classic functions, as well as [tagged temp
 
 
 
-### `CDL`, cds. parse. cdl() {.method #parse-cdl }
+### cds. parse. cdl() {.method #parse-cdl }
 
-Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn).
+Parses a source string in _[CDL](../cds/cdl)_ syntax and returns it as a parsed model according to the [_CSN spec_](../cds/csn). Supports tagged template strings as well as plain string arguments.
 It's essentially a [shortcut to `cds.compile (..., {flavor:'parsed'})`](#cds-compile).
 
 Examples:
 ```js
-let csn = CDL`entity Foo{}`
-let csn = cds.parse (`entity Foo{}`)  //= shortcut to:
 let csn = cds.parse.cdl (`entity Foo{}`)
+let csn = cds.parse.cdl `entity Foo{}`
+let csn = cds.parse `entity Foo{}`  //> shortcut to the above
 ```
 
 
 
-### `CQL`, cds. parse. cql() {.method #parse-cql }
+### cds. parse. cql() {.method #parse-cql }
 
-Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_][..cds/cqn].
+Parses a source string in _[CQL](../cds/cql)_ syntax and returns it as a parsed query according to the [_CQN spec_](../cds/cqn). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cqn = CQL`SELECT * from Foo`
 let cqn = cds.parse.cql (`SELECT * from Foo`)
+let cqn = cds.parse.cql `SELECT * from Foo`
 ```
 
 
 
-### `CXL`, cds. parse. expr() {.method #parse-cxl }
+### cds. parse. expr() {.method #parse-cxl }
 
-Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators).
+Parses a source string in CQL expression syntax and returns it as a parsed expression according to the [_CQN Expressions spec_](../cds/cxn#operators). Supports tagged template strings as well as plain string arguments.
 
 Examples:
 ```js
-let cxn = CXL`foo.bar > 9`
 let cxn = cds.parse.expr (`foo.bar > 9`)
+let cxn = cds.parse.expr `foo.bar > 9`
 //> {xpr:[ {ref:['foo', 'bar']}, '>', {val:9} ] }
 ```
 
@@ -426,12 +411,51 @@ If no files are found, `undefined` is returned.
 Examples:
 
 ```js
-cds.env.folders           // = folders db, srv, app by default
-cds.env.roots             // + schema and services in cwd
-cds.resolve('*',false)    // + models in cds.env.requires
-cds.resolve('*')          // > the resolved existing files
-cds.resolve(['db'])       // > the resolved existing files
-cds.resolve(['db','srv']) // > the resolved existing files
-cds.resolve('none')       // > undefined
+[dev] cds repl
+> cds.env.folders           // = folders db, srv, app by default
+> cds.env.roots             // + schema and services in cwd
+> cds.resolve('*',false)    // + models in cds.env.requires
+> cds.resolve('*')          // > the resolved existing files
+> cds.resolve(['db'])       // > the resolved existing files
+> cds.resolve(['db','srv']) // > the resolved existing files
+> cds.resolve('none')       // > undefined
 ```
 > Try this in cds repl launched from your project root to see that in action.
+
+
+## Lifecycle Events
+
+The following [lifecycle events](cds-facade#lifecycle-events) are emitted via the `cds` facade object during the server bootstrapping process.
+You can register event handlers using `cds.on()` like so:
+
+
+```js
+const cds = require('@sap/cds')
+cds.on('compile.for.runtime', ...)
+cds.on('compile.to.dbx', ...)
+cds.on('compile.to.edmx', ...)
+```
+
+> [!warning]
+> As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
+> event handlers execute **synchronously** in the order they are registered.
+
+> [!tip] Note that several of these events coud be emitted for the same model, so ensure your handlers are idempodent.
+
+
+### compile.for.runtime {.event}
+
+A one-time event, emitted before the model is compiled for usage in Node.js or Java runtime.
+This is the right place to, for example, add custom elements required at runtime.
+
+
+### compile.to.dbx {.event}
+
+A one-time event, emitted before database-specific artifacts, i.e. SQL DDL scripts, are generated from the model.
+This is the right place to, for example, add custom elements required in your persistence.
+
+
+### compile.to.edmx {.event}
+
+A one-time event, emitted immediately before the model is compiled to edmx.
+This is the right place to add custom transformations to the model, for example, to add custom Fiori annotations.

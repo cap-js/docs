@@ -205,6 +205,17 @@ cds.log('foo','debug') // switches the 'foo' logger to 'debug' level
 
 
 
+### *Log Levels as Used by the CAP Node.js Runtime*
+
+The CAP Node.js runtime uses the following guidelines with regards to which log level to use in which situation:
+
+- `error`: Something went horribly wrong and it is unclear what to do (i.e., an unexpected error).
+- `warn`: Something off the happy trail happened, but it can be handled (i.e., an expected error).
+- `info`: A brief information on what is currently happening.
+- `debug`: A detailed information on what is currently happening.
+- `trace`/`silly`/`verbose` (not used by the CAP Node.js runtime): Information on what is currently happening with a ridiculous level of detail.
+
+
 ## cds.log.Logger
 
 Constructs a new logger with the method signature of `{ trace, debug, log, info, warn, error }` (cf. [`console`](https://nodejs.org/api/console.html)). The default implementation maps each method to the equivalent methods of `console`.

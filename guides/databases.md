@@ -366,7 +366,10 @@ This set of functions are by large the same as specified in OData:
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
 * `matchespattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n?)` <sup>1</sup> — extracts a substring from `x` starting at `i` (may be negative) with length `n` (optional; may be negative)
+* `substring(x,i,n?)` <sup>1</sup> —
+    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.  
+    * **`i`**: Positive starts at `i`, negative starts `i` before the end.  
+    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.  
 * `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
@@ -379,7 +382,8 @@ This set of functions are by large the same as specified in OData:
   returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `time(x)`, `date(x)` - returns a string representing the `time` / `date` for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `fractionalseconds(x)` - returns a a `Decimal` representing the fractions of a second for a given `cds.Timestamp`
-* `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `maxdatetime()` - returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`
+* `mindatetime()` — returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`
 * `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
 * `now()` — returns the current datetime
 * `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions

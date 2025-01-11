@@ -55,9 +55,9 @@ CAP Java SDK is tested on [PostgreSQL](https://www.postgresql.org/) 15 and suppo
 
 ### H2 Database
 
-[H2](https://www.h2database.com/html/main.html) is one of the recommended in-memory databases for local development. There's no production support for H2 from CAP and there are the following support limitations:
+[H2](https://www.h2database.com/html/main.html) is the recommended in-memory database for local development and testing with CAP Java. There's no production support for H2 from CAP and there are the following limitations:
 
-1. H2 only supports database level collation. Lexicographical sorting on character-based columns isn't supported.
+1. H2 only supports database-level collation and the default sort order is by ASCII-code. You can set a [collation](https://www.h2database.com/html/commands.html#set_collation) to sort using dictionary order instead.
 2. Case-insensitive comparison isn't yet supported.
 3. By default, views aren't updatable on H2. However, the CAP Java SDK supports some views to be updatable as described [here](../working-with-cql/query-execution#updatable-views).
 4. Although referential and foreign key constraints are supported, H2 [doesn't support deferred checking](https://www.h2database.com/html/grammar.html#referential_action). As a consequence, schema SQL is never generated with referential constraints.

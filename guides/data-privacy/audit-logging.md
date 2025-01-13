@@ -42,24 +42,25 @@ npm add @cap-js/audit-logging
 
 1. Sets <Config>cds.requires.audit-log: true</Config>
 
-2. Which in turn activates the `audit-log` configuration **presets**:
+2. Which in turn activates the effective `audit-log` configuration via **presets**:
     ```jsonc
     {
-       "audit-log": {
-         "handle": [ "READ", "WRITE" ],
-         "outbox": true
-         "[development]": {
-           "impl": "@cap-js/audit-logging/srv/log2console"
-         },
-         "[hybrid]": {
-           "impl": "@cap-js/audit-logging/srv/log2restv2",
-           "vcap": { "label": "auditlog" }
-         },
-         "[production]": {
-           "impl": "@cap-js/audit-logging/srv/log2restv2",
-           "vcap": { "label": "auditlog" }
-         }
-       }
+      "audit-log": {
+        "handle": ["READ", "WRITE"],
+        "outbox": true,
+        "[development]": { "kind": "audit-log-to-console" },
+        "[hybrid]": { "kind": "audit-log-to-restv2" },
+        "[production]": { "kind": "audit-log-to-restv2" }
+      },
+      "kinds": {
+        "audit-log-to-console": {
+          "impl": "@cap-js/audit-logging/srv/log2console"
+        },
+        "audit-log-to-restv2": {
+          "impl": "@cap-js/audit-logging/srv/log2restv2",
+          "vcap": { "label": "auditlog" }
+        }
+      }
     }
     ```
 
@@ -182,7 +183,7 @@ There are two options to access audit logs:
 
 ### Behind the Scenes...
 
-The generic audit logging implementation does the following:
+For all [defined services](../providing-services#service-definitions), the generic audit logging implementation does the following:
 
 - Intercept all write operations potentially involving personal data.
 - Intercept all read operations potentially involving sensitive data.

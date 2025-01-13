@@ -442,7 +442,7 @@ cds.on('compile.to.edmx', ...)
 > As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
 > event handlers execute **synchronously** in the order they are registered.
 
-> [!tip] Note that several of these events coud be emitted for the same model, so ensure your handlers are idempotent.
+> [!tip] Note that several of these events could be emitted for the same model, so ensure your handlers are idempotent.
 
 
 ### compile.for.runtime {.event}

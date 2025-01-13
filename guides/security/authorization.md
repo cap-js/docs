@@ -129,7 +129,7 @@ Depending on the configured [authentication](#prerequisite-authentication) strat
 | CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `zone_uuid`             |
+| `$user.tenant`      | `zid`                            | `app_tid`               |
 | `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
 
 ::: tip

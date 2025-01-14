@@ -31,6 +31,12 @@ Once this is added, you can use the restart capabilities of the Spring Boot Devt
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 
+::: warning Restart for changed Java classes
+Sometimes, it happens that a (saved) change to a Java class does not result in an application restart even though you would have expected it. The reason is that the restart support for the Spring Boot Devtools only listens to changed .class files. So, a changed class only is detected as changed after it has been built.
+
+In most IDEs a feature called *automatic build* is active. This takes care of automatically rebuilding each changed class. In case this feature is enabled the Devtools restart your CAP Java application nearly instantly. If it's disabled the application won't restart. In order to trigger the restart you need to trigger a rebuild of the project manually (or enable automatic rebuild).
+:::
+
 ### CDS Build
 
 The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java runtime. Thus, they can't trigger a CDS build if there are changes in the CDS source files. For more information, please check the [Local Development Support](#local-development-support) section.

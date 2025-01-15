@@ -9,7 +9,7 @@
 | @cap-js/db-service     | 1.16.2                                  |
 | @cap-js/openapi        | 1.1.1                                   |
 | @cap-js/sqlite         | 1.7.8                                   |
-| @sap/cds               | 8.6.0                                   |
+| @sap/cds               | 8.6.1                                   |
 | @sap/cds-compiler      | 5.6.0                                   |
 | @sap/cds-dk (global)   | 8.6.1                                   |
 | @sap/cds-fiori         | 1.2.8                                   |

@@ -82,7 +82,7 @@ Use `cds help` to see an overview of all commands:
 
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
-<!--@include: ./assets/help/cds-watch.out.md-->
+<!--@include: ./assets/help/cds-repl.out.md-->
 
 
 ## cds init
@@ -102,6 +102,9 @@ For example to create a project with a sample bookshop model and configuration f
 cds init --add sample,hana
 ```
 
+::: details See the full help text of `cds init`
+<!--@include: ./assets/help/cds-init.out.md -->
+:::
 
 
 ## cds add
@@ -362,8 +365,21 @@ Use `cds env` to inspect currently effective config settings:
 
 <!--@include: ./assets/help/cds-env-requires-db.out.md -->
 
+::: details See the full help text of `cds env`
+<!--@include: ./assets/help/cds-env.out.md -->
+:::
+
 
 ## cds compile
+
+Compiles the specified models to [CSN](../cds/csn) or other formats.
+
+[See simple examples in the getting started page](../get-started/in-a-nutshell#cli).{.learn-more}
+
+[For the set of built-in compile 'formats', see the `cds.compile.to` API](../node.js/cds-compile#cds-compile-to).{.learn-more}
+
+
+In addition, the following formats are available:
 
 ### mermaid <Since version="8.0.0" of="@sap/cds-dk" /> {.compile}
 
@@ -427,6 +443,24 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 - [Diagram: Minify](vscode://settings/cds.preview.diagram.minify)
 - [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
 - [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
+
+## cds watch
+
+Use `cds watch` to watch for changed files, restarting your server.
+
+::: details See the full help text of `cds watch`
+<!--@include: ./assets/help/cds-watch.out.md-->
+:::
+
+### Includes and Excludes <Since version="8.7.0" of="@sap/cds-dk" />
+
+Additional watched or ignored paths can be specified via CLI options:
+
+```sh
+cds watch --include ../other-app --exclude .idea/
+```
+
+Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".idea"]</Config> to your project configuration.
 
 
 ## cds repl

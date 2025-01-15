@@ -26,7 +26,7 @@ SAP Continuous Integration and Delivery is a service on SAP BTP, which lets you 
 
 SAP Continuous Integration and Delivery has a ready-to-use pipeline for CAP, that is applicable to Node.js, Java and multitarget application (MTA) based projects. It does not require you to host your own Jenkins instance and it provides an easy, UI-guided way to configure your pipelines.
 
-Try the tutorial [Configure and Run a Predefined SAP Continuous Integration and Delivery (CI/CD) Pipeline](https://developers.sap.com/tutorials/btp-app-ci-cd-btp.html) to configure a CI/CD pipeline that builds, tests, and deploys your code changes.
+Try the tutorial [Get Started with SAP Continuous Integration and Delivery](https://developers.sap.com/tutorials/cicd-start-cap.html) to configure a CI/CD pipeline that builds, tests, and deploys your code changes.
 
 [Learn more about SAP Continuous Integration and Delivery.](https://help.sap.com/viewer/SAP-Cloud-Platform-Continuous-Integration-and-Delivery){.learn-more}
 

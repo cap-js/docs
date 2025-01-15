@@ -815,7 +815,7 @@ In CAP Java, run a select statement against the view with named [parameter value
 
 ::: code-group
 ```js [Node]
-SELECT.from({ id: 'UsingView'. args: { bar: { val: true }}})
+SELECT.from({ ref: [{ id: 'UsingView', args: { bar: { val: true }}} ]} )
 ```
 ```Java [Java]
 var params = Map.of("bar", true);

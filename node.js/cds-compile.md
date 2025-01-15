@@ -40,7 +40,6 @@ It supports different variants based on the type of the first argument `model` a
 Depending on the variants, the method returns a Promise or a sync value.
 
 
-
 ### Compiling `.cds` files (async)
 
 If the first argument is either a string starting with `"file:"`, or an _array_ of filenames, these files are read and compiled to a single CSN asynchronously:
@@ -52,6 +51,9 @@ let csn = await cds.compile ('file:db')
 ```
 
 > The given filenames are resolved to effective absolute filenames using [`cds.resolve`](#cds-resolve).
+
+> [!TIP] Use <code>cds compile</code> as CLI equivalent
+> The [`cds compile` CLI](../tools/cds-cli#cds-compile) is available as entry point to the functions described here.  For example, `cds compile --to hana` maps to `cds.compile.to.hana` etc.
 
 
 
@@ -440,7 +442,7 @@ cds.on('compile.to.edmx', ...)
 > As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
 > event handlers execute **synchronously** in the order they are registered.
 
-> [!tip] Note that several of these events coud be emitted for the same model, so ensure your handlers are idempodent.
+> [!tip] Note that several of these events could be emitted for the same model, so ensure your handlers are idempotent.
 
 
 ### compile.for.runtime {.event}

@@ -514,6 +514,119 @@ Both queries are equivalent and have the same result: a _flat_ structure:
 
 <span id="inflattenedresults" />
 
+
+#### Structured Results
+
+Use [inline](#inline), [expand](#expand), and aliases to influence the structure of the query result.
+
+##### Dot-separated Paths
+
+You can create a _structured_ query result using a _dot-separated_ path as alias. In the follwing CDS model the elements `firstName` and `lastName` are on top-level in the `Person` entity:
+
+```cds
+entity Person {
+  id        : Int32;
+  firstName : String;
+  lastName  : String  
+}
+```
+
+Use this query to return the elements in a substructure `name`:
+
+```java
+Select.from(PERSON)
+      .columns(p -> p.Id(), 
+               p -> p.firstName().as("name.first"), 
+               p -> p.lastName().as("name.last"));
+```
+
+A result row will have this structure:
+
+```json
+{
+  "id" : 1,
+  "name" : {
+    "first" : "Sam",
+    "last"  : "Cook"
+  }
+}
+```
+
+On the select list, you can use a _dot-separated_ path to select an element of an associated entity, which will be [inlined](#inline)
+
+```java
+Select.from("bookshop.Books")
+      .columns("title", "author.name");
+```
+
+giving you a flat result:
+
+```json
+{
+  "title" : "Dracula",
+  "name"  : "Bram Stroker"
+}
+```
+
+If you want to preserve the structure and rather have the author's name in a dedicated author object you can do an [expand](#expand):
+
+```java
+Select.from("bookshop.Books")
+      .columns(b -> b.get("title"), 
+               b -> b.to("author").expand("name"));
+```
+
+-> 
+
+```json
+{
+  "title"  : "Dracula",
+  "author" : {
+    "name"  : "Bram Stroker"
+  }
+}
+```
+
+To preserve structure, you can also use a _dot-separated_ path on the select list combined with a _dot-separated_ alias:
+
+```java
+Select.from("bookshop.Books")
+      .columns(b -> b.get("title"), 
+               b -> b.get("author.name").as("author.name"));
+```
+
+-> 
+
+```json
+{
+  "title"  : "Dracula",
+  "author" : {
+    "name"  : "Bram Stroker"
+  }
+}
+```
+
+##### Space-separated Paths
+
+For convenience, you can use a _space-separated_ path to reference an element of an associated entity. It will then be select preserving the structure:
+
+```java
+Select.from("bookshop.Books")
+      .columns("title", 
+               "author name"); // space-separated path (!)
+```
+
+-> 
+
+```json
+{
+  "title"  : "Dracula",
+  "author" : {
+    "name"  : "Bram Stroker"
+  }
+}
+```
+
 #### Managed Associations on the Select List
 
 To select the key elements of a [managed to-one association](../../cds/cdl#managed-associations)'s target entity, simply put the association on the select list. This will return the target key elements as structured result:
@@ -530,7 +643,7 @@ CqnSelect q = Select.from(BOOKS)
     .columns(b -> b.author());
 
 Row book = dataStore.execute(q).single();
-Object authorId = book.get("author.Id"); // path access
+Object authorId = book.getPath("author.Id"); // path access
 ```
 
 ::: tip

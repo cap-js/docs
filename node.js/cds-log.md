@@ -213,7 +213,7 @@ The CAP Node.js runtime uses the following guidelines with regards to which log 
 - `warn`: Something off the happy trail happened, but it can be handled (that is, an expected error).
 - `info`: Brief information about what is currently happening.
 - `debug`: Detailed information about what is currently happening.
-- `trace`/`silly`/`verbose` (not used by the CAP Node.js runtime): Exhaustive Information about what is currently happening.
+- `trace`/`silly`/`verbose` (not used by the CAP Node.js runtime): Exhaustive information about what is currently happening.
 
 
 ## cds.log.Logger

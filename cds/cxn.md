@@ -148,7 +148,7 @@ Examples:
   ]}
 ]}
 
-> cds.parse.expr(`exists books[year = 2000]`)  ==//> 
+> cds.parse.expr(`exists books[year = 2000]`)  ==//> returns:
 {xpr:[
   'exists',
   {ref: [ {id:'books', where:[ {'ref':['year']}, '=', {'val': 2000} ]}]}

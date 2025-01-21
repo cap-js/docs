@@ -8,18 +8,18 @@ status: released
 
 ## Introduction
 
-The `cds.i18n` module supports internationalization. It is mostly used by the framework automatically behind the scenes for both, [localisation of UIs](#localized-fiori-uis), i.e. labels or headers, as well as localised [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
+The `cds.i18n` module supports internationalization. It's mostly used by the framework automatically behind the scenes for both, [localization of UIs](#localized-fiori-uis), that is, labels or headers, as well as localized [runtime error messages](#localized-messages). In addition, you can [use it directly](#direct-usage) in your application-specific custom code.
 
 There are two standard i18n bundles available through these static properties:
 
-- [`cds.i18n.labels`](#labels) are used for generating localised UIs.
+- [`cds.i18n.labels`](#labels) are used for generating localized UIs.
 - [`cds.i18n.messages`](#messages) are used for error messages generated at runtime.
 
 
 
 ### Localized (Fiori) UIs
 
-The former, that is [`cds.i18n.labels`](#labels), is used automatically when generating OData `$metadata` documents for Fiori elements to look up translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
+The former, that is [`cds.i18n.labels`](#labels), is used automatically when generating OData `$metadata` documents for SAP Fiori elements to look up translations for respective [`{i18n>...}` placeholders](../guides/i18n#externalizing-texts-bundles). For example, localized texts for annotations like that will be looked up from `cds.i18n.labels`:
 
 ::: code-group
 
@@ -85,7 +85,7 @@ And provide texts and translations in corresponding files like *_i18n/yours.prop
 
 ## `cds.i18n` {.property}
 
-This is a global object acting as the facade to the i18n features as outlined below.
+This is a global object acting as the facade to the i18n features as outlined in the following.
 
 ### `.file` {.property alt="The following documentation on .folders also applies to .file. "}
 
@@ -97,7 +97,7 @@ Shortcuts to corresponding i18n [config options](#config). {.indent}
 
 ### `.messages` {.property}
 
-The I18n bundle used for runtime messages, e.g. for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
+The I18n bundle used for runtime messages, for example, for translated validation errors, such as `ASSERT_RANGE` or `ASSERT_FORMAT`. Translations are loaded from properties with base name `messages`, like that in the [*bookstore* sample](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/_i18n): {.indent}
 
 ```zsh
 cap/samples/bookshop/
@@ -195,7 +195,7 @@ The default translations used as a first-level fallback if a locale-specific tra
 
 ### `.fallback` {.property}
 
-The texts used as second-level fallback if a locale-specific translation is not found and also none in [`.defaults`](#defaults). Can be provided as constructor option, else loads the translations from `<basename>.properties`, i.e., without language suffix. {.indent}
+The texts used as second-level fallback if a locale-specific translation is not found and also none in [`.defaults`](#defaults). Can be provided as constructor option, else loads the translations from `<basename>.properties`, that is, without language suffix. {.indent}
 
 
 
@@ -219,7 +219,7 @@ function at (
 ) => string
 ```
 
-This is the central method to look up up localized texts for given keys and locales, with `at` and `for` being synonyms. Basic usage, for example, with the standard [`cds.i18n.messages`](#messages) bundle, looks like that: {.indent}
+This is the central method to look up localized texts for given keys and locales, with `at` and `for` being synonyms. Basic usage, for example, with the standard [`cds.i18n.messages`](#messages) bundle, looks like that: {.indent}
 
 ```js
 [dev] cds repl
@@ -242,7 +242,7 @@ cds.i18n.messages.at(404)  //> 'Nicht Gefunden'
 
 #### Using Message Templates
 
-If `args` are specified, corresponding `{}` placeholders in texts are replaced by the values from `args`. For example, given these entries in respective *.properties* files: {.indent}
+If `args` are specified, corresponding `{}` placeholders in texts are replaced by the values from `args`. For example, given these entries in the respective *.properties* files: {.indent}
 
 ```properties
 WRONG_FORMAT = '{0}' is not in format '{1}'
@@ -393,7 +393,7 @@ function I18nFiles (options: {
 })
 ```
 
-Constructs a new instance which fetches i18n folders and files according to the specified options. For example this will create a new I18nBundle with the content read from `./_i18n/messages_*.properties` files in the current working directory:
+Constructs a new instance which fetches i18n folders and files according to the specified options. For example the following creates a new I18nBundle with the content read from `./_i18n/messages_*.properties` files in the current working directory:
 
 ```js
 const msg = cds.i18n.bundle4 ({ file:'messages', folders:['/_i18n'] })
@@ -423,7 +423,7 @@ The leafs of the filesystem hierarchy to start fetch i18n folders recursively. D
 
 ### – `folders` {.property}
 
-An array of folder names to fetch i18n files from. Can be relative names of subfolders or absolute names as explained iin [Fetching 18n Folders...](#fetching-i18n-folders) below. <br/>
+An array of folder names to fetch i18n files from. Can contain relative names of subfolders or absolute names as explained in [Fetching i18n Folders...](#fetching-i18n-folders). <br/>
 *Default*: as [configured](#config) through <Config> cds.i18n.folders: [ "_i18n", "i18n" ] </Config>. {.indent}
 
 ### `locales()` {.method}
@@ -441,7 +441,7 @@ Returns an array of all locales for which translations have been found. {.indent
 
 ### From Models' Neighborhood
 
-By default, the config option <Config keyOnly> `cds.i18n.folders` </Config> is defined using relative folder names (i.e., ***without* leading slash**) as follows:
+By default, the config option <Config keyOnly> `cds.i18n.folders` </Config> is defined using relative folder names (that is, ***without* leading slash**) as follows:
 
 ::: code-group
 
@@ -513,7 +513,7 @@ For example given these model sources from [cap/samples](https://github.com/sap-
 
 #### 3. Check for existing & matching `i18n.folders`
 
-To fetch i18n folder, these source directories are processed in reverse order, and each is checked for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename. If none match, we move up the directory tree and repeat these checks, as depicted in this matrix:
+To fetch i18n folder, these source directories are processed in reverse order, and each is checked for existence of a sub directory from the `i18n.folders` array containing files matching the bundle's [`.file`](#file) basename. If none matches, we move up the directory tree and repeat these checks, as depicted in this matrix:
 
 > 🎯 <br>
 >Marks existing i18n subfolders containing matching `<basename>_*.properties` files.
@@ -535,13 +535,13 @@ To fetch i18n folder, these source directories are processed in reverse order, a
 | /cap/samples/bookstore/srv | | |
 | /cap/samples/bookstore | 🎯 |  |
 
-> Note on _reverse order_: means entries in `app`  override same entries in `db`, etc.
+> Note on _reverse order_: means entries in `app`  override same entries in `db`, and so on.
 
 
 
 #### 4. Result: i18n folders used by bundle
 
-So we would end up in having found these four directories from which we would load *.properties* files subsequently:
+So, we would end up in having found these four directories from which we would load *.properties* files subsequently:
 
 ```js
 [dev] cds repl
@@ -556,9 +556,9 @@ So we would end up in having found these four directories from which we would lo
 
 
 
-::: tip Why fetching from model's neighborhood?
+::: tip Why fetching from a model's neighborhood?
 
-The reason we do this fetching in the neighborhood of the current model's *.cds* source files is to find i18n content from reuse packages with zero configuration: As such reuse packages frequently come with own CDS models, we simply use the locations of these *.cds* sources as the starting points to search for i18n folders up the file system hierarchy.
+The reason we do this fetching in the neighborhood of the current model's *.cds* source files is to find i18n content from reuse packages with zero configuration: As such reuse packages frequently come with their own CDS models, we simply use the locations of these *.cds* sources as the starting points to search for i18n folders up the file system hierarchy.
 
 :::
 
@@ -583,7 +583,7 @@ In addition to fetching i18n folders from models' neighborhood as explained abov
 
 :::
 
-With that configuration, we'll search for subfolders named `_i18n` in the neighborhood of model sources, plus load .properties files from `<cds.root>/app/browse/webapp/i18n`, i.e.:
+With that configuration, we'll search for subfolders named `_i18n` in the neighborhood of model sources, plus load .properties files from `<cds.root>/app/browse/webapp/i18n`, that is:
 
 ```js
 [dev] cds repl
@@ -597,7 +597,7 @@ With that configuration, we'll search for subfolders named `_i18n` in the neighb
 
 
 
-You can specify static folders only to not fetching i18n folders in model's neighborhood at all, both by default configuration as well as for individual bundles. For example:
+You can specify static folders only to not fetch i18n folders in the model's neighborhood at all, both by default configuration as well as for individual bundles. For example:
 
 ```js
 const b = cds.i18n.bundle4 ({ folders: ['/_i18n', ...] })
@@ -607,7 +607,7 @@ const b = cds.i18n.bundle4 ({ folders: ['/_i18n', ...] })
 
 ### From Absolute Folders
 
-Static folders can also be fully-qualified absolute filenames. For example, plugins could use that to add own translations or bundles like so:
+Static folders can also be fully qualified absolute filenames. For example, plugins could use that to add their own translations or bundles like so:
 
 ::: code-group
 
@@ -625,7 +625,7 @@ cds.i18n.folders .push (path.join(__dirname,'_i18n'))
 
 ## Configuration Options {#config}
 
-Find the configuration options to customize `cds.i18n` in the table below. You can use these options in your package.json like so:
+Find the configuration options to customize `cds.i18n` in the following table. You can use these options in your package.json like so:
 
 ::: code-group
 
@@ -658,7 +658,7 @@ cds.env.i18n = {
 
 ::: danger
 
-Please be aware that changing these configurations does not only affect your usage of your i18n bundles, but also all bundles provided by reuse packages you might use, including the ones provided by the CAP framework itself, such as the labels for the `@sap/cds/common` types, or the default messages used by the Node.js runtime.
+Changing these configurations does not only affect your usage of your i18n bundles, but also all bundles provided by reuse packages you might use, including the ones provided by the CAP framework itself, such as the labels for the `@sap/cds/common` types, or the default messages used by the Node.js runtime.
 
 :::
 

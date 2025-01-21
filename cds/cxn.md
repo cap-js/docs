@@ -138,17 +138,17 @@ Examples:
 
 ```js
 [dev] cds repl
-> cds.parse.expr(`x<9`)  ==//> returns:  
+> cds.parse.expr(`x<9`)  == 
 {xpr:[ {ref:['x']}, '<', {val:9} ]}
 
-> cds.parse.expr(`x<9 and (y=1 or z=2)`)  ==//> returns: 
+> cds.parse.expr(`x<9 and (y=1 or z=2)`)  == 
 {xpr:[
   {ref:['x']}, '<', {val:9}, 'and', {xpr:[
     {ref:['y']}, '=', {val:1}, 'or', {ref:['z']}, '=', {val:2}
   ]}
 ]}
 
-> cds.parse.expr(`exists books[year = 2000]`)  ==//> returns:
+> cds.parse.expr(`exists books[year = 2000]`)  ==
 {xpr:[
   'exists',
   {ref: [ {id:'books', where:[ {'ref':['year']}, '=', {'val': 2000} ]}]}
@@ -162,7 +162,7 @@ but immediately converts it to the corresponding CASE expression in CXN:
 
 ```js
 [dev] cds repl
-> cds.parse.expr(`x<10 ? y : z`)  ==//> returns: 
+> cds.parse.expr(`x<10 ? y : z`)  ==
 {xpr:['case', 'when', {ref:['x']}, '<', {val:10},
       'then', {ref:['y']}, 'else', {ref:['z']}, 'end']}
 ```

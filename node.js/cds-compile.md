@@ -326,9 +326,10 @@ Parses a source string in CQL expression syntax and returns it as a parsed expre
 
 Examples:
 ```js
-let cxn = cds.parse.expr (`foo.bar > 9`)
-let cxn = cds.parse.expr `foo.bar > 9`
-//> {xpr:[ {ref:['foo', 'bar']}, '>', {val:9} ] }
+[dev] cds repl
+> let cxn = cds.parse.expr (`foo.bar > 9`)
+> let cxn = cds.parse.expr `foo.bar > 9` //> both return:
+{xpr:[ {ref:['foo', 'bar']}, '>', {val:9} ] }
 ```
 
 
@@ -339,8 +340,9 @@ Convenience shortcut to `cds.parse.expr(x).xpr`
 
 Example:
 ```js
-let xpr = cds.parse.xpr (`foo.bar > 9`)
-//> [ {ref:['foo', 'bar']}, '>', {val:9} ]
+[dev] cds repl
+> let xpr = cds.parse.xpr (`foo.bar > 9`) // [!code focus]
+[ {ref:['foo', 'bar']}, '>', {val:9} ]
 ```
 
 
@@ -351,8 +353,9 @@ Convenience shortcut to `cds.parse.expr(x).ref`
 
 Example:
 ```js
-let ref = cds.parse.ref (`foo.bar`)
-//>= ['foo', 'bar']
+[dev] cds repl
+> let ref = cds.parse.ref (`foo.bar`) // [!code focus]
+['foo', 'bar']
 ```
 
 

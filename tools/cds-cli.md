@@ -163,6 +163,24 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 <!--@include: ./assets/help/cds-add.out.md -->
 :::
 
+### sample {.add}
+
+Creates a bookshop application including custom code (Node.js or Java) and a UI with [SAP Fiori Elements](../advanced/fiori).
+
+```sh
+cds add sample
+```
+
+This corresponds to the result of the [_Getting Started in a Nutshell_ guide](../get-started/in-a-nutshell).
+
+### tiny-sample {.add}
+
+Creates a minimal CAP application without UI.
+
+```sh
+cds add tiny-sample
+```
+
 ### data {.add}
 
 Adds files to the project that carry initial data, in either JSON and CSV format.
@@ -339,7 +357,6 @@ cds add handler
 ```
 ```sh [Java]
 mvn compile  # let Java know what your model looks like
-cd srv       # following must be run from srv/
 cds add handler
 ```
 :::
@@ -529,7 +546,7 @@ There a couple of shortcuts and convenience functions:
 :::
 
 
-## Debugging with `cds debug` <Beta /> {.nodejs}
+## Debugging with `cds debug` <Beta /> {#cds-debug}
 
 `cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
 

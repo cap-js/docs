@@ -1019,13 +1019,17 @@ The Boolean values above activate the default configuration in `@sap/cds-mtxs`:
 ```json
 "cds": {
   "requires": {
-    "audit-log": {
-      // Uses credentials.uaa.xsappname
-      "subscriptionDependency": { "uaa": "xsappname" }
-    },
     "connectivity": {
       // Uses credentials.xsappname
+      "vcap": { "label": "connectivity" },
       "subscriptionDependency": "xsappname"
+    },
+    "portal": {
+      "vcap": { "label": "portal" },
+      // Uses credentials.uaa.xsappname
+      "subscriptionDependency": {
+        "uaa": "xsappname"
+      }
     },
     ...
   }

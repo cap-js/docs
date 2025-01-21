@@ -546,7 +546,7 @@ There a couple of shortcuts and convenience functions:
 :::
 
 
-## Debugging with `cds debug` <Beta /> {.nodejs}
+## Debugging with `cds debug` <Beta /> {#cds-debug}
 
 `cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
 

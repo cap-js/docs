@@ -551,7 +551,7 @@ There a couple of shortcuts and convenience functions:
 `cds debug` lets you debug applications running locally or remotely on Cloud Foundry.
 Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
 
-To debug a application on Cloud Foundry, make sure
+To debug an application on Cloud Foundry, make sure
 - to be logged in to the space where the application is deployed to,
 - that you have developer permissions in the space
 - that the app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
@@ -563,7 +563,7 @@ cf ssh-enabled <app-name>  # to check if SSH is enabled
 ```
 
 ::: tip Scale to one application instance only
-We recommend to only scale to _one_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+We recommend to only scale to a _single_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
 If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
 
 However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.

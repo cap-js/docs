@@ -47,8 +47,8 @@ const config = defineConfig({
       message: `
         <a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> |
         <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> |
-        <a href="${base}/resources/privacy" target="_blank">Privacy</a> |
-        <a href="${base}/resources/cookies">Cookies</a>`,
+        <a href="${base}resources/privacy">Privacy</a> |
+        <a href="${base}resources/cookies">Cookies</a>`,
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`
     },
     externalLinkIcon: true,

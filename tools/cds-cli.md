@@ -630,13 +630,6 @@ Opening SSH tunnel on 8000:127.0.0.1:8000
 
 This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html) and puts the application in debug mode.
 
-::: details Under the hoods, these commands are executed:
-```sh
-cf ssh <app> -c "~/app/META-INF/.sap_java_buildpack/sap_machine_jre/bin/jcmd `pidof java` VM.start_java_debugging"
-cf ssh -N -L 8000:localhost:8000 <app>
-```
-:::
-
 Afterwards, connect a debugger in your IDE at the given port.  In VS Code, for example, add a launch configuration like this one:
 
 ::: code-group

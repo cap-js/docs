@@ -1296,6 +1296,7 @@ Use the `upgrade` endpoint to upgrade tenant base models.
 | Arguments |  Description                                                |
 | --------- | ----------------------------------------------------------- |
 | `tenants` | A list of tenants, or `[*]` for all tenants                 |
+| `options` | Additional options, including HDI deployment options, see [DeploymentService](#deployment-config), prefixed with `_` |
 
 #### Example Usage {#example-upgrade}
 
@@ -1309,7 +1310,17 @@ Content-Type: application/json
 Prefer: respond-async
 
 {
-  "tenants": ["t1", "t2"]
+  "tenants": ["t1", "t2"],
+  "options": {
+      "_": {
+          "hdi": {
+              "deploy": {
+                  "trace": "true",
+                  "auto_undeploy": "true"
+              }
+          }
+      }
+    }
 }
 ```
 

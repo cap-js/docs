@@ -340,7 +340,7 @@ It supports the following command-line options:
 | `-DcdsdkVersion=<a valid cds-dk version>` | Sets the provided cds-dk version in the project. If not specified, the default of CAP Java is used. |
 | `-DgroupId=<a valid Maven groupId>` | Sets the groupId of the new Maven artifact to create. If not specified, Maven prompts for user input. |
 | `-DartifactId=<a valid Maven artifactId>` | Sets the artifactId of the new Maven artifact. If not specified, Maven prompts for user input. |
-| `-Dpackage=<a valid Java package>` | Specifies the Java package of the originally created classes. Defaults to <groupId>.<artifactId>. |
+| `-Dpackage=<a valid Java package>` | Specifies the Java package of the originally created classes. Defaults to `${groupId}.${artifactId}`. |
 
 
 ## Building Projects with Maven

@@ -330,6 +330,10 @@ It supports the following command-line options:
 
 | Option | Description |
 | -- | -- |
+| `-DgroupId=<a valid Maven groupId>` | Sets the groupId of the new Maven artifact to create. If not specified, Maven prompts for user input. |
+| `-DartifactId=<a valid Maven artifactId>` | Sets the artifactId of the new Maven artifact. If not specified, Maven prompts for user input. |
+| `-Dversion=<a valid Maven version>` | Sets the version of the new Maven artifact. Defaults to `1.0.0-SNAPSHOT` |
+| `-Dpackage=<a valid Java package>` | Specifies the Java package of the originally created classes. Defaults to `${groupId}.${artifactId}`. |
 | `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project. |
 | `-DincludeIntegrationTest=true` | Adds an integration test module to the project. |
 | `-DodataVersion=[v2\|v4]` | Specify which protocol adapter is activated by default. |
@@ -338,10 +342,6 @@ It supports the following command-line options:
 | `-DjdkVersion=[17\|21]` | Specifies the target JDK version. If not specified, the default value is `21`. |
 | `-Dpersistence=[true\|false]` | Specify whether persistence is enabled (`true`) or disabled (`false`). Defaults to `true`. |
 | `-DcdsdkVersion=<a valid cds-dk version>` | Sets the provided cds-dk version in the project. If not specified, the default of CAP Java is used. |
-| `-DgroupId=<a valid Maven groupId>` | Sets the groupId of the new Maven artifact to create. If not specified, Maven prompts for user input. |
-| `-DartifactId=<a valid Maven artifactId>` | Sets the artifactId of the new Maven artifact. If not specified, Maven prompts for user input. |
-| `-Dpackage=<a valid Java package>` | Specifies the Java package of the originally created classes. Defaults to `${groupId}.${artifactId}`. |
-
 
 ## Building Projects with Maven
 { #maven-build-options }

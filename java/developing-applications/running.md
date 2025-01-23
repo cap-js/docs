@@ -82,5 +82,13 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 ### Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. 
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database.
 See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
+
+
+## Debugging
+
+You can debug both local and remote Java applications.
+
+- For local applications, it's best to start the application using the integrated debugger of your [preferred IDE](../../tools/cds-editors).
+- Especially for remote applications, we recommend [`cds debug`](../../tools/cds-cli#java-applications) to turn on debugging.

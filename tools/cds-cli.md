@@ -569,7 +569,6 @@ If you scale out to more instances, only some of your requests will hit the inst
 However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
 :::
 
-
 ### Node.js Applications
 
 #### Remote Applications
@@ -664,6 +663,10 @@ Listening for transport dt_socket at address: 8000
 </pre>
 
 Then attach your IDE as explained before.
+
+::: details See the full help text of `cds debug`
+<!--@include: ./assets/help/cds-debug.out.md-->
+:::
 
 ## Debugging with `cds watch`
 

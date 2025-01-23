@@ -15,7 +15,7 @@
       </div>
       <div class="vp-code-group vp-doc" v-else>
         <CodeGroup :groups="[
-          { id: 'pkg-priv', label: '~/.cdsrc.json',       lang: 'json',       group, code: pkgStr, private: true },
+          { id: 'pkg-priv', label: '~/.cdsrc.json',  lang: 'json',       group, code: pkgStr, private: true },
           { id: 'pkg', label: 'package/.cdsrc.json', lang: 'json',       group, code: pkgStr },
           { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
           { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },

@@ -548,13 +548,13 @@ There a couple of shortcuts and convenience functions:
 
 ## Debugging with `cds debug` <Beta /> {#cds-debug}
 
-`cds debug` lets you debug applications running locally or remotely on Cloud Foundry.
+`cds debug` lets you debug applications running locally or remotely on SAP BTP Cloud Foundry.
 Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
 
-To debug an application on Cloud Foundry, make sure
-- to be logged in to the space where the application is deployed to,
-- that you have developer permissions in the space
-- that the app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
+To debug an application on Cloud Foundry, the following is important:
+- You're logged in to the space where the application is deployed to.
+- You have developer permissions in that space -> [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment).
+- The app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
 
 Effectively, run:
 ```sh
@@ -574,7 +574,7 @@ However, it's possible to [route a request to a specific instance](https://docs.
 
 #### Remote Applications
 
-To debug remote Node.js applications in the currently targeted CF space, run:
+Run the following, to debug remote Node.js applications in the currently targeted CF space:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>
@@ -587,7 +587,7 @@ Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
 
 This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
 
-<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline alt="Video demonstrating the debugging process with cds debug command, as described in the accompanying text." />
 
 ::: details Under the hoods, these commands are executed:
 ```sh
@@ -598,7 +598,7 @@ cf ssh -N -L 9229:localhost:9229 <app>
 
 #### Local Applications
 
-Without an app name, `cds debug` starts `cds watch --debug` locally:
+Without an `<app name>`, `cds debug` starts `cds watch --debug` locally:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
@@ -615,7 +615,7 @@ Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
 
 #### Remote Applications
 
-To debug remote Java applications in the currently targeted CF space, run:
+Run the following, to debug remote Java applications in the currently targeted CF space:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>

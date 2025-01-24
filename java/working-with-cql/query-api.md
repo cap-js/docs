@@ -774,7 +774,7 @@ There are few notable examples of such restrictions:
 
 * You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
 * You cannot use the `lock()` in a statement with the subquery as a source.
-* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](../event-handlers/request-contexts#modifying-requestcontext).
+* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](../event-handlers/request-contexts#modifying-requestcontext). Alternatively the localized element can be removed from the select list, then locking is possible on localized elements.
 * Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 
 As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.

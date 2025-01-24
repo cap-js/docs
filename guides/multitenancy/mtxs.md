@@ -1156,7 +1156,7 @@ Requests are implicitly asynchronous when `status_callback` is set.
 
 ##### Example Usage
 
-With `@sap/hdi-deploy` parameters `trace` and `auto_undeploy`:
+With `@sap/hdi-deploy` [parameters](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html) `trace` and `version`:
 
 ```http
 POST /-/cds/saas-provisioning/upgrade HTTP/1.1
@@ -1169,7 +1169,7 @@ Content-Type: application/json
             "hdi": {
                 "deploy": {
                     "trace": "true",
-                    "auto_undeploy": "true"
+                    "version": "true"
                 }
             }
         }
@@ -1316,7 +1316,7 @@ Prefer: respond-async
           "hdi": {
               "deploy": {
                   "trace": "true",
-                  "auto_undeploy": "true"
+                  "version": "true"
               }
           }
       }

@@ -94,7 +94,7 @@ cds add multitenancy --for production
        "@sap/cds": "^7",
        "@sap/cds-hana": "^2",
        "@sap/cds-mtxs": "^1.17",
-       "@sap/xssec": "^3",
+       "@sap/xssec": "^4",
        "express": "^4"
      },
      "devDependencies": {

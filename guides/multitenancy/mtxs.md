@@ -177,7 +177,7 @@ An MTX sidecar is a standard, yet minimal Node.js CAP project. By default it's a
     "@sap/cds": "^7",
     "@sap/cds-hana": "^2",
     "@sap/cds-mtxs": "^1",
-    "@sap/xssec": "^3",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {

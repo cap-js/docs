@@ -332,7 +332,7 @@ It supports the following command-line options:
 | -- | -- |
 | `-DgroupId=<a valid Maven groupId>` | The `groupId` of the Maven artifact for the new project. If not specified, Maven prompts for user input. |
 | `-DartifactId=<a valid Maven artifactId>` | The `artifactId` of the Maven artifact for the new project. If not specified, Maven prompts for user input. |
-| `-Dversion=<a valid Maven version>` | The `version` of the new Maven artifact for the new project. Defaults to `1.0.0-SNAPSHOT` |
+| `-Dversion=<a valid Maven version>` | The `version` of the Maven artifact for the new project. Defaults to `1.0.0-SNAPSHOT` |
 | `-Dpackage=<a valid Java package>` | The Java package for your project's classes. Defaults to `${groupId}.${artifactId}`. |
 | `-DincludeModel=true` | Adds a minimalistic sample CDS model to the project. |
 | `-DincludeIntegrationTest=true` | Adds an integration test module to the project. |

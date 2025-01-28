@@ -6,7 +6,6 @@ synopsis: >
   This guide explains how to restrict access to data by adding respective declarations to CDS models, which are then enforced by CAP's generic service providers.
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
-redirect_from: guides/authorization
 ---
 
 <script setup>
@@ -130,7 +129,7 @@ Depending on the configured [authentication](#prerequisite-authentication) strat
 | CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `zone_uuid`             |
+| `$user.tenant`      | `zid`                            | `app_tid`               |
 | `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
 
 ::: tip
@@ -277,7 +276,7 @@ whereas the properties are:
 * `where`: a filter condition that further restricts access on an instance level (optional).
 
 The following values are supported:
-- `grant` accepts all standard [CDS events](/about/#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
+- `grant` accepts all standard [CDS events](../../about/best-practices#events) (such as `READ`, `CREATE`, `UPDATE`, and `DELETE`) as well as action and function names. `WRITE` is a virtual event for all standard CDS events with write semantic (`CREATE`, `DELETE`, `UPDATE`, `UPSERT`) and `*` is a wildcard for all events.
 
 - The `to` property lists all [user roles](#roles) or [pseudo roles](#pseudo-roles) that the privilege applies to. Note that the `any` pseudo-role applies for all users and is the default if no value is provided.
 
@@ -490,12 +489,13 @@ A service level entity can't inherit a restriction with a `where` condition that
 
 The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*.
 
-The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies following standard CDS events only<sup>1</sup>:
+The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies to following standard CDS events only<sup>1</sup>:
 - `READ` (as result filter)
-- `UPDATE` (as reject condition)
-- `DELETE` (as reject condition)
+- `UPDATE` (as reject condition<sup>2</sup>)
+- `DELETE` (as reject condition<sup>2</sup>)
 
- > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.  
+ > <sup>2</sup> CAP Java uses a filter condition by default.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 
@@ -518,6 +518,16 @@ Supported features are:
 * Value references to constants, [user attributes](#user-attrs), and entity data (elements including [paths](#association-paths))
 * [Exists predicate](#exists-predicate) based on subselects.
 
+
+<div class="impl java">
+
+CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it using the configuration option <Config java keyOnly label="reject-selected-unauthorized-entity">cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>.
+
+</div>
+
+::: info Avoid enumerable keys
+In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.
+:::
 
 ### User Attribute Values { #user-attrs}
 

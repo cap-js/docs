@@ -1,15 +1,14 @@
 
-# Getting Started
+# [Getting Started](get-started/)
 
-## [Introduction — About CAP](about/)
-## [Get Started in a Nutshell](get-started/in-a-nutshell)
-## [Jumpstart Development](get-started/jumpstart)
-## [Grow As You Go...](get-started/grow-as-you-go)
-## [Hello World!](get-started/hello-world)
-## [Sample Projects](get-started/samples)
-## [Learning Sources](get-started/learning-sources)
-## [Troubleshooting](get-started/troubleshooting)
-## [Features Overview](about/features)
+  ## [Introduction — What is CAP?](about/)
+  ## [Bookshop by capire](get-started/in-a-nutshell)
+  ## [Best Practices](about/best-practices)
+  ## [Anti Patterns](about/bad-practices)
+  ## [Next Steps](get-started/#next-steps)
+  ## [Learn More](get-started/learning-sources)
+  ## [Features Matrix](about/features)
+  ## [Troubleshooting](get-started/troubleshooting)
 
 # [Cookbook](guides/)
 
@@ -142,13 +141,14 @@
 ## [CDS Command Line Interface](tools/cds-cli)
 ## [CDS Editors & IDEs](tools/cds-editors)
 ## [CDS Lint](tools/cds-lint/)
-  ### [Rules Reference #items:rules-sidebar](tools/cds-lint/rules)
+  ### [Rules Reference](tools/cds-lint/rules/_menu.md)
 ## [CDS Typer](tools/cds-typer)
 ## [CAP Notebooks](tools/cds-editors#cap-vscode-notebook)
 ## [Hybrid Testing w/ cds bind](advanced/hybrid-testing)
 ## [CDS Design Time APIs](tools/apis/)
   ### [cds. add()](tools/apis/cds-add)
   ### [cds. import()](tools/apis/cds-import)
+  ### [cds. build()](../guides/deployment/custom-builds#custom-build-plugins)
 
 # [Plugins](plugins/)
 

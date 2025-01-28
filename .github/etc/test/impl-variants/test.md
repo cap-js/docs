@@ -5,7 +5,7 @@ outline: [2,4]
 
 [[toc]]
 
-## H2 Node {.impl .node}
+## H2 Node {.node}
 
 ### H3 Node 1
 
@@ -21,7 +21,7 @@ Node text
 code
 ```
 
-## H2 Java {.impl .java}
+## H2 Java {.java}
 
 ### H3 Java
 

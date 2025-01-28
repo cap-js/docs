@@ -1,7 +1,6 @@
 ---
 synopsis: >
   This section describes in detail what CAP offers to protect your application.
-redirect_from: security/aspects
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 impl-variants: true
@@ -192,7 +191,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules/).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.

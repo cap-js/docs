@@ -1,9 +1,8 @@
 ---
 status: released
-redirect_from: guides/data-privacy/introduction
 ---
 
-<style>
+<style scoped>
     .annotation::before { content: '@PersonalData '; color: grey; }
     .annotation { font-style: italic; }
 </style>

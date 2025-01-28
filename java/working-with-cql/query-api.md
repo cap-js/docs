@@ -2,9 +2,6 @@
 synopsis: >
   API to fluently build CQL statements in Java.
 status: released
-redirect_from:
-- java/query-api
-- java/cds-ql
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -256,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
-#### From `entity set` {#from-entity-set}
+#### `FROM` Entity Set {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -272,7 +269,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {#from-reference}
+#### `FROM` Reference {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 
@@ -290,7 +287,7 @@ import static bookshop.Bookshop_.ORDERS;
 Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 ```
 
-#### From `subquery` {#from-select}
+#### `FROM` Subquery {#from-select}
 
 It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
@@ -537,7 +534,7 @@ Object authorId = book.get("author.Id"); // path access
 ```
 
 ::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#db-constraints) on the database.
+Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#database-constraints) on the database.
 :::
 
 
@@ -799,19 +796,13 @@ book.put("title", "Capire");
 CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```
 
- or it can be a [path expression](#path-expressions), for example:
+ or it can be a [path expression](#path-expressions), for example to add an item for Order 1001:
 
  ```java
-import static bookshop.Bookshop_.BOOKS;
+import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> bookId = Collections.singletonMap("ID", 85);
-
-Map<String, Object> publisher = new HashMap<>();
-publisher.put("ID", 101);
-publisher.put("name", "Penguin");
-
-CqnInsert insert = Insert.into(BOOKS, b -> b.matching(bookId)).publisher())
-                         .entry(publisher);
+Insert.into(ORDERS, o -> o.matching(Map.of("ID", 1001))).items())
+	.entry(Map.of("book", Map.of("ID", 251), "amount", 1));
 ```
 
 
@@ -1888,8 +1879,8 @@ Select.from(AUTHORS).where(a -> a.books().anyMatch(
 
 #### `EXISTS` Subquery {#exists-subquery}
 
-An `EXISTS` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
-You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
+An `exists` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
+You construct an `exists` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
@@ -1922,7 +1913,7 @@ Select.from("Authors").where(CQL.exists(subquery));
 
 ### `IN` Subquery
 
-An `IN` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `IN` subquery in fluent style or in tree style:
+An `in` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `in` subquery in fluent style or in tree style:
 
 ```java
 // fluent style

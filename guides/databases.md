@@ -366,7 +366,10 @@ This set of functions are by large the same as specified in OData:
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
 * `matchespattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n?)` <sup>1</sup> — extracts a substring from `x` starting at `i` (may be negative) with length `n` (optional; may be negative)
+* `substring(x,i,n?)` <sup>1</sup> —
+    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.  
+    * **`i`**: Positive starts at `i`, negative starts `i` before the end.  
+    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.  
 * `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
@@ -375,12 +378,15 @@ This set of functions are by large the same as specified in OData:
 * `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
 * `round(x)` — rounds the input numeric parameter to the nearest numeric value.
                The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
-* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`, `fractionalseconds(x)`, `time(x)`, `date(x)` —
+* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)` —
   returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
-* `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
-* `totalseconds(x)` — returns the total seconds of a datetime for a given `cds.DateTime` / `cds.Time`
+* `time(x)`, `date(x)` - returns a string representing the `time` / `date` for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `fractionalseconds(x)` - returns a a `Decimal` representing the fractions of a second for a given `cds.Timestamp`
+* `maxdatetime()` - returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`
+* `mindatetime()` — returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`
+* `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
 * `now()` — returns the current datetime
-* `min(x)` `max(x)` `sum(x)` `avg(x)` `count(x)`, `countdistinct(x)` — aggregate functions
+* `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions
 * `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
 * `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
 > <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
@@ -782,13 +788,35 @@ The following rules apply:
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For SAP HANA tables, there's an implicit  that is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA tables, there's an implicit `@sql.prepend: 'COLUMN'` that is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
 
+
+#### Creating a Row Table on SAP HANA
+
+By using `@sql.prepend: 'ROW'`, you can create a row table:
+
+```cds
+@sql.prepend: 'ROW'
+entity E {
+  key id: Integer;
+}
+```
+
+Run `cds compile - 2 hdbtable` on the previous sample and this is the result:
+
+```sql [E.hdbtable]
+ROW TABLE E (
+  id INTEGER NOT NULL,
+  PRIMARY KEY(id)
+)
+```
+
+[Learn more about Columnar and Row-Based Data Storage](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-administration-guide/columnar-and-row-based-data-storage){.learn-more}
 ### Reserved Words
 
 The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
@@ -807,7 +835,7 @@ Find here a collection of resources on selected databases and their reference do
 
 
 
-## Database Constraints {#db-constraints}
+## Database Constraints
 
 The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 

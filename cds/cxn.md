@@ -9,10 +9,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 # Expression Notation (CXN) { #expressions}
 
-[expression]: #expressions
-[expr]: #expressions
-[CQN]: ./cqn
-
 
 Expressions in CDS definitions and queries can be one of:
 
@@ -33,7 +29,6 @@ expr = // one of...
 
 ## Literal Values
 
-[val]: #literal-values
 
 Literal values are represented as `{val:...}` with property `val` holding the actual literal value as specified in JSON.
 
@@ -56,7 +51,6 @@ cds.parse.expr(`timestamp'2023-04-15T13:05:23Z'`)  == {val: '2023-04-15T13:05:23
 
 ## References
 
-[ref]: #references
 
 A reference is represented as `{ ref: … }` with property `ref`. This property holds an array of reference segments as plain identifier strings.  Only in case of infix filters and/or arguments, the property holds an object `{ id: 'identifier', … }` and all properties except `id` are optional, as shown in the following snippet:
 
@@ -85,7 +79,6 @@ cqn4(`foo[where a=1 group by b having b>2 order by c limit 7].bar`)
 
 ## Function Calls
 
-[func]: #functions
 
 Function calls are represented as follows:
 
@@ -116,8 +109,6 @@ cqn4(`new ST_Point(2, 3)`)
 
 ## Lists { #lists}
 
-[list]: #lists
-
 Lists or tupels are represented as `{list:...}`, with property `list` holding an array of the list entries.
 
 Examples:
@@ -129,8 +120,6 @@ cds.parse.expr(`(foo, bar)`) == {list: [{ref: ['foo']}, {ref: ['bar']}]}
 
 ## Operator Expressions { #operators}
 
-[xpr]: #operators
-[_xpr]: #operators
 
 Operators join one or more expressions into complex ones, represented as `{xpr:...}`. The property `xpr` holds a sequence of operators and operands.
 
@@ -141,24 +130,25 @@ _operand = expr
 _operator = string
 ```
 
-* *Operands* can be any kind of [expression]
+* *Operands* can be any kind of expression
 * *Operators* are represented as plain strings, like `'='` or `'and'`
 * Parentheses `( ... )` around sub-expressions are represented as nested `xpr`
 
 Examples:
 
 ```js
-cds.parse.expr(`x<9`)  ==//> returns:
+[dev] cds repl
+> cds.parse.expr(`x<9`)  == 
 {xpr:[ {ref:['x']}, '<', {val:9} ]}
 
-cds.parse.expr(`x<9 and (y=1 or z=2)`)  ==//> returns:
+> cds.parse.expr(`x<9 and (y=1 or z=2)`)  == 
 {xpr:[
   {ref:['x']}, '<', {val:9}, 'and', {xpr:[
     {ref:['y']}, '=', {val:1}, 'or', {ref:['z']}, '=', {val:2}
   ]}
 ]}
 
-cds.parse.expr(`exists books[year = 2000]`)  ==//> returns:
+> cds.parse.expr(`exists books[year = 2000]`)  ==
 {xpr:[
   'exists',
   {ref: [ {id:'books', where:[ {'ref':['year']}, '=', {'val': 2000} ]}]}
@@ -171,7 +161,8 @@ As an exception to that rule, CDS supports the ternary conditional operator on s
 but immediately converts it to the corresponding CASE expression in CXN:
 
 ```js
-cds.parse.expr(`x<10 ? y : z`)  ==//> returns:
+[dev] cds repl
+> cds.parse.expr(`x<10 ? y : z`)  ==
 {xpr:['case', 'when', {ref:['x']}, '<', {val:10},
       'then', {ref:['y']}, 'else', {ref:['z']}, 'end']}
 ```
@@ -179,7 +170,6 @@ cds.parse.expr(`x<10 ? y : z`)  ==//> returns:
 
 ## Binding Parameters
 
-[param]: #parameters
 
 Binding parameters for prepared statements are represented as `{ref:..., param:true}` with values for `ref` as follows.
 
@@ -189,11 +179,12 @@ param = { ref:[ '?' | number | name ], param:true }
 
 Examples:
 ```js
-cds.parse.expr(`x=:1`) == [{ref:['x']}, '=', {ref:[1], param:true}]
-cds.parse.expr(`x=:y`) == [{ref:['x']}, '=', {ref:['y'], param:true}]
-cds.parse.expr(`x=?`)  == [{ref:['x']}, '=', {ref:['?'], param:true}]
+[dev] cds repl
+> cds.parse.expr(`x=:1`) //> [{ref:['x']}, '=', {ref:[1], param:true}]
+> cds.parse.expr(`x=:y`) //> [{ref:['x']}, '=', {ref:['y'], param:true}]
+> cds.parse.expr(`x=?`)  //> [{ref:['x']}, '=', {ref:['?'], param:true}]
 ```
 
 ## Sub Queries
 
-[See CQN][CQN]{.learn-more}
+[See CQN](cqn){.learn-more}

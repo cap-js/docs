@@ -60,7 +60,7 @@ LOG.info("it's a foo")
 
 ### _Logger usage → much like `console`_ { #logger-api }
 
-Loggers returned by `cds.log()` look and behave very much like [Javascript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
+Loggers returned by `cds.log()` look and behave very much like [JavaScript's standard `console` object](https://nodejs.org/api/console.html) a log method for each [log level](#log-levels):
 
 ```js
 cds.log() → {
@@ -203,6 +203,17 @@ const LOG = cds.log('foo') // shares the same logger as above
 cds.log('foo','debug') // switches the 'foo' logger to 'debug' level
 ```
 
+
+
+### *Log Levels as Used by the CAP Node.js Runtime*
+
+The CAP Node.js runtime uses the following guidelines with regards to which log level to use in which situation:
+
+- `error`: Something went horribly wrong and it's unclear what to do (that is, an unexpected error).
+- `warn`: Something off the happy trail happened, but it can be handled (that is, an expected error).
+- `info`: Brief information about what is currently happening.
+- `debug`: Detailed information about what is currently happening.
+- `trace`/`silly`/`verbose` (not used by the CAP Node.js runtime): Exhaustive information about what is currently happening.
 
 
 ## cds.log.Logger
@@ -483,6 +494,14 @@ For SAP Cloud Logging, the JSON formatter uses the following default configurati
 ```
 
 In order for the JSON formatter to detect the binding to SAP Cloud Logging via user-provided service, the user-provided service must have a tag `cloud-logging`.
+(For existing user-provided services, tags can be added via [`cf update-user-provided-service`](https://cli.cloudfoundry.org/en-US/v7/update-user-provided-service.html).)
+
+The key-value pairs can either be part of the first argument or an exclusive object thereafter:
+
+```js
+LOG.info({ message: 'foo', reason: 'bar' })
+LOG.info('foo', { reason: 'bar' })
+```
 
 As always, both defaults are overridable via [cds.env](cds-env#cds-env).
 

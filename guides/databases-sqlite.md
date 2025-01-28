@@ -611,9 +611,10 @@ entity Foo {
 The behaviour has changed to:
 
 ```js
-SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
-SELECT.from('Foo')         //> [{ foo:1 }, ...]
-SELECT('bar').from('Foo')  //> ERROR: no columns to read
+[dev] cds repl
+> SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
+> SELECT.from('Foo')         //> [{ foo:1 }, ...]
+> SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
 ### <> Operator {.node}

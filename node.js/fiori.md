@@ -21,7 +21,7 @@ See [Cookbook > Serving UIs > Draft Support](../advanced/fiori#draft-support) fo
 
 ## Lean Draft
 
-Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity and enables more features like storing active instances in remote systems while keeping the corresponding drafts in the local persistence.
+Lean draft is a new approach which makes it easier to differentiate between drafts and active instances in your code. This new architecture drastically reduces the complexity.
 
 ### Handlers Registration {#draft-support}
 
@@ -174,3 +174,15 @@ You can set the property to one of the following:
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 
+
+### Programmatic Invocation of Draft Actions <Beta />
+
+You can programmatically invoke draft actions with the following APIs:
+
+```js
+await srv.new(MyEntity.drafts, data)     // create new draft
+await srv.discard(MyEntity.drafts, keys) // discard draft
+await srv.edit(MyEntity, keys)           // create draft from active instance
+await srv.new(MyEntity.drafts).for(keys) // same as above
+await srv.save(MyEntity.drafts, keys)    // activate draft
+```

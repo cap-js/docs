@@ -10,16 +10,19 @@
       <div class="vp-code-group vp-doc" v-if="java">
         <CodeGroup :groups="[
           { id: 'java-appyml',  label: 'application.yml', lang: 'yml',        group, code: javaAppyml },
-          { id: 'java-sysprop', label: 'System property', lang: 'properties', group, code: javaEnvStr }
+          { id: 'java-sysprop', label: 'System property', lang: 'properties', group, code: javaEnvStr, transient: true }
         ]" />
       </div>
       <div class="vp-code-group vp-doc" v-else>
         <CodeGroup :groups="[
+          { id: 'pkg-priv', label: '~/.cdsrc.json',  lang: 'json',       group, code: pkgStr, private: true },
           { id: 'pkg', label: 'package/.cdsrc.json', lang: 'json',       group, code: pkgStr },
+          { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
+          { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
-          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr },
-          { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr },
-          { id: 'shw', label: 'Cmd Shell',           lang: 'cmd',        group, code: 'set '+envStr }
+          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr, transient: true },
+          { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr, transient: true },
+          { id: 'shw', label: 'Cmd Shell',           lang: 'cmd',        group, code: 'set '+envStr, transient: true }
         ]" />
       </div>
     </template>
@@ -32,12 +35,23 @@
   import FloatingVue from 'floating-vue'
   import yaml from 'yaml'
 
+  const { java, keyOnly, filesOnly, showPrivate, label:labelProp } = defineProps<{
+    java?: boolean,
+    keyOnly?: boolean,
+    filesOnly?: boolean,
+    showPrivate?: boolean,
+    label?: string
+  }>()
+
   // sub component that renders code blocks similar to the markdown `::: code-block` syntax
   const CodeGroup = defineComponent(
     ({ groups }) => () => [
-      h('div', { class: 'tabs' }, groups.flatMap((b, idx) => [
-        h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
-        h('label', { for: `${b.group}-${b.id}` }, b.label)
+      h('div', { class: 'tabs' }, groups
+        .filter((b) => filesOnly ? !b.transient : true)
+        .filter((b) => showPrivate ? true : !b.private)
+        .flatMap((b, idx) => [
+          h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
+          h('label', { for: `${b.group}-${b.id}` }, b.label)
       ])),
       h('div', { class: 'blocks' }, groups.flatMap((b, idx) => [
         h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
@@ -54,27 +68,25 @@
       ]))
     ], {
       props: {
-        groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string }>, required: true }
+        groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string, transient?:boolean, private?:boolean }>, required: true }
       }
     }
   )
 
-  const { java, keyOnly } = defineProps<{
-    java?: boolean,
-    keyOnly?: boolean
-  }>()
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()
   const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
-  const label = `${keyOnly ? key: slotVal}`
+  const label = labelProp || `${keyOnly ? key: slotVal}`
 
   const cfgKey = ref()
   const popperVisible = ref(false)
   const group = ref()
   const pkgStr = ref()
+  const jsStr = ref()
+  const ymlStr = ref()
   const propStr = ref()
   const envStr = ref()
   const javaAppyml = ref()
@@ -99,12 +111,12 @@
     const pkg = toJson(key, jsonVal ?? value)
 
     pkgStr.value = JSON.stringify(pkg, null, 2)
+    jsStr.value = 'module.exports = ' + pkgStr.value.replace(/"(\w*?)":/g, '$1:')
     propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
     envStr.value = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
-    javaAppyml.value = yaml.stringify(pkg)
+    javaAppyml.value = ymlStr.value = yaml.stringify(pkg)
     javaEnvStr.value = `-D${propStr.value}`
-
   })
 
 function toJson(key:string, value:string): Record<string, any> {

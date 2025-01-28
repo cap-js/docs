@@ -1015,6 +1015,7 @@ Once you have 2 non-HANA local databases you need to have 2 distinct database co
           max-lifetime: 0
     ```
   In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
+
 </div>
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>

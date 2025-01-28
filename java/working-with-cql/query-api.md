@@ -1310,7 +1310,7 @@ CqnListValue props = list(get("year"), get("quarter"));
 CqnListValue vals  = list(val(2012), val(2));
 CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
 ```
-You can also compare multiple list values at once using an [`IN` predicate](link).
+You can also compare multiple list values at once using an [`IN` predicate](#in-predicate).
 #### Parameters {#expr-param}
 
 The [`param`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#param--) method can be statically imported from the helper class [CQL](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html). It provides an option to use a parameter marker in a query that is bound to an actual value only upon query execution. Using parameters you can execute a query multiple times with different parameter values.

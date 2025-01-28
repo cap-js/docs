@@ -988,7 +988,7 @@ In case of conflicts, follow these steps to provide different models for differe
     </execution>
    ```
 
-4. For the Spring Boot side it's similar. If you have a local development DB and a hybrid profile with a remote HANA DB you only need to run in default (or any other) profile and you get the local DB and it's SQL schema that was written to your `src/main/resources`. For the HANA part the build and deploy part is done seperately and the application just needs to be started with a local `default-env.json` file and `cloud` profile or via `cds bind`.
+4. For the Spring Boot side it's similar. If you have a local development database and a hybrid profile with a remote SAP HANA database, you only need to run in default (or any other) profile. For the SAP HANA part, the build and deploy part is done separately and the application just needs to be started using `cds bind`.
 Once you have 2 non-HANA local databases you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
 
     ```yaml

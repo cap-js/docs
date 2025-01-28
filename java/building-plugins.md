@@ -78,7 +78,7 @@ Additionally, the new `resolve` goal from the CDS Maven Plugin needs to be added
     <execution>
       <id>cds.resolve</id>
       <goals>
-        <goal>resolve</goal> // [!code focus]
+        <goal>resolve</goal> <!-- [!code focus] -->
       </goals>
     </execution>
     ...

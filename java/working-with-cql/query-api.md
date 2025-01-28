@@ -1310,19 +1310,7 @@ CqnListValue props = list(get("year"), get("quarter"));
 CqnListValue vals  = list(val(2012), val(2));
 CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
 ```
-
-You can also compare multiple list values at once using an `IN` predicate - for example to efficiently filter by multiple key value sets:
-
-```java
-import static com.sap.cds.ql.CQL.*;
-
-CqnListValue elements = list(get("AirlineID"), get("ConnectionID"));
-CqnListValue lh454  = list(val("LH"), val(454));
-CqnListValue ba119  = list(val("BA"), val(119));
-
-CqnSelect q = Select.from(FLIGHT_CONNECTION).where(in(elements, List.of(lh454, ba119)));
-```
-
+You can also compare multiple list values at once using an [`IN` predicate](#in-predicate).
 #### Parameters {#expr-param}
 
 The [`param`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#param--) method can be statically imported from the helper class [CQL](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html). It provides an option to use a parameter marker in a query that is bound to an actual value only upon query execution. Using parameters you can execute a query multiple times with different parameter values.
@@ -1610,38 +1598,75 @@ LE
 
 <tr>
 <td>
-IN
-</td>
-<td>
-    Test if this value is equal to any value in a given list.
-</td>
-<td>
-
-<code>Select.from("bookshop.Books")
-  .where(b ->
-    b.get("author.name")
-     .<span class="na">in</span>("Poe", "Hemingway"));</code>
-
-</td>
-</tr>
-
-<tr>
-<td>
 BETWEEN
 </td>
 <td>
-    Test if this value is between a range of values.
+    Test if this value is between<sup>1</sup> a range of values.
 </td>
 <td>
 
 <code>Select.from("bookshop.Books")
   .where(b -> b.get("stock")
-  .<span class="na">between</span>(5,10));</code>
+  .<span class="na">between</span>(5, 10));</code>
 
 </td>
 </tr>
 </tbody>
 </table>
+
+<sup>1</sup> upper and lower bound are included
+
+#### `IN` Predicate
+
+The `IN` predicate tests if a value is equal to any value in a given list. 
+
+The following example, filters for books written by Poe or Hemingway:
+
+```java
+Select.from(BOOKS)
+  .where(b -> b.author().name().in("Poe", "Hemingway"));
+```
+
+The values can also be given as a list:
+
+```java
+List<String> authorNames = List.of("Poe", "Hemingway");
+
+Select.from(BOOKS)
+  .where(b -> b.author().name().in(authorNames));
+```
+
+You can also use the `IN` predicate to compare multiple [list values](#list-values) at once - for example to efficiently filter by multiple key value sets:
+
+```java
+import static com.sap.cds.ql.CQL.*;
+
+CqnListValue elements = list(get("AirlineID"), get("ConnectionID"));
+CqnListValue lh454  = list(val("LH"), val(454));
+CqnListValue ba119  = list(val("BA"), val(119));
+
+Select.from(FLIGHT_CONNECTION).where(in(elements, List.of(lh454, ba119)));
+```
+
+#### `IN` Subquery Predicate
+
+Use the `in` subquery to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery.
+
+```java
+// fluent style
+Select.from(AUTHORS).where(author -> author.name().in(
+    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
+));
+```
+
+In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+
+```java
+// generic tree style via CQL api
+CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
+CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
+Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
+```
 
 #### `ETag Predicate` {#etag-predicate}
 
@@ -1910,26 +1935,6 @@ Select.from("Authors").where(CQL.exists(subquery));
 ```
 
 > **Note:** Chaining `$outer` in nested subqueries is not supported.
-
-### `IN` Subquery
-
-An `in` subquery is used to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery. You can use an `in` subquery in fluent style or in tree style:
-
-```java
-// fluent style
-Select.from(AUTHORS).where(author -> author.name().in(
-    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
-));
-```
-
-In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
-
-```java
-// tree style
-CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
-CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
-Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
-```
 
 ## Parsing CQN
 

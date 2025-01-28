@@ -163,6 +163,24 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 <!--@include: ./assets/help/cds-add.out.md -->
 :::
 
+### sample {.add}
+
+Creates a bookshop application including custom code (Node.js or Java) and a UI with [SAP Fiori Elements](../advanced/fiori).
+
+```sh
+cds add sample
+```
+
+This corresponds to the result of the [_Getting Started in a Nutshell_ guide](../get-started/in-a-nutshell).
+
+### tiny-sample {.add}
+
+Creates a minimal CAP application without UI.
+
+```sh
+cds add tiny-sample
+```
+
 ### data {.add}
 
 Adds files to the project that carry initial data, in either JSON and CSV format.
@@ -528,24 +546,58 @@ There a couple of shortcuts and convenience functions:
 :::
 
 
-## Debugging with `cds debug` <Beta /> {.nodejs}
+## Debugging with `cds debug` <Beta /> {#cds-debug}
 
-`cds debug` lets you debug Node.js applications in Chrome DevTools running locally or in Cloud Foundry.
+`cds debug` lets you debug applications running locally or remotely on SAP BTP Cloud Foundry.
+Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
 
-To debug remote applications in the currently targeted CF space, run:
+To debug an application on Cloud Foundry, the following is important:
+- You're logged in to the space where the application is deployed to.
+- You have developer permissions in that space -> [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment).
+- The app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
+
+Effectively, run:
+```sh
+cf login                   # select the correct org and space here
+cf ssh-enabled <app-name>  # to check if SSH is enabled
+```
+
+::: tip Scale to one application instance only
+We recommend to only scale to a _single_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
+
+However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+:::
+
+### Node.js Applications
+
+#### Remote Applications
+
+Run the following, to debug remote Node.js applications in the currently targeted CF space:
 
 <pre class="log">
-<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">bookshop-srv</span>
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>
 
-Opening SSH tunnel for CF app 'bookshop-srv'
+Opening SSH tunnel on 9229:127.0.0.1:9229
 Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+> Keep this terminal open while debugging.
 </pre>
 
 This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
 
-<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline />
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline alt="Video demonstrating the debugging process with cds debug command, as described in the accompanying text." />
 
-Without an app name, `cds debug` starts `cds watch --debug` locally:
+::: details Under the hoods, these commands are executed:
+```sh
+cf ssh <app> -c "kill -usr1 `pidof node`"
+cf ssh -N -L 9229:localhost:9229 <app>
+```
+:::
+
+#### Local Applications
+
+Without an `<app name>`, `cds debug` starts `cds watch --debug` locally:
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
@@ -557,13 +609,64 @@ Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
 [cds] - ...
 </pre>
 
-::: tip Scale to one application instance only
-We recommend to only scale to _one_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
-If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
 
-However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+### Java Applications <Since version="8.7.0" of="@sap/cds-dk" />
+
+#### Remote Applications
+
+Run the following, to debug remote Java applications in the currently targeted CF space:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>
+...
+Debugging has been started.
+Address : 8000
+
+Opening SSH tunnel on 8000:127.0.0.1:8000
+
+> Keep this terminal open while debugging.
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html) and puts the application in debug mode.
+
+Afterwards, connect a debugger in your IDE at the given port.  In VS Code, for example, add a launch configuration like this one:
+
+::: code-group
+```json [.vscode/launch.json]
+{
+  "type": "java",
+  "name": "Attach to Remote Java App",
+  "request": "attach",
+  "hostName": "localhost",
+  "port": "8000"
+}
+```
 :::
 
+Make sure the port matches to what the debug tunnel uses (see the message in the terminal). The default port is `8000`.
+
+> [!NOTE] SapMachine is required
+> SapMachine is required as Java runtime environment for this feature to work.<br>
+> There is nothing to do if you set up your MTA deployment descriptors with [`cds mta`](../guides/deployment/to-cf#add-mta-yaml) or CAP project wizards.
+> See the [documentation of SapMachine](https://help.sap.com/docs/btp/sap-business-technology-platform/sapmachine) for how to configure this manually.
+
+#### Local Applications
+
+Without an app name, `cds debug` starts Maven with debug arguments locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"'
+...
+Listening for transport dt_socket at address: 8000
+...
+</pre>
+
+Then attach your IDE as explained before.
+
+::: details See the full help text of `cds debug`
+<!--@include: ./assets/help/cds-debug.out.md-->
+:::
 
 ## Debugging with `cds watch`
 

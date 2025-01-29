@@ -88,6 +88,7 @@ this.on ('*', req => {
 ```
 
 Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
+The properties `req.req` and `req.res` can be used to access the express request and response objects of individual requests within a batch request, if the [new OData adapter](../releases/archive/2024/jun24#new-protocol-adapters-ga) is used.
 
 
 

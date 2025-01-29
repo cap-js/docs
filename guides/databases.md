@@ -998,6 +998,8 @@ In case of conflicts, follow these steps to provide different models for differe
    ```
 <div markdown="1" class="impl java">
 
+::: info The following steps are only needed when you use two different local databases.
+
 3. For CAP Java setups you might need to reflect the different profiles in your CDS Maven plugin configuration. This might not be needed for all setups, like using a standard local database (sqlite, H2, or PostgreSQL) and a production SAP HANA setup. In that case the local build defaults to the `development` profile. But for other setups, like using a local PostgreSQL and a local SQLite you'll need two (profiled) `cds deploy` commands:
 
    ```xml
@@ -1043,6 +1045,8 @@ Once you have 2 non-HANA local databases you need to have 2 distinct database co
           max-lifetime: 0
     ```
   In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
+
+::: 
 
 </div>
 

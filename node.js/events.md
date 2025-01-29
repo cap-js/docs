@@ -251,6 +251,26 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 
 
 
+### . req {.property}
+
+Provides access to the express request object of individual requests within an incoming batch request.
+
+::: warning Note:
+If the [new OData adapter](../releases/archive/2024/jun24#new-protocol-adapters-ga) is not used, both `.req` and [`.http.req`](#http) refer to the same request object of the incoming batch request.
+:::
+
+
+
+### . res {.property}
+
+Provides access to the express response object of individual requests within an incoming batch request.
+
+::: warning Note:
+If the [new OData adapter](../releases/archive/2024/jun24#new-protocol-adapters-ga) is not used, both `.res` and [`.http.res`](#http) refer to the same response object of the incoming batch request.
+:::
+
+
+
 ### . method {.property}
 
 The HTTP method of the incoming request:

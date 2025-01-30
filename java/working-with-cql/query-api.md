@@ -521,7 +521,7 @@ Use [inline](#inline), [expand](#expand), and aliases to influence the structure
 
 ##### Dot-separated Paths
 
-You can create a _structured_ query result using a _dot-separated_ path as alias. In the follwing CDS model the elements `firstName` and `lastName` are on top-level in the `Person` entity:
+You can create a _structured_ query result using a _dot-separated_ path as an alias. In the following CDS model the elements `firstName` and `lastName` are on top-level in the `Person` entity:
 
 ```cds
 entity Person {
@@ -540,7 +540,7 @@ Select.from(PERSON)
                p -> p.lastName().as("name.last"));
 ```
 
-A result row will have this structure:
+The resulting row structure:
 
 ```json
 {
@@ -552,14 +552,14 @@ A result row will have this structure:
 }
 ```
 
-On the select list, you can use a _dot-separated_ path to select an element of an associated entity, which will be [inlined](#inline)
+You can select an associated entity's element by adding its _dot-separated_ path in the list. The result includes the value [inlined](#inline) at the top-level.
 
 ```java
 Select.from("bookshop.Books")
       .columns("title", "author.name");
 ```
 
-giving you a flat result:
+Giving you a flat result:
 
 ```json
 {
@@ -568,7 +568,7 @@ giving you a flat result:
 }
 ```
 
-If you want to preserve the structure and rather have the author's name in a dedicated author object you can do an [expand](#expand):
+If you want to preserve the structure and rather have the author's name in a dedicated author object, use [expand](#expand):
 
 ```java
 Select.from("bookshop.Books")
@@ -608,7 +608,7 @@ Select.from("bookshop.Books")
 
 ##### Space-separated Paths
 
-For convenience, you can use a _space-separated_ path to reference an element of an associated entity. It will then be select preserving the structure:
+For convenience, you can use a _space-separated_ path to reference an element of an associated entity:
 
 ```java
 Select.from("bookshop.Books")

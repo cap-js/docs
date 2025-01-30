@@ -523,7 +523,7 @@ entity Projects { ...
   members : Composition of many { key user : Association to Users };
 }
 entity Users { ...
-  projects : Composition of many Projects.members on projects.member = $self;
+  projects : Composition of many Projects.members on projects.user = $self;
 }
 ```
 

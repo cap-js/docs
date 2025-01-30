@@ -177,7 +177,7 @@ An MTX sidecar is a standard, yet minimal Node.js CAP project. By default it's a
     "@sap/cds": "^7",
     "@sap/cds-hana": "^2",
     "@sap/cds-mtxs": "^1",
-    "@sap/xssec": "^3",
+    "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
@@ -1156,7 +1156,7 @@ Requests are implicitly asynchronous when `status_callback` is set.
 
 ##### Example Usage
 
-With `@sap/hdi-deploy` parameters `trace` and `auto_undeploy`:
+With `@sap/hdi-deploy` [parameters](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-developer-guide-for-cloud-foundry-multitarget-applications-sap-business-app-studio/deployment-options-in-hdi) `trace` and `version`:
 
 ```http
 POST /-/cds/saas-provisioning/upgrade HTTP/1.1
@@ -1169,7 +1169,7 @@ Content-Type: application/json
             "hdi": {
                 "deploy": {
                     "trace": "true",
-                    "auto_undeploy": "true"
+                    "version": "true"
                 }
             }
         }
@@ -1296,6 +1296,7 @@ Use the `upgrade` endpoint to upgrade tenant base models.
 | Arguments |  Description                                                |
 | --------- | ----------------------------------------------------------- |
 | `tenants` | A list of tenants, or `[*]` for all tenants                 |
+| `options` | Additional options, including HDI deployment options, see [DeploymentService](#deployment-config), prefixed with `_` |
 
 #### Example Usage {#example-upgrade}
 
@@ -1309,7 +1310,17 @@ Content-Type: application/json
 Prefer: respond-async
 
 {
-  "tenants": ["t1", "t2"]
+  "tenants": ["t1", "t2"],
+  "options": {
+      "_": {
+          "hdi": {
+              "deploy": {
+                  "trace": "true",
+                  "version": "true"
+              }
+          }
+      }
+    }
 }
 ```
 

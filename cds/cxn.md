@@ -137,18 +137,17 @@ _operator = string
 Examples:
 
 ```js
-[dev] cds repl
-> cds.parse.expr(`x<9`)  == 
+cds.parse.expr(`x<9`)  ==//> returns:
 {xpr:[ {ref:['x']}, '<', {val:9} ]}
 
-> cds.parse.expr(`x<9 and (y=1 or z=2)`)  == 
+cds.parse.expr(`x<9 and (y=1 or z=2)`)  ==//> returns:
 {xpr:[
   {ref:['x']}, '<', {val:9}, 'and', {xpr:[
     {ref:['y']}, '=', {val:1}, 'or', {ref:['z']}, '=', {val:2}
   ]}
 ]}
 
-> cds.parse.expr(`exists books[year = 2000]`)  ==
+cds.parse.expr(`exists books[year = 2000]`)  ==//> returns:
 {xpr:[
   'exists',
   {ref: [ {id:'books', where:[ {'ref':['year']}, '=', {'val': 2000} ]}]}
@@ -161,8 +160,7 @@ As an exception to that rule, CDS supports the ternary conditional operator on s
 but immediately converts it to the corresponding CASE expression in CXN:
 
 ```js
-[dev] cds repl
-> cds.parse.expr(`x<10 ? y : z`)  ==
+cds.parse.expr(`x<10 ? y : z`)  ==//> returns:
 {xpr:['case', 'when', {ref:['x']}, '<', {val:10},
       'then', {ref:['y']}, 'else', {ref:['z']}, 'end']}
 ```
@@ -179,10 +177,9 @@ param = { ref:[ '?' | number | name ], param:true }
 
 Examples:
 ```js
-[dev] cds repl
-> cds.parse.expr(`x=:1`) //> [{ref:['x']}, '=', {ref:[1], param:true}]
-> cds.parse.expr(`x=:y`) //> [{ref:['x']}, '=', {ref:['y'], param:true}]
-> cds.parse.expr(`x=?`)  //> [{ref:['x']}, '=', {ref:['?'], param:true}]
+cds.parse.expr(`x=:1`) == [{ref:['x']}, '=', {ref:[1], param:true}]
+cds.parse.expr(`x=:y`) == [{ref:['x']}, '=', {ref:['y'], param:true}]
+cds.parse.expr(`x=?`)  == [{ref:['x']}, '=', {ref:['?'], param:true}]
 ```
 
 ## Sub Queries

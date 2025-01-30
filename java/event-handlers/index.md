@@ -231,7 +231,7 @@ It is possible to specify multiple service names. Event handlers are registered 
 
 <!-- java-mode: ignore, no annotation target -->
 ```java
-@ServiceName({"AdminService", "CatalogService"})
+@ServiceName(["AdminService", "CatalogService"])
 ```
 
 The `type` attribute of the `@ServiceName` annotation can be used to register event handlers on all services of a certain type:

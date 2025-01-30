@@ -193,7 +193,7 @@ cds db/schema.cds -2 yml
 cds db/schema.cds -2 sql
 ```
 
-[Learn more about the command line interface by executing `cds help`.](../tools/cds-cli#cds-help){.learn-more}
+[Learn more about the command line interface by executing `cds help`.](#cli){.learn-more}
 
 
 

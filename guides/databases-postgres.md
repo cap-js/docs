@@ -183,8 +183,7 @@ spring:
 ```
 :::
 To start the application with the new profile `postgres-docker`, the `spring-boot-maven-plugin` can be used: `mvn spring-boot:run -Dspring-boot.run.profiles=postgres-docker`.
-
-[Learn more about the configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
+Learn more about the [configuration of a PostgreSQL database](../java/cqn-services/persistence-services#postgresql-1){ .learn-more}
 
 ### Service Bindings for CDS Tooling {.java}
 

@@ -715,35 +715,6 @@ cf logs <appname> --recent
 If you omit the option `--recent`, you can run this command in parallel to your deployment and see the logs as they come in.
 :::
 
-### Why do I get "404 Not Found: Requested route does not exist"?
-
-In order to send a request to an app, it must be associated with a route.
-Please see [Cloud Foundry Documentation -> Routes](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#routes) for details.
-As this is done automatically by default, the process is mostly transparent for developers.
-
-If you receive an error response `404 Not Found: Requested route ('<route>') does not exist`, this can have two reasons:
-1. The route really does not exist or is not bound to an app.
-  You can check this in SAP BTP cockpit either in the app details view or in the list of routes in the Cloud Foundry space.
-2. The app (or all app instances, in case of horizontal scale-out) failed the readiness check.
-  Please see [Health Checks](../guides/deployment/health-checks.md) and [Using Cloud Foundry health checks](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html) for details on how to set up the check.
-
-    ::: details Troubleshoot using the Cloud Foundry CLI
-    
-    ```sh
-    cf apps # -> list all apps
-    cf app <your app name> # -> get details on your app, incl. state and routes
-    cf app <your app name> --guid # -> get your app's guid
-    cf curl "/v3/processes/<your app guid>/stats"
-      # -> list of processes (one per app instance) with property "routable"
-      #    indicating whether the most recent readiness check was successful
-    ```
-    
-    See [cf curl](https://cli.cloudfoundry.org/en-US/v7/curl.html) and [The process stats object](https://v3-apidocs.cloudfoundry.org/version/3.184.0/index.html#the-process-stats-object) for details on how to use the CLI.
-    
-    :::
-
-
-
 ## CAP on Kyma
 
 ### Pack Command Fails with Error `package.json and package-lock.json aren't in sync`

@@ -444,7 +444,8 @@ Use the following example if the remote API supports basic authentication:
 ```java
 DefaultHttpDestination
   .builder("https://example.org")
-	.basicCredentials("user", "password")
+	.user("user")
+	.password("password")
 	.name("my-destination").build();
 ```
 

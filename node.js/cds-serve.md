@@ -296,9 +296,9 @@ Be aware that overriding requires constant updates as new middlewares by the fra
 
 [Learn more about the middlewares default order.](#cds-middlewares){.learn-more}
 
-#### Customization of `cds.context.user`
+#### Customization of `req.user`
 
-You can register middlewares to customize `cds.context.user`.
+You can register middlewares to customize `req.user`.
 It must be done after authentication.
 If `cds.context.tenant` is manipulated as well, it must also be done before `cds.context.model` is set for the current request.
 

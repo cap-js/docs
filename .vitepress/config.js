@@ -47,8 +47,8 @@ const config = defineConfig({
       message: `
         <a href="https://www.sap.com/about/legal/impressum.html" target="_blank">Legal Disclosure</a> |
         <a href="https://www.sap.com/corporate/en/legal/terms-of-use.html" target="_blank">Terms of Use</a> |
-        <a href="${base}resources/privacy">Privacy</a> |
-        <a href="${base}resources/cookies">Cookies</a>`,
+        <a href="${base}/resources/privacy" target="_blank">Privacy</a> |
+        <a href="${base}/resources/cookies">Cookies</a>`,
       copyright: `Copyright © 2019-${new Date().getFullYear()} SAP SE`
     },
     externalLinkIcon: true,
@@ -101,8 +101,8 @@ config.rewrites = rewrites
 // Add custom capire info to the theme config
 config.themeConfig.capire = {
   versions: {
-    java_services: '3.7.1',
-    java_cds4j: '3.7.0'
+    java_services: '3.6.0',
+    java_cds4j: '3.6.1'
   },
   gotoLinks: [],
   maven_host_base: 'https://repo1.maven.org/maven2'

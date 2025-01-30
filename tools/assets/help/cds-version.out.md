@@ -4,7 +4,7 @@
 
 <em>@cap-js/asyncapi</em>: 1.0.2
 <em>@cap-js/cds-types</em>: 0.8.0
-<em>@cap-js/db-service</em>: 1.16.2
+<em>@cap-js/db-service</em>: 1.16.1
 <em>@cap-js/openapi</em>: 1.1.1
 <em>@cap-js/sqlite</em>: 1.7.8
 <em>@sap/cds</em>: 8.6.0

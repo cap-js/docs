@@ -31,10 +31,6 @@ Once this is added, you can use the restart capabilities of the Spring Boot Devt
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 
-::: warning Restart for changed Java classes
-Spring Boot Devtools only detects changes to .class files. You need to enable the *automatic build* feature in your IDE which detects source file changes and rebuilds the .class file. If not, you have to manually rebuild your project to restart your CAP Java application.
-:::
-
 ### CDS Build
 
 The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java runtime. Thus, they can't trigger a CDS build if there are changes in the CDS source files. For more information, please check the [Local Development Support](#local-development-support) section.
@@ -82,13 +78,5 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 ### Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database.
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. 
 See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
-
-
-## Debugging
-
-You can debug both local and remote Java applications.
-
-- For local applications, it's best to start the application using the integrated debugger of your [preferred IDE](../../tools/cds-editors).
-- Especially for remote applications, we recommend [`cds debug`](../../tools/cds-cli#java-applications) to turn on debugging.

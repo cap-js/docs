@@ -68,7 +68,7 @@ type Genre : String enum {
 
 CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Aspects](#aspects) below.
 
-### Fuelling Generic Providers
+### Fueling Generic Providers
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
@@ -523,7 +523,7 @@ entity Projects { ...
   members : Composition of many { key user : Association to Users };
 }
 entity Users { ...
-  projects : Composition of many Projects.members on projects.user = $self;
+  projects : Composition of many Projects.members on projects.member = $self;
 }
 ```
 

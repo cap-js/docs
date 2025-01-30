@@ -996,6 +996,59 @@ In case of conflicts, follow these steps to provide different models for differe
     }
    }}}
    ```
+<div markdown="1" class="impl java">
+
+:::info The following steps are only needed when you use two different local databases.
+
+3. For CAP Java setups you might need to reflect the different profiles in your CDS Maven plugin configuration. This might not be needed for all setups, like using a standard local database (sqlite, H2, or PostgreSQL) and a production SAP HANA setup. In that case the local build defaults to the `development` profile. But for other setups, like using a local PostgreSQL and a local SQLite you'll need two (profiled) `cds deploy` commands:
+
+   ```xml
+    <execution>
+      <id>cds.build</id>
+      <goals>
+        <goal>cds</goal>
+      </goals>
+      <configuration>
+        <commands>
+          <command>build --for java</command>
+          <command>deploy --profile development --dry --out "${project.basedir}/src/main/resources/schema-h2.sql"</command>
+          <command>deploy --profile production --dry --out "${project.basedir}/src/main/resources/schema-postresql.sql"</command>
+        </commands>
+      </configuration>
+    </execution>
+   ```
+
+4. For the Spring Boot side it's similar. If you have a local development database and a hybrid profile with a remote SAP HANA database, you only need to run in default (or any other) profile. For the SAP HANA part, the build and deploy part is done separately and the application just needs to be started using `cds bind`.
+Once you have 2 non-HANA local databases you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
+
+    ```yaml
+    spring:
+      config:
+        activate:
+          on-profile: default,h2
+      sql:
+        init:
+          schema-locations: classpath:schema-h2.sql
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: postgresql
+      sql:
+        init:
+          schema-locations: classpath:schema-postgresql.sql
+      datasource:
+        url: "jdbc:postgresql://localhost:5432/my_schema"
+        driver-class-name: org.postgresql.Driver
+        hikari:
+          maximum-pool-size: 1
+          max-lifetime: 0
+    ```
+  In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
+
+::: 
+
+</div>
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
 There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.

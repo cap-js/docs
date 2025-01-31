@@ -298,7 +298,7 @@ public class ChangeTrackingHandler implements EventHandler {
 
   @After(event = ChangeTrackingService.CREATE_CHANGES)
   void afterCreate(CreateChangesEventContext context) {
-    context.getChanges().forEach(c -> {}
+    context.getChanges().forEach(c -> {
       // Do something with the change log entry
     });
   }

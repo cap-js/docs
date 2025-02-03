@@ -724,7 +724,6 @@ This applies both to _exclusive_ and _shared_ locks.
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 
-[]
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::

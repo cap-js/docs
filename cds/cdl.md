@@ -54,14 +54,6 @@ entity Authors : entity {
 }
 ```
 
-::: details Noteworthy...
-
-In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
-
-As indicated by the syntax coloring, `Association`, even though a keyword, can be seen as a type name, similar to `String`.
-This highlights the fact that element `author` is an association, which is characterized by a type `cds.Association` in CSN.
-:::
-
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.

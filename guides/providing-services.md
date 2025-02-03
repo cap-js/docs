@@ -302,8 +302,8 @@ DELETE .../Orders/1  -- would also delete all headers and items
 
 Note that deep `WRITE` operations are only supported out of the box if the following conditions are met:
 
-1. The on-condition of the composition only uses `=` operator
-2. Expressions are combined with the logical operator `AND`
+1. The on-condition of the composition only uses comparison predicates with an `=` operator
+2. The predicates are connected with the logical operator `AND`
 3. The operands are references or `$self`
 
 Good:

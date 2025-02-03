@@ -537,6 +537,9 @@ in queries. Some restrictions apply:
 * Nested projections (inline/expand) are not allowed.
 * A calculated element can't be key.
 
+Like for views, the expressions are sent unchanged to the database, so
+you need to ensure that they work on your respective database system(s).
+
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
 * in the ON condition of an unmanaged association
@@ -1276,8 +1279,8 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
 ```
 
 ::: tip
-In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked or resolved
-by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
+In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked, resolved,
+or rewritten by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
 For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 

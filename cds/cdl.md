@@ -8,9 +8,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 
 
-
-
-
 # Conceptual Definition Language (CDL)
 
 
@@ -61,10 +58,7 @@ entity Authors : entity {
 
 In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
 
-As indicated by the syntax coloring, `Association` is not a keyword, but a type name identifier, similar to `String`, `Integer`, `Books` and `Authors`.
-
 :::
-
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
@@ -76,7 +70,7 @@ type ![Delimited Identifier] : String;
 ```
 
 ::: warning Avoid using delimited identifiers
-Delimited identifiers in general, but in articular non-ansi characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
+Delimited identifiers in general, but in particular non-ASCII characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
 :::
 
 
@@ -98,6 +92,7 @@ The following literals can be used in CDL (mostly as in JavaScript, Java, and SQ
 true , false , null        // as in all common languages
 11 , 2.4 , 1e3, 1.23e-11   // for numbers
 'A string''s literal'      // for strings
+`A string\n paragraph`     // for strings with escape sequences
 { foo:'boo', bar:'car' }   // for records
 [ 1, 'two', {three:4} ]    // for arrays
 ```
@@ -479,7 +474,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default, virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -732,7 +727,7 @@ Use the `as projection on` variant instead of `as select from` to indicate that 
 entity Foo as projection on Bar {...}
 ```
 
-Currently the restrictions of `as projection on` compared to `as select from` are:
+Currently, the restrictions of `as projection on` compared to `as select from` are:
 
 - no explicit, manual `JOINs`
 - no explicit, manual `UNIONs`
@@ -959,7 +954,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
 - Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
-- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+- No extensive support for modifications over paths if compositions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
 ### Managed Compositions of Aspects {#managed-compositions}
@@ -1451,7 +1446,7 @@ and a value written as expression `@aValueExpr: ( 11 )`, respectively.
 #### Propagation
 
 [Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
-If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
+If the annotation value is an expression, it is sometimes necessary to adapt references inside the expression
 during propagation, for example, when a referenced element is renamed in a projection.
 The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
 is rewritten, the `=` property is set to `true`.

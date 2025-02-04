@@ -489,7 +489,11 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 | _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
-#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {#connection-failed-89008}
+
+#### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {.method}
+
+#### Hybrid testing connectivity issue — _ResourceRequest timed out_ {.method}
+
 
 |  | Explanation |
 | --- | ---- |

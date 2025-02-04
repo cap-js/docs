@@ -54,6 +54,11 @@ entity Authors : entity {
 }
 ```
 
+::: details Noteworthy...
+
+In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
+
+:::
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.

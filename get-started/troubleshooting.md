@@ -492,8 +492,7 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 
 #### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_
 
-#### Hybrid testing connectivity issue — _ResourceRequest timed out_
-
+#### Hybrid testing connectivity issue — _ResourceRequest timed out_ {style="margin-top: 0;"}
 
 |  | Explanation |
 | --- | ---- |

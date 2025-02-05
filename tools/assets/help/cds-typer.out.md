@@ -18,7 +18,7 @@ OPTIONS
 
   --inlineDeclarations
   --inline_declarations: &lt;flat | structured&gt;
-    (default: structured)
+    (default: flat)
 
     Whether to resolve inline type declarations
     flat: (x_a, x_b, ...)

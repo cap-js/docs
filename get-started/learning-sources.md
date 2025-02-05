@@ -171,6 +171,7 @@ Based on this sample application, you find the bill of materials and a sizing ex
 ## Tutorials
 
 - [TechEd 2023 Hands-On Session AD264 – Build Extensions with CAP](https://github.com/SAP-samples/teched2023-AD264/)
+- [TechEd 2022 Hands-On Session AD264 – Verticalization, Customization, Composition](https://github.com/SAP-archive/teched2022-AD264)
 - [Build a Business Application Using CAP for Node.js](https://developers.sap.com/mission.cp-starter-extensions-cap.html)
 - [Build a Business Application Using CAP for Java](https://developers.sap.com/mission.cap-java-app.html)
 - [CAP Service Integration CodeJam](https://github.com/sap-samples/cap-service-integration-codejam) by DJ Adams

@@ -22,10 +22,10 @@
       <em>java</em>                         - creates a Java-based project
       <em>nodejs</em>                       - creates a Node.js-based project
       <em>esm</em>                          - ESM-compatible Node.js project
-      <em>tiny-sample</em>                  - add minimal sample files
-      <em>sample</em>                       - add sample files including Fiori UI
       <em>typer</em>                        - type generation for CDS models
       <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
+      <em>tiny-sample</em>                  - add minimal sample files
+      <em>sample</em>                       - add sample files including Fiori UI
       <em>handler</em>                      - handler stubs for service entities, actions and functions
       <em>mta</em>                          - Cloud Foundry deployment using mta.yaml
       <em>cf-manifest</em>                  - Cloud Foundry deployment using manifest files

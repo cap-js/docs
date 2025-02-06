@@ -84,6 +84,15 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
+## Prerequisites { .node }
+
+First install the required packages:
+
+<!-- TODO: No fixed major version numbers? -->
+```sh
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+```
+
 ## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
@@ -382,14 +391,7 @@ To prevent accidental loss of modifications, the `cds import --as cds` command r
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
 
-First install the required packages:
-
-<!-- TODO: No fixed major version numbers? -->
-```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
-```
-
-Then start the CAP application with the mocked remote service only:
+Start the CAP application with the mocked remote service only:
 
 ```sh
 cds mock API_BUSINESS_PARTNER

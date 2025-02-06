@@ -53,19 +53,23 @@
           h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
           h('label', { for: `${b.group}-${b.id}` }, b.label)
       ])),
-      h('div', { class: 'blocks' }, groups.flatMap((b, idx) => [
-        h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
-          h('button', { title: 'Copy Code', class: 'copy' }),
-          h('span', { class: 'lang' }, b.lang),
-          h('pre', { class: 'shiki' },
-            h('code',
-              h('span', { class: 'line' },
-                h('span', b.code)
+      h('div', { class: 'blocks' }, groups
+        .filter((b) => filesOnly ? !b.transient : true)
+        .filter((b) => showPrivate ? true : !b.private)
+        .flatMap((b, idx) => [
+          h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
+            h('button', { title: 'Copy Code', class: 'copy' }),
+            h('span', { class: 'lang' }, b.lang),
+            h('pre', { class: 'shiki' },
+              h('code',
+                h('span', { class: 'line' },
+                  h('span', b.code)
+                )
               )
             )
-          )
-        ])
-      ]))
+          ])
+        ]
+      ))
     ], {
       props: {
         groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string, transient?:boolean, private?:boolean }>, required: true }

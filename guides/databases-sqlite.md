@@ -238,7 +238,7 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 spring:
   config.activate.on-profile: sqlite
   datasource:
-    url: "jdbc:sqlite:sqlite.db"
+    url: "jdbc:sqlite:db.sqlite"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1

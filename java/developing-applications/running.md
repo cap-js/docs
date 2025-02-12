@@ -47,7 +47,7 @@ CDS builds in particular change numerous resources in your project. To have a sm
 ## Local Development Support { #local-development-support}
 
 ### Configure plugin group
-For more convience and shorter Maven command lines you can use the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) for the `cds-maven-plugin`. This Maven feature allows you to use only the `cds` prefix of the `cds-maven-plugin`. For example, instead of `mvn com.sap.cds:cds-maven-plugin:watch` you can use the shorter variant `mvn cds:watch` to run `watch` goal of the `cds-maven-plugin`.
+For more comfort and shorter Maven command lines you can use the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) for the `cds-maven-plugin`. This Maven feature allows you to use only the `cds` prefix of the `cds-maven-plugin`. For example, instead of `mvn com.sap.cds:cds-maven-plugin:watch` you can use the shorter variant `mvn cds:watch` to run `watch` goal of the `cds-maven-plugin`.
 To enable this feature for the `cds-maven-plugin`, you have to add the plugin group `com.sap.cds` to your local `~/.m2/settings.xml`:
 ```xml
 <pluginGroups>

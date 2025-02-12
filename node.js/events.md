@@ -88,6 +88,7 @@ this.on ('*', req => {
 ```
 
 Keep in mind that multiple requests (that is, instances of `cds.Request`) may share the same incoming HTTP request and outgoing HTTP response (for example, in case of an OData batch request).
+See sections [`req`](#req) and [`res`](#res) of `cds.Request` to learn more about accessing the request and response objects of individual requests within an incoming batch request.
 
 
 
@@ -248,6 +249,26 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 [routing]: https://expressjs.com/en/guide/routing.html
 [middleware]: https://expressjs.com/en/guide/using-middleware.html
 
+
+
+
+### . req {.property}
+
+Provides access to the express request object of individual requests within an incoming batch request.
+
+::: warning Note:
+If the [new OData adapter](../releases/archive/2024/jun24#new-protocol-adapters-ga) isn't used, both `.req` and [`.http.req`](#http) refer to the same request object of the incoming batch request.
+:::
+
+
+
+### . res {.property}
+
+Provides access to the express response object of individual requests within an incoming batch request.
+
+::: warning Note:
+If the [new OData adapter](../releases/archive/2024/jun24#new-protocol-adapters-ga) isn't used, both `.res` and [`.http.res`](#http) refer to the same response object of the incoming batch request.
+:::
 
 
 

@@ -414,4 +414,4 @@ cds.on('listening', ...)
 > [!warning]
 > As we're using Node's standard [EventEmitter](https://nodejs.org/api/events.html#asynchronous-vs-synchronous),
 > event handlers execute **synchronously** in the order they are registered, with `served` and `shutdown`
-> events as the only exeptions.
+> events as the only exceptions.

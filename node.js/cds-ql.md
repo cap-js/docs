@@ -499,7 +499,7 @@ Projection functions use these mechanisms:
 
 **Note:** Not every CQL or SQL construct can be expressed with projection functions. This is where tagged template strings kick in
 
-
+The result set returned by `SELECT.columns` is an array of objects reflecting the requested columns. Columns specified with a path expression (and without an alias) result in a field which is prefixed according to the path. For example, `author.name` results in a field named `author_name`.
 
 ### from() {.method #select-from}
 
@@ -785,7 +785,7 @@ INSERT.into(Books).entries(await SELECT.from(Products))
 
 :::
 
-
+>  With `.entries`, [managed](../cds/common#aspect-managed) fields are automatically filled if these fields are not provided.
 
 ### values() {.method alt="The following documentation on rows also applies to values. "}
 
@@ -815,6 +815,9 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
+
+>  When using `.columns` with `.values` or `.rows`, [managed](../cds/common#aspect-managed) fields are **not** automatically filled if these fields are not provided. This is different from using `.entries`.
+
 ### from() {.method #from}
 
 
@@ -822,6 +825,9 @@ Constructs a _INSERT into SELECT_ statement.
 ```js
 INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
+
+>  [Managed](../cds/common#aspect-managed) fields are **not** automatically updated or filled if these fields are not provided.
+
 ### as() {.method}
 
 The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.

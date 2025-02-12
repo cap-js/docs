@@ -360,7 +360,7 @@ You can get the ORD document in multiple ways, see the readme of the plugin.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
+[![Link to the repository for cap-js ORD](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/ord)
 
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}

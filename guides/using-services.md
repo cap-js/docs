@@ -84,7 +84,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## Prerequisites { .node }
+## Install Dependencies { .node }
 
 First install the required packages:
 
@@ -243,6 +243,7 @@ To work with remote services, add the following dependency to your Maven project
 
 </div>
 
+
 ## Local Mocking
 
 When developing your application, you can mock the remote service.
@@ -387,6 +388,16 @@ mv API_BUSINESS_PARTNER-new.cds API_BUSINESS_PARTNER-orig.cds
 
 To prevent accidental loss of modifications, the `cds import --as cds` command refuses to overwrite modified files based on a "checksum" that is included in the file.
 
+### Install Dependencies { .node }
+
+In the next section, you're going to mock a remote service as OData service. For this you need to install the required packages first:
+
+<!-- TODO: No fixed major version numbers? -->
+```sh
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+```
+
+
 ### Mock Remote Service as OData Service (Node.js) {.node}
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
@@ -477,6 +488,17 @@ Connect to the service before sending a request, as usual in CAP:
 ```js
 const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
 ```
+
+[Have you already installed the dependencies?](#install-dependencies-1){.learn-more}
+
+::: details Install dependencies (if not done already)
+
+<!-- TODO: No fixed major version numbers? -->
+```sh
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+```
+
+:::
 
 Then execute your queries using the [Querying API](../node.js/core-services#srv-run-query):
 

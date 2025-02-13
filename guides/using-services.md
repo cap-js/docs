@@ -96,8 +96,6 @@ The [SAP Business Accelerator Hub](https://api.sap.com/) provides many relevant 
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
-
 ### For a Remote CAP Service { #from-cap-service}
 
 We recommend using EDMX as exchange format. Export a service API to EDMX:

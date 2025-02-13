@@ -676,7 +676,7 @@ If a queried record is already exclusively locked by another transaction, the `.
 
 ### hints() {.method}
 
-Passes hints to the database query optimizer that can influence the execution plan. The hints are passed as individual arguments or as an array.
+Passes hints to the database query optimizer that can influence the execution plan. The hints can be passed as individual arguments or as an array.
 
 
 ```js

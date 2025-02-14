@@ -84,6 +84,10 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
+:::info New scenario: Incident Management
+If you want to learn about this topic based on the [Incident Management](https://github.com/cap-js/incidents-app) sample, you can follow the [BTP Developer's Guide repository](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service).
+:::
+
 ## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
@@ -257,7 +261,6 @@ For Java, make sure to add the `--with-mocks` option to the `cds deploy` command
 
 [Find this source in the end-to-end tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){.learn-more}
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){.learn-more}
 
 ### Run Local with Mocks
 

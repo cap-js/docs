@@ -279,19 +279,28 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 You can write an event handler to observe the change log entries. Keep in mind, that the change log entries
 are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
 
-```java
-import cds.gen.sap.changelog.Changes;
+First, update the dependency's scope to `compile` in the `srv/pom.xml` file of your service:
 
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+    <artifactId>cds-feature-change-tracking</artifactId>
+    <scope>compile</scope>
+</dependency>
+```
+
+Second, add a handler to access the changes:
+
+```java
 @Component
-@ServiceName("ChangeTrackingService$Default")
+@ServiceName(ChangeTrackingService.DEFAULT_NAME)
 public class ChangeTrackingHandler implements EventHandler {
 
-  @After(event = "createChanges")
-  void afterCreate(EventContext context) {
-    Result result = (Result) context.get("result");
-    result.listOf(Changes.class).forEach(c -> {
+  @After(event = ChangeTrackingService.CREATE_CHANGES)
+  void afterCreate(CreateChangesEventContext context) {
+    context.getChanges().forEach(c -> {
       // Do something with the change log entry
-	});
+    });
   }
 }
 ```

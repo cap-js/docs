@@ -813,7 +813,6 @@ INSERT.into (Books) .columns (
    [ 252, 'Eleonora', 150, 234 ]
 )
 ```
-
 ### from() {.method #from}
 
 

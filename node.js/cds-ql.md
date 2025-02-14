@@ -500,6 +500,7 @@ Projection functions use these mechanisms:
 **Note:** Not every CQL or SQL construct can be expressed with projection functions. This is where tagged template strings kick in
 
 
+
 ### from() {.method #select-from}
 
 ```tsx
@@ -783,6 +784,7 @@ INSERT.into(Books).entries(await SELECT.from(Products))
 
 
 :::
+
 
 
 ### values() {.method alt="The following documentation on rows also applies to values. "}

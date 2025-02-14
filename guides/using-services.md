@@ -54,6 +54,7 @@ For outbound remote service consumption, the following features are supported:
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
+| [Incident Management (Node.js)](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service)    | Using a mock server or S/4 on Cloud Foundry or Kyma
 
 ### Define Scenario
 
@@ -297,6 +298,8 @@ The service is automatically mocked, as you can see in the log output on server 
 [cds] - server listening on { url: 'http://localhost:4004' }
 [ terminate with ^C ]
 ```
+
+[If you want to run with a mock server in the cloud, try the BTP Developer's Guide.](https://github.com/SAP-samples/btp-developer-guide-cap/blob/main/documentation/remote-service/remote-service-mock-cf.md){.learn-more}
 
 </div>
 

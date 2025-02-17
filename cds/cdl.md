@@ -262,7 +262,7 @@ A model ultimately is a collection of definitions with unique, fully qualified n
   "sap.common.Currencies": { "kind": "entity" },
   "sap.common.scoped.countries": { "kind": "context" },
   "sap.common.scoped.countries.Regions": { "kind": "entity",
-    "includes": [ "foo.bar.Districts" ]
+    "includes": [ "sap.common.Districts" ]
   },
   "sap.common.scoped.countries.nested": { "kind": "context" },
   "sap.common.scoped.countries.nested.Cities": { "kind": "entity" }

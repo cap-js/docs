@@ -61,7 +61,7 @@ In the example above `entity` shows up as a keyword, as well as an identifier of
 :::
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
-Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
+Identifiers are *case-significant*, that is, `Books` and `books` would identify different things.
 
 Identifiers have to comply to `/[$A-Za-z_]\w*/` or be enclosed in `![`...`]` like that:
 
@@ -89,12 +89,12 @@ The following literals can be used in CDL (mostly as in JavaScript, Java, and SQ
 
 <!-- cds-mode: ignore; values only, no valid CDS file -->
 ```cds
-true , false , null        // as in all common languages
-11 , 2.4 , 1e3, 1.23e-11   // for numbers
-'A string''s literal'      // for strings
-`A string\n paragraph`     // for strings with escape sequences
-{ foo:'boo', bar:'car' }   // for records
-[ 1, 'two', {three:4} ]    // for arrays
+true , false , null             // as in all common languages
+11 , 2.4 , 1e3, 1.23e-11        // for numbers
+'A string''s literal'           // for strings
+`A string\n paragraph`          // for strings with escape sequences
+{ title:'foo', author:'bar' }   // for records
+[ 1, 'two', {three:4} ]         // for arrays
 ```
 
 [Learn more about literals and their representation in CSN.](./csn#literals) {.learn-more}
@@ -153,13 +153,13 @@ Using directives allows to import definitions from other CDS models. As shown in
 ::: code-group
 
 ```cds [using-from.cds]
-using foo.bar.scoped.Bar from './contexts';
-using foo.bar.scoped.nested from './contexts';
-using foo.bar.scoped.nested as specified from './contexts';
+using { sap.capire.bookshop.Books } from '@capire/bookshop',
+using { ReviewsService } from '@capire/reviews';
+using { ReviewsService as react} from '@capire/reviews';
 
-entity Car : Bar {}            //> : foo.bar.scoped.Bar
-entity Moo : nested.Zoo {}     //> : foo.bar.scoped.nested.Zoo
-entity Zoo : specified.Zoo {}  //> : foo.bar.scoped.nested.Zoo
+entity Collects : Books {}                  //> : sap.capire.bookshop.Books
+entity Likes : ReviewsService.Rating {}     //> : ReviewsService.Rating
+entity Likes : react.Rating {}              //> : ReviewsService.Rating
 ```
 
 :::
@@ -210,9 +210,9 @@ To prefix the names of all subsequent definitions, place a `namespace` directive
 ::: code-group
 
 ```cds[namespace.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Bar : Foo {}     //> foo.bar.Bar
+namespace sap.capire.bookshop;
+entity Books {}               //> sap.capire.bookshop.Books
+entity Authors : Books {}     //> sap.capire.bookshop.Authors
 ```
 
 :::
@@ -226,12 +226,12 @@ Use `contexts` for nested namespace sections.
 ::: code-group
 
 ```cds[contexts.cds]
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-context scoped {
-  entity Bar : Foo {}   //> foo.bar.scoped.Bar
+namespace sap.common;
+entity Currencies {}                        //> sap.common.Currencies
+context scoped.countries {
+  entity Regions : Districts {}   //> sap.common.scoped.countries.Regions
   context nested {
-    entity Zoo {}       //> foo.bar.scoped.nested.Zoo
+    entity Cities {}                     //> sap.common.scoped.countries.nested.Districts
   }
 }
 ```
@@ -244,10 +244,10 @@ context scoped {
 You can define types and entities with other definitions' names as prefixes:
 
 ```cds
-namespace foo.bar;
-entity Foo {}           //> foo.bar.Foo
-entity Foo.Bar {}       //> foo.bar.Foo.Bar
-type Foo.Bar.Car {}     //> foo.bar.Foo.Bar.Car
+namespace sap.common;
+entity Countries {}                      //> sap.common.Countries
+entity Countries.Regions {}              //> sap.common.Countries.Regions
+entity Countries.Regions.Districts {}    //> sap.common.Countries.Regions.Districts
 ```
 
 
@@ -259,13 +259,13 @@ A model ultimately is a collection of definitions with unique, fully qualified n
 
 ```json [contexts.json]
 {"definitions":{
-  "foo.bar.Foo": { "kind": "entity" },
-  "foo.bar.scoped": { "kind": "context" },
-  "foo.bar.scoped.Bar": { "kind": "entity",
-    "includes": [ "foo.bar.Foo" ]
+  "sap.common.Currencies": { "kind": "entity" },
+  "sap.common.scoped.countries": { "kind": "context" },
+  "sap.common.scoped.countries.Regions": { "kind": "entity",
+    "includes": [ "foo.bar.Districts" ]
   },
-  "foo.bar.scoped.nested": { "kind": "context" },
-  "foo.bar.scoped.nested.Zoo": { "kind": "entity" }
+  "sap.common.scoped.countries.nested": { "kind": "context" },
+  "sap.common.scoped.countries.nested.Cities": { "kind": "entity" }
 }}
 ```
 

@@ -20,7 +20,7 @@ impl-variants: true
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ### Migrating to New Database Services?  {.node}
 
@@ -164,7 +164,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 
 You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors*, and *Genres* as follows:
 
@@ -181,7 +181,7 @@ bookshop/
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors*, and *Genres* as follows:
 
@@ -270,7 +270,7 @@ CSV and _hdbtabledata_ files found in the _src_ folder of your database module a
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -279,7 +279,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
@@ -313,7 +313,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 ### DB-Agnostic Queries
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 At runtime, we usually construct and execute queries using cds.ql APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -329,7 +329,7 @@ SELECT.from (Authors, a => {
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -433,14 +433,14 @@ Among other things, this allows us to get rid of static helper views for localiz
 
 If required you can also use native database features by executing native SQL queries:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ```js
 cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/cqn-services/persistence-services#jdbctemplate) as follows:
 
@@ -468,7 +468,7 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readab
 
 ## Generating DDL Files {#generating-sql-ddl}
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
@@ -477,7 +477,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
@@ -1000,7 +1000,7 @@ In case of conflicts, follow these steps to provide different models for differe
     }
    }}}
    ```
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 :::info The following steps are only needed when you use two different local databases.
 

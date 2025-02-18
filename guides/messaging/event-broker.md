@@ -40,7 +40,12 @@ The following guide is based on a productive (paid) account on SAP BTP.
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Cloud Application Event Hub.
 The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Cloud Application Event Hub.
 
+<div class="impl node">
 Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
+<div>
+<div class="impl java">
+Sample app: [Bookshop Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/messaging)
+<div>
 
 
 ### Prerequisite: Events & Messaging in CAP

@@ -42,10 +42,10 @@ The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any 
 
 <div class="impl node">
 Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
-<div>
+</div>
 <div class="impl java">
 Sample app: [Bookshop Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/messaging)
-<div>
+</div>
 
 
 ### Prerequisite: Events & Messaging in CAP

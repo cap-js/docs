@@ -369,41 +369,14 @@ backendDestinations:
 
 #### Connectivity Service
 
-Use `cds add connectivity`, to add a volume to your `srv` deployment.
-::: warning
-Create an instance of the SAP BTP Connectivity service with plan `connectivity_proxy` and a service binding, before deploying the first application that requires it. Using this plan, a proxy to the connectivity service gets installed into your Kyma cluster. This may take a few minutes. The connectivity proxy uses the first created instance in a cluster for authentication. This instance must not be deleted as long as connectivity is used.
-:::
+Add the following modules in your Kyma Cluster to access the Connectivity Service.
 
-The volume you've added to your `srv` deployment is needed, to add additional connection information, compared to what's available from the service binding.
+1. connectivity-proxy
+2. transparent-proxy
+3. istio
 
-```yaml
-srv:
-...
-  additionalVolumes:
-    - name: connectivity-secret
-      volumeMount:
-        mountPath: /bindings/connectivity
-        readOnly: true
-      projected:
-        sources:
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-              items:
-                - key: token_service_url
-                  path: url
-          - configMap:
-              name: "RELEASE-NAME-connectivity-proxy-info"
-              optional: false
-```
-
-In the volumes added, replace the value of `<your-connectivity-binding>` with the binding that you created earlier. If the binding is created in a different namespace then you need to create a secret with details from the binding and use that secret.
-::: tip
-You don't have to edit `RELEASE-NAME` in the `configMap` property. It is passed as a template string and will be replaced with your actual release name by Helm.
-:::
+These modules can be added from the Kyma Dashboard or using the kubectl commands.
+[Add modules](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c)
 
 #### Arbitrary Service
 

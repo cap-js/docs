@@ -78,7 +78,17 @@ Configure your application to use the messaging service kind `event-broker` (der
 
 <div class="impl node">
 
+<div class="impl node">
+
 [Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
+
+</div>
+
+<div class="impl java">
+
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../java/messaging#event-broker){.learn-more}
+
+</div>
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 

@@ -418,21 +418,24 @@ Hence, you first need to install the plugin:
 npm add @cap-js/advanced-event-mesh
 ```
 
-You need [create a user-provided service instance](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-user-provided-service-instances?version=Cloud) with the following credentials:
+You need [create a user-provided service instance](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-user-provided-service-instances?version=Cloud) with name `advanced-event-mesh` and the following credentials:
 
 ```js
 {
-  "vpn": "<name of your VPN>",
-  "clientid": "<client id of your IAS application>",
-  "clientsecret": "<client secret of your IAS application>",
-  "tokenendpoint": "<token endpoint of your IAS application>",
-  "management_uri": "<base path to the SEMP v2 config API>",
-  "uri": "<secured web messaging uri>"
+  "name": "advanced-event-mesh",
+  "credentials": {
+    "vpn": "<name of your VPN>",
+    "clientid": "<client id of your IAS application>",
+    "clientsecret": "<client secret of your IAS application>",
+    "tokenendpoint": "<token endpoint of your IAS application>",
+    "management_uri": "<base path to the SEMP v2 config API>",
+    "uri": "<secured web messaging uri>"
+  }
 }
 ```
 
 ::: warning
-The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API.
+The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API. The appropriate OAuth 2.0 profiles need to be created in SAP Advanced Event Mesh.
 :::
 
 

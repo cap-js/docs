@@ -84,10 +84,7 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
-## Prerequisites { .node }
-
-First install the required packages:
-
+## Install Dependencies { .node }
 <!-- TODO: No fixed major version numbers? -->
 ```sh
 npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x

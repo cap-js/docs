@@ -401,13 +401,24 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 ### SAP Advanced Event Mesh (beta)
 
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+:::
+
 `kind`: `advanced-event-mesh`
 
-Use this if you want to communicate using [SAP Integration Suite, Advanced Event Mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
+Use this if you want to communicate with [SAP Integration Suite, Advanced Event Mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
 It uses the native [Solace PubSub+ JavaScript API](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/readme.html) to send and receive messages and the
-[Solace Element Management Protocol](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management.
+[Solace Element Management Protocol](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management, both using OAuth 2.0.
 
-Here are the configuration options with default values:
+The integration is provided using the plugin [`@cap-js/advanced-event-mesh`](https://github.com/cap-js/advanced-event-mesh).
+Hence, you first need to install the plugin:
+
+```bash
+npm add @cap-js/advanced-event-mesh
+```
+
+Here are the available configuration options with their default values:
 
 ```js
 {

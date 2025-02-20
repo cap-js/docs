@@ -31,7 +31,7 @@ CAP's clear recommendation is to use _Remote Services_ over directly using the S
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
 :::
 
-## Configuring Remote Services
+## Configuring Remote OData Services
 
 To enable _Remote Services_ for OData V2 or V4 APIs in an application, add the following Maven dependency to your project:
 
@@ -250,6 +250,8 @@ cds:
 
 In this case, the destination with name `s4-business-partner-api` would be obtained from the `DestinationAccessor`.
 Given that this destination holds the URL `https://s4.sap.com`, the resulting service URL for OData requests would be `https://s4.sap.com/sap/opu/odata/sap/API_BUSINESS_PARTNER`.
+
+<div id="remote-rfc-services" />
 
 ## Consuming Remote Services
 

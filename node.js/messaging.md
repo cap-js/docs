@@ -409,7 +409,7 @@ This is a beta feature. Beta features aren't part of the officially delivered sc
 
 Use this if you want to communicate with [SAP Integration Suite, Advanced Event Mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
 It uses the native [Solace PubSub+ JavaScript API](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/readme.html) to send and receive messages and the
-[Solace Element Management Protocol](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management, both using OAuth 2.0.
+[Solace Element Management Protocol (SEMP)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management, both using OAuth 2.0.
 
 The integration is provided using the plugin [`@cap-js/advanced-event-mesh`](https://github.com/cap-js/advanced-event-mesh).
 Hence, you first need to install the plugin:
@@ -417,6 +417,24 @@ Hence, you first need to install the plugin:
 ```bash
 npm add @cap-js/advanced-event-mesh
 ```
+
+You need [create a user-provided service instance](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-user-provided-service-instances?version=Cloud) with the following credentials:
+
+```js
+{
+  "vpn": "<name of your VPN>",
+  "clientid": "<client id of your IAS application>",
+  "clientsecret": "<client secret of your IAS application>",
+  "tokenendpoint": "<token endpoint of your IAS application>",
+  "management_uri": "<base path to the SEMP v2 config API>",
+  "uri": "<secured web messaging uri>"
+}
+```
+
+::: warning
+The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API.
+:::
+
 
 Here are the available configuration options with their default values:
 

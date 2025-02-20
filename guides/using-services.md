@@ -54,6 +54,7 @@ For outbound remote service consumption, the following features are supported:
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
+| [Incident Management (Node.js)](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service)    | Using a mock server or S/4 on Cloud Foundry or Kyma
 
 ### Define Scenario
 
@@ -84,6 +85,10 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
+:::info New scenario: Incident Management
+If you want to learn about this topic based on the [Incident Management](https://github.com/cap-js/incidents-app) sample, you can follow the [BTP Developer's Guide repository](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service).
+:::
+
 ## Install Dependencies { .node }
 <!-- TODO: No fixed major version numbers? -->
 ```sh
@@ -101,8 +106,6 @@ These definitions are usually made available by the service provider. As they ar
 The [SAP Business Accelerator Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
-
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
 
 ### For a Remote CAP Service { #from-cap-service}
 
@@ -265,7 +268,6 @@ For Java, make sure to add the `--with-mocks` option to the `cds deploy` command
 
 [Find this source in the end-to-end tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){.learn-more}
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){.learn-more}
 
 ### Run Local with Mocks
 
@@ -302,6 +304,8 @@ The service is automatically mocked, as you can see in the log output on server 
 [cds] - server listening on { url: 'http://localhost:4004' }
 [ terminate with ^C ]
 ```
+
+[If you want to run with a mock server in the cloud, try the BTP Developer's Guide.](https://github.com/SAP-samples/btp-developer-guide-cap/blob/main/documentation/remote-service/remote-service-mock-cf.md){.learn-more}
 
 </div>
 
@@ -982,7 +986,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/types/sap_cloud_sdk_connectivity.DestinationOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap-cloud-sdk_connectivity.DestinationFetchOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {

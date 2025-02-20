@@ -399,6 +399,57 @@ This will not work in the `dev` plan of SAP Event Mesh.
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
 :::
 
+### SAP Advanced Event Mesh (beta)
+
+`kind`: `advanced-event-mesh`
+
+Use this if you want to communicate using [SAP Integration Suite, Advanced Event Mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
+It uses the native [Solace PubSub+ JavaScript API](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/readme.html) to send and receive messages and the
+[Solace Element Management Protocol](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management.
+
+Here are the configuration options with default values:
+
+```js
+{
+  "requires": {
+    "messaging": {
+      "kind": "advanced-event-mesh",
+      "queue": {
+        "queueName": "$appId",
+        "ingressEnabled": true,
+        "egressEnabled": true
+      },
+      "consumer": {
+        "queueDescriptor": {
+          "type": "QUEUE"
+        },
+        "acknowledgeMode": "CLIENT",
+        "requiredSettlementOutcomes": [1, 3]
+      },
+      "session": {
+        "authenticationScheme": "AuthenticationScheme_oauth2",
+        "publisherProperties": {
+          "acknowledgeMode": "PER_MESSAGE"
+        },
+        "connectRetries": -1
+      },
+      "logLevel": 1,
+      "outbox": true,
+      "subscribePrefix": "",
+      "publishPrefix": ""
+  }
+}
+```
+For available settings, please refer to the [Solace API documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/index.html):
+
+| Property | Description |
+|----------|-------------|
+| `queue` | [MsgVpnQueue](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/msgVpn/createMsgVpnQueue) |
+| `consumer` | [solace.MessageConsumerProperties](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.MessageConsumerProperties.html) |
+| `session` | [solace.SessionProperties](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.SessionProperties.html) |
+| `logLevel` | [solace.LogLevel](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.LogLevel.html) |
+
+
 <span id="aftereventmesh" />
 
 ### SAP Cloud Application Event Hub <Beta/> { #event-broker }

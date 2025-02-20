@@ -122,6 +122,13 @@ messages.warn("my.message.key", paramNumber);
 throw new ServiceException(ErrorStatuses.BAD_REQUEST, "my.message.key", paramNumber, originalException);
 ```
 
+### Translations for Validation Error Messages { #ootb-translated-messages }
+
+CAP Java provides out-of-the-box translation for error messages that originate from input validation annotations such as `@assert...` or `@mandatory` and security annotations `@requires` and `@restrict`.
+
+The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
+You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
+
 ### Exporting the Default Messages
 
 As of CAP Java 1.10.0, you can extract the available default messages as a resource bundle file for further processing (for example, translation). Therefore, the delivery artifact [cds-services-utils](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) contains a resource bundle `cds-messages-template.properties` with all available error codes and default messages. Application developers can use this template to customize error messages thrown by the CAP Java SDK in the application.

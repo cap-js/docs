@@ -1,7 +1,7 @@
 import { MarkdownRenderer } from 'vitepress'
 
 /**
- * Propagates `impl java|node` classes that are set on a header
+ * Propagates `java|node` classes that are set on a header
  * down to sub headers. Example:
  * ```md
  * # Header 1 {.node}
@@ -10,12 +10,12 @@ import { MarkdownRenderer } from 'vitepress'
  * ```
  * Will result in HTML like this
  * ```html
- * <h1 class="impl node">
- * <p class="impl node">Text</p>
- * <h2 class="impl node">
+ * <h1 class="node">
+ * <p class="node">Text</p>
+ * <h2 class="node">
  * ```
  */
-export function install(md: MarkdownRenderer, classRegex=/impl (node|java)/) {
+export function install(md: MarkdownRenderer, classRegex=/\b(node|java)\b/) {
 
   // propagates class in sub headers as token.attrs
   md.core.ruler.push('propagate_attrs', (state) => {

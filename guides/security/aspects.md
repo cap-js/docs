@@ -349,14 +349,14 @@ Excessive use of resources requested by a single tenant could cause runtime prob
 
 CAP helps to control resource usage:
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 - Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.
 - By default, tenants have dedicated DB connection pools.
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 - Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.
 - Tenants have dedicated DB connection pools.
@@ -563,13 +563,13 @@ To limit overall usage, by default, the CAP runtime creates connection pools per
 Similarly, the DB driver settings such as SQL query timeout and buffer size have reasonable values.
 
 ::: tip
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/cqn-services/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 In case the default setting doesn't fit, <a href="../../node.js/databases#pool">connection pool properties</a> and driver settings can be customized, respectively.
 <!-- todo add link in fragment -->

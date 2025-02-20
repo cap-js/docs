@@ -20,7 +20,7 @@ impl-variants: true
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ### Adding Database Packages  {.node}
 
@@ -160,7 +160,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 
 You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors*, and *Genres* as follows:
 
@@ -177,7 +177,7 @@ bookshop/
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors*, and *Genres* as follows:
 
@@ -266,7 +266,7 @@ CSV and _hdbtabledata_ files found in the _src_ folder of your database module a
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -275,7 +275,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
@@ -309,7 +309,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 ### DB-Agnostic Queries
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 At runtime, we usually construct and execute queries using cds.ql APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -325,7 +325,7 @@ SELECT.from (Authors, a => {
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -366,7 +366,10 @@ This set of functions are by large the same as specified in OData:
 * `startswith(x,y)` — checks whether `y` starts with `x`
 * `endswith(x,y)` — checks whether `y` ends with `x`
 * `matchespattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n?)` <sup>1</sup> — extracts a substring from `x` starting at `i` (may be negative) with length `n` (optional; may be negative)
+* `substring(x,i,n?)` <sup>1</sup> —
+    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.  
+    * **`i`**: Positive starts at `i`, negative starts `i` before the end.  
+    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.  
 * `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
@@ -379,7 +382,8 @@ This set of functions are by large the same as specified in OData:
   returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `time(x)`, `date(x)` - returns a string representing the `time` / `date` for a given `cds.DateTime` / `cds.Date` / `cds.Time`
 * `fractionalseconds(x)` - returns a a `Decimal` representing the fractions of a second for a given `cds.Timestamp`
-* `maxdatetime(x)`, `mindatetime(x)` — return the maximum or minimum datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `maxdatetime()` - returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`
+* `mindatetime()` — returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`
 * `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
 * `now()` — returns the current datetime
 * `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions
@@ -425,14 +429,14 @@ Among other things, this allows us to get rid of static helper views for localiz
 
 If required you can also use native database features by executing native SQL queries:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ```js
 cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/cqn-services/persistence-services#jdbctemplate) as follows:
 
@@ -460,7 +464,7 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readab
 
 ## Generating DDL Files {#generating-sql-ddl}
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
@@ -469,7 +473,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
@@ -992,6 +996,59 @@ In case of conflicts, follow these steps to provide different models for differe
     }
    }}}
    ```
+<div class="impl java">
+
+:::info The following steps are only needed when you use two different local databases.
+
+3. For CAP Java setups you might need to reflect the different profiles in your CDS Maven plugin configuration. This might not be needed for all setups, like using a standard local database (sqlite, H2, or PostgreSQL) and a production SAP HANA setup. In that case the local build defaults to the `development` profile. But for other setups, like using a local PostgreSQL and a local SQLite you'll need two (profiled) `cds deploy` commands:
+
+   ```xml
+    <execution>
+      <id>cds.build</id>
+      <goals>
+        <goal>cds</goal>
+      </goals>
+      <configuration>
+        <commands>
+          <command>build --for java</command>
+          <command>deploy --profile development --dry --out "${project.basedir}/src/main/resources/schema-h2.sql"</command>
+          <command>deploy --profile production --dry --out "${project.basedir}/src/main/resources/schema-postresql.sql"</command>
+        </commands>
+      </configuration>
+    </execution>
+   ```
+
+4. For the Spring Boot side it's similar. If you have a local development database and a hybrid profile with a remote SAP HANA database, you only need to run in default (or any other) profile. For the SAP HANA part, the build and deploy part is done separately and the application just needs to be started using `cds bind`.
+Once you have 2 non-HANA local databases you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
+
+    ```yaml
+    spring:
+      config:
+        activate:
+          on-profile: default,h2
+      sql:
+        init:
+          schema-locations: classpath:schema-h2.sql
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: postgresql
+      sql:
+        init:
+          schema-locations: classpath:schema-postgresql.sql
+      datasource:
+        url: "jdbc:postgresql://localhost:5432/my_schema"
+        driver-class-name: org.postgresql.Driver
+        hikari:
+          maximum-pool-size: 1
+          max-lifetime: 0
+    ```
+  In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
+
+::: 
+
+</div>
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
 There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.

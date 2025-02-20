@@ -24,7 +24,7 @@ impl-variants: true
 
 ### Migrating to New Database Services?  {.node}
 
-With cds 8, the new database services for SQLite, PostgresSQL and SAP HANA became generally available, and it is highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). While it is written in the context of the new SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+With CDS 8, the new database services for SQLite, PostgreSQL, and SAP HANA are now generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the new SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
 
 ### Adding Database Packages  {.node}
 

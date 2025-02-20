@@ -288,7 +288,7 @@ cds:
 
 #### Configuring SAP Cloud Application Event Hub Support: <Beta/> { #configuring-sap-event-hub-support}
 
-To do asynchronuos communication usign [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker), the feature dependency must be added:
+To do asynchronous communication using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker), the feature dependency must be added:
 
 ```xml [srv/pom.xml]
 <dependency>

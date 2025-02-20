@@ -280,10 +280,72 @@ Besides the built-in support for `local-messaging` and `file-based-messaging`, a
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
   messaging.services:
-  - name: "messaging-name"
+  - name: "messaging-kind"
     kind: "enterprise-messaging"
 ```
 :::
+
+
+#### Configuring SAP Cloud Application Event Hub Support: <Beta/> { #configuring-sap-event-hub-support}
+
+To do asynchronuos communication usign [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker), the feature dependency must be added:
+
+```xml [srv/pom.xml]
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-event-hub</artifactId>
+  <scope>runtime</scope>
+</dependency>
+```
+
+Additionally it can be configured in the `application.yaml` file:
+
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  messaging.services:
+  - name: "eventhub-messaging"
+    kind: "event-hub"
+    binding: "event-broker"
+```
+
+The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
+
+Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
+
+**Deployment:**
+
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL. The binding parameters must set `"authentication-type": "X509_GENERATED"` to allow IAS-based authentication. Your IAS instance must be configured to include your SAP Cloud Application Event Hub instance under consumed-services in order for your application to accept requests from SAP Cloud Application Event Hub. Here's an example configuration
+
+```yaml [mta.yaml]
+  - name: eventhub-messaging
+    requires:
+      - name: ...
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.service
+        webhookUrl: ~{srv-api/srv-cert-url}/messaging/v1.0/eb
+  - name: eventhub-messaging-ias
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: eventhub-messaging
+        display-name: cap.service #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+    requires:
+      - name: eventhub-messaging
+    processed-after:
+      - eventhub-messaging
+```
+
+<span id="aftereventhub" />
 
 <span id="beforeredispubsub" />
 
@@ -680,7 +742,7 @@ private void handleError(MessagingErrorEventContext ctx) {
 }
 ```
 
-In a multi-tenant setup with several microservices, messages of a tenant not yet subscribed to the own microservice would be already received from the message queue. In this case, the message cannot be processed for the tenant because the tenant context is not yet available. By default, the standard error handler still acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant. 
+In a multi-tenant setup with several microservices, messages of a tenant not yet subscribed to the own microservice would be already received from the message queue. In this case, the message cannot be processed for the tenant because the tenant context is not yet available. By default, the standard error handler still acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant.
 
 
 ```java
@@ -692,15 +754,15 @@ private void handleError(MessagingErrorEventContext ctx) {
       errorCode.equals(CdsErrorStatuses.INVALID_DATA_FORMAT.getCodeString())) {
       // error handling for infrastructure error
       ctx.setResult(false); // no acknowledgement
-    
+
     } else if (errorCode.equals(CdsErrorStatuses.TENANT_NOT_EXISTS.getCodeString())) {
       // error handling for unknown tenant context
-      
+
        // tenant of the received message
       String tenant = ctx.getTenant();
 
       // received message
-      Map<String, Object> headers = ctx.getMessageHeaders(); 
+      Map<String, Object> headers = ctx.getMessageHeaders();
       Map<String, Object> message = ctx.getMessageData();
 
       ctx.setResult(true); // acknowledge

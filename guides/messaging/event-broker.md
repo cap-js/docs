@@ -84,7 +84,7 @@ Configure your application to use the messaging service kind `event-broker` (der
 </div>
 <div class="impl java">
 
-[Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#event-broker){.learn-more}
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#configuring-sap-event-hub-support){.learn-more}
 
 </div>
 

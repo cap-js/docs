@@ -240,7 +240,7 @@ In addition to that, slashes in the event name are replaced by dots and the `sou
 Examples:
 
 | publishPrefix            | derived source      |
-|--------------------------|---------------------|
+| ------------------------ | ------------------- |
 | `my/own/namespace/ce/`   | `/my/own/namespace` |
 | `my/own.namespace/-/ce/` | `/my/own.namespace` |
 

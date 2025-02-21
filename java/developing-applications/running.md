@@ -70,7 +70,7 @@ To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `
 ```sh
 mvn cds:watch
 ```
-:::details Other options if you've not configrued the plugin group
+:::details Other options if you've not configured the plugin group
 ```sh
 # from your root directory
 mvn com.sap.cds:cds-maven-plugin:watch

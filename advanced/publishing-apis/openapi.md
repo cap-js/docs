@@ -170,17 +170,26 @@ This is an example of a CDS service annotated with the annotations above:
 annotate MyService with @(
   Authorization: {
     Authorizations: [
-      { $Type : 'Auth.Http', Name : 'Basic', Scheme : 'basic' },
-      { $Type : 'Auth.Http', Name : 'JWT',   Scheme : 'bearer', BearerFormat : 'JWT' },
+      { $Type : 'Authorization.Http', Name : 'Basic', Scheme : 'basic' },
+      { $Type : 'Authorization.Http', Name : 'JWT',   Scheme : 'bearer', BearerFormat : 'JWT' },
+      { $Type : 'Authorization.OAuth2ClientCredentials', Name : 'OAuth2',
+        Scopes     : [{
+          Scope      : 'some_scope',
+          Description: 'Scope description'
+        }],
+        RefreshUrl : 'https://some.host/oauth/token/refresh',
+        TokenUrl   : 'https://some.host/oauth/token'
+      },
     ],
     SecuritySchemes: [
       { Authorization : 'Basic' },
       { Authorization : 'JWT', RequiredScopes : [] },
+      { Authorization : 'OAuth2' },
     ]
   }
 );
 ```
-[See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
+[See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/651013b529168b30c024f8653c249f170ba9d114/tests/app/services.cds#L35-L55){.learn-more}
 
 
 ## [Common](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Common.md)

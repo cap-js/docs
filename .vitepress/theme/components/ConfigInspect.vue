@@ -20,7 +20,7 @@
           { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
           { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
-          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: envStr, transient: true },
+          { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: 'export '+envStr, transient: true },
           { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr, transient: true },
           { id: 'shw', label: 'Cmd Shell',           lang: 'cmd',        group, code: 'set '+envStr, transient: true }
         ]" />
@@ -53,19 +53,23 @@
           h('input', { type: 'radio', name: 'group', id: `${b.group}-${b.id}`, checked: idx === 0 }),
           h('label', { for: `${b.group}-${b.id}` }, b.label)
       ])),
-      h('div', { class: 'blocks' }, groups.flatMap((b, idx) => [
-        h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
-          h('button', { title: 'Copy Code', class: 'copy' }),
-          h('span', { class: 'lang' }, b.lang),
-          h('pre', { class: 'shiki' },
-            h('code',
-              h('span', { class: 'line' },
-                h('span', b.code)
+      h('div', { class: 'blocks' }, groups
+        .filter((b) => filesOnly ? !b.transient : true)
+        .filter((b) => showPrivate ? true : !b.private)
+        .flatMap((b, idx) => [
+          h('div', { class: ['language-'+b.lang, idx === 0 ? 'active': ''] }, [
+            h('button', { title: 'Copy Code', class: 'copy' }),
+            h('span', { class: 'lang' }, b.lang),
+            h('pre', { class: 'shiki' },
+              h('code',
+                h('span', { class: 'line' },
+                  h('span', b.code)
+                )
               )
             )
-          )
-        ])
-      ]))
+          ])
+        ]
+      ))
     ], {
       props: {
         groups: { type: Array<{id:string, group:string, code:string, label:string, lang:string, transient?:boolean, private?:boolean }>, required: true }
@@ -76,6 +80,7 @@
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()
+  //@ts-expect-error
   const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
@@ -113,7 +118,10 @@
     pkgStr.value = JSON.stringify(pkg, null, 2)
     jsStr.value = 'module.exports = ' + pkgStr.value.replace(/"(\w*?)":/g, '$1:')
     propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
-    envStr.value = `${key.replaceAll('_', '__').replaceAll('.', '_').toUpperCase()}=${jsonVal ? JSON.stringify(jsonVal) : value}`
+
+    let envKey = key.replaceAll('_', '__').replaceAll('.', '_')
+    if (/^[a-z_]+$/.test(envKey)) envKey = envKey.toUpperCase() // only uppercase if not camelCase
+    envStr.value = `${envKey}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
     javaAppyml.value = ymlStr.value = yaml.stringify(pkg)
     javaEnvStr.value = `-D${propStr.value}`

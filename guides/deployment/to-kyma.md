@@ -300,7 +300,6 @@ You can use the following services in your configuration:
 | **xsuaa**                              | Enables the creation of a XSUAA service instance. See details for [Node.js](../../node.js/authentication) and [Java](../../java/security) projects. |           |
 | parameters &rarr; xsappname            | Name of XSUAA application. Overwrites the value from the _xs-security.json_ file. (unique per subaccount)                                           |   <X/>    |
 | parameters &rarr; HTML5Runtime_enabled | Set to true for use with Launchpad Service                                                                                                          |           |
-| **connectivity**                       | Enables [on-premise connectivity](#connectivity-service)                                                                                            |           |
 | **event-mesh**                         | Enables SAP Event Mesh; [messaging guide](../messaging/), [how to enable the SAP Event Mesh](../messaging/event-mesh)                               |           |
 | **html5-apps-repo-host**               | HTML5 Application Repository                                                                                                                        |           |
 | **hana**                               | HDI Shared Container                                                                                                                                |           |
@@ -366,17 +365,6 @@ backendDestinations:
 ```
 
 > Our helm chart will remove the `external` key and add the rest of the keys as-is to the environment variable.
-
-#### Connectivity Service
-
-Add the following modules in your Kyma Cluster to access the Connectivity Service.
-
-1. connectivity-proxy
-2. transparent-proxy
-3. istio
-
-These modules can be added from the Kyma Dashboard or using the kubectl commands.
-[Add modules](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c)
 
 #### Arbitrary Service
 
@@ -473,9 +461,40 @@ You can run `cds add helm` again to update your Helm chart. It has the following
 
 ### SAP BTP Services and Features
 
-You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, goto to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
+You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, go to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
 
 You can find information about planned SAP BTP, Kyma Runtime features in the [product road map](https://roadmaps.sap.com/board?PRODUCT=73554900100800003012&PRODUCT=73554900100800003012).
+
+#### Connectivity Service
+
+To access the Connectivity Service, add the following modules in your Kyma Cluster:
+
+- connectivity-proxy
+- transparent-proxy
+- istio
+
+You can do that using the `kubectl` CLI:
+
+```sh 
+kubectl edit kyma default -n kyma-system
+```
+
+Then, add the three modules:
+```yaml [editor]
+spec:
+  modules:
+    - name: connectivity-proxy
+    - name: transparent-proxy
+    - name: istio
+```
+
+Finally, you should see a success message as follows:
+
+```sh
+kyma.operator.kyma-project.io/default edited
+```
+
+[Learn more about adding modules, also from the Kyma Dashboard.](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c){.learn-more}
 
 ### Using Service Instance created on Cloud Foundry
 

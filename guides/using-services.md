@@ -89,6 +89,12 @@ It should be also possible to search for suppliers and show the associated risks
 If you want to learn about this topic based on the [Incident Management](https://github.com/cap-js/incidents-app) sample, you can follow the [BTP Developer's Guide repository](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service).
 :::
 
+## Install Dependencies { .node }
+<!-- TODO: No fixed major version numbers? -->
+```sh
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+```
+
 ## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
@@ -386,14 +392,7 @@ To prevent accidental loss of modifications, the `cds import --as cds` command r
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
 
-First install the required packages:
-
-<!-- TODO: No fixed major version numbers? -->
-```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
-```
-
-Then start the CAP application with the mocked remote service only:
+Start the CAP application with the mocked remote service only:
 
 ```sh
 cds mock API_BUSINESS_PARTNER

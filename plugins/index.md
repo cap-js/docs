@@ -350,7 +350,7 @@ Available for:
 
 ## ORD (Open Resource Discovery)
 
-This plugin enables generation of [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) documents for CAP based applications.
+This plugin enables generation of [Open Resource Discovery (ORD)](https://open-resource-discovery.github.io/specification/) documents for CAP based applications.
 
 When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
 

@@ -207,9 +207,10 @@ GET http://localhost/odata/OrderItemsViewAssoc?$expand=Items&$select=OrderNo,Ite
 First sort on the `OrdersItems` and then join back to the `OrdersHeaders` with the help of an association:
 
 ```cds
-view SortedOrdersAssoc as select
-from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
-order by OrdersItems.title;
+view SortedOrdersAssoc as select {*, Header.OrderNo, Header.buyer, Header.currency } as Flatten 
+from (
+  from OrdersItems {*} order by OrdersItems.title
+);
 ```
 
 #### **Bad**{.bad}

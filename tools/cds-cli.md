@@ -376,7 +376,7 @@ cds add handler --filter Books
 ```
 
 
-## cds env
+## cds env <Badge type="info" text="Node.js only" />
 
 Use `cds env` to inspect currently effective config settings:
 
@@ -465,6 +465,8 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 
 Use `cds watch` to watch for changed files, restarting your server.
 
+[Learn how to use `cds watch` in a CAP Java project.](../java/developing-applications/running#local-development-support){.learn-more}
+
 ::: details See the full help text of `cds watch`
 <!--@include: ./assets/help/cds-watch.out.md-->
 :::
@@ -480,7 +482,7 @@ cds watch --include ../other-app --exclude .idea/
 Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".idea"]</Config> to your project configuration.
 
 
-## cds repl
+## cds repl <Badge type="info" text="Node.js only" />
 
 Use `cds repl` to live-interact with cds' JavaScript APIs in an interactive read-eval-print-loop.
 

@@ -44,7 +44,7 @@ CDS builds in particular change numerous resources in your project. To have a sm
 :::
 
 
-## Local Development Support { #local-development-support}
+## Local Development Support
 
 ### Use `cds` Prefix Everywhere
 

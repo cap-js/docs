@@ -542,11 +542,11 @@ In the third terminal, subscribe to two tenants using one of the following metho
       ```log
       [cds] - POST /-/cds/deployment/subscribe
       [mtx] - (re-)deploying SQLite database for tenant: t1 // [!code focus]
-       > init from db/init.js // [!code focus]
-       > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
+      > init from db/init.js // [!code focus]
+      > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
       /> successfully deployed to ./../../db-t1.sqlite  // [!code focus]
 
       [mtx] - successfully subscribed tenant t1

@@ -602,7 +602,7 @@ In the following example, _Wuthering Heights (only in t1)_ was changed by _alice
 
    How users are assigned to tenants and how tenants are determined at runtime largely depends on your identity providers and authentication strategies. The `mocked` authentication strategy, used by default with `cds watch`, has a few [pre-defined users](../../node.js/authentication#mock-users) configured. You can inspect these by running `cds env requires.auth`:
 
-   ```console
+   ```js
    [bookshop] cds env requires.auth
    {
     kind: 'basic-auth',

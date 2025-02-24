@@ -399,7 +399,7 @@ This will not work in the `dev` plan of SAP Event Mesh.
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
 :::
 
-### SAP Advanced Event Mesh (beta)
+### SAP Integration Suite, advanced event mesh (beta)
 
 ::: warning
 This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
@@ -407,7 +407,7 @@ This is a beta feature. Beta features aren't part of the officially delivered sc
 
 `kind`: `advanced-event-mesh`
 
-Use this if you want to communicate with [SAP Integration Suite, Advanced Event Mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
+Use this if you want to communicate with [SAP Integration Suite, advanced event mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
 It uses the native [Solace PubSub+ JavaScript API](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/readme.html) to send and receive messages and the
 [Solace Element Management Protocol (SEMP)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management, both using OAuth 2.0.
 
@@ -479,7 +479,7 @@ You need [create a user-provided service instance](https://help.sap.com/docs/btp
 ```
 
 ::: warning
-The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API. The appropriate OAuth 2.0 profiles need to be created in SAP Advanced Event Mesh.
+The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API. The appropriate OAuth 2.0 profiles need to be created in SAP Integration Suite, advanced event mesh.
 :::
 
 <span id="aftereventmesh" />

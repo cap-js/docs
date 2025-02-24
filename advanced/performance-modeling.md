@@ -209,7 +209,7 @@ First sort on the `OrdersItems` and then join back to the `OrdersHeaders` with t
 ```cds
 view SortedOrdersAssoc as select {*, Header.OrderNo, Header.buyer, Header.currency } as Flatten 
 from (
-  from OrdersItems {*} order by OrdersItems.title
+  select from OrdersItems {*} order by OrdersItems.title
 );
 ```
 
@@ -240,9 +240,11 @@ Basically, what is true for [Sorting](#sorting) is also valid for filtering.
 #### **Good**{.good}
 
 ```cds
-view FilteredOrdersAssoc as select
-from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
-where OrdersItems.price > 100;
+view FilteredOrdersAssoc as select {*, Header.OrderNo, Header.buyer, Header.currency } as Flatten
+from (
+  select from OrdersItems {*}
+  where OrdersItems.price > 100
+);
 ```
 
 #### **Bad**{.bad}
@@ -261,7 +263,7 @@ view FilteredOrdersJoin as select
 from OrdersHeaders JOIN OrdersItems on OrdersHeaders.ID = OrdersItems.Header.ID
 where price > 100;
 ```
-This query cannot utilize database indexes properly.
+This query has to identify that price can be filtered before the join. Which can cause the full join to be materialized before filtered back down to a smaller subset again.
 
 ## Calculated Fields
 Database operations on calculated fields cannot leverage any DB indexes.  This impacts performance significantly, as calculated fields cause full table scans.

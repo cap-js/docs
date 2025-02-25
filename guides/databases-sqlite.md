@@ -631,6 +631,8 @@ This is a breaking change in regard to the previous implementation.
 ### Miscellaneous {.node}
 
 - Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
+- Managed fields are automatically filled with `INSERT.entries()`, but not when using `INSERT.columns().values()` or `INSERT.columns().rows()`.
+- If the column of a `SELECT` is a path expression without an alias, the field name in the result is the concatenated name using underscores. For example, `SELECT.from(Books).columns('author.name')` results in `author_name`.
 - CQNs with subqueries require table aliases to refer to elements of outer queries.
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throw an error.

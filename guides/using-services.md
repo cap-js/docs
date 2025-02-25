@@ -281,7 +281,7 @@ cds watch
 
 The service is automatically mocked, as you can see in the log output on server start.
 
-```log{17}
+```log
 ...
 
 [cds] - model loaded from 8 file(s):
@@ -298,7 +298,7 @@ The service is automatically mocked, as you can see in the log output on server 
 /> successfully deployed to sqlite in-memory db
 
 [cds] - serving RiskService { at: '/service/risk', impl: './srv/risk-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus]
+[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus] [!code highlight]
 
 [cds] - launched in: 1.104s
 [cds] - server listening on { url: 'http://localhost:4004' }

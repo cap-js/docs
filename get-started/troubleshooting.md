@@ -86,12 +86,12 @@ In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\
 
 By default, Node.js apps started with `cds run` or `cds watch` use port 4004, which might be occupied if other app instances are still running. In this case, `cds watch` now asks you if it should pick a different port.
 
-```log{5}
+```log
 $ cds watch
 ...
 [cds] - serving CatalogService ...
 
-EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)
+EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n) // [!code highlight]
 > y
 restart
 ...
@@ -501,7 +501,7 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 
 <div id="hana-ips" />
 
-#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_ 
+#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_
 {#missingPlugin}
 
 |  | Explanation |
@@ -731,7 +731,7 @@ If you receive an error response `404 Not Found: Requested route ('<route>') doe
   Please see [Health Checks](../guides/deployment/health-checks.md) and [Using Cloud Foundry health checks](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html) for details on how to set up the check.
 
     ::: details Troubleshoot using the Cloud Foundry CLI
-    
+
     ```sh
     cf apps # -> list all apps
     cf app <your app name> # -> get details on your app, incl. state and routes
@@ -740,9 +740,9 @@ If you receive an error response `404 Not Found: Requested route ('<route>') doe
       # -> list of processes (one per app instance) with property "routable"
       #    indicating whether the most recent readiness check was successful
     ```
-    
+
     See [cf curl](https://cli.cloudfoundry.org/en-US/v7/curl.html) and [The process stats object](https://v3-apidocs.cloudfoundry.org/version/3.184.0/index.html#the-process-stats-object) for details on how to use the CLI.
-    
+
     :::
 
 

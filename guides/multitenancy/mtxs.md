@@ -256,7 +256,7 @@ With the above setup in place, we can test-drive the sidecar mode locally. To do
 
    ::: details You see the sidecar starting on port 4005...
 
-   ```log {28}
+   ```log
    cd mtx/sidecar
 
    cds serve all --with-mocks --in-memory?
@@ -284,7 +284,7 @@ With the above setup in place, we can test-drive the sidecar mode locally. To do
    /> successfully deployed to db-t0.sqlite
 
 
-   [cds] - server listening on { url: 'http://localhost:4005' }
+   [cds] - server listening on { url: 'http://localhost:4005' } // [!code highlight]
    [cds] - launched at 5/6/2023, 1:08:33 AM, version: 7.3.0, in: 772.25ms
    [cds] - [ terminate with ^C ]
    ```

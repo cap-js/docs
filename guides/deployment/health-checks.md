@@ -22,10 +22,10 @@ A failure on the former leads to a restart, whereas a failure on the latter temp
 Although supported by the Cloud Foundry core, readiness checks are not yet supported by the Cloud Foundtry CLI as well as the Cloud MTA Build Tool (MBT).
 :::
 
-From `@sap/cds^7.8` onwards, the Node.js runtime provides an out-of-the-box endpoint for liveness and readiness checks at `/health`.
+The Node.js runtime provides an out-of-the-box endpoint for liveness and readiness checks at `/health`.
 Requests that reach this public endpoint are answered with the status code 200 and the body `{ status: 'UP' }`.
 
-Since CAP Java v3.2, the `cds add` facets `mta`, `cf-manifest`, `helm`, and `helm-unified-runtime` add the necessary dependencies and configuration for the publicly available probe endpoints `/actuator/health/liveness` and `/actuator/health/readiness`.
+For CAP Java, the `cds add` facets `mta`, `cf-manifest`, `helm`, and `helm-unified-runtime` add the necessary dependencies and configuration for the publicly available probe endpoints `/actuator/health/liveness` and `/actuator/health/readiness`.
 For more details on adding Spring Boot health checks to your CAP Java app, please see [Spring Boot Health Checks](../../java/operating-applications/observability#spring-health-checks).
 
 <!--

@@ -129,7 +129,7 @@ Depending on the configured [authentication](#prerequisite-authentication) strat
 | CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `zone_uuid`             |
+| `$user.tenant`      | `zid`                            | `app_tid`               |
 | `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
 
 ::: tip
@@ -959,17 +959,17 @@ cds add mta
 modules:
   - name: bookshop-srv
     requires:
-      - bookshop-auth // [!code ++]
+      - bookshop-auth # [!code ++]
 resources:
-  name: bookshop-auth // [!code ++]
-  type: org.cloudfoundry.managed-service // [!code ++]
-  parameters: // [!code ++]
-    service: xsuaa // [!code ++]
-    service-plan: application // [!code ++]
-    path: ./xs-security.json # include cds managed scopes and role templates // [!code ++]
-    config: // [!code ++]
-      xsappname: bookshop-${org}-${space} // [!code ++]
-      tenant-mode: dedicated # 'shared' for multitenant deployments // [!code ++]
+  name: bookshop-auth # [!code ++]
+  type: org.cloudfoundry.managed-service # [!code ++]
+  parameters: # [!code ++]
+    service: xsuaa # [!code ++]
+    service-plan: application # [!code ++]
+    path: ./xs-security.json # include cds managed scopes and role templates  [!code ++]
+    config: # [!code ++]
+      xsappname: bookshop-${org}-${space} # [!code ++]
+      tenant-mode: dedicated # 'shared' for multitenant deployments  [!code ++]
 ```
 :::
 

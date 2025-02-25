@@ -65,7 +65,7 @@ cds add multitenancy --for production
    ```jsonc
    {
       "dependencies": {
-         "@sap/cds-mtxs": "^1.17"
+         "@sap/cds-mtxs": "^2"
       },
    }
    ```
@@ -91,14 +91,14 @@ cds add multitenancy --for production
    {
      "name": "bookshop-mtx",
      "dependencies": {
-       "@sap/cds": "^7",
-       "@sap/cds-hana": "^2",
-       "@sap/cds-mtxs": "^1.17",
-       "@sap/xssec": "^3",
+       "@cap-js/hana": "^2",
+       "@sap/cds": "^8",
+       "@sap/cds-mtxs": "^2",
+       "@sap/xssec": "^4",
        "express": "^4"
      },
      "devDependencies": {
-       "@cap-js/sqlite": ">=1"
+       "@cap-js/sqlite": "^1"
      },
      "scripts": {
        "start": "cds-serve"
@@ -163,8 +163,8 @@ cds add multitenancy --for production
    {
      "name": "bookshop-mtx",
      "dependencies": {
-       "@sap/cds": ">=7",
-       "@sap/cds-hana": "^2",
+       "@cap-js/hana": "^2",
+       "@sap/cds": "^8",
        "@sap/cds-mtxs": "^2",
        "@sap/xssec": "^4",
        "express": "^4"
@@ -542,11 +542,11 @@ In the third terminal, subscribe to two tenants using one of the following metho
       ```log
       [cds] - POST /-/cds/deployment/subscribe
       [mtx] - (re-)deploying SQLite database for tenant: t1 // [!code focus]
-       > init from db/init.js // [!code focus]
-       > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
+      > init from db/init.js // [!code focus]
+      > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
       /> successfully deployed to ./../../db-t1.sqlite  // [!code focus]
 
       [mtx] - successfully subscribed tenant t1
@@ -602,7 +602,7 @@ In the following example, _Wuthering Heights (only in t1)_ was changed by _alice
 
    How users are assigned to tenants and how tenants are determined at runtime largely depends on your identity providers and authentication strategies. The `mocked` authentication strategy, used by default with `cds watch`, has a few [pre-defined users](../../node.js/authentication#mock-users) configured. You can inspect these by running `cds env requires.auth`:
 
-   ```console
+   ```js
    [bookshop] cds env requires.auth
    {
     kind: 'basic-auth',
@@ -878,7 +878,7 @@ You should now see the route mapped to your application.
 
 <div class="impl java">
 
-See [Java Guide](../../java/multitenancy#database-update)
+[Learn best practices for schema updates in the Java Guide](../../java/multitenancy#database-update){.learn-more style="margin-top: 20px"}
 
 </div>
 
@@ -1019,13 +1019,17 @@ The Boolean values above activate the default configuration in `@sap/cds-mtxs`:
 ```json
 "cds": {
   "requires": {
-    "audit-log": {
-      // Uses credentials.uaa.xsappname
-      "subscriptionDependency": { "uaa": "xsappname" }
-    },
     "connectivity": {
       // Uses credentials.xsappname
+      "vcap": { "label": "connectivity" },
       "subscriptionDependency": "xsappname"
+    },
+    "portal": {
+      "vcap": { "label": "portal" },
+      // Uses credentials.uaa.xsappname
+      "subscriptionDependency": {
+        "uaa": "xsappname"
+      }
     },
     ...
   }
@@ -1111,33 +1115,14 @@ cds.on('served', () => {
 ```
 <!-- TODO: Learn more about the available events to plug in to{.learn-more}-->
 
-## Appendix
 
-### Behind the Scenes { #behind-the-scenes}
+## Configuring the Java Service { #binding-it-together .java}
 
-With adding the MTX services, your project configuration is adapted at all relevant places.
-
-Configuration and dependencies are added to your _package.json_ and an _xs-security.json_ containing MTX-specific scopes and roles is created. {.node}
-
-Configuration and dependencies are added to your _.cdsrc.json_ and an _xs-security.json_ containing MTX-specific scopes and roles is created. {.java}
-
-For the MTA deployment service dependencies are added to the _mta.yaml_ file. Each SaaS application will have bindings to at least three SAP BTP service instances.
-
-| Service                                                      | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Service Manager](https://help.sap.com/docs/SERVICEMANAGEMENT/09cc82baadc542a688176dce601398de/4e19b11211fe4ca2a266d3fdd4a72188.html) (`service-manager`) | CAP uses this service for creating a new SAP HANA Deployment Infrastructure (HDI) container for each tenant and for retrieving tenant-specific database connections. |
-| [SaaS Provisioning Service](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html) (`saas-registry`)                  | To make a SaaS application available for subscription to SaaS consumer tenants, the application provider must register the application in the SAP BTP Cloud Foundry environment through the SaaS Provisioning Service. |
-| [User Account and Authentication Service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (`xsuaa`)            | Binding information contains the OAuth client ID and client credentials. The XSUAA service can be used to validate the JSON Web Token (JWT) from requests and to retrieve the tenant context from the JWT.|
-
-> If you're interested, use version control to spot the exact changes. {.node}
-
-#### Configuring the Java Service { #binding-it-together .java}
-
-This how the services have been configured for the `srv` module in the _mta.yaml_ / _values.yaml_ file:
+`cds add multitenancy` added configuration similar to this:
 
 ::: code-group
 
-```yaml [mta.yaml]
+```yaml [mta.yaml (Cloud Foundry)]
 modules:
   - name: bookshop-srv
     type: java
@@ -1161,7 +1146,7 @@ modules:
       - name: bookshop-registry
 ```
 
-```yaml [values.yaml]
+```yaml [values.yaml (Kyma)]
 ...
 srv:
   bindings:
@@ -1172,23 +1157,24 @@ srv:
     SPRING_PROFILES_ACTIVE: cloud
     CDS_MULTITENANCY_APPUI_TENANTSEPARATOR: "-"
     CDS_MULTITENANCY_APPUI_URL: https://{{ .Release.Name }}-srv-{{ .Release.Namespace }}.{{ .Values.global.domain }}
-    CDS_MULTITENANCY_SIDECAR_URL: https://{{ .Release.Name }}-sidecar-{{ .Release.Namespace }}.{{ .Values.global.domain }} #cds.noOverwrite
+    CDS_MULTITENANCY_SIDECAR_URL: https://{{ .Release.Name }}-sidecar-{{ .Release.Namespace }}.{{ .Values.global.domain }}
   ...
 ```
 :::
 
-> These environment variables in `values.yaml` may be overwritten by `cds add` commands. If you want to provide your own value and don't want `cds add` commands to overwrite the value of any particular variable, add `#cds.noOverwrite` comment next to that value (as shown in above example).
+- `CDS_MULTITENANCY_SIDECAR_URL` sets the application property <Config java>cds.multitenancy.sidecar.url</Config>. This URL is required by the CAP Java runtime to connect to the MTX Sidecar application and is derived from the property `mtx-url` of the mtx-sidecar module.
+- `CDS_MULTITENANCY_APPUI_URL` sets the entry point URL that is shown in the SAP BTP Cockpit.
+- `CDS_MULTITENANCY_APPUI_TENANTSEPARATOR` is the separator in generated tenant-specific URL.
 
-- `CDS_MULTITENANCY_SIDECAR_URL` sets the application property <Config java>cds.multitenancy.sidecar.url</Config>. This URL is required by the CAP Java runtime to connect to the MTX Sidecar application and is derived from the property `url` of the mtx-sidecar module.
-- Similarly, `CDS_MULTITENANCY_APPUI_URL` configures the URL that is shown in the SAP BTP Cockpit. Usually it points to the app providing the UI, which is the module `app` in this example.
-
-The tenant application requests are separated by the tenant specific app URLs. The tenant specific URL is made up of:
+The tenant application requests are separated by the tenant-specific app URL:
 
 ```http
 https://<subaccount subdomain><CDS_MULTITENANCY_APPUI_TENANTSEPARATOR><CDS_MULTITENANCY_APPUI_URL>
 ```
 
-You can also define the environment variable `CDS_MULTITENANCY_APPUI_TENANTSEPARATOR` in the extension descriptor. The extension descriptor file could look like this:
+::: tip Use MTA extensions for landscape-specific configuration
+
+You can define the environment variable `CDS_MULTITENANCY_APPUI_TENANTSEPARATOR` in an MTA extension descriptor:
 
 ::: code-group
 
@@ -1205,9 +1191,10 @@ modules:
       TENANT_HOST_PATTERN: ^(.*)-${default-uri}
 ```
 
-:::
+[Learn more about _Defining MTA Extension Descriptors_](https://help.sap.com/docs/btp/sap-business-technology-platform/defining-mta-extension-descriptors?q=The%20MTA%20Deployment%20Extension%20Descriptor){.learn-more style="margin-top: 10px;"}
 
-[Learn more about _Defining MTA Extension Descriptors_](https://help.sap.com/docs/btp/sap-business-technology-platform/defining-mta-extension-descriptors?q=The%20MTA%20Deployment%20Extension%20Descriptor){.learn-more}
+
+:::
 
 #### Option: Provisioning Only { #provisioning-only-mtx-sidecar .java}
 
@@ -1251,6 +1238,10 @@ You can also selectively use these properties to enable only extensibility or fe
 
 :::
 
+<div id="subscriptionmanager" />
+
+## Appendix
+
 ### About SaaS Applications
 
 Software-as-a-Service (SaaS) solutions are deployed once by a SaaS provider, and then used by multiple SaaS customers subscribing to the software.
@@ -1292,7 +1283,23 @@ The main task for the MTX sidecar is to serve `subscribe` and `upgrade` requests
 
 The CAP services runtime requests models from the sidecar only when you apply tenant-specific extensions. For Node.js projects, you have the option to run the MTX services embedded in the main app, instead of in a sidecar.
 
-<div id="subscriptionmanager" />
+<!-- Who cares? Also outdated with IAS -> busywork keeping that in sync -->
+### Behind the Scenes { #behind-the-scenes}
+
+With adding the MTX services, your project configuration is adapted at all relevant places.
+
+Configuration and dependencies are added to your _package.json_ and an _xs-security.json_ containing MTX-specific scopes and roles is created. {.node}
+
+Configuration and dependencies are added to your _.cdsrc.json_ and an _xs-security.json_ containing MTX-specific scopes and roles is created. {.java}
+
+For the MTA deployment service dependencies are added to the _mta.yaml_ file. Each SaaS application will have bindings to at least three SAP BTP service instances.
+
+| Service                                                      | Description                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Service Manager](https://help.sap.com/docs/SERVICEMANAGEMENT/09cc82baadc542a688176dce601398de/4e19b11211fe4ca2a266d3fdd4a72188.html) (`service-manager`) | CAP uses this service for creating a new SAP HANA Deployment Infrastructure (HDI) container for each tenant and for retrieving tenant-specific database connections. |
+| [SaaS Provisioning Service](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/3971151ba22e4faa9b245943feecea54.html) (`saas-registry`)                  | To make a SaaS application available for subscription to SaaS consumer tenants, the application provider must register the application in the SAP BTP Cloud Foundry environment through the SaaS Provisioning Service. |
+| [User Account and Authentication Service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (`xsuaa`)            | Binding information contains the OAuth client ID and client credentials. The XSUAA service can be used to validate the JSON Web Token (JWT) from requests and to retrieve the tenant context from the JWT.|
+
 
 <!--
 

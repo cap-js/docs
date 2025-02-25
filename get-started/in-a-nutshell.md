@@ -79,8 +79,8 @@ After you completed the [*Initial Setup*](./), you jumpstart a project as follow
 
          ___________________________
 
-     No models found in db/,srv/,app/,schema,services. // [!code focus]
-     Waiting for some to arrive... // [!code focus]
+   No models found in db/,srv/,app/,schema,services. // [!code focus]
+   Waiting for some to arrive... // [!code focus]
 
    ```
 
@@ -193,7 +193,7 @@ cds db/schema.cds -2 yml
 cds db/schema.cds -2 sql
 ```
 
-[Learn more about the command line interface by executing `cds help`.](#cli){.learn-more}
+[Learn more about the command line interface by executing `cds help`.](../tools/cds-cli#cds-help){.learn-more}
 
 
 

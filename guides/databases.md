@@ -22,6 +22,10 @@ impl-variants: true
 
 <div class="impl node">
 
+### Migrating to New Database Services?  {.node}
+
+With CDS 8, the new database services for SQLite, PostgreSQL, and SAP HANA are now generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the new SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+
 ### Adding Database Packages  {.node}
 
 Following are cds-plugin packages for CAP Node.js runtime that support respective databases:

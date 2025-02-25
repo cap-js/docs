@@ -469,7 +469,7 @@ cds.test.in(__dirname)
 It's important to ensure [`cds.env`](cds-env), and hence all plugins, are loaded from the test's target folder. To ensure this, any references to or imports of [`cds`](cds-facade) sub modules have to go after all plugins are loaded. For example if you had a test like that:
 
 ```js
-cds.env.fiori.lean_draft = true   //> cds.env loaded from ./ // [!code --]
+cds.env.fiori.lean_draft = true   //> cds.env loaded from ./  [!code --]
 cds.test(__dirname)               //> target folder: __dirname
 ```
 
@@ -501,7 +501,7 @@ Detected cds.env loaded before running cds.test in different folder:
 A similar error would occur if one of the `cds` sub modules would be accessed, which frequently load `cds.env` in their global scope, like `cds.Service` in the following snippet:
 
 ```js
-class MyService extends cds.Service {}  //> cds.env loaded from ./ // [!code --]
+class MyService extends cds.Service {}  //> cds.env loaded from ./  [!code --]
 cds.test(__dirname)                     //> target folder: __dirname
 ```
 

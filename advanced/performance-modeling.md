@@ -263,7 +263,7 @@ view FilteredOrdersJoin as select
 from OrdersHeaders JOIN OrdersItems on OrdersHeaders.ID = OrdersItems.Header.ID
 where price > 100;
 ```
-This query has to identify that price can be filtered before the join. Which can cause the full join to be materialized before filtered back down to a smaller subset again.
+This query needs to identify that prices can be filtered before the join. Filtering beforehand prevents the full join from being materialized and then reduced to a smaller subset.
 
 ## Calculated Fields
 Database operations on calculated fields cannot leverage any DB indexes.  This impacts performance significantly, as calculated fields cause full table scans.

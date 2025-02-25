@@ -714,6 +714,13 @@ Use _exclusive_ locks when reading entity data with the _intention to update_ it
 Use _shared_ locks if you only need to prevent the entity data to be locked exclusively by an update in a concurrent transaction or by a read operation with lock mode _exclusive_. Non-locking read operations or read operations with lock mode _shared_ are not prevented.
 
 The records are locked until the end of the transaction by commit or rollback statement.
+Here's an overview table:
+
+| State | Select Without Lock | Select With Shared Lock |  Select With Exclusive Lock/Update |
+| --- | --- | --- |  --- | 
+| not locked | passes -> not locked | passes -> shared lock | passes -> exclusive lock |
+| shared lock | passes -> not locked | passes -> shared lock | waits -> exclusive lock |
+| exclusive lock | passes -> not locked | waits -> exclusive lock | waits -> exclusive lock |
 
 ::: info
 It is allowed to read **locked** entities with a `Select` query that doesn't define a lock as well.

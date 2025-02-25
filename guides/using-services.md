@@ -54,6 +54,7 @@ For outbound remote service consumption, the following features are supported:
 | [Capire Bookshop (Fiori)](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori)                                                                                           | Example, Node.js, CAP-to-CAP                                                              |
 | [Example Application (Node.js)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui)       | Complete application from the end-to-end Tutorial                                         |
 | [Example Application (Java)](https://github.com/SAP-samples/cloud-cap-risk-management/tree/ext-service-s4hc-suppliers-ui-java)     | Complete application from the end-to-end Tutorial                                         |
+| [Incident Management (Node.js)](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service)    | Using a mock server or S/4 on Cloud Foundry or Kyma
 
 ### Define Scenario
 
@@ -84,6 +85,16 @@ The user picks a supplier from the list. That list is coming [from the remote sy
 
 It should be also possible to search for suppliers and show the associated risks by extending the remote supplier service [with the local risk service](#extend-a-remote-by-a-local-service) and its risks.
 
+:::info New scenario: Incident Management
+If you want to learn about this topic based on the [Incident Management](https://github.com/cap-js/incidents-app) sample, you can follow the [BTP Developer's Guide repository](https://github.com/SAP-samples/btp-developer-guide-cap/tree/main/documentation/remote-service).
+:::
+
+## Install Dependencies { .node }
+<!-- TODO: No fixed major version numbers? -->
+```sh
+npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+```
+
 ## Get and Import an External Service API { #external-service-api }
 
 To communicate to remote services, CAP needs to know their definitions. Having the definitions in your project allows you to mock them during design time.
@@ -95,8 +106,6 @@ These definitions are usually made available by the service provider. As they ar
 The [SAP Business Accelerator Hub](https://api.sap.com/) provides many relevant APIs from SAP. You can download API specifications in different formats. If available, use the EDMX format. The EDMX format describes OData interfaces.
 
 To download the [Business Partner API (A2X) from SAP S/4HANA Cloud](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), go to section **API Resources**, select **API Specification**, and download the **EDMX** file.
-
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#07f89fdd-82b2-4987-aa86-070f1d836156){.learn-more}
 
 ### For a Remote CAP Service { #from-cap-service}
 
@@ -259,7 +268,6 @@ For Java, make sure to add the `--with-mocks` option to the `cds deploy` command
 
 [Find this source in the end-to-end tutorial](https://github.com/SAP-samples/cloud-cap-risk-management/blob/ext-service-s4hc-suppliers-ui-java/srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv){.learn-more}
 
-[Get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#12ff20a2-e988-465f-a508-f527c7fc0c29){.learn-more}
 
 ### Run Local with Mocks
 
@@ -273,7 +281,7 @@ cds watch
 
 The service is automatically mocked, as you can see in the log output on server start.
 
-```log{17}
+```log
 ...
 
 [cds] - model loaded from 8 file(s):
@@ -290,12 +298,14 @@ The service is automatically mocked, as you can see in the log output on server 
 /> successfully deployed to sqlite in-memory db
 
 [cds] - serving RiskService { at: '/service/risk', impl: './srv/risk-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus]
+[cds] - mocking API_BUSINESS_PARTNER { at: '/api-business-partner' }  // [!code focus] [!code highlight]
 
 [cds] - launched in: 1.104s
 [cds] - server listening on { url: 'http://localhost:4004' }
 [ terminate with ^C ]
 ```
+
+[If you want to run with a mock server in the cloud, try the BTP Developer's Guide.](https://github.com/SAP-samples/btp-developer-guide-cap/blob/main/documentation/remote-service/remote-service-mock-cf.md){.learn-more}
 
 </div>
 
@@ -382,14 +392,7 @@ To prevent accidental loss of modifications, the `cds import --as cds` command r
 
 As shown previously you can run one process including a mocked external service. However, this mock doesn't behave like a real external service. The communication happens in-process and doesn't use HTTP or OData. For a more realistic testing, let the mocked service run in a separate process.
 
-First install the required packages:
-
-<!-- TODO: No fixed major version numbers? -->
-```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
-```
-
-Then start the CAP application with the mocked remote service only:
+Start the CAP application with the mocked remote service only:
 
 ```sh
 cds mock API_BUSINESS_PARTNER

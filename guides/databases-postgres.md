@@ -5,7 +5,7 @@ impl-variants: true
 
 # Using PostgreSQL
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features).
 
@@ -13,7 +13,7 @@ This guide focuses on the new PostgreSQL Service provided through *[@cap-js/post
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 CAP Java 3 is tested on [PostgreSQL](https://www.postgresql.org/) 16 and most CAP features are supported on PostgreSQL.
 
@@ -28,13 +28,13 @@ CAP Java 3 is tested on [PostgreSQL](https://www.postgresql.org/) 16 and most CA
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Run this to use [PostgreSQL](https://www.postgresql.org/) for production:
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 To run CAP Java on PostgreSQL, add a Maven dependency to the PostgreSQL feature in `srv/pom.xml`:
 
@@ -54,7 +54,7 @@ In order to use the CDS tooling with PostgreSQL, you also need to install the mo
 npm add @cap-js/postgres
 ```
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 After that, you can use the `cds deploy` command to [deploy](#using-cds-deploy) to a PostgreSQL database or to [create a DDL script](#deployment-using-liquibase) for PostgreSQL.
 
@@ -87,7 +87,7 @@ Output:
 To connect to a PostgreSQL offering from the cloud provider in Production, leverage the [PostgreSQL on SAP BTP, hyperscaler option](https://discovery-center.cloud.sap/serviceCatalog/postgresql-hyperscaler-option). For local development and testing convenience, you can run PostgreSQL in a [docker container](#using-docker).
 
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 To consume a PostgreSQL instance from a CAP Java application running on SAP BTP, consider the following:
 
@@ -144,7 +144,7 @@ You can use Docker to run a PostgreSQL database locally as follows:
    docker-compose -f pg.yml up -d
    ```
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 ::: tip
 With the introduction of [Testcontainers support](https://spring.io/blog/2023/06/23/improved-testcontainers-support-in-spring-boot-3-1) in Spring Boot 3.1, you can create PostgreSQL containers on the fly for local development or testing purposes.
@@ -158,7 +158,7 @@ You need a service binding to connect to the PostgreSQL database.
 
 In the cloud, use given techniques to bind a cloud-based instance of PostgreSQL to your application.
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 For local development provide the credentials using a suitable [`cds env`](../node.js/cds-env) technique, like one of the following.
 

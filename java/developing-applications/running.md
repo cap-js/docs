@@ -44,7 +44,19 @@ CDS builds in particular change numerous resources in your project. To have a sm
 :::
 
 
-## Local Development Support { #local-development-support}
+## Local Development Support
+
+### Use `cds` Prefix Everywhere
+
+To use the `cds` prefix of the `cds-maven-plugin` from everywhere, add the plugin group `com.sap.cds` to your local `~/.m2/settings.xml`:
+
+```xml
+<pluginGroups>
+    <pluginGroup>com.sap.cds</pluginGroup>
+</pluginGroups>
+```
+
+This uses the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) feature. This Maven feature allows you to use only the `cds` prefix of the `cds-maven-plugin` to execute goals of this plugin. For example, instead of `mvn com.sap.cds:cds-maven-plugin:watch` you can use the shorter variant `mvn cds:watch` to run the `watch` goal of the `cds-maven-plugin`.
 
 ### CDS Watch
 In addition to the previously mentioned build tasks, the CDS Maven plugin can also support the local development of your CAP Java application. During development, you often have to perform the same steps to test the changes in the CDS model:
@@ -56,12 +68,17 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, which can be executed from the command line by using Maven:
 
 ```sh
+mvn cds:watch
+```
+:::details Other options if you've not configured the plugin group
+```sh
 # from your root directory
 mvn com.sap.cds:cds-maven-plugin:watch
 # or your srv/ folder
 cd srv
 mvn cds:watch
 ```
+:::
 
 It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
 

@@ -385,8 +385,9 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When using [Media Data](../guides/providing-services#serving-media-data) the Node.js runtime offers a possibility to
-return a custom stream object as response to `READ` requests like `GET /Books/coverImage`.
+When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ` or operation handler in the Node.js runtime, content information can be configured as part of the handlers result object. 
+
+Preferably, the handler implementation should return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and configure content disposition information by assigning relevant property values (`mimetype` / `type`, `filename`) directly to that object. 
 
 Example:
 
@@ -394,18 +395,53 @@ Example:
 srv.on('READ', 'Books', (req, next) => {
   if (coverImageIsRequested) {
     const readable = new Readable()
-    return {
-      value: readable,
-      $mediaContentType: 'image/jpeg',
-      $mediaContentDispositionFilename: 'cover.jpg', // > optional
-      $mediaContentDispositionType: 'inline' // > optional
-    }
+    return Object.assign(readable, {
+      mimetype: 'image/jpeg', // > optional
+      filename: 'cover.jpg', // > optional
+    })
   }
   return next()
 })
 ```
 
+Alternatively, the content information can be conveyed using a result object specifying the information as it would be available if extracted from the proper cds annotations.
 In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+
+Example: 
+
+```js
+srv.on('getCoverImageFunction', 'Books', (req) => {
+  const readable = new Readable()
+  return {
+    value: readable,
+    $mediaContentType: 'image/jpeg',
+    $mediaContentDispositionFilename: 'cover.jpg', // > optional
+    $mediaContentDispositionType: 'inline' // > optional
+  }
+})
+```
+
+Lastly, the Node.js runtime will respect manually set header values.
+
+Example:
+
+
+```js
+srv.on('unboundAction', (req, res) => {
+  const readable = new Readable()
+
+  res.setHeader('content-type', 'image/jpeg')
+  res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
+
+  return readable
+})
+```
+
+If no content information is provided in one of the ways listed above, the Node.js runtime will fall back to using content information found in annotations or as a last resort, try to assume defaults from context.
+
+:::warning Limited feature-set in REST
+For [`protocol: rest`](cds-serve#cds-protocols) stream responses are only available for operations. 
+:::
 
 ## Custom $count { #custom-count }
 

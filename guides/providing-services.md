@@ -719,9 +719,9 @@ Here's an overview table:
 
 | State              | Select Without Lock   | Select With Shared Lock |  Select With Exclusive Lock/Update |
 | --------------- | ----------------------- | -------------------------- |  ------------------------------------- | 
-| not locked      | passes -> not locked | passes -> shared lock    | passes -> exclusive lock                  |
-| shared lock     | passes -> not locked | passes -> shared lock    | waits -> exclusive lock                     |
-| exclusive lock | passes -> not locked | waits -> exclusive lock   | waits -> exclusive lock                     |
+| not locked      | passes | passes  | passes |
+| shared lock     | passes | passes  | waits |
+| exclusive lock | passes | waits  | waits |
 
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}

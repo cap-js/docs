@@ -723,10 +723,6 @@ Here's an overview table:
 | shared lock     | passes -> not locked | passes -> shared lock    | waits -> exclusive lock                     |
 | exclusive lock | passes -> not locked | waits -> exclusive lock   | waits -> exclusive lock                     |
 
-::: info
-It is allowed to read **locked** entities with a `Select` query that doesn't define a lock as well.
-This applies both to _exclusive_ and _shared_ locks.
-:::
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
 

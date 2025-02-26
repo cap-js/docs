@@ -426,7 +426,7 @@ entity Books {
 }
 ```
 
-Starting with CAP 8.8.0, you can declare structured types based on other
+You can declare structured types based on other
 definitions using the `projection on` syntax.
 You can use nested projections or aliases as known from entity projections.
 Only the effective signature of the projection is relevant.

@@ -709,15 +709,25 @@ If the ETag validation detects a conflict, the request typically needs to be ret
 
 _Pessimistic locking_ allows you to lock the selected records so that other transactions are blocked from changing the records in any way.
 
-Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be read or updated in a concurrent transaction.
+Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be locked or updated in a concurrent transaction.
 
-Use _shared_ locks if you only need to prevent the entity data to be updated in a concurrent transaction, but don't want to block concurrent read operations.
+Use _shared_ locks if you only need to prevent the entity data to be locked exclusively by an update in a concurrent transaction or by a read operation with lock mode _exclusive_. Non-locking read operations or read operations with lock mode _shared_ are not prevented.
 
 The records are locked until the end of the transaction by commit or rollback statement.
+
+Here's an overview table:
+
+| State              | Select Without Lock   | Select With Shared Lock |  Select With Exclusive Lock/Update |
+| --------------- | ----------------------- | -------------------------- |  ------------------------------------- | 
+| not locked      | passes | passes  | passes |
+| shared lock     | passes | passes  | waits |
+| exclusive lock | passes | waits  | waits |
+
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
+
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::

@@ -404,7 +404,7 @@ srv.on('READ', 'Books', (req, next) => {
 })
 ```
 
-Alternatively, the content information can be conveyed using a result object specifying the information as it would be available if extracted from the proper cds annotations.
+For compatibility, the content information can be conveyed using a result object specifying the information as it would be available if extracted from the proper cds annotations.
 In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
 
 Example: 

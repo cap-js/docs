@@ -302,30 +302,16 @@ DELETE .../Orders/1  -- would also delete all headers and items
 
 Note that deep `WRITE` operations are only supported out of the box if the following conditions are met:
 
-1. The on-condition of the composition only uses comparison predicates with an `=` operator
-2. The predicates are only connected with the logical operator `AND`
-3. The operands are references or `$self`. CAP Java also supports pseudo variables like `$user.locale`
+1. The on-condition of the composition only uses comparison predicates with an `=` operator.
+2. The predicates are only connected with the logical operator `AND`.
+3. The operands are references or `$self`. CAP Java also supports pseudo variables like `$user.locale`.
 
-Good:
 ```cds
 entity Orders {
   key ID : UUID;
   title  : String;
-  Items  : Composition of many OrderItems on Items.order = $self;
-}
-entity OrderItems {
-  key order : Association to Orders;
-  key pos  : Integer;
-  descr: String;
-}
-```
-
-Bad:
-```cds
-entity Orders {
-  key ID : UUID;
-  title  : String;
-  Items  : Composition of many OrderItems on substring(title, 0, 1) <= 'F' or Items.pos > 12;
+  Items  : Composition of many OrderItems on substring(title, 0, 1) <= 'F' or Items.pos > 12; // [!code --]
+  Items  : Composition of many OrderItems on Items.order = $self; // [!code ++]
 }
 entity OrderItems {
   key order : Association to Orders;

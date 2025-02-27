@@ -8,9 +8,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 
 
-
-
-
 # Conceptual Definition Language (CDL)
 
 
@@ -61,10 +58,7 @@ entity Authors : entity {
 
 In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
 
-As indicated by the syntax coloring, `Association` is not a keyword, but a type name identifier, similar to `String`, `Integer`, `Books` and `Authors`.
-
 :::
-
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
@@ -76,7 +70,7 @@ type ![Delimited Identifier] : String;
 ```
 
 ::: warning Avoid using delimited identifiers
-Delimited identifiers in general, but in articular non-ansi characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
+Delimited identifiers in general, but in particular non-ASCII characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
 :::
 
 
@@ -98,6 +92,7 @@ The following literals can be used in CDL (mostly as in JavaScript, Java, and SQ
 true , false , null        // as in all common languages
 11 , 2.4 , 1e3, 1.23e-11   // for numbers
 'A string''s literal'      // for strings
+`A string\n paragraph`     // for strings with escape sequences
 { foo:'boo', bar:'car' }   // for records
 [ 1, 'two', {three:4} ]    // for arrays
 ```
@@ -431,6 +426,20 @@ entity Books {
 }
 ```
 
+You can declare structured types based on other
+definitions using the `projection on` syntax.
+You can use nested projections or aliases as known from entity projections.
+Only the effective signature of the projection is relevant.
+
+<!-- cds-mode: upcoming -->
+```cds
+type CustomerData : projection on Customer {
+  name.firstName, // select from structures
+  name.lastName,
+  address as customerAddress, // aliases
+}
+```
+
 
 ### Arrayed Types
 
@@ -479,7 +488,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default, virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -546,6 +555,9 @@ in queries. Some restrictions apply:
 * Subqueries are not allowed.
 * Nested projections (inline/expand) are not allowed.
 * A calculated element can't be key.
+
+Like for views, the expressions are sent unchanged to the database, so
+you need to ensure that they work on your respective database system(s).
 
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
@@ -729,7 +741,7 @@ Use the `as projection on` variant instead of `as select from` to indicate that 
 entity Foo as projection on Bar {...}
 ```
 
-Currently the restrictions of `as projection on` compared to `as select from` are:
+Currently, the restrictions of `as projection on` compared to `as select from` are:
 
 - no explicit, manual `JOINs`
 - no explicit, manual `UNIONs`
@@ -956,7 +968,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
 - Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
-- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+- No extensive support for modifications over paths if compositions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
 ### Managed Compositions of Aspects {#managed-compositions}
@@ -1286,8 +1298,8 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
 ```
 
 ::: tip
-In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked or resolved
-by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
+In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked, resolved,
+or rewritten by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
 For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
@@ -1448,7 +1460,7 @@ and a value written as expression `@aValueExpr: ( 11 )`, respectively.
 #### Propagation
 
 [Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
-If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
+If the annotation value is an expression, it is sometimes necessary to adapt references inside the expression
 during propagation, for example, when a referenced element is renamed in a projection.
 The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
 is rewritten, the `=` property is set to `true`.
@@ -2073,7 +2085,7 @@ service MyOrders { ...
 }
 ```
 
-An event can also be defined as projection on an entity, type, or another event.
+An event can also be defined as projection on an entity, structured type, or another event.
 Only the effective signature of the projection is relevant.
 ```cds
 service MyOrders { ...

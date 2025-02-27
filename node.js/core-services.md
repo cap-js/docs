@@ -1063,6 +1063,8 @@ function foreach(
 
 Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
 
+> Please note that this API is not yet implemented by any common `cds.Service` subclass (that is, `cds.DatabaseService`). Hence, the full result set is currently materialized in memory.
+
 _**Common Usages:**_
 
 ```js

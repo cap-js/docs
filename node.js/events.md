@@ -254,13 +254,13 @@ Class `cds.Request` extends [`cds.Event`] with additional features to represent 
 
 ### . req {.property}
 
-Provides access to the express request object of individual requests within an incoming batch request.
+Provides access to the express request object of individual requests within an incoming batch request. For convenience, in the case of non-batch requests, it points to the same request object as [`req.http.req`](#http).
 
 
 
 ### . res {.property}
 
-Provides access to the express response object of individual requests within an incoming batch request.
+Provides access to the express response object of individual requests within an incoming batch request. For convenience, in the case of non-batch requests, it points to the same response object as [`req.http.res`](#http).
 
 
 

@@ -409,6 +409,24 @@ You don't need a CDL cast if you already use a SQL cast. The compiler will extra
 :::
 
 
+## Use enums
+
+In queries, you can use enum symbols instead of the respective literals in places
+where the corresponding type can be deduced:
+
+```cds
+type Status : String enum {open; closed;}
+
+entity Order as projection on Order {
+  case status when #open    then 0
+              when #closed  then 1 end
+    as status_int : Integer,
+  (status = #closed ? 'is closed' : 'is open')
+    as status_txt : String,  
+  #open as state : Status
+} where status = #open;
+```
+
 
 ## Association Definitions
 

@@ -642,6 +642,14 @@ type Complex {
 }
 ```
 
+If the element has an enum tpye, you can use the enum symbol instead of a literal value:
+```cds
+type Status : String enum {open; closed;}
+entity Order {
+  status : Status default #open;
+}
+```
+
 
 ### Type References
 

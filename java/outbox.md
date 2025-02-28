@@ -410,3 +410,23 @@ The injected `OutboxDeadLetterQueueService` instance is used to perform the oper
 Avoid to read all entries of the `cds.outbox.Messages` table at once, as the size of an entry is unpredictable
 and depends on the size of the payload. Prefer paging logic instead.
 :::
+
+## Observability using Open Telemetry
+
+The transactional outbox integrates Open Telemetry for logging telemetry data.
+
+[Learn more about observability with Open Telemetry.](./operating-applications/observability#open-telemetry){.learn-more}
+
+The following KPIs are logged in addition the spans described in the [observability chapter](./operating-applications/observability):
+
+| KPI Name                                   | Description                                                                                            | KPI Type |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------ | -------- |
+| `com.sap.cds.outbox.coldEntries`           | Number of entries that could not be delivered after repeated attempts and will not be retried anymore. | Gauge    |
+| `com.sap.cds.outbox.remainingEntries`      | Number of entries which are pending for delivery.                                                      | Gauge    |
+| `com.sap.cds.outbox.maxStorageTimeSeconds` | Maximum time in seconds an entry was residing in the outbox.                                           | Gauge    |
+| `com.sap.cds.outbox.medStorageTimeSeconds` | Median time in seconds of an entry stored in the outbox."                                              | Gauge    |
+| `com.sap.cds.outbox.minStorageTimeSeconds` | Minimal time in seconds an entry was stored in the outbox.                                             | Gauge    |
+| `com.sap.cds.outbox.incomingMessages`      | Number of incoming messages of the outbox.                                                             | Counter  |
+| `com.sap.cds.outbox.outgoingMessages`      | Number of outgoing messages of the outbox.                                                             | Counter  |
+
+The KPIs are logged per microservice instance (in case of horizontal scaling), outbox and tenant.

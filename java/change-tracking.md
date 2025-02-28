@@ -292,13 +292,15 @@ First, update the dependency's scope to `compile` in the `srv/pom.xml` file of y
 Second, add a handler to access the changes:
 
 ```java
+import cds.gen.sap.changelog.Changes;
+
 @Component
 @ServiceName(ChangeTrackingService.DEFAULT_NAME)
 public class ChangeTrackingHandler implements EventHandler {
 
   @After(event = ChangeTrackingService.CREATE_CHANGES)
   void afterCreate(CreateChangesEventContext context) {
-    context.getChanges().forEach(c -> {
+    context.getResult().listOf(Changes.class).forEach(c -> {
       // Do something with the change log entry
     });
   }

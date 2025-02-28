@@ -300,7 +300,6 @@ You can use the following services in your configuration:
 | **xsuaa**                              | Enables the creation of a XSUAA service instance. See details for [Node.js](../../node.js/authentication) and [Java](../../java/security) projects. |           |
 | parameters &rarr; xsappname            | Name of XSUAA application. Overwrites the value from the _xs-security.json_ file. (unique per subaccount)                                           |   <X/>    |
 | parameters &rarr; HTML5Runtime_enabled | Set to true for use with Launchpad Service                                                                                                          |           |
-| **connectivity**                       | Enables [on-premise connectivity](#connectivity-service)                                                                                            |           |
 | **event-mesh**                         | Enables SAP Event Mesh; [messaging guide](../messaging/), [how to enable the SAP Event Mesh](../messaging/event-mesh)                               |           |
 | **html5-apps-repo-host**               | HTML5 Application Repository                                                                                                                        |           |
 | **hana**                               | HDI Shared Container                                                                                                                                |           |
@@ -366,44 +365,6 @@ backendDestinations:
 ```
 
 > Our helm chart will remove the `external` key and add the rest of the keys as-is to the environment variable.
-
-#### Connectivity Service
-
-Use `cds add connectivity`, to add a volume to your `srv` deployment.
-::: warning
-Create an instance of the SAP BTP Connectivity service with plan `connectivity_proxy` and a service binding, before deploying the first application that requires it. Using this plan, a proxy to the connectivity service gets installed into your Kyma cluster. This may take a few minutes. The connectivity proxy uses the first created instance in a cluster for authentication. This instance must not be deleted as long as connectivity is used.
-:::
-
-The volume you've added to your `srv` deployment is needed, to add additional connection information, compared to what's available from the service binding.
-
-```yaml
-srv:
-...
-  additionalVolumes:
-    - name: connectivity-secret
-      volumeMount:
-        mountPath: /bindings/connectivity
-        readOnly: true
-      projected:
-        sources:
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-              items:
-                - key: token_service_url
-                  path: url
-          - configMap:
-              name: "RELEASE-NAME-connectivity-proxy-info"
-              optional: false
-```
-
-In the volumes added, replace the value of `<your-connectivity-binding>` with the binding that you created earlier. If the binding is created in a different namespace then you need to create a secret with details from the binding and use that secret.
-::: tip
-You don't have to edit `RELEASE-NAME` in the `configMap` property. It is passed as a template string and will be replaced with your actual release name by Helm.
-:::
 
 #### Arbitrary Service
 
@@ -500,9 +461,40 @@ You can run `cds add helm` again to update your Helm chart. It has the following
 
 ### SAP BTP Services and Features
 
-You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, goto to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
+You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, go to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
 
 You can find information about planned SAP BTP, Kyma Runtime features in the [product road map](https://roadmaps.sap.com/board?PRODUCT=73554900100800003012&PRODUCT=73554900100800003012).
+
+#### Connectivity Service
+
+To access the Connectivity Service, add the following modules in your Kyma Cluster:
+
+- connectivity-proxy
+- transparent-proxy
+- istio
+
+You can do that using the `kubectl` CLI:
+
+```sh 
+kubectl edit kyma default -n kyma-system
+```
+
+Then, add the three modules:
+```yaml [editor]
+spec:
+  modules:
+    - name: connectivity-proxy
+    - name: transparent-proxy
+    - name: istio
+```
+
+Finally, you should see a success message as follows:
+
+```sh
+kyma.operator.kyma-project.io/default edited
+```
+
+[Learn more about adding modules, also from the Kyma Dashboard.](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c){.learn-more}
 
 ### Using Service Instance created on Cloud Foundry
 

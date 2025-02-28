@@ -20,7 +20,7 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Run this to use SAP HANA Cloud for production:
 
@@ -42,7 +42,7 @@ Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) drive
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 To use SAP HANA Cloud, [configure a module](../java/developing-applications/building#standard-modules), which includes the feature `cds-feature-hana`.
 For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
@@ -166,8 +166,8 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 2. Run cds build again → this time you should see this additional line in the log output:
    ```log
    [cds] - done > wrote output to:
-      [...]
-      gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
+   [...]
+   gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
    ```
 
 

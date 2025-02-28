@@ -454,7 +454,7 @@ Adding the annotation `@fiori.draft.enabled` won't work if the corresponding `_t
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
 [See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){.learn-more}
 
-If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen from a drop-down menu as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
+If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/14ac3efaa13fc025f621b4eed369d03f1ca48341/fiori/app/admin-books/fiori-service.cds#L70) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
 
 ### Validating Drafts
 

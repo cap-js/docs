@@ -15,10 +15,11 @@
       </div>
       <div class="vp-code-group vp-doc" v-else>
         <CodeGroup :groups="[
-          { id: 'pkg-priv', label: '~/.cdsrc.json',  lang: 'json',       group, code: pkgStr, private: true },
-          { id: 'pkg', label: 'package/.cdsrc.json', lang: 'json',       group, code: pkgStr },
-          { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: jsStr },
-          { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: ymlStr },
+          { id: 'pkg-rc',   label: 'package.json',   lang: 'json',       group, code: pkgStr },
+          { id: 'pkg-priv', label: '~/.cdsrc.json',  lang: 'json',       group, code: rcJsonStr, private: true },
+          { id: 'pkg',      label: '.cdsrc.json',    lang: 'json',       group, code: rcJsonStr },
+          { id: 'js',  label: '.cdsrc.js',           lang: 'js',         group, code: rcJsStr },
+          { id: 'yml', label: '.cdsrc.yaml',         lang: 'yml',        group, code: rcYmlStr },
           { id: 'env', label: '.env file',           lang: 'properties', group, code: propStr },
           { id: 'shl', label: 'Linux/macOS Shells',  lang: 'sh',         group, code: 'export '+envStr, transient: true },
           { id: 'shp', label: 'Powershell',          lang: 'powershell', group, code: '$Env:'+envStr, transient: true },
@@ -80,7 +81,6 @@
   FloatingVue.options.themes.cfgPopper = { $extend: 'dropdown' }
 
   const slots = useSlots()
-  //@ts-expect-error
   const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
   const [key, val] = slotVal.split(/\s*[:=]\s*/)
@@ -90,8 +90,9 @@
   const popperVisible = ref(false)
   const group = ref()
   const pkgStr = ref()
-  const jsStr = ref()
-  const ymlStr = ref()
+  const rcJsonStr = ref()
+  const rcJsStr = ref()
+  const rcYmlStr = ref()
   const propStr = ref()
   const envStr = ref()
   const javaAppyml = ref()
@@ -116,14 +117,16 @@
     const pkg = toJson(key, jsonVal ?? value)
 
     pkgStr.value = JSON.stringify(pkg, null, 2)
-    jsStr.value = 'module.exports = ' + pkgStr.value.replace(/"(\w*?)":/g, '$1:')
+    rcJsonStr.value = JSON.stringify(pkg.cds, null, 2)
+    rcJsStr.value = 'module.exports = ' + rcJsonStr.value.replace(/"(\w*?)":/g, '$1:')
+    rcYmlStr.value = yaml.stringify(pkg.cds)
     propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
     let envKey = key.replaceAll('_', '__').replaceAll('.', '_')
     if (/^[a-z_]+$/.test(envKey)) envKey = envKey.toUpperCase() // only uppercase if not camelCase
     envStr.value = `${envKey}=${jsonVal ? JSON.stringify(jsonVal) : value}`
 
-    javaAppyml.value = ymlStr.value = yaml.stringify(pkg)
+    javaAppyml.value = yaml.stringify(pkg)
     javaEnvStr.value = `-D${propStr.value}`
   })
 

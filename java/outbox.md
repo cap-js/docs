@@ -404,7 +404,7 @@ public void deleteOutboxEntry(DeadOutboxEntriesDeleteContext context) {
 
 The injected `OutboxDeadLetterQueueService` instance is used to perform the operations on the entity. Both handlers first retrieve the ID of the entry and then they perform the corresponding operation on the database.
 
-[Learn more about CQL statement inspection.](./working-with-cql/query-introspection#cqnanalyser){.learn-more}
+[Learn more about CQL statement inspection.](./working-with-cql/query-introspection#cqnanalyzer){.learn-more}
 
 ::: tip Use paging logic
 Avoid to read all entries of the `cds.outbox.Messages` table at once, as the size of an entry is unpredictable

@@ -949,8 +949,7 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 
 ::: warning Support in latest runtimes
 
-Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
-
+Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5** and in CAP Java with version **3.5.0**. 
 :::
 
 

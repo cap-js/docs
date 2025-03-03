@@ -524,6 +524,12 @@ We recommended to switch on `CDS_TEST_ENV_CHECK` in all your tests to detect suc
 
 ## Best Practices
 
+### Integration Tests - Hybrid Testing
+
+When writing integration tests, it's important to keep them clean and focused. Remember, your environment setup shouldn't be part of the test code itself. Instead, ensure that your testing framework or CI/CD pipeline handles environment configuration. This way, your tests remain isolated and reproducible across different setups. This approach helps maintain the clarity and reliability of your integration tests.
+
+[Learn how to resolve bindings in the environment.](../advanced/hybrid-testing#integration-tests){.learn-more}
+
 ### Check Status Codes Last
 
 Avoid checking for single status codes. Instead, simply check the response data:

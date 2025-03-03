@@ -541,6 +541,11 @@ export cds_requires="$(cds env get requires --resolve-bindings)"
 npm run integration-test
 ```
 
+:::tip Use `cds.test`
+Besides using integration tests, the same applies to hybrid testing using [`cds.test`](../node.js/cds-test).
+
+:::
+
 <!-- TODO: "cds deploy" should take the existing bindings for hana -->
 
 With `CDS_ENV`, you specify the configuration profile for the test, where you previously put the service binding configuration.

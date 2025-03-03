@@ -315,6 +315,12 @@ The transactional outbox tries to process each entry a specific number of times.
 
 Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database forever. By defining a CDS service the dead entries can be managed. The example below provides a step-by-step guide to develop a Dead Letter Queue for the transactional outbox.
 
+::: warning
+
+It is possible to increase the value of the configuration `cds.outbox.services.<key>.maxAttempts` in between of deployments. Older entries which have reached their max attempts in the past would be retried automatically after deployment of the new microservice version. If the dead letter queue has a big size, this will lead to unintended load on the system.
+
+:::
+
 In the first step the service needs to be defined in CDS:
 
 ::: code-group
@@ -324,7 +330,7 @@ using from '@sap/cds/srv/outbox';
 
 service OutboxDeadLetterQueueService {
 
-  @requires('internal-user')
+  @requires: 'internal-user'
   entity DeadOutboxMessages as projection on cds.outbox.Messages
     actions {
       action reactivate();
@@ -336,7 +342,7 @@ service OutboxDeadLetterQueueService {
 
 :::
 
-The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxEntries` which is a projection on the outbox table `cds.outbox.Messages` that has two bound actions:
+The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxMessages` which is a projection on the outbox table `cds.outbox.Messages` that has two bound actions:
 
 - `reactivate()` sets the number of attempts to `0` such that the outbox entry is going to be processed again.
 - `delete()` deletes the outbox entry from the database.
@@ -345,25 +351,25 @@ Filters can be applied as for any other CDS defined entity, e.g. to filter for a
 
 ::: warning
 
-It is crucial to make the entity `DeadOutboxEntries` accessible for internal users only as it contains sensitive data that could be exploited for malicious purposes if unauthorized changes are performed.
+It is crucial to make the entity `DeadOutboxMessages` accessible for internal users only as it contains sensitive data that could be exploited for malicious purposes if unauthorized changes are performed.
 
 [Learn more about pseudo roles](../guides/security/authorization#pseudo-roles){.learn-more}
 
 :::
 
-To ensure that only dead outbox entries are returned when reading `DeadOutboxEntries`, an `@After` handler needs to be added which filters the entries. This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties. The following code provides the handler for the `DeadLetterQueueService` and the `@After-READ` handler that filters for the dead outbox entries:
+To ensure that only dead outbox entries are returned when reading `DeadOutboxMessages`, an `@After` handler needs to be added which filters the entries. This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties. The following code provides the handler for the `DeadLetterQueueService` and the `@After-READ` handler that filters for the dead outbox entries:
 
 ```java
 @Component
 @ServiceName(OutboxDeadLetterQueueService_.CDS_NAME)
-public class DeadOutboxEntriesHandler implements EventHandler {
+public class DeadOutboxMessagesHandler implements EventHandler {
 
 	@After
 	public void filterDeadEntries(CdsReadEventContext context) {
 		CdsProperties.Outbox outboxConfigs = context.getCdsRuntime().getEnvironment().getCdsProperties().getOutbox();
-		List<DeadOutboxEntries> deadEntries = context
+		List<DeadOutboxMessages> deadEntries = context
 				.getResult()
-				.listOf(DeadOutboxEntries.class)
+				.listOf(DeadOutboxMessages.class)
 				.stream()
 				.filter(entry -> entry.getAttempts() >= outboxConfigs.getService(entry.getTarget()).getMaxAttempts())
 				.toList();
@@ -375,29 +381,30 @@ public class DeadOutboxEntriesHandler implements EventHandler {
 
 [Learn more about event handlers.](./event-handlers/){.learn-more}
 
-Next, to implement the functionality for the bound actions (`reactivate` and `delete`) defined for the `DeadOutboxEntries` entity, you need to create the corresponding handlers:
+Next, to implement the functionality for the bound actions (`reactivate` and `delete`) defined for the `DeadOutboxMessages` entity, you need to create the corresponding handlers:
 
 ```java
 @Autowired
 private OutboxDeadLetterQueueService outboxDeadLetterQueueService;
 
 @On
-public void reactivateOutboxEntry(DeadOutboxEntriesReactivateContext context) {
-  CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
+public void reactivateOutboxEntry(DeadOutboxMessagesReactivateContext context) {
   AnalysisResult analysisResult = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn());
   Map<String, Object> key = analysisResult.rootKeys();
+  DeadOutboxMessages deadOutboxMessage = DeadOutboxMessages.create((String) key.get(DeadOutboxMessages.ID));
 
-  this.outboxDeadLetterQueueService.run(Update.entity(DeadOutboxEntries_.class).entry(key).data(Map.of(Messages.ATTEMPTS, 0)));
+  deadOutboxMessage.setAttempts(0);
+
+  this.outboxDeadLetterQueueService.run(Update.entity(DeadOutboxMessages_.class).entry(key).data(deadOutboxMessage));
   context.setCompleted();
 }
 
 @On
-public void deleteOutboxEntry(DeadOutboxEntriesDeleteContext context) {
-  CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
-  AnalysisResult analysisResult = analyzer.analyze(context.getCqn());
+public void deleteOutboxEntry(DeadOutboxMessagesDeleteContext context) {
+  AnalysisResult analysisResult = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn());
   Map<String, Object> key = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn()).rootKeys();
 
-  this.outboxDeadLetterQueueService.run(Delete.from(DeadOutboxEntries_.class).byId(key.get(DeadOutboxEntries.ID)));
+  this.outboxDeadLetterQueueService.run(Delete.from(DeadOutboxMessages_.class).byId(key.get(DeadOutboxMessages.ID)));
   context.setCompleted();
 }
 ```

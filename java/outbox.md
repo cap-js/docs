@@ -324,7 +324,7 @@ using from '@sap/cds/srv/outbox';
 
 service OutboxDeadLetterQueueService {
 
-  @(restrict: [{ grant: '*', to: 'internal-user' }])
+  @requires('internal-user')
   entity DeadOutboxEntries as projection on cds.outbox.Messages
     actions {
       action reactivate();

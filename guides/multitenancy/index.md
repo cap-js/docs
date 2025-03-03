@@ -715,7 +715,7 @@ In order to get your multitenant application deployed, follow this excerpt from 
 Once: Add SAP HANA Cloud, XSUAA, and [App Router](../deployment/to-cf#add-app-router) configuration. The App Router acts as a single point-of-entry gateway to route requests to. In particular, it ensures user login and authentication in combination with XSUAA.
 
 ```sh
-cds add hana,xsuaa,approuter --for production
+cds add hana,xsuaa --for production
 ```
 
 If you intend to serve UIs you can easily set up the SAP Cloud Portal service:

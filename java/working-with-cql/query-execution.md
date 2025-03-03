@@ -436,7 +436,7 @@ WHERE B.STOCK < 10 AND A.NAME = ?
 ::: warning Limitations
 Runtime views are supported for simple [CDS projections](../../cds/cdl#as-projection-on). Expands of [filtered associations](../../cds/cdl#publish-associations-with-filter) are only supported since `3.7.0`. Constant values and expressions in runtime views are supported since `3.8.0`.
 
-Complex views using aggregations or union/join/subqueries in `FROM` are not supported and for reading [draft-enabled](https://pages.github.tools.sap/cap/docs/java/fiori-drafts#reading-drafts) entities, `cds.drafts.persistence` needs to be set to `split`.
+Complex views using aggregations or union/join/subqueries in `FROM` are not supported and for reading [draft-enabled](../fiori-drafts#reading-drafts) entities, `cds.drafts.persistence` needs to be set to `split`.
 :::
 
 ### Using I/O Streams in Queries

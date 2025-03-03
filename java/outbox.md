@@ -395,7 +395,7 @@ public void reactivateOutboxEntry(DeadOutboxEntriesReactivateContext context) {
 public void deleteOutboxEntry(DeadOutboxEntriesDeleteContext context) {
   CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
   AnalysisResult analysisResult = analyzer.analyze(context.getCqn());
-  Map<String, Object> key = analysisResult.rootKeys();
+  Map<String, Object> key = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn()).rootKeys();
 
   this.outboxDeadLetterQueueService.run(Delete.from(DeadOutboxEntries_.class).byId(key.get(DeadOutboxEntries.ID)));
   context.setCompleted();

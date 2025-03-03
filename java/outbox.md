@@ -358,7 +358,7 @@ To ensure that only dead outbox entries are returned when reading `DeadOutboxEnt
 @ServiceName(OutboxDeadLetterQueueService_.CDS_NAME)
 public class DeadOutboxEntriesHandler implements EventHandler {
 
-	@After(event = CqnService.EVENT_READ, entity = DeadOutboxEntries_.CDS_NAME)
+	@After
 	public void filterDeadEntries(CdsReadEventContext context) {
 		CdsProperties.Outbox outboxConfigs = context.getCdsRuntime().getEnvironment().getCdsProperties().getOutbox();
 		List<DeadOutboxEntries> deadEntries = context

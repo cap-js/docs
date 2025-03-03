@@ -351,7 +351,7 @@ It is crucial to make the entity `DeadOutboxEntries` accessible for internal use
 
 :::
 
-To ensure that only dead outbox entries are returned when reading `DeadOutboxEntries`, an `@After` handler needs to be developped that filters for dead entries. This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties. The following code provides the handler for the `DeadLetterQueueService` and the `@After` read handler that filters for the dead outbox entries:
+To ensure that only dead outbox entries are returned when reading `DeadOutboxEntries`, an `@After` handler needs to be added which filters the entries. This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties. The following code provides the handler for the `DeadLetterQueueService` and the `@After-READ` handler that filters for the dead outbox entries:
 
 ```java
 @Component

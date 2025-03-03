@@ -384,7 +384,7 @@ private OutboxDeadLetterQueueService outboxDeadLetterQueueService;
 @On
 public void reactivateOutboxEntry(DeadOutboxEntriesReactivateContext context) {
   CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
-  AnalysisResult analysisResult = analyzer.analyze(context.getCqn());
+  AnalysisResult analysisResult = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn());
   Map<String, Object> key = analysisResult.rootKeys();
 
   this.outboxDeadLetterQueueService.run(Update.entity(DeadOutboxEntries_.class).entry(key).data(Map.of(Messages.ATTEMPTS, 0)));

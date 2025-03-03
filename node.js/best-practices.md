@@ -387,7 +387,21 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ` or operation handler in the Node.js runtime, content information can be configured as part of the handlers result object. 
 
-Preferably, the handler implementation should return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and configure content disposition information by assigning relevant property values (`mimetype` / `type`, `filename`) directly to that object. 
+Preferably, the handler implementation should use [`req.reply`](events#req-reply), called with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and options to specify content disposition headers. 
+
+Example:
+
+```js
+srv.on('READ', 'Books', (req, next) => {
+  const readable = new Readable()
+  req.reply(readable, {
+    mimetype: 'image/jpeg', // > optional
+    filename: 'cover.jpg', // > optional
+  })
+})
+```
+
+Alternatively, it is also possible to return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object. 
 
 Example:
 

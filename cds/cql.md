@@ -417,7 +417,7 @@ where the corresponding type can be deduced:
 ```cds
 type Status : String enum { open; closed; in_progress; };
 
-entity OpenOrder as projection on db.Order {
+entity OpenOrder as projection on Order {
   
   case status when #open        then 0
               when #in_progress then 1 end

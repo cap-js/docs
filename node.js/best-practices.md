@@ -385,7 +385,7 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ` or operation handler in the Node.js runtime, content information can be configured as part of the handlers result object. 
+When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ`, `action` or `function` handler, content information can be configured as part of the handlers result object. 
 
 Preferably, the handler implementation should use [`req.reply`](events#req-reply), called with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and options to specify content disposition headers. 
 

@@ -415,18 +415,18 @@ In queries, you can use enum symbols instead of the respective literals in place
 where the corresponding type can be deduced:
 
 ```cds
-type Status : String enum {open; closed;}
+type Status : String enum { open; closed; in_progress; };
 
-entity Order as projection on db.Order {
-  case status when #open    then 0
-              when #closed  then 1 end
+entity OpenOrder as projection on db.Order {
+  
+  case status when #open        then 0
+              when #in_progress then 1 end
     as status_int : Integer,
 
-  (status = #closed ? 'is closed' : 'is open')
+  (status = #in_progress ? 'is in progress' : 'is open')
     as status_txt : String,  
-
-  #open as state : Status
-} where status = #open;
+    
+} where status = #open or status = #in_progress;
 ```
 
 

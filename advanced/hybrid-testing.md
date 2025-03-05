@@ -142,6 +142,10 @@ Only services that have the `shareable` flag in the metadata set to `true` can b
 See the [CloudFoundry docs](https://docs.cloudfoundry.org/devguide/services/sharing-instances.html) for further details.
 :::
 
+::: tip Allow dynamic deploy targets
+Service bindings created by `cds bind` contain the Cloud Foundry API endpoint, org, and space. You can allow your services to connect to the currently targeted Cloud Foundry org and space by removing these properties from the binding structure.
+:::
+
 ### Services on Kubernetes
 
 
@@ -522,31 +526,25 @@ No credentials are saved!
 In your CI/CD pipeline you can resolve the bindings and inject them into the test commands:
 
 ```sh
-# Install DK for "cds env"
-npm i @sap/cds-dk --no-save
-
 # Login
 cf auth $USER $PASSWORD
-
-## Uncomment if your service bindings have
-## no "org" and "space" set (see note below)
-# cf target -o $ORG -s $SPACE
+# Optional if your bindings have org and space removed to be agnostic
+cf target -o $ORG -s $SPACE
 
 # Set profile
-export CDS_ENV=integration-test
-# Set resolved bindings
-export cds_requires="$(cds env get requires --resolve-bindings)"
+export CDS_ENV=integration-test  # [!code highlight]
 
-# Execute test
-npm run integration-test
+# Set resolved bindings
+export cds_requires="$(cds env get requires --resolve-bindings)"  # [!code highlight]
+
+# Run tests
+npm run integration-test  # [!code highlight]
 ```
 
+Some comments to the previous snippet:
+- With `CDS_ENV` you specify the [configuration profile](../node.js/cds-env#profiles) for the test, where you previously put the service binding configuration.
+- [`cds env get requires`](../node.js/cds-env#services) prints the `requires` section of the configuration as a JSON string. Through `--resolve-bindings`, it includes the credentials of the service bindings from the cloud. To make the credentials available for all subsequent `cds` commands and the tests, the `requires` JSON string is put into the `cds_requires` script variable.
+- In `npm run integration-test` any test code can run, for example, [`cds.test`](../node.js/cds-test).
+
+
 <!-- TODO: "cds deploy" should take the existing bindings for hana -->
-
-With `CDS_ENV`, you specify the configuration profile for the test, where you previously put the service binding configuration.
-
-`cds env get requires` prints the `requires` section of the configuration as a JSON string. By adding the `--resolve-bindings` option, it includes the credentials of the service bindings from the cloud. To make the credentials available for all subsequent `cds` commands and the tests, the `requires` JSON string is put into the `cds_requires` variable.
-
-::: tip Allow dynamic deploy targets
-Service bindings created by `cds bind` contain the Cloud Foundry API endpoint, org, and space. You can allow your services to connect to the currently targeted Cloud Foundry org and space by removing these properties from the binding structure.
-:::

@@ -83,7 +83,7 @@
 
       --plan
 
-        Override the service plan used for the MTA generation.
+        Specify the service plan.
 
       --with-telemetry
 
@@ -181,6 +181,13 @@
       --dry
 
         Print the generated requests to the console instead of writing them to a file.
+
+
+    <em>cds add xsuaa</em>
+
+      --plan
+
+        Specify the service plan.
 
 
 <strong>EXAMPLES</strong>

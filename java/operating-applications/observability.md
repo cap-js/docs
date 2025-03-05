@@ -358,7 +358,7 @@ The configuration steps below assume that your application uses the [SAP Java Bu
 :::
 
 :::tip
-You can also add observability with OpenTelemetry by running the command `cds add cloud-logging --with-telemetry` in your project directory.
+You can conveniently enhance your application with Open Telemetry observability by running the command `cds add cloud-logging --with-telemetry` in your project directory.
 :::
 
 Configure your application to enable the Open Telemetry Java Agent by adding or adapting the `JBP_CONFIG_JAVA_OPTS` parameter in your deployment descriptor:

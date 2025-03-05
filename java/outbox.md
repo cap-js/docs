@@ -328,9 +328,9 @@ In the first step the service needs to be defined in CDS:
 ```cds [srv/outbox-dead-letter-queue-service.cds]
 using from '@sap/cds/srv/outbox';
 
+@requires: 'internal-user'
 service OutboxDeadLetterQueueService {
 
-  @requires: 'internal-user'
   @readonly
   entity DeadOutboxMessages as projection on cds.outbox.Messages
     actions {

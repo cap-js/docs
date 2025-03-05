@@ -102,7 +102,7 @@ config.rewrites = rewrites
 config.themeConfig.capire = {
   versions: {
     java_services: '3.7.2',
-    java_cds4j: '3.7.2'
+    java_cds4j: '3.8.0'
   },
   gotoLinks: [],
   maven_host_base: 'https://repo1.maven.org/maven2'

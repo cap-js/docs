@@ -116,7 +116,7 @@ const { write, path } = cds.utils, { join } = path // [!code ++]
 module.exports = class extends cds.add.Plugin {
   async run() { // [!code ++]
     const pg = join(__dirname, 'add/pg.yaml') // [!code ++]
-    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code ++]
+    await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root  [!code ++]
   } // [!code ++]
 }
 ```
@@ -154,7 +154,7 @@ module.exports = class extends cds.add.Plugin {
     const project = readProject() // [!code ++]
     const { hasMta, srvPath } = project // [!code ++]
     if (hasMta) { // [!code ++]
-      const srv = srv4(srvPath) // Node.js or Java server module // [!code ++]
+      const srv = srv4(srvPath) // Node.js or Java server module  [!code ++]
       const postgres = { in: 'resources', // [!code ++]
         where: { 'parameters.service': 'postgresql-db' } // [!code ++]
       } // [!code ++]
@@ -162,7 +162,7 @@ module.exports = class extends cds.add.Plugin {
         where: { type: 'nodejs', path: 'gen/pg' } // [!code ++]
       } // [!code ++]
       await merge(__dirname, 'add/mta.yml.hbs').into('mta.yaml', { // [!code ++]
-        project, // for Mustache replacements // [!code ++]
+        project, // for Mustache replacements  [!code ++]
         additions: [srv, postgres, postgresDeployer], // [!code ++]
         relationships: [{ // [!code ++]
             insert: [postgres, 'name'], // [!code ++]
@@ -279,7 +279,7 @@ module.exports = class extends cds.add.Plugin {
   async run() {
     const pg = join(__dirname, 'pg.yaml')
     await copy(pg).to('pg.yaml') //> 'to' is relative to cds.root // [!code --]
-    await copy(pg).to(cds.cli.options.out, 'pg.yaml') //> 'to' is relative to cds.root // [!code ++]
+    await copy(pg).to(cds.cli.options.out, 'pg.yaml') //> 'to' is relative to cds.root  [!code ++]
   }
   async combine() {
     /* ... */

@@ -33,7 +33,7 @@ First, you apply these steps manually in an ad-hoc deployment, as described in t
 
 The following sections are based on a new project that you can create like this:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ```sh
 cds init bookshop --add sample
@@ -53,7 +53,7 @@ cd samples/bookshop
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 ```sh
 cds init bookshop --java --add sample
@@ -90,7 +90,7 @@ npm -g outdated       #> check whether @sap/cds-dk is listed
 npm i -g @sap/cds-dk  #> if necessary
 ```
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Likewise, ensure the latest version of `@sap/cds` is installed in your project:
 
@@ -135,11 +135,11 @@ We'll use the `cds add <facets>` CLI command for that, which ensures the require
 
 ### 1. Using SAP HANA Database
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 While we used SQLite as a low-cost stand-in during development, we're going to use a managed SAP HANA database for production:
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 While we used SQLite or H2 as a low-cost stand-in during development, we're going to use a managed SAP HANA database for production:
 </div>
 
@@ -238,7 +238,7 @@ The previous steps are required _only once_ in a project's lifetime. With that d
 
 ### 7. Freeze Dependencies { #freeze-dependencies }
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Deployed applications should freeze all their dependencies, including transient ones. Create a _package-lock.json_ file for that:
 

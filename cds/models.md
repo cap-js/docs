@@ -36,7 +36,7 @@ Examples are:
 
 - SQL DDL covers the persistence model interface only → only flat tables and views
 - OData EDMX covers the service interfaces only → queryable entities still exist, with implicit features
-- GraqhQL also covers service interfaces → queryable entities still exist, but without less features
+- GraphQL also covers service interfaces → queryable entities still exist, but without less features
 - OpenAPI also covers the service interfaces, with → queryable entities got 'flattened' to paths with input and output types
 
 ---

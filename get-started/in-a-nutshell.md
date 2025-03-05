@@ -79,8 +79,8 @@ After you completed the [*Initial Setup*](./), you jumpstart a project as follow
 
          ___________________________
 
-     No models found in db/,srv/,app/,schema,services. // [!code focus]
-     Waiting for some to arrive... // [!code focus]
+   No models found in db/,srv/,app/,schema,services. // [!code focus]
+   Waiting for some to arrive... // [!code focus]
 
    ```
 

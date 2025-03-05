@@ -45,7 +45,7 @@
 
   --vp-c-text-1: #000;
   .VPHomeHero {
-    h1 { line-height: 1.2em; }
+    h1 span.name { line-height: 1.2em; }
   }
   h1, h2, h3, h4, h5 { color: rgba(60, 60, 67) }
   h6 { color: transparent; position: absolute; margin-top: -7.7em; right: 0px; } // we use h6 for alternative anchor targets

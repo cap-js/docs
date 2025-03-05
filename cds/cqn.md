@@ -64,7 +64,7 @@ class SELECT { SELECT: {
 ```
 > Using:
 > [`source`](#source),
-> [`colum`](#column),
+> [`column`](#column),
 > [`xo`](#xo),
 > [`expr`](#expr),
 > [`order`](#order),

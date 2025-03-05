@@ -633,14 +633,48 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
 </Schema>
 ```
 
-::: warning Restrictions concerning the foreign key elements of managed associations
+#### Managed Associations
 
-1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
-This is a workaround for the lack of possibility to directly annotate a foreign key element.
-This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
-to use expression-valued annotations for annotating foreign keys of a managed association.
+The OData backend translates managed associations into unmanaged ones plus explicit foreign key elements.
+During this translation, annotations assigned to the managed association are copied to the respective foreign key elements.
 
-2. In an expression-valued annotation, it is not possible to reference the foreign key element
+Example:
+```cds
+service S {
+  entity Authors { key ID : Integer; name : String; }
+  entity Books   { key ID : Integer; author : Association to Authors; }
+
+  annotate Books:author with @Common.Text: (author.name); 
+}
+```
+
+Resulting OData API:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Authors">
+    <!-- ... -->
+    <Property Name="name" Type="Edm.String"/>
+  </EntityType>
+  <EntityType Name="Books">
+    <!-- ... -->
+    <NavigationProperty Name="author" Type="S.Authors"/>
+    <Property Name="author_ID" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.Books/author_ID">
+    <Annotation Term="Common.Text" Path="author/name"/>
+  </Annotations>
+</Schema>
+```
+
+Instead of relying on this copy mechanism, you can also explicitly annotate a foreign key element:
+```cds
+annotate Books:author.ID with @Common.Text: ($self.author.name);  // here $self is necessary
+```
+
+::: warning Restriction concerning the foreign key elements of managed associations
+
+In an expression-valued annotation, it is not possible to reference the foreign key element
 of a managed association.
 
 :::

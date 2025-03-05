@@ -128,12 +128,12 @@ See [Frequently Asked Questions](#faq) for examples on how to use these annotati
 | &emsp;&emsp;`/SortRestrictions/...`                         | EntitySet, Singleton | `$orderby` system query option for reading related entities via a navigation path                     |
 | &emsp;&emsp;`/TopSupported`                                 | EntitySet, Singleton | `$top` system query option for reading contained entities via a navigation path                       |
 | &emsp;&emsp;`/UpdateRestrictions/...`                       | EntitySet, Singleton | `PATCH` operation for modifying a contained entity via a navigation path                              |
-| `ReadByKeyRestrictions`<br />&emsp;`/Readable`              | EntitySet            | `GET` operation for reading a single entity by key                                                    |
 | &emsp;`/Description`                                        | EntitySet            | `summary` of Operation Object                                                                         |
 | &emsp;`/LongDescription`                                    | EntitySet            | `description` of Operation Object                                                                     |
 | `ReadRestrictions`<br />&emsp;`/Readable`                   | EntitySet, Singleton | `GET` operation for reading an entity set or singleton                                                |
 | &emsp;`/Description`                                        | EntitySet, Singleton | `summary` of Operation Object                                                                         |
 | &emsp;`/LongDescription`                                    | EntitySet, Singleton | `description` of Operation Object                                                                     |
+| &emsp;`ReadByKeyRestrictions`<br />&emsp;&emsp;`/Readable`  | EntitySet            | `GET` operation for reading a single entity by key                                                    |
 | `SearchRestrictions`<br />&emsp;`/Searchable`               | EntitySet            | `$search` system query option for `GET` operation                                                     |
 | `SelectSupport`<br />&emsp;`/Supported`                     | EntitySet, Singleton | `$select` system query option for `GET` operation                                                     |
 | `SkipSupported`                                             | EntitySet            | `$skip` system query option for `GET` operation                                                       |
@@ -170,17 +170,26 @@ This is an example of a CDS service annotated with the annotations above:
 annotate MyService with @(
   Authorization: {
     Authorizations: [
-      { $Type : 'Auth.Http', Name : 'Basic', Scheme : 'basic' },
-      { $Type : 'Auth.Http', Name : 'JWT',   Scheme : 'bearer', BearerFormat : 'JWT' },
+      { $Type : 'Authorization.Http', Name : 'Basic', Scheme : 'basic' },
+      { $Type : 'Authorization.Http', Name : 'JWT',   Scheme : 'bearer', BearerFormat : 'JWT' },
+      { $Type : 'Authorization.OAuth2ClientCredentials', Name : 'OAuth2',
+        Scopes     : [{
+          Scope      : 'some_scope',
+          Description: 'Scope description'
+        }],
+        RefreshUrl : 'https://some.host/oauth/token/refresh',
+        TokenUrl   : 'https://some.host/oauth/token'
+      },
     ],
     SecuritySchemes: [
       { Authorization : 'Basic' },
       { Authorization : 'JWT', RequiredScopes : [] },
+      { Authorization : 'OAuth2' },
     ]
   }
 );
 ```
-[See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/e5794c55b53dd3e43ebe8ffcfff69341b6eac9c7/tests/app/services.cds#L23-L34){.learn-more}
+[See it in context.](https://github.com/chgeo/cds-swagger-ui-express/blob/651013b529168b30c024f8653c249f170ba9d114/tests/app/services.cds#L35-L55){.learn-more}
 
 
 ## [Common](https://github.com/SAP/odata-vocabularies/blob/main/vocabularies/Common.md)

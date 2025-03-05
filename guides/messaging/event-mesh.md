@@ -41,18 +41,17 @@ Add the following to your _package.json_ to use SAP Event Mesh:
 ```
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+[Learn how to use the CloudEvents protocol.](../../node.js/messaging#cloudevents-protocol){.learn-more}
 
-<div class="tip" markdown="1">
+:::tip **Behind the Scenes**
 
-**Behind the Scenes**, the `enterprise-messaging` implementation handles these things automatically and transparently:
+The `enterprise-messaging` implementation handles these things automatically and transparently:
 
   - Creation of queues & subscriptions for event receivers
   - Handling all broker-specific handshaking and acknowledgments
   - Constructing topic names as expected by the broker
-  - Wire protocol envelopes, that is, CloudEvents
 
-</div>
-
+:::
 
 ### Optional: Add `namespace` Prefixing Rules
 

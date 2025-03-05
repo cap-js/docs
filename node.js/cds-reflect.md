@@ -542,6 +542,7 @@ cds.builtin.types = cds.linked`
     type Binary       : string;
     type LargeString  : string;
     type LargeBinary  : string;
+    type Map          : struct;
   }
 `.definitions
 ```

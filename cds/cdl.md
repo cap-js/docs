@@ -426,6 +426,20 @@ entity Books {
 }
 ```
 
+You can declare structured types based on other
+definitions using the `projection on` syntax.
+You can use nested projections or aliases as known from entity projections.
+Only the effective signature of the projection is relevant.
+
+<!-- cds-mode: upcoming -->
+```cds
+type CustomerData : projection on Customer {
+  name.firstName, // select from structures
+  name.lastName,
+  address as customerAddress, // aliases
+}
+```
+
 
 ### Arrayed Types
 
@@ -625,6 +639,14 @@ type CreatedAt : Timestamp default $now;
 type Complex {
   real : Decimal default 0.0;
   imag : Decimal default 0.0;
+}
+```
+
+If the element has an enum type, you can use the enum symbol instead of a literal value:
+```cds
+type Status : String enum {open; closed;}
+entity Order {
+  status : Status default #open;
 }
 ```
 
@@ -2071,7 +2093,7 @@ service MyOrders { ...
 }
 ```
 
-An event can also be defined as projection on an entity, type, or another event.
+An event can also be defined as projection on an entity, structured type, or another event.
 Only the effective signature of the projection is relevant.
 ```cds
 service MyOrders { ...

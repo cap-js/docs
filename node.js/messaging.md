@@ -460,15 +460,15 @@ modules:
         properties:
           url: ${default-url} #> needed in webhookUrl and home-url below
     requires:
-      - name: incidents-event-broker
-        parameters:
-          config:
-            authentication-type: X509_IAS
       - name: incidents-ias
         parameters:
           config:
             credential-type: X509_GENERATED
             app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
 
 resources:
   - name: incidents-event-broker

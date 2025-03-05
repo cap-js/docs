@@ -331,9 +331,10 @@ using from '@sap/cds/srv/outbox';
 service OutboxDeadLetterQueueService {
 
   @requires: 'internal-user'
+  @readonly
   entity DeadOutboxMessages as projection on cds.outbox.Messages
     actions {
-      action reactivate();
+      action revive();
       action delete();
     };
 
@@ -344,7 +345,7 @@ service OutboxDeadLetterQueueService {
 
 The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxMessages` which is a projection on the outbox table `cds.outbox.Messages` that has two bound actions:
 
-- `reactivate()` sets the number of attempts to `0` such that the outbox entry is going to be processed again.
+- `revive()` sets the number of attempts to `0` such that the outbox entry is going to be processed again.
 - `delete()` deletes the outbox entry from the database.
 
 Filters can be applied as for any other CDS defined entity, e.g. to filter for a specific outbox where the outbox name is stored in the field `target` of the entity `cds.outbox.Messages`.
@@ -364,7 +365,7 @@ To ensure that only dead outbox entries are returned when reading `DeadOutboxMes
 @ServiceName(OutboxDeadLetterQueueService_.CDS_NAME)
 public class DeadOutboxMessagesHandler implements EventHandler {
 
-	@After
+	@After(entity = DeadOutboxMessages_.CDS_NAME)
 	public void filterDeadEntries(CdsReadEventContext context) {
 		CdsProperties.Outbox outboxConfigs = context.getCdsRuntime().getEnvironment().getCdsProperties().getOutbox();
 		List<DeadOutboxMessages> deadEntries = context
@@ -381,40 +382,43 @@ public class DeadOutboxMessagesHandler implements EventHandler {
 
 [Learn more about event handlers.](./event-handlers/){.learn-more}
 
-Next, to implement the functionality for the bound actions (`reactivate` and `delete`) defined for the `DeadOutboxMessages` entity, you need to create the corresponding handlers:
+Next, to implement the functionality for the bound actions (`revive` and `delete`) defined for the `DeadOutboxMessages` entity, you need to create the corresponding handlers:
 
 ```java
 @Autowired
-private OutboxDeadLetterQueueService outboxDeadLetterQueueService;
+@Qualifier(PersistenceService.DEFAULT_NAME)
+private PersistenceService db;
 
 @On
-public void reactivateOutboxEntry(DeadOutboxMessagesReactivateContext context) {
-  AnalysisResult analysisResult = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn());
+public void reviveOutboxMessage(DeadOutboxMessagesReviveContext context) {
+  CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
+  AnalysisResult analysisResult = analyzer.analyze(context.getCqn());
   Map<String, Object> key = analysisResult.rootKeys();
-  DeadOutboxMessages deadOutboxMessage = DeadOutboxMessages.create((String) key.get(DeadOutboxMessages.ID));
+  Messages deadOutboxMessage = Messages.create((String) key.get(Messages.ID));
 
   deadOutboxMessage.setAttempts(0);
 
-  this.outboxDeadLetterQueueService.run(Update.entity(DeadOutboxMessages_.class).entry(key).data(deadOutboxMessage));
+  this.db.run(Update.entity(Messages_.class).entry(key).data(deadOutboxMessage));
   context.setCompleted();
 }
 
 @On
 public void deleteOutboxEntry(DeadOutboxMessagesDeleteContext context) {
-  AnalysisResult analysisResult = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn());
-  Map<String, Object> key = CqnAnalyzer.create(context.getModel()).analyze(context.getCqn()).rootKeys();
+  CqnAnalyzer analyzer = CqnAnalyzer.create(context.getModel());
+  AnalysisResult analysisResult = analyzer.analyze(context.getCqn());
+  Map<String, Object> key = analysisResult.rootKeys();
 
-  this.outboxDeadLetterQueueService.run(Delete.from(DeadOutboxMessages_.class).byId(key.get(DeadOutboxMessages.ID)));
+  this.db.run(Delete.from(Messages_.class).byId(key.get(Messages.ID)));
   context.setCompleted();
 }
 ```
 
-The injected `OutboxDeadLetterQueueService` instance is used to perform the operations on the entity. Both handlers first retrieve the ID of the entry and then they perform the corresponding operation on the database.
+The injected `PersistenceService` instance is used to perform the operations on the `Messages` entity since the entity `DeadOutboxMessages` is read-only. Both handlers first retrieve the ID of the entry and then they perform the corresponding operation on the database.
 
 [Learn more about CQL statement inspection.](./working-with-cql/query-introspection#cqnanalyzer){.learn-more}
 
 ::: tip Use paging logic
-Avoid to read all entries of the `cds.outbox.Messages` table at once, as the size of an entry is unpredictable
+Avoid to read all entries of the `cds.outbox.Messages` or `OutboxDeadLetterQueueService.DeadOutboxMessages` table at once, as the size of an entry is unpredictable
 and depends on the size of the payload. Prefer paging logic instead.
 :::
 

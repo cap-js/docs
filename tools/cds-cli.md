@@ -387,7 +387,7 @@ Use `cds env` to inspect currently effective config settings of your Node.js app
 :::
 
 ::: tip Inspect configuration for Java applications
-While `cds repl` does _not_ show the [runtime SpringBoot configuration for CAP Java applications](../java/developing-applications/configuring), you can still use it to learn about _designtime_ configuration, which applies to Java applications as well.  Examples are build tasks (`cds env build.tasks`) or build plugins (`cds env plugins`).<br>
+While `cds env` does _not_ show the [runtime SpringBoot configuration for CAP Java applications](../java/developing-applications/configuring), you can still use it to learn about _designtime_ configuration, which applies to Java applications as well.  Examples are build tasks (`cds env build.tasks`) or build plugins (`cds env plugins`).<br>
 Also, the [multitenancy sidecar](../java/multitenancy) is a Node.js application, for which `cds env` shows the entire configuration if executed in the _mtx/sidecar_ folder.
 :::
 

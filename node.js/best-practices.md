@@ -385,11 +385,9 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ`, `action` or `function` handler, content information can be configured as part of the handlers result object. 
+When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ`, `action`, or `function` handler, content information can be configured as part of the handlers result object. 
 
-Preferably, the handler implementation should use [`req.reply`](events#req-reply), called with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and options to specify content disposition headers. 
-
-Example:
+Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable). Include options to specify content disposition headers:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
@@ -401,9 +399,9 @@ srv.on('READ', 'Books', (req, next) => {
 })
 ```
 
-Alternatively, it is also possible to return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object. 
+::: details Alternatively, it is also possible to return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) ...
 
-Example:
+... directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
@@ -418,10 +416,10 @@ srv.on('READ', 'Books', (req, next) => {
 })
 ```
 
+:::
+
 For compatibility, the content information can be conveyed using a result object specifying the information as it would be available if extracted from the proper cds annotations.
 In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
-
-Example: 
 
 ```js
 srv.on('getCoverImageFunction', 'Books', (req) => {
@@ -435,10 +433,7 @@ srv.on('getCoverImageFunction', 'Books', (req) => {
 })
 ```
 
-Lastly, the Node.js runtime will respect manually set header values.
-
-Example:
-
+In addition, the Node.js runtime will respect manually set header values.
 
 ```js
 srv.on('unboundAction', (req, res) => {

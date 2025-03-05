@@ -947,12 +947,7 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 ```
 >  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
 
-::: warning Support in latest runtimes
-
-Support for open intervals and infinity has been added to CAP Node.js, i.e. `@sap/cds` version **8.5**. Support in CAP Java is **not yet available** but will follow soon.
-
-:::
-
+Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
 
 ### `@assert .notNull`
 

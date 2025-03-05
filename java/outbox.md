@@ -313,7 +313,7 @@ The transactional outbox tries to process each entry a specific number of times.
 
 [Learn more about CDS Properties.](./developing-applications/properties){.learn-more}
 
-Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database forever. By defining a CDS service the dead entries can be managed. The example below provides a step-by-step guide to develop a Dead Letter Queue for the transactional outbox.
+Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database and it is up to the application to take care of the entries. By defining a CDS service, the dead entries can be managed conveniently. The example below provides a step-by-step guide to develop a Dead Letter Queue for the transactional outbox.
 
 ::: warning
 

@@ -31,7 +31,7 @@ CAP's clear recommendation is to use _Remote Services_ over directly using the S
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
 :::
 
-## Configuring Remote Services
+## Remote OData Services
 
 To enable _Remote Services_ for OData V2 or V4 APIs in an application, add the following Maven dependency to your project:
 
@@ -199,6 +199,7 @@ cds:
 ```
 :::
 
+#### Consuming APIs from Other IAS-Applications
 If your CAP application is using IAS and you want to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
 As a pre-requisite, your CAP application and the called application need to trust the same IAS tenant and you need to define a dependency in IAS to consume the respective API provided by the _remote API_.
 
@@ -211,7 +212,9 @@ Create a destination configuration with the following parameters:
 
 At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
 
-[Learn more about consuming APIs from Other IAS-Appications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
+[Learn more about consuming APIs from other IAS-Applications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
+
+#### Retrieve Destinations
 
 The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name that is configured in the _Remote Service_'s destination configuration.
 
@@ -250,6 +253,8 @@ cds:
 
 In this case, the destination with name `s4-business-partner-api` would be obtained from the `DestinationAccessor`.
 Given that this destination holds the URL `https://s4.sap.com`, the resulting service URL for OData requests would be `https://s4.sap.com/sap/opu/odata/sap/API_BUSINESS_PARTNER`.
+
+<div id="remote-rfc-services" />
 
 ## Consuming Remote Services
 

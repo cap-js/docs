@@ -134,7 +134,7 @@ Make sure that:
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
 **First of all**, make sure the HANA database is accessible in your application's environment.
-This includes making sure the HANA is either part of or mapped to your Cloud Foundry space or Kyma cluster and the IP addresses are in an allowed range. Access issues are likely the root cause if you experience this error during application startup.
+This includes making sure the HANA is either part of or mapped to your Cloud Foundry space or Kyma cluster and the IP addresses are in an allowed range. Connectivity issues are likely the root cause if you experience this error during application startup.
 
 [Learn how to set up SAP HANA instance mappings](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context){.learn-more style="margin-top:10px"}
 

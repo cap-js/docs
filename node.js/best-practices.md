@@ -399,9 +399,7 @@ srv.on('READ', 'Books', (req, next) => {
 })
 ```
 
-::: details Alternatively, it is also possible to return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) ...
-
-... directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
+Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
@@ -415,8 +413,6 @@ srv.on('READ', 'Books', (req, next) => {
   return next()
 })
 ```
-
-:::
 
 :::details Compatibility option
 For compatibility, the content information can be conveyed using a result object specifying the information as it would be available if extracted from the proper cds annotations.

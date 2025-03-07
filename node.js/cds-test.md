@@ -133,7 +133,7 @@ Run them with `npm run jest` or with `npm run mocha`.
 _jest_ helpers might cause conflicts with the generic implementation of `@sap/cds`.
 
 To avoid such conflicts, do not use the following helpers:
-- _jest.resetModules_ as it leaves the server in an inconsistent state. 
+- _jest.resetModules_ as it leaves the server in an inconsistent state.
 - _jest.useFakeTimers_ as it intercepts the server shutdown causing test timeouts.
 :::
 
@@ -561,6 +561,20 @@ await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
 )
 ```
 
+### Keep Test Code Environment Agnostic
+
+Environment setup shouldn't be part of the test code itself. That should be handled by setup scripts like CI/CD pipelines.
+This way, your tests remain isolated and reproducible across different setups.
+
+::: code-group
+```js [my.test.js]
+// NO service bindings, env. variables, profiles, etc. here
+// Do this outside in setup scripts etc.
+describe(() => { cds.test(...) })
+```
+:::
+
+[Learn how to setup integration tests with `cds bind`.](../advanced/hybrid-testing#integration-tests){.learn-more}
 
 
 ## Using `cds.test` in REPL

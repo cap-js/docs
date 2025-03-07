@@ -542,11 +542,11 @@ In the third terminal, subscribe to two tenants using one of the following metho
       ```log
       [cds] - POST /-/cds/deployment/subscribe
       [mtx] - (re-)deploying SQLite database for tenant: t1 // [!code focus]
-       > init from db/init.js // [!code focus]
-       > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
-       > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
+      > init from db/init.js // [!code focus]
+      > init from db/data/sap.capire.bookshop-Authors.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Books_texts.csv // [!code focus]
+      > init from db/data/sap.capire.bookshop-Genres.csv // [!code focus]
       /> successfully deployed to ./../../db-t1.sqlite  // [!code focus]
 
       [mtx] - successfully subscribed tenant t1
@@ -602,7 +602,7 @@ In the following example, _Wuthering Heights (only in t1)_ was changed by _alice
 
    How users are assigned to tenants and how tenants are determined at runtime largely depends on your identity providers and authentication strategies. The `mocked` authentication strategy, used by default with `cds watch`, has a few [pre-defined users](../../node.js/authentication#mock-users) configured. You can inspect these by running `cds env requires.auth`:
 
-   ```console
+   ```js
    [bookshop] cds env requires.auth
    {
     kind: 'basic-auth',
@@ -715,7 +715,7 @@ In order to get your multitenant application deployed, follow this excerpt from 
 Once: Add SAP HANA Cloud, XSUAA, and [App Router](../deployment/to-cf#add-app-router) configuration. The App Router acts as a single point-of-entry gateway to route requests to. In particular, it ensures user login and authentication in combination with XSUAA.
 
 ```sh
-cds add hana,xsuaa,approuter --for production
+cds add hana,xsuaa --for production
 ```
 
 If you intend to serve UIs you can easily set up the SAP Cloud Portal service:

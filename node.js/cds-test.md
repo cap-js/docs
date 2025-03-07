@@ -133,7 +133,7 @@ Run them with `npm run jest` or with `npm run mocha`.
 _jest_ helpers might cause conflicts with the generic implementation of `@sap/cds`.
 
 To avoid such conflicts, do not use the following helpers:
-- _jest.resetModules_ as it leaves the server in an inconsistent state. 
+- _jest.resetModules_ as it leaves the server in an inconsistent state.
 - _jest.useFakeTimers_ as it intercepts the server shutdown causing test timeouts.
 :::
 
@@ -469,7 +469,7 @@ cds.test.in(__dirname)
 It's important to ensure [`cds.env`](cds-env), and hence all plugins, are loaded from the test's target folder. To ensure this, any references to or imports of [`cds`](cds-facade) sub modules have to go after all plugins are loaded. For example if you had a test like that:
 
 ```js
-cds.env.fiori.lean_draft = true   //> cds.env loaded from ./ // [!code --]
+cds.env.fiori.lean_draft = true   //> cds.env loaded from ./  [!code --]
 cds.test(__dirname)               //> target folder: __dirname
 ```
 
@@ -501,7 +501,7 @@ Detected cds.env loaded before running cds.test in different folder:
 A similar error would occur if one of the `cds` sub modules would be accessed, which frequently load `cds.env` in their global scope, like `cds.Service` in the following snippet:
 
 ```js
-class MyService extends cds.Service {}  //> cds.env loaded from ./ // [!code --]
+class MyService extends cds.Service {}  //> cds.env loaded from ./  [!code --]
 cds.test(__dirname)                     //> target folder: __dirname
 ```
 
@@ -561,6 +561,20 @@ await expect(POST(`/catalog/Books`,...)).to.be.rejectedWith(
 )
 ```
 
+### Keep Test Code Environment Agnostic
+
+Environment setup shouldn't be part of the test code itself. That should be handled by setup scripts like CI/CD pipelines.
+This way, your tests remain isolated and reproducible across different setups.
+
+::: code-group
+```js [my.test.js]
+// NO service bindings, env. variables, profiles, etc. here
+// Do this outside in setup scripts etc.
+describe(() => { cds.test(...) })
+```
+:::
+
+[Learn how to setup integration tests with `cds bind`.](../advanced/hybrid-testing#integration-tests){.learn-more}
 
 
 ## Using `cds.test` in REPL

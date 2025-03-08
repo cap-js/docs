@@ -399,6 +399,89 @@ This will not work in the `dev` plan of SAP Event Mesh.
 If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handshake requests](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/6a0e4c77e3014acb8738af039bd9df71.html?q=handshake) from SAP Event Mesh might be intercepted.
 :::
 
+### SAP Integration Suite, advanced event mesh (beta)
+
+::: warning
+This is a beta feature. Beta features aren't part of the officially delivered scope that SAP guarantees for future releases.
+:::
+
+`kind`: `advanced-event-mesh`
+
+Use this if you want to communicate with [SAP Integration Suite, advanced event mesh](https://help.pubsub.em.services.cloud.sap/Get-Started/get-started-lp.htm).
+It uses the native [Solace PubSub+ JavaScript API](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/readme.html) to send and receive messages and the
+[Solace Element Management Protocol (SEMP)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) for queue and subscription management, both using OAuth 2.0.
+
+The integration is provided using the plugin [`@cap-js/advanced-event-mesh`](https://github.com/cap-js/advanced-event-mesh).
+Hence, you first need to install the plugin:
+
+```bash
+npm add @cap-js/advanced-event-mesh
+```
+
+
+Here are the available configuration options with their default values:
+
+```js
+{
+  "requires": {
+    "messaging": {
+      "kind": "advanced-event-mesh",
+      "queue": {
+        "queueName": "$appId",
+        "ingressEnabled": true,
+        "egressEnabled": true
+      },
+      "consumer": {
+        "queueDescriptor": {
+          "type": "QUEUE"
+        },
+        "acknowledgeMode": "CLIENT",
+        "requiredSettlementOutcomes": [1, 3]
+      },
+      "session": {
+        "authenticationScheme": "AuthenticationScheme_oauth2",
+        "publisherProperties": {
+          "acknowledgeMode": "PER_MESSAGE"
+        },
+        "connectRetries": -1
+      },
+      "logLevel": 1,
+      "outbox": true,
+      "subscribePrefix": "",
+      "publishPrefix": ""
+  }
+}
+```
+For available settings, please refer to the [Solace API documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/index.html):
+
+| Property | Description |
+|----------|-------------|
+| `queue` | [MsgVpnQueue](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/msgVpn/createMsgVpnQueue) |
+| `consumer` | [solace.MessageConsumerProperties](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.MessageConsumerProperties.html) |
+| `session` | [solace.SessionProperties](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.SessionProperties.html) |
+| `logLevel` | [solace.LogLevel](https://docs.solace.com/API-Developer-Online-Ref-Documentation/nodejs/solace.LogLevel.html) |
+
+
+You need [create a user-provided service instance](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-user-provided-service-instances?version=Cloud) with name `advanced-event-mesh` and the following credentials:
+
+```js
+{
+  "name": "advanced-event-mesh",
+  "credentials": {
+    "vpn": "<name of your VPN>",
+    "clientid": "<client id of your IAS application>",
+    "clientsecret": "<client secret of your IAS application>",
+    "tokenendpoint": "<token endpoint of your IAS application>",
+    "management_uri": "<base path to the SEMP v2 config API>",
+    "uri": "<secured web messaging uri>"
+  }
+}
+```
+
+::: warning
+The IAS application must be authorized to use the SEMP v2 config APIs as well as the Solace web messaging API. The appropriate OAuth 2.0 profiles need to be created in SAP Integration Suite, advanced event mesh.
+:::
+
 <span id="aftereventmesh" />
 
 ### SAP Cloud Application Event Hub <Beta/> { #event-broker }

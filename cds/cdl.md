@@ -1748,7 +1748,7 @@ extend Foo with NamedAspect;
 extend Bar with NamedAspect;
 ```
 
-By extending an entity with an aspect, you add all the aspect's fields, actions, and annotations the entity.
+By extending an entity with an aspect, you add all the aspect's fields, actions, and annotations to the entity.
 
 Use keyword `aspect` as shown in the example to declare definitions that are only meant to be used in such extensions, not as types for elements.
 
@@ -1756,7 +1756,7 @@ To reuse annotations, without adding elements, use an empty aspect and extend yo
 You can even extend projections with such aspects.
 
 ```cds
-@annotatation
+@annotation
 aspect ReuseAnnotations {};
 entity Proj as projection on Bar;
 ```

@@ -133,7 +133,12 @@ Make sure that:
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
+**First of all**, make sure the SAP HANA database is accessible in your application's environment.
+This includes making sure the SAP HANA is either part of or mapped to your Cloud Foundry space or Kyma cluster and the IP addresses are [in an allowed range](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). Connectivity issues are likely the root cause if you experience this error during application startup.
+
+[Learn how to set up SAP HANA instance mappings](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context){.learn-more style="margin-top:10px"}
+
+If you frequently get this error during normal runtime operation your database client pool settings likely don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
@@ -577,6 +582,7 @@ If the MTA build fails with `The 'npm ci' command can only install with an exist
 - _package-lock.json_ should also be added to version control, so make sure that _.gitignore_ does __not__ contain it.
 
 The purpose of _package-lock.json_ is to pin your project's dependencies to allow for reproducible builds.
+
 [Learn more about dependency management in Node.js.](../node.js/best-practices#dependencies){.learn-more}
 
 ### How Can I Reduce the MTA Archive Size During Development? { #reduce-mta-size}

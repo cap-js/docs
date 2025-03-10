@@ -415,7 +415,7 @@ export default function custom_auth(req: Req, res: Response, next: NextFunction)
 }
 ```
 
-[If you want to customize the user ID, please also have a look at this example.](/node.js/cds-serve#customization-of-req-user){.learn-more}
+[If you want to customize the user ID, please also have a look at this example.](/node.js/cds-serve#customization-of-cds-context-user){.learn-more}
 
 
 ## Authentication Enforced in Production

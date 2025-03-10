@@ -40,7 +40,11 @@ The following guide is based on a productive (paid) account on SAP BTP.
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Cloud Application Event Hub.
 The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Cloud Application Event Hub.
 
+<div class="impl node">
+
 Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
+
+</div>
 
 
 ### Prerequisite: Events & Messaging in CAP
@@ -72,9 +76,17 @@ However, please note that future [Open Resource Discovery (ORD)](https://sap.git
 
 Configure your application to use the messaging service kind `event-broker` (derived from SAP Cloud Application Event Hub's technical name).
 
-[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
+<div class="impl node">
 
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+
+</div>
+<div class="impl java">
+
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#configuring-sap-event-hub-support){.learn-more}
+
+</div>
 
 ::: tip Local Testing
 Since SAP Cloud Application Event Hub sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.

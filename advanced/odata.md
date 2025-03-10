@@ -633,14 +633,48 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
 </Schema>
 ```
 
-::: warning Restrictions concerning the foreign key elements of managed associations
+#### Managed Associations
 
-1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
-This is a workaround for the lack of possibility to directly annotate a foreign key element.
-This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
-to use expression-valued annotations for annotating foreign keys of a managed association.
+The OData backend translates managed associations into unmanaged ones plus explicit foreign key elements.
+During this translation, annotations assigned to the managed association are copied to the respective foreign key elements.
 
-2. In an expression-valued annotation, it is not possible to reference the foreign key element
+Example:
+```cds
+service S {
+  entity Authors { key ID : Integer; name : String; }
+  entity Books   { key ID : Integer; author : Association to Authors; }
+
+  annotate Books:author with @Common.Text: (author.name); 
+}
+```
+
+Resulting OData API:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Authors">
+    <!-- ... -->
+    <Property Name="name" Type="Edm.String"/>
+  </EntityType>
+  <EntityType Name="Books">
+    <!-- ... -->
+    <NavigationProperty Name="author" Type="S.Authors"/>
+    <Property Name="author_ID" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.Books/author_ID">
+    <Annotation Term="Common.Text" Path="author/name"/>
+  </Annotations>
+</Schema>
+```
+
+Instead of relying on this copy mechanism, you can also explicitly annotate a foreign key element:
+```cds
+annotate Books:author.ID with @Common.Text: ($self.author.name);  // here $self is necessary
+```
+
+::: warning Restriction concerning the foreign key elements of managed associations
+
+In an expression-valued annotation, it is not possible to reference the foreign key element
 of a managed association.
 
 :::
@@ -1187,6 +1221,7 @@ GET /Books?$apply=aggregate(stock with sum as stock) HTTP/1.1
 #### Currencies and Units of Measure
 
 If a property represents a monetary amount, it may have a related property that indicates the amount's *currency code*. Analogously, a property representing a measured quantity can be related to a *unit of measure*. To indicate that a property is a currency code or a unit of measure it can be annotated with the [Semantics Annotations](https://help.sap.com/docs/SAP_NETWEAVER_750/cc0c305d2fab47bd808adcad3ca7ee9d/fbcd3a59a94148f6adad80b9c97304ff.html) `@Semantics.currencyCode` or `@Semantics.unitOfMeasure`.
+The aggregation method (typically, sum) is specified with the `@Aggregation.default` annotation.
 
 ```cds
 @Aggregation.CustomAggregate#amount   : 'Edm.Decimal'
@@ -1195,6 +1230,7 @@ entity Sales {
     key id        : GUID;
         productId : GUID;
         @Semantics.amount.currencyCode: 'currency'
+        @Aggregation.default: #SUM
         amount    : Decimal(10,2);
         @Semantics.currencyCode
         currency  : String(3);

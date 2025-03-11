@@ -4,7 +4,7 @@ entity Books {
   key ID : Integer;
   @mandatory title  : localized String(111);
   @mandatory author : Association to Authors;
-  $pages: Integer; // [!code error] // elements should not start with a dollar sign ($)
+  $pages: Integer; // elements should not start with a dollar sign ($) [!code error]
 }
 
 entity Authors {

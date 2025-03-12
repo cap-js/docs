@@ -351,9 +351,9 @@ The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxMessages` which
 
 Filters can be applied as for any other CDS defined entity, e.g. to filter for a specific outbox where the outbox name is stored in the field `target` of the entity `cds.outbox.Messages`.
 
-::: warning `DeadOutboxMessages` for internal users only
+::: warning `OutboxDeadLetterQueueService` for internal users only
 
-It is crucial to make the entity `DeadOutboxMessages` accessible for internal users only as it contains sensitive data that could be exploited for malicious purposes if unauthorized changes are performed.
+It is crucial to make the service `OutboxDeadLetterQueueService` accessible for internal users only as it contains sensitive data that could be exploited for malicious purposes if unauthorized changes are performed.
 
 [Learn more about pseudo roles](../guides/security/authorization#pseudo-roles){.learn-more}
 

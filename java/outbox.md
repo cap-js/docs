@@ -313,15 +313,16 @@ The transactional outbox tries to process each entry a specific number of times.
 
 [Learn more about CDS Properties.](./developing-applications/properties){.learn-more}
 
-Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database and it is up to the application to take care of the entries. By defining a CDS service, the dead entries can be managed conveniently. The example below provides a step-by-step guide to develop a Dead Letter Queue for the transactional outbox.
+Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database and it is up to the application to take care of the entries. By defining a CDS service, the dead entries can be managed conveniently. Let's have a look, how you can develop a Dead Letter Queue for the transactional outbox.
 
-::: warning
+::: warning Changing configuration between deployments
 
 It is possible to increase the value of the configuration `cds.outbox.services.<key>.maxAttempts` in between of deployments. Older entries which have reached their max attempts in the past would be retried automatically after deployment of the new microservice version. If the dead letter queue has a big size, this will lead to unintended load on the system.
 
 :::
 
-In the first step the service needs to be defined in CDS:
+
+### Define the Service
 
 ::: code-group
 
@@ -350,7 +351,7 @@ The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxMessages` which
 
 Filters can be applied as for any other CDS defined entity, e.g. to filter for a specific outbox where the outbox name is stored in the field `target` of the entity `cds.outbox.Messages`.
 
-::: warning
+::: warning `DeadOutboxMessages` for internal users only
 
 It is crucial to make the entity `DeadOutboxMessages` accessible for internal users only as it contains sensitive data that could be exploited for malicious purposes if unauthorized changes are performed.
 
@@ -358,7 +359,11 @@ It is crucial to make the entity `DeadOutboxMessages` accessible for internal us
 
 :::
 
-To ensure that only dead outbox entries are returned when reading `DeadOutboxMessages`, an `@After` handler needs to be added which filters the entries. This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties. The following code provides the handler for the `DeadLetterQueueService` and the `@After-READ` handler that filters for the dead outbox entries:
+### Filter for Dead Entries
+
+This filtering can't be done on the database since the maximum number of attempts is only available from the CDS properties.
+
+To ensure that only dead outbox entries are returned when reading `DeadOutboxMessages`, the following code provides the handler for the `DeadLetterQueueService` and the `@After-READ` handler that filters for the dead outbox entries:
 
 ```java
 @Component
@@ -382,7 +387,7 @@ public class DeadOutboxMessagesHandler implements EventHandler {
 
 [Learn more about event handlers.](./event-handlers/){.learn-more}
 
-Next, to implement the functionality for the bound actions (`revive` and `delete`) defined for the `DeadOutboxMessages` entity, you need to create the corresponding handlers:
+### Implement Bound Actions
 
 ```java
 @Autowired

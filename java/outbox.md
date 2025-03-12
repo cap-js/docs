@@ -124,7 +124,7 @@ public class MySpringComponent {
 ... it must be ensured that there are no unprocessed entries left.
 
 Removing a custom outbox from the `cds.outbox.services` section doesn't remove the
-entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and isn't
+entries from the `cds.outbox.Messages` table. The entries remain in the `cds.outbox.Messages` table and aren't
 processed anymore.
 
 :::
@@ -182,7 +182,7 @@ CqnService remoteS4 = ...;
 CqnService outboxedS4 = myCustomOutbox.outboxed(remoteS4);
 ```
 
-If a method on the outboxed service has a return value, it will always return `null` since it is executed asynchronously. A common example for this are the `CqnService.run(...)` methods.
+If a method on the outboxed service has a return value, it will always return `null` since it's executed asynchronously. A common example for this are the `CqnService.run(...)` methods.
 To improve this the API `OutboxService.outboxed(Service, Class)` can be used, which wraps a service with an asynchronous suited API while outboxing it.
 This can be used together with the interface `AsyncCqnService` to outbox remote OData services:
 
@@ -212,7 +212,7 @@ A service wrapped by an outbox can be unboxed by calling the API `OutboxService.
 service are executed synchronously without storing the event in an outbox.
 
 ::: warning Java Proxy
-A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html). Such a proxy only implements the _interfaces_ of the object it is wrapping. This means an outboxed service proxy can't be casted to the class implementing the underlying service object.
+A service wrapped by an outbox is a [Java Proxy](https://docs.oracle.com/javase/8/docs/technotes/guides/reflection/proxy.html). Such a proxy only implements the _interfaces_ of the object that it's wrapping. This means an outboxed service proxy can't be casted to the class implementing the underlying service object.
 :::
 
 ::: tip Custom outbox for scaling
@@ -262,7 +262,7 @@ The outbox by default retries publishing a message, if an error occurs during pr
 This behavior makes applications resilient against unavailability of external systems, which is a typical use case for outbox message processing.
 
 However, there might also be situations in which it is not reasonable to retry publishing a message.
-For example, when the processed message causes a semantic error - typically due to a 400 Bad request - on the external system.
+For example, when the processed message causes a semantic error - typically due to a `400 Bad request` - on the external system.
 Outbox messages causing such errors should be removed from the outbox message table before reaching the maximum number of retry attempts and instead application-specific
 counter-measures should be taken to correct the semantic error or ignore the message altogether.
 
@@ -313,11 +313,11 @@ The transactional outbox tries to process each entry a specific number of times.
 
 [Learn more about CDS Properties.](./developing-applications/properties){.learn-more}
 
-Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically, they remain in the database and it is up to the application to take care of the entries. By defining a CDS service, the dead entries can be managed conveniently. Let's have a look, how you can develop a Dead Letter Queue for the transactional outbox.
+Once the maximum number of attempts is exceeded, the corresponding entry is not touched anymore and hence it can be regarded as dead. Dead outbox entries are not deleted automatically. They remain in the database and it's up to the application to take care of the entries. By defining a CDS service, the dead entries can be managed conveniently. Let's have a look, how you can develop a Dead Letter Queue for the transactional outbox.
 
 ::: warning Changing configuration between deployments
 
-It is possible to increase the value of the configuration `cds.outbox.services.<key>.maxAttempts` in between of deployments. Older entries which have reached their max attempts in the past would be retried automatically after deployment of the new microservice version. If the dead letter queue has a big size, this will lead to unintended load on the system.
+It's possible to increase the value of the configuration `cds.outbox.services.<key>.maxAttempts` in between of deployments. Older entries which have reached their max attempts in the past would be retried automatically after deployment of the new microservice version. If the dead letter queue has a large size, this leads to unintended load on the system.
 
 :::
 
@@ -349,7 +349,7 @@ The `OutboxDeadLetterQueueService` provides an entity `DeadOutboxMessages` which
 - `revive()` sets the number of attempts to `0` such that the outbox entry is going to be processed again.
 - `delete()` deletes the outbox entry from the database.
 
-Filters can be applied as for any other CDS defined entity, e.g. to filter for a specific outbox where the outbox name is stored in the field `target` of the entity `cds.outbox.Messages`.
+Filters can be applied as for any other CDS defined entity, for example, to filter for a specific outbox where the outbox name is stored in the field `target` of the entity `cds.outbox.Messages`.
 
 ::: warning `DeadOutboxMessages` for internal users only
 
@@ -433,7 +433,7 @@ The transactional outbox integrates Open Telemetry for logging telemetry data.
 
 [Learn more about observability with Open Telemetry.](./operating-applications/observability#open-telemetry){.learn-more}
 
-The following KPIs are logged in addition the spans described in the [observability chapter](./operating-applications/observability):
+The following KPIs are logged in addition to the spans described in the [observability chapter](./operating-applications/observability):
 
 | KPI Name                                   | Description                                                                                            | KPI Type |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ | -------- |
@@ -445,4 +445,4 @@ The following KPIs are logged in addition the spans described in the [observabil
 | `com.sap.cds.outbox.incomingMessages`      | Number of incoming messages of the outbox.                                                             | Counter  |
 | `com.sap.cds.outbox.outgoingMessages`      | Number of outgoing messages of the outbox.                                                             | Counter  |
 
-The KPIs are logged per microservice instance (in case of horizontal scaling), outbox and tenant.
+The KPIs are logged per microservice instance (in case of horizontal scaling), outbox, and tenant.

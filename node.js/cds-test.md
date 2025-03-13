@@ -14,9 +14,15 @@ status: released
 
 The `cds.test` library provides best practice utils for writing tests for CAP Node.js applications.
 
-::: tip Find examples in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples/tree/main/test) and in the [*SFlight sample*](https://github.com/SAP-samples/cap-sflight/tree/main/test).
-:::
+Install it with:
 
+```sh
+npm add -D @cap-js/cds-test
+```
+
+::: tip Examples
+Find examples in [*cap/samples*](https://github.com/sap-samples/cloud-cap-samples/tree/main/test) and in the [*SFlight sample*](https://github.com/SAP-samples/cap-sflight/tree/main/test).
+:::
 
 
 ### Running a CAP Server

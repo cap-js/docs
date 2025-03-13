@@ -80,7 +80,7 @@ When prompted, specify the group ID and artifact ID of your application. The art
 Alternatively, you can use the CDS tools to bootstrap a Java project:
 
 ```sh
-cds init <PROJECT-ROOT> --java
+cds init <PROJECT-ROOT> --add java
 ```
 Afterwards, switch to the new project by calling `cd <PROJECT-ROOT>`. All following steps need to executed from this directory!
 

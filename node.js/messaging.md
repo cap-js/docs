@@ -1,7 +1,6 @@
 ---
 synopsis: >
   Learn details about using messaging services and outbox for asynchronous communications.
-redirect_from: node.js/outbox
 # layout: node-js
 status: released
 ---
@@ -252,7 +251,7 @@ To safely send and receive messages between applications, you need a message bro
 
 In CDS, you can configure one of the available broker services in your [`requires` section](cds-connect#cds-env-requires).
 
-According to our [grow as you go principle](../get-started/grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
+According to our [grow as you go principle](../about/#grow-as-you-go), it makes sense to first test your application logic without a message broker and enable it later. Therefore, we provide support for [local messaging](#local-messaging) (if everything is inside one Node.js process) as well as [file-based messaging](#file-based).
 
 ### Configuring Message Brokers
 
@@ -274,7 +273,7 @@ If you register at least one handler, a queue will automatically be created if n
 
 You have the following configuration options:
 
-- `queue`: An object containing the `name` property as the name of your queue, additional properties are described in section [QueueP](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep).
+- `queue`: An object containing the `name` property as the name of your queue, additional properties are described [in the SAP Business Accelerator Hub](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue).
 - `amqp`: AQMP client options as described in the [`@sap/xb-msg-amqp-v100` documentation](https://www.npmjs.com/package/@sap/xb-msg-amqp-v100?activeTab=readme)
 
 If the queue name isn't specified, it's derived from `application_name` and the first four characters of `application_id` of your `VCAP_APPLICATION` environmental variable, as well as the `namespace` property of your SAP Event Mesh binding in `VCAP_SERVICES`: `{namespace}/{application_name}/{truncated_application_id}`.
@@ -461,15 +460,15 @@ modules:
         properties:
           url: ${default-url} #> needed in webhookUrl and home-url below
     requires:
-      - name: incidents-event-broker
-        parameters:
-          config:
-            authentication-type: X509_IAS
       - name: incidents-ias
         parameters:
           config:
             credential-type: X509_GENERATED
             app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
 
 resources:
   - name: incidents-event-broker

@@ -14,7 +14,9 @@ CDS Query Language (CQL) is based on standard SQL, which it enhances by...
 
 [[toc]]
 
-## Postfix Projections {#postfix-projections}
+
+## Postfix Projections
+{#postfix-projections}
 
 CQL allows to put projections, that means, the `SELECT` clause, behind the `FROM` clause enclosed in curly braces. For example, the following are equivalent:
 
@@ -25,7 +27,8 @@ SELECT name, address.street from Authors
 SELECT from Authors { name, address.street }
 ```
 
-### Nested Expands <Beta /> {#nested-expands}
+### Nested Expands <Beta />
+{#nested-expands}
 
 Postfix projections can be appended to any column referring to a struct element or an association and hence be nested.
 This allows **expand** results along associations and hence read deeply structured documents:
@@ -405,6 +408,26 @@ For the OData backend, by specifying a type, the compiler will also assign the c
 You don't need a CDL cast if you already use a SQL cast. The compiler will extract the type from the SQL cast.
 :::
 
+
+## Use enums
+
+In queries, you can use enum symbols instead of the respective literals in places
+where the corresponding type can be deduced:
+
+```cds
+type Status : String enum { open; closed; in_progress; };
+
+entity OpenOrder as projection on Order {
+  
+  case status when #open        then 0
+              when #in_progress then 1 end
+    as status_int : Integer,
+
+  (status = #in_progress ? 'is in progress' : 'is open')
+    as status_txt : String,  
+    
+} where status = #open or status = #in_progress;
+```
 
 
 ## Association Definitions

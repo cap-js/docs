@@ -20,9 +20,13 @@ impl-variants: true
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
-### Adding Database Packages  {.impl .node}
+### Migrating to New Database Services?  {.node}
+
+With CDS 8, the new database services for SQLite, PostgreSQL, and SAP HANA are now generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the new SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+
+### Adding Database Packages  {.node}
 
 Following are cds-plugin packages for CAP Node.js runtime that support respective databases:
 
@@ -56,7 +60,7 @@ npm add @cap-js/hana
 
 :::
 
-### Auto-Wired Configuration  {.impl .node}
+### Auto-Wired Configuration  {.node}
 
 The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this effectively results in this auto-wired configuration:
 
@@ -81,7 +85,7 @@ The afore-mentioned packages use `cds-plugin` techniques to automatically config
 
 
 
-### Custom Configuration  {.impl .node}
+### Custom Configuration  {.node}
 
 The auto-wired configuration uses configuration presets, which are automatically enabled via `cds-plugin` techniques. You can always use the basic configuration and override individual properties to create a different setup:
 
@@ -141,7 +145,7 @@ cds env cds.requires.db
 
 </div>
 
-### Built-in Database Support {.impl .java}
+### Built-in Database Support {.java}
 
 CAP Java has built-in support for different SQL-based databases via JDBC. This section describes the different databases and any differences between them with respect to CAP features. There's out of the box support for SAP HANA with CAP currently as well as H2 and SQLite. However, it's important to note that H2 and SQLite aren't enterprise grade databases and are recommended for non-productive use like local development or CI tests only. PostgreSQL is supported in addition, but has various limitations in comparison to SAP HANA, most notably in the area of schema evolution.
 
@@ -160,7 +164,7 @@ Database support is enabled by adding a Maven dependency to the JDBC driver, as 
 
 You can use CSV files to fill your database with initial data - see [Location of CSV Files](#location-of-csv-files).
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 For example, in our [*cap/samples/bookshop*](https://github.com/SAP-samples/cloud-cap-samples/tree/main/bookshop/db/data) application, we do so for *Books*, *Authors*, and *Genres* as follows:
 
@@ -177,7 +181,7 @@ bookshop/
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 For example, in our [CAP Samples for Java](https://github.com/SAP-samples/cloud-cap-samples-java/tree/main/db/data) application, we do so for some entities such as *Books*, *Authors*, and *Genres* as follows:
 
@@ -266,7 +270,7 @@ CSV and _hdbtabledata_ files found in the _src_ folder of your database module a
 
 Quite frequently you need to distinguish between sample data and real initial data. CAP supports this by allowing you to provide initial data in two places:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 | Location    | Deployed...          | Purpose                                                  |
 | ----------- | -------------------- | -------------------------------------------------------- |
@@ -275,7 +279,7 @@ Quite frequently you need to distinguish between sample data and real initial da
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use the properties [cds.dataSource.csv.*](../java/developing-applications/properties#cds-dataSource-csv) to configure the location of the CSV files. You can configure different sets of CSV files in different [Spring profiles](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles). This configuration reads CSV data from `test/data` if the profile `test` is active:
 
@@ -309,7 +313,7 @@ Most queries to databases are constructed and executed from [generic event handl
 
 ### DB-Agnostic Queries
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 At runtime, we usually construct and execute queries using cds.ql APIs in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -325,7 +329,7 @@ SELECT.from (Authors, a => {
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 At runtime, we usually construct queries using the [CQL Query Builder API](../java/working-with-cql/query-api) in a database-agnostic way. For example, queries like this are supported for all databases:
 
@@ -339,20 +343,104 @@ Select.from(AUTHOR)
 
 </div>
 
+### Standard Operators {.node}
 
+The database services guarantee identical behavior of these operators:
+
+* `==`, `=` — with `=` null being translated to `is null`
+* `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
+* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
+
+In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
+
+::: warning Runtime Only
+The operator mappings are available for runtime queries only, but not in CDS files.
+:::
+
+
+### Functions Mappings for Runtime Queries {.node}
+
+A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
+Note that these functions are only supported within runtime queries, but not in CDS files.
+This set of functions are by large the same as specified in OData:
+
+* `concat(x,y,...)` — concatenates the given strings or numbers
+* `trim(x)` — removes leading and trailing whitespaces
+* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
+* `startswith(x,y)` — checks whether `y` starts with `x`
+* `endswith(x,y)` — checks whether `y` ends with `x`
+* `matchespattern(x,y)` — checks whether `x` matches regex `y`
+* `substring(x,i,n?)` <sup>1</sup> —
+    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.  
+    * **`i`**: Positive starts at `i`, negative starts `i` before the end.  
+    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.  
+* `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
+* `length(x)` — returns the length of string `x`
+* `tolower(x)` — returns all-lowercased `x`
+* `toupper(x)` — returns all-uppercased `x`
+* `ceiling(x)` —  rounds the input numeric parameter up to the nearest numeric value
+* `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
+* `round(x)` — rounds the input numeric parameter to the nearest numeric value.
+               The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
+* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)` —
+  returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `time(x)`, `date(x)` - returns a string representing the `time` / `date` for a given `cds.DateTime` / `cds.Date` / `cds.Time`
+* `fractionalseconds(x)` - returns a a `Decimal` representing the fractions of a second for a given `cds.Timestamp`
+* `maxdatetime()` - returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`
+* `mindatetime()` — returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`
+* `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
+* `now()` — returns the current datetime
+* `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions
+* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
+* `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
+> <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
+
+> You have to write these functions exactly as given; all-uppercase usages aren't supported.
+
+In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
+
+* `years_between` — Computes the number of years between two specified dates.
+* `months_between` — Computes the number of months between two specified dates.
+* `days_between` — Computes the number of days between two specified dates.
+* `seconds_between` — Computes the number of seconds between two specified dates.
+* `nano100_between` — Computes the time difference between two dates to the precision of 0.1 microseconds.
+
+The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
+With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
+
+> For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
+
+::: warning Runtime Only
+The function mappings are available for runtime queries only, but not in CDS files.
+:::
+
+
+### Session Variables {.node}
+
+The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
+This allows you to write respective code once and run it on all these databases:
+
+```sql
+SELECT session_context('$user.id')
+SELECT session_context('$user.locale')
+SELECT session_context('$valid.from')
+SELECT session_context('$valid.to')
+```
+
+Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
 
 ### Native DB Queries
 
 If required you can also use native database features by executing native SQL queries:
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ```js
 cds.db.run (`SELECT from sqlite_schema where name like ?`, name)
 ```
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 Use Spring's [JDBC Template](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html) to [leverage native database features](../java/cqn-services/persistence-services#jdbctemplate) as follows:
 
@@ -364,7 +452,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 ```
 </div>
 
-### Reading `LargeBinary` / BLOB {.impl .node}
+### Reading `LargeBinary` / BLOB {.node}
 
 Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
 
@@ -380,7 +468,7 @@ SELECT(['image1', 'image2']).from(Books) //> [{ image1: Readable, image2: Readab
 
 ## Generating DDL Files {#generating-sql-ddl}
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 When you run your server with `cds watch` during development, an in-memory database is bootstrapped automatically, with SQL DDL statements generated based on your CDS models.
@@ -389,9 +477,9 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
-When you've created a CAP Java application with `cds init --add java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
+When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
 [Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
@@ -704,13 +792,35 @@ The following rules apply:
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
-- For SAP HANA tables, there's an implicit  that is overwritten by an explicitly provided `@sql.prepend`.
+- For SAP HANA tables, there's an implicit `@sql.prepend: 'COLUMN'` that is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
 
+
+#### Creating a Row Table on SAP HANA
+
+By using `@sql.prepend: 'ROW'`, you can create a row table:
+
+```cds
+@sql.prepend: 'ROW'
+entity E {
+  key id: Integer;
+}
+```
+
+Run `cds compile - 2 hdbtable` on the previous sample and this is the result:
+
+```sql [E.hdbtable]
+ROW TABLE E (
+  id INTEGER NOT NULL,
+  PRIMARY KEY(id)
+)
+```
+
+[Learn more about Columnar and Row-Based Data Storage](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-administration-guide/columnar-and-row-based-data-storage){.learn-more}
 ### Reserved Words
 
 The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
@@ -729,7 +839,7 @@ Find here a collection of resources on selected databases and their reference do
 
 
 
-## Database Constraints {#db-constraints}
+## Database Constraints
 
 The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 
@@ -890,6 +1000,59 @@ In case of conflicts, follow these steps to provide different models for differe
     }
    }}}
    ```
+<div class="impl java">
+
+:::info The following steps are only needed when you use two different local databases.
+
+3. For CAP Java setups you might need to reflect the different profiles in your CDS Maven plugin configuration. This might not be needed for all setups, like using a standard local database (sqlite, H2, or PostgreSQL) and a production SAP HANA setup. In that case the local build defaults to the `development` profile. But for other setups, like using a local PostgreSQL and a local SQLite you'll need two (profiled) `cds deploy` commands:
+
+   ```xml
+    <execution>
+      <id>cds.build</id>
+      <goals>
+        <goal>cds</goal>
+      </goals>
+      <configuration>
+        <commands>
+          <command>build --for java</command>
+          <command>deploy --profile development --dry --out "${project.basedir}/src/main/resources/schema-h2.sql"</command>
+          <command>deploy --profile production --dry --out "${project.basedir}/src/main/resources/schema-postresql.sql"</command>
+        </commands>
+      </configuration>
+    </execution>
+   ```
+
+4. For the Spring Boot side it's similar. If you have a local development database and a hybrid profile with a remote SAP HANA database, you only need to run in default (or any other) profile. For the SAP HANA part, the build and deploy part is done separately and the application just needs to be started using `cds bind`.
+Once you have 2 non-HANA local databases you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
+
+    ```yaml
+    spring:
+      config:
+        activate:
+          on-profile: default,h2
+      sql:
+        init:
+          schema-locations: classpath:schema-h2.sql
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: postgresql
+      sql:
+        init:
+          schema-locations: classpath:schema-postgresql.sql
+      datasource:
+        url: "jdbc:postgresql://localhost:5432/my_schema"
+        driver-class-name: org.postgresql.Driver
+        hikari:
+          maximum-pool-size: 1
+          max-lifetime: 0
+    ```
+  In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
+
+::: 
+
+</div>
 
 CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
 There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.

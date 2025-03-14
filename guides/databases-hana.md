@@ -20,7 +20,7 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Run this to use SAP HANA Cloud for production:
 
@@ -42,7 +42,7 @@ Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) drive
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 To use SAP HANA Cloud, [configure a module](../java/developing-applications/building#standard-modules), which includes the feature `cds-feature-hana`.
 For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
@@ -166,8 +166,8 @@ In addition to the generated HDI artifacts, you can add custom ones by adding ac
 2. Run cds build again → this time you should see this additional line in the log output:
    ```log
    [cds] - done > wrote output to:
-      [...]
-      gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
+   [...]
+   gen/db/src/sap.capire.bookshop.Books.hdbindex // [!code focus]
    ```
 
 
@@ -180,7 +180,7 @@ There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid 
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../get-started/troubleshooting#get-hana) to learn about your options.
 
-### Prepare for Production { #configure-hana .impl .node }
+### Prepare for Production { #configure-hana }
 
 To prepare the project, execute:
 
@@ -198,7 +198,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 
 
-### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana .impl .node }
+### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana }
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
@@ -209,7 +209,7 @@ Then in the project root folder, just execute:
 cds deploy --to hana
 ```
 
-> To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid`.
+> To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid` in Node.js or[ `mvn cds:watch` in Java](../java/developing-applications/running#local-development-support) projects.
 
 Behind the scenes, `cds deploy` does the following:
 
@@ -254,7 +254,7 @@ This takes the logon information and the service name from the `someEnvFile.json
 
 This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
 
-### Using `cf deploy` or `cf push` { .impl .node }
+### Using `cf deploy` or `cf push`
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
@@ -270,7 +270,7 @@ Vector embeddings are numerical representations that capture important features 
 
 Typically vector embeddings are computed using an **embedding model**. The embedding model is specifically designed to capture important features and semantics of a specific type of data, it also determines the dimensionality of the vector embedding space. Unified consumption of embedding models and LLMs across different vendors and open source models is provided via the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153).
 
-In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types.md#built-in-types):
+In CAP, vector embeddings are stored in elements of type [cds.Vector](../cds/types):
 
 ```cds
 entity Books : cuid { // [!code focus]
@@ -457,7 +457,7 @@ For all transitions you want to execute in HDI, you need to specify an undeploy 
 :::tip Moving From _.hdbcds_ To _.hdbtable_
 There a migration guide providing you step-by-step instructions for making the switch.
 
-[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler-hdbcds-to-hdbtable){.learn-more}
+[Learn more about Moving From _.hdbcds_ To _.hdbtable_](../cds/compiler/hdbcds-to-hdbtable){.learn-more}
 :::
 
 #### Enabling hdbmigrationtable Generation for Selected Entities During CDS Build {#enabling-hdbmigrationtable-generation}
@@ -693,10 +693,14 @@ or even unnecessary drop/create of indexes. By switching them off, all this effo
 
 :::
 
+
 For new projects, `cds add hana` automatically adds this configuration.
 
-Note that the first deployment after this configuration change may take longer, as for
-each entity with associations the respective database object will be touched
+::: warning Initial full table migration
+Be aware, that the first deployment after this **configuration change may take longer**.
+
+For each entity with associations, the respective database object will be touched
 (DROP/CREATE for views, full table migration via shadow table and data copy for tables).
 This is also the reason why we haven't changed the default so far.
 Subsequent deployments will benefit, however.
+:::

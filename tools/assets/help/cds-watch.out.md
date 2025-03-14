@@ -24,6 +24,14 @@
     Specify file extensions to watch for in a comma-separated list.
     <em>Example:</em> cds w --ext cds,json,js.
 
+  <em>--include</em> &lt;paths,...&gt;
+
+    Comma-separated list of additional paths to watch.
+
+  <em>--exclude</em> &lt;paths,...&gt;
+
+    Comma-separated list of additional paths to ignore.
+
   <em>--livereload</em> &lt;port | false&gt;
 
     Specify the port for the livereload server. Defaults to '35729'.
@@ -38,6 +46,16 @@
 
     Specify from which profile(s) the binding information is taken.
     <em>Example:</em> cds w --profile hybrid,production
+
+  <em>--debug</em> / <em>--inspect</em> &lt;host:port | 127.0.0.1:9229&gt;
+
+    Activate debugger on the given host:port.
+    If port 0 is specified, a random available port will be used.
+
+  <em>--inspect-brk</em> &lt;host:port | 127.0.0.1:9229&gt;
+
+    Activate debugger on the given host:port and break at start of user script.
+    If port 0 is specified, a random available port will be used.
 
 <strong>SEE ALSO</strong>
   <em>cds serve --help</em> for the different start options.

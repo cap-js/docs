@@ -2,7 +2,6 @@
 synopsis: >
   Learn about the error handling capabilities provided by the CAP Java SDK.
 status: released
-redirect_from: java/indicating-errors
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -122,6 +121,13 @@ messages.warn("my.message.key", paramNumber);
 // localized message with placeholders and additional exception
 throw new ServiceException(ErrorStatuses.BAD_REQUEST, "my.message.key", paramNumber, originalException);
 ```
+
+### Translations for Validation Error Messages { #ootb-translated-messages }
+
+CAP Java provides out-of-the-box translation for error messages that originate from input validation annotations such as `@assert...` or `@mandatory` and security annotations `@requires` and `@restrict`.
+
+The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
+You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
 ### Exporting the Default Messages
 
@@ -313,10 +319,6 @@ public void validateReview(BooksAddReviewContext context) {
     // referring to the bound entity `Books`
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
         .messageTarget(b -> b.get("descr"));
-
-    // which is equivalent to
-    throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")
-        .messageTarget(b -> b.descr());
 
     // or (using the typed API, referring to "cqn" implicitly)
     throw new ServiceException(ErrorStatuses.BAD_REQUEST, "Invalid book description")

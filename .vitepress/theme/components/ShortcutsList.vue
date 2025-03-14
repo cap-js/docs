@@ -84,6 +84,8 @@ watch(visible, isVisible => {
 })
 
 function onKeyDown(event) {
+  const { tagName, isContentEditable } = document.activeElement
+  if (tagName === 'INPUT' || tagName === 'TEXTAREA' || isContentEditable)  return
   if (document.activeElement === document.querySelectorAll(querySelectorSearchInput)[0])  return // search is active
   if (event.altKey || event.ctrlKey || event.metaKey)  return // only simple keys for now
   if (event.key === 'Shift' && visible.value) {
@@ -92,7 +94,7 @@ function onKeyDown(event) {
   }
   const cmd = commands.value.find(cmd => !!cmd.keys.find(k => k.value === event.key))
   const enabled = cmd && cmd.run && ('enabled' in cmd ? cmd.enabled() : true)
-  if (enabled)  {
+  if (enabled) {
     event.preventDefault()
     cmd.run(event)
   }
@@ -134,13 +136,13 @@ function commandsFromConfig() {
           url.search = window.location.search
           url.hash = window.location.hash
         } else { // local URLs
-          url.href = url.href.replace('${filePath}', page.value.filePath)
+          url.href = url.href.replace(encodeURIComponent('${filePath}'), page.value.filePath)
           const el = document.getElementById('secondary-file')
           if (el?.textContent) {
-            url.href = url.href.replace('${secondaryFilePath}', el.textContent)
+            url.href = url.href.replace(encodeURIComponent('${secondaryFilePath}'), el.textContent)
           }
           // if still unresolved placeholders, stop here
-          if (url.href.match(/\$\{.*?\}/g)) return
+          if (url.href.match(RegExp(encodeURIComponent('${'), 'g'))) return
         }
         window.open(url, '_blank');
       },

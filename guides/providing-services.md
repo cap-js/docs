@@ -3,9 +3,6 @@ synopsis: >
   This guide introduces how to define and implement services, leveraging
   generic implementations provided by the CAP runtimes, complemented by
   domain-specific custom logic.
-redirect_from:
-- guides/services
-- guides/generic
 status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -18,11 +15,8 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-<style>
-  .best-practice::before { content: 'Best Practice:  '; color: teal }
-</style>
-
-## Intro: Core Concepts {#introduction}
+## Intro: Core Concepts
+{#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -167,7 +161,8 @@ The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealt
 In effect, a service definition [as introduced above](#service-definitions) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Custom Logic](#custom-logic) picks that up.
 
 
-### Serving CRUD Requests {#serving-crud}
+### Serving CRUD Requests
+{#serving-crud}
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](databases).
 
@@ -187,7 +182,7 @@ filtering and sorting is not available for `virtual` elements.
 :::
 
 
-### Deep Reads / Writes
+### Deep Reads and Writes
 
 CDS and the runtimes have advanced support for modeling and serving document-oriented data.
 The runtimes provide generic handlers for serving deeply nested document structures out of the box as documented in here.
@@ -303,9 +298,27 @@ DELETE .../Orders/1  -- would also delete all headers and items
 ```
 :::
 
+#### Limitations
 
+Note that deep `WRITE` operations are only supported out of the box if the following conditions are met:
 
+1. The on-condition of the composition only uses comparison predicates with an `=` operator.
+2. The predicates are only connected with the logical operator `AND`.
+3. The operands are references or `$self`. CAP Java also supports pseudo variables like `$user.locale`.
 
+```cds
+entity Orders {
+  key ID : UUID;
+  title  : String;
+  Items  : Composition of many OrderItems on substring(title, 0, 1) <= 'F' or Items.pos > 12; // [!code --]
+  Items  : Composition of many OrderItems on Items.order = $self; // [!code ++]
+}
+entity OrderItems {
+  key order : Association to Orders;
+  key pos  : Integer;
+  descr: String;
+}
+```
 
 ### Auto-Generated Keys
 
@@ -384,7 +397,7 @@ Searches the `title` element only.
 ##### Extend Search to *Associated* Entities
 
 ::: warning Node.js: Only w/ streamlined database services
-For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
+For Node.js projects, this feature is only available with the [streamlined `@cap-js/` database services](../releases/archive/2024/jun24#new-database-services-ga) (default with `@sap/cds` >= 8)
 :::
 
 ```cds
@@ -421,15 +434,15 @@ You can explicitly annotate calculated elements to make them searchable, even th
 
 #### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
+> Prerequisite: For CAP Java, you need to run in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud and enable <Config java keyOnly>cds.sql.hana.search.fuzzy = true</Config>
+
 Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns records even if the search term contains additional characters, is missing characters, or has typographical errors.
 
-If you run CAP Java in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud, you can enable fuzzy search in the *application.yaml* and configure the default fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search. The default fuzziness is 0.8.
+You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
-```yml
-cds.sql.hana.search
-   fuzzy: true
-   fuzzinessThreshold: 0.9
-```
+- Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
@@ -457,9 +470,6 @@ When using wildcards in search terms, an *exact pattern search* is performed.
 Supported wildcards are '*' matching zero or more characters and '?' matching a single character. You can escape wildcards using '\\'.
 :::
 
-::: warning Only Java
-Fuzzy search on SAP HANA Cloud is currently only supported on the CAP Java runtime and requires the [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode).
-:::
 
 
 ### Pagination & Sorting
@@ -717,15 +727,25 @@ If the ETag validation detects a conflict, the request typically needs to be ret
 
 _Pessimistic locking_ allows you to lock the selected records so that other transactions are blocked from changing the records in any way.
 
-Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be read or updated in a concurrent transaction.
+Use _exclusive_ locks when reading entity data with the _intention to update_ it in the same transaction and you want to prevent the data to be locked or updated in a concurrent transaction.
 
-Use _shared_ locks if you only need to prevent the entity data to be updated in a concurrent transaction, but don't want to block concurrent read operations.
+Use _shared_ locks if you only need to prevent the entity data to be locked exclusively by an update in a concurrent transaction or by a read operation with lock mode _exclusive_. Non-locking read operations or read operations with lock mode _shared_ are not prevented.
 
 The records are locked until the end of the transaction by commit or rollback statement.
+
+Here's an overview table:
+
+| State              | Select Without Lock   | Select With Shared Lock |  Select With Exclusive Lock/Update |
+| --------------- | ----------------------- | -------------------------- |  ------------------------------------- | 
+| not locked      | passes | passes  | passes |
+| shared lock     | passes | passes  | waits |
+| exclusive lock | passes | waits  | waits |
+
 
 [Learn more about using the `SELECT ... FOR UPDATE` statement in the Node.js runtime.](../node.js/cds-ql#forupdate){.learn-more}
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
+
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
@@ -738,7 +758,7 @@ Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only
 CAP runtimes automatically validate user input, controlled by the following annotations.
 
 
-### `@readonly` {#readonly}
+### `@readonly`
 
 Elements annotated with `@readonly`, as well as [_calculated elements_](../cds/cdl#calculated-elements), are protected against write operations. That is, if a CREATE or UPDATE operation specifies values for such fields, these values are **silently ignored**.
 
@@ -751,7 +771,7 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 Do not use the `@readonly` annotation on keys in all variants.
 :::
 
-### `@mandatory` {#mandatory}
+### `@mandatory`
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
 
@@ -774,7 +794,17 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 
 
-### `@assert.unique` {#unique}
+### `@Common.FieldControl`
+{#common-fieldcontrol}
+
+The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
+::: warning
+Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
+:::
+
+
+
+### `@assert .unique`
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
 
@@ -803,7 +833,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target` {#assert-target}
+### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -819,14 +849,14 @@ supported, in this case, you will get an error.
 The `@assert.target` check constraint is meant to **validate user input** and not to ensure referential integrity.
 Therefore only `CREATE`, and `UPDATE` events are supported (`DELETE` events are not supported). To ensure that every
 non-null foreign key in a table has a corresponding primary key in the associated/referenced target table
-(ensure referential integrity), the [`@assert.integrity`](databases#db-constraints) constraint must be used instead.
+(ensure referential integrity), the [`@assert.integrity`](databases#database-constraints) constraint must be used instead.
 
 If the reference's target doesn't exist, an HTTP response
 (error message) is provided to HTTP client applications and logged to stdout in debug mode. The HTTP response body's
 content adheres to the standard OData specification for an error
 [response body](https://docs.oasis-open.org/odata/odata-json-format/v4.01/cs01/odata-json-format-v4.01-cs01.html#sec_ErrorResponse).
 
-#### Example {#assert-target-example}
+#### Example
 
 Add `@assert.target` annotation to the service definition as previously mentioned:
 
@@ -880,7 +910,7 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert.format` {#assert-format}
+### `@assert .format`
 
 Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
@@ -890,7 +920,7 @@ entity Foo {
 }
 ```
 
-### `@assert.range` {#assert-range}
+### `@assert .range`
 
 Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
 
@@ -902,11 +932,27 @@ entity Foo {
   zoo : String   @assert.range enum { high; medium; low; };
 }
 ```
-::: tip
-Specified ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`.
-:::
+#### ... with open intervals
 
-### `@assert.notNull` {#assert-notNull}
+By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
+
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),100]    // 0 < input ≤ 100
+@assert.range: [0,(100)]    // 0 ≤ input < 100
+@assert.range: [(0),(100)]  // 0 < input < 100
+```
+In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
+@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
+```
+>  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
+
+Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
+
+### `@assert .notNull`
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 
@@ -1100,7 +1146,11 @@ GET .../sue/Foo(2)/Sue.getStock()     // bound function
 POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 ```
 
-> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`. For convenience, however, the Node.js runtime also allows calling bound actions/functions without prefixing them with the service name.
+> Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
+> For convenience, the CAP Node.js runtime also allows the following:
+> - Call bound actions/functions without prefixing them with the service name.
+> - Omit the `()` if no parameter is required.
+> - Use query options to provide function parameters like `sue/sum?x=1&y=2`
 
 <br>
 
@@ -1330,7 +1380,8 @@ To disable this default behavior, you can set the environment variable <Config>c
 
 
 
-## Single-Purposed Services {.best-practice}
+## Single-Purposed Services
+{.best-practice}
 
 
 We strongly recommend designing your services for single use cases.

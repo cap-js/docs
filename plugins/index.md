@@ -124,7 +124,7 @@ Available for:
 
 See also [Cookbook > Protocols/APIs > OData APIs > V2 Support](../advanced/odata#v2-support) {.learn-more}
 
-## Websocket
+## WebSocket
 
 Exposes a WebSocket protocol via WebSocket standard or Socket.IO for CDS services.
 
@@ -202,9 +202,10 @@ Available for:
 
 
 
-## SAP Document Management Service {#@cap-js/sdm}
+## SAP Document Management Service {#sdm}
+{#@cap-js/sdm}
 
-@cap-js/sdm lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
+The SAP Document Management Service  plugin lets you easily store attachments (documents) in an [SAP Document Management service Repository](https://help.sap.com/docs/document-management-service).
 
 To use this CAP-level integration, extend a domain model by using the predefined aspect called Attachments:
 
@@ -227,8 +228,6 @@ Features:
 - **Intrinsic Multitenancy Handling**: Benefit from built-in multi-tenancy support, allowing for efficient management of multiple tenants without additional configuration.
 
 Outlook:
-
-- **Java Plug-In**: Use a robust Java plug-in designed to enhance the document management capabilities within your environment, offering a seamless integration experience.
 - **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
 - **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
 - **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
@@ -236,6 +235,8 @@ Outlook:
 Available for:
 
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/sdm/#readme)
+[![Java](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/sdm/#readme)
+
 
 
 ## Audit Logging
@@ -349,7 +350,7 @@ Available for:
 
 ## ORD (Open Resource Discovery)
 
-This plugin enables generation of [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) documents for CAP based applications.
+This plugin enables generation of [Open Resource Discovery (ORD)](https://open-resource-discovery.github.io/specification/) documents for CAP based applications.
 
 When you adopt ORD, your application gains a single entry point, known as the Service Provider Interface. This interface allows you to discover and gather relevant information or metadata. You can use this information to construct a static metadata catalog or to perform a detailed runtime inspection of your actual system landscapes.
 
@@ -359,7 +360,7 @@ You can get the ORD document in multiple ways, see the readme of the plugin.
 
 Available for:
 
-[<img src="../assets/logos/nodejs.svg" style="height:2.5em; display:inline; margin:0 0.2em;" alt="link to the repository for cap-js attachments"/>](https://github.com/cap-js/ord)
+[![Link to the repository for cap-js ORD](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/ord)
 
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}
@@ -376,7 +377,7 @@ Available for:
 
 ## SAP Cloud Application Event Hub {#event-broker-plugin}
 
-The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-broker) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
+The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-hub) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
 
 ```js
 const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
@@ -389,6 +390,17 @@ Available for:
 
 [![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
 
+
+## ABAP RFC
+
+The  `@sap/cds-rfc` plugin allows to import the API of RFC-enabled function modules from
+ABAP systems and to call these functions in your custom code.
+
+Available for:
+
+[![Node.js](../assets/logos/nodejs.svg 'Link to the plugin page.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://www.npmjs.com/package/@sap/cds-rfc)
+
+<div id="rfc-plugin" />
 
 <div id="internal-plugins" />
 

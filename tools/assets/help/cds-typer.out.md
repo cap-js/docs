@@ -12,13 +12,21 @@ SYNOPSIS
 
 OPTIONS
 
+  --buildTask
+  --build_task: &lt;true | false&gt;
+    (default: true)
+
+    If set to true, the typescript build task will not be registered/ executed.
+    This value must be set in your project configuration.
+    Passing it as parameter to the cds-typer CLI has no effect.
+
   --help
 
     This text.
 
   --inlineDeclarations
   --inline_declarations: &lt;flat | structured&gt;
-    (default: structured)
+    (default: flat)
 
     Whether to resolve inline type declarations
     flat: (x_a, x_b, ...)
@@ -47,6 +55,13 @@ OPTIONS
     The default is only used if no explicit value is passed
     and there is no configuration passed via cds.env either.
 
+  --legacyBinaryTypes
+  --legacy_binary_types: &lt;true | false&gt;
+    (default: false)
+
+    If set to true, Binary and LargeBinary are generated
+    as strings.
+
   --outputDirectory
   --output_directory: &lt;string&gt;
     (default: ./)
@@ -59,6 +74,14 @@ OPTIONS
 
     If set to true, properties in entities are
     always generated as optional (a?: T).
+
+  --targetModuleType
+  --target_module_type: &lt;esm | cjs | auto&gt;
+    (default: auto)
+
+    Output format for generated .js files.
+    Setting it to auto tries to derive the module type from
+    the package.json and falls back to CJS.
 
   --useEntitiesProxy
   --use_entities_proxy: &lt;true | false&gt;

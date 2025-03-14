@@ -2,7 +2,6 @@
 synopsis: >
   Remote Services are CQN-based clients to remote APIs that a CAP application consumes. This section describes how to configure and use these services.
 status: released
-redirect_from: java/remote-services
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -32,7 +31,7 @@ CAP's clear recommendation is to use _Remote Services_ over directly using the S
 To learn more about how to use _Remote Services_ end to end read the [Consuming Services cookbook](../../guides/using-services).
 :::
 
-## Configuring Remote Services
+## Remote OData Services
 
 To enable _Remote Services_ for OData V2 or V4 APIs in an application, add the following Maven dependency to your project:
 
@@ -163,12 +162,12 @@ cds:
 :::
 
 The plain service binding of XSUAA or IAS does not contain the URL of the remote API. Therefore, it needs to be explicitly configured in the `options` section.
-Since the URL is typically not known during development, you can define it as an environment variable. For the previous example, use `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL`. 
+Since the URL is typically not known during development, you can define it as an environment variable. For the previous example, use `CDS_REMOTE_SERVICES_OTHERCAPSERVICE_BINDING_OPTIONS_URL`.
 
 [Learn more about Binding From Environment Variables in the Spring Boot documentation.](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables){.learn-more}
 
 :::tip
-Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token, see [ProofOfPossession validation](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation). 
+Remote APIs which require IAS-based authentication might expect certificate based client authentication in addition to the IAS-based JWT token, see [ProofOfPossession validation](https://github.com/SAP/cloud-security-services-integration-library/tree/main/java-security#proofofpossession-validation).
 CAP _Remote Services_ automatically takes care of this by initiating a mutual TLS handshake with the remote API.
 :::
 
@@ -200,6 +199,7 @@ cds:
 ```
 :::
 
+#### Consuming APIs from Other IAS-Applications
 If your CAP application is using IAS and you want to call a _remote API_ that is provided by another IAS-based application (ie. Application2Application scenario), you can utilize a simplified security configuration in the destination.
 As a pre-requisite, your CAP application and the called application need to trust the same IAS tenant and you need to define a dependency in IAS to consume the respective API provided by the _remote API_.
 
@@ -212,7 +212,9 @@ Create a destination configuration with the following parameters:
 
 At runtime, this destination configuration will use the bound `identity` service instance's credentials to request a token for the _remote API_.
 
-[Learn more about consuming APIs from Other IAS-Appications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
+[Learn more about consuming APIs from other IAS-Applications in the **SAP Cloud Identity Services documentation**.](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/consume-apis-from-other-applications){.learn-more}
+
+#### Retrieve Destinations
 
 The CAP Java SDK obtains the destination for a _Remote Service_ from the `DestinationAccessor` using the name that is configured in the _Remote Service_'s destination configuration.
 
@@ -251,6 +253,8 @@ cds:
 
 In this case, the destination with name `s4-business-partner-api` would be obtained from the `DestinationAccessor`.
 Given that this destination holds the URL `https://s4.sap.com`, the resulting service URL for OData requests would be `https://s4.sap.com/sap/opu/odata/sap/API_BUSINESS_PARTNER`.
+
+<div id="remote-rfc-services" />
 
 ## Consuming Remote Services
 
@@ -445,8 +449,7 @@ Use the following example if the remote API supports basic authentication:
 ```java
 DefaultHttpDestination
   .builder("https://example.org")
-	.user("user")
-	.password("password")
+	.basicCredentials("user", "password")
 	.name("my-destination").build();
 ```
 

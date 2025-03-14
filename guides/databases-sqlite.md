@@ -7,7 +7,7 @@ impl-variants: true
 
 CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend using this option as much as possible during development and testing.
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ::: tip New SQLite Service
 This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
@@ -15,7 +15,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 [Learn more about the features and limitations of using CAP with SQlite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
@@ -29,7 +29,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Run this to use SQLite for development:
 
@@ -37,7 +37,7 @@ Run this to use SQLite for development:
 npm add @cap-js/sqlite -D
 ```
 
-### Auto-Wired Configuration {.impl .node}
+### Auto-Wired Configuration {.node}
 
 The `@cap-js/sqlite` package uses the `cds-plugin` technique to auto-configure your application for using an in-memory SQLite database for development.
 
@@ -62,13 +62,13 @@ Output:
 </div>
 
 
-### Using the Maven Archetype {.impl .java}
+### Using the Maven Archetype {.java}
 
 When a new CAP Java project is created with the [Maven Archetype](../java/developing-applications/building#the-maven-archetype),
 you can specify the in-memory database to be used. Use the option `-DinMemoryDatabase=sqlite` to create a project that uses
 SQLite as in-memory database.
 
-### Manual Configuration {.impl .java}
+### Manual Configuration {.java}
 
 To use SQLite, add a Maven dependency to the SQLite JDBC driver:
 
@@ -114,7 +114,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 
 ### In-Memory Databases
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by default. For example, when starting your application with `cds watch`, you can see this in the log output:
@@ -139,7 +139,7 @@ Using in-memory databases is the most recommended option for test drives and tes
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
@@ -173,14 +173,14 @@ TODO: A plain cds.requires.db = 'sqlite' also behaves this way.
 If possible, all common scenarios should be covered by shortcuts only.
 -->
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 You can also use persistent SQLite databases. Follow these steps to do so:
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 You can also use persistent SQLite databases. In this case, the schema is initialized by `cds deploy` and not by Spring. Follow these steps:
@@ -214,7 +214,7 @@ This will:
 2. Create the tables and views according to your CDS model.
 3. Fill in initial data from the provided _.csv_ files.
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 With that in place, the server will use this prepared database instead of bootstrapping an in-memory one upon startup:
@@ -227,7 +227,7 @@ With that in place, the server will use this prepared database instead of bootst
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
@@ -238,7 +238,7 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 spring:
   config.activate.on-profile: sqlite
   datasource:
-    url: "jdbc:sqlite:sqlite.db"
+    url: "jdbc:sqlite:db.sqlite"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
@@ -293,7 +293,7 @@ While drop-create is most appropriate for development, it isn't suitable for dat
 
 ## Features
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 CAP supports most of the major features on SQLite:
 
@@ -307,7 +307,7 @@ CAP supports most of the major features on SQLite:
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 The following is an overview of advanced features supported by the new database services.
 
@@ -315,7 +315,7 @@ The following is an overview of advanced features supported by the new database 
 
 
 
-### Path Expressions & Filters {.impl .node}
+### Path Expressions & Filters {.node}
 
 The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
 
@@ -345,7 +345,7 @@ await SELECT `from ${Authors} { books.genre.name }`
 
 
 
-### Optimized Expands {.impl .node}
+### Optimized Expands {.node}
 
 The old database service implementation(s) used to translate deep reads, that is, SELECTs with expands, into several database queries and collect the individual results into deep result structures. The new service uses `json_object` and other similar functions to instead do that in one single query, with sub selects, which greatly improves performance.
 
@@ -367,7 +367,7 @@ While this used to require three queries with three roundtrips to the database, 
 
 
 
-### Localized Queries {.impl .node}
+### Localized Queries {.node}
 
 With the old implementation, running queries like `SELECT.from(Books)` would always return localized data, without being able to easily read the non-localized data. The new service does only what you asked for, offering new `SELECT.localized` options:
 
@@ -384,116 +384,13 @@ SELECT.from.localized(Books)
 SELECT.one.localized(Books)
 ```
 
-
-
-### Standard Operators {.impl .node}
-
-The new database services guarantee identical behavior of these logic operators:
-
-- `==`, `=` — with `= null` being translated to `is null`
-- `!=`,  `<>`  — with `!=` translated to `IS NOT` in SQLite
-
-* `<`, `>`, `<=`, `>=`, `IN`, `LIKE` — are supported as is in standard SQL
-
-In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA — greatly improves the portability of your code.
-
-> These operators are available for runtime queries, but not in CDS files.
-
-
-### Standard Functions {.impl .node}
-
-A specified set of standard functions is now supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills. These functions are by and large the same as specified in OData:
-
-* `concat(x,y,...)` — concatenates the given strings
-* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
-* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy
-* `startswith(x,y)` — checks whether `y` starts with `x`
-* `endswith(x,y)` — checks whether `y` ends with `x`
-* `matchespattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n)` — extracts a substring from `x` starting at `i` with length `n` <sup>1</sup>
-* `indexof(x,y)` — returns the (zero-based) index of the first occurrence of `y` in `x`
-* `length(x)` — returns the length of string `x`
-* `tolower(x)` — returns all-lowercased `x`
-* `toupper(x)` — returns all-uppercased `x`
-* `ceiling(x)` — returns ceiled `x`
-* `session_context(v)` — with standard variable names → [see below](#session-variables)
-* `year` `month`, `day`, `hour`, `minute`, `second` — return parts of a datetime
-
-> <sup>1</sup> Argument `n` is optional.
-> These functions are only supported within runtime queries, but not in CDS files.
-
-The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
-
-CQL query:
-
-```sql
-SELECT from Books where search((title,descr),'y')
-```
-
-Translated native SQLite query:
-
-```sql
-SELECT * from sap_capire_bookshop_Books
- WHERE ifnull(instr(lower(title),lower('y')),0)
-    OR ifnull(instr(lower(descr),lower('y')),0)
-```
-
-> Note: only single values are supported for the second argument `y`.
-
-::: warning Case-sensitive
-
-You have to write these functions exactly as given; all-uppercase usages aren't supported.
-
-:::
-
-
-
-### SAP HANA Functions {.impl .node}
-
-In addition to the standard functions, which all new database services support, the new SQLite service also supports these common SAP HANA functions, to further increase the scope for portable testing:
-
-- `years_between`
-- `months_between`
-- `days_between`
-- `seconds_between`
-- `nano100_between`
-
-With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
-
-> Both usages are allowed here: all-lowercase as given above, as well as all-uppercase.
-
-
-
-
-
-### Session Variables {.impl .node}
-
-The new SQLite service can leverage  [*better-sqlite*](https://www.npmjs.com/package/better-sqlite3)'s user-defined functions to support *session context* variables. In particular, the pseudo variables `$user.id`, `$user.locale`,  `$valid.from`, and `$valid.to` are available in native SQL queries as shown below:
-
-```sql
-SELECT session_context('$user.id')
-SELECT session_context('$user.locale')
-SELECT session_context('$valid.from')
-SELECT session_context('$valid.to')
-```
-
-Among other things, this allows us to get rid of static helper views for localized data like `localized_de_sap_capire_Books`.
-
-::: tip Portable API
-
-The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*. This allows you to write respective code once and run it on all these databases.
-
-:::
-
-
-
-### Using Lean Draft {.impl .node}
+### Using Lean Draft {.node}
 
 The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, none of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.
 
 
 
-### Consistent Timestamps {.impl .node}
+### Consistent Timestamps {.node}
 
 Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all new database services along these lines:
 
@@ -593,7 +490,7 @@ The rules regarding Timestamps apply to all comparison operators: `=`, `<`, `>`,
 
 
 
-### Improved Performance {.impl .node}
+### Improved Performance {.node}
 
 The combination of the above-mentioned improvements commonly leads to significant performance improvements. For example, displaying the list page of Travels in [cap/sflight](https://github.com/SAP-samples/cap-sflight) took **>250ms** in the past, and **~15ms** now.
 
@@ -601,7 +498,7 @@ The combination of the above-mentioned improvements commonly leads to significan
 
 
 
-## Migration {.impl .node}
+## Migration {.node}
 
 
 
@@ -611,7 +508,7 @@ While we were able to keep all public APIs stable, we had to apply changes and f
 
 
 
-### Use Old and New in Parallel {.impl .node}
+### Use Old and New in Parallel {.node}
 
 During migration, you may want to occasionally run and test your app with both the new SQLite service and the old one. You can accomplish this as follows:
 
@@ -645,7 +542,7 @@ During migration, you may want to occasionally run and test your app with both t
    ```
 
 
-### Avoid UNIONs and JOINs {.impl .node}
+### Avoid UNIONs and JOINs {.node}
 
 Many advanced features supported by the new database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding UNIONs and JOINs to the equation — at least the effort and overhead is hardly matched by generated value. Therefore, we dropped support of UNIONs and JOINs in CQN queries.
 
@@ -671,7 +568,7 @@ Mitigations:
 
 
 
-### Fixed Localized Data {.impl .node}
+### Fixed Localized Data {.node}
 
 Formerly, when reading data using `cds.ql`, this *always* returned localized data. For example:
 
@@ -692,7 +589,7 @@ Generic application service handlers use *SELECT.localized* to request localized
 
 :::
 
-### Skipped Virtuals {.impl .node}
+### Skipped Virtuals {.node}
 
 In contrast to their former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.
 
@@ -714,12 +611,13 @@ entity Foo {
 The behaviour has changed to:
 
 ```js
-SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
-SELECT.from('Foo')         //> [{ foo:1 }, ...]
-SELECT('bar').from('Foo')  //> ERROR: no columns to read
+[dev] cds repl
+> SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
+> SELECT.from('Foo')         //> [{ foo:1 }, ...]
+> SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
-### <> Operator {.impl .node}
+### <> Operator {.node}
 
 Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
 * The operator `<>` now works as specified in the SQL standard.
@@ -730,9 +628,11 @@ Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
 This is a breaking change in regard to the previous implementation.
 :::
 
-### Miscellaneous {.impl .node}
+### Miscellaneous {.node}
 
 - Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
+- Managed fields are automatically filled with `INSERT.entries()`, but not when using `INSERT.columns().values()` or `INSERT.columns().rows()`.
+- If the column of a `SELECT` is a path expression without an alias, the field name in the result is the concatenated name using underscores. For example, `SELECT.from(Books).columns('author.name')` results in `author_name`.
 - CQNs with subqueries require table aliases to refer to elements of outer queries.
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throw an error.
@@ -746,7 +646,7 @@ ID;title;author.ID;currency.code // [!code --]
 
 
 
-### Adopt Lean Draft  {.impl .node}
+### Adopt Lean Draft  {.node}
 
 As mentioned in [Using Lean Draft](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*.
 
@@ -758,7 +658,7 @@ More detailed documentation for that is coming.
 
 
 
-### Finalizing Migration  {.impl .node}
+### Finalizing Migration  {.node}
 
 When you have finished migration, remove the old [*sqlite3* driver](https://www.npmjs.com/package/sqlite3) :
 

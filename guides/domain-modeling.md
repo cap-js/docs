@@ -2,7 +2,6 @@
 synopsis: >
   Most projects start with capturing the essential objects of their domain in a respective domain model.
   Find here an introduction to the basics of domain modeling with CDS, complemented with recommended best practices.
-redirect_from: guides/domain-models
 status: released
 ---
 
@@ -69,7 +68,7 @@ type Genre : String enum {
 
 CDS Aspects and Annotations provide powerful means for **separation of concerns**. This greatly helps to keep our core domain model clean, while putting secondary concerns into separate files and model fragments. → Find details in chapter [Aspects](#aspects) below.
 
-### Fueling Generic Providers
+### Fuelling Generic Providers
 
 As depicted in the illustration below, domain models serve as the sources for persistence models, deployed to databases, as well as the underlying model for services acting as API facades to access data.
 
@@ -253,7 +252,7 @@ entity name {
 }
 ```
 
-[Learn more about entity definitions](../cds/cdl.md#entity-and-type-definitions){.learn-more}
+[Learn more about entity definitions](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -267,7 +266,7 @@ entity ProjectedEntity as select from BaseEntity {
 };
 ```
 
-[Learn more about views and projections](../cds/cdl.md#views-and-projections){.learn-more}
+[Learn more about views and projections](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -372,7 +371,7 @@ CDS comes with a small set of built-in types:
 - `String`, `LargeString`
 - `Binary`, `LargeBinary`
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types.md#built-in-types){.learn-more}
+[See list of **Built-in Types** in the CDS reference docs](../cds/types){.learn-more}
 
 #### Common Reuse Types
 
@@ -524,7 +523,7 @@ entity Projects { ...
   members : Composition of many { key user : Association to Users };
 }
 entity Users { ...
-  projects : Composition of many Projects.members on projects.member = $self;
+  projects : Composition of many Projects.members on projects.user = $self;
 }
 ```
 
@@ -613,7 +612,7 @@ We can also apply named aspects as **includes** in an inheritance-like syntax:
 entity Books : NamedAspect { ... }
 ```
 
-[Learn more about Aspects in the _CDS Language Reference_](../cds/cdl#aspects){ .learn-more}
+[Learn more about the usage of aspects in the _Aspect-oriented Modeling_ section](../cds/aspects).{ .learn-more}
 
 ::: tip
 
@@ -771,7 +770,7 @@ By generating `.texts` entities and associations behind the scenes, CAP's **out-
 
 
 
-### `@cds.on.insert` {.annotation}
+### `@cds.on.insert` {.annotation alt="The following documentation on cds.on.update also applies to cds.on.insert. "}
 
 ### `@cds.on.update` {.annotation}
 

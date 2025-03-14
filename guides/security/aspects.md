@@ -1,7 +1,6 @@
 ---
 synopsis: >
   This section describes in detail what CAP offers to protect your application.
-redirect_from: security/aspects
 status: released
 uacp: Used as link target from SAP Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 impl-variants: true
@@ -192,7 +191,7 @@ Application developers need to **design and test access rules** according to the
 :::
 
 ::: tip
-To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules).
+To verify CAP authorizations in your model, it's recommended to use [CDS lint rules](../../tools/cds-lint/rules/).
 :::
 
 The rules prepared by application developers are applied to business users according to grants given by the subscribers user administrator, that is, they're applied tenant-specific.
@@ -350,14 +349,14 @@ Excessive use of resources requested by a single tenant could cause runtime prob
 
 CAP helps to control resource usage:
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 - Business request run in isolated Java threads and hence OS thread scheduling ensures fair distribution of CPU shares.
 - By default, tenants have dedicated DB connection pools.
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 - Fine granular processing of request (CAP handlers) to avoid disproportionate blocking times of the event loop.
 - Tenants have dedicated DB connection pools.
@@ -564,13 +563,13 @@ To limit overall usage, by default, the CAP runtime creates connection pools per
 Similarly, the DB driver settings such as SQL query timeout and buffer size have reasonable values.
 
 ::: tip
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 In case the default setting doesn't fit, <a href="../../java/multitenancy#db-connection-pooling">connection pool properties</a> and <a href="../../java/cqn-services/persistence-services#datasource-configuration">driver settings</a> can be customized, respectively.
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 In case the default setting doesn't fit, <a href="../../node.js/databases#pool">connection pool properties</a> and driver settings can be customized, respectively.
 <!-- todo add link in fragment -->
@@ -675,10 +674,10 @@ CAP runtime differentiates several types of error situations during request proc
 In general, **exceptions immediately stop the execution of the current request**.
 
 In Java, the thrown [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/EventContext.html) is automatically scoped to the current request by means of thread isolation.
-{ .impl .java }
+{ .java }
 
 CAP Node.js adds an exception wrapper to ensure that only the failing request is affected by the exception.
-{ .impl .node }
+{ .node }
 
 Customers can react in dedicated exception handlers if necessary.
 

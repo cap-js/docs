@@ -3,8 +3,6 @@ shorty: OData
 synopsis: >
   Find details about CAP's support for the OData protocol.
 permalink: advanced/odata
-redirect_from:
-  - cds/odata-annotations
 status: released
 ---
 
@@ -126,27 +124,28 @@ Limitations:
 
 The table below lists [CDS's built-in types](../cds/types) and their mapping to the OData EDM type system.
 
-| CDS Type       | OData V4                                |
-| -------------- | --------------------------------------- |
-| `UUID`         | _Edm.Guid_ <sup>(1)</sup>               |
-| `Boolean`      | _Edm.Boolean_                           |
-| `UInt8  `      | _Edm.Byte_                              |
-| `Int16`        | _Edm.Int16_                             |
-| `Int32`        | _Edm.Int32_                             |
-| `Integer`      | _Edm.Int32_                             |
-| `Int64`        | _Edm.Int64_                             |
-| `Integer64`    | _Edm.Int64_                             |
-| `Decimal`      | _Edm.Decimal_                           |
-| `Double`       | _Edm.Double_                            |
-| `Date`         | _Edm.Date_                              |
-| `Time`         | _Edm.TimeOfDay_                         |
-| `DateTime`     | _Edm.DateTimeOffset_                    |
-| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7" |
-| `String`       | _Edm.String_                            |
-| `Binary`       | _Edm.Binary_                            |
-| `LargeBinary`  | _Edm.Binary_                            |
-| `LargeString`  | _Edm.String_                            |
-| `Vector`       | not supported <sup>(2)</sup>            |
+| CDS Type       | OData V4                                  |
+| -------------- | ---------------------------------------   |
+| `UUID`         | _Edm.Guid_ <sup>(1)</sup>                 |
+| `Boolean`      | _Edm.Boolean_                             |
+| `UInt8  `      | _Edm.Byte_                                |
+| `Int16`        | _Edm.Int16_                               |
+| `Int32`        | _Edm.Int32_                               |
+| `Integer`      | _Edm.Int32_                               |
+| `Int64`        | _Edm.Int64_                               |
+| `Integer64`    | _Edm.Int64_                               |
+| `Decimal`      | _Edm.Decimal_                             |
+| `Double`       | _Edm.Double_                              |
+| `Date`         | _Edm.Date_                                |
+| `Time`         | _Edm.TimeOfDay_                           |
+| `DateTime`     | _Edm.DateTimeOffset_                      |
+| `Timestamp`    | _Edm.DateTimeOffset_ with Precision="7"   |
+| `String`       | _Edm.String_                              |
+| `Binary`       | _Edm.Binary_                              |
+| `LargeBinary`  | _Edm.Binary_                              |
+| `LargeString`  | _Edm.String_                              |
+| `Map`          | represented as empty, open complex type   |
+| `Vector`       | not supported <sup>(2)</sup>              |
 
 > <sup>(1)</sup> Mapping can be changed with, for example, `@odata.Type='Edm.String'`
 
@@ -158,6 +157,7 @@ OData V2 has the following differences:
 | ------------ | ----------------------------------------------- |
 | `Date`       | _Edm.DateTime_ with `sap:display-format="Date"` |
 | `Time`       | _Edm.Time_                                      |
+| `Map`        | not supported                                   |
 
 
 ### Overriding Type Mapping { #override-type-mapping}
@@ -336,14 +336,16 @@ Primitive annotation values, meaning Strings, Numbers, `true`, and `false` are m
 <Annotation Term="Some.String" String="foo"/>
 ```
 
-Rendering a `null` value must be done as dynamic expression or as an [annotation expression](#expression-annotations):
+#### Null Value { #null-value }
+
+A `null` value can be set either as an [annotation expression](#expression-annotations) or as a [dynamic expression](#dynamic-expressions):
 
 ```cds
-@Some.Null: { $edmJson: { $Null } }
-// or
-@Some.Null: (null)
+@Some.NullXpr:  (null)                  // annotation expression, short form
+@Some.NullFunc: ($Null())               // annotation expression, functional form
+@Some.NullDyn:  { $edmJson: { $Null } } // dynamic expression
 ```
-Both result in the following:
+All three expressions result in the following rendering:
 ```xml
 <Annotation Term="Some.Null">
   <Null/>
@@ -631,14 +633,48 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
 </Schema>
 ```
 
-::: warning Restrictions concerning the foreign key elements of managed associations
+#### Managed Associations
 
-1. Usually an annotation assigned to a managed association is copied to the foreign key elements of the association.
-This is a workaround for the lack of possibility to directly annotate a foreign key element.
-This copy mechanism is _not_ applied for annotations with expression values. So it is currently not possible
-to use expression-valued annotations for annotating foreign keys of a managed association.
+The OData backend translates managed associations into unmanaged ones plus explicit foreign key elements.
+During this translation, annotations assigned to the managed association are copied to the respective foreign key elements.
 
-2. In an expression-valued annotation, it is not possible to reference the foreign key element
+Example:
+```cds
+service S {
+  entity Authors { key ID : Integer; name : String; }
+  entity Books   { key ID : Integer; author : Association to Authors; }
+
+  annotate Books:author with @Common.Text: (author.name); 
+}
+```
+
+Resulting OData API:
+```xml
+<Schema Namespace="S">
+  <!-- ... -->
+  <EntityType Name="Authors">
+    <!-- ... -->
+    <Property Name="name" Type="Edm.String"/>
+  </EntityType>
+  <EntityType Name="Books">
+    <!-- ... -->
+    <NavigationProperty Name="author" Type="S.Authors"/>
+    <Property Name="author_ID" Type="Edm.Int32"/>
+  </EntityType>
+  <Annotations Target="S.Books/author_ID">
+    <Annotation Term="Common.Text" Path="author/name"/>
+  </Annotations>
+</Schema>
+```
+
+Instead of relying on this copy mechanism, you can also explicitly annotate a foreign key element:
+```cds
+annotate Books:author.ID with @Common.Text: ($self.author.name);  // here $self is necessary
+```
+
+::: warning Restriction concerning the foreign key elements of managed associations
+
+In an expression-valued annotation, it is not possible to reference the foreign key element
 of a managed association.
 
 :::
@@ -662,7 +698,8 @@ The following operators and clauses of CDL are supported:
 * Logical: `and`,  `or`,  `not`
 * Relational: `=`, `<>`,  `!=`,  `<`,  `<=`,  `>`,  `>=`, `in`, `between ... and ...`
 * Unary `+` and `-`
-* Arithmetic: `+`,  `-`,  `*`,  `/`, `||`
+* Arithmetic: `+`,  `-`,  `*`,  `/`
+* Concat: `||`
 * `cast(...)`
 
 Example:
@@ -718,7 +755,7 @@ service S {
 
 In addition, the following functions are supported:
 
-* `$Null()` representing the `null` value
+* `$Null()` representing the `null` value [`Null`]([annotation expression](#null-value)).
 * `Div(...)` (or `$Div(...)`) and `Mod(...)` (or `$Mod(...)`) for integer division and modulo
 * [`Has(...)`](https://docs.oasis-open.org/odata/odata/v4.02/csd01/part2-url-conventions/odata-v4.02-csd01-part2-url-conventions.html#Has) (or `$Has(...)`)
 * the functions listed in sections
@@ -1184,6 +1221,7 @@ GET /Books?$apply=aggregate(stock with sum as stock) HTTP/1.1
 #### Currencies and Units of Measure
 
 If a property represents a monetary amount, it may have a related property that indicates the amount's *currency code*. Analogously, a property representing a measured quantity can be related to a *unit of measure*. To indicate that a property is a currency code or a unit of measure it can be annotated with the [Semantics Annotations](https://help.sap.com/docs/SAP_NETWEAVER_750/cc0c305d2fab47bd808adcad3ca7ee9d/fbcd3a59a94148f6adad80b9c97304ff.html) `@Semantics.currencyCode` or `@Semantics.unitOfMeasure`.
+The aggregation method (typically, sum) is specified with the `@Aggregation.default` annotation.
 
 ```cds
 @Aggregation.CustomAggregate#amount   : 'Edm.Decimal'
@@ -1192,6 +1230,7 @@ entity Sales {
     key id        : GUID;
         productId : GUID;
         @Semantics.amount.currencyCode: 'currency'
+        @Aggregation.default: #SUM
         amount    : Decimal(10,2);
         @Semantics.currencyCode
         currency  : String(3);
@@ -1244,7 +1283,7 @@ The cds build for OData v4 will render the entity type `Book` in `edmx` with the
 </EntityType>
 ```
 
-The entity `Book` is open, allowing the client to enrich the entity with additional properties. 
+The entity `Book` is open, allowing the client to enrich the entity with additional properties.
 
 Example 1:
 

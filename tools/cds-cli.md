@@ -82,7 +82,7 @@ Use `cds help` to see an overview of all commands:
 
 Use `cds help <command>` or `cds <command> ?` to get specific help:
 
-<!--@include: ./assets/help/cds-watch.out.md-->
+<!--@include: ./assets/help/cds-repl.out.md-->
 
 
 ## cds init
@@ -92,7 +92,7 @@ Use `cds init` to create new projects.
 The simplest form creates a minimal Node.js project.  For Java, use
 
 ```sh
-cds init --add java
+cds init --java
 ```
 
 In addition, you can add (most of) the project 'facets' from [below](#cds-add) right when creating the project.
@@ -102,6 +102,9 @@ For example to create a project with a sample bookshop model and configuration f
 cds init --add sample,hana
 ```
 
+::: details See the full help text of `cds init`
+<!--@include: ./assets/help/cds-init.out.md -->
+:::
 
 
 ## cds add
@@ -148,12 +151,35 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | [`http`](#http)               |       <X/>       |       <X/>       |
 | `lint`                        |       <X/>       |       <X/>       |
 | `pipeline`                    |       <X/>       |       <X/>       |
+| `esm`                         |       <X/>       |      <Na/>       |
 | `typer`                       |       <X/>       |      <Na/>       |
 | `typescript`                  |       <X/>       |      <Na/>       |
 | `completion`                  |       <X/>       |       <X/>       |
-| [`handler`](#handler)         |       <Na/>      |       <X/>       |
+| [`handler`](#handler)         |       <X/>       |       <X/>       |
 
 > <sup>1</sup> Only for Cloud Foundry <br>
+
+::: details See the full help text of `cds add`
+<!--@include: ./assets/help/cds-add.out.md -->
+:::
+
+### sample {.add}
+
+Creates a bookshop application including custom code (Node.js or Java) and a UI with [SAP Fiori Elements](../advanced/fiori).
+
+```sh
+cds add sample
+```
+
+This corresponds to the result of the [_Getting Started in a Nutshell_ guide](../get-started/in-a-nutshell).
+
+### tiny-sample {.add}
+
+Creates a minimal CAP application without UI.
+
+```sh
+cds add tiny-sample
+```
 
 ### data {.add}
 
@@ -319,40 +345,63 @@ assumes a remote app named `bookshop` on CloudFoundry and a JWT token for this a
 For CloudFoundry, use `cf login ...` and select org and space.
 :::
 
-### handler <Since version="8.3.0" of="@sap/cds-dk" /> {.add}
+### handler <Since version="8.5.0" of="@sap/cds-dk" /> {.add}
 
-Generates handler stubs for actions and functions in Java projects.
+Generates handler stubs for actions and functions for both Java and Node.js projects.
 
-Execute the following from the _srv_ directory of the project to generate handler files for all actions and functions:
-```sh
+To generate handler files, run:
+
+::: code-group
+```sh [Node.js]
 cds add handler
 ```
+```sh [Java]
+mvn compile  # let Java know what your model looks like
+cds add handler
+```
+:::
+
+The files contain handlers for
+- actions and functions
+- service entities (Node.js only)
 
 
 #### Filtering {#handler-filtering}
 
-Use the `--filter` option to create handlers for specific actions and functions.
+Use the `--filter` option to create handlers for specific actions/functions or entities.
 
 ```sh
 cds add handler --filter submitOrder
+cds add handler --filter Books
 ```
-
-#### More Options
-
-| Option | Description |
-| --- | --- |
-| `--out` | Specify custom output directories |
-| `--force` | Overwrite existing files |
 
 
 ## cds env
 
-Use `cds env` to inspect currently effective config settings:
+Use `cds env` to inspect currently effective config settings of your Node.js application:
 
 <!--@include: ./assets/help/cds-env-requires-db.out.md -->
 
+::: details See the full help text of `cds env`
+<!--@include: ./assets/help/cds-env.out.md -->
+:::
+
+::: tip Inspect configuration for Java applications
+While `cds env` does _not_ show the [runtime SpringBoot configuration for CAP Java applications](../java/developing-applications/configuring), you can still use it to learn about _designtime_ configuration, which applies to Java applications as well.  Examples are build tasks (`cds env build.tasks`) or build plugins (`cds env plugins`).<br>
+Also, the [multitenancy sidecar](../java/multitenancy) is a Node.js application, for which `cds env` shows the entire configuration if executed in the _mtx/sidecar_ folder.
+:::
+
 
 ## cds compile
+
+Compiles the specified models to [CSN](../cds/csn) or other formats.
+
+[See simple examples in the getting started page](../get-started/in-a-nutshell#cli).{.learn-more}
+
+[For the set of built-in compile 'formats', see the `cds.compile.to` API](../node.js/cds-compile#cds-compile-to).{.learn-more}
+
+
+In addition, the following formats are available:
 
 ### mermaid <Since version="8.0.0" of="@sap/cds-dk" /> {.compile}
 
@@ -417,26 +466,221 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 - [Diagram: Namespaces](vscode://settings/cds.preview.diagram.namespaces)
 - [Diagram: Queries](vscode://settings/cds.preview.diagram.queries)
 
+## cds watch
+
+Use `cds watch` to watch for changed files, restarting your Node.js server.
+
+::: details See the full help text of `cds watch`
+<!--@include: ./assets/help/cds-watch.out.md-->
+:::
+
+::: tip Watch for Java
+For CAP Java applications, you can use [`mvn cds:watch`](../java/developing-applications/running#cds-watch) instead.
+:::
+
+### Includes and Excludes <Since version="8.7.0" of="@sap/cds-dk" />
+
+Additional watched or ignored paths can be specified via CLI options:
+
+```sh
+cds watch --include ../other-app --exclude .idea/
+```
+
+Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".idea"]</Config> to your project configuration.
+
 
 ## cds repl
 
-Use `cds repl` to live-interact with Node.js APIs:
+Use `cds repl` to live-interact with cds' JavaScript APIs in an interactive read-eval-print-loop.
 
 <pre class="log">
 <span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">repl</span>
 <em>Welcome to cds repl</em>
-> SELECT.from(Foo)
-Query {
-  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
+
+> <i>cds.parse`
+  entity Foo { bar : Association to Bar }
+  entity Bar { key ID : UUID }
+`</i>
+{
+  definitions: {
+    Foo: {
+      kind: <em>'entity'</em>,
+      elements: {
+        bar: { type: <em>'cds.Association'</em>, target: <em>'Bar'</em> }
+      }
+    },
+    Bar: ...
+  }
 }
 
-> cds.requires.db
-{
-  impl: <em>'@cap-js/sqlite'</em>,
-  credentials: { url: <em>':memory:'</em> },
-  kind: <em>'sqlite'</em>
+> <i>SELECT.from(Foo)</i>
+cds.ql {
+  SELECT: { from: { ref: [ <em>'Foo'</em> ] } }
 }
 </pre>
+
+There a couple of shortcuts and convenience functions:
+
+- `.run` (a [REPL dot commands](https://nodejs.org/en/learn/command-line/how-to-use-the-nodejs-repl#dot-commands)) allows to start Node.js `cds.server`s:
+
+  ```sh
+  .run cap/samples/bookshop
+  ```
+
+- CLI option `--run` does the same from command line, for example:
+
+  ```sh
+  cds repl --run cap/samples/bookshop
+  ```
+
+- CLI option `--use` allows to use the features of a `cds` module, for example:
+
+  ```sh
+  cds repl --use ql # as a shortcut of that within the repl:
+  ```
+
+  ```js
+  var { expr, ref, columns, /* ...and all other */ } = cds.ql
+  ```
+
+- `.inspect` command displays objects with configurable depth:
+
+  ```sh
+  .inspect cds .depth=1
+  .inspect CatalogService.handlers .depth=1
+  ```
+
+::: details See the full help text of `cds repl`
+<!--@include: ./assets/help/cds-repl.out.md-->
+:::
+
+::: tip Repl for Java
+`cds repl` does not run Java code, but can still be useful:
+For example, if you work on Node.js things like [building plugins](../guides/deployment/custom-builds#custom-build-plugins) that make use of Node.js APIs.
+:::
+
+
+## Debugging with `cds debug` <Beta /> {#cds-debug}
+
+`cds debug` lets you debug applications running locally or remotely on SAP BTP Cloud Foundry.
+Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
+
+To debug an application on Cloud Foundry, the following is important:
+- You're logged in to the space where the application is deployed to.
+- You have developer permissions in that space -> [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment).
+- The app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
+
+Effectively, run:
+```sh
+cf login                   # select the correct org and space here
+cf ssh-enabled <app-name>  # to check if SSH is enabled
+```
+
+::: tip Scale to one application instance only
+We recommend to only scale to a _single_ app instance on SAP BTP Cloud Foundry, as then your request is guaranteed to hit this one instance.
+If you scale out to more instances, only some of your requests will hit the instance that the debugger is connected to. This can result in 'missed breakpoints'.
+
+However, it's possible to [route a request to a specific instance](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#surgical-routing), which is useful if you can't reduce the number of app instances.
+:::
+
+### Node.js Applications
+
+#### Remote Applications
+
+Run the following, to debug remote Node.js applications in the currently targeted CF space:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>
+
+Opening SSH tunnel on 9229:127.0.0.1:9229
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+> Keep this terminal open while debugging.
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html), puts the application in debug mode, and connects and opens the [debugger of Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript).
+
+<video src="./assets/cds-debug_compressed.mp4" autoplay loop muted webkit-playsinline playsinline alt="Video demonstrating the debugging process with cds debug command, as described in the accompanying text." />
+
+::: details Under the hoods, these commands are executed:
+```sh
+cf ssh <app> -c "kill -usr1 `pidof node`"
+cf ssh -N -L 9229:localhost:9229 <app>
+```
+:::
+
+#### Local Applications
+
+Without an `<app name>`, `cds debug` starts `cds watch --debug` locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'cds watch --debug'
+...
+Debugger listening on ws://127.0.0.1:9229/...
+Opening Chrome DevTools at devtools://devtools/bundled/inspector.html?ws=...
+
+[cds] - ...
+</pre>
+
+
+### Java Applications <Since version="8.7.0" of="@sap/cds-dk" />
+
+#### Remote Applications
+
+Run the following, to debug remote Java applications in the currently targeted CF space:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span> <span class="options">&lt;app-name&gt;</span>
+...
+Debugging has been started.
+Address : 8000
+
+Opening SSH tunnel on 8000:127.0.0.1:8000
+
+> Keep this terminal open while debugging.
+</pre>
+
+This opens an [SSH tunnel](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html) and puts the application in debug mode.
+
+Afterwards, connect a debugger in your IDE at the given port.  In VS Code, for example, add a launch configuration like this one:
+
+::: code-group
+```json [.vscode/launch.json]
+{
+  "type": "java",
+  "name": "Attach to Remote Java App",
+  "request": "attach",
+  "hostName": "localhost",
+  "port": "8000"
+}
+```
+:::
+
+Make sure the port matches to what the debug tunnel uses (see the message in the terminal). The default port is `8000`.
+
+> [!NOTE] SapMachine is required
+> SapMachine is required as Java runtime environment for this feature to work.<br>
+> There is nothing to do if you set up your MTA deployment descriptors with [`cds mta`](../guides/deployment/to-cf#add-mta-yaml) or CAP project wizards.
+> See the [documentation of SapMachine](https://help.sap.com/docs/btp/sap-business-technology-platform/sapmachine) for how to configure this manually.
+
+#### Local Applications
+
+Without an app name, `cds debug` starts Maven with debug arguments locally:
+
+<pre class="log">
+<span class="cwd">$</span> <span class="cmd">cds</span> <span class="args">debug</span>
+Starting 'mvn spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"'
+...
+Listening for transport dt_socket at address: 8000
+...
+</pre>
+
+Then attach your IDE as explained before.
+
+::: details See the full help text of `cds debug`
+<!--@include: ./assets/help/cds-debug.out.md-->
+:::
 
 ## Debugging with `cds watch`
 

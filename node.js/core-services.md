@@ -1,7 +1,6 @@
 ---
 status: released
 uacp: This page is linked from the Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/29c25e504fdb4752b0383d3c407f52a6.html
-redirect_from: node.js/services
 ---
 
 # Core Services
@@ -397,9 +396,9 @@ var srv.options : { //> from cds.requires config
 
 
 
-### . entities {.property}
+### . entities {.property alt="The following documentation on operations also applies to entities. "}
 
-### . events {.property}
+### . events {.property alt="The following documentation on operations also applies to events. "}
 
 ### . operations {.property}
 
@@ -881,7 +880,7 @@ All *cds.Services* are intrinsically events & messaging-enabled. The core implem
 
 ::: danger **PLEASE NOTE**
 
-Even though emitters never wait for consumers to receive and process event messages, keep in mind that `srv.emit()` is an *`async`* method, and that it is of **utter importance** to properly handle the returned *Promises* with `await`. Not doing so ends up  in unhandled promises, and likely invalid transaction states and deadlocks.
+Although emitters do not handle any return values from consumers, it is necessary to always call them with `await`. Keep in mind that `srv.emit()` is an *`async`* method, it is **very important** to properly handle the returned *Promises* by using `await`. Not handing them will likely lead to invalid transaction states and deadlocks.
 
 :::
 
@@ -1063,6 +1062,8 @@ function foreach(
 ```
 
 Executes the statement and processes the result set row by row. Use this API instead of [`cds.run`](#srv-run-query) if you expect large result sets. Then they're processed in a streaming-like fashion instead of materializing the full result set in memory before processing.
+
+> Please note that this API is not yet implemented by any common `cds.Service` subclass (that is, `cds.DatabaseService`). Hence, the full result set is currently materialized in memory.
 
 _**Common Usages:**_
 

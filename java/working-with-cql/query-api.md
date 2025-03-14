@@ -2,9 +2,6 @@
 synopsis: >
   API to fluently build CQL statements in Java.
 status: released
-redirect_from:
-- java/query-api
-- java/cds-ql
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
@@ -256,7 +253,7 @@ Constant literals are directly rendered into SQL and therefore **must not** cont
 
 The source of the select statement determines the data set to which the query is applied. It's specified by the `from` method.
 
-#### From `entity set` {#from-entity-set}
+#### `FROM` Entity Set {#from-entity-set}
 
 Typically a select statement selects from an [entity set](#target-entity-sets):
 
@@ -272,7 +269,7 @@ CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "author.name");
 ```
 
-#### From `reference` {#from-reference}
+#### `FROM` Reference {#from-reference}
 
 The source can also be defined by a [path expression](#path-expressions) referencing an entity set.
 
@@ -290,7 +287,7 @@ import static bookshop.Bookshop_.ORDERS;
 Select.from(ORDERS, o -> o.filter(o.ID().eq(23)).items());
 ```
 
-#### From `subquery` {#from-select}
+#### `FROM` Subquery {#from-select}
 
 It's also possible to execute a nested select where an _outer_ query operates on the result of a _subquery_.
 
@@ -537,7 +534,7 @@ Object authorId = book.get("author.Id"); // path access
 ```
 
 ::: tip
-Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#db-constraints) on the database.
+Only to-one associations that are mapped via the primary key elements of the target entity are supported on the select list. The execution is optimized and gives no guarantee that the target entity exists, if this is required use expand or enable [integrity constraints](../../guides/databases#database-constraints) on the database.
 :::
 
 
@@ -777,7 +774,7 @@ There are few notable examples of such restrictions:
 
 * You cannot use the `lock()` together with a `distinct()` or a `groupBy()`.
 * You cannot use the `lock()` in a statement with the subquery as a source.
-* Localized entities can be locked only if your query is executed without a locale, as described in the chapter [Modifying Request Context](../event-handlers/request-contexts#modifying-requestcontext).
+* Localized entities can be locked only if your query is run without a locale, as described in the chapter: [Modifying Request Context](../event-handlers/request-contexts#modifying-requestcontext). Alternatively, they can be locked by removing the localized element from the select list (columns).
 * Entities that contain "on-read" calculated elements can't be locked when the statement references them in the select list or a filter.
 
 As a general rule, prefer the statements that select primary keys with a simple condition, such as `byId` or `matching`, to select the target entity set that is locked.
@@ -799,19 +796,13 @@ book.put("title", "Capire");
 CqnInsert insert = Insert.into("bookshop.Books").entry(book);
 ```
 
- or it can be a [path expression](#path-expressions), for example:
+ or it can be a [path expression](#path-expressions), for example to add an item for Order 1001:
 
  ```java
-import static bookshop.Bookshop_.BOOKS;
+import static bookshop.Bookshop_.ORDERS;
 
-Map<String, Object> bookId = Collections.singletonMap("ID", 85);
-
-Map<String, Object> publisher = new HashMap<>();
-publisher.put("ID", 101);
-publisher.put("name", "Penguin");
-
-CqnInsert insert = Insert.into(BOOKS, b -> b.matching(bookId)).publisher())
-                         .entry(publisher);
+Insert.into(ORDERS, o -> o.matching(Map.of("ID", 1001))).items())
+	.entry(Map.of("book", Map.of("ID", 251), "amount", 1));
 ```
 
 
@@ -1319,19 +1310,7 @@ CqnListValue props = list(get("year"), get("quarter"));
 CqnListValue vals  = list(val(2012), val(2));
 CqnSelect q = Select.from(SALES).where(comparison(props, GT, vals));
 ```
-
-You can also compare multiple list values at once using an `IN` predicate - for example to efficiently filter by multiple key value sets:
-
-```java
-import static com.sap.cds.ql.CQL.*;
-
-CqnListValue elements = list(get("AirlineID"), get("ConnectionID"));
-CqnListValue lh454  = list(val("LH"), val(454));
-CqnListValue ba119  = list(val("BA"), val(119));
-
-CqnSelect q = Select.from(FLIGHT_CONNECTION).where(in(elements, List.of(lh454, ba119)));
-```
-
+You can also compare multiple list values at once using an [`IN` predicate](#in-predicate).
 #### Parameters {#expr-param}
 
 The [`param`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html#param--) method can be statically imported from the helper class [CQL](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/CQL.html). It provides an option to use a parameter marker in a query that is bound to an actual value only upon query execution. Using parameters you can execute a query multiple times with different parameter values.
@@ -1430,6 +1409,18 @@ Scalar functions are values that are calculated from other values. This calculat
     Select.from("bookshop.Authors")
       .where(e -> e.get("name").substring(2).eq("ter"));
     ```
+
+#### Case-When-Then Expressions
+
+Use a case expression to compute a value based on the evaluation of conditions. The following query converts the stock of Books into a textual representation as 'stockLevel':
+
+```java
+Select.from(BOOKS).columns(
+  b -> b.title(),
+  b -> b.when(b.stock().lt(10)).then("low")
+        .when(b.stock().gt(100)).then("high")
+        .orElse("medium").as("stockLevel").type(CdsBaseType.STRING));
+```
 
 #### Arithmetic Expressions
 
@@ -1607,38 +1598,75 @@ LE
 
 <tr>
 <td>
-IN
-</td>
-<td>
-    Test if this value is equal to any value in a given list.
-</td>
-<td>
-
-<code>Select.from("bookshop.Books")
-  .where(b ->
-    b.get("author.name")
-     .<span class="na">in</span>("Poe", "Hemingway"));</code>
-
-</td>
-</tr>
-
-<tr>
-<td>
 BETWEEN
 </td>
 <td>
-    Test if this value is between a range of values.
+    Test if this value is between<sup>1</sup> a range of values.
 </td>
 <td>
 
 <code>Select.from("bookshop.Books")
   .where(b -> b.get("stock")
-  .<span class="na">between</span>(5,10));</code>
+  .<span class="na">between</span>(5, 10));</code>
 
 </td>
 </tr>
 </tbody>
 </table>
+
+<sup>1</sup> upper and lower bound are included
+
+#### `IN` Predicate
+
+The `IN` predicate tests if a value is equal to any value in a given list. 
+
+The following example, filters for books written by Poe or Hemingway:
+
+```java
+Select.from(BOOKS)
+  .where(b -> b.author().name().in("Poe", "Hemingway"));
+```
+
+The values can also be given as a list:
+
+```java
+List<String> authorNames = List.of("Poe", "Hemingway");
+
+Select.from(BOOKS)
+  .where(b -> b.author().name().in(authorNames));
+```
+
+You can also use the `IN` predicate to compare multiple [list values](#list-values) at once - for example to efficiently filter by multiple key value sets:
+
+```java
+import static com.sap.cds.ql.CQL.*;
+
+CqnListValue elements = list(get("AirlineID"), get("ConnectionID"));
+CqnListValue lh454  = list(val("LH"), val(454));
+CqnListValue ba119  = list(val("BA"), val(119));
+
+Select.from(FLIGHT_CONNECTION).where(in(elements, List.of(lh454, ba119)));
+```
+
+#### `IN` Subquery Predicate
+
+Use the `in` subquery to test if an element (or tuple of elements) of an outer query is contained in the result of a subquery.
+
+```java
+// fluent style
+Select.from(AUTHORS).where(author -> author.name().in(
+    Select.from(JOURNALISTS).columns(journalist -> journalist.name())
+));
+```
+
+In this example we check whether the tuple (`firstName`, `lastName`) is contained in the result of the subquery:
+
+```java
+// generic tree style via CQL api
+CqnListValue fullName = CQL.list(CQL.get("firstName"), CQL.get("lastName"));
+CqnSelect subquery = Select.from("socialmedia.Journalists").columns("firstName", "lastName");
+Select.from("bookshop.Authors").where(CQL.in(fullName, subquery));
+```
 
 #### `ETag Predicate` {#etag-predicate}
 
@@ -1876,22 +1904,22 @@ Select.from(AUTHORS).where(a -> a.books().anyMatch(
 
 #### `EXISTS` Subquery {#exists-subquery}
 
-An `EXISTS` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
-You construct an `EXISTS` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
+An `exists` subquery is used to test if a subquery returns any records. Typically a subquery is correlated with the enclosing _outer_ query.
+You construct an `exists` subquery with the [`exists`](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/ql/StructuredType.html#exists-java.util.function.Function-) method, which takes a [function](#lambda-expressions) that creates the subquery from a reference to the _outer_ query. To access elements of the outer query from within the subquery, this _outer_ reference must be used:
 
 ```java
 import static bookshop.Bookshop_.AUTHORS;
-import static spaceflight.Astronautics_.ASTRONAUTS;
+import static socialmedia.Journalists_.JOURNALISTS;
 
 // fluent style
 Select.from(AUTHORS)
   .where(author -> author.exists($outer ->
-      Select.from(ASTRONAUTS).where(astro -> astro.name().eq($outer.name()))
+      Select.from(JOURNALISTS).where(journalist -> journalist.name().eq($outer.name()))
     )
   );
 ```
 
-This query selects all authors with the name of an astronaut.
+This query selects all authors with the name of an journalist.
 ::: tip
 With an `exists` subquery, you can correlate entities that aren't linked with associations.
 :::
@@ -1901,14 +1929,12 @@ When using the [tree-style API](#composing-predicates) the _outer_ query is addr
 ```java
 // tree style
 CqnSelect subquery =
-  Select.from("Astronauts")
+  Select.from("Journalists")
         .where(a -> a.get("name").eq(CQL.get("$outer.name")));
 Select.from("Authors").where(CQL.exists(subquery));
 ```
 
 > **Note:** Chaining `$outer` in nested subqueries is not supported.
-
-
 
 ## Parsing CQN
 

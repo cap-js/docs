@@ -19,7 +19,7 @@ to the remote services aren't tracked.
 
 ## Enabling Change Tracking
 
-To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `pom.xml` file of your service:
+To use the change tracking feature, you need to add a dependency to [cds-feature-change-tracking](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-change-tracking) in the `srv/pom.xml` file of your service:
 
 ```xml
 <dependency>
@@ -276,22 +276,33 @@ If you change the values of the `OrderItems` entity directly via an OData reques
 
 ## Reacting on Changes
 
-You can write an event handler to observe the change log entries. Keep in mind, that the change log entries 
+You can write an event handler to observe the change log entries. Keep in mind, that the change log entries
 are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
+
+First, update the dependency's scope to `compile` in the `srv/pom.xml` file of your service:
+
+```xml
+<dependency>
+  <groupId>com.sap.cds</groupId>
+    <artifactId>cds-feature-change-tracking</artifactId>
+    <scope>compile</scope>
+</dependency>
+```
+
+Second, add a handler to access the changes:
 
 ```java
 import cds.gen.sap.changelog.Changes;
 
 @Component
-@ServiceName("ChangeTrackingService$Default")
+@ServiceName(ChangeTrackingService.DEFAULT_NAME)
 public class ChangeTrackingHandler implements EventHandler {
-	
-  @After(event = "createChanges")
-  void afterCreate(EventContext context) {
-    Result result = (Result) context.get("result");
-    result.listOf(Changes.class).forEach(c -> {
+
+  @After(event = ChangeTrackingService.CREATE_CHANGES)
+  void afterCreate(CreateChangesEventContext context) {
+    context.getResult().listOf(Changes.class).forEach(c -> {
       // Do something with the change log entry
-	});
+    });
   }
 }
 ```

@@ -31,6 +31,10 @@ Once this is added, you can use the restart capabilities of the Spring Boot Devt
   * Artifacts generated from CDS (schema.sql, CSN, EDMX)
   * Any other static resource
 
+::: warning Restart for changed Java classes
+Spring Boot Devtools only detects changes to .class files. You need to enable the *automatic build* feature in your IDE which detects source file changes and rebuilds the .class file. If not, you have to manually rebuild your project to restart your CAP Java application.
+:::
+
 ### CDS Build
 
 The Spring Boot Devtools have no knowledge of any CDS tooling or the CAP Java runtime. Thus, they can't trigger a CDS build if there are changes in the CDS source files. For more information, please check the [Local Development Support](#local-development-support) section.
@@ -40,7 +44,19 @@ CDS builds in particular change numerous resources in your project. To have a sm
 :::
 
 
-## Local Development Support { #local-development-support}
+## Local Development Support
+
+### Use `cds` Prefix Everywhere
+
+To use the `cds` prefix of the `cds-maven-plugin` from everywhere, add the plugin group `com.sap.cds` to your local `~/.m2/settings.xml`:
+
+```xml
+<pluginGroups>
+    <pluginGroup>com.sap.cds</pluginGroup>
+</pluginGroups>
+```
+
+This uses the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) feature. This Maven feature allows you to use only the `cds` prefix of the `cds-maven-plugin` to execute goals of this plugin. For example, instead of `mvn com.sap.cds:cds-maven-plugin:watch` you can use the shorter variant `mvn cds:watch` to run the `watch` goal of the `cds-maven-plugin`.
 
 ### CDS Watch
 In addition to the previously mentioned build tasks, the CDS Maven plugin can also support the local development of your CAP Java application. During development, you often have to perform the same steps to test the changes in the CDS model:
@@ -52,12 +68,17 @@ In addition to the previously mentioned build tasks, the CDS Maven plugin can al
 To automate and accelerate these steps, the `cds-maven-plugin` offers the goal `watch`, which can be executed from the command line by using Maven:
 
 ```sh
+mvn cds:watch
+```
+:::details Other options if you've not configured the plugin group
+```sh
 # from your root directory
 mvn com.sap.cds:cds-maven-plugin:watch
 # or your srv/ folder
 cd srv
 mvn cds:watch
 ```
+:::
 
 It builds and starts the application and looks for changes in the CDS model. If you change the CDS model, these are recognized and a restart of the application is initiated to make the changes effective.
 
@@ -78,5 +99,13 @@ If the Spring Boot Devtools configuration of your CAP Java application defines a
 
 ### Multitenant Applications
 
-With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database. 
+With the streamlined MTX, you can run your multitenant application locally along with the MTX sidecar and use SQLite as the database.
 See [the _Multitenancy_ guide](../../guides/multitenancy/#test-locally) for more information.
+
+
+## Debugging
+
+You can debug both local and remote Java applications.
+
+- For local applications, it's best to start the application using the integrated debugger of your [preferred IDE](../../tools/cds-editors).
+- Especially for remote applications, we recommend [`cds debug`](../../tools/cds-cli#java-applications) to turn on debugging.

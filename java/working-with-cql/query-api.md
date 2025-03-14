@@ -14,7 +14,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 API to fluently build CQL statements in Java.
 
-[Before you continue reading, make sure to know about CQL in CAP.](../cds/cql){.learn-more}
+[Before you continue reading, make sure to know about CQL in CAP.](../../cds/cql){.learn-more}
 
 ## Introduction
 

@@ -747,7 +747,7 @@ By default [`virtual` elements](../cds/cdl#virtual-elements) are also _calculate
 The same applies for fields with the [OData Annotations](../advanced/odata#annotations) `@FieldControl.ReadOnly` (static), `@Core.Computed`, or `@Core.Immutable` (the latter only on UPDATEs).
 :::
 
-::: warning
+::: warning Not allowed on keys
 Do not use the `@readonly` annotation on keys in all variants.
 :::
 

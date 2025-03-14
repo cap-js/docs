@@ -748,7 +748,7 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 :::
 
 ::: warning
-Read-only keys in all variants are not supported and the respective annotation is ignored.
+Do not use the `@readonly` annotation on keys in all variants.
 :::
 
 ### `@mandatory` {#mandatory}

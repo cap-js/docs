@@ -834,7 +834,7 @@ messagingService.emit(topic, "hello world");
 
 If the service is not configured with the structured flag, the message is sent as is and on the consumer side `TopicMessageEventContext.getData()` returns:
 
-```
+```txt
 hello world
 ```
 

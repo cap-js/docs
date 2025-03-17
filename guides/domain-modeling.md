@@ -252,7 +252,7 @@ entity name {
 }
 ```
 
-[Learn more about entity definitions](../cds/cdl.md#views-projections){.learn-more}
+[Learn more about entity definitions.](../cds/cdl.md#entities-type-definitions){.learn-more}
 
 
 
@@ -266,7 +266,7 @@ entity ProjectedEntity as select from BaseEntity {
 };
 ```
 
-[Learn more about views and projections](../cds/cdl.md#views-projections){.learn-more}
+[Learn more about views and projections.](../cds/cdl.md#views-projections){.learn-more}
 
 
 
@@ -371,7 +371,7 @@ CDS comes with a small set of built-in types:
 - `String`, `LargeString`
 - `Binary`, `LargeBinary`
 
-[See list of **Built-in Types** in the CDS reference docs](../cds/types){.learn-more}
+[See list of **Built-in Types** in the CDS reference docs.](../cds/types){.learn-more}
 
 #### Common Reuse Types
 
@@ -450,7 +450,7 @@ entity Authors { ...
 }
 ```
 
-[Learn more about Associations in the _CDS Language Reference_](../cds/cdl#associations){ .learn-more}
+[Learn more about Associations in the _CDS Language Reference_.](../cds/cdl#associations){ .learn-more}
 
 #### Managed :1 Associations
 
@@ -553,7 +553,7 @@ entity OrderItems { // to be accessed through Orders only
 }
 ```
 
-[Learn more about Compositions in the _CDS Language Reference_](../cds/cdl#compositions){ .learn-more}
+[Learn more about Compositions in the _CDS Language Reference_.](../cds/cdl#compositions){ .learn-more}
 
 #### Composition of Aspects
 
@@ -568,7 +568,7 @@ entity Orders { ...
 }
 ```
 
-[Learn more about Compositions of Aspects in the _CDS Language Reference_](../cds/cdl#managed-compositions){ .learn-more}
+[Learn more about Compositions of Aspects in the _CDS Language Reference_.](../cds/cdl#managed-compositions){ .learn-more}
 
 Behind the scenes this will add an entity named `Orders.Items` with a backlink association named `up_`, so effectively generating the same model as above. You can annotate the inline composition with UI annotations as follows:
 
@@ -612,7 +612,7 @@ We can also apply named aspects as **includes** in an inheritance-like syntax:
 entity Books : NamedAspect { ... }
 ```
 
-[Learn more about the usage of aspects in the _Aspect-oriented Modeling_ section](../cds/aspects).{ .learn-more}
+[Learn more about the usage of aspects in the _Aspect-oriented Modeling_ section.](../cds/aspects).{ .learn-more}
 
 ::: tip
 
@@ -809,15 +809,15 @@ While both behave identical for database-level `INSERT`s, they differ for `CREAT
 
 ::: tip In Essence:
 
-Managed data fields are filled in automatically and are write-protected for externa clients.
+Managed data fields are filled in automatically and are write-protected for external clients.
 :::
 
 ::: warning Limitations
 In case of `UPSERT` operations, the handlers for `@cds.on.update` are executed, but not the ones for `@cds.on.insert`.
 :::
 
-
-### Aspect _`managed`_
+Domain Modeling > Managed Data {style="margin-bottom: 0; font-size:70%; font-style: italic;"}
+### Aspect _`managed`_ {style="margin-top: 0;"}
 
 You can also use the [pre-defined aspect `managed`](../cds/common#aspect-managed) from [@sap/cds/common](../cds/common) to get the very same as by the definition above:
 
@@ -826,7 +826,7 @@ using { managed } from '@sap/cds/common';
 entity Foo : managed { /*...*/ }
 ```
 
-[Learn more about `@sap/cds/common`](../cds/common){.learn-more}
+[Learn more about `@sap/cds/common`.](../cds/common){.learn-more}
 
 With this we keep our core domain model clean and comprehensible.
 

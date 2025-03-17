@@ -55,10 +55,9 @@ entity Authors : entity {
 ```
 
 ::: details Noteworthy...
-
 In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
-
 :::
+
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
@@ -566,7 +565,7 @@ A calculated element can be *used* in every location where an expression can occ
 * in a query together with nested projections (inline/expand)
 
 ::: warning
- For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
+For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write
@@ -1443,7 +1442,7 @@ actions {
 In CSN, the expression is represented as a record with two properties:
 * A string representation of the expression is stored in property `=`.
 * A tokenized representation of the expression is stored in one of the properties
-`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
+  `xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
 
 ```json
 {
@@ -1734,23 +1733,36 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 
 ### Named Aspects
 
-You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
+You can use `extend` with predefined aspects, to apply the same extensions to multiple targets:
 
 ```cds
-aspect SomeAspect {
+@annotation
+aspect NamedAspect {
   created { at: Timestamp; _by: User; }
+} actions {
+  action A() returns String;
 }
 ```
 ```cds
-extend Foo with SomeAspect;
-extend Bar with SomeAspect;
+extend Foo with NamedAspect;
+extend Bar with NamedAspect;
 ```
 
-If you use `extend`, all nested fields in the named aspect are interpreted as being extension fields. If you use `annotate`, the nested fields are interpreted as existing fields and the annotations are copied to the corresponding target elements.
+By extending an entity with an aspect, you add all the aspect's fields, actions, and annotations to the entity.
 
-The named extension can be anything, for example, including other `types` or `entities`.
 Use keyword `aspect` as shown in the example to declare definitions that are only meant to be used in such extensions, not as types for elements.
 
+To reuse annotations, without adding elements, use an empty aspect and extend your target with it
+You can even extend projections with such aspects.
+
+```cds
+@annotation
+aspect ReuseAnnotations {};
+entity Proj as projection on Bar;
+```
+```cds
+extend Proj with ReuseAnnotations;
+```
 
 
 ### Includes -- `:` as Shortcut Syntax {#includes}
@@ -1801,7 +1813,7 @@ extend SomeView with columns {
 ```
 
 Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
-is not accessible in such an extend. 
+is not accessible in such an extend.
 
 You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 

@@ -318,8 +318,8 @@ Visit the "Applications" section in your [SAP BTP cockpit](https://help.sap.com/
 
 ![The screenshot shows the SAP BTP cockpit, when a user navigates to his dev space in the trial account and looks at all deployed applications.](./assets/apps-cockpit.png){.mute-dark}
 
-::: tip Assign the _admin_ role
-We didn't do the _admin_ role assignment for the `AdminService`. You need to create a role collection and [assign the role and your user](https://developers.sap.com/tutorials/btp-app-role-assignment.html) to get access.
+::: tip Next up: Assign the _admin_ role
+In order to access the admin APIs you need to assign the _admin_ role required by `AdminService`. Create a role collection and [assign the role and your user](https://developers.sap.com/tutorials/btp-app-role-assignment.html) to get access.
 :::
 
 [Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#cflogs-recent){.learn-more}

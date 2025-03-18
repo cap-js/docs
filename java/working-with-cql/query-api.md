@@ -293,7 +293,7 @@ It's also possible to execute a nested select where an _outer_ query operates on
 
 ```sql
 --CQL query
-SELECT from (SELECT from Authors order by age asc limit 10) as youngestAuthors order by name
+SELECT from (SELECT from Authors order by age asc limit 10) order by name
 ```
 
 ```java
@@ -306,7 +306,6 @@ This subquery selects the youngest authors, which the outer query [sorts](#order
 
 Limitations:
 * The subquery must not expand [to-many associations](../../cds/cdl#to-many-associations).
-* Associations aren't propagated to the outer query and hence can't be used there in path expressions.
 * The outer query can only be defined with the dynamic builder style.
 
 

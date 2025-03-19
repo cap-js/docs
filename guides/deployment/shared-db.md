@@ -13,6 +13,10 @@ The benefits are as follows:
    - a redeployment of all microserivces involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
 
+# Best Practices
+
+* Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
+* Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 
 # Terminology
 

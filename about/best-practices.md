@@ -928,7 +928,7 @@ Whenever you have to integrate external services, you should follow the Calesi p
        requires: {
          'audit-log': {
            "[development]": { impl: ".../audit-log-mock.js" },
-           "[production]":  { impl: ".../the-reasl-audit-log-srv.js" },
+           "[production]":  { impl: ".../the-real-audit-log-srv.js" },
          }
        }
      }

@@ -39,7 +39,7 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 # MTA
 
-In order to deploy CAP services in the Clound Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
+In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
 
 `cds add mta`
 
@@ -57,7 +57,7 @@ The HDI files are deployed automatically to the HDI schema using the HDI-deploye
 
 1. install dependencies, for example: `npm ci`
 2. assemble CDS model containing all artifacts for all CAP services, for example: `npx cds build (directory with db artifacts) --for hana --production`. 
-3. prepare CAP services, for esample: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
+3. prepare CAP services, for example: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
 
 ### modules
 
@@ -248,7 +248,7 @@ The */appconfig/* route is required in case of Fiori UIs
     }
 ```
 
-# Authentification
+# Authentication
 
 `cds add xsuaa`
 
@@ -288,7 +288,7 @@ Configuration: xs-security.json
 
 # Messaging
 
-The messaging service is used to organize asynchronious communication between the CAP services.
+The messaging service is used to organize asynchronous communication between the CAP services.
 
 `cds add enterprise-messaging`
 
@@ -385,7 +385,7 @@ modules:
 ```
 # Misc
 
-## authentification depends on messaging
+## authentication depends on messaging
 
 - mta.yaml: add *processed-after* property
 ```yaml
@@ -399,7 +399,7 @@ modules:
 
 File: mta.yaml
 
-- Duplicate samples-srv for earch CAP service
+- Duplicate samples-srv for each CAP service
 
 - maintain the *path* property
 
@@ -440,7 +440,7 @@ ID;subject;...
     cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"}
 ```
 
-## approuter requires authentification
+## approuter requires authentication
 - mta.yaml
 ```yaml
 - name: samples

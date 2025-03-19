@@ -83,7 +83,7 @@
   const slots = useSlots()
   const slotVal = slots.default?.().at(0)?.children?.toString().trim() ?? 'error: provide <Config>your_key:value</Config>'
 
-  const [key, val] = slotVal.split(/\s*[:=]\s*/)
+  const [key, val] = slotVal.split(/\s*[:=]\s*(.*)/) // split on first `:` or `=`
   const label = labelProp || `${keyOnly ? key: slotVal}`
 
   const cfgKey = ref()

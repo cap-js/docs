@@ -999,39 +999,7 @@ You can add further vocabularies to the translation process [using configuration
 
 ### Additional Vocabularies
 
-Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the following configuration option:
-
-::: code-group
-```json [package.json]
-{
-  "cds": {
-    "cdsc": {
-      "odataVocabularies": {
-        "MyVocabulary": {
-          "Alias": "MyVocabulary",
-          "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
-          "Uri": "<link to vocabulary document>"
-        }
-      }
-    }
-  }
-}
-```
-
-```json [.cdsrc.json]
-{
-  "cdsc": {
-    "odataVocabularies": {
-      "MyVocabulary": {
-        "Alias": "MyVocabulary",
-        "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
-        "Uri": "<link to vocabulary document>"
-      }
-    }
-  }
-}
-```
-:::
+Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the configuration option <Config keyOnly filesOnly>cds.cdsc.odataVocabularies.MyVocabulary: {"Alias": "MyVocabulary", "Namespace": "com.sap.vocabularies.MyVocabulary.v1", "Uri": "\<link to vocabulary document\>"}</Config>.
 
 With this configuration, all annotations prefixed with `MyVocabulary` are considered in the translation.
 

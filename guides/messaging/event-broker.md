@@ -22,10 +22,11 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios -> CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
 
-
-## Use `event-broker`
+TODO: how to make ToC on top right stack dependent?
 
 <div class="impl node">
+
+## Use `event-broker`
 
 Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
@@ -40,11 +41,15 @@ Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add
 }
 ```
 
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
+
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
 </div>
 
 <div class="impl java">
+
+## Use `event-hub`
 
 Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-broker-plugin) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
 
@@ -54,6 +59,8 @@ cds:
   - name: "messaging-name"
     kind: "event-hub"
 ```
+
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#using-real-brokers){.learn-more}
 
 </div>
 

@@ -66,7 +66,6 @@ cd bookshop
 </div>
 
 <br>
-<br>
 
 In addition, you need to prepare the following:
 
@@ -316,7 +315,7 @@ The [SAP Fiori Preview](../../advanced/fiori#sap-fiori-preview), that you are us
 
 Visit the "Applications" section in your [SAP BTP cockpit](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/144e1733d0d64d58a7176e817fa6aeb3.html) to see the deployed apps:
 
-![The screenshot shows the SAP BTP cockpit, when a user navigates to his dev space in the trial account and looks at all deployed applications.](./assets/apps-cockpit.png){.mute-dark}
+![The screenshot shows the SAP BTP cockpit, when a user navigates to his dev space in the trial account and looks at all deployed applications.](./assets/apps-cockpit.png)
 
 ::: tip Next up: Assign the _admin_ role
 In order to access the admin APIs you need to assign the _admin_ role required by `AdminService`. Create a role collection and [assign the role and your user](https://developers.sap.com/tutorials/btp-app-role-assignment.html) to get access.
@@ -352,10 +351,10 @@ The `main` method optionally takes tenant ID (string) as the first input argumen
 
 The method returns the following exit codes.
 
-| Exit Code | Result                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------ |
-| 0         | Tenant subscribed/unsubscribed successfully.                                                                  |
-| 3         | Failed to subscribe/unsubscribe the tenant. Rerun the procedure to make sure the tenant is subscribed/unsubscribed.          |
+| Exit Code  | Result                                                                                                              |
+|-----------:|---------------------------------------------------------------------------------------------------------------------|
+| 0          | Tenant subscribed/unsubscribed successfully.                                                                        |
+| 3          | Failed to subscribe/unsubscribe the tenant. Rerun the procedure to make sure the tenant is subscribed/unsubscribed. |
 
 To run this method locally, use the following command where `<jar-file>` is the one of your applications:
 

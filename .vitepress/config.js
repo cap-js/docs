@@ -5,6 +5,9 @@ const base =  process.env.GH_BASE || '/docs/'
 import { defineConfig } from 'vitepress'
 import languages from './languages'
 import path from 'node:path'
+import { Menu } from './menu.js'
+
+const menu = await Menu.from ('./menu.md')
 
 const config = defineConfig({
 
@@ -35,6 +38,8 @@ const config = defineConfig({
   },
 
   themeConfig: {
+    sidebar: menu.items,
+    nav: menu.navbar,
     logo: '/cap-logo.svg',
     outline: [2,3],
     socialLinks: [

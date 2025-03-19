@@ -268,7 +268,7 @@ Configuration: xs-security.json
 
 - CAP service package.json dependency: @sap/xssec
 
-  ```
+  ```shell
   npm i @sap/xssec --workspace bookstore
   npm i @sap/xssec --workspace orders
   npm i @sap/xssec --workspace reviews

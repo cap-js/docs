@@ -13,6 +13,10 @@ The benefits are as follows:
    - a redeployment of all microserivces involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
 
+# Best Practices
+
+* Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
+* Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 
 # Terminology
 
@@ -35,9 +39,11 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 # MTA
 
-In order to deploy CAP services in the Clound Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
+In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
 
-`cds add mta`
+```shell
+cds add mta
+```
 
 ## mta.yaml
 
@@ -53,7 +59,7 @@ The HDI files are deployed automatically to the HDI schema using the HDI-deploye
 
 1. install dependencies, for example: `npm ci`
 2. assemble CDS model containing all artifacts for all CAP services, for example: `npx cds build (directory with db artifacts) --for hana --production`. 
-3. prepare CAP services, for esample: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
+3. prepare CAP services, for example: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
 
 ### modules
 
@@ -73,17 +79,21 @@ All instances of BTP services: HANA hdi container, xsuaa, enterprise messaging, 
 
 # Database
 
-`cds add hana`
+```shell
+cds add hana
+```
 
 - CAP service configuration, file: (service)/package.json
   
   - requires db
 
-  `cds.requires.db=true`
+  ```json
+  { "cds": { "requires": { "db": true } } }
+  ```
 
   - add dependency @cap-js/hana:
 
-  ```
+  ```shell
   npm i @cap-js/hana --workspace bookstore
   npm i @cap-js/hana --workspace orders
   npm i @cap-js/hana --workspace reviews
@@ -93,11 +103,16 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
 
 - delete the newly created *db* folder containing default configuration files: *db/undeploy.json* and *db/src/.hdiconfig*
 
-  `rm db/undeploy.json db/src/.hdiconfig`
+  ```shell
+  rm db/undeploy.json db/src/.hdiconfig
+  ```
 
 - create and initialize a *shared-db* node module
 
-  `mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..`
+  ```shell
+  mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..
+  ```
+
 
 - disable HANA native associations
   
@@ -130,19 +145,19 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
   
   file: mta.yaml
   ```yaml
-  ............
   build-parameters:
     before-all:
       - builder: custom
         commands:
           - npm ci
           - npx cds build ./shared-db --for hana --production
-  ............
   ```
 
 # Approuter
 
-`cds add approuter`
+```shell
+cds add approuter
+```
 
 https://cap.cloud.sap/docs/guides/deployment/to-cf#add-app-router
 
@@ -154,7 +169,6 @@ It is deployed as a separate BTP App and is the main entry point for accessing t
 - configuration: mta.yaml - list of API endpoints with name (API EP in xs-app.json) and url:
 
 ```yaml
-............
    requires:
       - name: orders-api
         group: destinations
@@ -183,7 +197,7 @@ xs-app.json describes how to forward incoming request to the API endpoint / ODat
 ## static content
 The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder.
 
-```
+```shell
 cd app-router
 ln -s ../bookshop/app/vue bookshop
 ln -s ../orders/app/orders orders
@@ -198,7 +212,7 @@ Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make su
 - xs-app.json
 ```json
 {
-"welcomeFile": "app/bookshop/index.html"
+  "welcomeFile": "app/bookshop/index.html"
 }
 ```
 
@@ -244,15 +258,17 @@ The */appconfig/* route is required in case of Fiori UIs
     }
 ```
 
-# Authentification
+# Authentication
 
-`cds add xsuaa`
+```shell
+cds add xsuaa
+```
 
 Configuration: xs-security.json
 
 - CAP service package.json dependency: @sap/xssec
 
-  ```
+  ```shell
   npm i @sap/xssec --workspace bookstore
   npm i @sap/xssec --workspace orders
   npm i @sap/xssec --workspace reviews
@@ -284,9 +300,11 @@ Configuration: xs-security.json
 
 # Messaging
 
-The messaging service is used to organize asynchronious communication between the CAP services.
+The messaging service is used to organize asynchronous communication between the CAP services.
 
-`cds add enterprise-messaging`
+```shell
+cds add enterprise-messaging
+```
 
 - CAP Service package.json:
 `cds.requires.messaging = true`
@@ -323,7 +341,9 @@ The messaging service is used to organize asynchronious communication between th
 
 # Destinations
 
-`cds add destination`
+```shell
+cds add destination
+```
 
 Required when a CAP service consumes other CAP services, see: https://cap.cloud.sap/docs/node.js/remote-services
 
@@ -331,16 +351,22 @@ Required when a CAP service consumes other CAP services, see: https://cap.cloud.
 
   File: package.json
   
-  `cds.requires.destinations = true`
+  ```json
+  { "cds": { "requires": { "destinations": true } } }
+  ```
 
 - CAP service package.json dependencies for the consuming destinations:
   - @sap-cloud-sdk/http-client
 
-    `npm i @sap-cloud-sdk/http-client --workspace bookstore`
+    ```shell
+    npm i @sap-cloud-sdk/http-client --workspace bookstore`
+    ```
 
   - @sap-cloud-sdk/resilience
 
-    `npm i @sap-cloud-sdk/resilience --workspace bookstore`
+    ```shell
+    npm i @sap-cloud-sdk/resilience --workspace bookstore
+    ```
 
 The configuration contains list of destinations where each destination references the URL of the corresponding API endpoint (OData service)
 
@@ -381,12 +407,11 @@ modules:
 ```
 # Misc
 
-## authentification depends on messaging
+## authentication depends on messaging
 
 - mta.yaml: add *processed-after* property
 ```yaml
   - name: samples-auth
-....
     processed-after:
       - samples-messaging
 ```
@@ -395,11 +420,13 @@ modules:
 
 File: mta.yaml
 
-- Duplicate samples-srv for earch CAP service
+- Duplicate samples-srv for each CAP service
 
 - maintain the *path* property
 
-  `   path: the-service-path/gen/srv`
+  ```yaml
+      path: the-service-path/gen/srv`
+  ```
 
 - maintain the provided API name
 
@@ -412,7 +439,7 @@ File: mta.yaml
 
 - (fix) change from *npm-ci* to *npm* builder
 
-  ```
+  ```yaml
       builder: npm
   ```
 
@@ -420,10 +447,9 @@ File: mta.yaml
 
 - reviews/db/data/sap.capire.reviews-Reviews.csv
 
-```
-ID;subject;...
-1689144d-3b10-4849-bcbe-2408a13e161d;201....
-...
+```csv
+ID;subject
+1689144d-3b10-4849-bcbe-2408a13e161d;201
 ```
 
 ## maintain RemoteService credentials
@@ -436,7 +462,7 @@ ID;subject;...
     cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"}
 ```
 
-## approuter requires authentification
+## approuter requires authentication
 - mta.yaml
 ```yaml
 - name: samples
@@ -494,7 +520,6 @@ Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/
 
   file: mta.yaml
   ```yaml
-  ............
   build-parameters:
     before-all:
       - builder: custom
@@ -504,5 +529,4 @@ Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/
           - npx cds build ./orders --for nodejs --production --ws-pack
           - npx cds build ./reviews --for nodejs --production
           - npx cds build ./bookstore --for nodejs --production --ws-pack
-  ............
   ```

@@ -644,7 +644,7 @@ service S {
   entity Authors { key ID : Integer; name : String; }
   entity Books   { key ID : Integer; author : Association to Authors; }
 
-  annotate Books:author with @Common.Text: (author.name); 
+  annotate Books:author with @Common.Text: (author.name);
 }
 ```
 
@@ -804,7 +804,7 @@ converted into the corresponding EDM primitive type.
 
 CAP only provides a syntactic translation. It is up to each client
 whether an expression value is supported for a particular annotation.
-See for example [Firori's list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+See for example [SAP Fiori Elements' list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
 :::
 

@@ -307,8 +307,8 @@ You can use this URL to access the approuter as the entry point of your applicat
 
 For **multitenant applications**, you have to subscribe a tenant first. The application is accessible via a tenant-specific URL after subscription.
 
-::: tip No Fiori preview in the cloud
-The [SAP Fiori Preview](../../advanced/fiori#sap-fiori-preview), that you are used to see from local development, is only available for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori application.
+::: tip No index page and SAP Fiori preview in the cloud
+The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to see from local development, are only available for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori Elements application through on of the [user interface options](#add-ui) outlined before.
 :::
 
 ### Inspect Apps in BTP Cockpit

@@ -117,7 +117,7 @@
     const pkg = toJson(key, jsonVal ?? value)
 
     pkgStr.value = JSON.stringify(pkg, null, 2)
-    rcJsonStr.value = JSON.stringify(pkg.cds, null, 2)
+    rcJsonStr.value = JSON.stringify(pkg.cds??{}, null, 2)
     rcJsStr.value = 'module.exports = ' + rcJsonStr.value.replace(/"(\w*?)":/g, '$1:')
     rcYmlStr.value = yaml.stringify(pkg.cds)
     propStr.value = `${key}=${jsonVal ? JSON.stringify(jsonVal) : value}`

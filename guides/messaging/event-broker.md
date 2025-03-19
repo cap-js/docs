@@ -2,23 +2,8 @@
 # # layout: cookbook
 shorty: SAP Cloud Application Event Hub
 status: released
+impl-variants: true
 ---
-
-<script setup>
-  import { h } from 'vue'
-  const X =  () => h('span', { class: 'ga',      title: 'Available' },      ['✓']   )
-  const Na = () => h('i',    { class: 'na',      title: 'not applicable' }, ['n/a'] )
-  const D =  () => h('i',    { class: 'prog',    title: 'in progress'  },   ['in prog.'] )
-  const O =  () => h('i',    { class: 'plan',    title: 'planned'  },       ['planned'] )
-</script>
-<style scoped>
-  .ga   { color: var(--vp-c-green-2); font-weight:900;}
-  .na   { color: #aaa; font-size:90%; }
-  .prog { color: var(--vp-c-green-3); font-size:90%; font-weight:500; }
-  .plan { color: #089; font-size:90% }
-</style>
-
-
 
 # Using SAP Cloud Application Event Hub in Cloud Foundry
 
@@ -31,175 +16,178 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 [[toc]]
 
-<span id="eventbrokerfeaturematrix" />
 
 
+## Prerequisite: Set up SAP Cloud Application Event Hub
 
-## Consuming Events in a Stand-alone App { #consume-standalone }
-
-This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Cloud Application Event Hub.
-The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Cloud Application Event Hub.
-
-Sample app: [@capire/incidents with Customers based on S/4's Business Partners](https://github.com/cap-js/incidents-app/tree/event-broker)
+Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios -> CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
 
 
-### Prerequisite: Events & Messaging in CAP
+## Use `event-broker`
 
-From the perspective of a CAP developer, SAP Cloud Application Event Hub is yet another messaging broker.
-That is to say, CAP developers focus on [modeling their domain](../domain-modeling) and [implementing their domain-specific custom logic](../providing-services#custom-logic).
-Differences between the various event transporting technologies are held as transparent as possible.
+<div class="impl node">
 
-Hence, before diving into this guide, you should be familiar with the general guide for [Events & Messaging in CAP](../messaging/), as it already covers the majority of the content.
+Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
-Since SAP Cloud Application Event Hub is based on the [CloudEvents](https://cloudevents.io/) standard, the `@topic` annotation for events in your CDS model is interpreted as the CloudEvents `type` attribute.
-
-
-### Add Events and Handlers
-
-There are two options for adding the events that shall be consumed to your model, and subsequently registering event handlers for the same.
-
-#### 1. Import and Augment
-
-This approach is described in [Events from SAP S/4HANA](../messaging/#events-from-sap-s-4hana), [Receiving Events from SAP S/4HANA Cloud Systems](../messaging/s4), and specifically [Consume Events Agnostically](../messaging/s4#consume-events-agnostically) regarding handler registration.
-
-#### 2. Using Low-Level Messaging
-
-As a second option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
-However, please note that future [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) integration will most likely benefit from modeled approaches.
-
-
-### Use `event-broker`
-
-Configure your application to use the messaging service kind `event-broker` (derived from SAP Cloud Application Event Hub's technical name).
-
-[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      // kind "event-broker" is derived from the service's technical name
+      "[production]": { "kind": "event-broker" }
+    }
+  }
+}
+```
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
-::: tip Local Testing
-Since SAP Cloud Application Event Hub sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service. Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
+</div>
+
+<div class="impl java">
+
+Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-broker-plugin) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
+
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  messaging.services:
+  - name: "messaging-name"
+    kind: "event-hub"
+```
+
+</div>
+
+
+## Hybrid Testing
+
+Since SAP Cloud Application Event Hub sends events via HTTP, you won't be able to receive events on your local machine unless you use a tunneling service.
+Therefore we recommend to use a messaging service of kind [`local-messaging`](../../node.js/messaging#local-messaging) for local testing.
+
+
+
+## Deploy to the Cloud (with MTA) {#deploy}
+
+A general description of how to deploy CAP applications to SAP BTP's Cloud Foundry, can be found in the [Deploy to Cloud* guide](../deployment/).
+As documented there, MTA is frequently used to deploy to SAP BTP.
+
+[Learn more about using MTA.](../deployment/){.learn-more}
+
+Follow these steps to ensure proper binding of your deployed application to the SAP Cloud Application Event Hub instance.
+The guide makes use of the [@capire/incidents](https://github.com/cap-js/incidents-app) reference application.
+
+<span id="event-hub-in-saas" />
+
+We'll start with the definition of the app itself:
+
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in references below
+```
 :::
 
+### 1. Auto-Create SAP Cloud Application Event Hub Instance
 
-### Deploy to the Cloud (with MTA)
+Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL.
 
-Please see [Deploy to Cloud Foundry](../deployment/to-cf) regarding deployment with MTA as well as the deployment section from [SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker).
+<div class="impl node">
 
-
-### Connecting it All Together
-
-In SAP BTP System Landscape, add a new system of type `SAP BTP Application` for your CAP application including its integration dependencies, connect all involved systems (incl. SAP Cloud Application Event Hub) into a formation and enable the event subscription.
-
-For more details, please refer to guide [CAP Application as a Consumer](https://help.sap.com/docs/event-broker/event-broker-service-guide/cap-application-as-subscriber) in the official documentation of SAP Cloud Application Event Hub.
-
-::: tip Test Events
-For testing purposes, SAP S/4HANA can send technical test events of type `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` which your app can subscribe to. You can trigger such events with _Enterprise Event Enablement - Event Monitor_.
+::: code-group
+```yaml [mta.yaml]
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook
+      requires:
+        - name: incidents-srv-api
+```
 :::
 
+</div>
 
-<!--The following mta.yaml snippet ensures the sequential creation of the SAP Cloud Application Event Hub and IAS service instances, as well as binds the application to both service instances with the respectively necessary configuration.-->
+<div class="impl java">
 
-<!--```yaml-->
-<!--ID: cap.incidents-->
-<!---->
-<!--modules:-->
-<!--  - name: incidents-srv-->
-<!--    provides:-->
-<!--      - name: incidents-srv-api-->
-<!--        properties:-->
-<!--          url: ${default-url} #> needed in webhookUrl and home-url below-->
-<!--    requires:-->
-<!--      - name: incidents-event-broker-->
-<!--        parameters:-->
-<!--          config:-->
-<!--            authentication-type: X509_IAS-->
-<!--      - name: incidents-ias-->
-<!--        parameters:-->
-<!--          config:-->
-<!--            credential-type: X509_GENERATED-->
-<!--            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID-->
-<!---->
-<!--resources:-->
-<!--  - name: incidents-event-broker-->
-<!--    type: org.cloudfoundry.managed-service-->
-<!--    parameters:-->
-<!--      service: event-broker-->
-<!--      service-plan: event-connectivity-->
-<!--      config:-->
-<!--        # unique identifier for this event broker instance-->
-<!--        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters-->
-<!--        systemNamespace: cap.incidents-->
-<!--        webhookUrl: ~{incidents-srv-api/url}/-/cds/event-broker/webhook-->
-<!--    requires:-->
-<!--      - name: incidents-srv-api-->
-<!--  - name: incidents-ias-->
-<!--    type: org.cloudfoundry.managed-service-->
-<!--    requires:-->
-<!--      - name: incidents-srv-api-->
-<!--    processed-after:-->
-<!--      # for consumed-services (cf. below), incidents-event-broker must already exist-->
-<!--      # -> ensure incidents-ias is created after incidents-event-broker-->
-<!--      - incidents-event-broker-->
-<!--    parameters:-->
-<!--      service: identity-->
-<!--      service-plan: application-->
-<!--      config:-->
-<!--        consumed-services:-->
-<!--          - service-instance-name: incidents-event-broker-->
-<!--        display-name: cap.incidents #> any value, e.g., reuse MTA ID-->
-<!--        home-url: ~{incidents-srv-api/url}-->
-<!--```-->
-<!---->
-<!--Please note that the mta.yaml snippet above is based on the sample app [@capire/incidents](https://github.com/cap-js/incidents-app/tree/event-broker), i.e., ID, module, and resource names are taken from this context and need to be adjusted.-->
-<!---->
-<!--The full `mta.yaml` of the sample application can be found [here](https://github.com/cap-js/incidents-app/blob/event-broker/mta.yaml).-->
+::: code-group
+```yaml [mta.yaml]
+resources:
+  - name: incidents-event-broker
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: event-broker
+      service-plan: event-connectivity
+      config:
+        # unique identifier for this event broker instance
+        # should start with own namespace (i.e., "foo.bar") and may not be longer than 15 characters
+        systemNamespace: cap.incidents
+        webhookUrl: ~{incidents-srv-api/url}/messaging/v1.0/eb
+      requires:
+        - name: incidents-srv-api
+```
+:::
 
+</div>
 
-<!--
-- Should not be part of the guide, but rather a link to their documentation
-- Test events are not treated differently, if you want to test your app, trigger an event for which you already declared integration dependencies
+### 2. Auto-Create or Augment Identity Authentication Service Instance
 
+Your Identify Authentication service instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
+For this purpose, the Identify Authentication service instance should further be `processed-after` the SAP Cloud Application Event Hub instance.
 
-### End-to-End Test
+::: code-group
+```yaml [mta.yaml]
+resources:
+  - name: incidents-ias
+    type: org.cloudfoundry.managed-service
+    requires:
+      - name: incidents-srv-api
+    processed-after:
+      # for consumed-services (cf. below), incidents-event-broker must already exist
+      # -> ensure incidents-ias is created after incidents-event-broker
+      - incidents-event-broker
+    parameters:
+      service: identity
+      service-plan: application
+      config:
+        consumed-services:
+          - service-instance-name: incidents-event-broker
+       	xsuaa-cross-consumption: true #> if token exchange from IAS token to XSUAA token is needed
+        display-name: cap.incidents #> any value, e.g., reuse MTA ID
+        home-url: ~{incidents-srv-api/url}
+```
+:::
 
-You can conduct an end-to-end test of your finalized setup by executing the following steps.
+3. Bind the Service Instances
 
-#### 1. Add Integration Dependency
+Finally, we can bring it all together by binding the two service instances to the application.
+The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identify Authentication service-based authentication.
 
-In BTP Cockpit &rarr; System Landscape, navigate to the system that represents your CAP application.
-Add an _Integration Dependency_ using the _Simplified Business Eventing Template_ for _Event Type_ `sap.eee.iwxbe.testproducer.v1.Event.Created.v1` and _Publishing System Namespace_ `sap.s4` as shown in the following screenshot.
-
-![Integration Dependency for Test Event](assets/event-broker-test-integration-dependency.png)
-
-#### 2. Activate Event Subscription
-
-In SAP Cloud Application Event Hub Application, activate the subscription for the added integration dependency (cf. [Enabling SAP Event Subscriptions](https://help.sap.com/docs/event-broker/event-broker-service-guide/enable-subscriptions)).
-
-#### 3. Trigger Test Event
-
-In S/4HANA Cloud, navigate to application _Enterprise Event Enablement - Event Monitor_ and navigate into the channel you created during setup.
-On the top right, press button _Produce Test Event_.
-This will add an entry in the list of _Outbound Events_ with topic `na/na/na/ce/sap/eee/iwxbe/testproducer/v1/Event/Created/v1` and, eventually, status _Acknowledged_.
-
-#### 4. Check Application Logs
-
-In the application logs of your CAP application, check for a log entry noting the successful event reception as shown in the following screenshot.
-
-![Log Entry for Test Event](assets/event-broker-test-log-entry.png)
-
--->
-
-
-<!-- TODO
-
-### Hybrid Testing
-
-Possible? If yes, how?
-
--->
-
-
-
-<span id="eventbrokersaasconsuming" />
-
-<span id="eventbrokersaaspublishing" />
+::: code-group
+```yaml [mta.yaml]
+modules:
+  - name: incidents-srv
+    provides:
+      - name: incidents-srv-api
+        properties:
+          url: ${default-url} #> needed in webhookUrl and home-url below
+    requires:
+      - name: incidents-ias
+        parameters:
+          config:
+            credential-type: X509_GENERATED
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
+      - name: incidents-event-broker
+        parameters:
+          config:
+            authentication-type: X509_IAS
+```
+:::

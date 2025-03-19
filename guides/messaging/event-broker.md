@@ -173,7 +173,7 @@ resources:
 ```
 :::
 
-3. Bind the Service Instances
+### 3. Bind the Service Instances
 
 Finally, we can bring it all together by binding the two service instances to the application.
 The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identify Authentication service-based authentication.

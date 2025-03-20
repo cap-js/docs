@@ -556,7 +556,7 @@ There should be a possibility to directly create entity instances (Orders) via A
 - Add projection bypassing the draft funtionality enabled only for the system-user
 
 ::: code-group
-```jsonc [orders/srv/orders-service.cds]
+```cds [orders/srv/orders-service.cds]
   @odata.draft.bypass
   @(requires: 'system-user')
   entity OrdersNoDraft as projection on my.Orders;

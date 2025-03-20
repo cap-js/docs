@@ -349,21 +349,29 @@ cds add enterprise-messaging
 ```
 :::
 
-- parametrize the properties: queue name, namespace
-  - remove *emname* and *namespace* from event-mesh.json
-  - add *emname* and *namepsace*
+- parameterize the properties `emname` and `namespace`
+  ::: code-group
+  ```json [event-mesh.json]
+    {
+      "emname": "samples-emname", // [!code --]
+      "version": "1.1.0",
+      "namespace": "default/samples/1", // [!code --]
+      ...
+    }
+  ```
+  :::
   ::: code-group
   ```yaml [mta.yaml]
     resources:
-    ...
       - name: samples-messaging
-    ...
+        type: org.cloudfoundry.managed-service
         parameters:
-    ...
-          config:
-            emname: bookstore-${org}-${space}
-            namespace: cap/samples/${space}
-    ...
+          service: enterprise-messaging
+          service-plan: default
+          path: ./event-mesh.json
+          config: # [!code ++]
+            emname: bookstore-${org}-${space}  # [!code ++]
+            namespace: cap/samples/${space}    # [!code ++]
   ```
   :::
 

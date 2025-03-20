@@ -133,7 +133,10 @@ public void beforeUnsubscribe(UnsubscribeEventContext context) {
 The event `DEPENDENCIES` fires when the platform service calls the [`getDependencies` callback](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/ff540477f5404e3da2a8ce23dcee602a.html).
 Hence, if your application consumes any reuse services provided by SAP, you must implement the `DEPENDENCIES` event to return the service dependencies of the application.
 The event must return a list of all of the dependent services' `xsappname` values.
-CAP automatically adds dependencies of services to the list, for which it provides dedicated integrations.TODO: Provide a complete list
+
+CAP automatically adds dependencies of services to the list, for which it provides dedicated integrations.
+[Learn more about automatically added SaaS dependencies.](/guides/multitenancy/?impl-variant=java#saas-dependencies){.learn-more}
+
 ::: tip
 The `xsappname` of an SAP reuse service that is bound to your application is part of the service binding. The structure of the service binding, and hence the exact location of the `xsappname` field, may vary between services.
 :::

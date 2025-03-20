@@ -39,7 +39,7 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 ## MTA
 
-In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
+In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Addinital information can be found in the [Deploy to Cloud* guide](../deployment/). An initial *mta.yaml* file can be generated using the following command:
 
 ```shell
 cds add mta
@@ -231,7 +231,9 @@ Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make su
 ```
 :::
 
-### app route
+### routes
+
+- app route
 
 The */app/\** route maps any url to the static-content file system.
 
@@ -248,7 +250,7 @@ The */app/\** route maps any url to the static-content file system.
 ```
 :::
 
-### appconfig route
+- appconfig route
 
 The */appconfig/* route is required in case of Fiori UIs
 
@@ -264,7 +266,7 @@ The */appconfig/* route is required in case of Fiori UIs
 ```
 :::
 
-### static content route
+- static content route
 
 ::: code-group
 ```json [xs-app.json]
@@ -285,9 +287,7 @@ The */appconfig/* route is required in case of Fiori UIs
 cds add xsuaa
 ```
 
-Configuration: xs-security.json
-
-- CAP service package.json dependency: @sap/xssec
+- add a CAP service npm dependency to @sap/xssec
 
   ```shell
   npm i @sap/xssec --workspace bookstore
@@ -295,9 +295,7 @@ Configuration: xs-security.json
   npm i @sap/xssec --workspace reviews
   ```
 
-### Required roles
-
-- add admin role in xs-security.json
+- add an admin role
 
 ::: code-group
 ```json [xs-security.json]
@@ -329,26 +327,28 @@ The messaging service is used to organize asynchronous communication between the
 cds add enterprise-messaging
 ```
 
-- CAP Service package.json:
-`cds.requires.messaging = true`
-
-- maintain the configuration
-
-  - relax all filters and allow all topics
+- enable messaging for the relevant CAP services
   ::: code-group
-  ```json [event-mesh.json]
+  ```json [package.json]
+  { "cds": { "requires": { "messaging": true } } }
+  ```
+  :::
+
+- relax all filters and allow all topics
+::: code-group
+```json [event-mesh.json]
   "publishFilter": [
     "*"
   ],
   "subscribeFilter": [
     "*"
   ]
-  ```
-  :::
+```
+:::
 
 - parametrize the properties: queue name, namespace
-  - event-mesh.json: remove *emname* and *namespace*
-  - mta.yaml: add *emname* and *namepsace*
+  - remove *emname* and *namespace* from event-mesh.json
+  - add *emname* and *namepsace*
   ::: code-group
   ```yaml [mta.yaml]
     resources:

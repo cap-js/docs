@@ -37,6 +37,8 @@ CAP Samples is a multi-service repository. It can contain also repository-local 
 
 All cds models from all CAP services deployed in one HANA HDI container, all microservices have access to it.
 
+![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
+
 # MTA
 
 In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:

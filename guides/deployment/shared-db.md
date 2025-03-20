@@ -64,12 +64,15 @@ The HDI files are deployed automatically to the HDI schema using the HDI-deploye
 Each BTP Аpp provides an API endpoint that is exposed as a parameter.
 In the preparation phase the CDS model for the specific service will be compiled to a csn.json file containing the complete CDS model that the CAP service is providing and utilizing.
 
-- start script - add a start script for each CAP service in the (service)/package.json file
-```json
+- add a npm start script for each CAP service
+
+::: code-group
+```json [(service)/package.json]
  "scripts": {
     "start": "cds-serve"
   }
 ```
+:::
 
 ### resources
 
@@ -228,7 +231,7 @@ Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make su
 ```
 :::
 
-### /app/* route
+### app route
 
 The */app/\** route maps any url to the static-content file system.
 
@@ -245,7 +248,7 @@ The */app/\** route maps any url to the static-content file system.
 ```
 :::
 
-### /appconfig/ route
+### appconfig route
 
 The */appconfig/* route is required in case of Fiori UIs
 

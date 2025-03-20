@@ -2,7 +2,6 @@
 # # layout: cookbook
 shorty: SAP Cloud Application Event Hub
 status: released
-impl-variants: true
 ---
 
 # Using SAP Cloud Application Event Hub in Cloud Foundry
@@ -22,11 +21,9 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios -> CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
 
-TODO: how to make ToC on top right stack dependent?
+## Configuration
 
-<div class="impl node">
-
-## Use `event-broker`
+### Use `event-broker` in Node.js
 
 Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
@@ -45,11 +42,7 @@ Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
 
-</div>
-
-<div class="impl java">
-
-## Use `event-hub`
+### Use `event-hub` in Java
 
 Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-broker-plugin) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
 
@@ -62,7 +55,6 @@ cds:
 
 [Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#using-real-brokers){.learn-more}
 
-</div>
 
 
 ## Hybrid Testing

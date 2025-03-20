@@ -1,43 +1,35 @@
+# CAP applications with shared database
+
 ## Scenario
 
-If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlaying database layer** the following guide on Microservices with shared database can be an option.
+If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlaying database layer** the following guide on applications with shared database can be an option.
+The data models from all involved CAP services are collected and deployed to a single database schema, which all services get access to.
 
-Please note, that this is not a true microservice architecture.
+## Evaluation
 
-The benefits are as follows:
- - **Query Performance:** Complex queries are executed much faster (e.g. $expand to an entity on another microservice)
+The advantages are as follows:
+ - **Query Performance:** Complex queries are executed much faster, e.g. $expand to an entity on another microservice (compared to calls across services with own data persistencies)
+ - **Independent Scalability** of application runtimes (compared to a monolithic application)
 
  Disadvantages:
  - Accessing data directly (without an API) means any changes in the data model affect all applications directly
  - every change in one of the services either requires 
    - a redeployment of all microserivces involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
+ - violates 12 factors concept
 
 ## Best Practices
 
 * Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
 * Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 
-## Multi-service repo
 
-A Multi-service repository is a git repository having npm workspaces, containing CAP services that can function independently from each other.
-The CAP services have several possibilities to communicate and exchange data between them: 
-- having shared database schema (HDI container)
-- using a messaging service
-- utilizing CAP's OData remote-service functionality.
-- or a combination of the above
-
-## Prerequisites
-
-CAP Samples is a multi-service repository. It contains also repository-local node modules referenced as dependencies in other local modules.
-
-## shared-db scenario
-
-All cds models from all CAP services deployed in one HANA HDI container, all microservices have access to it.
-
+## cap-samples Walkthrough
+[cap-samples](https://github.com/SAP-samples/cloud-cap-samples?tab=readme-ov-file#welcome-to-capsamples) is a collection of sample applications, which are built as multiple (mostly) independent services with a shared database.
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
+The repository contains multiple CAP applications under a root project. The `package.json` of the root folder links the projects in the subfolders by utilizing [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
 
-## MTA
+### MTA
 
 In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud](../deployment/to-cf#deploy) guide. An initial *mta.yaml* file can be generated using the following command:
 
@@ -50,7 +42,7 @@ The mta.yaml file consists of three parts:
   - modules: list of BTP apps to deploy - each BTP app represents one on more CAP services
   - resources: BTP service instances required by the BTP apps to operate (persistency, security, destinations, messaging service)
 
-### preparation
+#### preparation
 
 In the preparation phase the CDS modules are compiled and HDI files are generated.
 The HDI files are deployed automatically to the HDI schema using the HDI-deployer.
@@ -59,7 +51,7 @@ The HDI files are deployed automatically to the HDI schema using the HDI-deploye
 2. assemble CDS model containing all artifacts for all CAP services, for example: `npx cds build (directory with db artifacts) --for hana --production`. 
 3. prepare CAP services, for example: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
 
-### modules
+#### modules
 
 Each BTP Аpp provides an API endpoint that is exposed as a parameter.
 In the preparation phase the CDS model for the specific service will be compiled to a csn.json file containing the complete CDS model that the CAP service is providing and utilizing.
@@ -74,11 +66,11 @@ In the preparation phase the CDS model for the specific service will be compiled
 ```
 :::
 
-### resources
+#### resources
 
 All instances of BTP services: HANA hdi container, xsuaa, enterprise messaging, destinations
 
-## Database
+### Database
 
 ```shell
 cds add hana
@@ -162,7 +154,7 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
   ```
   :::
 
-## Approuter
+### Approuter
 
 Add initial approuter configuration using the command:
 
@@ -280,7 +272,7 @@ The */appconfig/* route is required in case of Fiori UIs
 ```
 :::
 
-## Authentication
+### Authentication
 
 Add initial security configuration using the command:
 
@@ -322,7 +314,7 @@ Detailed information on the security configuration can be found in the [Using XS
 ```
 :::
 
-## Messaging
+### Messaging
 
 The messaging service is used to organize asynchronous communication between the CAP services.
 
@@ -375,7 +367,7 @@ cds add enterprise-messaging
   ```
   :::
 
-## Destinations
+### Destinations
 
 ```shell
 cds add destination
@@ -443,9 +435,9 @@ modules:
 ```
 :::
 
-## Misc
+### Misc
 
-### authentication depends on messaging
+#### authentication depends on messaging
 
 - add *processed-after* property
 
@@ -457,7 +449,7 @@ modules:
 ```
 :::
 
-### CAP service module
+#### CAP service module
 
 File: mta.yaml
 
@@ -496,7 +488,7 @@ File: mta.yaml
   ```
   :::
 
-### Initial data
+#### Initial data
 
 Provide ID in the csv file for each UUID field in the model
 
@@ -507,7 +499,7 @@ ID;subject;...
 ```
 :::
 
-### RemoteService credentials
+#### RemoteService credentials
 
 Maintain RemoteService credentials
 
@@ -521,7 +513,7 @@ Maintain RemoteService credentials
 ```
 :::
 
-### Approuter authentication
+#### Approuter authentication
 
 The approuter uses the authentication module thus it should *require* it
 
@@ -536,7 +528,7 @@ The approuter uses the authentication module thus it should *require* it
 ```
 :::
 
-### Event definitions
+#### Event definitions
 
 All events that should be using the event mesh need to be defined in the CDS model
 
@@ -549,7 +541,7 @@ All events that should be using the event mesh need to be defined in the CDS mod
 ```
 :::
 
-### Bypass draft
+#### Bypass draft
 
 There should be a possibility to directly create entity instances (Orders) via API.
 
@@ -573,7 +565,7 @@ There should be a possibility to directly create entity instances (Orders) via A
 ```
 :::
 
-# Npm commands
+### Npm commands
 
 In order to build, deploy and undeploy easier several npm scripts are added:
 
@@ -588,3 +580,21 @@ In order to build, deploy and undeploy easier several npm scripts are added:
 :::
 
 Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/docs/guides/extensibility/customization#cds-login
+
+### Final versions
+
+- mta preparation phase
+
+  ::: code-group
+  ```yaml [mta.yaml]
+  build-parameters:
+    before-all:
+      - builder: custom
+        commands:
+          - npm ci
+          - npx cds build ./shared-db --for hana --production
+          - npx cds build ./orders --for nodejs --production --ws-pack
+          - npx cds build ./reviews --for nodejs --production
+          - npx cds build ./bookstore --for nodejs --production --ws-pack
+  ```
+  :::

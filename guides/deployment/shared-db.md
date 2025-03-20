@@ -39,7 +39,7 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 ## MTA
 
-In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Addinital information can be found in the [Deploy to Cloud* guide](../deployment/). An initial *mta.yaml* file can be generated using the following command:
+In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud* guide](../deployment/). An initial *mta.yaml* file can be generated using the following command:
 
 ```shell
 cds add mta
@@ -164,16 +164,16 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
 
 ## Approuter
 
+Add initial approuter configuration using the command:
+
 ```shell
 cds add approuter
 ```
 
-https://cap.cloud.sap/docs/guides/deployment/to-cf#add-app-router
-
-### features
-
 The Approuter forwards OData requests to the corresponding services using the APIs.
 It is deployed as a separate BTP App and is the main entry point for accessing the BTP Apps.
+
+Detailed information on how to configure the approuter can be found in the [Configuring App Router guide](../deployment/to-cf#add-app-router).
 
 - configuration - list of API endpoints with name (API EP in xs-app.json) and url:
 
@@ -189,7 +189,7 @@ It is deployed as a separate BTP App and is the main entry point for accessing t
   ```
   :::
 
-### API routes
+- API routes
 
 xs-app.json describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder.
 
@@ -208,7 +208,8 @@ xs-app.json describes how to forward incoming request to the API endpoint / ODat
 ```
 :::
 
-### static content
+- static content
+
 The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder.
 
 ```shell
@@ -219,7 +220,7 @@ ln -s ../reviews/app/vue reviews
 cd ..
 ```
 
-### CSRF-token
+- CSRF-token
 
 Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make sure you have a valid welcomeFile in your configuration
 
@@ -230,8 +231,6 @@ Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make su
 }
 ```
 :::
-
-### routes
 
 - app route
 
@@ -283,13 +282,17 @@ The */appconfig/* route is required in case of Fiori UIs
 
 ## Authentication
 
+Add initial security configuration using the command:
+
 ```shell
-cds add xsuaa
+cds add xsuaa --for production
 ```
+
+Detailed information on the security configuration can be found in the [Using XSUAA-Based Authentication guide](../deployment/to-cf#_2-using-xsuaa-based-authentication).
 
 - add a CAP service npm dependency to @sap/xssec
 
-  ```shell
+  ```shell  
   npm i @sap/xssec --workspace bookstore
   npm i @sap/xssec --workspace orders
   npm i @sap/xssec --workspace reviews

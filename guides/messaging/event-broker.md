@@ -64,9 +64,9 @@ Therefore we recommend to use a messaging service of kind [`local-messaging`](..
 
 
 
-## Deploy to the Cloud (with MTA) {#deploy}
+## Prepare for MTA Deployment {#deploy}
 
-A general description of how to deploy CAP applications to SAP BTP's Cloud Foundry, can be found in the [Deploy to Cloud* guide](../deployment/).
+A general description of how to deploy CAP applications to SAP BTP Cloud Foundry, can be found in the [Deploy to Cloud guide](../deployment/).
 As documented there, MTA is frequently used to deploy to SAP BTP.
 
 [Learn more about using MTA.](../deployment/){.learn-more}
@@ -89,14 +89,13 @@ modules:
 ```
 :::
 
-### 1. Auto-Create SAP Cloud Application Event Hub Instance
+### Add SAP Cloud Application Event Hub Instance
 
 Your SAP Cloud Application Event Hub configuration must include your system namespace as well as the webhook URL.
 
-<div class="impl node">
 
 ::: code-group
-```yaml [mta.yaml]
+```yaml [mta.yaml in Node.js]
 resources:
   - name: incidents-event-broker
     type: org.cloudfoundry.managed-service
@@ -111,14 +110,8 @@ resources:
       requires:
         - name: incidents-srv-api
 ```
-:::
 
-</div>
-
-<div class="impl java">
-
-::: code-group
-```yaml [mta.yaml]
+```yaml [mta.yaml in Java]
 resources:
   - name: incidents-event-broker
     type: org.cloudfoundry.managed-service
@@ -135,11 +128,10 @@ resources:
 ```
 :::
 
-</div>
 
-### 2. Auto-Create or Augment Identity Authentication Service Instance
+### Add Identity Authentication Service Instance
 
-Your Identify Authentication service instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
+Your Identity Authentication service instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
 For this purpose, the Identify Authentication service instance should further be `processed-after` the SAP Cloud Application Event Hub instance.
 
 ::: code-group
@@ -165,7 +157,7 @@ resources:
 ```
 :::
 
-### 3. Bind the Service Instances
+### Bind the Service Instances
 
 Finally, we can bring it all together by binding the two service instances to the application.
 The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identify Authentication service-based authentication.
@@ -177,16 +169,16 @@ modules:
     provides:
       - name: incidents-srv-api
         properties:
-          url: ${default-url} #> needed in webhookUrl and home-url below
-    requires:
-      - name: incidents-ias
-        parameters:
-          config:
-            credential-type: X509_GENERATED
-            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID
-      - name: incidents-event-broker
-        parameters:
-          config:
-            authentication-type: X509_IAS
+          url: ${default-url} 
+    requires: #[!code ++]
+      - name: incidents-ias #[!code ++]
+        parameters: #[!code ++]
+          config: #[!code ++]
+            credential-type: X509_GENERATED #[!code ++]
+            app-identifier: cap.incidents #> any value, e.g., reuse MTA ID [!code ++]
+      - name: incidents-event-broker #[!code ++]
+        parameters: #[!code ++]
+          config: #[!code ++]
+            authentication-type: X509_IAS #[!code ++]
 ```
 :::

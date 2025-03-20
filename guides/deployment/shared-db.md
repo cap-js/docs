@@ -1,4 +1,4 @@
-# Scenario
+## Scenario
 
 If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlaying database layer** the following guide on Microservices with shared database can be an option.
 
@@ -13,12 +13,10 @@ The benefits are as follows:
    - a redeployment of all microserivces involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
 
-# Best Practices
+## Best Practices
 
 * Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
 * Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
-
-# Terminology
 
 ## Multi-service repo
 
@@ -31,7 +29,7 @@ The CAP services have several possibilities to communicate and exchange data bet
 
 ## Prerequisites
 
-CAP Samples is a multi-service repository. It can contain also repository-local node modules referenced as dependencies in other local modules.
+CAP Samples is a multi-service repository. It contains also repository-local node modules referenced as dependencies in other local modules.
 
 ## shared-db scenario
 
@@ -39,15 +37,13 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 
-# MTA
+## MTA
 
 In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Initial mta.yaml file can be generated via the command:
 
 ```shell
 cds add mta
 ```
-
-## mta.yaml
 
 The mta.yaml file consists of three parts:
   - preparation phase: install npm dependencies, collect and compile cds model, prepare CAP services for deployment
@@ -79,19 +75,21 @@ In the preparation phase the CDS model for the specific service will be compiled
 
 All instances of BTP services: HANA hdi container, xsuaa, enterprise messaging, destinations
 
-# Database
+## Database
 
 ```shell
 cds add hana
 ```
 
-- CAP service configuration, file: (service)/package.json
+- CAP service configuration
   
   - requires db
 
-  ```json
+  ::: code-group
+  ```json [(service)/package.json]
   { "cds": { "requires": { "db": true } } }
   ```
+  :::
 
   - add dependency @cap-js/hana:
 
@@ -118,7 +116,8 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
 
 - disable HANA native associations
   
-  file: ./shared-db/package.json
+  ::: code-group
+  ```json [shared-db/package.json]
   ```json
     "cds": {
       "sql": {
@@ -126,27 +125,31 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
       }
     }
   ```
+  :::
 
 - maintain CDS model list
   
-  file: shared-db/db/index.cds
-  ```cds
+  ::: code-group
+  ```javascript [shared-db/db/index.cds]
   using from '@capire/bookstore';
   using from '@capire/reviews';
   using from '@capire/orders';
   ```
+  :::
 
 - maintain the db deployer path in samples-db-deployer module
 
-  file: mta.yaml
-  ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
     - name: samples-db-deployer
       path: shared-db/gen/db
   ```
+  :::
+
 - add build command for the database artifacts
   
-  file: mta.yaml
-  ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
   build-parameters:
     before-all:
       - builder: custom
@@ -154,8 +157,9 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
           - npm ci
           - npx cds build ./shared-db --for hana --production
   ```
+  :::
 
-# Approuter
+## Approuter
 
 ```shell
 cds add approuter
@@ -163,14 +167,15 @@ cds add approuter
 
 https://cap.cloud.sap/docs/guides/deployment/to-cf#add-app-router
 
-## approuter features
+### features
 
 The Approuter forwards OData requests to the corresponding services using the APIs.
 It is deployed as a separate BTP App and is the main entry point for accessing the BTP Apps.
 
-- configuration: mta.yaml - list of API endpoints with name (API EP in xs-app.json) and url:
+- configuration - list of API endpoints with name (API EP in xs-app.json) and url:
 
-```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
    requires:
       - name: orders-api
         group: destinations
@@ -178,12 +183,15 @@ It is deployed as a separate BTP App and is the main entry point for accessing t
           name: orders-api
           url: ~{srv-url}
           forwardAuthToken: true
-```
+  ```
+  :::
 
-## API routes
+### API routes
 
 xs-app.json describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder.
-```json
+
+::: code-group
+```json [xs-app.json]
 {
   "routes": [
     {
@@ -195,8 +203,9 @@ xs-app.json describes how to forward incoming request to the API endpoint / ODat
   ]
 }
 ```
+:::
 
-## static content
+### static content
 The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder.
 
 ```shell
@@ -207,60 +216,67 @@ ln -s ../reviews/app/vue reviews
 cd ..
 ```
 
-## CSRF-token
+### CSRF-token
 
 Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make sure you have a valid welcomeFile in your configuration
 
-- xs-app.json
-```json
+::: code-group
+```json [xs-app.json]
 {
   "welcomeFile": "app/bookshop/index.html"
 }
 ```
+:::
 
-## /app/* route
+### /app/* route
 
 The */app/\** route maps any url to the static-content file system.
 
-- xs-app.json
-```json
+::: code-group
+```json [xs-app.json]
 "routes": [
-    {
-      "source": "^/app/(.*)$",
-      "target": "$1",
-      "localDir": ".",
-      "cacheControl": "no-cache, no-store, must-revalidate"
-    },
+  {
+    "source": "^/app/(.*)$",
+    "target": "$1",
+    "localDir": ".",
+    "cacheControl": "no-cache, no-store, must-revalidate"
+  }
+]
 ```
+:::
 
-## /appconfig/ route
+### /appconfig/ route
 
 The */appconfig/* route is required in case of Fiori UIs
 
-- xs-app.json
-```json
+::: code-group
+```json [xs-app.json]
 "routes": [
-    {
-      "source": "^/appconfig/",
-      "localDir": ".",
-      "cacheControl": "no-cache, no-store, must-revalidate"
-    },
+  {
+    "source": "^/appconfig/",
+    "localDir": ".",
+    "cacheControl": "no-cache, no-store, must-revalidate"
+  }
+]
 ```
+:::
 
-## static content route
+### static content route
 
-- xs-app.json
-```json
+::: code-group
+```json [xs-app.json]
 "routes": [
-    {
-      "source": "^(.*)$",
-      "target": "$1",
-      "localDir": ".",
-      "cacheControl": "no-cache, no-store, must-revalidate"
-    }
+  {
+    "source": "^(.*)$",
+    "target": "$1",
+    "localDir": ".",
+    "cacheControl": "no-cache, no-store, must-revalidate"
+  }
+]
 ```
+:::
 
-# Authentication
+## Authentication
 
 ```shell
 cds add xsuaa
@@ -276,11 +292,12 @@ Configuration: xs-security.json
   npm i @sap/xssec --workspace reviews
   ```
 
-## maintain required roles
+### Required roles
 
 - add admin role in xs-security.json
 
-```json
+::: code-group
+```json [xs-security.json]
 {
   "scopes": [
     {
@@ -299,8 +316,9 @@ Configuration: xs-security.json
   ]
 }
 ```
+:::
 
-# Messaging
+## Messaging
 
 The messaging service is used to organize asynchronous communication between the CAP services.
 
@@ -313,22 +331,23 @@ cds add enterprise-messaging
 
 - maintain the configuration
 
-  File: event-mesh.json
-
   - relax all filters and allow all topics
-    ```json
-      "publishFilter": [
-        "*"
-      ],
-      "subscribeFilter": [
-        "*"
-      ]
-    ```
+  ::: code-group
+  ```json [event-mesh.json]
+  "publishFilter": [
+    "*"
+  ],
+  "subscribeFilter": [
+    "*"
+  ]
+  ```
+  :::
 
 - parametrize the properties: queue name, namespace
   - event-mesh.json: remove *emname* and *namespace*
   - mta.yaml: add *emname* and *namepsace*
-    ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
     resources:
     ...
       - name: samples-messaging
@@ -339,9 +358,10 @@ cds add enterprise-messaging
             emname: bookstore-${org}-${space}
             namespace: cap/samples/${space}
     ...
-    ```
+  ```
+  :::
 
-# Destinations
+## Destinations
 
 ```shell
 cds add destination
@@ -351,11 +371,11 @@ Required when a CAP service consumes other CAP services, see: https://cap.cloud.
 
 - enable destinations functionality
 
-  File: package.json
-  
-  ```json
+  ::: code-group
+  ```json [package.json]
   { "cds": { "requires": { "destinations": true } } }
   ```
+  :::
 
 - CAP service package.json dependencies for the consuming destinations:
   - @sap-cloud-sdk/http-client
@@ -372,8 +392,8 @@ Required when a CAP service consumes other CAP services, see: https://cap.cloud.
 
 The configuration contains list of destinations where each destination references the URL of the corresponding API endpoint (OData service)
 
-- mta.yaml
-```yaml
+::: code-group
+```yaml [mta.yaml]
 modules:
 ....
 - name: destination-content
@@ -407,18 +427,23 @@ modules:
               TokenServiceInstanceName: samples-auth
               TokenServiceKeyName: xsuaa_service-key
 ```
-# Misc
+:::
 
-## authentication depends on messaging
+## Misc
 
-- mta.yaml: add *processed-after* property
-```yaml
+### authentication depends on messaging
+
+- add *processed-after* property
+
+::: code-group
+```yaml [mta.yaml]
   - name: samples-auth
     processed-after:
       - samples-messaging
 ```
+:::
 
-## add a module for each CAP service
+### CAP service module
 
 File: mta.yaml
 
@@ -426,47 +451,62 @@ File: mta.yaml
 
 - maintain the *path* property
 
-  ```yaml
-      path: the-service-path/gen/srv`
+  ::: code-group
+  ```yaml [mta.yaml]
+    path: the-service-path/gen/srv`
   ```
+  :::
 
 - maintain the provided API name
 
-  ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
   provides:
     - name: the-service-name-api
       properties:
         srv-url: ${default-url}
   ```
+  :::
 
 - (fix) change from *npm-ci* to *npm* builder
 
-  ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
       builder: npm
   ```
+  :::
 
-## add ID column in csv files
+### Initial data
 
-- reviews/db/data/sap.capire.reviews-Reviews.csv
+Provide ID in the csv file for each UUID field in the model
 
-```csv
-ID;subject
-1689144d-3b10-4849-bcbe-2408a13e161d;201
+::: code-group
+```csv [reviews/db/data/sap.capire.reviews-Reviews.csv]
+ID;subject;...
+1689144d-3b10-4849-bcbe-2408a13e161d;201;...
 ```
+:::
 
-## maintain RemoteService credentials
-- mta.yaml
-```yaml
+### RemoteService credentials
+
+Maintain RemoteService credentials
+
+::: code-group
+```yaml [mta.yaml]
 - name: bookstore-srv
   ...  
   properties:
     cds_requires_ReviewsService_credentials: {"destination": "reviews-dest","path": "/reviews"}
     cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"}
 ```
+:::
 
-## approuter requires authentication
-- mta.yaml
-```yaml
+### Approuter authentication
+
+The approuter uses the authentication module thus it should *require* it
+
+::: code-group
+```yaml [mta.yaml]
 - name: samples
   type: approuter.nodejs
   path: app-router
@@ -474,45 +514,58 @@ ID;subject
   requires:
     - name: samples-auth
 ```
+:::
 
-## add CDS definitions for events
+### Event definitions
 
-- orders/srv/orders-service.cds
-```cds
+All events that should be using the event mesh need to be defined in the CDS model
+
+::: code-group
+```cds [orders/srv/orders-service.cds]
   event OrderChanged {
     product: String;
     deltaQuantity: Integer;
   }
 ```
+:::
 
-## allow backend to bypass draft
+### Bypass draft
 
-- orders/srv/orders-service.cds
-```cds
+There should be a possibility to directly create entity instances (Orders) via API.
+
+- Add projection bypassing the draft funtionality enabled only for the system-user
+
+::: code-group
+```jsonc [orders/srv/orders-service.cds]
   @odata.draft.bypass
   @(requires: 'system-user')
   entity OrdersNoDraft as projection on my.Orders;
 ```
+:::
 
-- bookstore/srv/mashup.js
-```javascript
+- Create new active entity instances directly via the new projection
+
+::: code-group
+```javascript [bookstore/srv/mashup.js]
   CatalogService.on ('OrderedBook', async (msg) => {
     ......
     return OrdersService.create ('OrdersNoDraft').entries({
 ```
+:::
 
 # Npm commands
 
 In order to build, deploy and undeploy easier several npm scripts are added:
 
-- package.json
-```json
+::: code-group
+```json [package.json]
   "scripts": {
     "build": "mbt build -t gen --mtar mta.tar",
     "deploy": "cf deploy gen/mta.tar",
     "undeploy": "cf undeploy capire.samples --delete-services --delete-service-keys"
   }
 ```
+:::
 
 Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/docs/guides/extensibility/customization#cds-login
 
@@ -520,8 +573,8 @@ Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/
 
 - mta preparation phase
 
-  file: mta.yaml
-  ```yaml
+  ::: code-group
+  ```yaml [mta.yaml]
   build-parameters:
     before-all:
       - builder: custom
@@ -532,3 +585,4 @@ Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/
           - npx cds build ./reviews --for nodejs --production
           - npx cds build ./bookstore --for nodejs --production --ws-pack
   ```
+  :::

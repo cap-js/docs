@@ -69,7 +69,7 @@ In the preparation phase the CDS model for the specific service will be compiled
 ::: code-group
 ```json [(service)/package.json]
  "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve" // [!code ++]
   }
 ```
 :::
@@ -145,7 +145,7 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
   ::: code-group
   ```yaml [mta.yaml]
     - name: samples-db-deployer
-      path: shared-db/gen/db
+      path: shared-db/gen/db # [!code focus]
   ```
   :::
 
@@ -158,7 +158,7 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
       - builder: custom
         commands:
           - npm ci
-          - npx cds build ./shared-db --for hana --production
+          - npx cds build ./shared-db --for hana --production # [!code ++]
   ```
   :::
 
@@ -183,8 +183,8 @@ Detailed information on how to configure the approuter can be found in the [Conf
       - name: orders-api
         group: destinations
         properties:
-          name: orders-api
-          url: ~{srv-url}
+          name: orders-api #[!code focus]
+          url: ~{srv-url} #[!code focus]
           forwardAuthToken: true
   ```
   :::
@@ -198,9 +198,9 @@ xs-app.json describes how to forward incoming request to the API endpoint / ODat
 {
   "routes": [
     {
-      "source": "^/odata/v4/orders/(.*)$",
-      "target": "/odata/v4/orders/$1",
-      "destination": "orders-api",
+      "source": "^/odata/v4/orders/(.*)$", //[!code focus]
+      "target": "/odata/v4/orders/$1", //[!code focus]
+      "destination": "orders-api", //[!code focus]
       "csrfProtection": true
     }
   ]
@@ -240,9 +240,9 @@ The */app/\** route maps any url to the static-content file system.
 ```json [xs-app.json]
 "routes": [
   {
-    "source": "^/app/(.*)$",
-    "target": "$1",
-    "localDir": ".",
+    "source": "^/app/(.*)$", //[!code focus]
+    "target": "$1", //[!code focus]
+    "localDir": ".", //[!code focus]
     "cacheControl": "no-cache, no-store, must-revalidate"
   }
 ]
@@ -257,8 +257,8 @@ The */appconfig/* route is required in case of Fiori UIs
 ```json [xs-app.json]
 "routes": [
   {
-    "source": "^/appconfig/",
-    "localDir": ".",
+    "source": "^/appconfig/", //[!code focus]
+    "localDir": ".", //[!code focus]
     "cacheControl": "no-cache, no-store, must-revalidate"
   }
 ]
@@ -271,9 +271,9 @@ The */appconfig/* route is required in case of Fiori UIs
 ```json [xs-app.json]
 "routes": [
   {
-    "source": "^(.*)$",
-    "target": "$1",
-    "localDir": ".",
+    "source": "^(.*)$", //[!code focus]
+    "target": "$1", //[!code focus]
+    "localDir": ".", //[!code focus]
     "cacheControl": "no-cache, no-store, must-revalidate"
   }
 ]
@@ -305,17 +305,17 @@ Detailed information on the security configuration can be found in the [Using XS
 {
   "scopes": [
     {
-      "name": "$XSAPPNAME.admin",
-      "description": "admin"
+      "name": "$XSAPPNAME.admin", // [!code ++]
+      "description": "admin" // [!code ++]
     }
   ],
   "role-templates": [
     {
-      "name": "admin",
-      "scope-references": [
-        "$XSAPPNAME.admin"
-      ],
-      "description": "cap samples multi-service shared-db"
+      "name": "admin", // [!code ++]
+      "scope-references": [ // [!code ++]
+        "$XSAPPNAME.admin" // [!code ++]
+      ], // [!code ++]
+      "description": "cap samples multi-service shared-db" // [!code ++]
     }
   ]
 }
@@ -486,7 +486,13 @@ File: mta.yaml
 
   ::: code-group
   ```yaml [mta.yaml]
-      builder: npm
+  modules:
+  - name: orders-srv
+    type: nodejs
+    ...
+    build-parameters:
+      builder: npm-ci #[!code --]
+      builder: npm #[!code ++]
   ```
   :::
 
@@ -510,8 +516,8 @@ Maintain RemoteService credentials
 - name: bookstore-srv
   ...  
   properties:
-    cds_requires_ReviewsService_credentials: {"destination": "reviews-dest","path": "/reviews"}
-    cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"}
+    cds_requires_ReviewsService_credentials: {"destination": "reviews-dest","path": "/reviews"} # [!code ++]
+    cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"} # [!code ++]
 ```
 :::
 
@@ -525,8 +531,8 @@ The approuter uses the authentication module thus it should *require* it
   type: approuter.nodejs
   path: app-router
   ....
-  requires:
-    - name: samples-auth
+  requires: # [!code ++]
+    - name: samples-auth # [!code ++]
 ```
 :::
 
@@ -574,29 +580,11 @@ In order to build, deploy and undeploy easier several npm scripts are added:
 ::: code-group
 ```json [package.json]
   "scripts": {
-    "build": "mbt build -t gen --mtar mta.tar",
-    "deploy": "cf deploy gen/mta.tar",
-    "undeploy": "cf undeploy capire.samples --delete-services --delete-service-keys"
+    "build": "mbt build -t gen --mtar mta.tar", // [!code ++]
+    "deploy": "cf deploy gen/mta.tar", // [!code ++]
+    "undeploy": "cf undeploy capire.samples --delete-services --delete-service-keys" // [!code ++]
   }
 ```
 :::
 
 Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/docs/guides/extensibility/customization#cds-login
-
-# Final versions
-
-- mta preparation phase
-
-  ::: code-group
-  ```yaml [mta.yaml]
-  build-parameters:
-    before-all:
-      - builder: custom
-        commands:
-          - npm ci
-          - npx cds build ./shared-db --for hana --production
-          - npx cds build ./orders --for nodejs --production --ws-pack
-          - npx cds build ./reviews --for nodejs --production
-          - npx cds build ./bookstore --for nodejs --production --ws-pack
-  ```
-  :::

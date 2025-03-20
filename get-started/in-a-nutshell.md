@@ -376,18 +376,18 @@ ID,name
 
 
 ::: details `cds add data` can help you with the file and record generation
-Create the empty csv files with header lines using
+Create empty CSV files with header lines only:
 
 ```sh 
 cds add data
 ```
 
-or files already including some sample data with
+Create CSV files that already include some sample data:
 
 ```sh
 cds add data --records 10
 ```
-[Find the full set of options here](../tools/cds-cli.md#data)
+[Find the full set of options here.](../tools/cds-cli.md#data){.learn-more}
 :::
 
 [Find a full set of `.csv` files in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop/db/data){ .learn-more target="_blank"}

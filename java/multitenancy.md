@@ -133,22 +133,37 @@ public void beforeUnsubscribe(UnsubscribeEventContext context) {
 The event `DEPENDENCIES` fires when the platform service calls the [`getDependencies` callback](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/ff540477f5404e3da2a8ce23dcee602a.html).
 Hence, if your application consumes any reuse services provided by SAP, you must implement the `DEPENDENCIES` event to return the service dependencies of the application.
 The event must return a list of all of the dependent services' `xsappname` values.
-CAP automatically adds dependencies of services to the list, for which it provides dedicated integrations. This includes AuditLog and Event Mesh.
+CAP automatically adds dependencies of services to the list, for which it provides dedicated integrations.TODO: Provide a complete list
 ::: tip
-The `xsappname` of an SAP reuse service that is bound to your application can be found as part of the `VCAP_SERVICES` JSON structure under the path `VCAP_SERVICES.<service>.credentials.xsappname`.
+The `xsappname` of an SAP reuse service that is bound to your application is part of the service binding. The structure of the service binding, and hence the exact location of the `xsappname` field, may vary between services.
 :::
 
 The following example shows this in more detail:
 
 ```java
-@Value("${vcap.services.<my-service-instance>.credentials.xsappname}")
-private String xsappname;
+@Component
+@Profile("cloud")
+@ServiceName(DeploymentService.DEFAULT_NAME)
+public class SubscriptionHandler implements EventHandler {
+	private static final String SERVICE_NAME = "my-service";
 
-@On
-public void onDependencies(DependenciesEventContext context) {
-    List<Map<String, Object>> dependencies = new ArrayList<>();
-    dependencies.add(SaasRegistryDependency.create(xsappname));
-    context.setResult(dependencies);
+	@Autowired
+	private CdsRuntime cdsRuntime;
+
+	@On
+	public void onDependencies(DependenciesEventContext context) {
+		List<Map<String, Object>> dependencies = new ArrayList<>();
+		Optional<ServiceBinding> service = cdsRuntime.getEnvironment().getServiceBindings().filter(binding -> binding.getServiceName().get().equals(SERVICE_NAME))
+				.findFirst();
+		if (service.isPresent()) {
+			dependencies.add(SaasRegistryDependency.create(extractXsappname(service.get().getCredentials())));
+		}
+		context.setResult(dependencies);
+	}
+
+	private String extractXsappname(Map<String, Object> credentials) {
+		// location of the `xsappname` in the credentials is service specific
+	}
 }
 ```
 

@@ -878,7 +878,7 @@ You should now see the route mapped to your application.
 
 <div class="impl java">
 
-[Learn best practices for schema updates in the Java Guide](../../java/multitenancy#database-update){.learn-more style="margin-top: 20px"}
+[Learn best practices for schema updates in the Java Guide](/java/multitenancy#database-update){.learn-more style="margin-top: 20px"}
 
 </div>
 
@@ -990,9 +990,22 @@ cds watch --profile dev
 
 :::
 
-## SaaS Registry Dependencies {#saas-dependencies}
+## SaaS Dependencies {#saas-dependencies}
+<div class="impl java">
+Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. CAP Java offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for applications.
 
-Some of the services your application consumes need to be registered as _reuse services_ to work in multitenant environments. `@sap/cds-mtxs` offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for plugins.
+Most notably, you will need such dependencies for the SAP BTP [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service) services. All these services are supported natively and SaaS dependencies will be automatically created if a corresponding service instance is bound to the CAP Java application (ie. the `srv` module).
+
+:::tip
+SaaS dependency for Destination service needs to be activated explicitly in the `application.yaml` due to security reasons. SaaS dependencies for some of the other services can be deactivated by setting the corresponding property to `false` in the `application.yaml`.
+
+Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties). 
+:::
+
+If your application makes use of a service that is not supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details. 
+</div>
+<div class="impl node">
+Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. `@sap/cds-mtxs` offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for plugins.
 
 Most notably, you will need such dependencies for the SAP BTP [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Connectivity](https://discovery-center.cloud.sap/serviceCatalog/connectivity-service), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service) services. All these services are supported natively and can be activated individually by providing configuration in `cds.requires`. In the most common case, you simply activate service dependencies like so:
 
@@ -1057,6 +1070,7 @@ You can use the `subscriptionDependency` setting to provide a similar dependency
 Alternatively, overriding the [`dependencies`](./mtxs#get-dependencies) handler gives you full flexibility for any custom implementation.
 
 :::
+</div>
 
 ## Add Custom Handlers
 

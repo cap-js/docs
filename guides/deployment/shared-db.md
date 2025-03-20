@@ -39,7 +39,7 @@ All cds models from all CAP services deployed in one HANA HDI container, all mic
 
 ## MTA
 
-In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud* guide](../deployment/). An initial *mta.yaml* file can be generated using the following command:
+In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud](../deployment/to-cf#deploy) guide. An initial *mta.yaml* file can be generated using the following command:
 
 ```shell
 cds add mta

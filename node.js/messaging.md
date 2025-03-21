@@ -403,6 +403,12 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 ### SAP Cloud Application Event Hub <Beta/> { #event-broker }
 
+TODO: should this section only be
+1. `kind`: `event-broker`
+2. Use this if you want to...
+3. The integration ... the plugin `@cap-js/event-broker`. See docs there.
+and move the rest there, of course?
+
 `kind`: `event-broker`
 
 Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).

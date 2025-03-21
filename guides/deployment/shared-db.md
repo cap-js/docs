@@ -167,7 +167,7 @@ It is deployed as a separate BTP App and is the main entry point for accessing t
 
 Detailed information on how to configure the approuter can be found in the [Configuring App Router guide](../deployment/to-cf#add-app-router).
 
-- configuration - list of API endpoints with name (API EP in xs-app.json) and url:
+- configure destinations - list of API endpoints with name and url which correspond to the AP endpoing in xs-app.json and the service URL:
 
   ::: code-group
   ```yaml [mta.yaml]

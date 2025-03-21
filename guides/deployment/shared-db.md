@@ -14,7 +14,7 @@ The advantages are as follows:
  Disadvantages:
  - Accessing data directly (without an API) means any changes in the data model affect all applications directly
  - every change in one of the services either requires 
-   - a redeployment of all microservices involved
+   - a redeployment of all microserivces involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
  - violates 12 factors concept
 
@@ -29,7 +29,7 @@ The advantages are as follows:
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 The repository contains multiple CAP applications under a root project. The `package.json` of the root folder links the projects in the subfolders by utilizing [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
 
-### MTA
+### Deployment discriptor
 
 In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud](../deployment/to-cf#deploy) guide. An initial *mta.yaml* file can be generated using the following command:
 

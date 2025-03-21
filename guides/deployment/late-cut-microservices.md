@@ -1,3 +1,12 @@
+---
+breadcrumbs:
+  - Cookbook
+  - Deployment
+  - Late Cut Microservices
+synopsis: >
+  An overview on monoliths, moduliths and microservices - breaking down their aspects, benefits and drawbacks.
+status: released
+---
 
 # Late-Cut Microservices
 

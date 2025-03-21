@@ -1,3 +1,13 @@
+---
+breadcrumbs:
+  - Cookbook
+  - Deployment
+  - Deploy to Shared DB
+synopsis: >
+  A guide on deploying SAP Cloud Application Programming Model (CAP) applications as microservices with a shared database to the SAP BTP Cloud Foundry environment.
+status: released
+---
+
 # CAP applications with shared database
 
 ## Scenario

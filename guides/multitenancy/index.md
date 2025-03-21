@@ -991,7 +991,7 @@ cds watch --profile dev
 :::
 
 ## SaaS Dependencies {#saas-dependencies}
-Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for both usage of the SaaSRegistry service or Subscription Manager Service (SMS).
+Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for the usage of both the SaaSRegistry service and the Subscription Manager Service (SMS).
 <div class="impl java">
 CAP Java offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for applications.
 

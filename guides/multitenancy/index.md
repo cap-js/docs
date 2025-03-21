@@ -1073,6 +1073,8 @@ Alternatively, overriding the [`dependencies`](./mtxs#get-dependencies) handler 
 :::
 </div>
 
+<div id="subscriptiondashboard" />
+
 ## Add Custom Handlers
 
 MTX services are implemented as standard CAP services, so you can register for events just as you would for any application service.

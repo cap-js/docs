@@ -135,6 +135,7 @@ Hence, if your application consumes any reuse services provided by SAP, you must
 The event must return a list of all of the dependent services' `xsappname` values.
 
 CAP automatically adds dependencies of services to the list, for which it provides dedicated integrations.
+
 [Learn more about automatically added SaaS dependencies.](/guides/multitenancy/?impl-variant=java#saas-dependencies){.learn-more}
 
 ::: tip
@@ -156,10 +157,13 @@ public class SubscriptionHandler implements EventHandler {
 	@On
 	public void onDependencies(DependenciesEventContext context) {
 		List<Map<String, Object>> dependencies = new ArrayList<>();
-		Optional<ServiceBinding> service = cdsRuntime.getEnvironment().getServiceBindings().filter(binding -> binding.getServiceName().get().equals(SERVICE_NAME))
-				.findFirst();
+		Optional<ServiceBinding> service = cdsRuntime.getEnvironment().
+                getServiceBindings().filter(binding -> binding.getServiceName().
+                        get().equals(SERVICE_NAME)).findFirst();
+		
 		if (service.isPresent()) {
-			dependencies.add(SaasRegistryDependency.create(extractXsappname(service.get().getCredentials())));
+			String xsappname = extractXsappname(service.get().getCredentials());
+			dependencies.add(SaasRegistryDependency.create(xsappname));
 		}
 		context.setResult(dependencies);
 	}

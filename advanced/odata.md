@@ -82,23 +82,23 @@ PATCH /CatalogService/Books
 Content-Type: application/json
 
 {
-    "@context": "#$delta",
-    "value": [
-        {
-            "ID": 17,
-            "title": "CAP - what's new in 2023",
-            "price": 29.99,
-            "author_ID": 999
-        },
-        {
-            "ID": 85,
-            "price": 9.99
-        },
-        {
-            "ID": 42,
-            "@removed": { "reason": "deleted" }
-        }
-    ]
+  "@context": "#$delta",
+  "value": [
+    {
+      "ID": 17,
+      "title": "CAP - what's new in 2023",
+      "price": 29.99,
+      "author_ID": 999
+    },
+    {
+      "ID": 85,
+      "price": 9.99
+    },
+    {
+      "ID": 42,
+      "@removed": { "reason": "deleted" }
+    }
+  ]
 }
 ```
 
@@ -821,12 +821,12 @@ CDS has no corresponding language feature. For OData annotations, nesting can be
 
 ```cds
 @UI.LineItem: [
-    {Value: ApplicationName, @UI.Importance: #High}, // [!code highlight]
-    {Value: Description},
-    {Value: SourceName},
-    {Value: ChangedBy},
-    {Value: ChangedAt}
-  ]
+  {Value: ApplicationName, @UI.Importance: #High}, // [!code highlight]
+  {Value: Description},
+  {Value: SourceName},
+  {Value: ChangedBy},
+  {Value: ChangedAt}
+]
 @UI.LineItem.@UI.Criticality: #Positive // [!code highlight]
 
 
@@ -839,7 +839,7 @@ Alternatively, annotating a single value or a Collection by turning them into a 
 ```cds
 @UI.LineItem: {
   $value:[ /* ... */ ], @UI.Criticality: #Positive
- }
+}
 
 @Common.Text: {
   $value: Text, @UI.TextArrangement: #TextOnly
@@ -1195,13 +1195,13 @@ The aggregation method (typically, sum) is specified with the `@Aggregation.defa
 @Aggregation.CustomAggregate#amount   : 'Edm.Decimal'
 @Aggregation.CustomAggregate#currency : 'Edm.String'
 entity Sales {
-    key id        : GUID;
-        productId : GUID;
-        @Semantics.amount.currencyCode: 'currency'
-        @Aggregation.default: #SUM
-        amount    : Decimal(10,2);
-        @Semantics.currencyCode
-        currency  : String(3);
+  key id        : GUID;
+      productId : GUID;
+      @Semantics.amount.currencyCode: 'currency'
+      @Aggregation.default: #SUM
+      amount    : Decimal(10,2);
+      @Semantics.currencyCode
+      currency  : String(3);
 }
 ```
 

@@ -202,7 +202,7 @@ xs-app.json describes how to forward incoming request to the API endpoint / ODat
 
 - static content
 
-The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder.
+The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder. Note that using sym-links is not the standard approach but is more a quick win solution.
 
 ```shell
 cd app-router

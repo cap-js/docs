@@ -36,7 +36,7 @@ Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) drive
 
 ::: tip Prefer `cds add`
 
-... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+... as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
 
 :::
 
@@ -202,7 +202,7 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, that is, org and space.
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#build-and-deploy) with the correct target, that is, org and space.
 Then in the project root folder, just execute:
 
 ```sh

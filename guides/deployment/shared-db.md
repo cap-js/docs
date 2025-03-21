@@ -56,7 +56,7 @@ The HDI files are deployed automatically to the HDI schema using the HDI-deploye
 Each BTP Аpp provides an API endpoint that is exposed as a parameter.
 In the preparation phase the CDS model for the specific service will be compiled to a csn.json file containing the complete CDS model that the CAP service is providing and utilizing.
 
-- add a npm start script for each CAP service
+#### add a npm start script for each CAP service
 
 ::: code-group
 ```json [(service)/package.json]
@@ -72,57 +72,87 @@ All instances of BTP services: HANA hdi container, xsuaa, enterprise messaging, 
 
 ### Database
 
+Add initial database configuration using the command:
+
 ```shell
-cds add hana
+cds add hana --production ???
 ```
 
-- CAP service configuration
+CAP service configuration:
   
-  - requires db
+#### add requires db
 
-  ::: code-group
-  ```json [(service)/package.json]
-  { "cds": { "requires": { "db": true } } }
-  ```
-  :::
+::: code-group
+```json [bookstore/package.json]
+{
+  "cds": {
+    "requires": {
+      "db": true // [!code ++]
+    }
+  }
+}
+```
+```json [orders/package.json]
+{
+  "cds": {
+    "requires": {
+      "db": true // [!code ++]
+    }
+  }
+}
+```
+```json [reviews/package.json]
+{
+  "cds": {
+    "requires": {
+      "db": true // [!code ++]
+    }
+  }
+}
+```
+:::
 
-  - add dependency @cap-js/hana:
+#### add dependency @cap-js/hana
 
-  ```shell
-  npm i @cap-js/hana --workspace bookstore
-  npm i @cap-js/hana --workspace orders
-  npm i @cap-js/hana --workspace reviews
-  ```
+```shell
+npm i @cap-js/hana --workspace bookstore
+npm i @cap-js/hana --workspace orders
+npm i @cap-js/hana --workspace reviews
+```
+
+#### delete db folder
+
+Delete the newly created *db* folder containing default configuration files: *db/undeploy.json* and *db/src/.hdiconfig*
+
+```shell
+rm -r db
+```
+
+#### prepare *shared-db* node module
 
 Prepare the *shared-db* folder - a node module referencing all relevant CDS models from all relevant workspaces required to generate the HDI artifacts for all CAP services:
 
-- delete the newly created *db* folder containing default configuration files: *db/undeploy.json* and *db/src/.hdiconfig*
+```shell
+mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..
+```
 
-  ```shell
-  rm db/undeploy.json db/src/.hdiconfig
-  ```
-
-- create and initialize a *shared-db* node module
-
-  ```shell
-  mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..
-  ```
-
-
-- disable HANA native associations
+#### disable HANA native associations
   
-  ::: code-group
-  ```json [shared-db/package.json]
-  ```json
-    "cds": {
-      "sql": {
-        "native_hana_associations": false
-      }
+::: code-group
+```json [shared-db/package.json]
+{
+  "cds": {
+    "sql": {
+      "native_hana_associations": false
     }
-  ```
-  :::
+  }
+}
+```
+:::
 
-- maintain CDS model list
+#### prepare shared-db CDS model
+
+Add list of CDS models that shoud be considered for deployment:
   
   ::: code-group
   ```javascript [shared-db/db/index.cds]
@@ -132,16 +162,20 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
   ```
   :::
 
-- maintain the db deployer path in samples-db-deployer module
+#### maintain db deployer
 
-  ::: code-group
-  ```yaml [mta.yaml]
-    - name: samples-db-deployer
-      path: shared-db/gen/db # [!code focus]
-  ```
-  :::
+Maintain the db deployer path in samples-db-deployer module:
 
-- add build command for the database artifacts
+::: code-group
+```yaml [mta.yaml]
+  - name: samples-db-deployer
+    path: shared-db/gen/db # [!code focus]
+```
+:::
+
+### generate database artifacts
+
+Add build command for generation of the database artifacts
   
   ::: code-group
   ```yaml [mta.yaml]
@@ -156,53 +190,103 @@ Prepare the *shared-db* folder - a node module referencing all relevant CDS mode
 
 ### Approuter
 
-Add initial approuter configuration using the command:
+Add [approuter configuration](../deployment/to-cf#add-app-router) using the command:
 
 ```shell
 cds add approuter
 ```
 
-The Approuter forwards OData requests to the corresponding services using the APIs.
-It is deployed as a separate BTP App and is the main entry point for accessing the BTP Apps.
+The Approuter forwards OData requests to the corresponding services using the APIs. It is deployed as a separate BTP App and is the main entry point for accessing the BTP Apps.
 
-Detailed information on how to configure the approuter can be found in the [Configuring App Router guide](../deployment/to-cf#add-app-router).
+#### configure destinations
 
-- configure destinations - list of API endpoints with name and url which correspond to the AP endpoing in xs-app.json and the service URL:
+???? list of API endpoints with name and url which correspond to the API endpoint in xs-app.json and the service URL:
 
-  ::: code-group
-  ```yaml [mta.yaml]
-   requires:
-      - name: orders-api
-        group: destinations
-        properties:
-          name: orders-api #[!code focus]
-          url: ~{srv-url} #[!code focus]
-          forwardAuthToken: true
-  ```
-  :::
+::: code-group
+```yaml [mta.yaml]
+- name: samples
+  type: approuter.nodejs
+  ....
+  requires:
+    - name: service-api # [!code --]
+      group: destinations  # [!code --]
+      properties:  # [!code --]
+        name: service-api  # [!code --]
+        url: ~{srv-url}  # [!code --]
+        forwardAuthToken: true  # [!code --]
+    - name: orders-api # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: orders-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+    - name: reviews-api  # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: reviews-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+    - name: bookstore-api  # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: bookstore-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+```
+:::
 
-- API routes
+#### API routes
 
-xs-app.json describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder.
+The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
 ```json [xs-app.json]
 {
   "routes": [
-    {
-      "source": "^/odata/v4/orders/(.*)$", //[!code focus]
-      "target": "/odata/v4/orders/$1", //[!code focus]
-      "destination": "orders-api", //[!code focus]
-      "csrfProtection": true
-    }
+    { // [!code --]
+      "source": "^/(.*)$", // [!code --]
+      "target": "$1", // [!code --]
+      "destination": "srv-api", // [!code --]
+      "csrfProtection": true // [!code --]
+    } // [!code --]
+    { // [!code ++]
+      "source": "^/admin/(.*)$", // [!code ++]
+      "target": "/admin/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/browse/(.*)$", // [!code ++]
+      "target": "/browse/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/user/(.*)$", // [!code ++]
+      "target": "/user/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/odata/v4/orders/(.*)$",  // [!code ++]
+      "target": "/odata/v4/orders/$1", // [!code ++]
+      "destination": "orders-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/reviews/(.*)$", // [!code ++]
+      "target": "/reviews/$1", // [!code ++]
+      "destination": "reviews-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    } // [!code ++]
   ]
 }
 ```
 :::
 
-- static content
+### static content
 
-The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder. Note that using sym-links is not the standard approach but is more a quick win solution.
+The approuter can serve also static content (html files). If you want to deploy your WebUIs located in workspaces as static content, you can use Linux sym-links to link the UI-directories in the app-router folder.  
 
 ```shell
 cd app-router
@@ -212,19 +296,30 @@ ln -s ../reviews/app/vue reviews
 cd ..
 ```
 
-- CSRF-token
+::: warning simplified setup
+This is a simplified possibility but for production html5 repository should be used.
+:::
 
-Deployed Vue UIs require a CSRF-Token which is obtained via a valid URL. Make sure you have a valid welcomeFile in your configuration
+#### maintain welcome file
+
+In order to have a working homepage the *welcomeFile* property is required:
 
 ::: code-group
 ```json [xs-app.json]
 {
-  "welcomeFile": "app/bookshop/index.html"
+  "welcomeFile": "app/bookshop/index.html", // [!code ++]
+  "routes": {
+    ...
+  }
 }
 ```
 :::
 
-- app route
+Additionally the welcomeFile is important for deployed Vue UIs as they obtain CSRF-Tokens via this url.
+
+#### app route
+
+??? generated ??? if no -> delete
 
 The */app/\** route maps any url to the static-content file system.
 
@@ -241,23 +336,7 @@ The */app/\** route maps any url to the static-content file system.
 ```
 :::
 
-- appconfig route
-
-The */appconfig/* route is required in case of Fiori UIs
-
-::: code-group
-```json [xs-app.json]
-"routes": [
-  {
-    "source": "^/appconfig/", //[!code focus]
-    "localDir": ".", //[!code focus]
-    "cacheControl": "no-cache, no-store, must-revalidate"
-  }
-]
-```
-:::
-
-- static content route
+#### static content route
 
 ::: code-group
 ```json [xs-app.json]
@@ -282,7 +361,9 @@ cds add xsuaa --for production
 
 Detailed information on the security configuration can be found in the [Using XSUAA-Based Authentication guide](../deployment/to-cf#_2-using-xsuaa-based-authentication).
 
-- add a CAP service npm dependency to @sap/xssec
+#### add security module dependency
+
+Add a CAP service npm dependency to @sap/xssec
 
   ```shell  
   npm i @sap/xssec --workspace bookstore
@@ -290,7 +371,7 @@ Detailed information on the security configuration can be found in the [Using XS
   npm i @sap/xssec --workspace reviews
   ```
 
-- add an admin role
+#### add admin role
 
 ::: code-group
 ```json [xs-security.json]
@@ -322,50 +403,94 @@ The messaging service is used to organize asynchronous communication between the
 cds add enterprise-messaging
 ```
 
-- enable messaging for the relevant CAP services
-  ::: code-group
-  ```json [package.json]
-  { "cds": { "requires": { "messaging": true } } }
-  ```
-  :::
+#### enable messaging
 
-- relax all filters and allow all topics
+Enable messaging for the relevant CAP services
+
 ::: code-group
-```json [event-mesh.json]
-  "publishFilter": [
-    "*"
-  ],
-  "subscribeFilter": [
-    "*"
-  ]
+```json [bookstore/package.json]
+{
+  "cds": {
+    "requires": {
+      "messaging": true // [!code ++]
+      }
+    }
+  }
+}
+```
+```json [orders/package.json]
+{
+  "cds": {
+    "requires": {
+      "messaging": true // [!code ++]
+      }
+    }
+  }
+}
 ```
 :::
 
-- parameterize the properties `emname` and `namespace`
-  ::: code-group
-  ```json [event-mesh.json]
-    {
-      "emname": "samples-emname", // [!code --]
-      "version": "1.1.0",
-      "namespace": "default/samples/1", // [!code --]
-      ...
+#### relax message filters
+
+Relax all filters and allow all topics
+
+::: code-group
+```json [event-mesh.json]
+{
+  ....
+  "rules": {
+    "topicRules": {
+      "publishFilter": [
+        "${namespace}/*" // [!code --]
+        "*" // [!code ++]
+      ],
+      "subscribeFilter": [
+        "*"
+      ]
+    },
+    "queueRules": {
+      "publishFilter": [
+        "${namespace}/*" // [!code --]
+        "*" // [!code ++]
+      ],
+      "subscribeFilter": [
+        "${namespace}/*" // [!code --]
+        "*" // [!code ++]
+      ]
     }
-  ```
-  :::
-  ::: code-group
-  ```yaml [mta.yaml]
-    resources:
-      - name: samples-messaging
-        type: org.cloudfoundry.managed-service
-        parameters:
-          service: enterprise-messaging
-          service-plan: default
-          path: ./event-mesh.json
-          config: # [!code ++]
-            emname: bookstore-${org}-${space}  # [!code ++]
-            namespace: cap/samples/${space}    # [!code ++]
-  ```
-  :::
+  }
+}
+```
+:::
+
+#### parametrize the queue
+
+Parameterize the properties `emname` and `namespace`:
+
+::: code-group
+```json [event-mesh.json]
+  {
+    "emname": "samples-emname", // [!code --]
+    "version": "1.1.0",
+    "namespace": "default/samples/1", // [!code --]
+    ...
+  }
+```
+:::
+::: code-group
+```yaml [mta.yaml]
+  resources:
+    - name: samples-messaging
+      type: org.cloudfoundry.managed-service
+      parameters:
+        service: enterprise-messaging
+        service-plan: default
+        path: ./event-mesh.json
+        config: # [!code ++]
+          emname: bookstore-${org}-${space}  # [!code ++]
+          namespace: cap/samples/${space}    # [!code ++]
+```
+:::
 
 ### Destinations
 
@@ -375,24 +500,12 @@ cds add destination
 
 Required when a CAP service consumes other CAP services, see: https://cap.cloud.sap/docs/node.js/remote-services
 
-- enable destinations functionality
+#### additional dependencies
 
-  ::: code-group
-  ```json [package.json]
-  { "cds": { "requires": { "destinations": true } } }
-  ```
-  :::
-
-- CAP service package.json dependencies for the consuming destinations:
-  - @sap-cloud-sdk/http-client
+Add *@sap-cloud-sdk/http-client* and *@sap-cloud-sdk/resilience* for each CAP service that is utilizing the destinations:
 
     ```shell
     npm i @sap-cloud-sdk/http-client --workspace bookstore`
-    ```
-
-  - @sap-cloud-sdk/resilience
-
-    ```shell
     npm i @sap-cloud-sdk/resilience --workspace bookstore
     ```
 
@@ -545,7 +658,7 @@ All events that should be using the event mesh need to be defined in the CDS mod
 
 There should be a possibility to directly create entity instances (Orders) via API.
 
-- Add projection bypassing the draft funtionality enabled only for the system-user
+Add projection bypassing the draft funtionality enabled only for the system-user:
 
 ::: code-group
 ```cds [orders/srv/orders-service.cds]
@@ -555,7 +668,7 @@ There should be a possibility to directly create entity instances (Orders) via A
 ```
 :::
 
-- Create new active entity instances directly via the new projection
+Create new active entity instances directly via the new projection:
 
 ::: code-group
 ```javascript [bookstore/srv/mashup.js]
@@ -585,16 +698,16 @@ Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/
 
 - mta preparation phase
 
-  ::: code-group
-  ```yaml [mta.yaml]
-  build-parameters:
-    before-all:
-      - builder: custom
-        commands:
-          - npm ci
-          - npx cds build ./shared-db --for hana --production
-          - npx cds build ./orders --for nodejs --production --ws-pack
-          - npx cds build ./reviews --for nodejs --production
-          - npx cds build ./bookstore --for nodejs --production --ws-pack
-  ```
-  :::
+::: code-group
+```yaml [mta.yaml]
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build ./shared-db --for hana --production # [!code ++]
+        - npx cds build ./orders --for nodejs --production --ws-pack # [!code ++]
+        - npx cds build ./reviews --for nodejs --production # [!code ++]
+        - npx cds build ./bookstore --for nodejs --production --ws-pack # [!code ++]
+```
+:::

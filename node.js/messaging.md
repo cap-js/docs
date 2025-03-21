@@ -403,55 +403,12 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 ### SAP Cloud Application Event Hub <Beta/> { #event-broker }
 
-TODO: should this section only be
-1. `kind`: `event-broker`
-2. Use this if you want to...
-3. The integration ... the plugin `@cap-js/event-broker`. See docs there.
-and move the rest there, of course?
-
 `kind`: `event-broker`
 
 Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).
 
 The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
-Hence, you first need to install the plugin:
-
-```bash
-npm add @cap-js/event-broker
-```
-
-Then, set the `kind` of your messaging service to `event-broker`:
-
-```jsonc
-"cds": {
-  "requires": {
-    "messaging": {
-      "kind": "event-broker"
-    }
-  }
-}
-```
-
-The [CloudEvents](https://cloudevents.io/) format is enforced since it's required by SAP Cloud Application Event Hub.
-
-Authentication in the SAP Cloud Application Event Hub integration is based on the [Identity Authentication service (IAS)](https://help.sap.com/docs/cloud-identity-services/cloud-identity-services/getting-started-with-identity-service-of-sap-btp) of [SAP Cloud Identity Services](https://help.sap.com/docs/cloud-identity-services).
-If you are not using [IAS-based Authentication](./authentication#ias), you will need to trigger the loading of the IAS credentials into your app's `cds.env` via an additional `requires` entry:
-
-```jsonc
-"cds": {
-  "requires": {
-    "ias": { // any name
-      "vcap": {
-        "label": "identity"
-      }
-    }
-  }
-}
-```
-
-#### Deployment
-
-Please see [Messaging -> SAP Cloud Appl. Event Hub](../guides/messaging/event-broker.md#deploy) for details on how to bind your application to SAP Cloud Application Event Hub.
+Please see the plugin's [setup guide](https://github.com/cap-js/event-broker/blob/main/README.md#setup) for more details.
 
 <div id="queuing-sap" />
 

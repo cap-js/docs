@@ -43,7 +43,7 @@
 ## [Events & Messaging](guides/messaging/)
 
   ### [SAP Event Mesh](guides/messaging/event-mesh)
-  ### [SAP Event Hub](guides/messaging/event-broker)
+  ### [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
   ### [Apache Kafka](../guides/messaging/apache-kafka)
   ### [Events from S/4](guides/messaging/s4)
 

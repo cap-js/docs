@@ -592,10 +592,14 @@ All events that should be using the event mesh need to be defined in the CDS mod
 
 ::: code-group
 ```cds [orders/srv/orders-service.cds]
-  event OrderChanged {
-    product: String;
-    deltaQuantity: Integer;
-  }
+service OrdersService {
+...
+  event OrderChanged { // [!code ++]
+    product: String; // [!code ++]
+    deltaQuantity: Integer; // [!code ++]
+  } // [!code ++]
+...
+}
 ```
 :::
 
@@ -675,9 +679,13 @@ Add projection bypassing the draft functionality enabled only for the system-use
 
 ::: code-group
 ```cds [orders/srv/orders-service.cds]
-  @odata.draft.bypass
-  @(requires: 'system-user')
-  entity OrdersNoDraft as projection on my.Orders;
+service OrdersService {
+...
+  @odata.draft.bypass // [!code ++]
+  @(requires: 'system-user') // [!code ++]
+  entity OrdersNoDraft as projection on my.Orders; // [!code ++]
+...
+}
 ```
 :::
 
@@ -686,8 +694,10 @@ Create new active entity instances directly via the new projection:
 ::: code-group
 ```javascript [bookstore/srv/mashup.js]
   CatalogService.on ('OrderedBook', async (msg) => {
-    ......
-    return OrdersService.create ('OrdersNoDraft').entries({
+    ...
+    return OrdersService.create ('Orders').entries({ // [!code --]
+    return OrdersService.create ('OrdersNoDraft').entries({ // [!code ++]
+    ...
 ```
 :::
 

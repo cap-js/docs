@@ -185,7 +185,7 @@ In this walkthrough, we only include a subset of the CDS models in the deploymen
 Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path` and `provides[0].name` to match the module name. Also change the npm-ci builder to the npm builder.
 
 ::: code-group
-```yaml
+```yaml [mta.yaml]
 modules:
   - name: bookstore-srv # [!code focus]
     type: nodejs

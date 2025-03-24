@@ -162,7 +162,7 @@ mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..
 
 #### prepare shared-db CDS model
 
-Add list of CDS models that shoud be considered for deployment:
+Add list of CDS models that should be considered for deployment:
   
   ::: code-group
   ```javascript [shared-db/db/index.cds]
@@ -668,7 +668,7 @@ All events that should be using the event mesh need to be defined in the CDS mod
 
 There should be a possibility to directly create entity instances (Orders) via API.
 
-Add projection bypassing the draft funtionality enabled only for the system-user:
+Add projection bypassing the draft functionality enabled only for the system-user:
 
 ::: code-group
 ```cds [orders/srv/orders-service.cds]

@@ -98,7 +98,7 @@ rm -r db
 ```
 
 
-#### Initial data
+#### Initial Data
 
 For initial or sample data, the ID needs to be provided when deploying to HANA.
 Add ID to the csv files if not present:
@@ -113,7 +113,7 @@ f2896a44-637f-4198-a428-c0966d10b7ce;251;3;bob;It's dark...;Lorem ipsum dolor si
 ```
 :::
 
-#### Prepare *shared-db* Module
+#### *shared-db* Module
 
 Prepare the *shared-db* folder, referencing the relevant CDS models from the modules that we plan to deploy - bookstore, reviews and orders:
 

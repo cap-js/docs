@@ -35,54 +35,13 @@ The repository contains multiple CAP applications in a monorepo. The `package.js
 
 ### Deployment Descriptor
 
-In order to deploy CAP services in the Cloud Foundry environment as a Multitarget application a mta.yaml file is required. It represents a deployment discriptor which defines all CAP services and resources required by the application to function properly. Additional information can be found in the [Deploy to Cloud](../deployment/to-cf#deploy) guide. An initial *mta.yaml* file can be generated using the following command:
+Add initial multitarget application configuration for deployment to Cloud Foundry:
 
 ```shell
 cds add mta
 ```
 
-The mta.yaml file consists of three parts:
-  - preparation phase: install npm dependencies, collect and compile cds model, prepare CAP services for deployment
-  - modules: list of BTP apps to deploy - each BTP app represents one on more CAP services
-  - resources: BTP service instances required by the BTP apps to operate (persistency, security, destinations, messaging service)
-
-#### preparation
-
-In the preparation phase the CDS modules are compiled and HDI files are generated.
-The HDI files are deployed automatically to the HDI schema using the HDI-deployer.
-
-1. install dependencies, for example: `npm ci`
-2. assemble CDS model containing all artifacts for all CAP services, for example: `npx cds build (directory with db artifacts) --for hana --production`. 
-3. prepare CAP services, for example: `npx cds build (SAP service directory) --for nodejs --production --ws-pack` where the *--ws-pack* option is important for node modules referencing other repository-local node modules
-
-#### modules
-
-Each BTP Аpp provides an API endpoint that is exposed as a parameter.
-In the preparation phase the CDS model for the specific service will be compiled to a csn.json file containing the complete CDS model that the CAP service is providing and utilizing.
-
-#### add a npm start script for each CAP service
-
-::: code-group
-```json [bookstore/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-```json [orders/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-```json [reviews/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-:::
-
-#### resources
-
-All instances of BTP services: HANA hdi container, xsuaa, enterprise messaging, destinations
+[Learn more about **how to deploy to Cloud Foundry**.](../deployment/to-cf){.learn-more}
 
 ### Database
 
@@ -137,6 +96,22 @@ Delete the generated db folder as we do not need it on root level:
 ```shell
 rm -r db
 ```
+
+
+#### Initial data
+
+For initial or sample data, the ID needs to be provided when deploying to HANA.
+Add ID to the csv files if not present:
+
+::: code-group
+```csv [reviews/db/data/sap.capire.reviews-Reviews.csv]
+ID;subject;rating;reviewer;title;text
+1689144d-3b10-4849-bcbe-2408a13e161d;201;5;bob;Intriguing;Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+539ab728-3068-450f-a617-ed5af9e9dbb7;201;4;bob;Fascinating;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id diam maecenas ultricies mi eget mauris pharetra et. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Pulvinar mattis nunc sed blandit libero. Facilisis magna etiam tempor orci eu. Nec sagittis aliquam malesuada bibendum arcu. Eu consequat ac felis donec. Ultricies tristique nulla aliquet enim tortor at auctor urna nunc. Tortor posuere ac ut consequat semper viverra nam libero. Amet nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Scelerisque purus semper eget duis at tellus. Elementum tempus egestas sed sed risus pretium. Arcu dictum varius duis at. Amet luctus venenatis lectus magna fringilla urna. Eget velit aliquet sagittis id consectetur purus ut faucibus. Vitae auctor eu augue ut lectus. Fermentum iaculis eu non diam phasellus vestibulum.
+cd9bfd8d-eab4-40ee-9b46-770302533009;207;2;bob;What is this?;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Libero justo laoreet sit amet cursus sit amet dictum. Nunc faucibus a pellentesque sit. Dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Enim nunc faucibus a pellentesque. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien. Cras ornare arcu dui vivamus. Facilisi etiam dignissim diam quis enim lobortis. Et molestie ac feugiat sed. Urna neque viverra justo nec ultrices dui. Ullamcorper a lacus vestibulum sed arcu non. Volutpat ac tincidunt vitae semper quis. Dignissim sodales ut eu sem. Feugiat in fermentum posuere urna nec. At augue eget arcu dictum varius.
+f2896a44-637f-4198-a428-c0966d10b7ce;251;3;bob;It's dark...;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Suscipit tellus mauris a diam. Velit aliquet sagittis id consectetur purus ut. Viverra adipiscing at in tellus integer. Vitae elementum curabitur vitae nunc. Mattis ullamcorper velit sed ullamcorper morbi. Diam quis enim lobortis scelerisque. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Semper auctor neque vitae tempus. Quis eleifend quam adipiscing vitae proin. Neque convallis a cras semper auctor neque vitae. Imperdiet massa tincidunt nunc pulvinar sapien et ligula. Sit amet consectetur adipiscing elit ut aliquam purus. Pretium quam vulputate dignissim suspendisse.```
+```
+:::
 
 #### Prepare *shared-db* Module
 
@@ -205,7 +180,7 @@ In this walkthrough, we only include a subset of the CDS models in the deploymen
 :::
 
 
-#### Applications
+### Applications
 
 Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path` and `provides[0].name` to match the module name. Also change the npm-ci builder to the npm builder.
 
@@ -282,6 +257,31 @@ build-parameters:
         - npx cds build ./orders --for nodejs --production --ws-pack # [!code ++]
         - npx cds build ./reviews --for nodejs --production # [!code ++]
         - npx cds build ./bookstore --for nodejs --production --ws-pack # [!code ++]
+```
+:::
+
+::: info --ws-pack
+Note that we use the *--ws-pack* option for some modules. It is important for node modules referencing other repository-local node modules.
+:::
+
+
+Add an npm start script for each module:
+
+::: code-group
+```json [bookstore/package.json]
+ "scripts": {
+    "start": "cds-serve" // [!code ++]
+  }
+```
+```json [orders/package.json]
+ "scripts": {
+    "start": "cds-serve" // [!code ++]
+  }
+```
+```json [reviews/package.json]
+ "scripts": {
+    "start": "cds-serve" // [!code ++]
+  }
 ```
 :::
 
@@ -692,24 +692,7 @@ Create new active entity instances directly via the new projection:
 :::
 
 
-### Misc
-
-#### Initial data
-
-> Potentially irrelevant for this scenario - necessary for deployment to HANA
-
-Provide ID in the csv file for each UUID field in the model
-
-::: code-group
-```csv [reviews/db/data/sap.capire.reviews-Reviews.csv]
-ID;subject;...
-1689144d-3b10-4849-bcbe-2408a13e161d;201;...
-```
-:::
-
-
-
-#### Deploy Commands
+### Deploy
 
 In order to build, deploy and undeploy easily, add these npm scripts:
 
@@ -724,3 +707,36 @@ In order to build, deploy and undeploy easily, add these npm scripts:
 :::
 
 Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/docs/guides/extensibility/customization#cds-login
+
+To locally build the apps, run
+
+```shell
+npm run build
+```
+
+To deploy the built artifacts to Cloud Foundry, run
+
+```shell
+npm run deploy
+```
+
+Once the app is deployed, you can get the url of the approuter via
+
+```shell
+cf apps # [!code focus]
+
+name                         requested state   processes   routes
+bookstore-srv                started           web:1/1     my-capire-bookstore-srv.cfapps.us10-001.hana.ondemand.com
+orders-srv                   started           web:1/1     my-capire-orders-srv.cfapps.us10-001.hana.ondemand.com
+reviews-srv                  started           web:1/1     my-capire-reviews-srv.cfapps.us10-001.hana.ondemand.com
+samples                      started           web:1/1     my-capire-samples.cfapps.us10-001.hana.ondemand.com # [!code focus]
+samples-db-deployer          stopped           web:0/1
+```
+
+You can then navigate to this url and the corresponding apps
+```
+<url>/              -> bookstore
+<url>/app/bookstore -> bookstore
+<url>/app/orders    -> orders
+<url>/app/reviews   -> reviews
+```

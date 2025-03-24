@@ -104,6 +104,10 @@ This benefit is null for apps with synchronous dependencies on each other. If A 
 
 ## Multiple Deployment Units
 
+With multiple apps, you can still deploy them together as one unit, for example as part of a multitarget application archive.
+Once an application grows bigger, this takes a significant amount of time.
+Deployments can then be split up either by type - e.g. deploying UIs separately - or horizontally - e.g. deploying each app via its own deployment unit.
+
 Benefits:
 - Faster individual deploy times
 - Independent deployments
@@ -177,3 +181,9 @@ It can first be deployed as a monolith. Once the boundaries are clear, it can th
 Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
 
 ![](./assets/microservices/late-cut.excalidraw.svg)
+
+## Best Practices
+
+* Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
+* Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
+

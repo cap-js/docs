@@ -118,14 +118,17 @@ f2896a44-637f-4198-a428-c0966d10b7ce;251;3;bob;It's dark...;Lorem ipsum dolor si
 Prepare the *shared-db* folder, referencing the relevant CDS models from the modules that we plan to deploy - bookstore, reviews and orders:
 
 ```shell
-mkdir -p shared-db/db && cd shared-db && npm init -y && cd ..
+mkdir -p shared-db/db
 ```
 
-Disable HANA native associations
-  
+Add a `package.json` with the cds setting to disable HANA native associations:
+
 ::: code-group
 ```json [shared-db/package.json]
 {
+  "name": "@capire/samples-shared-db",
+  "version": "3.0.0",
+  "description": "CAP Sample CDS model deployment for shared-db scenario",
   "cds": {
     "sql": {
       "native_hana_associations": false

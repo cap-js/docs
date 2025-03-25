@@ -286,164 +286,6 @@ Add an npm start script for each module:
 :::
 
 
-### Approuter
-
-Add [approuter configuration](../deployment/to-cf#add-app-router) using the command:
-
-```shell
-cds add approuter
-```
-
-The approuter serves the UIs and acts as a proxy for requests toward the different apps.
-
-#### Static Content
-
-The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
-
-```shell
-cd app/router
-ln -s ../../bookshop/app/vue bookshop
-ln -s ../../orders/app/orders orders
-ln -s ../../reviews/app/vue reviews
-cd ../..
-```
-
-::: warning Simplified Setup
-This is a simplified setup which deploys the static content as part of the approuter.
-See [Deploy to Cloud Foundry](./to-cf#add-ui) for a productive UI setup.
-:::
-
-#### Configuration
-
-Add destinations for each app url:
-
-::: code-group
-```yaml [mta.yaml]
-- name: samples
-  type: approuter.nodejs
-  ....
-  requires:
-    - name: service-api # [!code --]
-      group: destinations  # [!code --]
-      properties:  # [!code --]
-        name: service-api  # [!code --]
-        url: ~{srv-url}  # [!code --]
-        forwardAuthToken: true  # [!code --]
-    - name: orders-api # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: orders-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
-    - name: reviews-api  # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: reviews-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
-    - name: bookstore-api  # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: bookstore-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
-```
-:::
-
-The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
-
-::: code-group
-```json [xs-app.json]
-{
-  "routes": [
-    { // [!code --]
-      "source": "^/(.*)$", // [!code --]
-      "target": "$1", // [!code --]
-      "destination": "srv-api", // [!code --]
-      "csrfProtection": true // [!code --]
-    } // [!code --]
-    { // [!code ++]
-      "source": "^/admin/(.*)$", // [!code ++]
-      "target": "/admin/$1", // [!code ++]
-      "destination": "bookstore-api", // [!code ++]
-      "csrfProtection": true // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/browse/(.*)$", // [!code ++]
-      "target": "/browse/$1", // [!code ++]
-      "destination": "bookstore-api", // [!code ++]
-      "csrfProtection": true // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/user/(.*)$", // [!code ++]
-      "target": "/user/$1", // [!code ++]
-      "destination": "bookstore-api", // [!code ++]
-      "csrfProtection": true // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/odata/v4/orders/(.*)$",  // [!code ++]
-      "target": "/odata/v4/orders/$1", // [!code ++]
-      "destination": "orders-api", // [!code ++]
-      "csrfProtection": true // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/reviews/(.*)$", // [!code ++]
-      "target": "/reviews/$1", // [!code ++]
-      "destination": "reviews-api", // [!code ++]
-      "csrfProtection": true // [!code ++]
-    } // [!code ++]
-  ]
-}
-```
-:::
-
-Add routes for static content:
-
-::: code-group
-```json [xs-app.json]
-{
-  "routes": [
-    ...
-    { // [!code ++]
-      "source": "^/app/(.*)$", // [!code ++]
-      "target": "$1", // [!code ++]
-      "localDir": ".", // [!code ++]
-      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/appconfig/", // [!code ++]
-      "localDir": ".", // [!code ++]
-      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^(.*)$", // [!code ++]
-      "target": "$1", // [!code ++]
-      "localDir": ".", // [!code ++]
-      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
-    } // [!code ++]
-  ]
-}
-```
-:::
-
-The `/app/\*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
-
-Add the `bookshop/index.html` as initial page when visiting the app:
-
-::: code-group
-```json [xs-app.json]
-{
-  "welcomeFile": "app/bookshop/index.html", // [!code ++]
-  "routes": {
-    ...
-  }
-}
-```
-:::
-
-Additionally the welcomeFile is important for deployed Vue UIs as they obtain CSRF-Tokens via this url.
-
-
 ### Authentication
 
 Add [security configuration](../security/authorization#xsuaa-configuration) using the command:
@@ -700,6 +542,164 @@ Create new active entity instances directly via the new projection:
     ...
 ```
 :::
+
+
+### Approuter
+
+Add [approuter configuration](../deployment/to-cf#add-app-router) using the command:
+
+```shell
+cds add approuter
+```
+
+The approuter serves the UIs and acts as a proxy for requests toward the different apps.
+
+#### Static Content
+
+The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
+
+```shell
+cd app/router
+ln -s ../../bookshop/app/vue bookshop
+ln -s ../../orders/app/orders orders
+ln -s ../../reviews/app/vue reviews
+cd ../..
+```
+
+::: warning Simplified Setup
+This is a simplified setup which deploys the static content as part of the approuter.
+See [Deploy to Cloud Foundry](./to-cf#add-ui) for a productive UI setup.
+:::
+
+#### Configuration
+
+Add destinations for each app url:
+
+::: code-group
+```yaml [mta.yaml]
+- name: samples
+  type: approuter.nodejs
+  ....
+  requires:
+    - name: service-api # [!code --]
+      group: destinations  # [!code --]
+      properties:  # [!code --]
+        name: service-api  # [!code --]
+        url: ~{srv-url}  # [!code --]
+        forwardAuthToken: true  # [!code --]
+    - name: orders-api # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: orders-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+    - name: reviews-api  # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: reviews-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+    - name: bookstore-api  # [!code ++]
+      group: destinations  # [!code ++]
+      properties:  # [!code ++]
+        name: bookstore-api  # [!code ++]
+        url: ~{srv-url}  # [!code ++]
+        forwardAuthToken: true  # [!code ++]
+```
+:::
+
+The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
+
+::: code-group
+```json [xs-app.json]
+{
+  "routes": [
+    { // [!code --]
+      "source": "^/(.*)$", // [!code --]
+      "target": "$1", // [!code --]
+      "destination": "srv-api", // [!code --]
+      "csrfProtection": true // [!code --]
+    } // [!code --]
+    { // [!code ++]
+      "source": "^/admin/(.*)$", // [!code ++]
+      "target": "/admin/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/browse/(.*)$", // [!code ++]
+      "target": "/browse/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/user/(.*)$", // [!code ++]
+      "target": "/user/$1", // [!code ++]
+      "destination": "bookstore-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/odata/v4/orders/(.*)$",  // [!code ++]
+      "target": "/odata/v4/orders/$1", // [!code ++]
+      "destination": "orders-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/reviews/(.*)$", // [!code ++]
+      "target": "/reviews/$1", // [!code ++]
+      "destination": "reviews-api", // [!code ++]
+      "csrfProtection": true // [!code ++]
+    } // [!code ++]
+  ]
+}
+```
+:::
+
+Add routes for static content:
+
+::: code-group
+```json [xs-app.json]
+{
+  "routes": [
+    ...
+    { // [!code ++]
+      "source": "^/app/(.*)$", // [!code ++]
+      "target": "$1", // [!code ++]
+      "localDir": ".", // [!code ++]
+      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^/appconfig/", // [!code ++]
+      "localDir": ".", // [!code ++]
+      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
+    }, // [!code ++]
+    { // [!code ++]
+      "source": "^(.*)$", // [!code ++]
+      "target": "$1", // [!code ++]
+      "localDir": ".", // [!code ++]
+      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
+    } // [!code ++]
+  ]
+}
+```
+:::
+
+The `/app/\*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
+
+Add the `bookshop/index.html` as initial page when visiting the app:
+
+::: code-group
+```json [xs-app.json]
+{
+  "welcomeFile": "app/bookshop/index.html", // [!code ++]
+  "routes": {
+    ...
+  }
+}
+```
+:::
+
+Additionally the welcomeFile is important for deployed Vue UIs as they obtain CSRF-Tokens via this url.
 
 
 ### Deploy

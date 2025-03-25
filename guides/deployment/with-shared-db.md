@@ -459,7 +459,7 @@ cds add destination
 Add `@sap-cloud-sdk/http-client` and `@sap-cloud-sdk/resilience` for each module utilizing the destinations:
 
 ```shell
-npm i @sap-cloud-sdk/http-client --workspace bookstore`
+npm i @sap-cloud-sdk/http-client --workspace bookstore
 npm i @sap-cloud-sdk/resilience --workspace bookstore
 ```
 

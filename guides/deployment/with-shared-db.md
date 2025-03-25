@@ -687,7 +687,7 @@ Add routes for static content:
 ```
 :::
 
-The `/app/\*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
+The `/app/*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
 
 Add the `bookshop/index.html` as initial page when visiting the app:
 

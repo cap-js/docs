@@ -446,7 +446,7 @@ Additionally the welcomeFile is important for deployed Vue UIs as they obtain CS
 
 ### Authentication
 
-Add [security configuration](../deployment/to-cf#_2-using-xsuaa-based-authentication) using the command:
+Add [security configuration](../security/authorization#xsuaa-configuration) using the command:
 
 ```shell
 cds add xsuaa --for production

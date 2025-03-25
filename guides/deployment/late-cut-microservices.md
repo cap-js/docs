@@ -106,7 +106,7 @@ This benefit is null for apps with synchronous dependencies on each other. If A 
 
 With multiple apps, you can still deploy them together as one unit, for example as part of a multitarget application archive.
 Once an application grows bigger, this takes a significant amount of time.
-Deployments can then be split up either by type - e.g. deploying UIs separately - or horizontally - e.g. deploying each app via its own deployment unit.
+Deployments can then be split up either by type (e.g. deploying UIs separately) or horizontally (e.g. deploying each app via its own deployment unit).
 
 Benefits:
 - Faster individual deploy times
@@ -118,19 +118,39 @@ Drawbacks:
 
 ![](./assets/microservices/multiple-deployment-units.excalidraw.svg)
 
-### Independent deployments
+### Independent Deployments
 
-Restarts, Risk reduction, Decisions
+With a single deployment unit, when a fix for one part needs to be deployed, the risk of redeploying the rest of the application needs to be considered.
+For example, there may already been changes to other parts of the app in the same code line.
+A restart / rolling restart may also lead to higher resource consumption due to startup activities and thus slightly degrade the performance during this time.
+
+Being able to deploy apps or other resources independently reduces the risk when a single part of the system needs to be updated.
+The update decision needs less coordination and can be made by the team responsible for this part of the system.
+
+Coordination is still necessary when deploying changes that affect the whole system, for example when a feature needs implementations in multiple apps.
 
 ## Multiple Databases
 
-Polyglot databases, multiple instances of same dbms
+Here we need to differentiate between two scenarios:
+- Using multiple types of databases
+- Using multiple databases of the same type
+
+A polyglot persistence can be used when the app has different requirements for the types of data it needs to store.
+For example, there may be a large amount of large files that can be stored in a document store, while corresponding administrative data is stored in a relational database.
 
 Benefits:
-- polyglot: use suitable technology for different use cases
-- same dbms:
-  - higher scaling limit
-  - ?
+- Use suitable technology for different use cases
+
+
+In contrast, using multiple databases of the same type may be suggested for
+- Scalability
+- Resource separation
+- Tenant Isolation
+- Semantic Separation
+
+Scalability and resource separation need multiple database instances. Tenant isolation and semantic separation could also be achieved through multiple schemas or containers inside the same database instance.
+
+
 
 Drawbacks:
 - Data consistency

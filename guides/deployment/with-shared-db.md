@@ -24,7 +24,7 @@ The advantages are as follows:
  Disadvantages:
  - Accessing data directly (without an API) means any changes in the data model affect all applications directly
  - every change in one of the services either requires 
-   - a redeployment of all microserivces involved
+   - a redeployment of all microservices involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
  - violates 12 factors concept
 

@@ -48,7 +48,7 @@ cds add mta
 Add initial database configuration using the command:
 
 ```shell
-cds add hana --production
+cds add hana
 ```
 
 Add cds db configuration to each module:

@@ -121,7 +121,7 @@ Prepare the *shared-db* folder, referencing the relevant CDS models from the mod
 mkdir -p shared-db/db
 ```
 
-Add a `package.json` with the cds setting to disable HANA native associations:
+Add a `package.json` with the cds setting to disable [HANA native associations](../databases-hana#native-associations):
 
 ::: code-group
 ```json [shared-db/package.json]

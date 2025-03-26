@@ -10,9 +10,6 @@ status: released
 
 # Late-Cut Microservices
 
-::: warning Work in Progress
-:::
-
 Microservices have been attributed with a multitude of benefits like
 - granular scalability
 - deployment agility
@@ -28,7 +25,7 @@ But the benefits are derived from specific aspects. Let's break it down.
 
 A monolith is a single deployment unit with a single application. This is very convenient, because every part of the app is accessible in memory.
 
-![](./assets/microservices/monolith.excalidraw.svg)
+![A monolith](./assets/microservices/monolith.excalidraw.svg)
 
 ## Application Instances
 
@@ -46,7 +43,7 @@ Requirement:
 
 Multiple app instances can be used both for monoliths and microservices.
 
-![](./assets/microservices/app-instances.excalidraw.svg)
+![A single app with multiple application instances](./assets/microservices/app-instances.excalidraw.svg)
 
 ## Modules
 
@@ -59,14 +56,14 @@ Benefits:
 - Distributed Development
 - Clear Structure
 
-![](./assets/microservices/modules.excalidraw.svg)
+![Modules: bookshop containing AdminService and CatalogService, reviews containing ReviewsService, orders containing OrdersService, common](./assets/microservices/modules.excalidraw.svg)
 
 ### Modulith
 
 Even though the app is separated into multiple CAP services inside multiple modules, it can still be deployed as a single monolithic application.
 This combines the benefit of a clear structure and distributed development while keeping a simple deployment.
 
-![](./assets/microservices/modulith.excalidraw.svg)
+![A single app containing the modules bookshop, reviews and orders](./assets/microservices/modulith.excalidraw.svg)
 
 ## Multiple applications
 
@@ -80,7 +77,7 @@ Benefits:
 Drawbacks:
 - Latency for synchronous calls between dependent apps
 
-![](./assets/microservices/multiple-apps.excalidraw.svg)
+![Three applications connected to the same database, two of the applications communicate](./assets/microservices/multiple-apps.excalidraw.svg)
 
 ### Resource Separation
 
@@ -116,7 +113,7 @@ Drawbacks:
 - Coordination between deployment units for updates with dependencies
 - Configuration wiring to connect systems across deployment units
 
-![](./assets/microservices/multiple-deployment-units.excalidraw.svg)
+![One deployment unit for UIs and one deployment unit for apps, db etc.](./assets/microservices/multiple-deployment-units.excalidraw.svg)
 
 ### Independent Deployments
 
@@ -144,7 +141,7 @@ Benefits:
 
 In contrast, using multiple databases of the same type may be suggested for
 - Scalability
-- Resource separation
+- Resource Separation
 - Tenant Isolation
 - Semantic Separation
 
@@ -153,29 +150,36 @@ Scalability and resource separation need multiple database instances. Tenant iso
 
 
 Drawbacks:
-- Data consistency
-- Collection data across databases for investigation or reporting
+- Data consistency across databases
+- Collecting data across databases
+
+![A single application connected to multiple databases](./assets/microservices/multiple-dbs.excalidraw.svg)
+
+
+### Microservices
 
 True microservices each consist of their own deployment unit with their own application and their own database.
 Meaning that they are truly independent of each other. And it works well if they actually are independent.
 
-![](./assets/microservices/true-microservices.excalidraw.svg)
+![A simplified microservices view - three deployment units, each with one app and one database](./assets/microservices/true-microservices.excalidraw.svg)
 
 The above is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
 If the microservices are not cut well, the communication overhead leads to high performance losses and often the need for data replication or caching.
 
-![](./assets/microservices/true-microservices-full.excalidraw.svg)
+![A more complete microservices view - two deployment units with one app, one db and some UIs each, one deployment unit for shared service instances](./assets/microservices/true-microservices-full.excalidraw.svg)
 
 ### Data Federation
 
 When data is distributed across multiple databases, strategies may be necessary to combine data from multiple sources.
 
-- HANA synonyms
 - Fetching on-demand
   - Caching
+- HANA synonyms
 - Data Replication
 
 ## Summary
+
+The benefits attributed to microservices can be broken down into multiple aspects.
 
 | Aspect | Benefits | Drawbacks |
 | ---------- | -------- | --------- |
@@ -189,21 +193,25 @@ When data is distributed across multiple databases, strategies may be necessary 
 
 Instead of just choosing between a monolith and microservices, these aspects can be combined into an architecture that fits the specific product.
 
-![](./assets/microservices/complex.excalidraw.svg)
+Since each cut not only has benefits, but also drawbacks, it is important to choose which benefits actually help the overall product and which drawbacks can be accepted.
+
+![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared db, two each contain an app connected to the shared db, one contains a db and an app, which is also connected to the shared db](./assets/microservices/complex.excalidraw.svg)
 
 ### A Late Cut
 
 When developing a product it may initially not be apparent where the boundaries are.
 
 Keeping this in mind, an app can be developed as a modular application with use case specific CAP services.
-It can first be deployed as a monolith. Once the boundaries are clear, it can then be split into multiple applications.
+It can first be deployed as a monolith / [modulith](#modulith). Once the boundaries are clear, it can then be split into multiple applications.
 
 Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
 
-![](./assets/microservices/late-cut.excalidraw.svg)
+![Modules which can be arranged in different deploy configurations, e.g. as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), etc.](./assets/microservices/late-cut.excalidraw.svg)
 
 ## Best Practices
 
+* Prefer a late cut
+* Stay flexible in where to cut
 * Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
 * Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 

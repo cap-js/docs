@@ -53,7 +53,8 @@ Add initial database configuration using the command:
 cds add hana
 ```
 
-Add cds db configuration to each module:
+This added configuration to the workspace root.
+Additionally add cds db configuration to each module that we want to deploy - bookstore, orders and reviews:
 
 ::: code-group
 ```json [bookstore/package.json]
@@ -85,7 +86,7 @@ Add cds db configuration to each module:
 ```
 :::
 
-Add npm dependency `@cap-js/hana`:
+Add npm dependency `@cap-js/hana` to each module:
 
 ```shell
 npm i @cap-js/hana --workspace bookstore

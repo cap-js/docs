@@ -563,11 +563,12 @@ The approuter serves the UIs and acts as a proxy for requests toward the differe
 The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
 
 ```shell
-cd app/router
-ln -s ../../bookshop/app/vue bookshop
-ln -s ../../orders/app/orders orders
-ln -s ../../reviews/app/vue reviews
-cd ../..
+mkdir app/router/resources
+cd app/router/resources
+ln -s ../../../bookshop/app/vue bookshop
+ln -s ../../../orders/app/orders orders
+ln -s ../../../reviews/app/vue reviews
+cd ../../..
 ```
 
 ::: warning Simplified Setup
@@ -671,18 +672,7 @@ Add routes for static content:
     { // [!code ++]
       "source": "^/app/(.*)$", // [!code ++]
       "target": "$1", // [!code ++]
-      "localDir": ".", // [!code ++]
-      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^/appconfig/", // [!code ++]
-      "localDir": ".", // [!code ++]
-      "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
-    }, // [!code ++]
-    { // [!code ++]
-      "source": "^(.*)$", // [!code ++]
-      "target": "$1", // [!code ++]
-      "localDir": ".", // [!code ++]
+      "localDir": "resources", // [!code ++]
       "cacheControl": "no-cache, no-store, must-revalidate" // [!code ++]
     } // [!code ++]
   ]
@@ -690,7 +680,8 @@ Add routes for static content:
 ```
 :::
 
-The `/app/*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
+The `/app/*` route exposes our UIs, so bookstore is available as `/app/bookstore`, orders as `/app/orders` and reviews as `/app/reviews`.
+Due to the `/app` prefix, make sure that static resources are accessed via relative paths inside the UIs.
 
 Add the `bookshop/index.html` as initial page when visiting the app:
 

@@ -730,8 +730,8 @@ samples-db-deployer          stopped           web:0/1
 
 You can then navigate to this url and the corresponding apps
 ```text
-<url>/              -> bookstore
-<url>/app/bookstore -> bookstore
+<url>/              -> bookshop
+<url>/app/bookshop  -> bookshop
 <url>/app/orders    -> orders
 <url>/app/reviews   -> reviews
 ```

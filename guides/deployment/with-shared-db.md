@@ -405,16 +405,16 @@ Parameterize the properties `emname` and `namespace`:
 :::
 ::: code-group
 ```yaml [mta.yaml]
-  resources:
-    - name: samples-messaging
-      type: org.cloudfoundry.managed-service
-      parameters:
-        service: enterprise-messaging
-        service-plan: default
-        path: ./event-mesh.json
-        config: # [!code ++]
-          emname: bookstore-${org}-${space}  # [!code ++]
-          namespace: cap/samples/${space}    # [!code ++]
+resources:
+  - name: samples-messaging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: enterprise-messaging
+      service-plan: default
+      path: ./event-mesh.json
+      config: # [!code ++]
+        emname: bookstore-${org}-${space}  # [!code ++]
+        namespace: cap/samples/${space}    # [!code ++]
 ```
 :::
 
@@ -438,12 +438,12 @@ All events that should be using the event mesh need to be defined in the CDS mod
 ::: code-group
 ```cds [orders/srv/orders-service.cds]
 service OrdersService {
-...
+  ...
   event OrderChanged { // [!code ++]
     product: String; // [!code ++]
     deltaQuantity: Integer; // [!code ++]
   } // [!code ++]
-...
+  ...
 }
 ```
 :::
@@ -507,11 +507,12 @@ Use the destinations in the bookstore application:
 
 ::: code-group
 ```yaml [mta.yaml]
-- name: bookstore-srv
-  ...  
-  properties:
-    cds_requires_ReviewsService_credentials: {"destination": "reviews-dest","path": "/reviews"} # [!code ++]
-    cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"} # [!code ++]
+modules:
+  - name: bookstore-srv
+    ...
+    properties: # [!code ++]
+      cds_requires_ReviewsService_credentials: {"destination": "reviews-dest","path": "/reviews"} # [!code ++]
+      cds_requires_OrdersService_credentials: {"destination": "orders-dest","path": "/odata/v4/orders"} # [!code ++]
 ```
 :::
 
@@ -525,11 +526,11 @@ Add projection bypassing the draft functionality enabled only for the system-use
 ::: code-group
 ```cds [orders/srv/orders-service.cds]
 service OrdersService {
-...
+  ...
   @odata.draft.bypass // [!code ++]
   @(requires: 'system-user') // [!code ++]
   entity OrdersNoDraft as projection on my.Orders; // [!code ++]
-...
+  ...
 }
 ```
 :::
@@ -580,41 +581,43 @@ Add destinations for each app url:
 
 ::: code-group
 ```yaml [mta.yaml]
-- name: samples
-  type: approuter.nodejs
-  ....
-  requires:
-    - name: service-api # [!code --]
-      group: destinations  # [!code --]
-      properties:  # [!code --]
-        name: service-api  # [!code --]
-        url: ~{srv-url}  # [!code --]
-        forwardAuthToken: true  # [!code --]
-    - name: orders-api # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: orders-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
-    - name: reviews-api  # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: reviews-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
-    - name: bookstore-api  # [!code ++]
-      group: destinations  # [!code ++]
-      properties:  # [!code ++]
-        name: bookstore-api  # [!code ++]
-        url: ~{srv-url}  # [!code ++]
-        forwardAuthToken: true  # [!code ++]
+modules:
+  ...
+  - name: samples
+    type: approuter.nodejs
+    ....
+    requires:
+      - name: service-api # [!code --]
+        group: destinations  # [!code --]
+        properties:  # [!code --]
+          name: service-api  # [!code --]
+          url: ~{srv-url}  # [!code --]
+          forwardAuthToken: true  # [!code --]
+      - name: orders-api # [!code ++]
+        group: destinations  # [!code ++]
+        properties:  # [!code ++]
+          name: orders-api  # [!code ++]
+          url: ~{srv-url}  # [!code ++]
+          forwardAuthToken: true  # [!code ++]
+      - name: reviews-api  # [!code ++]
+        group: destinations  # [!code ++]
+        properties:  # [!code ++]
+          name: reviews-api  # [!code ++]
+          url: ~{srv-url}  # [!code ++]
+          forwardAuthToken: true  # [!code ++]
+      - name: bookstore-api  # [!code ++]
+        group: destinations  # [!code ++]
+        properties:  # [!code ++]
+          name: bookstore-api  # [!code ++]
+          url: ~{srv-url}  # [!code ++]
+          forwardAuthToken: true  # [!code ++]
 ```
 :::
 
-The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app-router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
+The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
-```json [xs-app.json]
+```json [app/router/xs-app.json]
 {
   "routes": [
     { // [!code --]
@@ -661,7 +664,7 @@ The xs-app.json file describes how to forward incoming request to the API endpoi
 Add routes for static content:
 
 ::: code-group
-```json [xs-app.json]
+```json [app/router/xs-app.json]
 {
   "routes": [
     ...
@@ -692,7 +695,7 @@ The `/app/*` route exposes our UIs, so bookstore is available as `app/bookstore`
 Add the `bookshop/index.html` as initial page when visiting the app:
 
 ::: code-group
-```json [xs-app.json]
+```json [app/router/xs-app.json]
 {
   "welcomeFile": "app/bookshop/index.html", // [!code ++]
   "routes": {

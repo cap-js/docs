@@ -991,24 +991,19 @@ cds watch --profile dev
 :::
 
 ## SaaS Dependencies {#saas-dependencies}
-Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for the usage of both the SaaSRegistry service and the Subscription Manager Service (SMS).
-<div class="impl java">
-CAP Java offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for applications.
+Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for the usage of both the SaaS Registry service and the Subscription Manager Service (SMS).
 
-Most notably, you will need such dependencies for the SAP BTP [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service) services. All these services are supported natively and SaaS dependencies will be automatically created if a corresponding service instance is bound to the CAP Java application (ie. the `srv` module).
+CAP Java as well as `@sap/cds-mtxs`, each offer an easy way to integrate these dependencies. They support some services out of the box and also provide a simple API for applications. Most notably, you need such dependencies for the following SAP BTP services: [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service). 
 
-:::tip
-SaaS dependency for Destination service needs to be activated explicitly in the `application.yaml` due to security reasons. SaaS dependencies for some of the other services can be deactivated by setting the corresponding property to `false` in the `application.yaml`.
+For CAP Java, all these services are supported natively and SaaS dependencies are automatically created if such a service instance is bound to the CAP Java application, that is, the `srv` module.
+
+:::tip Explicitly activate the Destination service
+SaaS dependency for Destination service needs to be activated explicitly in the `application.yaml` due to security reasons. SaaS dependencies for some of the other services can be **de**activated by setting the corresponding property to `false` in the `application.yaml`.
 
 Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties). 
 :::
 
-If your application makes use of a service that is not supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details. 
-</div>
-<div class="impl node">
-`@sap/cds-mtxs` offers an easy way to integrate these dependencies. It supports some services out of the box and also provides a simple API for plugins.
-
-Most notably, you will need such dependencies for the SAP BTP [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Connectivity](https://discovery-center.cloud.sap/serviceCatalog/connectivity-service), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service) services. All these services are supported natively and can be activated individually by providing configuration in `cds.requires`. In the most common case, you simply activate service dependencies like so:
+For CAP Node.js, all these services are supported natively and can be activated individually by providing configuration in `cds.requires`. In the most common case, you simply activate service dependencies like so:
 
 ::: code-group
 
@@ -1028,7 +1023,7 @@ Most notably, you will need such dependencies for the SAP BTP [Audit Log](https:
 
 ::: details Defaults provided by `@sap/cds-mtxs`...
 
-The Boolean values above activate the default configuration in `@sap/cds-mtxs`:
+The Boolean values in the _mtx/sidecar/package.json_ activate the default configuration in `@sap/cds-mtxs`:
 
 ```json
 "cds": {
@@ -1052,9 +1047,12 @@ The Boolean values above activate the default configuration in `@sap/cds-mtxs`:
 
 :::
 
-::: details If you need additional services...
+### Additional Services
 
-You can use the `subscriptionDependency` setting to provide a similar dependency configuration in your application or CAP plugin _package.json_:
+If your CAP Java application uses a service that isn't supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details. 
+
+
+In Node.js, you can use the `subscriptionDependency` setting to provide a dependency configuration similar to the standard configuration shown before. Use your application's or CAP plugin's _package.json_:
 
 ```json [package.json]
 "cds": {
@@ -1066,12 +1064,10 @@ You can use the `subscriptionDependency` setting to provide a similar dependency
 }
 ```
 
-> The `subscriptionDependency` specifies the property name of the credentials value with the desired `xsappname`, starting from `cds.requires['my-service'].credentials`. Usually it's just `"xsappname"`, but JavaScript objects interpreted as a key path are also allowed, such as `{ "uaa": "xsappname" }` in the example for `audit-log` above.
+> The `subscriptionDependency` specifies the property name of the credentials value with the desired `xsappname`, starting from `cds.requires['my-service'].credentials`. Usually it's just `"xsappname"`, but JavaScript objects interpreted as a key path are also allowed, such as `{ "uaa": "xsappname" }` in the defaults example for `portal`.
 
 Alternatively, overriding the [`dependencies`](./mtxs#get-dependencies) handler gives you full flexibility for any custom implementation.
 
-:::
-</div>
 
 <div id="subscriptiondashboard" />
 

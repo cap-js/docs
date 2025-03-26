@@ -33,6 +33,8 @@ The advantages are as follows:
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 The repository contains multiple CAP applications in a monorepo. The `package.json` of the root folder links the projects in the subfolders by utilizing [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
 
+cap-samples already has the changes below implemented. Similar steps are necessary to convert projects with multiple CAP applications into a shared database deployment.
+
 ### Deployment Descriptor
 
 Add initial multitarget application configuration for deployment to Cloud Foundry:

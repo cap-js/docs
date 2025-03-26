@@ -78,7 +78,6 @@ In the CDS model, some of the user properties can be referenced with the `$user`
 | User Property                 | Reference           |
 |-------------------------------|---------------------|
 | Name                          | `$user`             |
-| Tenant                        | `$user.tenant`      |
 | Attribute (name \<attribute>) | `$user.<attribute>` |
 
 > A single user attribute can have several different values. For instance, the `$user.language` attribute can contain `['DE','FR']`.

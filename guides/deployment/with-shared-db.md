@@ -24,7 +24,7 @@ The advantages are as follows:
  Disadvantages:
  - Accessing data directly (without an API) means any changes in the data model affect all applications directly
  - every change in one of the services either requires 
-   - a redeployment of all microserivces involved
+   - a redeployment of all microservices involved
    - a logic to decide which microservices need redeployment to avoid inconsistencies
  - violates 12 factors concept
 
@@ -121,7 +121,7 @@ Prepare the *shared-db* folder, referencing the relevant CDS models from the mod
 mkdir -p shared-db/db
 ```
 
-Add a `package.json` with the cds setting to disable HANA native associations:
+Add a `package.json` with the cds setting to disable [HANA native associations](../databases-hana#native-associations):
 
 ::: code-group
 ```json [shared-db/package.json]
@@ -459,7 +459,7 @@ cds add destination
 Add `@sap-cloud-sdk/http-client` and `@sap-cloud-sdk/resilience` for each module utilizing the destinations:
 
 ```shell
-npm i @sap-cloud-sdk/http-client --workspace bookstore`
+npm i @sap-cloud-sdk/http-client --workspace bookstore
 npm i @sap-cloud-sdk/resilience --workspace bookstore
 ```
 
@@ -687,7 +687,7 @@ Add routes for static content:
 ```
 :::
 
-The `/app/\*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
+The `/app/*` route exposes our UIs, so bookstore is available as `app/bookstore`, orders as `app/orders` and reviews as `app/reviews`.
 
 Add the `bookshop/index.html` as initial page when visiting the app:
 
@@ -747,7 +747,7 @@ samples-db-deployer          stopped           web:0/1
 ```
 
 You can then navigate to this url and the corresponding apps
-```
+```text
 <url>/              -> bookstore
 <url>/app/bookstore -> bookstore
 <url>/app/orders    -> orders

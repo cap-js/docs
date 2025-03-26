@@ -6,6 +6,7 @@ CRUDQ
 HCQL
 IDONTEXIST
 isdir
+modulith
 nolink
 overlayed
 Reenskaug

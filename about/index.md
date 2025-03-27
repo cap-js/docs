@@ -159,7 +159,7 @@ The CAP runtimes in Node.js and Java provide many generic implementations for re
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
 - [Serving Nested Documents](../guides/providing-services#deep-reads-and-writes)
-- [Serving Variable Data](../releases/archive/oct24#basic-support-for-cds-map) <Alpha/>
+- [Serving Variable Data](../releases/archive/2024/oct24#basic-support-for-cds-map) <Alpha/>
 - [Serving (Fiori) Drafts](../advanced/fiori#draft-support)
 - [Serving Media Data](../guides/providing-services#serving-media-data)
 - [Searching Data](../guides/providing-services#searching-data)

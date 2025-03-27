@@ -56,7 +56,7 @@ npm add @cap-js/hana
 <!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
 ::: details Prefer `cds add hana` ...
 
-... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database).
+... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database).
 
 :::
 
@@ -371,9 +371,9 @@ This set of functions are by large the same as specified in OData:
 * `endswith(x,y)` — checks whether `y` ends with `x`
 * `matchespattern(x,y)` — checks whether `x` matches regex `y`
 * `substring(x,i,n?)` <sup>1</sup> —
-    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.  
-    * **`i`**: Positive starts at `i`, negative starts `i` before the end.  
-    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.  
+    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.
+    * **`i`**: Positive starts at `i`, negative starts `i` before the end.
+    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.
 * `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
 * `length(x)` — returns the length of string `x`
 * `tolower(x)` — returns all-lowercased `x`
@@ -1050,7 +1050,7 @@ Once you have 2 non-HANA local databases you need to have 2 distinct database co
     ```
   In case you use 2 different databases you also need to make sure that you have the JDBC drivers configured (on the classpath).
 
-::: 
+:::
 
 </div>
 

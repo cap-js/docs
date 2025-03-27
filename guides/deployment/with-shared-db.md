@@ -63,8 +63,8 @@ This guide describes a way to manage development and deployment via *[monorepos]
    git submodule update --init
    ```
 
-   Add a gitignore
-   ```
+   Add a .gitignore
+   ```txt
    node_modules
    gen
    ```

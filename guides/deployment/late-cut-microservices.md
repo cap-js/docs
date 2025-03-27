@@ -54,7 +54,7 @@ Generally, the semantic separation and structure can be enforced using modules. 
 
 ## Appendix
 
-### Monolith or Microservice
+### Monolith, Modulith or Microservice
 
 A monolith is a single deployment unit with a single application. This is very convenient, because every part of the app is accessible in memory.
 

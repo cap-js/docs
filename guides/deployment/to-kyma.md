@@ -49,7 +49,7 @@ status: released
   }
 </style>
 
-# Deploy to Kyma Runtime
+# Deploy to Kyma
 
 You can run your CAP application in the [SAP BTP Kyma Runtime](https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime?region=all), the SAP-managed offering for the [Kyma project](https://kyma-project.io/).
 
@@ -59,14 +59,14 @@ You can run your CAP application in the [SAP BTP Kyma Runtime](https://discovery
 
 ## Overview
 
-Kyma is a runtime environment built on Kubernetes that enables you to deploy and manage containerized applications. Applications are packaged as container images—typically Docker images—and their deployment and operational details are described using Kubernetes resource definitions.
+Kyma is a Kubernetes-based runtime for deploying and managing containerized applications. Applications are packaged as container images—typically Docker images—and their deployment and operations are defined using Kubernetes resource configurations.
 
-To deploy applications on the SAP BTP Kyma Runtime, you need two primary artifacts:
+Deploying apps on the SAP BTP Kyma Runtime requires two main artifact types:
 
-1. **Container Images**: Packaged version of your application.
-2. **Kubernetes Resources**: Configuration files defining how your application containers should be deployed, scaled, and managed.
+1. **Container Images** – Your application packaged in a container
+2. **Kubernetes Resources** – Configurations for deployment and scaling
 
-The following diagram illustrates the deployment workflow on SAP BTP Kyma Runtime:
+The following diagram illustrates the deployment workflow:
 
 ![A CAP Helm chart is added to your project. Then you build your project as container images and push those images to a container registry of your choice. As last step the Helm chart is deployed to your Kyma resources, where service instances of SAP BTP services are created and pods pull the previously created container images from the container registry.](assets/deploy-kyma.drawio.svg)
 

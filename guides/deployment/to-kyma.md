@@ -76,14 +76,14 @@ The following diagram illustrates the deployment workflow:
 + Use a Kyma-enabled [Trial Account](https://account.hanatrial.ondemand.com/) or purchase a Kyma cluster from SAP
 + You need a [Container Image Registry](#get-access-to-a-container-registry)
 + Get the required SAP BTP service entitlements
++ Install [Docker Desktop or Docker for Linux](https://docs.docker.com/get-docker/)
 + Download and install the following command line tools:
   + [`kubectl` command line client](https://kubernetes.io/docs/tasks/tools/) for Kubernetes
-  + [Docker Desktop or Docker for Linux](https://docs.docker.com/get-docker/)
   + [`pack` command line tool](https://buildpacks.io/docs/tools/pack/)
   + [`helm` command line tool](https://helm.sh/docs/intro/install/)
   + [`ctz` command line tool](https://www.npmjs.com/package/ctz)
-+ Make sure there's a [mapping between your namespace and your SAP HANA Cloud](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718#toc-hId-569025164)
-+ Ensure your SAP HANA Cloud is accessible from your Kyma cluster by [setting trusted source IP addresses](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html)
++ Make sure your SAP HANA Cloud is [mapped to your namespace](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718#toc-hId-569025164)
++ Ensure SAP HANA Cloud is accessible from your Kyma cluster by [configuring trusted source IPs](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html)
 
 #### Get Access to a Container Registry
 
@@ -95,9 +95,11 @@ Verify the Kubernetes cluster has network access to the container registry, espe
 
 :::
 
-To use images on private container registries you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
+#### Set Up Your Cluster for a Private Container Registry
 
-::: details Use the following script to create the docker pull secret:
+To use a docker image from a private repository, you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) and configure this secret for your containers.
+
+::: details Use this script to create the docker pull secret...
 
 ```sh
 echo -n "Your repository: "; read YOUR_REPOSITORY
@@ -122,11 +124,6 @@ spec:
     image: $YOUR_REPOSITORY.docker.io/$YOUR_IMAGE:$YOUR_VERSION
 ```
 :::
-
-
-#### Set Up Your Cluster for a Private Container Registry
-
-To use a docker image from a private repository, you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) and configure this secret for your containers.
 
 ::: warning Assign limited permissions to the technical user
 It is recommended to use a technical user for this secret that has only read permission, because users with access to the Kubernetes cluster can reveal the password from the secret.

@@ -15,7 +15,7 @@ status: released
 If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlaying database layer** the following guide on applications with shared database can be an option.
 The data models from all involved CAP services are collected and deployed to a single database schema, which all services get access to.
 
-## Evaluation
+### Evaluation
 
 The advantages are as follows:
  - **Query Performance:** Complex queries are executed much faster, e.g. $expand to an entity on another microservice (compared to calls across services with own data persistencies)
@@ -28,12 +28,244 @@ The advantages are as follows:
    - a logic to decide which microservices need redeployment to avoid inconsistencies
  - violates 12 factors concept
 
-## cap-samples Walkthrough
-[cap-samples](https://github.com/SAP-samples/cloud-cap-samples?tab=readme-ov-file#welcome-to-capsamples) is a collection of sample applications, which are built as multiple (mostly) independent services with a shared database.
-![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
-The repository contains multiple CAP applications in a monorepo. The `package.json` of the root folder links the projects in the subfolders by utilizing [npm workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
+## Create a Solution Monorepo 
 
-cap-samples already has the changes below implemented. Similar steps are necessary to convert projects with multiple CAP applications into a shared database deployment.
+Assumed we want to create a composite application consisting of two or more micro services, each living in a separate GitHub repository, for example:
+
+- https://github.com/capire/bookstore
+- https://github.com/capire/reviews
+- https://github.com/capire/orders
+
+With some additional repos, used as dependencies in the above, like:
+
+- https://github.com/capire/common
+- https://github.com/capire/bookshop
+
+This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
+
+1. Create a new monorepo root directory using `npm` workspaces:
+
+   ```sh
+   mkdir capire
+   cd capire
+   echo "{\"workspaces\":[\"*\"]}" > package.json
+   ```
+
+2. Add the above projects as `git` submodules:
+
+   ```sh
+   git init
+   git submodule add https://github.com/capire/bookstore 
+   git submodule add https://github.com/capire/reviews
+   git submodule add https://github.com/capire/orders
+   git submodule add https://github.com/capire/common
+   git submodule add https://github.com/capire/bookshop
+   git submodule update --init
+   ```
+
+   Add a gitignore
+   ```
+   node_modules
+   gen
+   ```
+   > The outcome of this looks and behaves exactly as the monorepo layout in *[cap/samples](cap/samples)*,  so we can exercise the subsequent steps in there...
+
+3. Test-drive locally as usual 
+   ```sh
+   npm install
+   ```
+
+   ```sh
+   cds w bookshop
+   ```
+
+   ```sh
+   cds w bookstore
+   ```
+
+
+::: details Other project structures
+TODO
+:::
+
+## Using a Shared DB
+
+In the following steps we'll create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these to HANA in a controlled way. 
+
+### Add a project for shared db
+
+1. Add a another `cds` project to collect the models from these:
+
+   ```sh
+   cds init shared-db --add hana
+   cd shared-db
+   ```
+
+   ```sh
+   npm add @capire/bookstore
+   npm add @capire/reviews
+   npm add @capire/orders
+   ```
+
+   > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates according symlinks in *node_modules*.
+
+2. Add a `db/schema.cds` file as a mashup to actually collect the models:
+
+   ```sh
+   code db/schema.cds
+   ```
+
+   ```cds
+   using from '@capire/bookstore';
+   using from '@capire/reviews';
+   using from '@capire/orders';
+   ```
+
+   > Note: the `using` directives above refer to `index.cds` files existing in the target packages. Your projects may have different entry points. 
+
+::: details Try it out
+
+With that we're basically done with the setup of the collector project. At the end of the day, it's just another CAP project with some cds models in it, which we can handle as usual. We can test whether it all works as expected, for example, we can test-compile and test-deploy it to sqlite and hana, build it, and deploy it to the cloud as usual:
+
+```sh
+cds db -2 sql
+```
+```sh
+cds db -2 hana
+```
+
+```sh
+cds deploy -2 sqlite
+```
+```sh
+cds build --for hana
+```
+
+> Note: As we can see in the output for `cds deploy` and `cds build`, it also correctly collects and adds all initial data from enclosed `.csv` files. 
+:::
+
+
+### Deployment as separate mta
+
+In a setup with multiple deployment units, we can add the shared-db project as its own mta deployment:
+
+```sh
+cds add mta
+```
+
+This adds everything necessary for a full CAP application.
+Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
+
+```yaml
+_schema-version: 3.3.0
+ID: shared-db
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production # [!code --]
+        - npx cds build --production --for hana # [!code ++]
+modules:
+  - name: shared-db-srv # [!code --]
+    type: nodejs # [!code --]
+    path: gen/srv # [!code --]
+    parameters: # [!code --]
+      instances: 1 # [!code --]
+      buildpack: nodejs_buildpack # [!code --]
+    build-parameters: # [!code --]
+      builder: npm-ci # [!code --]
+    provides: # [!code --]
+      - name: srv-api  # [!code --]
+        properties: # [!code --]
+          srv-url: ${default-url} # [!code --]
+    requires: # [!code --]
+      - name: shared-db-destination # [!code --]
+      - name: shared-db-messaging # [!code --]
+      - name: shared-db-db # [!code --]
+
+  - name: shared-db-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: shared-db-db
+
+resources:
+  - name: shared-db-destination # [!code --]
+    type: org.cloudfoundry.managed-service # [!code --]
+    parameters: # [!code --]
+      service: destination # [!code --]
+      service-plan: lite # [!code --]
+  - name: shared-db-messaging # [!code --]
+    type: org.cloudfoundry.managed-service # [!code --]
+    parameters: # [!code --]
+      service: enterprise-messaging # [!code --]
+      service-plan: default # [!code --]
+      path: ./event-mesh.json # [!code --]
+  - name: shared-db-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+```
+
+
+
+
+#### Binding to shared db
+
+The only thing left to care about is to ensure all 3+1 projects will be bound and connected to the same dbs at deployment, subscription, and runtime.
+
+Configure the mta.yaml of the other apps to bind to the existing shared database, e.g. in the reviews module:
+
+```yaml [reviews/mta.yaml]
+...
+modules:
+  ...
+
+  - name: reviews-db-deployer # [!code --]
+    type: hdb # [!code --]
+    path: gen/db # [!code --]
+    parameters: # [!code --]
+      buildpack: nodejs_buildpack # [!code --]
+    requires: # [!code --]
+      - name: reviews-db # [!code --]
+
+resources:
+  ...
+  - name: reviews-db
+    type: com.sap.xs.hdi-container # [!code --]
+    type: org.cloudfoundry.existing-service # [!code ++]
+    parameters:
+      service: hana # [!code --]
+      service-plan: hdi-shared # [!code --]
+      service-name: shared-db-db # [!code ++]
+```
+
+
+
+#### Subsequent updates
+
+- TODO... 
+- Whenever one of the project has changes affecting the database that would trigger a new deployment of the shared-db project
+- Git submodules gives you control which versions to pull, e.g. by git branches or tags 
+- Ensure to first deploy shared-db before deploying the others
+
+
+
+## All-in-one Deployment
+
+Here we'd go on with our guide how to deploy all 3+1 projects at once with a common `mta.yaml`
+
+![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
+
+[cap-samples](https://github.com/SAP-samples/cloud-cap-samples?tab=readme-ov-file#welcome-to-capsamples) already has an all-in-one deployment implemented. Similar steps are necessary to convert projects with multiple CAP applications into a shared database deployment.
 
 ### Deployment Descriptor
 
@@ -53,90 +285,13 @@ Add initial database configuration using the command:
 cds add hana
 ```
 
-This added configuration to the workspace root.
-Additionally add cds db configuration to each module that we want to deploy - bookstore, orders and reviews:
-
-::: code-group
-```json [bookstore/package.json]
-{
-  "cds": {
-    "requires": {
-      "db": true // [!code ++]
-    }
-  }
-}
-```
-```json [orders/package.json]
-{
-  "cds": {
-    "requires": {
-      "db": true // [!code ++]
-    }
-  }
-}
-```
-```json [reviews/package.json]
-{
-  "cds": {
-    "requires": {
-      "db": true // [!code ++]
-    }
-  }
-}
-```
-:::
-
-Add npm dependency `@cap-js/hana` to each module:
-
-```shell
-npm i @cap-js/hana --workspace bookstore
-npm i @cap-js/hana --workspace orders
-npm i @cap-js/hana --workspace reviews
-```
-
 Delete the generated db folder as we do not need it on root level:
 
 ```shell
 rm -r db
 ```
 
-
-#### *shared-db* Module
-
-Prepare the *shared-db* folder, referencing the relevant CDS models from the modules that we plan to deploy - bookstore, reviews and orders:
-
-```shell
-mkdir -p shared-db/db
-```
-
-Add a `package.json` with the cds setting to disable [HANA native associations](../databases-hana#native-associations):
-
-::: code-group
-```json [shared-db/package.json]
-{
-  "name": "@capire/samples-shared-db",
-  "version": "3.0.0",
-  "description": "CAP Sample CDS model deployment for shared-db scenario",
-  "cds": {
-    "sql": {
-      "native_hana_associations": false
-    }
-  }
-}
-```
-:::
-
-Add list of CDS models that should be considered for deployment:
-
-::: code-group
-```cds [shared-db/db/index.cds]
-using from '@capire/bookstore';
-using from '@capire/reviews';
-using from '@capire/orders';
-```
-:::
-
-Update the db-deployer path:
+Update the db-deployer path to use our shared-db project [created above](#using-a-shared-db):
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -168,6 +323,19 @@ cds build --for hana --production --ws
 The `--ws` aggregates all models in the npm workspaces.
 
 In this walkthrough, we only include a subset of the CDS models in the deployment.
+:::
+
+
+::: details Configure each app for cloud readiness
+The above added configuration only to the workspace root.
+
+Additionally add cds db configuration to each module that we want to deploy - bookstore, orders and reviews:
+
+```shell
+npm i @cap-js/hana --workspace bookstore
+npm i @cap-js/hana --workspace orders
+npm i @cap-js/hana --workspace reviews
+```
 :::
 
 
@@ -256,41 +424,12 @@ Note that we use the *--ws-pack* option for some modules. It is important for no
 :::
 
 
-Add an npm start script for each module:
-
-::: code-group
-```json [bookstore/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-```json [orders/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-```json [reviews/package.json]
- "scripts": {
-    "start": "cds-serve" // [!code ++]
-  }
-```
-:::
-
-
 ### Authentication
 
 Add [security configuration](../security/authorization#xsuaa-configuration) using the command:
 
 ```shell
 cds add xsuaa --for production
-```
-
-Add npm dependency `@sap/xssec`:
-
-```shell  
-npm i @sap/xssec --workspace bookstore
-npm i @sap/xssec --workspace orders
-npm i @sap/xssec --workspace reviews
 ```
 
 Add the admin role
@@ -317,6 +456,16 @@ Add the admin role
 ```
 :::
 
+::: details Configure each app for cloud readiness
+Add npm dependency `@sap/xssec`:
+
+```shell  
+npm i @sap/xssec --workspace bookstore
+npm i @sap/xssec --workspace orders
+npm i @sap/xssec --workspace reviews
+```
+:::
+
 ### Messaging
 
 The messaging service is used to organize asynchronous communication between the CAP services.
@@ -324,29 +473,6 @@ The messaging service is used to organize asynchronous communication between the
 ```shell
 cds add enterprise-messaging
 ```
-
-Enable messaging for the modules that use it:
-
-::: code-group
-```json [bookstore/package.json]
-{
-  "cds": {
-    "requires": {
-      "messaging": true // [!code ++]
-    }
-  }
-}
-```
-```json [orders/package.json]
-{
-  "cds": {
-    "requires": {
-      "messaging": true // [!code ++]
-    }
-  }
-}
-```
-:::
 
 Relax all filters and allow all topics
 
@@ -418,23 +544,31 @@ resources:
 ```
 :::
 
-
-#### Event definitions
-
-All events that should be using the event mesh need to be defined in the CDS model.
+::: details Configure each app for cloud readiness
+Enable messaging for the modules that use it:
 
 ::: code-group
-```cds [orders/srv/orders-service.cds]
-service OrdersService {
-  ...
-  event OrderChanged { // [!code ++]
-    product: String; // [!code ++]
-    deltaQuantity: Integer; // [!code ++]
-  } // [!code ++]
-  ...
+```json [bookstore/package.json]
+{
+  "cds": {
+    "requires": {
+      "messaging": true // [!code ++]
+    }
+  }
 }
 ```
+```json [orders/package.json]
+{
+  "cds": {
+    "requires": {
+      "messaging": true // [!code ++]
+    }
+  }
+}
+```
+
 :::
+
 
 ### Destinations
 
@@ -442,13 +576,6 @@ Add [destination configuration](https://cap.cloud.sap/docs/guides/using-services
 
 ```shell
 cds add destination
-```
-
-Add `@sap-cloud-sdk/http-client` and `@sap-cloud-sdk/resilience` for each module utilizing the destinations:
-
-```shell
-npm i @sap-cloud-sdk/http-client --workspace bookstore
-npm i @sap-cloud-sdk/resilience --workspace bookstore
 ```
 
 Add destinations that point to the API endpoints of the orders and reviews applications:
@@ -504,37 +631,15 @@ modules:
 ```
 :::
 
+::: details Configure each app for cloud readiness
 
-#### Bypass draft
+Add `@sap-cloud-sdk/http-client` and `@sap-cloud-sdk/resilience` for each module utilizing the destinations:
 
-There should be a possibility to directly create entity instances (Orders) via API.
-
-Add projection bypassing the draft functionality enabled only for the system-user:
-
-::: code-group
-```cds [orders/srv/orders-service.cds]
-service OrdersService {
-  ...
-  @odata.draft.bypass // [!code ++]
-  @(requires: 'system-user') // [!code ++]
-  entity OrdersNoDraft as projection on my.Orders; // [!code ++]
-  ...
-}
+```shell
+npm i @sap-cloud-sdk/http-client --workspace bookstore
+npm i @sap-cloud-sdk/resilience --workspace bookstore
 ```
 :::
-
-Create new active entity instances directly via the new projection:
-
-::: code-group
-```javascript [bookstore/srv/mashup.js]
-  CatalogService.on ('OrderedBook', async (msg) => {
-    ...
-    return OrdersService.create ('Orders').entries({ // [!code --]
-    return OrdersService.create ('OrdersNoDraft').entries({ // [!code ++]
-    ...
-```
-:::
-
 
 ### Approuter
 
@@ -701,7 +806,7 @@ In order to build, deploy and undeploy easily, add these npm scripts:
 ```
 :::
 
-Before deploying you need to login to Cloud Foundry, see: https://cap.cloud.sap/docs/guides/extensibility/customization#cds-login
+Before deploying you need to login to Cloud Foundry.
 
 To locally build the apps, run
 

@@ -11,10 +11,9 @@ status: released
 # Late-Cut Microservices
 
 Microservices have been attributed with a multitude of benefits like
-- granular scalability
-- deployment agility
-- distributed development
-- etc.
+- granular scalability,
+- deployment agility,
+- distributed development, and so on.
 
 While these benefits exist, they are accompanied by complexity and performance losses.
 True microservices each constitute their own deployment unit with their own database.

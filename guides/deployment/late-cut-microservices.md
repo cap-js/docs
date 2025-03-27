@@ -38,7 +38,7 @@ Since each cut not only has benefits, but also drawbacks, it is important to cho
 When developing a product it may initially not be apparent where the boundaries are.
 
 Keeping this in mind, an app can be developed as a modular application with use case specific CAP services.
-It can first be deployed as a monolith / [modulith](#modulith). Once the boundaries are clear, it can then be split into multiple applications.
+It can first be deployed as a [monolith / modulith](#monolith-or-microservice). Once the boundaries are clear, it can then be split into multiple applications.
 
 Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
 

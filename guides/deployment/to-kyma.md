@@ -340,7 +340,7 @@ srv:
 
 > You can explore more configuration options in the subchart's directory _gen/chart/charts/web-application_.
 
-### BTP Services
+### SAP BTP Services
 
 You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, go to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
 

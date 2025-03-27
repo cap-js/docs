@@ -549,7 +549,7 @@ A modification-free approach to change files is to use [Kustomize](https://kusto
 :::
 
 
-### Services from Cloud Foundry
+## Services from Cloud Foundry
 
 To bind service instances created on Cloud Foundry (CF) to a workload (`srv`, `hana-deployer`, `html5-deployer`, `approuter` or `sidecar`) in the Kyma environment, do the following:
 
@@ -647,7 +647,7 @@ For example, if you want to use an `hdi-shared` instance created on CF:
 
     :::
 
-### Cloud Native Buildpacks
+## Cloud Native Buildpacks
 
 Cloud Native Buildpacks provide advantages like embracing [best practices](https://buildpacks.io/features/) and secure standards such as:
 

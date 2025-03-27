@@ -140,12 +140,16 @@ cds init bookshop --add sample
 cds add hana,xsuaa --for production
 ```
 
-<!-- to be validated... **If you need a UI** you can also add SAP Build Work Zone support:
+#### User Interfaces <Beta />
+
+If you need a UI, you can also add SAP Build Work Zone support:
 
 ```sh
 cds add workzone
-``` -->
+```
 <!-- For that, create a container image with your UI files configured with the [HTML5 application deployer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html). -->
+
+#### Add CAP Helm Charts
 
 CAP provides a configurable [Helm chart](https://helm.sh/) for Node.js and Java applications, which can be added like so:
 
@@ -154,16 +158,6 @@ cds add helm
 ```
 > You will be asked to provide a Kyma domain, the secret name to pull images and your container registry name.
 
-
-<!-- This command adds three files to the _chart_ folder:
-
-```zsh
-chart/
-├── Chart.yaml
-├── values.yaml
-└── values.schema.json
-``` -->
-
 ::: details Running `cds build` now creates a _gen_/_chart_ folder
 
 This folder will have all the necessary files required to deploy the Helm chart. Files from the _chart_ folder are copied to _gen/chart_.
@@ -171,13 +165,15 @@ They support the deployment of your CAP service, database, UI content, and the c
 
 :::
 
+#### Build and Deploy
+
 You can now quickly deploy the application like so:
 
 ```sh
 cds up -2 k8s
 ```
 
-::: details Essentially, this automates the following steps:
+::: details Essentially, this automates the following steps...
 
 ```zsh
 cds add helm,containerize # if not already done

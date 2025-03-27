@@ -147,6 +147,8 @@ If you need a UI, you can also add SAP Build Work Zone support:
 ```sh
 cds add workzone
 ```
+> This is currently only supported for single-tenant scenarios.
+
 <!-- For that, create a container image with your UI files configured with the [HTML5 application deployer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html). -->
 
 #### Add CAP Helm Charts

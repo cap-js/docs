@@ -91,7 +91,6 @@
 
   ### [Deploy to Cloud Foundry](../guides/deployment/to-cf)
   ### [Deploy to Kyma/K8s](../guides/deployment/to-kyma)
-  ### [Late Cut Microservices](../guides/deployment/late-cut-microservices)
   ### [Microservices with CAP](../guides/deployment/with-shared-db)
   ### [Deploy with Confidence](../guides/deployment/dwc)
   ### [Deploy with CI/CD](../guides/deployment/cicd)

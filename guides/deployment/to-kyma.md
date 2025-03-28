@@ -247,7 +247,7 @@ ctz containerize.yaml
 
 This will start containerizing your modules based on the configuration in _containerize.yaml_. After finishing, it will ask whether you want to push the images or not. Type `y` and press enter to push your images. You can also use the above command with `--push` flag to auto-confirm. If you want more logs, you can use the `--log` flag with the above command.
 
-[Learn more about the `ctz` build tool](https://www.npmjs.com/package/ctz/){.learn-more style="margin-top:10px"}
+[Learn more about the `ctz` build tool.](https://www.npmjs.com/package/ctz/){.learn-more style="margin-top:10px"}
 
 ## Customize Helm Chart {#customize-helm-chart}
 
@@ -262,8 +262,8 @@ chart/
 └── values.schema.json  # JSON Schema for values.yaml file
 ```
 
-[Learn more about `values.yaml`](https://helm.sh/docs/chart_template_guide/values_files/){.learn-more}
-[Learn more about `Chart.yaml`](https://helm.sh/docs/topics/charts/){.learn-more}
+[Learn more about _values.yaml_.](https://helm.sh/docs/chart_template_guide/values_files/){.learn-more}
+[Learn more about _Chart.yaml_.](https://helm.sh/docs/topics/charts/){.learn-more}
 
 <br>
 
@@ -277,7 +277,7 @@ chart/
 │   ├── *.yaml    # Template files for Kubernetes resources
 ```
 
-[Learn how to create a Helm chart from scratch](https://helm.sh/docs){.learn-more}
+[Learn how to create a Helm chart from scratch.](https://helm.sh/docs){.learn-more}
 
 ### Configure {#configure-helm-chart}
 
@@ -656,6 +656,6 @@ Cloud Native Buildpacks provide advantages like embracing [best practices](https
 
 Additionally Cloud Native Buildpacks can be easily plugged together to fulfill more complex requirements. For example the [ca-certificates](https://github.com/paketo-buildpacks/ca-certificates) enables adding additional certificates to the system trust-store at build and runtime. When using Cloud Native Buildpacks you can continuously benefit from best practices coming from the community without any changes required.
 
-[Learn more about Cloud Native Buildpacks Concepts](https://buildpacks.io/docs/concepts/){ .learn-more}
+[Learn more about Cloud Native Buildpacks Concepts.](https://buildpacks.io/docs/concepts/){ .learn-more}
 
 <div id="aftercloudnative" />

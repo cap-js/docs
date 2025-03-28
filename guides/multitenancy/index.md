@@ -250,9 +250,9 @@ cds add multitenancy --for production
    }
    ```
 
-   ::: tip
-   You can always inspect the _effective_ configuration with `cds env`.
-   :::
+  ::: tip Inspect configuration
+  You can always inspect the _effective_ configuration with `cds env`.
+  :::
 
 ## Install Dependencies
 

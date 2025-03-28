@@ -222,7 +222,7 @@ and [CAP for Java](https://github.com/SAP-samples/cloud-cap-samples-java) exampl
 ---
 {style="margin-top:11em"}
 
-# Appendices
+## Deep Dives
 
 
 <span id="aftercluster" />
@@ -230,14 +230,18 @@ and [CAP for Java](https://github.com/SAP-samples/cloud-cap-samples-java) exampl
 <span id="beforeend" />
 
 
-## Configure Image Repository
+### Configure Image Repository
 
 Specify the repository where you want to push the images:
 
-```yaml
+::: code-group
+
+```yaml [containerize.yaml]
 ...
 repository: <your-container-registry>
 ```
+
+:::
 
 Now, we use the `ctz` build tool to build all the images:
 
@@ -249,9 +253,9 @@ This will start containerizing your modules based on the configuration in _conta
 
 [Learn more about the `ctz` build tool](https://www.npmjs.com/package/ctz/){.learn-more style="margin-top:10px"}
 
-## Customize Helm Chart {#customize-helm-chart}
+### Customize Helm Chart {#customize-helm-chart}
 
-### About CAP Helm Charts {#about-cap-helm}
+#### About CAP Helm Charts {#about-cap-helm}
 
 The following files are added to a _chart_ folder by executing `cds add helm`:
 
@@ -279,7 +283,7 @@ chart/
 
 [Learn how to create a Helm chart from scratch](https://helm.sh/docs){.learn-more}
 
-### Configure {#configure-helm-chart}
+#### Configure {#configure-helm-chart}
 
 You can change the configuration of CAP Helm charts by editing the _chart/values.yaml_ file. The `helm` CLI also offers you other options to overwrite settings from _chart/values.yaml_ file:
 
@@ -292,7 +296,9 @@ It is recommended to do the main configuration in the _chart/values.yaml_ file a
 
 #### Global Properties
 
-```yaml
+::: code-group
+
+```yaml [values.yaml]
 # Secret name to access container registry, only for private registries
 imagePullSecret:
   name: <docker-secret>
@@ -304,12 +310,14 @@ domain: <cluster-domain>
 image:
   registry: <registry-url>
 ```
+:::
 
 #### Deployment Properties
 
 The following properties are available for the `srv` key:
 
-```yaml
+::: code-group
+```yaml [values.yaml]
 srv:
   # [Service bindings](#configuration-options-for-service-bindings)
   bindings:
@@ -332,6 +340,7 @@ srv:
   # [Container image](#configuration-options-for-container-images)
   image:
 ```
+:::
 
 > You can explore more configuration options in the subchart's directory _gen/chart/charts/web-application_.
 
@@ -347,7 +356,8 @@ The Helm chart supports creating service instances for commonly used services. S
 
 You can use the following services in your configuration:
 
-```yaml
+::: code-group
+```yaml [values.yaml]
 xsuaa:
   parameters:
     xsappname: <name>
@@ -360,6 +370,7 @@ hana: …
 service-manager: …
 saas-registry: …
 ```
+:::
 
 <span id="beforemodify" />
 
@@ -407,6 +418,7 @@ kubectl edit kyma default -n kyma-system
 ```
 
 Then, add the three modules:
+::: code-group
 ```yaml [editor]
 spec:
   modules:
@@ -414,6 +426,7 @@ spec:
     - name: transparent-proxy
     - name: istio
 ```
+:::
 
 Finally, you should see a success message as follows:
 
@@ -429,7 +442,8 @@ kyma.operator.kyma-project.io/default edited
 
 _Services have the following configuration options:_
 
-```yaml
+::: code-group
+```yaml [values.yaml]
 ### Required ###
 serviceOfferingName: my-service
 servicePlanName: my-plan
@@ -460,6 +474,7 @@ parametersFrom:
       name: my-secret
       key: secret-parameter
 ```
+:::
 
 The `jsonParameters` key can also be specified using the `--set file` flag while installing/upgrading Helm release. For example, `jsonParameters` for the `xsuaa` property can be defined using the following command:
 
@@ -472,7 +487,8 @@ helm install bookshop ./chart \
 
 #### Configuration Options for Service Bindings
 
-``` yaml
+::: code-group
+``` yaml [values.yaml]
 <service name>:
   # Exactly one of these must be specified
   serviceInstanceName: my-service # within Helm chart
@@ -481,17 +497,21 @@ helm install bookshop ./chart \
   parameters:
     key: val
 ```
+:::
 
 #### Configuration Options for Container Images
 
-```yaml
+::: code-group
+``` yaml [values.yaml]
 repository: my-repo.docker.io # container repo name
 tag: latest # optional container image version tag
 ```
+:::
 
 #### HTML5 Applications
 
-```yaml
+::: code-group
+``` yaml [values.yaml]
 html5-apps-deployer:
   image:
   bindings:
@@ -500,6 +520,7 @@ html5-apps-deployer:
     # Name of your business service (unique per subaccount)
     SAP_CLOUD_SERVICE: <service-name>
 ```
+:::
 
 [Container image]: #configuration-options-for-container-images
 [HTML5 application deployer]: https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html
@@ -511,7 +532,8 @@ Backend destinations maybe required for HTML5 applications or for App Router dep
 
 If you want to add an external destination, you can do so by providing the `external` property like this:
 
-```yaml
+::: code-group
+``` yaml [values.yaml]
 ...
 srv: # Key is the target service, e.g. 'srv'
   backendDestinations:
@@ -525,6 +547,7 @@ srv: # Key is the target service, e.g. 'srv'
       url: https://ui5.sap.com # [!code ++]
       Authentication: NoAuthentication # [!code ++]
 ```
+:::
 
 > Our Helm chart will remove the `external` key and add the rest of the keys as-is to the environment variable.
 
@@ -547,7 +570,7 @@ A modification-free approach to change files is to use [Kustomize](https://kusto
 :::
 
 
-## Services from Cloud Foundry
+### Services from Cloud Foundry
 
 To bind service instances created on Cloud Foundry (CF) to a workload (`srv`, `hana-deployer`, `html5-deployer`, `approuter` or `sidecar`) in the Kyma environment, do the following:
 
@@ -597,9 +620,7 @@ For example, if you want to use an `hdi-shared` instance created on CF:
 
 3. Change `serviceInstanceName` to `fromSecret` for each workload with that service instance in `bindings` in _chart/values.yaml_:
 
-    ::: code-group
-
-    ```yaml
+    ```yaml [values.yaml]
     …
     srv:
       bindings:
@@ -613,11 +634,7 @@ For example, if you want to use an `hdi-shared` instance created on CF:
           fromSecret: <your secret> ## [!code ++]
     ```
 
-    :::
-
 4. Delete `hana` in _chart/values.yaml_:
-
-    ::: code-group
 
       ```yaml
       …
@@ -627,11 +644,7 @@ For example, if you want to use an `hdi-shared` instance created on CF:
       …
       ```
 
-    :::
-
 5. Make the following changes to _chart/Chart.yaml_:
-
-    ::: code-group
 
       ```yaml
       …
@@ -643,9 +656,7 @@ For example, if you want to use an `hdi-shared` instance created on CF:
         …
       ```
 
-    :::
-
-## Cloud Native Buildpacks
+### Cloud Native Buildpacks
 
 Cloud Native Buildpacks provide advantages like embracing [best practices](https://buildpacks.io/features/) and secure standards such as:
 

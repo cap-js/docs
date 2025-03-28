@@ -961,7 +961,7 @@ Benefits:
 
 ![Modules: bookshop containing AdminService and CatalogService, reviews containing ReviewsService, orders containing OrdersService, common](./assets/microservices/modules.excalidraw.svg)
 
-### Multiple applications
+### Multiple Applications
 
 As described above, [application instances](#application-instances) already have near unlimited scaling, even for a monolith. So why would you want multiple apps?
 
@@ -995,7 +995,7 @@ In the bookstore example, while reviews may be down, orders may still be possibl
 
 This benefit is null for apps with synchronous dependencies on each other. If A depends on synchronous calls to B, then if B is down, A is down as well.
 
-### Independent Deployments of Multiple Deployment Units 
+### Multiple Deployment Units 
 
 With multiple apps, you can still deploy them together as one unit, for example as part of a multitarget application archive.
 Once an application grows bigger, this takes a significant amount of time.

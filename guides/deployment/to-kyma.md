@@ -192,7 +192,6 @@ npm i --package-lock-only
 
 # Final assembly and deployment, e.g.
 ctz containerize.yaml --log --push
-cds build --for helm
 helm upgrade --install bookshop ./gen/chart --wait --wait-for-jobs --set-file xsuaa.jsonParameters=xs-security.json
 kubectl rollout status deployment bookshop-srv --timeout=8m
 kubectl rollout status deployment bookshop-approuter --timeout=8m

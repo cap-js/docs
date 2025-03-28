@@ -384,11 +384,14 @@ const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
 S4bupa.on ('BusinessPartner.Changed', msg => {...})
 ```
 
+<div id="eh-plugin-mt" />
+
 For more details, please see [Events and Messaging &rarr; Using SAP Cloud Application Event Hub](../guides/messaging/#sap-event-broker).
 
 Available for:
 
-[![Node.js](../assets/logos/nodejs.svg 'Link to the plugins repository.'){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
+[![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-event-hub#readme)
 
 
 ## ABAP RFC

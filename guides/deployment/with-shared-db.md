@@ -2,13 +2,13 @@
 breadcrumbs:
   - Cookbook
   - Deployment
-  - Deploy to Shared DB
+  - Microservices with CAP
 synopsis: >
-  A guide on deploying SAP Cloud Application Programming Model (CAP) applications as microservices with a shared database to the SAP BTP Cloud Foundry environment.
+  A guide on deploying SAP Cloud Application Programming Model (CAP) applications as microservices to the SAP BTP Cloud Foundry environment.
 status: released
 ---
 
-# CAP applications with shared database
+# Microservices with CAP
 
 ## Scenario
 
@@ -28,7 +28,7 @@ The advantages are as follows:
    - a logic to decide which microservices need redeployment to avoid inconsistencies
  - violates 12 factors concept
 
-## Create a Solution Monorepo 
+## Create a Solution Monorepo
 
 Assumed we want to create a composite application consisting of two or more micro services, each living in a separate GitHub repository, for example:
 
@@ -40,6 +40,7 @@ With some additional repos, used as dependencies in the above, like:
 
 - https://github.com/capire/common
 - https://github.com/capire/bookshop
+- https://github.com/capire/data-viewer
 
 This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
 
@@ -60,6 +61,7 @@ This guide describes a way to manage development and deployment via *[monorepos]
    git submodule add https://github.com/capire/orders
    git submodule add https://github.com/capire/common
    git submodule add https://github.com/capire/bookshop
+   git submodule add https://github.com/capire/data-viewer
    git submodule update --init
    ```
 
@@ -647,17 +649,36 @@ Add [approuter configuration](../deployment/to-cf#add-app-router) using the comm
 
 ```shell
 cds add approuter
+mv app/router .deploy/app-router
 ```
 
 The approuter serves the UIs and acts as a proxy for requests toward the different apps.
+
+Since the approuter folder is only necessary for deployment, we move it into a `.deploy` folder.
+
+```shell
+mv app/router .deploy/app-router
+```
+
+::: code-group
+```yaml
+modules:
+  ...
+  - name: samples
+    type: approuter.nodejs
+    path: app/router # [!code --]
+    path: .deploy/app-router # [!code ++]
+  ...
+```
+:::
 
 #### Static Content
 
 The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
 
 ```shell
-mkdir app/router/resources
-cd app/router/resources
+mkdir .deploy/app-router/resources
+cd .deploy/app-router/resources
 ln -s ../../../bookshop/app/vue bookshop
 ln -s ../../../orders/app/orders orders
 ln -s ../../../reviews/app/vue reviews
@@ -711,7 +732,7 @@ modules:
 The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
-```json [app/router/xs-app.json]
+```json [.deploy/app-router/xs-app.json]
 {
   "routes": [
     { // [!code --]
@@ -758,7 +779,7 @@ The xs-app.json file describes how to forward incoming request to the API endpoi
 Add routes for static content:
 
 ::: code-group
-```json [app/router/xs-app.json]
+```json [.deploy/app-router/xs-app.json]
 {
   "routes": [
     ...
@@ -779,7 +800,7 @@ Due to the `/app` prefix, make sure that static resources are accessed via relat
 Add the `bookshop/index.html` as initial page when visiting the app:
 
 ::: code-group
-```json [app/router/xs-app.json]
+```json [.deploy/app-router/xs-app.json]
 {
   "welcomeFile": "app/bookshop/index.html", // [!code ++]
   "routes": {

@@ -67,14 +67,15 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
 
-Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. 
 
-Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
+On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
 
 <div id="meshdomain" />
 
+On Kyma, it is required to configure an additional component (i.e. a gateway in Istio) which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header. An example can be found in the Bookshop sample application [here](https://github.com/SAP-samples/cloud-cap-samples-java/tree/ias-ams-kyma/k8s). Besides defining the actual `Gateway` resource, it is required to expose the application under the new domain (see the `values.yaml` [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/e9c779cb64c0937815910988387b0775d8842765/helm/values.yaml#L47).
 
-The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. This can be achieved by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
+The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. First, set `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)). Second, configure the destination to use the route of the CAP backend that has been configured to accept client certificates as described previously.
 
 When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires using at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library.
 

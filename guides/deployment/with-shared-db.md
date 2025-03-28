@@ -222,7 +222,7 @@ resources:
 
 #### Binding to shared db
 
-The only thing left to care about is to ensure all 3+1 projects will be bound and connected to the same dbs at deployment, subscription, and runtime.
+The only thing left to care about is to ensure all 3+1 projects will be bound and connected to the same database at deployment, subscription, and runtime.
 
 Configure the mta.yaml of the other apps to bind to the existing shared database, e.g. in the reviews module:
 

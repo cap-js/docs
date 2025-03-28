@@ -68,7 +68,7 @@ This guide describes a way to manage development and deployment via *[monorepos]
    node_modules
    gen
    ```
-   > The outcome of this looks and behaves exactly as the monorepo layout in *[cap/samples](cap/samples)*,  so we can exercise the subsequent steps in there...
+   > The outcome of this looks and behaves exactly as the monorepo layout in *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)*,  so we can exercise the subsequent steps in there...
 
 3. Test-drive locally as usual 
    ```sh

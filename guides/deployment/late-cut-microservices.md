@@ -15,7 +15,7 @@ Microservices have been attributed with a multitude of benefits like
 - deployment agility,
 - distributed development, and so on.
 
-While these benefits exist, they are accompanied by complexity and performance losses. True microservices each constitute their own deployment unit with their own database. The benefits attributed to microservices can be broken down into multiple aspects.
+While these benefits exist, they're accompanied by complexity and performance losses. True microservices each constitute their own deployment unit with their own database. The benefits attributed to microservices can be broken down into multiple aspects.
 
 | Aspect | Benefits | Drawbacks |
 | ---------- | -------- | --------- |
@@ -29,27 +29,27 @@ While these benefits exist, they are accompanied by complexity and performance l
 
 Instead of just choosing between a monolith and microservices, these aspects can be combined into an architecture that fits the specific product.
 
-Since each cut not only has benefits, but also drawbacks, it is important to choose which benefits actually help the overall product and which drawbacks can be accepted.
+Since each cut not only has benefits, but also drawbacks, it's important to choose which benefits actually help the overall product and which drawbacks can be accepted.
 
-![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared db, two each contain an app connected to the shared db, one contains a db and an app, which is also connected to the shared db](./assets/microservices/complex.excalidraw.svg)
+![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared database, two each contain an app connected to the shared database, one contains a db and an app, which is also connected to the shared database](./assets/microservices/complex.excalidraw.svg)
 
 ## A Late Cut
 
-When developing a product it may initially not be apparent where the boundaries are.
+When developing a product, it may initially not be apparent where the boundaries are.
 
 Keeping this in mind, an app can be developed as a modular application with use case specific CAP services.
 It can first be deployed as a [monolith / modulith](#monolith-or-microservice). Once the boundaries are clear, it can then be split into multiple applications.
 
-Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
+Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or as a combination of these, just via configuration change.
 
-![Modules which can be arranged in different deploy configurations, e.g. as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), etc.](./assets/microservices/late-cut.excalidraw.svg)
+![Modules which can be arranged in different deploy configurations, for example, as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), and so on.](./assets/microservices/late-cut.excalidraw.svg)
 
 ## Best Practices
 
 * Prefer a late cut
 * Stay flexible in where to cut
-* Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
-* Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
+* Prefer staying loosely coupled → for example, ReviewsService → reviewed events → UPDATE avg ratings
+* Leverage database-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 
 
 ## Appendix
@@ -63,15 +63,15 @@ A monolith is a single deployment unit with a single application. This is very c
 A modulith, even though the app is separated into multiple CAP services inside multiple modules, can still be deployed as a single monolithic application.
 This combines the benefit of a clear structure and distributed development while keeping a simple deployment.
 
-![A single app containing the modules bookshop, reviews and orders](./assets/microservices/modulith.excalidraw.svg)
+![A single app containing the modules bookshop, reviews, and orders](./assets/microservices/modulith.excalidraw.svg)
 
 True microservices each consist of their own deployment unit with their own application and their own database.
-Meaning that they are truly independent of each other. And it works well if they actually are independent.
+So they're truly independent of each other. And it works well if they are actually independent.
 
 ![A simplified microservices view - three deployment units, each with one app and one database](./assets/microservices/true-microservices.excalidraw.svg)
 
-The above is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
-If the microservices are not cut well, the communication overhead leads to high performance losses and often the need for data replication or caching.
+What was mentioned earlier is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
+If the microservices aren't cut well, the communication overhead leads to high performance losses and often the need for data replication or caching.
 
 ![A more complete microservices view - two deployment units with one app, one db and some UIs each, one deployment unit for shared service instances](./assets/microservices/true-microservices-full.excalidraw.svg)
 
@@ -109,7 +109,7 @@ Benefits:
 
 ### Multiple applications
 
-As described above, [application instances](#application-instances) already have near unlimited scaling, even for a monolith. So why would you want multiple apps?
+As described above, [application instances](#application-instances) already have near unlimited scaling, even for a monolith. So, why would you want multiple apps?
 
 Benefits:
 - Resource Separation
@@ -134,7 +134,7 @@ For some parts, a 100% cpu utilization over an extended period is accepted for e
 
 #### Fault Tolerance
 
-While app instances already provide some resilience, there are failure classes (e.g. bugs) which affect each app instance.
+While app instances already provide some resilience, there are failure classes (for example, bugs) which affect each app instance.
 
 Separating functionality into different apps means that when one app experiences issues, the functionality of the other apps is still available.
 In the bookstore example, while reviews may be down, orders may still be possible.

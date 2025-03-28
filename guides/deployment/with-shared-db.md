@@ -1,8 +1,4 @@
 ---
-breadcrumbs:
-  - Cookbook
-  - Deployment
-  - Deploy to Shared DB
 synopsis: >
   A guide on deploying SAP Cloud Application Programming Model (CAP) applications as microservices with a shared database to the SAP BTP Cloud Foundry environment.
 status: released
@@ -12,13 +8,13 @@ status: released
 
 ## Scenario
 
-If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlaying database layer** the following guide on applications with shared database can be an option.
+If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlying database layer** the following guide on applications with shared database can be an option.
 The data models from all involved CAP services are collected and deployed to a single database schema, which all services get access to.
 
 ### Evaluation
 
 The advantages are as follows:
- - **Query Performance:** Complex queries are executed much faster, e.g. $expand to an entity on another microservice (compared to calls across services with own data persistencies)
+ - **Query Performance:** Complex queries are executed much faster, for example $expand to an entity on another microservice (compared to calls across services with own data persistencies)
  - **Independent Scalability** of application runtimes (compared to a monolithic application)
 
  Disadvantages:
@@ -36,7 +32,7 @@ Assumed we want to create a composite application consisting of two or more micr
 - https://github.com/capire/reviews
 - https://github.com/capire/orders
 
-With some additional repos, used as dependencies in the above, like:
+With some additional repos, used as dependencies in the same manner, like:
 
 - https://github.com/capire/common
 - https://github.com/capire/bookshop
@@ -51,7 +47,7 @@ This guide describes a way to manage development and deployment via *[monorepos]
    echo "{\"workspaces\":[\"*\"]}" > package.json
    ```
 
-2. Add the above projects as `git` submodules:
+2. Add the previously mentioned projects as `git` submodules:
 
    ```sh
    git init
@@ -88,13 +84,13 @@ This guide describes a way to manage development and deployment via *[monorepos]
 TODO
 :::
 
-## Using a Shared DB
+## Using a Shared Database
 
-In the following steps we'll create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these to HANA in a controlled way. 
+In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way. 
 
-### Add a project for shared db
+### Add a project for shared database
 
-1. Add a another `cds` project to collect the models from these:
+1. Add another `cds` project to collect the models from these projects:
 
    ```sh
    cds init shared-db --add hana
@@ -107,7 +103,7 @@ In the following steps we'll create an additional project to easily collect the 
    npm add @capire/orders
    ```
 
-   > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates according symlinks in *node_modules*.
+   > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
 
 2. Add a `db/schema.cds` file as a mashup to actually collect the models:
 
@@ -121,11 +117,11 @@ In the following steps we'll create an additional project to easily collect the 
    using from '@capire/orders';
    ```
 
-   > Note: the `using` directives above refer to `index.cds` files existing in the target packages. Your projects may have different entry points. 
+   > Note: the `using` directives refer to `index.cds` files existing in the target packages. Your projects may have different entry points. 
 
 ::: details Try it out
 
-With that we're basically done with the setup of the collector project. At the end of the day, it's just another CAP project with some cds models in it, which we can handle as usual. We can test whether it all works as expected, for example, we can test-compile and test-deploy it to sqlite and hana, build it, and deploy it to the cloud as usual:
+With that we're basically done with the setup of the collector project. In sum, it's just another CAP project with some cds models in it, which we can handle as usual. We can test whether it all works as expected, for example, we can test-compile and test-deploy it to sqlite and hana, build it, and deploy it to the cloud as usual:
 
 ```sh
 cds db -2 sql
@@ -147,7 +143,7 @@ cds build --for hana
 
 ### Deployment as separate mta
 
-In a setup with multiple deployment units, we can add the shared-db project as its own mta deployment:
+In a setup with multiple deployment units, we can add the `shared-db` project as its own mta deployment:
 
 ```sh
 cds add mta
@@ -218,11 +214,11 @@ resources:
 
 
 
-#### Binding to shared db
+#### Binding to shared database
 
-The only thing left to care about is to ensure all 3+1 projects will be bound and connected to the same dbs at deployment, subscription, and runtime.
+The only thing left to care about is to ensure all 3+1 projects are bound to the same dbs at deployment, subscription, and runtime.
 
-Configure the mta.yaml of the other apps to bind to the existing shared database, e.g. in the reviews module:
+Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
 
 ```yaml [reviews/mta.yaml]
 ...
@@ -253,15 +249,15 @@ resources:
 #### Subsequent updates
 
 - TODO... 
-- Whenever one of the project has changes affecting the database that would trigger a new deployment of the shared-db project
-- Git submodules gives you control which versions to pull, e.g. by git branches or tags 
-- Ensure to first deploy shared-db before deploying the others
+- Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
+- `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
+- Ensure to first deploy `shared-db` before deploying the others
 
 
 
 ## All-in-one Deployment
 
-Here we'd go on with our guide how to deploy all 3+1 projects at once with a common `mta.yaml`
+Here we go on with our guide how to deploy all 3+1 projects at once with a common `mta.yaml`
 
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 
@@ -285,13 +281,13 @@ Add initial database configuration using the command:
 cds add hana
 ```
 
-Delete the generated db folder as we do not need it on root level:
+Delete the generated _db_ folder as we don't need it on the root level:
 
 ```shell
 rm -r db
 ```
 
-Update the db-deployer path to use our shared-db project [created above](#using-a-shared-db):
+Update the `db-deployer` path to use our `shared-db` project [created previously](#using-a-shared-db):
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -315,8 +311,8 @@ build-parameters:
 :::
 
 
-::: info cds build --ws
-If the CDS models of every npm workspace contained in the monorepo should be considered, then instead of creating this shared-db folder, you can also use:
+::: info `cds build --ws`
+If the CDS models of every npm workspace contained in the monorepo should be considered, then instead of creating this `shared-db` folder, you can also use:
 ```shell
 cds build --for hana --production --ws
 ```
@@ -327,9 +323,9 @@ In this walkthrough, we only include a subset of the CDS models in the deploymen
 
 
 ::: details Configure each app for cloud readiness
-The above added configuration only to the workspace root.
+The preceding  steps added configuration only to the workspace root.
 
-Additionally add cds db configuration to each module that we want to deploy - bookstore, orders and reviews:
+Additionally add database configuration to each module that we want to deploy - bookstore, orders, and reviews:
 
 ```shell
 npm i @cap-js/hana --workspace bookstore
@@ -341,7 +337,7 @@ npm i @cap-js/hana --workspace reviews
 
 ### Applications
 
-Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path` and `provides[0].name` to match the module name. Also change the npm-ci builder to the npm builder.
+Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path`, and `provides[0].name` to match the module name. Also change the `npm-ci` builder to the `npm` builder.
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -420,7 +416,7 @@ build-parameters:
 :::
 
 ::: info --ws-pack
-Note that we use the *--ws-pack* option for some modules. It is important for node modules referencing other repository-local node modules.
+Note that we use the *--ws-pack* option for some modules. It's important for node modules referencing other repository-local node modules.
 :::
 
 
@@ -532,7 +528,7 @@ resources:
 ```
 :::
 
-Add *processed-after* property, so that the xsuaa instance is created after the messaging:
+Add the *processed-after* property, so that the xsuaa instance is created after the messaging:
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -789,12 +785,12 @@ Add the `bookshop/index.html` as initial page when visiting the app:
 ```
 :::
 
-Additionally the welcomeFile is important for deployed Vue UIs as they obtain CSRF-Tokens via this url.
+Additionally, the welcomeFile is important for deployed Vue UIs as they obtain CSRF-Tokens via this url.
 
 
 ### Deploy
 
-In order to build, deploy and undeploy easily, add these npm scripts:
+In order to build, deploy, and undeploy easily, add these `npm` scripts:
 
 ::: code-group
 ```json [package.json]
@@ -806,7 +802,7 @@ In order to build, deploy and undeploy easily, add these npm scripts:
 ```
 :::
 
-Before deploying you need to login to Cloud Foundry.
+Before deploying you need to log in to Cloud Foundry.
 
 To locally build the apps, run
 

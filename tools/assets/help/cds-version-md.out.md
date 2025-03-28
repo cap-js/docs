@@ -11,7 +11,7 @@
 | @cap-js/sqlite         | 1.9.0                                   |
 | @sap/cds               | 8.8.3                                   |
 | @sap/cds-compiler      | 5.8.2                                   |
-| @sap/cds-dk (global)   | 8.8.1                                   |
+| @sap/cds-dk (global)   | 8.8.2                                   |
 | @sap/cds-fiori         | 1.4.0                                   |
 | @sap/cds-foss          | 5.0.1                                   |
 | @sap/cds-mtxs          | 2.6.1                                   |

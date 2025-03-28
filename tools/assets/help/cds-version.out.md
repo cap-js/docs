@@ -9,7 +9,7 @@
 <em>@cap-js/sqlite</em>: 1.9.0
 <em>@sap/cds</em>: 8.8.3
 <em>@sap/cds-compiler</em>: 5.8.2
-<em>@sap/cds-dk (global)</em>: 8.8.1
+<em>@sap/cds-dk (global)</em>: 8.8.2
 <em>@sap/cds-fiori</em>: 1.4.0
 <em>@sap/cds-foss</em>: 5.0.1
 <em>@sap/cds-mtxs</em>: 2.6.1

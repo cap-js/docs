@@ -65,7 +65,7 @@ This approach is described in [Events from SAP S/4HANA](../messaging/#events-fro
 #### 2. Using Low-Level Messaging
 
 As a second option, you can skip the modeling part and simply use [Low-Level Messaging](../messaging/s4#using-low-level-messaging).
-However, please note that future [Open Resource Discovery (ORD)](https://sap.github.io/open-resource-discovery/) integration will most likely benefit from modeled approaches.
+However, when using the [Open Resource Discovery (ORD)](/plugins/#ord-open-resource-discovery) integration you most likely benefit from modeled approaches.
 
 
 ### Use `event-broker`

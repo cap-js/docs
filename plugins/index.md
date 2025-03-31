@@ -375,7 +375,7 @@ Available for:
 ![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}
 
 
-## SAP Cloud Application Event Hub {#event-broker-plugin}
+## SAP Cloud Application Event Hub {#event-hub}
 
 The plugin provides out-of-the-box support for consuming events from [SAP Cloud Application Event Hub](https://discovery-center.cloud.sap/serviceCatalog/sap-event-hub) -- for example emitted by SAP S/4HANA Cloud -- in stand-alone CAP applications.
 
@@ -383,6 +383,8 @@ The plugin provides out-of-the-box support for consuming events from [SAP Cloud 
 const S4Bupa = await cds.connect.to ('API_BUSINESS_PARTNER')
 S4bupa.on ('BusinessPartner.Changed', msg => {...})
 ```
+
+<div id="eh-plugin-mt" />
 
 For more details, please see [Events and Messaging &rarr; Using SAP Cloud Application Event Hub](../guides/messaging/#sap-event-broker).
 

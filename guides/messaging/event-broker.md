@@ -19,9 +19,12 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 ## Prerequisite: Set up SAP Cloud Application Event Hub
 
-Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios -> CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
+Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios → CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
+
+
 
 ## Configuration
+
 
 ### Use `event-broker` in Node.js
 
@@ -41,6 +44,7 @@ Install plugin [`@cap-js/event-hub`](../../plugins/#event-hub) and add the follo
 [Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
 [Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+
 
 ### Use `event-hub` in Java
 
@@ -88,6 +92,7 @@ modules:
           url: ${default-url} #> needed in references below
 ```
 :::
+
 
 ### Add SAP Cloud Application Event Hub Instance
 
@@ -157,10 +162,11 @@ resources:
 ```
 :::
 
+
 ### Bind the Service Instances
 
 Finally, we can bring it all together by binding the two service instances to the application.
-The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identify Authentication service-based authentication.
+The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identity Authentication service-based authentication.
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -182,3 +188,6 @@ modules:
             authentication-type: X509_IAS #[!code ++]
 ```
 :::
+
+
+<span id="event-hub-mt" />

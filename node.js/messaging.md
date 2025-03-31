@@ -451,7 +451,7 @@ If you are not using [IAS-based Authentication](./authentication#ias), you will 
 
 #### Deployment
 
-Please see [Messaging -> SAP Cloud Appl. Event Hub](../guides/messaging/event-broker.md#deploy) for details on how to bind your application to SAP Cloud Application Event Hub.
+Please see [Messaging → SAP Cloud Application Event Hub](../guides/messaging/event-broker.md#deploy) for details on how to bind your application to SAP Cloud Application Event Hub.
 
 <div id="queuing-sap" />
 

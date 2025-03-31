@@ -486,9 +486,6 @@ Additional watched or ignored paths can be specified via CLI options:
 cds watch --include ../other-app --exclude .idea/
 ```
 
-Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".idea"]</Config> to your project configuration.
-
-
 ## cds repl
 
 Use `cds repl` to live-interact with cds' JavaScript APIs in an interactive read-eval-print-loop.

@@ -19,7 +19,7 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 ## Prerequisite: Set up SAP Cloud Application Event Hub
 
-Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios → CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
+Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/initial-setup) as well as [Integration Scenarios &rarr; CAP Application as a Consumer](https://help.sap.com/docs/sap-cloud-application-event-hub/sap-cloud-application-event-hub-service-guide/cap-application-as-subscriber) to set up SAP Cloud Application Event Hub in your account.
 
 
 
@@ -28,7 +28,7 @@ Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-ev
 
 ### Use `event-broker` in Node.js
 
-Install plugin [`@cap-js/event-hub`](../../plugins/#event-hub) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
+Install plugin [`@cap-js/event-broker`](../../plugins/#event-hub) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
 ```jsonc
 "cds": {
@@ -77,8 +77,6 @@ As documented there, MTA is frequently used to deploy to SAP BTP.
 
 Follow these steps to ensure proper binding of your deployed application to the SAP Cloud Application Event Hub instance.
 The guide makes use of the [@capire/incidents](https://github.com/cap-js/incidents-app) reference application.
-
-<span id="event-hub-in-saas" />
 
 We'll start with the definition of the app itself:
 

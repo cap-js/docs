@@ -85,7 +85,7 @@ CAP provides mocked variants for several platform services out of the box, which
 | Database         | SQLite, H2 in-memory | SAP HANA, PostgreSQL             |
 | Authentication   | Mocked Auth          | SAP Identity Services            |
 | App Gateway      | None                 | SAP App Router                   |
-| Messaging        | File-based Queues    | SAP Event Hub, Kafka, Redis, ... |
+| Messaging        | File-based Queues    | SAP Cloud Appl. Event Hub, Kafka, Redis, ... |
 
 > [!tip]
 >

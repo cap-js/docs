@@ -136,7 +136,7 @@ It is recommended to use a technical user for this secret that has only read per
 Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
 
 ```sh
-cds init bookshop --add sample
+cds init bookshop --add sample && cd bookshop
 cds add hana,xsuaa --for production
 ```
 

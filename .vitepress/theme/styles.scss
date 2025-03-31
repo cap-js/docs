@@ -57,7 +57,8 @@
     --vp-c-text-1: rgba(255, 255, 245, 0.86);
 
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img, svg.adapt-dark {
+    img, svg.adapt-dark,
+    video.bright { // assuming videos are usually dark, only darken them if marked as bright
       filter: brightness(.884) invert(1) hue-rotate(177deg)
     }
     img.mute-dark {

@@ -87,7 +87,7 @@ The following diagram illustrates the deployment workflow:
 
 #### Get Access to a Container Registry
 
-SAP BTP doesn't provide a container registry, but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure. Popular container registries include company-managed [JFrog Artifactory](https://jfrog.com/artifactory/) or [Docker Hub](https://hub.docker.com/).
+SAP BTP doesn't provide a container registry, but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
 
 ::: tip Ensure network access
 

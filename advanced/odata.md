@@ -82,23 +82,23 @@ PATCH /CatalogService/Books
 Content-Type: application/json
 
 {
-    "@context": "#$delta",
-    "value": [
-        {
-            "ID": 17,
-            "title": "CAP - what's new in 2023",
-            "price": 29.99,
-            "author_ID": 999
-        },
-        {
-            "ID": 85,
-            "price": 9.99
-        },
-        {
-            "ID": 42,
-            "@removed": { "reason": "deleted" }
-        }
-    ]
+  "@context": "#$delta",
+  "value": [
+    {
+      "ID": 17,
+      "title": "CAP - what's new in 2023",
+      "price": 29.99,
+      "author_ID": 999
+    },
+    {
+      "ID": 85,
+      "price": 9.99
+    },
+    {
+      "ID": 42,
+      "@removed": { "reason": "deleted" }
+    }
+  ]
 }
 ```
 
@@ -821,12 +821,12 @@ CDS has no corresponding language feature. For OData annotations, nesting can be
 
 ```cds
 @UI.LineItem: [
-    {Value: ApplicationName, @UI.Importance: #High}, // [!code highlight]
-    {Value: Description},
-    {Value: SourceName},
-    {Value: ChangedBy},
-    {Value: ChangedAt}
-  ]
+  {Value: ApplicationName, @UI.Importance: #High}, // [!code highlight]
+  {Value: Description},
+  {Value: SourceName},
+  {Value: ChangedBy},
+  {Value: ChangedAt}
+]
 @UI.LineItem.@UI.Criticality: #Positive // [!code highlight]
 
 
@@ -839,7 +839,7 @@ Alternatively, annotating a single value or a Collection by turning them into a 
 ```cds
 @UI.LineItem: {
   $value:[ /* ... */ ], @UI.Criticality: #Positive
- }
+}
 
 @Common.Text: {
   $value: Text, @UI.TextArrangement: #TextOnly
@@ -1106,9 +1106,9 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 
 | Transformation                                | Description                                                      | Node.js |        Java        |
 |-----------------------------------------------|------------------------------------------------------------------|:-------:|:------------------:|
-| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <Na/>  | <X/><sup>(1)</sup> |
-| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <Na/>  | <X/><sup>(1)</sup> |
-| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <Na/>  | <X/><sup>(1)</sup> |
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
 
 - <sup>(1)</sup> Beta feature, API may change
 
@@ -1195,13 +1195,13 @@ The aggregation method (typically, sum) is specified with the `@Aggregation.defa
 @Aggregation.CustomAggregate#amount   : 'Edm.Decimal'
 @Aggregation.CustomAggregate#currency : 'Edm.String'
 entity Sales {
-    key id        : GUID;
-        productId : GUID;
-        @Semantics.amount.currencyCode: 'currency'
-        @Aggregation.default: #SUM
-        amount    : Decimal(10,2);
-        @Semantics.currencyCode
-        currency  : String(3);
+  key id        : GUID;
+      productId : GUID;
+      @Semantics.amount.currencyCode: 'currency'
+      @Aggregation.default: #SUM
+      amount    : Decimal(10,2);
+      @Semantics.currencyCode
+      currency  : String(3);
 }
 ```
 

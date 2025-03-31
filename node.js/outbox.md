@@ -200,20 +200,7 @@ service OutboxDeadLetterQueueService {
 As `maxAttempts` is configurable, its value can not be added as a static filter to projection `DeadOutboxMessages`, but must be taken into account programmatically.
 
 ::: code-group
-```js [srv/outbox-dead-letter-queue-service.js]
-const cds = require('@sap/cds')
-
-module.exports = class OutboxDeadLetterQueueService extends cds.ApplicationService {
-  async init() {
-    this.before('READ', 'DeadOutboxMessages', function (req) {
-      const { maxAttempts } = cds.env.requires.outbox
-      req.query.where('attempts >= ', maxAttempts)
-    })
-
-    await super.init()
-  }
-}
-```
+<<< ./assets/outbox-dead-letter-queue-service.js#snippet{5-8 ts:line-numbers} [srv/outbox-dead-letter-queue-service.js]
 :::
 
 #### 3. Implement Bound Actions
@@ -221,28 +208,7 @@ module.exports = class OutboxDeadLetterQueueService extends cds.ApplicationServi
 Finally, entries in the dead letter queue can either be _revived_ by resetting the number of attempts (i.e., `SET attempts = 0`) or _deleted_.
 
 ::: code-group
-```js [srv/outbox-dead-letter-queue-service.js]
-const cds = require('@sap/cds')
-
-module.exports = class OutboxDeadLetterQueueService extends cds.ApplicationService {
-  async init() {
-    this.before('READ', 'DeadOutboxMessages', function (req) {
-      const { maxAttempts } = cds.env.requires.outbox
-      req.query.where('attempts >= ', maxAttempts)
-    })
-
-    this.on('revive', 'DeadOutboxMessages', async function (req) {
-      await UPDATE(req.subject).set({ attempts: 0 })
-    })
-
-    this.on('delete', 'DeadOutboxMessages', async function (req) {
-      await DELETE.from(req.subject)
-    })
-
-    await super.init()
-  }
-}
-```
+<<< ./assets/outbox-dead-letter-queue-service.js#snippet{10-12,14-16 ts:line-numbers} [srv/outbox-dead-letter-queue-service.js]
 :::
 
 

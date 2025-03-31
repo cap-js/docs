@@ -6,23 +6,10 @@ status: released
 
 # Microservices with CAP
 
-## Scenario
+A comprehensive guide on deploying your CAP application as microservices.
 
-If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlying database layer** the following guide on applications with shared database can be an option.
-The data models from all involved CAP services are collected and deployed to a single database schema, which all services get access to.
+[[toc]]
 
-### Evaluation
-
-The advantages are as follows:
- - **Query Performance:** Complex queries are executed much faster, for example $expand to an entity on another microservice (compared to calls across services with own data persistencies)
- - **Independent Scalability** of application runtimes (compared to a monolithic application)
-
- Disadvantages:
- - Accessing data directly (without an API) means any changes in the data model affect all applications directly
- - every change in one of the services either requires 
-   - a redeployment of all microservices involved
-   - a logic to decide which microservices need redeployment to avoid inconsistencies
- - violates 12 factors concept
 
 ## Create a Solution Monorepo
 
@@ -88,7 +75,24 @@ TODO
 
 ## Using a Shared Database
 
-In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way. 
+If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlying database layer**, you can deploy your model to a single database and then share it across applications.
+
+In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way.
+
+::: details Evaluation
+
+The advantages are as follows:
+ - **Query Performance:** Complex queries are executed much faster, for example $expand to an entity on another microservice (compared to calls across services with own data persistencies)
+ - **Independent Scalability** of application runtimes (compared to a monolithic application)
+
+ Disadvantages:
+ - Accessing data directly (without an API) means any changes in the data model affect all applications directly
+ - every change in one of the services either requires
+   - a redeployment of all microservices involved
+   - a logic to decide which microservices need redeployment to avoid inconsistencies
+ - violates 12 factors concept
+
+:::
 
 ### Add a project for shared database
 
@@ -1046,7 +1050,7 @@ Drawbacks:
 
 ![A single application connected to multiple databases](./assets/microservices/multiple-dbs.excalidraw.svg)
 
-### Data Federation
+#### Data Federation
 
 When data is distributed across multiple databases, strategies may be necessary to combine data from multiple sources.
 

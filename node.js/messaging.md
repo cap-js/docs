@@ -401,7 +401,7 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 <span id="aftereventmesh" />
 
-### SAP Cloud Application Event Hub <Beta/> { #event-broker }
+### SAP Cloud Application Event Hub { #event-broker }
 
 `kind`: `event-broker`
 

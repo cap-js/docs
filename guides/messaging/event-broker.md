@@ -28,7 +28,13 @@ Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-ev
 
 ### Use `event-broker` in Node.js
 
-Install plugin [`@cap-js/event-broker`](../../plugins/#event-hub) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
+Install plugin [`@cap-js/event-broker`](../../plugins/#event-hub):
+
+```sh
+npm add @cap-js/event-broker
+```
+
+And add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
 ```jsonc
 "cds": {
@@ -41,14 +47,24 @@ Install plugin [`@cap-js/event-broker`](../../plugins/#event-hub) and add the fo
 }
 ```
 
-[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js](../../node.js/messaging#event-broker){.learn-more}
 
-[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Node.js.](../../node.js/messaging#event-broker){.learn-more}
+
+[Learn more about `cds.env` profiles.](../../node.js/cds-env#profiles){.learn-more}
 
 
 ### Use `event-hub` in Java
 
 Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-hub) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
+
+::: code-group
+```xml [srv/pom.xml]
+<dependency>
+    <groupId>com.sap.cds</groupId>
+    <artifactId>cds-feature-event-hub</artifactId>
+    <version>${latest-version}</version>
+</dependency>
+```
 
 ```yaml [srv/src/main/resources/application.yaml]
 cds:
@@ -56,8 +72,10 @@ cds:
   - name: "messaging-name"
     kind: "event-hub"
 ```
+:::
 
-[Learn more about configuring SAP Cloud Application Event Hub in CAP Java](../../java/messaging#using-real-brokers){.learn-more}
+[Find the latest version on Maven central.](https://central.sonatype.com/artifact/com.sap.cds/cds-feature-event-hub/versions){.learn-more}
+[Learn more about configuring SAP Cloud Application Event Hub in CAP Java.](../../java/messaging#using-real-brokers){.learn-more}
 
 
 
@@ -135,10 +153,10 @@ resources:
 ### Add Identity Authentication Service Instance
 
 Your Identity Authentication service instance must be configured to include your SAP Cloud Application Event Hub instance under `consumed-services` in order for your application to accept requests from SAP Cloud Application Event Hub.
-For this purpose, the Identify Authentication service instance should further be `processed-after` the SAP Cloud Application Event Hub instance.
+For this purpose, the Identity Authentication service instance should further be `processed-after` the SAP Cloud Application Event Hub instance.
 
 ::: code-group
-```yaml [mta.yaml]
+```yaml {6,14} [mta.yaml]
 resources:
   - name: incidents-ias
     type: org.cloudfoundry.managed-service
@@ -167,14 +185,14 @@ Finally, we can bring it all together by binding the two service instances to th
 The bindings must both be parameterized with `credential-type: X509_GENERATED` and `authentication-type: X509_IAS`, respectively, to enable Identity Authentication service-based authentication.
 
 ::: code-group
-```yaml [mta.yaml]
+```yaml {1-3} [mta.yaml]
 modules:
   - name: incidents-srv
     provides:
       - name: incidents-srv-api
         properties:
           url: ${default-url} 
-    requires: #[!code ++]
+    requires: #[!code focus:10]
       - name: incidents-ias #[!code ++]
         parameters: #[!code ++]
           config: #[!code ++]

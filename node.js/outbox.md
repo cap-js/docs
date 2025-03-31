@@ -200,7 +200,7 @@ service OutboxDeadLetterQueueService {
 As `maxAttempts` is configurable, its value can not be added as a static filter to projection `DeadOutboxMessages`, but must be taken into account programmatically.
 
 ::: code-group
-<<< ./assets/outbox-dead-letter-queue-service.js#snippet{5-8} [srv/outbox-dead-letter-queue-service.js]
+<<< ./assets/dead-letter-queue-1.js#snippet{5-8} [srv/outbox-dead-letter-queue-service.js]
 :::
 
 #### 3. Implement Bound Actions
@@ -208,7 +208,7 @@ As `maxAttempts` is configurable, its value can not be added as a static filter 
 Finally, entries in the dead letter queue can either be _revived_ by resetting the number of attempts (i.e., `SET attempts = 0`) or _deleted_.
 
 ::: code-group
-<<< ./assets/outbox-dead-letter-queue-service.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
+<<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
 :::
 
 

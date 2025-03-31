@@ -285,6 +285,26 @@ cds:
 ```
 :::
 
+#### Configuring SAP Cloud Application Event Hub Support: { #configuring-sap-event-hub-support}
+
+::: code-group
+```xml [srv/pom.xml]
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-event-hub</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  messaging.services:
+  - name: "messaging-name"
+    kind: "event-hub"
+```
+:::
+
+Support for SAP Cloud Application Event Hub is provided via [plugin](../plugins/#event-hub).
+
 <span id="beforeredispubsub" />
 
 #### Configuring Redis PubSub Support <Beta />: { #configuring-redis-pubsub-support-beta}

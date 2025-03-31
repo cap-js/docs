@@ -303,7 +303,7 @@ cds:
 ```
 :::
 
-Support for SAP Cloud Application Event Hub is provided via [plugin](../plugins/#event-broker-plugin).
+Support for SAP Cloud Application Event Hub is provided via [plugin](../plugins/#event-hub).
 
 <span id="beforeredispubsub" />
 

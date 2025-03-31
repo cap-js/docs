@@ -223,7 +223,7 @@ That initiative happened to be successful, and gave a boost to a steadily **grow
 - [Open Telemetry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
 - [Attachments → SAP Object Store /S3](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
-- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-hub)
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging → SAP Audit Logging](../plugins/#audit-logging)

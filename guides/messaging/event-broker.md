@@ -25,7 +25,7 @@ Follow guides [Initial Setup](https://help.sap.com/docs/sap-cloud-application-ev
 
 ### Use `event-broker` in Node.js
 
-Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
+Install plugin [`@cap-js/event-hub`](../../plugins/#event-hub) and add the following to your _package.json_ to use SAP Cloud Application Event Hub:
 
 ```jsonc
 "cds": {
@@ -44,7 +44,7 @@ Install plugin [`@cap-js/event-hub`](../../plugins/#event-broker-plugin) and add
 
 ### Use `event-hub` in Java
 
-Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-broker-plugin) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
+Install plugin [`com.sap.cds:cds-feature-event-hub`](../../plugins/#event-hub) and add the following to your _application.yaml_ to use SAP Cloud Application Event Hub:
 
 ```yaml [srv/src/main/resources/application.yaml]
 cds:

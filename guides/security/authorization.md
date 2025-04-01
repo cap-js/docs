@@ -78,7 +78,6 @@ In the CDS model, some of the user properties can be referenced with the `$user`
 | User Property                 | Reference           |
 |-------------------------------|---------------------|
 | Name                          | `$user`             |
-| Tenant                        | `$user.tenant`      |
 | Attribute (name \<attribute>) | `$user.<attribute>` |
 
 > A single user attribute can have several different values. For instance, the `$user.language` attribute can contain `['DE','FR']`.
@@ -124,12 +123,11 @@ All technical clients that have access to the application's XSUAA or IAS service
 
 ### Mapping User Claims
 
-Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name, tenant and attributes:
+Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name and attributes:
 
 | CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `app_tid`               |
 | `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
 
 ::: tip

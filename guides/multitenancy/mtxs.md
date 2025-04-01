@@ -685,14 +685,15 @@ The _ModelProviderService_ serves model variants, which may include tenant-speci
 - `in-sidecar` — provides defaults for usage in sidecars
 - `from-sidecar` — shortcut for `{ "kind": "rest" }`
 
-### `getCsn` _(tenant, toggles) → CSN_
+### `getCsn` _(tenant, toggles) → CSN_ {#modelprovider-get-csn}
 
 Returns the application's effective CSN document for the given tenant + feature toggles vector. CAP runtimes call that method to obtain the effective models to serve.
 
-| Arguments |  Description                                                |
-| --------- | ----------------------------------------------------------- |
-| `tenant`  | A string identifying the tenant                             |
-| `toggles` | An array listing toggled features; `['*']` for all features |
+| Arguments   |  Description                                                |
+| ----------- | ----------------------------------------------------------- |
+| `tenant`    | A string identifying the tenant                             |
+| `toggles`   | An array listing toggled features; `['*']` for all features |
+| `activated` | <Beta/>  `false` to include also extension drafts, default is `true` |
 
 #### Example Usage {#example-get-csn }
 
@@ -893,6 +894,11 @@ Content-Type: application/json
 
 Creates a new tenant-specific extension.
 
+Extensions can be created as draft. In that case, the extensions need to be activate using action [`activate`](#activate-extension-draft) to get visible for everyone.
+
+To get the full model including draft extensions, the [Model Provider Service](#modelprovider-get-csn) has to be called accordingly.
+
+
 #### HTTP Request Options
 
 | Request Header        |  Example Value                                         | Description  |
@@ -911,6 +917,7 @@ Creates a new tenant-specific extension.
 | **Body**
 | `csn` | Array of extension CDL or CSN to apply |
 | `i18n` | Texts and translations |
+| `status` | Activation status ( `1` for draft, `2` for active, default is `2`) |
 
 </div>
 
@@ -1043,6 +1050,8 @@ The response is similar to the following:
 ```
 
 The job and task status can take on the values `QUEUED`, `RUNNING`, `FINISHED` and `FAILED`.
+
+### Activate extension draft
 
 ## DeploymentService
 

@@ -15,7 +15,7 @@ status: released
 Often, remote operations should be delayed until the main transaction succeeded. Otherwise, the remote operations are also triggered in case of a rollback.
 To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
 
-Every CAP service can be _outboxed_, that means event dispatching becomes _asynchronous_.
+Every CAP service can be _outboxed_ that means event dispatching becomes _asynchronous_.
 
 
 ## Outboxing a Service
@@ -23,7 +23,7 @@ Every CAP service can be _outboxed_, that means event dispatching becomes _async
 
 ### cds.outboxed(srv) {.method}
 
-Programmatically, you can get the outboxed service with
+Programmatically, you can get the outboxed service as follows:
 
 ```js
 const srv = await cds.connect.to('yourService')
@@ -77,7 +77,7 @@ You can also configure services to be outboxed by default:
 ```
 
 ::: tip Outboxed by default
-Some services are outboxed by default, these include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
+Some services are outboxed by default, these services include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
 :::
 
 For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox).
@@ -127,10 +127,10 @@ If an emit was successful, the respective message is deleted from the database t
 If not, there will be retries after (exponentially growing) waiting times.
 After a maximum number of attempts, the message is ignored for processing and remains in the database table which
 therefore also acts as a dead letter queue.
-See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue) below to learn about how to handle such messages.
+See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), to learn about how to handle such messages.
 
-There is only one active message processor per service, tenant and app instance.
-Hence there won't be duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the message entry.
+There is only one active message processor per service, tenant, and app instance.
+Hence, there won't be duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the message entry.
 
 ::: tip
 Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
@@ -163,7 +163,7 @@ for example to expose it in a service.
 #### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The service that handles the outboxed event must not use user roles and attributes as they are not stored. However, the user id is stored to recreate the correct context.
+- The service that handles the outboxed event must not use user roles and attributes as they are not stored. However, the user ID is stored to recreate the correct context.
 - The service that handles the outboxed event must not perform any database modifications, because a global database transaction is used when dispatching the events. The outbox must only be used for services which communicate with external systems.
 
 
@@ -197,7 +197,7 @@ service OutboxDeadLetterQueueService {
 
 #### 2. Filter for Dead Entries
 
-As `maxAttempts` is configurable, its value can not be added as a static filter to projection `DeadOutboxMessages`, but must be taken into account programmatically.
+As `maxAttempts` is configurable, its value can not be added as a static filter to projection `DeadOutboxMessages`, but must be considered programmatically.
 
 ::: code-group
 <<< ./assets/dead-letter-queue-1.js#snippet{5-8} [srv/outbox-dead-letter-queue-service.js]
@@ -205,7 +205,7 @@ As `maxAttempts` is configurable, its value can not be added as a static filter 
 
 #### 3. Implement Bound Actions
 
-Finally, entries in the dead letter queue can either be _revived_ by resetting the number of attempts (i.e., `SET attempts = 0`) or _deleted_.
+Finally, entries in the dead letter queue can either be _revived_ by resetting the number of attempts (that is, `SET attempts = 0`) or _deleted_.
 
 ::: code-group
 <<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
@@ -255,7 +255,7 @@ To disable deferred emitting for a particular service, you can set the `outbox` 
 ### Delete Entries in the Outbox Table
 
 To manually delete entries in the table `cds.outbox.Messages`, you can either
-expose it in a service (cf. [Managing the Dead Letter Queue](#managing-the-dead-letter-queue)) or programmatically modify it using the `cds.outbox.Messages`
+expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.outbox.Messages`
 entity:
 
 ```js

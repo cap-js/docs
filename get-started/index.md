@@ -88,7 +88,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, and then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VS Code:
 
    ```sh
    cds init bookshop

@@ -75,19 +75,19 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 
 #### Add Useful Plugins
 
-In addition we recommend installing these VS Code Extensions:
+In addition we recommend installing these VS Code extensions:
 
-   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
-   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
-   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+- [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+- [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 
 
 
 #### Run Services
 
-To run services, just open the Integrated Terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
+To run services, just open the integrated terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
 
 Alternatively, you can use the preconfigured tasks or launch configurations you get when creating a project with `cds init`.
 For example, in the _Debug_ view launch _cds run_ with the green arrow button:

@@ -954,10 +954,10 @@ The OData function mappings are case-sensitive and must be written as in the lis
 #### Date and Time Functions
 
 - `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`
-  Extracts specific parts of a datetime value for a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
+  Extracts and returns specific date / time parts as integer value from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
 
 - `time(x)`, `date(x)`  
-  Returns a string representing the time or date from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
+  Extracts and returns a time or date from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
 
 - `fractionalseconds(x)`  
   Returns a `Decimal` representing the fractional seconds for a given `cds.Timestamp`.
@@ -967,13 +967,6 @@ The OData function mappings are case-sensitive and must be written as in the lis
 
 - `mindatetime()`  
   Returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`.
-
-- `totalseconds(x)`  
-  Returns the duration of the value in total seconds, including fractional seconds.  
-  Refer to the [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) for more details on EDM.Duration (e.g., `P12DT23H59M59.999999999999S`).
-
-- `now()`  
-  Returns the current datetime.
 
 #### Aggregate Functions
 
@@ -1015,7 +1008,8 @@ In addition to the OData and SAP HANA standard functions, the **CAP runtimes** p
   Utilizes standard variable names to maintain session context.
   Refer to [Session Variables](#session-variables) for additional information.
 
-
+- `now()`
+  Returns the current datetime.
 
 ## Using Native Features  { #native-db-functions}
 

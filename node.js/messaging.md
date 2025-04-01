@@ -403,6 +403,8 @@ If you enable the [cors middleware](https://www.npmjs.com/package/cors), [handsh
 
 ### SAP Cloud Application Event Hub <Beta/> { #event-broker }
 
+<!-- Event Hub non-SaaS -->
+
 `kind`: `event-broker`
 
 Use this if you want to communicate using [SAP Cloud Application Event Hub](https://help.sap.com/docs/event-broker).

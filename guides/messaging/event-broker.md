@@ -37,6 +37,8 @@ The following guide is based on a productive (paid) account on SAP BTP.
 
 ## Consuming Events in a Stand-alone App { #consume-standalone }
 
+<!-- Event Hub non-SaaS -->
+
 This guide describes the end-to-end process of developing a stand-alone (or "single tenant") CAP application that consumes messages via SAP Cloud Application Event Hub.
 The guide uses SAP S/4HANA as the event emitter, but this is a stand-in for any system that is able to publish CloudEvents via SAP Cloud Application Event Hub.
 

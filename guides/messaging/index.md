@@ -584,6 +584,8 @@ Find additional information about deploying SAP Event Mesh on SAP BTP in this gu
 
 ## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
 
+<!-- Event Hub Root -->
+
 CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
 As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
 

@@ -476,7 +476,7 @@ The messaging service is used to organize asynchronous communication between the
 cds add enterprise-messaging
 ```
 
-Relax all filters and allow all topics
+Relax the publish filters for the message topics
 
 ::: code-group
 ```json [event-mesh.json]
@@ -494,12 +494,10 @@ Relax all filters and allow all topics
     },
     "queueRules": {
       "publishFilter": [
-        "${namespace}/*" // [!code --]
-        "*" // [!code ++]
+        "${namespace}/*"
       ],
       "subscribeFilter": [
-        "${namespace}/*" // [!code --]
-        "*" // [!code ++]
+        "${namespace}/*"
       ]
     }
   }

@@ -22,9 +22,9 @@ impl-variants: true
 
 <div class="impl node">
 
-### Migrating to New Database Services?  {.node}
+### Migrating to the `@cap-js/` Database Services?  {.node}
 
-With CDS 8, the new database services for SQLite, PostgreSQL, and SAP HANA are now generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the new SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+With CDS 8, the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services for SQLite, PostgreSQL, and SAP HANA are generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
 
 ### Adding Database Packages  {.node}
 
@@ -355,63 +355,6 @@ In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTI
 
 ::: warning Runtime Only
 The operator mappings are available for runtime queries only, but not in CDS files.
-:::
-
-
-### Functions Mappings for Runtime Queries {.node}
-
-A specified set of standard functions is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
-Note that these functions are only supported within runtime queries, but not in CDS files.
-This set of functions are by large the same as specified in OData:
-
-* `concat(x,y,...)` — concatenates the given strings or numbers
-* `trim(x)` — removes leading and trailing whitespaces
-* `contains(x,y)` — checks whether `y` is contained in `x`, may be fuzzy
-* `startswith(x,y)` — checks whether `y` starts with `x`
-* `endswith(x,y)` — checks whether `y` ends with `x`
-* `matchespattern(x,y)` — checks whether `x` matches regex `y`
-* `substring(x,i,n?)` <sup>1</sup> —
-    Extracts a substring from `x` starting at index `i` (0-based) with optional length `n`.
-    * **`i`**: Positive starts at `i`, negative starts `i` before the end.
-    * **`n`**: Positive extracts `n` items; omitted extracts to the end; negative is invalid.
-* `indexof(x,y)` <sup>1</sup> — returns the index of the first occurrence of `y` in `x`
-* `length(x)` — returns the length of string `x`
-* `tolower(x)` — returns all-lowercased `x`
-* `toupper(x)` — returns all-uppercased `x`
-* `ceiling(x)` —  rounds the input numeric parameter up to the nearest numeric value
-* `floor(x)` — rounds the input numeric parameter down to the nearest numeric value
-* `round(x)` — rounds the input numeric parameter to the nearest numeric value.
-               The mid-point between two integers is rounded away from zero, i.e. 0.5 is rounded to 1 and ‑0.5 is rounded to -1.
-* `year(x)` `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)` —
-  returns parts of a datetime for a given `cds.DateTime` / `cds.Date` / `cds.Time`
-* `time(x)`, `date(x)` - returns a string representing the `time` / `date` for a given `cds.DateTime` / `cds.Date` / `cds.Time`
-* `fractionalseconds(x)` - returns a a `Decimal` representing the fractions of a second for a given `cds.Timestamp`
-* `maxdatetime()` - returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`
-* `mindatetime()` — returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`
-* `totalseconds(x)` — returns the duration of the value in total seconds, including fractional seconds. The [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) defines the input as EDM.Duration: `P12DT23H59M59.999999999999S`
-* `now()` — returns the current datetime
-* `min(x)` `max(x)` `sum(x)` `average(x)` `count(x)`, `countdistinct(x)` — aggregate functions
-* `search(xs,y)` — checks whether `y` is contained in any of `xs`, may be fuzzy → [see Searching Data](../guides/providing-services#searching-data)
-* `session_context(v)` — with standard variable names → [see Session Variables](#session-variables)
-> <sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
-
-> You have to write these functions exactly as given; all-uppercase usages aren't supported.
-
-In addition to the standard functions, which all `@cap-js` database services support, `@cap-js/sqlite` and `@cap-js/postgres` also support these common SAP HANA functions, to further increase the scope for portable testing:
-
-* `years_between` — Computes the number of years between two specified dates.
-* `months_between` — Computes the number of months between two specified dates.
-* `days_between` — Computes the number of days between two specified dates.
-* `seconds_between` — Computes the number of seconds between two specified dates.
-* `nano100_between` — Computes the time difference between two dates to the precision of 0.1 microseconds.
-
-The database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries.
-With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
-
-> For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
-
-::: warning Runtime Only
-The function mappings are available for runtime queries only, but not in CDS files.
 :::
 
 
@@ -939,6 +882,138 @@ Instead, they protect the integrity of your data in the database layer against p
 
 → Use [`@assert.target`](providing-services#assert-target) for corresponding input validations.
 :::
+
+## Standard Database Functions
+
+A specified set of standard functions - inspired by [OData](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_StringandCollectionFunctions) and [SAP HANA](https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/f12b86a6284c4aeeb449e57eb5dd3ebd.html?locale=en-US) - is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
+
+### OData standard functions
+
+The cds-compiler and all CAP Node.js database services come with out of the box support for common OData functions.
+
+::: warning Case Sensitivity
+The OData function mappings are case-sensitive and must be written as in the list below.
+:::
+
+#### String Functions
+
+- `concat(x, y, ...)`
+  Concatenates the given strings or numbers.
+
+- `trim(x)`
+  Removes leading and trailing whitespaces.
+
+- `contains(x, y)`
+  Checks whether `y` is contained in `x` (fuzzy matching may apply).
+
+- `startswith(x, y)`
+  Checks whether `y` starts with `x`.
+
+- `endswith(x, y)`
+  Checks whether `y` ends with `x`.
+
+- `matchespattern(x, y)`
+  Checks whether `x` matches the regular expression `y`.
+
+- `substring(x, i, n?)` <sup>1</sup>
+  Extracts a substring from `x` starting at index `i` (0-based) with an optional length `n`.
+  - `i`:
+    - Positive: starts at index `i`
+    - Negative: starts `i` positions before the end
+  - `n`:
+    - Positive: extracts `n` characters
+    - Omitted: extracts until the end of the string
+    - Negative: invalid
+
+- `indexof(x, y)` <sup>1</sup>  
+  Returns the index of the first occurrence of `y` in `x`.
+
+- `length(x)`  
+  Returns the length of the string `x`.
+
+- `tolower(x)`  
+  Converts all characters in `x` to lowercase.
+
+- `toupper(x)`  
+  Converts all characters in `x` to uppercase.
+
+<sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
+
+#### Numeric Functions
+
+- `ceiling(x)`
+  Rounds the numeric parameter up to the nearest integer.
+
+- `floor(x)`
+  Rounds the numeric parameter down to the nearest integer.
+
+- `round(x)`
+  Rounds the numeric parameter to the nearest integer.  
+  The midpoint between two integers is rounded away from zero (e.g., `0.5` → `1` and `-0.5` → `-1`).
+
+#### Date and Time Functions
+
+- `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`
+  Extracts specific parts of a datetime value for a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
+
+- `time(x)`, `date(x)`  
+  Returns a string representing the time or date from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
+
+- `fractionalseconds(x)`  
+  Returns a `Decimal` representing the fractional seconds for a given `cds.Timestamp`.
+
+- `maxdatetime()`  
+  Returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`.
+
+- `mindatetime()`  
+  Returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`.
+
+- `totalseconds(x)`  
+  Returns the duration of the value in total seconds, including fractional seconds.  
+  Refer to the [OData spec](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_totalseconds) for more details on EDM.Duration (e.g., `P12DT23H59M59.999999999999S`).
+
+- `now()`  
+  Returns the current datetime.
+
+#### Aggregate Functions
+
+- `min(x)`, `max(x)`, `sum(x)`, `average(x)`, `count(x)`, `countdistinct(x)`  
+  Standard aggregate functions used to calculate minimum, maximum, sum, average, count, and distinct count of values.
+
+
+### SAP HANA Functions
+
+In addition to the OData standard functions, the cds-compiler and all CAP Node.js database services come with
+out of the box support for some common SAP HANA functions, to further increase the scope for portable testing:
+
+::: warning Upper- and Lowercase are supported
+For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
+:::
+
+- `years_between`
+  Computes the number of years between two specified dates.
+- `months_between`
+  Computes the number of months between two specified dates.
+- `days_between`
+  Computes the number of days between two specified dates.
+- `seconds_between`
+  Computes the number of seconds between two specified dates.
+- `nano100_between`
+  Computes the time difference between two dates to the precision of 0.1 microseconds.
+
+The cds-compiler / the database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries. With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
+
+### Special Runtime Functions
+
+In addition to the OData and SAP HANA standard functions, the **CAP runtimes** provides special functions that are only available for runtime queries:
+
+- `search(xs, y)`
+  Checks whether `y` is contained in any element of `xs` (fuzzy matching may apply).
+  See [Searching Data](../guides/providing-services#searching-data) for more details.
+
+- `session_context(v)`  
+  Utilizes standard variable names to maintain session context.
+  Refer to [Session Variables](#session-variables) for additional information.
 
 
 

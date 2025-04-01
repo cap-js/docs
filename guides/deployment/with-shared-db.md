@@ -647,7 +647,6 @@ Add [approuter configuration](../deployment/to-cf#add-app-router) using the comm
 
 ```shell
 cds add approuter
-mv app/router .deploy/app-router
 ```
 
 The approuter serves the UIs and acts as a proxy for requests toward the different apps.
@@ -655,6 +654,7 @@ The approuter serves the UIs and acts as a proxy for requests toward the differe
 Since the approuter folder is only necessary for deployment, we move it into a `.deploy` folder.
 
 ```shell
+mkdir .deploy
 mv app/router .deploy/app-router
 ```
 

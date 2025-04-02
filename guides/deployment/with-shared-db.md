@@ -335,6 +335,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci
+        - npx cds build --production # [!code --]
         - npx cds build ./shared-db --for hana --production # [!code ++]
 ```
 :::
@@ -437,7 +438,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci
-        - npx cds build --production # [!code --]
+        - npx cds build ./shared-db --for hana --production
         - npx cds build ./orders --for nodejs --production --ws-pack # [!code ++]
         - npx cds build ./reviews --for nodejs --production # [!code ++]
         - npx cds build ./bookstore --for nodejs --production --ws-pack # [!code ++]

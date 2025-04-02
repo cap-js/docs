@@ -584,36 +584,36 @@ Add destinations that point to the API endpoints of the orders and reviews appli
 ```yaml [mta.yaml]
 modules:
 ...
-- name: destination-content
-  type: com.sap.application.content
-  requires:
-    - name: orders-api
-    - name: reviews-api
-    - name: bookstore-api
-    - name: samples-auth
-      parameters:
-        service-key:
-          name: xsuaa_service-key
-    - name: samples-destination
-      parameters:
-        content-target: true
-  build-parameters:
-    no-source: true
-  parameters:
-    content:
-      instance:
-        existing_destinations_policy: update
-        destinations:
-          - Name: orders-dest
-            URL: ~{orders-api/srv-url}
-            Authentication: OAuth2ClientCredentials
-            TokenServiceInstanceName: samples-auth
-            TokenServiceKeyName: xsuaa_service-key
-          - Name: reviews-dest
-            URL: ~{reviews-api/srv-url}
-            Authentication: OAuth2ClientCredentials
-            TokenServiceInstanceName: samples-auth
-            TokenServiceKeyName: xsuaa_service-key
+  - name: destination-content
+    type: com.sap.application.content
+    requires:
+      - name: orders-api
+      - name: reviews-api
+      - name: bookstore-api
+      - name: samples-auth
+        parameters:
+          service-key:
+            name: xsuaa_service-key
+      - name: samples-destination
+        parameters:
+          content-target: true
+    build-parameters:
+      no-source: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: orders-dest
+              URL: ~{orders-api/srv-url}
+              Authentication: OAuth2ClientCredentials
+              TokenServiceInstanceName: samples-auth
+              TokenServiceKeyName: xsuaa_service-key
+            - Name: reviews-dest
+              URL: ~{reviews-api/srv-url}
+              Authentication: OAuth2ClientCredentials
+              TokenServiceInstanceName: samples-auth
+              TokenServiceKeyName: xsuaa_service-key
 ...
 ```
 :::

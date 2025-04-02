@@ -70,7 +70,30 @@ This guide describes a way to manage development and deployment via *[monorepos]
 
 
 ::: details Other project structures
-TODO
+
+The project structure used here is as follows:
+
+```txt
+<PROJECT-ROOT>/
+├─ bookshop/
+├─ reviews/
+├─ orders/
+└─ shared-db/
+   └─ db/
+     └─ schema.cds # references schemas of bookshop, reviews, orders
+├─ mta.yaml #adjusted to include multiple services etc.
+└─ xs-security.json # combined 
+```
+
+The individual services (`bookshop`, `reviews`, `orders`) can be
+ * folders
+ * git submodules
+ * symlinks
+
+ `shared-db` could also be the root level project instead of a folder within the project.
+
+It needs to be ensured, that the shared-db module picks up all the required models and `cds build` also is able to collect everything. If the modules are workspaces, the `--ws` option ensures, that workspaces are included.
+
 :::
 
 ## Using a Shared Database

@@ -32,7 +32,7 @@ This guide describes a way to manage development and deployment via *[monorepos]
    ```sh
    mkdir capire
    cd capire
-   echo "{\"workspaces\":[\"*\"]}" > package.json
+   echo "{\"name\":\"@capire/samples\",\"workspaces\":[\"*\"]}" > package.json
    ```
 
 2. Add the previously mentioned projects as `git` submodules:

@@ -13,6 +13,7 @@
       <em>esm</em>                          - ESM-compatible Node.js project
       <em>typer</em>                        - type generation for CDS models
       <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
+      <em>extension</em>                    - Extension project
       <em>tiny-sample</em>                  - add minimal sample files
       <em>sample</em>                       - add sample files including Fiori UI
       <em>handler</em>                      - handler stubs for service entities, actions and functions
@@ -136,6 +137,13 @@
       --cloudevents | -c
 
         Use CloudEvents formatting.
+
+
+    <em>cds add extension</em>
+
+      --base | -p
+
+        The project to extend.
 
 
     <em>cds add handler</em>

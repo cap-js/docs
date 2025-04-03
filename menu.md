@@ -91,7 +91,7 @@
 
   ### [Deploy to Cloud Foundry](../guides/deployment/to-cf)
   ### [Deploy to Kyma/K8s](../guides/deployment/to-kyma)
-  ### [Microservices with CAP](../guides/deployment/with-shared-db)
+  ### [Microservices with CAP](../guides/deployment/microservices)
   ### [Deploy with Confidence](../guides/deployment/dwc)
   ### [Deploy with CI/CD](../guides/deployment/cicd)
   ### [Custom Builds](../guides/deployment/custom-builds)

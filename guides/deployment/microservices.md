@@ -75,24 +75,20 @@ The project structure used here is as follows:
 
 ```txt
 <PROJECT-ROOT>/
-├─ bookshop/
-├─ reviews/
+├─ bookstore/
 ├─ orders/
-└─ shared-db/
-   └─ db/
-     └─ schema.cds # references schemas of bookshop, reviews, orders
-├─ mta.yaml #adjusted to include multiple services etc.
-└─ xs-security.json # combined 
+├─ reviews/
+├─ ...
+└─ package.json
 ```
 
-The individual services (`bookshop`, `reviews`, `orders`) can be
- * folders
+The individual services (`bookstore`, `reviews`, `orders`) can be
+ * folders, commited directly to the root project
  * git submodules
- * symlinks
 
- `shared-db` could also be the root level project instead of a folder within the project.
-
-It needs to be ensured, that the shared-db module picks up all the required models and `cds build` also is able to collect everything. If the modules are workspaces, the `--ws` option ensures, that workspaces are included.
+Links between the projects are established using npm dependencies.
+Since the root project defines workspaces, these dependencies are also found locally without the need for publishing or linking.
+When one of the projects is cloned in isolation, it is still possible to fetch dependencies to other modules via the npm registry.
 
 :::
 
@@ -169,6 +165,28 @@ cds build --for hana
 > Note: As we can see in the output for `cds deploy` and `cds build`, it also correctly collects and adds all initial data from enclosed `.csv` files. 
 :::
 
+::: details Other project structures
+
+The project structure used here is as follows:
+
+```txt
+<PROJECT-ROOT>/
+├─ bookstore/
+├─ reviews/
+├─ orders/
+└─ shared-db/
+   └─ db/
+     └─ schema.cds # references schemas of bookstore, reviews, orders
+   └─ package.json # npm dependencies to bookstore, reviews, orders
+├─ ...
+└─ package.json
+```
+
+The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via npm, so it is still possible to install via an npm registry if used outside of the monorepo setup.
+
+The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all npm workspaces.
+
+:::
 
 ### Deployment as separate mta
 

@@ -82,7 +82,7 @@ The project structure used here is as follows:
 ```
 
 The individual services (`bookstore`, `reviews`, `orders`) can be
- * folders, commited directly to the root project
+ * folders, committed directly to the root project
  * git submodules
 
 Links between the projects are established using npm dependencies.

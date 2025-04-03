@@ -491,5 +491,5 @@ OAuth2DestinationBuilder
 
 The following limitations are currently known for Remote OData Services:
 
-- Streaming of media content is not supported. That means, that elements of an entity which are annotated with `@Core.MediaType` can't be accessed via remote services, they are causing an error.
-- Accessing an OData Singleton via remote services is limited to read access. The other operations (insert/update/delete) are not supported and will cause an error.
+- Streaming of media content is not supported. This means that elements of an entity annotated with `@Core.MediaType` cannot be accessed via Remote OData Services and will cause an error.
+- Accessing an OData Singleton via remote services is limited to read access. Other operations (insert/update/delete) are not supported and will result in an error.

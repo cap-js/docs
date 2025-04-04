@@ -85,7 +85,7 @@ CAP provides mocked variants for several platform services out of the box, which
 | Database         | SQLite, H2 in-memory | SAP HANA, PostgreSQL             |
 | Authentication   | Mocked Auth          | SAP Identity Services            |
 | App Gateway      | None                 | SAP App Router                   |
-| Messaging        | File-based Queues    | SAP Event Hub, Kafka, Redis, ... |
+| Messaging        | File-based Queues    | SAP Cloud Appl. Event Hub, Kafka, Redis, ... |
 
 > [!tip]
 >
@@ -159,7 +159,7 @@ The CAP runtimes in Node.js and Java provide many generic implementations for re
 
 - [Serving CRUD Requests](../guides/providing-services#generic-providers)
 - [Serving Nested Documents](../guides/providing-services#deep-reads-and-writes)
-- [Serving Variable Data](../releases/oct24#basic-support-for-cds-map) <Alpha/>
+- [Serving Variable Data](../releases/archive/2024/oct24#basic-support-for-cds-map) <Alpha/>
 - [Serving (Fiori) Drafts](../advanced/fiori#draft-support)
 - [Serving Media Data](../guides/providing-services#serving-media-data)
 - [Searching Data](../guides/providing-services#searching-data)
@@ -223,7 +223,7 @@ That initiative happened to be successful, and gave a boost to a steadily **grow
 - [Open Telemetry → SAP Cloud Logging, Dynatrace, ...](../plugins/#telemetry)
 - [Attachments → SAP Object Store /S3](../plugins/#attachments)
 - [Attachments → SAP Document Management Service](../plugins/#@cap-js/sdm)
-- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-broker-plugin)
+- [Messaging → SAP Cloud Application Event Hub](../plugins/#event-hub)
 - [Change Tracking](../plugins/#change-tracking)
 - [Notifications](../plugins/#notifications)
 - [Audit Logging → SAP Audit Logging](../plugins/#audit-logging)

@@ -40,17 +40,6 @@ cds init bookshop --add sample
 cd bookshop
 ```
 
-::: details Alternatively, download or clone the sample repository
-
-Exercise the following steps in the `bookshop` subfolder of the [`cloud-cap-samples`](https://github.com/sap-samples/cloud-cap-samples) repo:
-
-```sh
-git clone https://github.com/sap-samples/cloud-cap-samples samples
-cd samples/bookshop
-```
-
-:::
-
 </div>
 
 <div class="impl java">

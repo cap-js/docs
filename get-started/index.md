@@ -26,10 +26,10 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org) — required for installing the `cds` command line interface.
-- [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows.
+- [Node.js](https://nodejs.org) — required for installing the `cds` command line interface
+- [SQLite](https://sqlite.org) — included in macOS and Linux → [install it](https://sqlite.org/download.html) on Windows
 - **A Terminal**{style="font-weight: 500"} — for using the `cds` command line interface (CLI)
-- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode).
+- **A Text Editor**{style="font-weight: 500"} → we recommend [VS Code](https://code.visualstudio.com) with [CDS plugin](../tools/cds-editors#vscode)
 
 
 ### Installation
@@ -88,7 +88,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 
 ## Starting Projects
 
-- Use `cds init` to start a CAP project, and then open it in VSCode:
+- Use `cds init` to start a CAP project, and then open it in VS Code:
 
    ```sh
    cds init bookshop

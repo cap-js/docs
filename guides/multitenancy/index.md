@@ -888,7 +888,7 @@ There are several ways to run the update of the database schema.
 
 #### MTX Sidecar API
 
-Please check the [Upgrade API](./mtxs#upgrade-tenants-→-jobs) to see how the database schema update can be run for single or all tenants using the API endpoint.
+Please check the [Upgrade API](./mtxs#upgrade-options) to see how the database schema update can be run for single or all tenants using the API endpoint.
 
 #### `cds-mtx upgrade` Command
 
@@ -993,14 +993,14 @@ cds watch --profile dev
 ## SaaS Dependencies {#saas-dependencies}
 Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for the usage of both the SaaS Registry service and the Subscription Manager Service (SMS).
 
-CAP Java as well as `@sap/cds-mtxs`, each offer an easy way to integrate these dependencies. They support some services out of the box and also provide a simple API for applications. Most notably, you need such dependencies for the following SAP BTP services: [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service). 
+CAP Java as well as `@sap/cds-mtxs`, each offer an easy way to integrate these dependencies. They support some services out of the box and also provide a simple API for applications. Most notably, you need such dependencies for the following SAP BTP services: [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service).
 
 For CAP Java, all these services are supported natively and SaaS dependencies are automatically created if such a service instance is bound to the CAP Java application, that is, the `srv` module.
 
 :::tip Explicitly activate the Destination service
 SaaS dependency for Destination service needs to be activated explicitly in the `application.yaml` due to security reasons. SaaS dependencies for some of the other services can be **de**activated by setting the corresponding property to `false` in the `application.yaml`.
 
-Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties). 
+Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties).
 :::
 
 For CAP Node.js, all these services are supported natively and can be activated individually by providing configuration in `cds.requires`. In the most common case, you simply activate service dependencies like so:
@@ -1049,7 +1049,7 @@ The Boolean values in the _mtx/sidecar/package.json_ activate the default config
 
 ### Additional Services
 
-If your CAP Java application uses a service that isn't supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details. 
+If your CAP Java application uses a service that isn't supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details.
 
 
 In Node.js, you can use the `subscriptionDependency` setting to provide a dependency configuration similar to the standard configuration shown before. Use your application's or CAP plugin's _package.json_:

@@ -1035,7 +1035,7 @@ Content-Type: application/json
 ```
 
 Using query parameter `?status=1`, the extension with `ID` `isbn-extension` is deleted as draft. If the extension exists as draft, the draft will be discarded (similar to [discard](#discard-id)).
-If the extension is active, the deletion is stored as draft and requires an [activation](#activate-id-level-options--jobs) to be deployed to the database.
+If the extension is active, the deletion is stored as draft and requires an [activation](#activate-extension-draft) to be deployed to the database.
 
 ::: warning Deployment of extension deletions
 The deployment of extension deletions only works for the SAP HANA Database, it it is configured accordingly.
@@ -1087,7 +1087,7 @@ Authorization: Basic carol:
 }
 ```
 
-### `activate` _(ID, level, options) → Jobs_  <beta/>
+### `activate` _(ID, level, options) → Jobs_  <beta/> {#activate-extension-draft}
 
 Activates extension draft `ID` and makes it publicly visible.
 

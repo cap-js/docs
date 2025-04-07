@@ -147,7 +147,7 @@ While we used SQLite or H2 as a low-cost stand-in during development, we're goin
 </div>
 
 ```sh
-cds add hana --for production
+cds add hana
 ```
 
 [Learn more about using SAP HANA for production.](../databases-hana){.learn-more}
@@ -157,7 +157,7 @@ cds add hana --for production
 Configure your app for XSUAA-based authentication:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 ::: tip This will also generate an `xs-security.json` file
@@ -226,7 +226,7 @@ cds add workzone
 To enable multitenancy for production, run the following command:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
 [Learn more about MTX services.](../multitenancy/#behind-the-scenes){.learn-more}

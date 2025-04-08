@@ -1106,9 +1106,9 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 
 | Transformation                                | Description                                                      | Node.js |        Java        |
 |-----------------------------------------------|------------------------------------------------------------------|:-------:|:------------------:|
-| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <Na/>  | <X/><sup>(1)</sup> |
-| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <Na/>  | <X/><sup>(1)</sup> |
-| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <Na/>  | <X/><sup>(1)</sup> |
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
 
 - <sup>(1)</sup> Beta feature, API may change
 

@@ -65,7 +65,7 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 
 #### Add CDS Editor
 
-1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
+1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds).
 2. Click *Install* and confirm the popup dialog.
 3. In VS Code, choose *Install* to enable the extension.
 
@@ -75,19 +75,19 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 
 #### Add Useful Plugins
 
-In addition we recommend installing these VS Code Extensions:
+In addition we recommend installing these VS Code extensions:
 
-   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
-   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
-   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+- [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+- [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 
 
 
 #### Run Services
 
-To run services, just open the Integrated Terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
+To run services, just open the integrated terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
 
 Alternatively, you can use the preconfigured tasks or launch configurations you get when creating a project with `cds init`.
 For example, in the _Debug_ view launch _cds run_ with the green arrow button:
@@ -446,7 +446,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Beta /> 
+### CDS Source Formatter <Beta />
 { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent

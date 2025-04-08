@@ -554,6 +554,33 @@ Application developers shouldn't have to care for such technical details. CAP en
 
 
 
+## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
+
+CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
+As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
+
+```jsonc
+"cds": {
+  "requires": {
+    "messaging": {
+      "[production]": {
+        "kind": "event-broker"
+      }
+    }
+  }
+}
+```
+
+[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
+
+
+::: tip Read the guide
+Find additional information about deploying SAP Cloud Application Event Hub on SAP BTP in this guide:
+[&rarr; **_Using SAP Cloud Application Event Hub in BTP_**](./event-broker)
+:::
+
+
+
 ## [Using SAP Event Mesh](./event-mesh) {#sap-event-mesh}
 
 CAP has out-of-the-box support for SAP Event Mesh.
@@ -578,33 +605,6 @@ As an application developer, all you need to do is configuring CAP to use `enter
 ::: tip Read the guide
 Find additional information about deploying SAP Event Mesh on SAP BTP in this guide:
 [&rarr; **_Using SAP Event Mesh in BTP_**](./event-mesh)
-:::
-
-
-
-## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
-
-CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
-As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
-
-```jsonc
-"cds": {
-  "requires": {
-    "messaging": {
-      "[production]": {
-        "kind": "event-broker"
-      }
-    }
-  }
-}
-```
-
-[Learn more about `cds.env` profiles](../../node.js/cds-env#profiles){.learn-more}
-
-
-::: tip Read the guide
-Find additional information about deploying SAP Event Broper on SAP BTP in this guide:
-[&rarr; **_Using SAP Cloud Application Event Hub in BTP_**](./event-broker)
 :::
 
 

@@ -147,7 +147,7 @@ While we used SQLite or H2 as a low-cost stand-in during development, we're goin
 </div>
 
 ```sh
-cds add hana --for production
+cds add hana
 ```
 
 [Learn more about using SAP HANA for production.](../databases-hana){.learn-more}
@@ -157,7 +157,7 @@ cds add hana --for production
 Configure your app for XSUAA-based authentication:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 ::: tip This will also generate an `xs-security.json` file
@@ -226,7 +226,7 @@ cds add workzone
 To enable multitenancy for production, run the following command:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
 [Learn more about MTX services.](../multitenancy/#behind-the-scenes){.learn-more}
@@ -250,22 +250,15 @@ cds up
 
 [You need to be logged in to Cloud Foundry.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
 
-<!-- ::: info Prepare monorepo setups
-The CAP samples repository on GitHub has a more advanced (monorepo) structure, so tell the `mbt` tool to find the `package-lock.json` on top-level:
-
-```sh
-ln -sf ../package-lock.json
-```
-
-::: -->
-
-
 ::: details Essentially, this automates the following steps...
 
 ```sh
 # Installing app dependencies, e.g.
 npm i app/browse
 npm i app/admin-books
+
+# If project is monrepo
+ln -sf ../package-lock.json
 
 # If project is multitenant
 npm i --package-lock-only mtx/sidecar

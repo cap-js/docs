@@ -164,17 +164,6 @@ cds add xsuaa
 The roles/scopes are derived from authorization-related annotations in your CDS models. Ensure to rerun `cds compile --to xsuaa`, as documented in the [_Authorization_ guide](/guides/security/authorization#xsuaa-configuration) whenever there are changes to these annotations.
 :::
 
-::: details For trial and extension landscapes, OAuth configuration is required
-Add the following snippet to your _xs-security.json_ and adapt it to the landscape you're deploying to:
-
-```json
-"oauth2-configuration": {
-  "redirect-uris": ["https://*.cfapps.us10-001.hana.ondemand.com/**"]
-}
-```
-
-:::
-
 [Learn more about SAP Authorization and Trust Management/XSUAA.](https://discovery-center.cloud.sap/serviceCatalog/authorization-and-trust-management-service?region=all){.learn-more}
 
 ### 3. MTA-Based Deployment { #add-mta-yaml}

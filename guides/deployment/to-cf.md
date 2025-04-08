@@ -250,22 +250,15 @@ cds up
 
 [You need to be logged in to Cloud Foundry.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
 
-<!-- ::: info Prepare monorepo setups
-The CAP samples repository on GitHub has a more advanced (monorepo) structure, so tell the `mbt` tool to find the `package-lock.json` on top-level:
-
-```sh
-ln -sf ../package-lock.json
-```
-
-::: -->
-
-
 ::: details Essentially, this automates the following steps...
 
 ```sh
 # Installing app dependencies, e.g.
 npm i app/browse
 npm i app/admin-books
+
+# If project is monrepo
+ln -sf ../package-lock.json
 
 # If project is multitenant
 npm i --package-lock-only mtx/sidecar

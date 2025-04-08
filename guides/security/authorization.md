@@ -492,7 +492,7 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition<sup>2</sup>)
 - `DELETE` (as reject condition<sup>2</sup>)
 
- > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.  
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
  > <sup>2</sup> CAP Java uses a filter condition by default.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
@@ -899,7 +899,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 This generates an _xs-security.json_ file:

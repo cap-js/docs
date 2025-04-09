@@ -20,6 +20,13 @@ OPTIONS
     This value must be set in your project configuration.
     Passing it as parameter to the cds-typer CLI has no effect.
 
+  --cache: &lt;none | blake2s256&gt;
+    (default: none)
+
+    How to cache typer runs.
+    none: fully run cds-typer whenever it is called
+    blake2s256: only run if the blake2s256-hash of the model has changed. Hash is stored in a file between runs.
+
   --help
 
     This text.
@@ -74,6 +81,7 @@ OPTIONS
 
     If set to true, properties in entities are
     always generated as optional (a?: T).
+    Setting it to false makes properties non-optional instead (a: T).
 
   --targetModuleType
   --target_module_type: &lt;esm | cjs | auto&gt;
@@ -85,7 +93,7 @@ OPTIONS
 
   --useEntitiesProxy
   --use_entities_proxy: &lt;true | false&gt;
-    (default: false)
+    (default: true)
 
     If set to true the 'cds.entities' exports in the generated 'index.js'
     files will be wrapped in 'Proxy' objects

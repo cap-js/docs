@@ -650,7 +650,7 @@ ID;title;author.ID;currency.code // [!code --]
 
 As mentioned in [Using Lean Draft](#using-lean-draft), we eliminated all draft handling from new database service implementations, and instead implemented draft in a modular, non-intrusive, and optimized way — called *'Lean Draft'*.
 
-When using the new service, the new `cds.fiori.lean_draft` mode is automatically switched on. You may additionally switch on <Config keyOnly>cds.fiori.draft_compat:true</Config> in case you run into problems.
+When using the new service, the new `cds.fiori.lean_draft` mode is automatically switched on.
 
 More detailed documentation for that is coming.
 

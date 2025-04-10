@@ -888,7 +888,7 @@ There are several ways to run the update of the database schema.
 
 #### MTX Sidecar API
 
-Please check the [Upgrade API](./mtxs#upgrade-tenants-→-jobs) to see how the database schema update can be run for single or all tenants using the API endpoint.
+Please check the [Upgrade API](./mtxs#upgrade-options) to see how the database schema update can be run for single or all tenants using the API endpoint.
 
 #### `cds-mtx upgrade` Command
 

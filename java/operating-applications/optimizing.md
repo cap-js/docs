@@ -67,6 +67,8 @@ cf java asprof sample-app-srv -args '-d 30 -f flame.html' -ld ~/tmp
 Choosing an output filename with .html ending indicates to use the output type `flamegraph`, see [FlameGraph visualization](https://github.com/async-profiler/async-profiler/blob/master/docs/GettingStarted.md#flamegraph-visualization)
 :::
 
+`.html` files can be opened in a browser, `.jfr` files can be viewed with a viewer such as [OpenJDK Mission Control](https://openjdk.org/projects/jmc/).
+
 ### Remote JMX-Based Tools { #profiling-jmx}
 
 Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](observability#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the following property to your application configuration.:

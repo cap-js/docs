@@ -35,13 +35,37 @@ A bunch of tools also support [remote](#profiling-remote) connections in a secur
 Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
 The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
 
-### Remote Tools { #profiling-remote}
+### Async Profiler
 
-It's even more convenient to interact with the JVM with a frontend client running on a local machine. As already mentioned, a remote daemon as the endpoint of an ssh tunnel is required. Some representative tools are:
+Recent versions of the SAP Java Buildpack with SAPMachine 17 and 21 contain the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) and can be used conveniently with the [Cloud Foundry Command Line Java plugin](https://github.com/SAP/cf-cli-java-plugin) for remote profiling of Java applications deployed to Cloud Foundry. Please check the plugin documentation on details of its installation.
 
-- [SAP JVM Profiler](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits) for SAP JVM with [Memory Analyzer](https://www.eclipse.org/mat/) integration. Find a detailed documentation how to set up a secure remote connection on [Profiling an Application Running on SAP JVM](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e7097737709842b7bb1c3b9bf3d688b6.html).
+The plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access).
 
-- [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) is a popular Java profiler available for different platforms and IDEs.
+Once that is in place you start easily start profiling your application by using the `cf java start-asprof | stop-asprof | asprof` commands.
+
+Below are some command examples, but check the [Cloud Foundry Command Line Java plugin documenation](https://github.com/SAP/cf-cli-java-plugin) and `cf java -h` for more details.
+
+#### Examples
+
+1. Profile `sample-app-srv` for 30 seconds, write output into a file `profile.jfr` and download the file from the container to the local directory `~/tmp`:
+
+```sh
+cf java asprof sample-app-srv -args '-d 30 -f profile.jfr' -ld ~/tmp
+```
+
+:::tip Asprof Command Arguments
+When using the `asprof` command, asprof specific arguments need to be passed with `-args`.
+:::
+
+2. Profile `sample-app-srv` for 30 seconds with output type flamegraph, write the output into a file `flame.html` and download the file from the container to the local directory `~/tmp`:
+
+```sh
+cf java asprof sample-app-srv -args '-d 30 -f flame.html' -ld ~/tmp
+```
+
+:::tip Implicit Flamegraphs
+Choosing an output filename with .html ending indicates to use the output type `flamegraph`, see [FlameGraph visualization](https://github.com/async-profiler/async-profiler/blob/master/docs/GettingStarted.md#flamegraph-visualization)
+:::
 
 ### Remote JMX-Based Tools { #profiling-jmx}
 

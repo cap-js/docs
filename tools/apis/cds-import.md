@@ -1,7 +1,7 @@
 ---
 status: released
 synopsis: >
-  Programmatically use <code>cds.import</code>
+  Programmatically use <code>cds.import</code>.
 ---
 
 # CDS Import API

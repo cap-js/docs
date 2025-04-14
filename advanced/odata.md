@@ -1139,6 +1139,73 @@ GET SalesOrganizations?$apply=
    /ancestors(..., ID, filter(contains(Name, 'New York')), keep start)
 ```
 
+#### Modeling Recursive Hierarchies
+
+Recursive are parent-child hierarchies, where each entity references its' parent, defining the hierarchical structure. The common example is company organization structure or HR reporting, where each employee entity references another person a as direct report or manager.
+
+##### Domain Model
+
+The simplest domain model looks as follows:
+
+```cds
+entity Employee : Hierarchy {
+    key ID     : UUID;
+        parent : Association to Employee;
+        fullName   : String;
+}
+
+aspect Hierarchy {
+  virtual LimitedDescendantCount : Integer64;
+  virtual DistanceFromRoot       : Integer64;
+  virtual DrillState             : String;
+  virtual LimitedRank            : Integer64;
+}
+```
+
+The entity `Employee` contains the element `ID`, which identifies the node, and the `parent` association referencing the same entity. Thus the parent-child relationship is set.
+
+The `Hierarchy` aspect defines a set of virtual elements, automatically calculated by the backend at runtime, to describe the state of the hierarchy. This information is requested by the UI to correctly render the hierarchy in a *TreeTable* during user interaction.
+
+##### Service Model
+
+The service defines the projection on the domain model.
+
+```cds
+@odata.apply.transformations
+service HRService {
+    entity HREmployee as projection on Employee;
+}
+```
+
+::: warning
+The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence service.
+:::
+
+##### OData v4 Annotations for Fiori
+
+In order to link the backend and Fiori UI, the projected service entity must be enriched with the following annotations.
+
+```cds
+annotate HRService.HREmployee with @Aggregation.RecursiveHierarchy #EmployeeHierarchy: {
+    $Type: 'Aggregation.RecursiveHierarchyType',
+    NodeProperty: ID,
+    ParentNavigationProperty: parent
+};
+```
+
+Here the `EmployeeHierarchy` specifies a hierarchy qualifier, `NodeProperty` (identifying the hierarchy node) is linked to `ID` of the entity `HREmployee`, and the `ParentNavigationProperty` is linked to a corresponding `parent` association.
+
+```cds
+annotate HRService.HREmployee with @Hierarchy.RecursiveHierarchy #EmployeeHierarchy: {
+  $Type: 'Hierarchy.RecursiveHierarchyType',
+  LimitedDescendantCount: LimitedDescendantCount,
+  DistanceFromRoot: DistanceFromRoot,
+  DrillState: DrillState,
+  LimitedRank: LimitedRank
+};
+```
+
+Here the same qualifier `EmployeeHierarchy` is referenced to map the elements, which keep the state of the hierarchy.
 
 ### Aggregation Methods
 

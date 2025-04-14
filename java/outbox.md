@@ -228,7 +228,7 @@ As the `OutboxMessage` instance is serialized and stored in the database, all da
 must be serializable and deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
 
 ```java
-OutboxService outboxService = runtime.getServiceCatalog(OutboxService.class, "<OutboxServiceName>");
+OutboxService outboxService = runtime.getServiceCatalog().getService(OutboxService.class, "<OutboxServiceName>");
 
 OutboxMessage message = OutboxMessage.create();
 message.setParams(Map.of("name", "John", "lastname", "Doe"));

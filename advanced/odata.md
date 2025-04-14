@@ -1141,7 +1141,7 @@ GET SalesOrganizations?$apply=
 
 #### Modeling Recursive Hierarchies
 
-Recursive are parent-child hierarchies, where each entity references its' parent, defining the hierarchical structure. The common example is company organization structure or HR reporting, where each employee entity references another person a as direct report or manager.
+Recursive are parent-child hierarchies, where each entity references its parent, defining the hierarchical structure. A common example is company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
 
 ##### Domain Model
 
@@ -1149,9 +1149,9 @@ The simplest domain model looks as follows:
 
 ```cds
 entity Employee : Hierarchy {
-    key ID     : UUID;
-        parent : Association to Employee;
-        fullName   : String;
+  key ID       : UUID;
+      parent   : Association to Employee;
+      fullName : String;
 }
 
 aspect Hierarchy {
@@ -1160,9 +1160,10 @@ aspect Hierarchy {
   virtual DrillState             : String;
   virtual LimitedRank            : Integer64;
 }
-```
 
-The entity `Employee` contains the element `ID`, which identifies the node, and the `parent` association referencing the same entity. Thus the parent-child relationship is set.
+The entity `Employee` has the element `ID`, which identifies the node. The `parent` association references the same entity, which establishes the parent-child relationship.
+
+##### Virtual Elements of a Hierarchy
 
 The `Hierarchy` aspect defines a set of virtual elements, automatically calculated by the backend at runtime, to describe the state of the hierarchy. This information is requested by the UI to correctly render the hierarchy in a *TreeTable* during user interaction.
 
@@ -1178,7 +1179,7 @@ service HRService {
 ```
 
 ::: warning
-The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence service.
+The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence layer.
 :::
 
 ##### OData v4 Annotations for Fiori
@@ -1205,7 +1206,7 @@ annotate HRService.HREmployee with @Hierarchy.RecursiveHierarchy #EmployeeHierar
 };
 ```
 
-Here the same qualifier `EmployeeHierarchy` is referenced to map the elements, which keep the state of the hierarchy.
+Here the same qualifier `EmployeeHierarchy` is referenced to list the names of the [virtual elements of the hierarchy](#virtual-elements-of-a-hierarchy).
 
 ### Aggregation Methods
 

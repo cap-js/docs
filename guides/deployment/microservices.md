@@ -67,9 +67,11 @@ This guide describes a way to manage development and deployment via *[monorepos]
    cds w bookstore
    ```
 
+   <!-- What am I able to see now? Do they find ech other already? Otherweise: Why would I test-drive it at this point? -->
+
 
 ::: details Other project structures
-
+<!-- Why is it "Other..."?-->
 The project structure used here is as follows:
 
 ```txt
@@ -113,7 +115,7 @@ The advantages are as follows:
 :::
 
 ### Add a project for shared database
-
+<!-- Mention that this is part of the monorepo? Becomes clearer later. Could also be mentioned in line 100. -->
 1. Add another `cds` project to collect the models from these projects:
 
    ```sh
@@ -199,7 +201,7 @@ This adds everything necessary for a full CAP application.
 Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
 
 ```yaml
-_schema-version: 3.3.0
+_schema-version: 3.3.0b
 ID: shared-db
 version: 1.0.0
 description: "A simple CAP project."
@@ -313,6 +315,7 @@ Here we go on with our guide how to deploy all 3+1 projects at once with a commo
 
 Add initial multitarget application configuration for deployment to Cloud Foundry:
 
+<!-- in the monorepo root? -->
 ```shell
 cds add mta
 ```
@@ -370,6 +373,7 @@ In this walkthrough, we only include a subset of the CDS models in the deploymen
 
 
 ::: details Configure each app for cloud readiness
+<!-- Why are those steps so much hidden? -->
 The preceding  steps added configuration only to the workspace root.
 
 Additionally add database configuration to each module that we want to deploy - bookstore, orders, and reviews:
@@ -470,7 +474,7 @@ Note that we use the *--ws-pack* option for some modules. It's important for nod
 ### Authentication
 
 Add [security configuration](../security/authorization#xsuaa-configuration) using the command:
-
+<!-- Would that also work with IAS/AMS? -->
 ```shell
 cds add xsuaa --for production
 ```
@@ -660,6 +664,7 @@ modules:
 :::
 
 Use the destinations in the bookstore application:
+<!-- Is that in the bookstore/mta.yaml? -->
 
 ::: code-group
 ```yaml [mta.yaml]

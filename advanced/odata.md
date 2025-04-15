@@ -1160,7 +1160,6 @@ aspect Hierarchy {
   virtual DrillState             : String;
   virtual LimitedRank            : Integer64;
 }
-
 The entity `Employee` has the element `ID`, which identifies the node. The `parent` association references the same entity, which establishes the parent-child relationship.
 
 ##### Virtual Elements of a Hierarchy

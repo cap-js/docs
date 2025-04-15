@@ -557,14 +557,14 @@ For example, if you work on Node.js things like [building plugins](../guides/dep
 :::
 
 
-## Debugging with `cds debug` <Beta /> {#cds-debug}
+## Debugging with `cds debug` {#cds-debug}
 
 `cds debug` lets you debug applications running locally or remotely on SAP BTP Cloud Foundry.
 Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
 
 To debug an application on Cloud Foundry, the following is important:
 - You're logged in to the space where the application is deployed to.
-- You have developer permissions in that space -> [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment).
+- You have developer permissions in that space. → [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment)
 - The app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
 
 Effectively, run:

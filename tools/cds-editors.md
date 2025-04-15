@@ -446,40 +446,57 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Beta />
-{ #cds-formatter}
+### CDS Source Formatter <Beta /> { #cds-formatter}
 
-The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
-formatting.
+The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline to ensure consistent formatting.
 
 #### Installation
 
-Install the CDS language server globally as a library via `npm i -g @sap/cds-lsp`.
-A new shell command `format-cds` is available.
+Install the CDS language server globally as a library via
+
+```sh
+npm i -g @sap/cds-lsp
+```
+
+You can now use the formatter command:
+
+```sh
+format-cds
+```
 
 #### Usage
 
-Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
-each formatting option.
+For detailed usage information run the help command:
 
-It is recommended to generate once for each project a settings file (_.cdsprettier.json_) with all default formatting options available. Execute `format-cds --init` in the project root. An existing file would not be overwritten. To adapt your settings to your preferred style, open the _.cdsprettier.json_ file in VS Code. You get code completion and help for each option. There is also a settings UI in [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds),
-reachable via command `CDS: Show Formatting Options Configuration`. This allows to see the effects of each formatting option
-on an editable sample source. Commit the _.cdsprettier.json_ file into your version control system.
+```sh
+format-cds -h
+```
 
-Use `format-cds` to format all your CDS source files. The effective set of formatting options is calculated in order of precedence:
-- Default options
-- Options from _.cdsprettier.json_ file
-- Command line formatting options
+You can create a settings file (_.cdsprettier.json_) with custom formatting options for your project.
 
-It is possible to have _.cdsprettier.json_ files in subfolders. In this case the most relevant settings file per CDS source file
-is taken.
+Run this to create an initial version:
+```sh
+format-cds --init
+```
+> Commit the _.cdsprettier.json_ file into your version control system.
+
+::: tip Use the visual VS Code settings
+Run `CDS: Show Formatting Options Configuration` to jump to the [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) settings, which shows a preview of selected formatter options.
+:::
+
+The effective set of formatting options is calculated in order of precedence:
+1. Command line options
+2. Options from _.cdsprettier.json_
+3. Default options
+
+It is possible to have _.cdsprettier.json_ files in subfolders. In that case, the closest file in the folder hierarchy is used for the respective CDS source.
 
 Use `format-cds <foldername1> <foldername2> <filename> ...` to restrict the set of CDS source files.
-By default, backup files with _.bak_ file extension will be created.
 
-Use `-f` switch to force an overwrite without creating a backup.
+By default, backup files with the _.bak_ file extension will be created. Use the `-f` switch to force an overwrite without creating a backup.
 This is on your own risk. Should there be problems data loss might occur, especially when formatting in a pre-commit hook.
-Better add _.bak_ to your _.gitignore_ file and not use `-f`.
+
+> We recommend adding _.bak_ to your _.gitignore_ file.
 
 ### GitHub Integration
 

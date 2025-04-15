@@ -489,6 +489,4 @@ OAuth2DestinationBuilder
 
 ### Limitations
 
-The following limitations are currently present for Remote OData Services in CAP Java:
-
-- Streaming of media content is not supported. This means that elements of an entity annotated with `@Core.MediaType` cannot be accessed via Remote OData Services and will cause an error. It is recommended to exclude these elements in your projections on the imported entity.
+Streaming of media content is not supported. This means that elements of an entity annotated with `@Core.MediaType` cannot be accessed via Remote OData Services and will cause an error. It is recommended to exclude these elements in your projections on the imported entity.

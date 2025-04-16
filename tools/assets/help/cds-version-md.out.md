@@ -4,17 +4,17 @@
 
 | your-project           | &lt;Add your repository here&gt;              |
 | ---------------------- | --------------------------------------- |
-| @cap-js/asyncapi       | 1.0.2                                   |
-| @cap-js/cds-types      | 0.7.0                                   |
-| @cap-js/db-service     | 1.16.0                                  |
-| @cap-js/openapi        | 1.0.7                                   |
-| @cap-js/sqlite         | 1.7.7                                   |
-| @sap/cds               | 8.5.0                                   |
-| @sap/cds-compiler      | 5.5.0                                   |
-| @sap/cds-dk (global)   | 8.5.0                                   |
-| @sap/cds-fiori         | 1.2.8                                   |
+| @cap-js/asyncapi       | 1.0.3                                   |
+| @cap-js/cds-types      | 0.9.0                                   |
+| @cap-js/db-service     | 1.19.1                                  |
+| @cap-js/openapi        | 1.2.1                                   |
+| @cap-js/sqlite         | 1.10.0                                  |
+| @sap/cds               | 8.9.0                                   |
+| @sap/cds-compiler      | 5.9.0                                   |
+| @sap/cds-dk (global)   | 8.9.0                                   |
+| @sap/cds-fiori         | 1.4.0                                   |
 | @sap/cds-foss          | 5.0.1                                   |
-| @sap/cds-mtxs          | 2.4.0                                   |
-| @sap/eslint-plugin-cds | 3.1.2                                   |
-| Node.js                | v20.18.1                                |
+| @sap/cds-mtxs          | 2.7.0                                   |
+| @sap/eslint-plugin-cds | 3.2.0                                   |
+| Node.js                | v20.19.0                                |
 </pre>

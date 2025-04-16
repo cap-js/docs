@@ -43,7 +43,7 @@ let linked = cds.linked(csn) // linked === csn
 Instead of a already compiled CSN, you can also pass a string containing CDL source code:
 
 ```js
-let linked = cds.linked(`
+let linked = cds.linked`
   entity Books {
   	key ID: UUID;
   	title: String;
@@ -53,7 +53,7 @@ let linked = cds.linked(`
   	key ID: UUID;
   	name: String;
   }
-`)
+`
 ```
 
 The passed in model gets **modified**, and the returned linked model is actually the modified passed-in csn.
@@ -88,7 +88,7 @@ These are convenient shortcuts to access all *[service](../cds/cdl#services)* or
 For example:
 
 ```js
-let csn = CDL`
+let m = cds.linked`
   namespace my.bookshop;
   entity Books {...}
   entity Authors {...}
@@ -96,7 +96,6 @@ let csn = CDL`
     entity ListOfBooks as projection on Books {...}
   }
 `
-let m = cds.linked (csn)
 
 // Object nature
 let { CatalogService, AdminService } = m.services
@@ -458,11 +457,10 @@ cds.Composition = class Composition extends Association {...}
 For example, you can use these classes as follows:
 
 ```js
-let model = CDL`
+let m = cds.linked`
    entity Books { author: Association to Authors; }
    entity Authors { key ID: UUID; }
 `)
-let m = cds.linked(model)
 let { Books, Authors } = m.entities
 let isEntity = Books instanceof cds.entity
 let keys = Books.keys
@@ -502,12 +500,12 @@ cds.linked.classes .mixin (
 )
 
 // test drive
-let csn = CDL`
-entity Books : cuid { title:String; author: Association to Authors }
-entity Authors : cuid { name:String; }
-aspect cuid : { key ID:UUID; }
+let m = cds.linked`
+  entity Books : cuid { title:String; author: Association to Authors }
+  entity Authors : cuid { name:String; }
+  aspect cuid : { key ID:UUID; }
 `
-cds.linked(csn).foreach (d => console.log(d.toCDL()))
+m.foreach (d => console.log(d.toCDL()))
 ```
 
 
@@ -522,8 +520,8 @@ This property gives you access to all prototypes of the builtin classes as well 
 
 Actually, at runtime CDS is in fact bootstrapped out of this using core [CSN](../cds/csn) object structures and [`cds.linked`] techniques. Think of it to be constructed as follows:
 
-```cds
-cds.builtin.types = cds.linked (CDL`
+```js
+cds.builtin.types = cds.linked`
   using from './roots';
   context cds {
     type UUID         : String(36);
@@ -544,8 +542,9 @@ cds.builtin.types = cds.linked (CDL`
     type Binary       : string;
     type LargeString  : string;
     type LargeBinary  : string;
+    type Map          : struct;
   }
-`) .definitions
+`.definitions
 ```
 
 With `./roots` being this in-memory CSN:

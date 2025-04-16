@@ -78,7 +78,6 @@ In the CDS model, some of the user properties can be referenced with the `$user`
 | User Property                 | Reference           |
 |-------------------------------|---------------------|
 | Name                          | `$user`             |
-| Tenant                        | `$user.tenant`      |
 | Attribute (name \<attribute>) | `$user.<attribute>` |
 
 > A single user attribute can have several different values. For instance, the `$user.language` attribute can contain `['DE','FR']`.
@@ -124,12 +123,11 @@ All technical clients that have access to the application's XSUAA or IAS service
 
 ### Mapping User Claims
 
-Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name, tenant and attributes:
+Depending on the configured [authentication](#prerequisite-authentication) strategy, CAP derives a *default set* of user claims containing the user's name and attributes:
 
 | CAP User Property   | XSUAA JWT Property               | IAS JWT Property        |
 |---------------------|----------------------------------|-------------------------|
 | `$user`             | `user_name`                      | `sub`                   |
-| `$user.tenant`      | `zid`                            | `zone_uuid`             |
 | `$user.<attribute>` | `xs.user.attributes.<attribute>` | All non-meta attributes |
 
 ::: tip
@@ -494,12 +492,13 @@ A service level entity can't inherit a restriction with a `where` condition that
 
 The [restrict annotation](#restrict-annotation) for an entity allows you to enforce authorization checks that statically depend on the event type and user roles. In addition, you can define a `where`-condition that further limits the set of accessible instances. This condition, which acts like a filter, establishes an *instance-based authorization*.
 
-The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies following standard CDS events only<sup>1</sup>:
+The condition defined in the `where`-clause typically associates domain data with static [user claims](#user-claims). Basically, it *either filters the result set in queries or accepts only write operations on instances that meet the condition*. This means that, the condition applies to following standard CDS events only<sup>1</sup>:
 - `READ` (as result filter)
-- `UPDATE` (as reject condition)
-- `DELETE` (as reject condition)
+- `UPDATE` (as reject condition<sup>2</sup>)
+- `DELETE` (as reject condition<sup>2</sup>)
 
  > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
+ > <sup>2</sup> CAP Java uses a filter condition by default.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
 
@@ -522,6 +521,16 @@ Supported features are:
 * Value references to constants, [user attributes](#user-attrs), and entity data (elements including [paths](#association-paths))
 * [Exists predicate](#exists-predicate) based on subselects.
 
+
+<div class="impl java">
+
+CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it using the configuration option <Config java keyOnly label="reject-selected-unauthorized-entity">cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>.
+
+</div>
+
+::: info Avoid enumerable keys
+In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.
+:::
 
 ### User Attribute Values { #user-attrs}
 
@@ -895,7 +904,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 This generates an _xs-security.json_ file:
@@ -953,17 +962,17 @@ cds add mta
 modules:
   - name: bookshop-srv
     requires:
-      - bookshop-auth // [!code ++]
+      - bookshop-auth # [!code ++]
 resources:
-  name: bookshop-auth // [!code ++]
-  type: org.cloudfoundry.managed-service // [!code ++]
-  parameters: // [!code ++]
-    service: xsuaa // [!code ++]
-    service-plan: application // [!code ++]
-    path: ./xs-security.json # include cds managed scopes and role templates // [!code ++]
-    config: // [!code ++]
-      xsappname: bookshop-${org}-${space} // [!code ++]
-      tenant-mode: dedicated # 'shared' for multitenant deployments // [!code ++]
+  name: bookshop-auth # [!code ++]
+  type: org.cloudfoundry.managed-service # [!code ++]
+  parameters: # [!code ++]
+    service: xsuaa # [!code ++]
+    service-plan: application # [!code ++]
+    path: ./xs-security.json # include cds managed scopes and role templates  [!code ++]
+    config: # [!code ++]
+      xsappname: bookshop-${org}-${space} # [!code ++]
+      tenant-mode: dedicated # 'shared' for multitenant deployments  [!code ++]
 ```
 :::
 

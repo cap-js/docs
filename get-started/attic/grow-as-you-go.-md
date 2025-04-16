@@ -15,10 +15,10 @@ As your project evolves, you would gradually add new features, for example as ou
 While we used SQLite in-memory databases and mocked authentication during development, we would use SAP HANA Cloud and a combination of App Router, IAS and/or XSUAA in production. We can quickly do so as follows:
 
 ```sh
-cds add hana,approuter,xsuaa --for production
+cds add hana,approuter,xsuaa
 ```
 
-This adds respective packages and configuration to your project. The content of your project, that is, models or code, doesn't change and doesn't have to be touched. The option  `--for production` controls that these service variants are only used when in production profile, that is, when the app is deployed to the cloud. Locally you continue to develop in airplane mode.
+This adds respective packages and configuration to your project with the `[production]` profile. The content of your project, that is, models or code, doesn't change and doesn't have to be touched. The profile controls that these service variants are only used when in production, that is, when the app is deployed to the cloud. Locally you continue to develop in airplane mode.
 
 
 
@@ -39,7 +39,7 @@ cds add mta
 If you are creating a SaaS application you also need to add support for tenant subscriptions and tenant upgrades. When a tenant subscribes, new database containers have to be bootstrapped along with other resources, like message channels. CAP provides the so-called MTX services which do that automatically in a sidecar micro service. You can add all required packages and configurations by:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
 [Learn more about multitenancy.](../guides/multitenancy/){.learn-more}

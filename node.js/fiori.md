@@ -146,6 +146,10 @@ You can set the property to one of the following:
 - number of hours like `'72h'`
 - number of milliseconds like `1000`
 
+::: info Technical background
+It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there's no periodic job that does the garbage collection.
+:::
+
 ### Differences to Previous Version
 
 - Draft-enabled entities have corresponding CSN entities for drafts:
@@ -174,3 +178,15 @@ You can set the property to one of the following:
 - Draft-related properties (with the exception of `IsActiveEntity`) are only computed for the target entity, not for expanded sub entities since this is not required by Fiori Elements.
 - Manual filtering on draft-related properties is not allowed, only certain draft scenarios are supported.
 
+
+### Programmatic Invocation of Draft Actions <Beta />
+
+You can programmatically invoke draft actions with the following APIs:
+
+```js
+await srv.new(MyEntity.drafts, data)     // create new draft
+await srv.discard(MyEntity.drafts, keys) // discard draft
+await srv.edit(MyEntity, keys)           // create draft from active instance
+await srv.new(MyEntity.drafts).for(keys) // same as above
+await srv.save(MyEntity.drafts, keys)    // activate draft
+```

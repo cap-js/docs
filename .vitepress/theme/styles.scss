@@ -44,6 +44,9 @@
   --vp-nav-height: 44px;
 
   --vp-c-text-1: #000;
+  .VPHomeHero {
+    h1 span.name { line-height: 1.2em; }
+  }
   h1, h2, h3, h4, h5 { color: rgba(60, 60, 67) }
   h6 { color: transparent; position: absolute; margin-top: -7.7em; right: 0px; } // we use h6 for alternative anchor targets
 
@@ -54,7 +57,8 @@
     --vp-c-text-1: rgba(255, 255, 245, 0.86);
 
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img, svg.adapt-dark {
+    img, svg.adapt-dark,
+    video.bright { // assuming videos are usually dark, only darken them if marked as bright
       filter: brightness(.884) invert(1) hue-rotate(177deg)
     }
     img.mute-dark {
@@ -364,13 +368,15 @@ main {
   .prefer::before { content: 'Prefer: '; color: #0a0 }
   .avoid::before { content: 'Avoid: '; color: #e00 }
 
-  .good, .green { color:#0a0 };
+  .good, .green { color:#0a0; .dark & { color:#0a0 } };
   .bad, .red, .important { color:darkred; .dark & { color:#e00 } }
   .grey { color:#777 };
 
   .constructor::before { content: 'Constructor: '; color: #999 }
   .annotation::before { content: 'Annotation: '; color: #999 }
+  .interface::before { content: 'Interface: '; color: #999 }
   .property::before { content: 'Property: '; color: #999 }
+  .type::before { content: 'Type: '; color: #999 }
   .method::before { content: 'Method: '; color: #999 }
   .event::before { content: 'Event: '; color: #999 }
   .class::before { content: 'Class: '; color: #999 }

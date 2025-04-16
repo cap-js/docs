@@ -285,6 +285,26 @@ cds:
 ```
 :::
 
+#### Configuring SAP Cloud Application Event Hub Support: { #configuring-sap-event-hub-support}
+
+::: code-group
+```xml [srv/pom.xml]
+<dependency>
+  <groupId>com.sap.cds</groupId>
+  <artifactId>cds-feature-event-hub</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+```yaml [srv/src/main/resources/application.yaml]
+cds:
+  messaging.services:
+  - name: "messaging-name"
+    kind: "event-hub"
+```
+:::
+
+Support for SAP Cloud Application Event Hub is provided via [plugin](../plugins/#event-hub).
+
 <span id="beforeredispubsub" />
 
 #### Configuring Redis PubSub Support <Beta />: { #configuring-redis-pubsub-support-beta}
@@ -542,7 +562,7 @@ cds:
 ```
 :::
 
-[Learn more about SAP Event Mesh configuration options.](https://help.sap.com/doc/75c9efd00fc14183abc4c613490c53f4/Cloud/en-US/rest-management-messaging.html#_queuep){.learn-more}
+[Learn more about SAP Event Mesh configuration options.](https://hub.sap.com/api/SAPEventMeshDefaultManagementAPIs/path/putQueue){.learn-more}
 
 <div id="queue-config-more" />
 
@@ -680,6 +700,44 @@ private void handleError(MessagingErrorEventContext ctx) {
 }
 ```
 
+In a multi-tenant setup with several microservices, messages of a tenant not yet subscribed to the own microservice would be already received from the message queue. In this case, the message cannot be processed for the tenant because the tenant context is not yet available. By default, the standard error handler still acknowledges the message to prevent it from getting stuck in the message sequence. To change this behavior, the custom error handler from the example above can be extended by checking the exception type of the unknown tenant. 
+
+
+```java
+@On(service = "messaging")
+private void handleError(MessagingErrorEventContext ctx) {
+
+  String errorCode = ctx.getException().getErrorStatus().getCodeString();
+  if (errorCode.equals(CdsErrorStatuses.NO_ON_HANDLER.getCodeString()) ||
+      errorCode.equals(CdsErrorStatuses.INVALID_DATA_FORMAT.getCodeString())) {
+      // error handling for infrastructure error
+      ctx.setResult(false); // no acknowledgement
+    
+    } else if (errorCode.equals(CdsErrorStatuses.TENANT_NOT_EXISTS.getCodeString())) {
+      // error handling for unknown tenant context
+      
+       // tenant of the received message
+      String tenant = ctx.getTenant();
+
+      // received message
+      Map<String, Object> headers = ctx.getMessageHeaders(); 
+      Map<String, Object> message = ctx.getMessageData();
+
+      ctx.setResult(true); // acknowledge
+    } else {
+      // error handling for application errors
+
+      // how to access the event context of the raised exception:
+      // ctx.getException().getEventContexts().stream().findFirst().ifPresent(e -> {
+      //    String event = e.getEvent());
+      //    String payload = e.get("data"));
+      // });
+
+      ctx.setResult(true); // acknowledge
+    }
+}
+```
+
 ::: warning _❗ Warning_
 The way how unsuccessfully delivered messages are treated, fully depends on the messaging broker. Please check in section [Acknowledgement Support](#acknowledgement-support)  whether the messaging broker you are using is suitable for your error handler implementation.
 :::
@@ -796,7 +854,7 @@ messagingService.emit(topic, "hello world");
 
 If the service is not configured with the structured flag, the message is sent as is and on the consumer side `TopicMessageEventContext.getData()` returns:
 
-```
+```txt
 hello world
 ```
 

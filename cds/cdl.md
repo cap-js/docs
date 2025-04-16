@@ -8,9 +8,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 ---
 
 
-
-
-
 # Conceptual Definition Language (CDL)
 
 
@@ -58,11 +55,7 @@ entity Authors : entity {
 ```
 
 ::: details Noteworthy...
-
 In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
-
-As indicated by the syntax coloring, `Association` is not a keyword, but a type name identifier, similar to `String`, `Integer`, `Books` and `Authors`.
-
 :::
 
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
@@ -76,7 +69,7 @@ type ![Delimited Identifier] : String;
 ```
 
 ::: warning Avoid using delimited identifiers
-Delimited identifiers in general, but in articular non-ansi characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
+Delimited identifiers in general, but in particular non-ASCII characters, or keywords as identifiers should be avoided as much as possible, for reasons of interoperability.
 :::
 
 
@@ -98,6 +91,7 @@ The following literals can be used in CDL (mostly as in JavaScript, Java, and SQ
 true , false , null        // as in all common languages
 11 , 2.4 , 1e3, 1.23e-11   // for numbers
 'A string''s literal'      // for strings
+`A string\n paragraph`     // for strings with escape sequences
 { foo:'boo', bar:'car' }   // for records
 [ 1, 'two', {three:4} ]    // for arrays
 ```
@@ -431,6 +425,20 @@ entity Books {
 }
 ```
 
+You can declare structured types based on other
+definitions using the `projection on` syntax.
+You can use nested projections or aliases as known from entity projections.
+Only the effective signature of the projection is relevant.
+
+<!-- cds-mode: upcoming -->
+```cds
+type CustomerData : projection on Customer {
+  name.firstName, // select from structures
+  name.lastName,
+  address as customerAddress, // aliases
+}
+```
+
 
 ### Arrayed Types
 
@@ -479,7 +487,7 @@ entity Bar {
 
 An element definition can be prefixed with modifier keyword `virtual`. This keyword indicates that this element isn't added to persistent artifacts, that is, tables or views in SQL databases. Virtual elements are part of OData metadata.
 
-By default virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
+By default, virtual elements are annotated with `@Core.Computed: true`, not writable for the client and will be [silently ignored](../guides/providing-services#readonly). This means also, that they are not accessible in custom event handlers. If you want to make virtual elements writable for the client, you explicitly need to annotate these elements with `@Core.Computed: false`. Still those elements are not persisted and therefore, for example, not sortable or filterable.
 
 ```cds
 entity Employees {
@@ -547,6 +555,9 @@ in queries. Some restrictions apply:
 * Nested projections (inline/expand) are not allowed.
 * A calculated element can't be key.
 
+Like for views, the expressions are sent unchanged to the database, so
+you need to ensure that they work on your respective database system(s).
+
 A calculated element can be *used* in every location where an expression can occur. A calculated element can't be used in the following cases:
 
 * in the ON condition of an unmanaged association
@@ -554,7 +565,7 @@ A calculated element can be *used* in every location where an expression can occ
 * in a query together with nested projections (inline/expand)
 
 ::: warning
- For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
+For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write
@@ -595,7 +606,7 @@ No restrictions apply for reading a calculated element on-write.
 
 #### Association-like calculated elements {#association-like-calculated-elements}
 
-A calculated element can also define a filtered association or composition, like in this example:
+A calculated element can also define a filtered association/composition using infix filters:
 
 ```cds
 entity Employees {
@@ -607,7 +618,7 @@ entity Employees {
 For such a calculated element, no explicit type can be specified.
 Only a single association or composition can occur in the expression, and a filter must be specified.
 
-The effect essentially is like [publishing an association with a filter](#publish-associations-with-filter).
+The effect essentially is like [publishing an association with an infix filter](#publish-associations-with-filter).
 
 
 ### Default Values
@@ -627,6 +638,14 @@ type CreatedAt : Timestamp default $now;
 type Complex {
   real : Decimal default 0.0;
   imag : Decimal default 0.0;
+}
+```
+
+If the element has an enum type, you can use the enum symbol instead of a literal value:
+```cds
+type Status : String enum {open; closed;}
+entity Order {
+  status : Status default #open;
 }
 ```
 
@@ -729,7 +748,7 @@ Use the `as projection on` variant instead of `as select from` to indicate that 
 entity Foo as projection on Bar {...}
 ```
 
-Currently the restrictions of `as projection on` compared to `as select from` are:
+Currently, the restrictions of `as projection on` compared to `as select from` are:
 
 - no explicit, manual `JOINs`
 - no explicit, manual `UNIONs`
@@ -815,7 +834,7 @@ In CAP Java, run a select statement against the view with named [parameter value
 
 ::: code-group
 ```js [Node]
-SELECT.from({ id: 'UsingView'. args: { bar: { val: true }}})
+SELECT.from({ ref: [{ id: 'UsingView', args: { bar: { val: true }}} ]} )
 ```
 ```Java [Java]
 var params = Map.of("bar", true);
@@ -956,7 +975,7 @@ Essentially, Compositions are the same as _[associations](#associations)_, just 
 ::: warning Limitations of Compositions of one
 Using of compositions of one for entities is discouraged. There is often no added value of using them as the information can be placed in the root entity. Compositions of one have limitations as follow:
 - Very limited Draft support. Fiori elements does not support compositions of one unless you take care of their creation in a custom handler.
-- No extensive support for modifications over paths if compostions of one are involved. You must fill in foreign keys manually in a custom handler.
+- No extensive support for modifications over paths if compositions of one are involved. You must fill in foreign keys manually in a custom handler.
 :::
 
 ### Managed Compositions of Aspects {#managed-compositions}
@@ -1062,7 +1081,7 @@ entity P_Employees as projection on Employees {
 The effective signature of the projection contains an association `addresses` with the same
 properties as association `addresses` of entity `Employees`.
 
-#### Publish Associations with Filter {#publish-associations-with-filter}
+#### Publish Associations with Infix Filter {#publish-associations-with-filter}
 
 When publishing an unmanaged association in a view or projection, you can add a filter condition.
 The ON condition of the resulting association is the ON condition of the original
@@ -1286,8 +1305,8 @@ As described in the [CSN spec](./csn#literals), the previously mentioned annotat
 ```
 
 ::: tip
-In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked or resolved
-by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
+In contrast to references in [expressions](#expressions-as-annotation-values), plain references aren't checked, resolved,
+or rewritten by CDS parsers or linkers. They're interpreted and evaluated only on consumption-specific modules.
 For example, for SAP Fiori models, it's the _4odata_ and _2edm(x)_ processors.
 :::
 
@@ -1388,9 +1407,10 @@ Each path in the expression is checked:
 * A parameter `par` can be accessed via `:par`, just like parameters of a parametrized entity in queries.
 * For an annotation assigned to a bound action or function, elements of the respective entity
   can be accessed via `$self`.
-* The draft specific element `IsActiveEntity` can be referred to with the magic variable `$draft.IsActiveEntity`.
-  During draft augmentation `$draft.IsActiveEntity` is rewritten to `$self.IsActiveEntity` for all draft enabled
-  entities (root and sub nodes but not for named types or entity parameters).
+* The draft-specific elements `IsActiveEntity`, `HasActiveEntity`, and `HasDraftEntity` can be referred to with
+  respective magic variables `$draft.IsActiveEntity`, `$draft.HasActiveEntity`, and `$draft.HasDraftEntity`.
+  During draft augmentation, `$draft.<...>` is rewritten to `$self.<...>` for all draft enabled
+  entities (root and sub nodes, but not for named types or entity parameters).
 * If a path can't be resolved successfully, compilation fails with an error.
 
 In contrast to `@aReference: foo.bar`, a single reference written as expression `@aRefExpr: ( foo.bar )`
@@ -1422,7 +1442,7 @@ actions {
 In CSN, the expression is represented as a record with two properties:
 * A string representation of the expression is stored in property `=`.
 * A tokenized representation of the expression is stored in one of the properties
-`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
+  `xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
 
 ```json
 {
@@ -1447,7 +1467,7 @@ and a value written as expression `@aValueExpr: ( 11 )`, respectively.
 #### Propagation
 
 [Annotations are propagated](#annotation-propagation) in views/projections, via includes, and along type references.
-If the annotation value is an expression, it sometimes is necessary to adapt references inside the expression
+If the annotation value is an expression, it is sometimes necessary to adapt references inside the expression
 during propagation, for example, when a referenced element is renamed in a projection.
 The compiler automatically takes care of the necessary rewriting. When a reference in an annotation expression
 is rewritten, the `=` property is set to `true`.
@@ -1713,23 +1733,36 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 
 ### Named Aspects
 
-You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
+You can use `extend` with predefined aspects, to apply the same extensions to multiple targets:
 
 ```cds
-aspect SomeAspect {
+@annotation
+aspect NamedAspect {
   created { at: Timestamp; _by: User; }
+} actions {
+  action A() returns String;
 }
 ```
 ```cds
-extend Foo with SomeAspect;
-extend Bar with SomeAspect;
+extend Foo with NamedAspect;
+extend Bar with NamedAspect;
 ```
 
-If you use `extend`, all nested fields in the named aspect are interpreted as being extension fields. If you use `annotate`, the nested fields are interpreted as existing fields and the annotations are copied to the corresponding target elements.
+By extending an entity with an aspect, you add all the aspect's fields, actions, and annotations to the entity.
 
-The named extension can be anything, for example, including other `types` or `entities`.
 Use keyword `aspect` as shown in the example to declare definitions that are only meant to be used in such extensions, not as types for elements.
 
+To reuse annotations, without adding elements, use an empty aspect and extend your target with it
+You can even extend projections with such aspects.
+
+```cds
+@annotation
+aspect ReuseAnnotations {};
+entity Proj as projection on Bar;
+```
+```cds
+extend Proj with ReuseAnnotations;
+```
 
 
 ### Includes -- `:` as Shortcut Syntax {#includes}
@@ -1779,7 +1812,8 @@ extend SomeView with columns {
 }
 ```
 
-Enhancing nested structs isn't supported.
+Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
+is not accessible in such an extend.
 
 You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 
@@ -2071,7 +2105,7 @@ service MyOrders { ...
 }
 ```
 
-An event can also be defined as projection on an entity, type, or another event.
+An event can also be defined as projection on an entity, structured type, or another event.
 Only the effective signature of the projection is relevant.
 ```cds
 service MyOrders { ...

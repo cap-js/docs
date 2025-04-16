@@ -86,12 +86,12 @@ In addition, set the variable `NODE_PATH` to: <br /> ``C:\Users\<your-username>\
 
 By default, Node.js apps started with `cds run` or `cds watch` use port 4004, which might be occupied if other app instances are still running. In this case, `cds watch` now asks you if it should pick a different port.
 
-```log{5}
+```log
 $ cds watch
 ...
 [cds] - serving CatalogService ...
 
-EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n)
+EADDRINUSE - port 4004 is already in use. Restart with new port? (Y/n) // [!code highlight]
 > y
 restart
 ...
@@ -133,7 +133,12 @@ Make sure that:
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
+**First of all**, make sure the SAP HANA database is accessible in your application's environment.
+This includes making sure the SAP HANA is either part of or mapped to your Cloud Foundry space or Kyma cluster and the IP addresses are [in an allowed range](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). Connectivity issues are likely the root cause if you experience this error during application startup.
+
+[Learn how to set up SAP HANA instance mappings](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context){.learn-more style="margin-top:10px"}
+
+If you frequently get this error during normal runtime operation your database client pool settings likely don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
@@ -489,7 +494,10 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 | _Root Cause_ | Your configuration isn't properly set. |
 | _Solution_ | Configure your project as described in [Using Databases](../guides/databases).
 
+
 #### Deployment fails — _Connection failed (RTE:[89008] Socket closed by peer_ {#connection-failed-89008}
+
+#### Hybrid testing connectivity issue — _ResourceRequest timed out_ {style="margin-top: 0;"}
 
 |  | Explanation |
 | --- | ---- |
@@ -497,6 +505,15 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 | _Solution_ | Configure your SAP HANA Cloud instance [to accept your IP](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). If configured correctly, check if the number of database connections are exceeded. Make sure your [pool configuration](../node.js/databases#pool) does not allow more than 1000 connections.
 
 <div id="hana-ips" />
+
+#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_
+{#missingPlugin}
+
+|  | Explanation |
+| --- | ---- |
+| _Root Cause_ | Your project configuration is missing some configuration in your _.hdiconfig_ file. |
+| _Solution_ | Use `cds add hana` to add the needed configuration to your project. Or maintain the _hdbmigrationtable_ plugin in your _.hdiconfig_ file manually: `"hdbmigrationtable": { "plugin_name": "com.sap.hana.di.table.migration" }`
+
 
 #### Deployment fails — _In USING declarations only main artifacts can be accessed, not sub artifacts of \<name\>_
 This error occurs if all of the following applies:
@@ -565,6 +582,7 @@ If the MTA build fails with `The 'npm ci' command can only install with an exist
 - _package-lock.json_ should also be added to version control, so make sure that _.gitignore_ does __not__ contain it.
 
 The purpose of _package-lock.json_ is to pin your project's dependencies to allow for reproducible builds.
+
 [Learn more about dependency management in Node.js.](../node.js/best-practices#dependencies){.learn-more}
 
 ### How Can I Reduce the MTA Archive Size During Development? { #reduce-mta-size}
@@ -705,6 +723,35 @@ cf logs <appname> --recent
 ::: tip
 If you omit the option `--recent`, you can run this command in parallel to your deployment and see the logs as they come in.
 :::
+
+### Why do I get "404 Not Found: Requested route does not exist"?
+
+In order to send a request to an app, it must be associated with a route.
+Please see [Cloud Foundry Documentation -> Routes](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html#routes) for details.
+As this is done automatically by default, the process is mostly transparent for developers.
+
+If you receive an error response `404 Not Found: Requested route ('<route>') does not exist`, this can have two reasons:
+1. The route really does not exist or is not bound to an app.
+  You can check this in SAP BTP cockpit either in the app details view or in the list of routes in the Cloud Foundry space.
+2. The app (or all app instances, in case of horizontal scale-out) failed the readiness check.
+  Please see [Health Checks](../guides/deployment/health-checks.md) and [Using Cloud Foundry health checks](https://docs.cloudfoundry.org/devguide/deploy-apps/healthchecks.html) for details on how to set up the check.
+
+    ::: details Troubleshoot using the Cloud Foundry CLI
+
+    ```sh
+    cf apps # -> list all apps
+    cf app <your app name> # -> get details on your app, incl. state and routes
+    cf app <your app name> --guid # -> get your app's guid
+    cf curl "/v3/processes/<your app guid>/stats"
+      # -> list of processes (one per app instance) with property "routable"
+      #    indicating whether the most recent readiness check was successful
+    ```
+
+    See [cf curl](https://cli.cloudfoundry.org/en-US/v7/curl.html) and [The process stats object](https://v3-apidocs.cloudfoundry.org/version/3.184.0/index.html#the-process-stats-object) for details on how to use the CLI.
+
+    :::
+
+
 
 ## CAP on Kyma
 

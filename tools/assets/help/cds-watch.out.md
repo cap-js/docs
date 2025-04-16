@@ -24,6 +24,14 @@
     Specify file extensions to watch for in a comma-separated list.
     <em>Example:</em> cds w --ext cds,json,js.
 
+  <em>--include</em> &lt;paths,...&gt;
+
+    Comma-separated list of additional paths to watch.
+
+  <em>--exclude</em> &lt;paths,...&gt;
+
+    Comma-separated list of additional paths to ignore.
+
   <em>--livereload</em> &lt;port | false&gt;
 
     Specify the port for the livereload server. Defaults to '35729'.

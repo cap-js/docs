@@ -7,7 +7,7 @@ impl-variants: true
 
 CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), which allows projects to speed up development by magnitudes at minimized costs. We strongly recommend using this option as much as possible during development and testing.
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 ::: tip New SQLite Service
 This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
@@ -15,7 +15,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 [Learn more about the features and limitations of using CAP with SQlite.](../java/cqn-services/persistence-services#sqlite){.learn-more}
 
@@ -29,7 +29,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 
 ## Setup & Configuration
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 Run this to use SQLite for development:
 
@@ -114,7 +114,7 @@ Configure the build to create an initial _schema.sql_ file for SQLite using `cds
 
 ### In-Memory Databases
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 As stated previously, `@cap-js/sqlite` uses an in-memory SQLite database by default. For example, when starting your application with `cds watch`, you can see this in the log output:
@@ -139,7 +139,7 @@ Using in-memory databases is the most recommended option for test drives and tes
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 The database content is stored in-memory. Configure the DB connection in the non-productive `default` profile:
@@ -173,14 +173,14 @@ TODO: A plain cds.requires.db = 'sqlite' also behaves this way.
 If possible, all common scenarios should be covered by shortcuts only.
 -->
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 You can also use persistent SQLite databases. Follow these steps to do so:
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 You can also use persistent SQLite databases. In this case, the schema is initialized by `cds deploy` and not by Spring. Follow these steps:
@@ -214,7 +214,7 @@ This will:
 2. Create the tables and views according to your CDS model.
 3. Fill in initial data from the provided _.csv_ files.
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 
 With that in place, the server will use this prepared database instead of bootstrapping an in-memory one upon startup:
@@ -227,7 +227,7 @@ With that in place, the server will use this prepared database instead of bootst
 
 </div>
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 
 Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
@@ -238,7 +238,7 @@ Finally, configure the DB connection - ideally in a dedicated `sqlite` profile:
 spring:
   config.activate.on-profile: sqlite
   datasource:
-    url: "jdbc:sqlite:sqlite.db"
+    url: "jdbc:sqlite:db.sqlite"
     driver-class-name: org.sqlite.JDBC
     hikari:
       maximum-pool-size: 1
@@ -293,7 +293,7 @@ While drop-create is most appropriate for development, it isn't suitable for dat
 
 ## Features
 
-<div markdown="1" class="impl java">
+<div class="impl java">
 
 CAP supports most of the major features on SQLite:
 
@@ -307,7 +307,7 @@ CAP supports most of the major features on SQLite:
 
 </div>
 
-<div markdown="1" class="impl node">
+<div class="impl node">
 
 The following is an overview of advanced features supported by the new database services.
 
@@ -611,9 +611,10 @@ entity Foo {
 The behaviour has changed to:
 
 ```js
-SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
-SELECT.from('Foo')         //> [{ foo:1 }, ...]
-SELECT('bar').from('Foo')  //> ERROR: no columns to read
+[dev] cds repl
+> SELECT.from('Foo')         //> [{ foo:1, bar:null }, ...] // [!code --]
+> SELECT.from('Foo')         //> [{ foo:1 }, ...]
+> SELECT('bar').from('Foo')  //> ERROR: no columns to read
 ```
 
 ### <> Operator {.node}
@@ -630,6 +631,8 @@ This is a breaking change in regard to the previous implementation.
 ### Miscellaneous {.node}
 
 - Only `$now` and `$user` are supported as values for `@cds.on.insert/update`.
+- Managed fields are automatically filled with `INSERT.entries()`, but not when using `INSERT.columns().values()` or `INSERT.columns().rows()`.
+- If the column of a `SELECT` is a path expression without an alias, the field name in the result is the concatenated name using underscores. For example, `SELECT.from(Books).columns('author.name')` results in `author_name`.
 - CQNs with subqueries require table aliases to refer to elements of outer queries.
 - Table aliases must not contain dots.
 - CQNs with an empty columns array now throw an error.

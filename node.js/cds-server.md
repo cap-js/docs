@@ -199,7 +199,7 @@ A one-time event, emitted when all services have been bootstrapped and added to 
 ```js twoslash
 // @noErrors
 const cds = require('@sap/cds')
-cds.on('served', (services)=>{
+cds.on('served', services => {
   // We can savely access service instances through the provided argument:
   const { CatalogService, db } = services
   // ...
@@ -212,6 +212,14 @@ This event supports _asynchronous_ event handlers.
 ### listening {.event}
 
 A one-time event, emitted when the server has been started and is listening to incoming requests.
+
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('listening', ({ server, url }) => {
+  // ...
+})
+```
 
 
 

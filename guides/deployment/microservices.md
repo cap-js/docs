@@ -802,6 +802,7 @@ cds add mta
 This adds everything necessary for a full CAP application.
 Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
 
+::: details Diff
 ```yaml
 _schema-version: 3.3.0
 ID: shared-db
@@ -860,6 +861,7 @@ resources:
       service: hana
       service-plan: hdi-shared
 ```
+:::
 
 
 

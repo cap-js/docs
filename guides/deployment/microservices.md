@@ -118,24 +118,20 @@ The advantages are as follows:
 
    ```sh
    cds init shared-db --add hana
-   cd shared-db
    ```
 
    ```sh
-   npm add @capire/bookstore
-   npm add @capire/reviews
-   npm add @capire/orders
+   npm add --prefix shared-db @capire/bookstore
+   npm add --prefix shared-db @capire/reviews
+   npm add --prefix shared-db @capire/orders
    ```
 
    > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
 
 2. Add a `db/schema.cds` file as a mashup to actually collect the models:
 
-   ```sh
-   code db/schema.cds
-   ```
-
-   ```cds
+  ::: code-group
+   ```cds [shared-db/db/schema.cds]
    using from '@capire/bookstore';
    using from '@capire/reviews';
    using from '@capire/orders';
@@ -186,119 +182,6 @@ The `shared-db` module is simply another CAP project, with only db content. The 
 The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all npm workspaces.
 
 :::
-
-### Deployment as separate mta
-
-In a setup with multiple deployment units, we can add the `shared-db` project as its own mta deployment:
-
-```sh
-cds add mta
-```
-
-This adds everything necessary for a full CAP application.
-Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
-
-```yaml
-_schema-version: 3.3.0
-ID: shared-db
-version: 1.0.0
-description: "A simple CAP project."
-parameters:
-  enable-parallel-deployments: true
-build-parameters:
-  before-all:
-    - builder: custom
-      commands:
-        - npm ci
-        - npx cds build --production # [!code --]
-        - npx cds build --production --for hana # [!code ++]
-modules:
-  - name: shared-db-srv # [!code --]
-    type: nodejs # [!code --]
-    path: gen/srv # [!code --]
-    parameters: # [!code --]
-      instances: 1 # [!code --]
-      buildpack: nodejs_buildpack # [!code --]
-    build-parameters: # [!code --]
-      builder: npm-ci # [!code --]
-    provides: # [!code --]
-      - name: srv-api  # [!code --]
-        properties: # [!code --]
-          srv-url: ${default-url} # [!code --]
-    requires: # [!code --]
-      - name: shared-db-destination # [!code --]
-      - name: shared-db-messaging # [!code --]
-      - name: shared-db-db # [!code --]
-
-  - name: shared-db-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: shared-db-db
-
-resources:
-  - name: shared-db-destination # [!code --]
-    type: org.cloudfoundry.managed-service # [!code --]
-    parameters: # [!code --]
-      service: destination # [!code --]
-      service-plan: lite # [!code --]
-  - name: shared-db-messaging # [!code --]
-    type: org.cloudfoundry.managed-service # [!code --]
-    parameters: # [!code --]
-      service: enterprise-messaging # [!code --]
-      service-plan: default # [!code --]
-      path: ./event-mesh.json # [!code --]
-  - name: shared-db-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
-```
-
-
-
-
-#### Binding to shared database
-
-The only thing left to care about is to ensure all 3+1 projects are bound and connected to the same database at deployment, subscription, and runtime.
-
-Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
-
-```yaml [reviews/mta.yaml]
-...
-modules:
-  ...
-
-  - name: reviews-db-deployer # [!code --]
-    type: hdb # [!code --]
-    path: gen/db # [!code --]
-    parameters: # [!code --]
-      buildpack: nodejs_buildpack # [!code --]
-    requires: # [!code --]
-      - name: reviews-db # [!code --]
-
-resources:
-  ...
-  - name: reviews-db
-    type: com.sap.xs.hdi-container # [!code --]
-    type: org.cloudfoundry.existing-service # [!code ++]
-    parameters:
-      service: hana # [!code --]
-      service-plan: hdi-shared # [!code --]
-      service-name: shared-db-db # [!code ++]
-```
-
-
-
-#### Subsequent updates
-
-- TODO... 
-- Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
-- `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
-- Ensure to first deploy `shared-db` before deploying the others
-
 
 
 ## All-in-one Deployment
@@ -900,6 +783,126 @@ You can then navigate to this url and the corresponding apps
 <url>/app/orders    -> orders
 <url>/app/reviews   -> reviews
 ```
+
+
+## Deployment as separate mta
+
+This is an alternative to the all-in-one deployment. Assume the applications each already have their own mta.yaml. For example by running `cds add mta` in the `reviews`, `orders` and `bookstore` folder.
+
+### Database
+
+We can add the [previously created](#shared-database) `shared-db` project as its own mta deployment:
+
+::: code-group
+```sh [shared-db/]
+cds add mta
+```
+:::
+
+This adds everything necessary for a full CAP application.
+Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
+
+```yaml
+_schema-version: 3.3.0
+ID: shared-db
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production # [!code --]
+        - npx cds build --production --for hana # [!code ++]
+modules:
+  - name: shared-db-srv # [!code --]
+    type: nodejs # [!code --]
+    path: gen/srv # [!code --]
+    parameters: # [!code --]
+      instances: 1 # [!code --]
+      buildpack: nodejs_buildpack # [!code --]
+    build-parameters: # [!code --]
+      builder: npm-ci # [!code --]
+    provides: # [!code --]
+      - name: srv-api  # [!code --]
+        properties: # [!code --]
+          srv-url: ${default-url} # [!code --]
+    requires: # [!code --]
+      - name: shared-db-destination # [!code --]
+      - name: shared-db-messaging # [!code --]
+      - name: shared-db-db # [!code --]
+
+  - name: shared-db-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: shared-db-db
+
+resources:
+  - name: shared-db-destination # [!code --]
+    type: org.cloudfoundry.managed-service # [!code --]
+    parameters: # [!code --]
+      service: destination # [!code --]
+      service-plan: lite # [!code --]
+  - name: shared-db-messaging # [!code --]
+    type: org.cloudfoundry.managed-service # [!code --]
+    parameters: # [!code --]
+      service: enterprise-messaging # [!code --]
+      service-plan: default # [!code --]
+      path: ./event-mesh.json # [!code --]
+  - name: shared-db-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+```
+
+
+
+
+#### Binding to shared database
+
+The only thing left to care about is to ensure all 3+1 projects are bound and connected to the same database at deployment, subscription, and runtime.
+
+Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
+
+```yaml [reviews/mta.yaml]
+...
+modules:
+  ...
+
+  - name: reviews-db-deployer # [!code --]
+    type: hdb # [!code --]
+    path: gen/db # [!code --]
+    parameters: # [!code --]
+      buildpack: nodejs_buildpack # [!code --]
+    requires: # [!code --]
+      - name: reviews-db # [!code --]
+
+resources:
+  ...
+  - name: reviews-db
+    type: com.sap.xs.hdi-container # [!code --]
+    type: org.cloudfoundry.existing-service # [!code ++]
+    parameters:
+      service: hana # [!code --]
+      service-plan: hdi-shared # [!code --]
+      service-name: shared-db-db # [!code ++]
+```
+
+
+
+#### Subsequent updates
+
+- TODO... 
+- Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
+- `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
+- Ensure to first deploy `shared-db` before deploying the others
+
 
 
 ## Late-Cut Microservices

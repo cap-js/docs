@@ -24,9 +24,9 @@ With some additional repos, used as dependencies in the same manner, like:
 - https://github.com/capire/bookshop
 - https://github.com/capire/data-viewer
 
-This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
+This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[NPM workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
 
-1. Create a new monorepo root directory using `npm` workspaces:
+1. Create a new monorepo root directory using *NPM workspaces*:
 
    ```sh
    mkdir capire
@@ -47,14 +47,14 @@ This guide describes a way to manage development and deployment via *[monorepos]
    git submodule update --init
    ```
 
-   Add a .gitignore
+   Add a _.gitignore_ file and with the following content:
    ```txt
    node_modules
    gen
    ```
    > The outcome of this looks and behaves exactly as the monorepo layout in *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)*,  so we can exercise the subsequent steps in there...
 
-3. Test-drive locally as usual 
+3. Test-drive locally:
    ```sh
    npm install
    ```
@@ -87,9 +87,9 @@ The individual services (`bookstore`, `reviews`, `orders`) can be
  * folders, committed directly to the root project
  * git submodules
 
-Links between the projects are established using npm dependencies.
+Links between the projects are established using NPM dependencies.
 Since the root project defines workspaces, these dependencies are also found locally without the need for publishing or linking.
-When one of the projects is cloned in isolation, it is still possible to fetch dependencies to other modules via the npm registry.
+When one of the projects is cloned in isolation, it is still possible to fetch dependencies to other modules via the NPM registry.
 
 :::
 
@@ -99,22 +99,24 @@ If you have multiple CAP applications relying on the same domain model or want t
 
 In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way.
 
-::: details Evaluation
+::: details Why a shared database?
 
-The advantages are as follows:
- - **Query Performance:** Complex queries are executed much faster, for example $expand to an entity on another microservice (compared to calls across services with own data persistencies)
- - **Independent Scalability** of application runtimes (compared to a monolithic application)
+A shared database is beneficial if the following is important for you:
 
- Disadvantages:
- - Accessing data directly (without an API) means any changes in the data model affect all applications directly
- - every change in one of the services either requires
-   - a redeployment of all microservices involved
-   - a logic to decide which microservices need redeployment to avoid inconsistencies
- - violates 12 factors concept
+ - **Query Performance:** Complex queries are executed much faster, for example `$expand` to an entity on another microservice, compared to calls across services with own data persistencies.
+ - **Independent Scalability** of application runtimes, compared to a monolithic application.
+
+These are the (not so beneficial) sideeffects you when using a shared persistence:
+
+ - Accessing data directly (without an API) means any changes in the data model affect all applications directly.
+ - Every change in one of the services either requires one of the following:
+   - Redeployment of all microservices involved.
+   - Logic to decide which microservices need redeployment to avoid inconsistencies.
+ - Violates 12 factors concept
 
 :::
 
-### Add a project for shared database
+### Add a Project For Shared Database
 <!-- Mention that this is part of the monorepo? Becomes clearer later. Could also be mentioned in line 100. -->
 1. Add another `cds` project to collect the models from these projects:
 
@@ -129,7 +131,7 @@ The advantages are as follows:
    npm add @capire/orders
    ```
 
-   > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
+   > Note how *NPM workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
 
 2. Add a `db/schema.cds` file as a mashup to actually collect the models:
 
@@ -183,15 +185,15 @@ The project structure used here is as follows:
 └─ package.json
 ```
 
-The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via npm, so it is still possible to install via an npm registry if used outside of the monorepo setup.
+The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via NPM, so it is still possible to install via an NPM registry if used outside of the monorepo setup.
 
-The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all npm workspaces.
+The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all NPM workspaces.
 
 :::
 
-### Deployment as separate mta
+### Deployment as Separate MTA
 
-In a setup with multiple deployment units, we can add the `shared-db` project as its own mta deployment:
+In a setup with multiple deployment units, we can add the `shared-db` project as its own MTA deployment:
 
 ```sh
 cds add mta
@@ -201,7 +203,7 @@ This adds everything necessary for a full CAP application.
 Since we only want the database and database deployment, remove everything else like the srv module and destination and messaging resources:
 
 ```yaml
-_schema-version: 3.3.0b
+_schema-version: 3.3.0
 ID: shared-db
 version: 1.0.0
 description: "A simple CAP project."
@@ -266,7 +268,7 @@ resources:
 
 The only thing left to care about is to ensure all 3+1 projects are bound and connected to the same database at deployment, subscription, and runtime.
 
-Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
+Configure the _mta.yaml_ of the other apps to bind to the existing shared database, for example, in the reviews module:
 
 ```yaml [reviews/mta.yaml]
 ...
@@ -305,7 +307,7 @@ resources:
 
 ## All-in-one Deployment
 
-Here we go on with our guide how to deploy all 3+1 projects at once with a common `mta.yaml`
+This section is about how to deploy all 3+1 projects at once with a common _mta.yaml_.
 
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 
@@ -362,11 +364,11 @@ build-parameters:
 
 
 ::: info `cds build --ws`
-If the CDS models of every npm workspace contained in the monorepo should be considered, then instead of creating this `shared-db` folder, you can also use:
+If the CDS models of every NPM workspace contained in the monorepo should be considered, then instead of creating this `shared-db` folder, you can also use:
 ```shell
 cds build --for hana --production --ws
 ```
-The `--ws` aggregates all models in the npm workspaces.
+The `--ws` aggregates all models in the NPM workspaces.
 
 In this walkthrough, we only include a subset of the CDS models in the deployment.
 :::
@@ -388,7 +390,7 @@ npm i @cap-js/hana --workspace reviews
 
 ### Applications
 
-Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path`, and `provides[0].name` to match the module name. Also change the `npm-ci` builder to the `npm` builder.
+Replace the MTA module for `samples-srv` with versions for each CAP service and adjust `name`, `path`, and `provides[0].name` to match the module name. Also change the `npm-ci` builder to the `npm` builder.
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -504,7 +506,7 @@ Add the admin role
 :::
 
 ::: details Configure each app for cloud readiness
-Add npm dependency `@sap/xssec`:
+Add NPM dependency `@sap/xssec`:
 
 ```shell  
 npm i @sap/xssec --workspace bookstore
@@ -718,7 +720,7 @@ modules:
 
 #### Static Content
 
-The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
+The approuter can serve static content. Since our UIs are located in different NPM workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
 
 ```shell
 mkdir .deploy/app-router/resources
@@ -773,7 +775,7 @@ modules:
 ```
 :::
 
-The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
+The _xs-app.json_ file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
 ```json [.deploy/app-router/xs-app.json]
@@ -859,7 +861,7 @@ Additionally, the welcomeFile is important for deployed Vue UIs as they obtain C
 
 ### Deploy
 
-In order to build, deploy, and undeploy easily, add these `npm` scripts:
+To build, deploy, and undeploy easily, add these `npm` scripts:
 
 ::: code-group
 ```json [package.json]
@@ -873,13 +875,13 @@ In order to build, deploy, and undeploy easily, add these `npm` scripts:
 
 Before deploying you need to log in to Cloud Foundry.
 
-To locally build the apps, run
+Build the apps locally:
 
 ```shell
 npm run build
 ```
 
-To deploy the built artifacts to Cloud Foundry, run
+Deploy the built artifacts to Cloud Foundry:
 
 ```shell
 npm run deploy

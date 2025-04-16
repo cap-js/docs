@@ -47,7 +47,7 @@ This guide describes a way to manage development and deployment via *[monorepos]
    git submodule update --init
    ```
 
-   Add a _.gitignore_ file and with the following content:
+   Add a _.gitignore_ file with the following content:
    ```txt
    node_modules
    gen
@@ -67,11 +67,13 @@ This guide describes a way to manage development and deployment via *[monorepos]
    cds w bookstore
    ```
 
-   <!-- What am I able to see now? Do they find ech other already? Otherweise: Why would I test-drive it at this point? -->
+   Each microservice can be started independently. If you start each microservice, one after the other, in a different terminal, the connection is already established.
 
+   [Learn more about Automatic Bindings by `cds watch`](../extensibility/composition#bindings-via-cds-watch){.learn-more}
+   
 
-::: details Other project structures
-<!-- Why is it "Other..."?-->
+::: details The project structure
+
 The project structure used here is as follows:
 
 ```txt
@@ -117,7 +119,7 @@ These are the (not so beneficial) side effects you when using a shared persisten
 :::
 
 ### Add a Project For Shared Database
-<!-- Mention that this is part of the monorepo? Becomes clearer later. Could also be mentioned in line 100. -->
+
 1. Add another `cds` project to collect the models from these projects:
 
    ```sh
@@ -317,7 +319,6 @@ This section is about how to deploy all 3+1 projects at once with a common _mta.
 
 Add initial multitarget application configuration for deployment to Cloud Foundry:
 
-<!-- in the monorepo root? -->
 ```shell
 cds add mta
 ```
@@ -375,7 +376,6 @@ In this walkthrough, we only include a subset of the CDS models in the deploymen
 
 
 ::: details Configure each app for cloud readiness
-<!-- Why are those steps so much hidden? -->
 The preceding steps only added configuration to the workspace root.
 
 Additionally add database configuration to each module that we want to deploy - bookstore, orders, and reviews:
@@ -476,7 +476,7 @@ Note that we use the *--ws-pack* option for some modules. It's important for nod
 ### Authentication
 
 Add [security configuration](../security/authorization#xsuaa-configuration) using the command:
-<!-- Would that also work with IAS/AMS? -->
+
 ```shell
 cds add xsuaa --for production
 ```
@@ -666,7 +666,6 @@ modules:
 :::
 
 Use the destinations in the bookstore application:
-<!-- Is that in the bookstore/mta.yaml? -->
 
 ::: code-group
 ```yaml [mta.yaml]

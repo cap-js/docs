@@ -1141,7 +1141,7 @@ GET SalesOrganizations?$apply=
 
 #### Modeling Recursive Hierarchies
 
-Recursive are parent-child hierarchies, where each entity references its parent, defining the hierarchical structure. A common example is company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
+Recursive hierarchies are parent-child hierarchies, where each entity references its parent and through that defines the hierarchical structure. A common example is a company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
 
 ##### Domain Model
 
@@ -1162,7 +1162,7 @@ aspect Hierarchy {
 }
 ```
 
-The entity `Employee` has the element `ID`, which identifies the node. The `parent` association references the same entity, which establishes the parent-child relationship.
+The entity `Employee` has the element `ID`, which identifies the hierarchy node. The `parent` association references the same entity, which establishes the parent-child relationship.
 
 ##### Virtual Elements of a Hierarchy
 
@@ -1170,7 +1170,7 @@ The `Hierarchy` aspect defines a set of virtual elements, automatically calculat
 
 ##### Service Model
 
-The service defines the projection on the domain model.
+The following service defines the projection on the domain model.
 
 ```cds
 @odata.apply.transformations
@@ -1185,7 +1185,7 @@ The service must be annotated with `@odata.apply.transformations`. This instruct
 
 ##### OData v4 Annotations for Fiori
 
-In order to link the backend and Fiori UI, the projected service entity must be enriched with the following annotations.
+To link the backend and Fiori UI, the projected service entity must be enriched with the following annotations.
 
 ```cds
 annotate HRService.HREmployee with @Aggregation.RecursiveHierarchy #EmployeeHierarchy: {

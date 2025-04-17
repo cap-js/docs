@@ -127,9 +127,9 @@ These are the (not so beneficial) side effects you when using a shared persisten
    ```
 
    ```sh
-   npm add --prefix shared-db @capire/bookstore
-   npm add --prefix shared-db @capire/reviews
-   npm add --prefix shared-db @capire/orders
+   npm add --workspace shared-db @capire/bookstore
+   npm add --workspace shared-db @capire/reviews
+   npm add --workspace shared-db @capire/orders
    ```
 
    > Note how *NPM workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
@@ -142,6 +142,7 @@ These are the (not so beneficial) side effects you when using a shared persisten
    using from '@capire/reviews';
    using from '@capire/orders';
    ```
+   :::
 
    > Note: the `using` directives refer to `index.cds` files existing in the target packages. Your projects may have different entry points. 
 

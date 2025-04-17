@@ -13,7 +13,7 @@ A comprehensive guide on deploying your CAP application as microservices.
 ## Create a Solution Monorepo <UnderConstruction/>
 
 Assumed we want to create a composite application consisting of two or more micro services, each living in a separate GitHub repository, for example:
-
+<!-- Those links aren't working links. Why do we use those? -->
 - https://github.com/capire/bookstore
 - https://github.com/capire/reviews
 - https://github.com/capire/orders
@@ -24,9 +24,9 @@ With some additional repos, used as dependencies in the same manner, like:
 - https://github.com/capire/bookshop
 - https://github.com/capire/data-viewer
 
-This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
+This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[NPM workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
 
-1. Create a new monorepo root directory using `npm` workspaces:
+1. Create a new monorepo root directory using *NPM workspaces*:
 
    ```sh
    mkdir capire
@@ -47,14 +47,14 @@ This guide describes a way to manage development and deployment via *[monorepos]
    git submodule update --init
    ```
 
-   Add a .gitignore
+   Add a _.gitignore_ file with the following content:
    ```txt
    node_modules
    gen
    ```
    > The outcome of this looks and behaves exactly as the monorepo layout in *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)*,  so we can exercise the subsequent steps in there...
 
-3. Test-drive locally as usual 
+3. Test-drive locally:
    ```sh
    npm install
    ```
@@ -67,8 +67,12 @@ This guide describes a way to manage development and deployment via *[monorepos]
    cds w bookstore
    ```
 
+   Each microservice can be started independently. If you start each microservice, one after the other in a different terminal, the connection is already established.
 
-::: details Other project structures
+   [Learn more about Automatic Bindings by `cds watch`](../extensibility/composition#bindings-via-cds-watch){.learn-more}
+   
+
+::: details The project structure
 
 The project structure used here is as follows:
 
@@ -81,13 +85,13 @@ The project structure used here is as follows:
 └─ package.json
 ```
 
-The individual services (`bookstore`, `reviews`, `orders`) can be
+The individual services (`bookstore`, `reviews`, `orders`) can be one of the following:
  * folders, committed directly to the root project
  * git submodules
 
-Links between the projects are established using npm dependencies.
+Links between the projects are established using NPM dependencies.
 Since the root project defines workspaces, these dependencies are also found locally without the need for publishing or linking.
-When one of the projects is cloned in isolation, it is still possible to fetch dependencies to other modules via the npm registry.
+When one of the projects is cloned in isolation, it's still possible to fetch dependencies to other modules via the NPM registry.
 
 :::
 
@@ -97,22 +101,24 @@ If you have multiple CAP applications relying on the same domain model or want t
 
 In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way.
 
-::: details Evaluation
+::: details Why a shared database?
 
-The advantages are as follows:
- - **Query Performance:** Complex queries are executed much faster, for example $expand to an entity on another microservice (compared to calls across services with own data persistencies)
- - **Independent Scalability** of application runtimes (compared to a monolithic application)
+A shared database is beneficial if the following are important for you:
 
- Disadvantages:
- - Accessing data directly (without an API) means any changes in the data model affect all applications directly
- - every change in one of the services either requires
-   - a redeployment of all microservices involved
-   - a logic to decide which microservices need redeployment to avoid inconsistencies
- - violates 12 factors concept
+ - **Query Performance:** Complex queries are executed much faster, for example `$expand` to an entity on another microservice, compared to calls across services with own data persistencies.
+ - **Independent Scalability** of application runtimes, compared to a monolithic application.
+
+These are the (not so beneficial) side effects you when using a shared persistence:
+
+ - Accessing data directly (without an API) means any changes in the data model affect all applications directly.
+ - Every change in one of the services requires either one of the following:
+   - Redeployment of all microservices involved.
+   - Logic to decide which microservices need redeployment to avoid inconsistencies.
+ - Violates the 12 factors concept.
 
 :::
 
-### Add a project for shared database
+### Add a Project For Shared Database
 
 1. Add another `cds` project to collect the models from these projects:
 
@@ -127,7 +133,7 @@ The advantages are as follows:
    npm add @capire/orders
    ```
 
-   > Note how *npm workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
+   > Note how *NPM workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
 
 2. Add a `db/schema.cds` file as a mashup to actually collect the models:
 
@@ -181,15 +187,15 @@ The project structure used here is as follows:
 └─ package.json
 ```
 
-The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via npm, so it is still possible to install via an npm registry if used outside of the monorepo setup.
+The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via NPM, so it's still possible to install via an NPM registry if used outside of the monorepo setup.
 
-The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all npm workspaces.
+The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all NPM workspaces.
 
 :::
 
-### Deployment as separate mta
+### Deployment as Separate MTA
 
-In a setup with multiple deployment units, we can add the `shared-db` project as its own mta deployment:
+In a setup with multiple deployment units, we can add the `shared-db` project as its own MTA deployment:
 
 ```sh
 cds add mta
@@ -260,11 +266,11 @@ resources:
 
 
 
-#### Binding to shared database
+#### Binding to a Shared Database
 
 The only thing left to care about is to ensure all 3+1 projects are bound and connected to the same database at deployment, subscription, and runtime.
 
-Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
+Configure the _mta.yaml_ of the other apps to bind to the existing shared database, for example, in the reviews module:
 
 ```yaml [reviews/mta.yaml]
 ...
@@ -295,7 +301,7 @@ resources:
 #### Subsequent updates
 
 - TODO... 
-- Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
+- Whenever one of the projects has changes affecting the database that triggers a new deployment of the `shared-db` project
 - `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
 - Ensure to first deploy `shared-db` before deploying the others
 
@@ -303,7 +309,7 @@ resources:
 
 ## All-in-one Deployment
 
-Here we go on with our guide how to deploy all 3+1 projects at once with a common `mta.yaml`
+This section is about how to deploy all 3+1 projects at once with a common _mta.yaml_.
 
 ![component diagram with synchronous and event communication for orders](./assets/microservices/bookstore.excalidraw.svg)
 
@@ -359,18 +365,18 @@ build-parameters:
 
 
 ::: info `cds build --ws`
-If the CDS models of every npm workspace contained in the monorepo should be considered, then instead of creating this `shared-db` folder, you can also use:
+If the CDS models of every NPM workspace contained in the monorepo should be considered, then instead of creating this `shared-db` folder, you can also use:
 ```shell
 cds build --for hana --production --ws
 ```
-The `--ws` aggregates all models in the npm workspaces.
+The `--ws` aggregates all models in the NPM workspaces.
 
 In this walkthrough, we only include a subset of the CDS models in the deployment.
 :::
 
 
 ::: details Configure each app for cloud readiness
-The preceding  steps added configuration only to the workspace root.
+The preceding steps only added configuration to the workspace root.
 
 Additionally add database configuration to each module that we want to deploy - bookstore, orders, and reviews:
 
@@ -384,7 +390,7 @@ npm i @cap-js/hana --workspace reviews
 
 ### Applications
 
-Replace the mta module for samples-srv with versions for each CAP service and adjust `name`, `path`, and `provides[0].name` to match the module name. Also change the `npm-ci` builder to the `npm` builder.
+Replace the MTA module for `samples-srv` with versions for each CAP service and adjust `name`, `path`, and `provides[0].name` to match the module name. Also change the `npm-ci` builder to the `npm` builder.
 
 ::: code-group
 ```yaml [mta.yaml]
@@ -500,7 +506,7 @@ Add the admin role
 :::
 
 ::: details Configure each app for cloud readiness
-Add npm dependency `@sap/xssec`:
+Add NPM dependency `@sap/xssec`:
 
 ```shell  
 npm i @sap/xssec --workspace bookstore
@@ -713,7 +719,7 @@ modules:
 
 #### Static Content
 
-The approuter can serve static content. Since our UIs are located in different npm workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
+The approuter can serve static content. Since our UIs are located in different NPM workspaces, we create symbolic links to them as an easy way to deploy them as part of the approuter.
 
 ```shell
 mkdir .deploy/app-router/resources
@@ -768,7 +774,7 @@ modules:
 ```
 :::
 
-The xs-app.json file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
+The _xs-app.json_ file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
 ```json [.deploy/app-router/xs-app.json]
@@ -854,7 +860,7 @@ Additionally, the welcomeFile is important for deployed Vue UIs as they obtain C
 
 ### Deploy
 
-In order to build, deploy, and undeploy easily, add these `npm` scripts:
+To build, deploy, and undeploy easily, add these `npm` scripts:
 
 ::: code-group
 ```json [package.json]
@@ -868,13 +874,13 @@ In order to build, deploy, and undeploy easily, add these `npm` scripts:
 
 Before deploying you need to log in to Cloud Foundry.
 
-To locally build the apps, run
+Build the apps locally:
 
 ```shell
 npm run build
 ```
 
-To deploy the built artifacts to Cloud Foundry, run
+Deploy the built artifacts to Cloud Foundry:
 
 ```shell
 npm run deploy
@@ -923,26 +929,26 @@ While these benefits exist, they are accompanied by complexity and performance l
 
 Instead of just choosing between a monolith and microservices, these aspects can be combined into an architecture that fits the specific product.
 
-Since each cut not only has benefits, but also drawbacks, it is important to choose which benefits actually help the overall product and which drawbacks can be accepted.
+Since each cut not only has benefits, but also drawbacks, it's important to choose which benefits actually help the overall product and which drawbacks can be accepted.
 
 ![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared db, two each contain an app connected to the shared db, one contains a db and an app, which is also connected to the shared db](./assets/microservices/complex.excalidraw.svg)
 
 ### A Late Cut
 
-When developing a product it may initially not be apparent where the boundaries are.
+When developing a product, it may initially not be apparent where the boundaries are.
 
 Keeping this in mind, an app can be developed as a modular application with use case specific CAP services.
 It can first be deployed as a [monolith / modulith](#monolith-or-microservice). Once the boundaries are clear, it can then be split into multiple applications.
 
 Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
 
-![Modules which can be arranged in different deploy configurations, e.g. as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), etc.](./assets/microservices/late-cut.excalidraw.svg)
+![Modules which can be arranged in different deploy configurations, for example, as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), and so on.](./assets/microservices/late-cut.excalidraw.svg)
 
 ### Best Practices
 
 * Prefer a late cut
 * Stay flexible in where to cut
-* Prefer staying loosely coupled → e.g. ReviewsService → reviewed events → UPDATE avg ratings
+* Prefer staying loosely coupled → for example, ReviewsService → reviewed events → UPDATE avg ratings
 * Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
 
 ## Appendix
@@ -956,14 +962,14 @@ A monolith is a single deployment unit with a single application. This is very c
 A modulith, even though the app is separated into multiple CAP services inside multiple modules, can still be deployed as a single monolithic application.
 This combines the benefit of a clear structure and distributed development while keeping a simple deployment.
 
-![A single app containing the modules bookshop, reviews and orders](./assets/microservices/modulith.excalidraw.svg)
+![A single app containing the modules bookshop, reviews, and orders](./assets/microservices/modulith.excalidraw.svg)
 
 True microservices each consist of their own deployment unit with their own application and their own database.
-Meaning that they are truly independent of each other. And it works well if they actually are independent.
+Meaning that they're truly independent of each other. And it works well if they are actually independent.
 
 ![A simplified microservices view - three deployment units, each with one app and one database](./assets/microservices/true-microservices.excalidraw.svg)
 
-The above is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
+What was mentioned earlier is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
 If the microservices are not cut well, the communication overhead leads to high performance losses and often the need for data replication or caching.
 
 ![A more complete microservices view - two deployment units with one app, one db and some UIs each, one deployment unit for shared service instances](./assets/microservices/true-microservices-full.excalidraw.svg)
@@ -983,7 +989,7 @@ Benefits:
 Requirement:
 - The app needs to be stateless, state needs to be persisted
 
-Multiple app instances can be used both for monoliths and microservices.
+Multiple app instances can be used for both monoliths and microservices.
 
 ![A single app with multiple application instances](./assets/microservices/app-instances.excalidraw.svg)
 
@@ -1027,7 +1033,7 @@ For some parts, a 100% cpu utilization over an extended period is accepted for e
 
 #### Fault Tolerance
 
-While app instances already provide some resilience, there are failure classes (e.g. bugs) which affect each app instance.
+While app instances already provide some resilience, there are failure classes (for example, bugs) which affect each app instance.
 
 Separating functionality into different apps means that when one app experiences issues, the functionality of the other apps is still available.
 In the bookstore example, while reviews may be down, orders may still be possible.
@@ -1038,7 +1044,7 @@ This benefit is null for apps with synchronous dependencies on each other. If A 
 
 With multiple apps, you can still deploy them together as one unit, for example as part of a multitarget application archive.
 Once an application grows bigger, this takes a significant amount of time.
-Deployments can then be split up either by type (e.g. deploying UIs separately) or horizontally (e.g. deploying each app via its own deployment unit).
+Deployments can then be split up either by type (for example, deploying UIs separately) or horizontally (for example, deploying each app via its own deployment unit).
 
 Benefits:
 - Faster individual deploy times
@@ -1048,7 +1054,7 @@ Drawbacks:
 - Coordination between deployment units for updates with dependencies
 - Configuration wiring to connect systems across deployment units
 
-![One deployment unit for UIs and one deployment unit for apps, db etc.](./assets/microservices/multiple-deployment-units.excalidraw.svg)
+![One deployment unit for UIs and one deployment unit for apps, db and so on.](./assets/microservices/multiple-deployment-units.excalidraw.svg)
 
 
 With a single deployment unit, when a fix for one part needs to be deployed, the risk of redeploying the rest of the application needs to be considered.
@@ -1067,7 +1073,7 @@ Here we need to differentiate between two scenarios:
 - Using multiple databases of the same type
 
 A polyglot persistence can be used when the app has different requirements for the types of data it needs to store.
-For example, there may be a large amount of large files that can be stored in a document store, while corresponding administrative data is stored in a relational database.
+For example, there may be a large number of large files that can be stored in a document store, while corresponding administrative data is stored in a relational database.
 
 Benefits:
 - Use suitable technology for different use cases
@@ -1093,7 +1099,7 @@ Drawbacks:
 
 When data is distributed across multiple databases, strategies may be necessary to combine data from multiple sources.
 
-- Fetching on-demand
+- Fetching on demand
   - Caching
 - HANA synonyms
 - Data Replication

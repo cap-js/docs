@@ -164,17 +164,6 @@ cds add xsuaa
 The roles/scopes are derived from authorization-related annotations in your CDS models. Ensure to rerun `cds compile --to xsuaa`, as documented in the [_Authorization_ guide](/guides/security/authorization#xsuaa-configuration) whenever there are changes to these annotations.
 :::
 
-::: details For trial and extension landscapes, OAuth configuration is required
-Add the following snippet to your _xs-security.json_ and adapt it to the landscape you're deploying to:
-
-```json
-"oauth2-configuration": {
-  "redirect-uris": ["https://*.cfapps.us10-001.hana.ondemand.com/**"]
-}
-```
-
-:::
-
 [Learn more about SAP Authorization and Trust Management/XSUAA.](https://discovery-center.cloud.sap/serviceCatalog/authorization-and-trust-management-service?region=all){.learn-more}
 
 ### 3. MTA-Based Deployment { #add-mta-yaml}
@@ -257,7 +246,7 @@ cds up
 npm i app/browse
 npm i app/admin-books
 
-# If project is monrepo
+# If project is monorepo
 ln -sf ../package-lock.json
 
 # If project is multitenant
@@ -301,7 +290,7 @@ You can use this URL to access the approuter as the entry point of your applicat
 For **multitenant applications**, you have to subscribe a tenant first. The application is accessible via a tenant-specific URL after subscription.
 
 ::: tip No index page and SAP Fiori preview in the cloud
-The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to see from local development, are only available for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori Elements application through on of the [user interface options](#add-ui) outlined before.
+The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to seeing during local development, are only meant for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori elements application through on of the [user interface options](#add-ui) outlined before.
 :::
 
 ### Inspect Apps in BTP Cockpit

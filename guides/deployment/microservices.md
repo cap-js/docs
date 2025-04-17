@@ -797,7 +797,7 @@ This is an alternative to the all-in-one deployment. Assume the applications eac
 
 ### Database
 
-We can add the [previously created](#shared-database) `shared-db` project as its own mta deployment:
+We can add the [previously created](#using-a-shared-database) `shared-db` project as its own mta deployment:
 
 ::: code-group
 ```sh [shared-db/]

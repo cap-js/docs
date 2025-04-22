@@ -178,19 +178,32 @@ cds.on('bootstrap', app => {
 
 Emitted whenever a CDS model got loaded using `cds.load()`
 
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('loaded', model => { /* ... */ })
+```
 
 
 ### connect {.event}
 
 Emitted for each service constructed through [`cds.connect`](cds-connect).
 
-
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('connect', service => { /* ... */ })
+```
 
 ### serving {.event}
 
 Emitted for each service constructed by [`cds.serve`](cds-serve).
 
-
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('serving', service => { /* ... */ })
+```
 
 ### served {.event}
 
@@ -199,7 +212,7 @@ A one-time event, emitted when all services have been bootstrapped and added to 
 ```js twoslash
 // @noErrors
 const cds = require('@sap/cds')
-cds.on('served', services => {
+cds.on('served', async (services) => {
   // We can savely access service instances through the provided argument:
   const { CatalogService, db } = services
   // ...
@@ -216,11 +229,8 @@ A one-time event, emitted when the server has been started and is listening to i
 ```js twoslash
 // @noErrors
 const cds = require('@sap/cds')
-cds.on('listening', ({ server, url }) => {
-  // ...
-})
+cds.on('listening', ({ server, url }) => { /* ... */ })
 ```
-
 
 
 ### shutdown {.event}
@@ -229,6 +239,11 @@ A one-time event, emitted when the server is closed and/or the process finishes.
 
 This event supports _asynchronous_ event handlers.
 
+```js twoslash
+// @noErrors
+const cds = require('@sap/cds')
+cds.on('shutdown', async () => { /* ... */ })
+```
 
 
 

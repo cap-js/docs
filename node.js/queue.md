@@ -36,7 +36,7 @@ await queued.send('someEvent', { some: 'message' }) // asynchronous
 ```
 
 ::: tip
-You still need to `await` these operations since messages are stored in the database, in the current transaction.
+You still need to `await` these operations. In case of a persistent queue, messages are stored in the database, within the current transaction.
 :::
 
 The `cds.queued` function can also be called with optional configuration options.

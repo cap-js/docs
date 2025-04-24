@@ -5,7 +5,7 @@ synopsis: >
 status: released
 ---
 
-# Queuing with `cds.queued`
+# Queueing with `cds.queued`
 
 [[toc]]
 

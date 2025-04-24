@@ -85,7 +85,7 @@ Some services are queued by default, these services include [`cds.MessagingServi
 For transactional safety, you're encouraged to enable the [persistent queue](#persistent-queue).
 
 
-## Persistent Queue (Default) {#persistent-outbox}
+## Persistent Queue (Default) {#persistent-queue}
 
 You can enable it globally for all outboxed services with:
 

@@ -12,7 +12,7 @@ status: released
 
 ## Overview
 
-The _task queue_ feature allows you to safely store requests to the database before they are processed. It includes a built-in retry mechanism to handle failures reliably.
+The _task queue_ feature allows you to defer request processing.
 
 A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
 This prevents accidental execution of remote calls in case the transaction is rolled back.

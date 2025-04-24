@@ -34,39 +34,100 @@ As an authorized operator, you can access the container and start tools [locally
 Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
 The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
 
-### Async Profiler
+### Cloud Foundry Command Line Java Plugin
 
-Recent versions of the SAP Java Buildpack with SAPMachine 17 and 21 contain the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) and can be used conveniently with the [Cloud Foundry Command Line Java plugin](https://github.com/SAP/cf-cli-java-plugin) for remote profiling of Java applications deployed to Cloud Foundry. Please check the plugin documentation on details of its installation.
+The [Java Plugin](https://github.com/SAP/cf-cli-java-plugin) for the [Cloud Foundry cli](https://github.com/cloudfoundry/cli) tool provides convenience utilities to work with Java applications deployed on Cloud Foundry.
 
-The plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access).
+It helps to create heap dumps, thread dumps and profiling records of deployed and running Java application instances. Please check the plugin documentation on details of its installation.
 
-Once that is in place you start easily start profiling your application by using the `cf java start-asprof | stop-asprof | asprof` commands.
-
-Below are some command examples, but check the [Cloud Foundry Command Line Java plugin documenation](https://github.com/SAP/cf-cli-java-plugin) and `cf java -h` for more details.
-
-#### Examples
-
-1. Profile `sample-app-srv` for 30 seconds, write output into a file `profile.jfr` and download the file from the container to the local directory `~/tmp`:
+#### Creating Heap Dumps
 
 ```sh
-cf java asprof sample-app-srv -args '-d 30 -f profile.jfr' -ld ~/tmp
+cf java heap-dump sample-app-srv
 ```
 
-:::tip Asprof Command Arguments
-When using the `asprof` command, asprof specific arguments need to be passed with `-args`.
-:::
+`heap-dump` produces a `.hprof` file which can be viewed in a Java heap analyzer, such as [Memory Analyzer (MAT)](https://eclipse.dev/mat/).
 
-2. Profile `sample-app-srv` for 30 seconds with output type flamegraph, write the output into a file `flame.html` and download the file from the container to the local directory `~/tmp`:
+#### Creating Thread Dumps
 
 ```sh
-cf java asprof sample-app-srv -args '-d 30 -f flame.html' -ld ~/tmp
+cf java thread-dump sample-app-srv
 ```
 
-:::tip Implicit Flamegraphs
-Choosing an output filename with .html ending indicates to use the output type `flamegraph`, see [FlameGraph visualization](https://github.com/async-profiler/async-profiler/blob/master/docs/GettingStarted.md#flamegraph-visualization)
-:::
+`thread-dump` produces a thread dump on `stdout` which you can pipe into a file for persistence, e.g.
 
-`.html` files can be opened in a browser, `.jfr` files can be viewed with a viewer such as [OpenJDK Mission Control](https://openjdk.org/projects/jmc/).
+```sh
+cf java thread-dump sample-app-srv > thread-dump.txt
+```
+
+#### Async Profiler
+
+Using `cf java` to profile Java applications running on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires **recent versions** of the **SAP Java Buildpack with SAPMachine 17** (`1.110.0`) and **21** (`2.24.0`).
+
+
+Also, the plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access). Once that is in place you can easily start profiling with `cf java`.
+
+`cf java` provides the following **async-profiler** related commands:
+
+- **asprof**
+  ```
+  Run async-profiler commands passed to asprof via --args
+  ```
+
+- **asprof-start-cpu**
+  ```
+  Start an async-profiler CPU-time profile recording on a running Java application
+  ```
+
+- **asprof-start-wall**
+  ```
+  Start an async-profiler wall-clock profile recording on a running Java application
+  ```
+
+- **asprof-start-alloc**
+  ```
+  Start an async-profiler allocation profile recording on a running Java application
+  ```
+
+- **asprof-start-lock**
+  ```
+  Start an async-profiler lock profile recording on a running Java application
+  ```
+
+- **asprof-stop**
+  ```
+  Stop an async-profiler profile recording on a running Java application
+  ```
+
+- **asprof-status**
+  ```
+  Get the status of async-profiler on a running Java application
+  ```
+
+##### Usage
+  
+The typical usage would be
+
+1. **Start profiling** with one of `asprof-start-cpu` | `asprof-start-wall` | `asprof-start-alloc` | `asprof-start-lock`:
+   ```sh
+   cf java asprof-start-cpu sample-app-srv
+   ```
+
+1. **Produce some load** in your Java application.
+
+
+1. **Check** current asprof **status**:
+   ```sh
+   cf java asprof-status sample-app-srv
+   ```
+
+1. And finally **Stop profiling**:
+   ```sh
+   cf java asprof-stop sample-app-srv
+   ```
+
+`asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
+
 
 ### Remote JMX-Based Tools { #profiling-jmx}
 

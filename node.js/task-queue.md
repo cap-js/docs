@@ -1,64 +1,66 @@
 ---
 synopsis: >
-  Learn details about the outbox feature.
+  Learn details about the task-queue feature.
 # layout: node-js
 status: released
 ---
 
-# Outboxing with `cds.outboxed`
+# Queuing with `cds.queued`
 
 [[toc]]
 
 
 ## Overview
 
-Often, remote operations should be delayed until the main transaction succeeded. Otherwise, the remote operations are also triggered in case of a rollback.
-To enable this, an outbox can be used to defer remote operations until the success of the current transaction.
+The _task queue_ feature allows you to safely store requests to the database before they are processed. It includes a built-in retry mechanism to handle failures reliably.
 
-Every CAP service can be _outboxed_ that means event dispatching becomes _asynchronous_.
+A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
+This prevents accidental execution of remote calls in case the transaction is rolled back.
+
+Every CAP service can be _queued_ that means event dispatching becomes _asynchronous_.
 
 
-## Outboxing a Service
+## Queueing a Service
 
 
-### cds.outboxed(srv) {.method}
+### cds.queued(srv) {.method}
 
-Programmatically, you can get the outboxed service as follows:
+Programmatically, you can get the queued service as follows:
 
 ```js
 const srv = await cds.connect.to('yourService')
-const outboxed = cds.outboxed(srv)
+const queued = cds.queued(srv)
 
-await outboxed.emit('someEvent', { some: 'message' }) // asynchronous
-await outboxed.send('someEvent', { some: 'message' }) // synchronous
+await queued.emit('someEvent', { some: 'message' }) // asynchronous
+await queued.send('someEvent', { some: 'message' }) // asynchronous
 ```
 
 ::: tip
-You still need to `await` these operations. Then the messages are stored in the database, together with the main transaction.
+You still need to `await` these operations since messages are stored in the database, in the current transaction.
 :::
 
-The `cds.outboxed` function can also be called with optional configuration options.
+The `cds.queued` function can also be called with optional configuration options.
 
 ```js
-const outboxed = cds.outboxed(srv, { kind: 'persistent-outbox' })
+const queued = cds.queued(srv, { kind: 'persistent-queue' })
 ```
 
-> The persistent outbox can only be used if it's enabled globally with `cds.requires.outbox = true` because it requires a dedicated database table.
+> The persistent queue can only be used if it's enabled globally with `cds.requires.queue = true` because it requires a dedicated database table.
 
 ::: warning One-time configuration
-Once you outboxed a service, you cannot override its outbox configuration options again.
+Once you queued a service, you cannot override its configuration options again.
 :::
 
 
-### cds.unboxed(srv) {.method}
+### cds.unqueued(srv) {.method}
 
-Use this on an outboxed service to get back the original service:
+Use this on an unqueued service to get back the original service:
 
 ```js
-const unboxed = cds.unboxed(srv)
+const unqueued = cds.unqueued(srv)
 ```
 
-This is useful if your service is outboxed per configuration.
+This is useful if your service is outboxed (i.e., queued) per configuration.
 
 
 ### Per Configuration
@@ -76,26 +78,26 @@ You can also configure services to be outboxed by default:
 }
 ```
 
-::: tip Outboxed by default
-Some services are outboxed by default, these services include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
+::: tip Queued by default
+Some services are queued by default, these services include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
 :::
 
-For transactional safety, you're encouraged to enable the [persistent outbox](#persistent-outbox).
+For transactional safety, you're encouraged to enable the [persistent queue](#persistent-queue).
 
 
-## Persistent Outbox (Default) {#persistent-outbox}
+## Persistent Queue (Default) {#persistent-outbox}
 
 You can enable it globally for all outboxed services with:
 
 ```json
 {
   "requires": {
-    "outbox": true
+    "queue": true
   }
 }
 ```
 
-Using the persistent outbox, the to-be-emitted message is stored in a database table first. The same database transaction is used
+Using the persistent queue, the to-be-emitted message is stored in a database table first. The same database transaction is used
 as for other operations, therefore transactional consistency is guaranteed.
 
 You can use the following configuration options:
@@ -103,8 +105,8 @@ You can use the following configuration options:
 ```json
 {
   "requires": {
-    "outbox": {
-      "kind": "persistent-outbox",
+    "queue": {
+      "kind": "persistent-queue",
       "maxAttempts": 20,
       "chunkSize": 100,
       "storeLastError": true,
@@ -118,7 +120,7 @@ The optional parameters are:
 
 - `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
 - `chunkSize` (default `100`): The number of messages which are read from the database table in one go.
-- `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the outbox table.
+- `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the tasks table.
 - `parallel` (default `true`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
 
 
@@ -139,12 +141,12 @@ The respective message is then updated and the `attempts` field is set to `maxAt
 :::
 
 
-Your database model is automatically extended by the entity `cds.outbox.Messages`:
+Your database model is automatically extended by the entity `cds.queued.Tasks`:
 
 ```cds
-namespace cds.outbox;
+namespace cds.queued;
 
-entity Messages {
+entity Tasks {
   key ID                   : UUID;
       timestamp            : Timestamp;
       target               : String;
@@ -156,20 +158,19 @@ entity Messages {
 }
 ```
 
-In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`,
+In your CDS model, you can refer to the entity `cds.queued.Tasks` using the path `@sap/cds/srv/queue`,
 for example to expose it in a service.
 
 
 #### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
-- The service that handles the outboxed event must not use user roles and attributes as they are not stored. However, the user ID is stored to recreate the correct context.
-- The service that handles the outboxed event must not perform any database modifications, because a global database transaction is used when dispatching the events. The outbox must only be used for services which communicate with external systems.
+- The service that handles the queued event must not use user roles and attributes as they are not stored. However, the user ID is stored to recreate the correct context.
 
 
 ### Managing the Dead Letter Queue
 
-You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.outbox.Messages` as well as bound actions to either revive or delete the respective message.
+You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.queued.Tasks` as well as bound actions to either revive or delete the respective message.
 
 ::: tip
 Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) in the CAP Java documentation for additional considerations while we work on a general Outbox guide.
@@ -179,13 +180,13 @@ Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) i
 
 ::: code-group
 ```cds [srv/outbox-dead-letter-queue-service.cds]
-using from '@sap/cds/srv/outbox';
+using from '@sap/cds/srv/queue';
 
 @requires: 'internal-user'
 service OutboxDeadLetterQueueService {
 
   @readonly
-  entity DeadOutboxMessages as projection on cds.outbox.Messages
+  entity DeadOutboxMessages as projection on cds.queued.Tasks
     actions {
       action revive();
       action delete();
@@ -212,15 +213,15 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 :::
 
 
-## In-Memory Outbox
+## In-Memory Queue
 
-You can enable it globally for all outboxed services with:
+You can enable it globally for all queued services with:
 
 ```json
 {
   "requires": {
-    "outbox": {
-      "kind": "in-memory-outbox"
+    "queue": {
+      "kind": "in-memory-queue"
     }
   }
 }
@@ -252,28 +253,28 @@ To disable deferred emitting for a particular service, you can set the `outbox` 
 
 ## Troubleshooting
 
-### Delete Entries in the Outbox Table
+### Delete Entries in the Tasks Table
 
-To manually delete entries in the table `cds.outbox.Messages`, you can either
-expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.outbox.Messages`
+To manually delete entries in the table `cds.queued.Tasks`, you can either
+expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.queued.Tasks`
 entity:
 
 ```js
 const db = await cds.connect.to('db')
-const { Messages } = db.entities('cds.outbox')
-await DELETE.from(Messages)
+const { Tasks } = db.entities('cds.queued')
+await DELETE.from(Tasks)
 ```
 
-### Outbox Table Not Found
+### Tasks Table Not Found
 
-If the outbox table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
+If the tasks table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
 
-In case you have overwritten `requires.db.model` there, make sure to add the outbox model path `@sap/cds/srv/outbox`:
+In case you have overwritten `requires.db.model` there, make sure to add the queue model path `@sap/cds/srv/queue`:
 
 ```jsonc
 "requires": {
   "db": { ...
-    "model": [..., "@sap/cds/srv/outbox"]
+    "model": [..., "@sap/cds/srv/queue"]
   }
 }
 ```

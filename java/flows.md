@@ -1,7 +1,7 @@
 ---
 synopsis: >
   Learn about the flow feature in CAP Java.
-status: draft
+status: draft TODO: released (only valid status)
 ---
 
 # Flow: Modeling State Transitions <Beta /> <Since version="4.0.0" of="com.sap.cds:cds-feature-flow" />

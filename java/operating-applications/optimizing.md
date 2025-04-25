@@ -99,7 +99,7 @@ Also, the plugin requires the deployed application to have [SSH Access enabled](
   Get the status of async-profiler on a running Java application
   ```
 
-- **asprof** (**Expert Mode**)
+- **asprof** (*Expert Mode*)
   ```txt
   Run async-profiler commands passed to asprof via --args
   ```
@@ -113,15 +113,15 @@ The typical usage would be
    cf java asprof-start-cpu sample-app-srv
    ```
 
-1. **Produce some load** in your Java application.
+2. **Produce some load** in your Java application.
 
 
-1. **Check** current asprof **status**:
+3. **Check** current asprof **status**, optionally:
    ```sh
    cf java asprof-status sample-app-srv
    ```
 
-1. And finally **Stop profiling**:
+4. And finally **Stop profiling**:
    ```sh
    cf java asprof-stop sample-app-srv
    ```

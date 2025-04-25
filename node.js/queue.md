@@ -87,12 +87,14 @@ For transactional safety, you're encouraged to enable the [persistent queue](#pe
 
 ## Persistent Queue (Default) {#persistent-queue}
 
-You can enable it globally for all outboxed services with:
+The persistent queue is enabled by default.
+
+You can disable it globally with:
 
 ```json
 {
   "requires": {
-    "queue": true
+    "queue": false
   }
 }
 ```

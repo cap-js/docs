@@ -5,7 +5,7 @@ synopsis: >
 status: released
 ---
 
-# Queueing with `cds.queued`
+# Queueing with `cds.core`
 
 [[toc]]
 
@@ -23,13 +23,13 @@ Every CAP service can be _queued_ that means event dispatching becomes _asynchro
 ## Queueing a Service
 
 
-### cds.queued(srv) {.method}
+### cds.core(srv) {.method}
 
 Programmatically, you can get the queued service as follows:
 
 ```js
 const srv = await cds.connect.to('yourService')
-const queued = cds.queued(srv)
+const queued = cds.core(srv)
 
 await queued.emit('someEvent', { some: 'message' }) // asynchronous
 await queued.send('someEvent', { some: 'message' }) // asynchronous
@@ -39,10 +39,10 @@ await queued.send('someEvent', { some: 'message' }) // asynchronous
 You still need to `await` these operations. In case of a persistent queue, messages are stored in the database, within the current transaction.
 :::
 
-The `cds.queued` function can also be called with optional configuration options.
+The `cds.core` function can also be called with optional configuration options.
 
 ```js
-const queued = cds.queued(srv, { kind: 'persistent-queue' })
+const queued = cds.core(srv, { kind: 'persistent-queue' })
 ```
 
 > The persistent queue can only be used if it's enabled globally with `cds.requires.queue = true` because it requires a dedicated database table.
@@ -141,10 +141,10 @@ The respective message is then updated and the `attempts` field is set to `maxAt
 :::
 
 
-Your database model is automatically extended by the entity `cds.queued.Tasks`:
+Your database model is automatically extended by the entity `cds.core.Tasks`:
 
 ```cds
-namespace cds.queued;
+namespace cds.core;
 
 entity Tasks {
   key ID                   : UUID;
@@ -158,7 +158,7 @@ entity Tasks {
 }
 ```
 
-In your CDS model, you can refer to the entity `cds.queued.Tasks` using the path `@sap/cds/srv/queue`,
+In your CDS model, you can refer to the entity `cds.core.Tasks` using the path `@sap/cds/srv/queue`,
 for example to expose it in a service.
 
 
@@ -170,7 +170,7 @@ for example to expose it in a service.
 
 ### Managing the Dead Letter Queue
 
-You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.queued.Tasks` as well as bound actions to either revive or delete the respective message.
+You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.core.Tasks` as well as bound actions to either revive or delete the respective message.
 
 ::: tip
 Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) in the CAP Java documentation for additional considerations while we work on a general Outbox guide.
@@ -186,7 +186,7 @@ using from '@sap/cds/srv/queue';
 service OutboxDeadLetterQueueService {
 
   @readonly
-  entity DeadOutboxMessages as projection on cds.queued.Tasks
+  entity DeadOutboxMessages as projection on cds.core.Tasks
     actions {
       action revive();
       action delete();
@@ -255,13 +255,13 @@ To disable deferred emitting for a particular service, you can set the `outbox` 
 
 ### Delete Entries in the Tasks Table
 
-To manually delete entries in the table `cds.queued.Tasks`, you can either
-expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.queued.Tasks`
+To manually delete entries in the table `cds.core.Tasks`, you can either
+expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.core.Tasks`
 entity:
 
 ```js
 const db = await cds.connect.to('db')
-const { Tasks } = db.entities('cds.queued')
+const { Tasks } = db.entities('cds.core')
 await DELETE.from(Tasks)
 ```
 

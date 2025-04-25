@@ -126,7 +126,7 @@ The typical usage would be
    cf java asprof-stop sample-app-srv
    ```
 
-`asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
+`asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
 
 
 ### Remote JMX-Based Tools { #profiling-jmx}

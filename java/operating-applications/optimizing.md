@@ -64,7 +64,6 @@ cf java thread-dump sample-app-srv > thread-dump.txt
 
 Using `cf java` to profile Java applications running on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires **recent versions** of the **SAP Java Buildpack with SAPMachine 17** (`1.110.0`) and **21** (`2.24.0`).
 
-
 Also, the plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access). Once that is in place you can easily start profiling with `cf java`.
 
 `cf java` provides the following **async-profiler** related commands:
@@ -115,7 +114,6 @@ The typical usage would be
 
 2. **Produce some load** in your Java application.
 
-
 3. **Check** current asprof **status**, optionally:
    ```sh
    cf java asprof-status sample-app-srv
@@ -127,7 +125,6 @@ The typical usage would be
    ```
 
 `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
-
 
 ### Remote JMX-Based Tools { #profiling-jmx}
 

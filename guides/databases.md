@@ -1004,15 +1004,15 @@ For the SAP HANA functions, both usages are allowed: all-lowercase as given abov
 :::
 
 - `years_between`  
-  Computes the number of years between two specified dates.
+  Computes the number of years between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/years-between-function-datetime?locale=en-US))
 - `months_between`  
-  Computes the number of months between two specified dates.
+  Computes the number of months between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/months-between-function-datetime?locale=en-US))
 - `days_between`  
-  Computes the number of days between two specified dates.
+  Computes the number of days between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/days-between-function-datetime?locale=en-US))
 - `seconds_between`  
-  Computes the number of seconds between two specified dates.
+  Computes the number of seconds between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/seconds-between-function-datetime?locale=en-US))
 - `nano100_between`  
-  Computes the time difference between two dates to the precision of 0.1 microseconds.
+  Computes the time difference between two dates to the precision of 0.1 microseconds. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/nano100-between-function-datetime?locale=en-US))
 
 ### Special Runtime Functions
 

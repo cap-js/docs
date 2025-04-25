@@ -897,25 +897,25 @@ The OData function mappings are case-sensitive and must be written as in the lis
 
 #### String Functions
 
-- `concat(x, y, ...)`
+- `concat(x, y, ...)`  
   Concatenates the given strings or numbers.
 
-- `trim(x)`
+- `trim(x)`  
   Removes leading and trailing whitespaces.
 
-- `contains(x, y)`
+- `contains(x, y)`  
   Checks whether `y` is contained in `x` (fuzzy matching may apply).
 
-- `startswith(x, y)`
+- `startswith(x, y)`  
   Checks whether `y` starts with `x`.
 
-- `endswith(x, y)`
+- `endswith(x, y)`  
   Checks whether `y` ends with `x`.
 
-- `matchespattern(x, y)`
+- `matchespattern(x, y)`  
   Checks whether `x` matches the regular expression `y`.
 
-- `substring(x, i, n?)` <sup>1</sup>
+- `substring(x, i, n?)` <sup>1</sup>  
   Extracts a substring from `x` starting at index `i` (0-based) with an optional length `n`.
   - `i`:
     - Positive: starts at index `i`
@@ -941,19 +941,19 @@ The OData function mappings are case-sensitive and must be written as in the lis
 
 #### Numeric Functions
 
-- `ceiling(x)`
+- `ceiling(x)`  
   Rounds the numeric parameter up to the nearest integer.
 
-- `floor(x)`
+- `floor(x)`  
   Rounds the numeric parameter down to the nearest integer.
 
-- `round(x)`
+- `round(x)`  
   Rounds the numeric parameter to the nearest integer.  
   The midpoint between two integers is rounded away from zero (e.g., `0.5` → `1` and `-0.5` → `-1`).
 
 #### Date and Time Functions
 
-- `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`
+- `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`  
   Extracts and returns specific date / time parts as integer value from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
 
 - `time(x)`, `date(x)`  
@@ -983,15 +983,15 @@ out of the box support for some common SAP HANA functions, to further increase t
 For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
 :::
 
-- `years_between`
+- `years_between`  
   Computes the number of years between two specified dates.
-- `months_between`
+- `months_between`  
   Computes the number of months between two specified dates.
-- `days_between`
+- `days_between`  
   Computes the number of days between two specified dates.
-- `seconds_between`
+- `seconds_between`  
   Computes the number of seconds between two specified dates.
-- `nano100_between`
+- `nano100_between`  
   Computes the time difference between two dates to the precision of 0.1 microseconds.
 
 The cds-compiler / the database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries. With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
@@ -1000,7 +1000,7 @@ The cds-compiler / the database service implementation translates these to the b
 
 In addition to the OData and SAP HANA standard functions, the **CAP runtimes** provides special functions that are only available for runtime queries:
 
-- `search(xs, y)`
+- `search(xs, y)`  
   Checks whether `y` is contained in any element of `xs` (fuzzy matching may apply).
   See [Searching Data](../guides/providing-services#searching-data) for more details.
 
@@ -1008,7 +1008,7 @@ In addition to the OData and SAP HANA standard functions, the **CAP runtimes** p
   Utilizes standard variable names to maintain session context.
   Refer to [Session Variables](#session-variables) for additional information.
 
-- `now()`
+- `now()`  
   Returns the current datetime.
 
 ## Using Native Features  { #native-db-functions}

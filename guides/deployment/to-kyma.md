@@ -137,7 +137,7 @@ Let's  start with a new sample project and prepare it for production using an SA
 
 ```sh
 cds init bookshop --add sample && cd bookshop
-cds add hana,xsuaa --for production
+cds add hana,xsuaa
 ```
 
 #### User Interfaces <Beta />

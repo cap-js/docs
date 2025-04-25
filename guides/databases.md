@@ -885,15 +885,35 @@ Instead, they protect the integrity of your data in the database layer against p
 
 ## Standard Database Functions
 
-A specified set of standard functions - inspired by [OData](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_StringandCollectionFunctions) and [SAP HANA](https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/f12b86a6284c4aeeb449e57eb5dd3ebd.html?locale=en-US) - is supported in a **database-agnostic**, hence portable way, and translated to database-specific variants or polyfills.
+A specified set of standard functions - inspired by [OData](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_StringandCollectionFunctions) and [SAP HANA](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/alphabetical-list-of-functions?locale=en-US) - is supported in a **database-agnostic**, hence portable way, and translated to the best-possible native SQL functions or polyfills .
 
 ### OData standard functions
 
 The cds-compiler and all CAP Node.js database services come with out of the box support for common OData functions.
 
 ::: warning Case Sensitivity
-The OData function mappings are case-sensitive and must be written as in the list below.
+The OData function mappings are case-sensitive and must be written as in the list below.  
 :::
+
+e.g.
+
+```cds
+entity V as select from Books {
+  startswith(title, 'Raven') as lowerCase, // mapped to native SQL equivalent
+  startsWith(title, 'Raven') as camelCase, // passed as-is
+}
+```
+
+```sql
+CREATE VIEW V AS SELECT
+  (CASE WHEN locate(title, 'Raven') = 1 THEN TRUE ELSE FALSE END) AS lowerCase,
+  -- the below will most likely fail on SAP HANA
+  startsWith(title, 'Raven') AS camelCase
+FROM Books;
+```
+
+💡 If you have your own User-Defined Functions (UDFs) with the same name, you can still use them,
+by deviating from the casing given below.
 
 #### String Functions
 
@@ -994,22 +1014,20 @@ For the SAP HANA functions, both usages are allowed: all-lowercase as given abov
 - `nano100_between`  
   Computes the time difference between two dates to the precision of 0.1 microseconds.
 
-The cds-compiler / the database service implementation translates these to the best-possible native SQL functions, thus enhancing the extent of **portable** queries. With open source and the new database service architecture, we also have methods in place to enhance this list by custom implementation.
-
 ### Special Runtime Functions
 
 In addition to the OData and SAP HANA standard functions, the **CAP runtimes** provides special functions that are only available for runtime queries:
 
-- `search(xs, y)`  
-  Checks whether `y` is contained in any element of `xs` (fuzzy matching may apply).
+- `search(x, y)`  
+  Checks whether `y` is contained in any element of `x` (fuzzy matching may apply).
   See [Searching Data](../guides/providing-services#searching-data) for more details.
 
-- `session_context(v)`  
+- `session_context(<var>)`  
   Utilizes standard variable names to maintain session context.
   Refer to [Session Variables](#session-variables) for additional information.
 
 - `now()`  
-  Returns the current datetime.
+  Returns the current timestamp.
 
 ## Using Native Features  { #native-db-functions}
 

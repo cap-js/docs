@@ -173,7 +173,7 @@ You should consider this when you decide what to include in the identifier.
 
 ### Identifiers for Associated Entities
 
-When your entity has an association to an other entity, you might want to log the changes in their relationship.
+When your entity has an association to another entity, you might want to log the changes in their relationship.
 
 Given the `Orders` entity with an association to a `Customer` instead of the element with customer name:
 ```cds
@@ -195,17 +195,51 @@ annotate Orders {
 
 Elements from the `@changelog` annotation value must always be prefixed by the association name. The same caveats as for the identifiers for the entities apply here.
 
-If you annotate a composition with an identifier, the change log will contain an entry with the identifier's value. Additionally, it will include change log entries for all annotated elements of the composition's target entity.
-
 :::warning Validation required
 If the target of the association is missing, for example, when an entity is updated with the ID for a customer
-that does not exists, the changelog entry will not be created. You need to validate
+that does not exist, the changelog entry will not be created. You need to validate
 such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
 :::
 
-This feature can also be used for to-many compositions, when you don't need to track the deep changes, but still want to track the additions and removals in the composition.
-
 With association identifiers you also must consider the changes in your entities structure along the projections. In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly in the source entity.
+
+### Identifiers for Compositions
+
+Identifiers for compositions should be added on the target entity of the composition instead of the element defining this composition, so that the changed elements of the compositions are always annotated with identifier of the composition entity.
+
+Given the entities `Orders` and `OrderItems` which are member of composition `items`: 
+
+```cds
+entity Orders : cuid {
+  OrderNo  : String;
+  [...]
+  items: Composition of many OrderItems on items.parent = $self;
+}
+
+entity OrderItems : cuid {
+    parent    : Association to Orders;
+    supplierName: String;
+    [...]
+    quantity    : Integer;
+}
+```
+
+You can assign identifiers on these entities so that changes in the `Orders` are annotated with some element from it and 
+the changes on the item of the order are annotated with the different set of values.
+
+```cds
+annotate Orders with @changelog: [OrderNo];
+
+annotate OrderItems with @changelog: [
+  parent.OrderNo,
+  supplierName,
+];
+```
+
+Each entry in the changelog in case of the deep change will have appropriate identifier depending on the place of the changed element in the `Order` structure.
+
+You can also define the identifier on the element declaring the composition in the `Orders`, such identifier will not 
+be applied to the changes in the `OrderItems`. Identifiers on the elements are intended for the associations. 
 
 ### Displaying Changes
 
@@ -268,10 +302,10 @@ the changes across the complete document and stores them in the change log with 
 For example, given the order and item model from above, if you change values for the tracked elements with
 the deep update, for example, the customer name in the order and the quantity of the item, the change log contains
 two entries: one for the order and one for the item. The change log entry for the item will also reflect that
-the root of the change is an order.
+the root of the change is an order. Both changes will be reachable through the association `changes` of the order entity.
 
 :::warning Prefer deep updates for change tracked entities
-If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order.
+If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order and will not be reachable through the `changes` association. While the updates of composition targets directly is possible, the change tracking feature does not attempt to resolve the parent entity by itself, it requires that either OData request or a CQL statement provide the reference to the parent e.g. `Orders`.   
 :::
 
 ## Reacting on Changes

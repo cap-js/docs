@@ -21,10 +21,11 @@ status: released
 
 # Authentication
 
-In essence, authentication verifies the user's identity and the presented claims such as granted roles and tenant membership. 
+In essence, authentication verifies the user's identity and validates the presented claims, such as granted roles and tenant membership. 
 Briefly, **authentication** ensures _who_ is going to use the service. 
-In contrast, **authorization** controls _how_ the user can interact with the application's resources according to granted privileges. 
-As the access control needs to rely on verified claims, authentication is a mandatory prerequisite to authorization.
+In contrast, **authorization** dictates _how_ the user can interact with the application's resources based on their granted privileges. 
+As access control relies on verified claims, authentication is a mandatory prerequisite for authorization.
+
 
 [[toc]]
 
@@ -42,14 +43,13 @@ By leveraging platform services, CAP allows developers to focus on core applicat
 
 ### Pluggable and Customizable { #key-concept-pluggable }
 
-CAP has a plugin-based architecture to allow integration of authentication services as offered out of the box with the existing identity services provided by the BTP platform. 
+CAP has a plugin-based architecture to allow integration of authentication services as offered with existing services provided by the BTP platform. 
 Additionally, CAP supports the integration of custom authentication strategies. 
 This flexibility is crucial for scenarios where the default authentication methods do not fully meet the requirements of the application.
 Moreover, this integration helps to easily incorporate non-CAP and even non-BTP services, thereby providing a flexible and interoperable environment. 
 
 For example, in a local development setup, it might be necessary to use a custom authentication strategy to thoroughly test security features. 
 CAP allows developers to configure and activate the appropriate authentication strategy according to the runtime context, ensuring that the authentication process remains adaptable and robust across different environments.
-
 
 
 ### Autoconfigured and Secured by Default { #key-concept-autoconfigured }
@@ -69,8 +69,7 @@ Authentication is a mandatory pre-step for authorization, ensuring that only aut
 Additionally, authentication can be executed in a separate service, such as an ingress router of a service mesh. 
 This decoupling allows for a flexible combination of authentication and authorization strategies. 
 
-TODO: SAP internal
-For instance, in a Deploy-With-Confidence (DwC) context, CAP authentication can be delegated to a central ingress router component called Jupiter, which handles the authentication process independently.
+For instance, in a Deploy-With-Confidence (DwC) context, CAP authentication can be delegated to a central ingress router component called Jupiter, which handles the authentication process independently. [TODO: SAP internal]
 
 ### Decoupled from Business Logic  { #key-concept-decoupled-coding }
 If required in rare cases, the CAP user API may be used, but application code should not be subject to change in case an integrated service changes its authentication strategy. 
@@ -78,146 +77,69 @@ This decoupling safeguards the application logic from being tightly coupled with
 
 Likewise, the CAP framework allows performing outbound service calls while handling authentication under the hood. 
 This abstraction layer ensures that the application can interact with other services securely without the developers having to worry about the details of authentication. 
-This setup also allows for testing application security in a local test or development setup which is self-contained, providing a reliable and consistent environment for development and testing.
+This setup also allows for testing application security in a local test or development setup which is self-contained and reliable.
 
 
-## CAP Users  
-- User Claims (as it is)
-	- user roles
-	- pseudo roles
-	- attributes and CDS mapping
-- User Types  
-  - public users
-  - business users
-  - technical users
-  - provider vs. business tenant
-- Modification
-  - UserProvider  
-- Propagation
-	- request internal
-	- tenant switch
-	- privileged mode
-	- original authentication claim
-	- asynchronous -> implicit to technical user
-- Mock Users
+## CAP Users
 
-## Providing Authenticated Services
+A successfull authentication in CAP results in an object representation of the request user determined by the concrete user logged in.
+It contains [basic information](#user-claims) about the user including name, ID, tenant and additional claims such as roles or assigned attribute values.
+This user abstraction is basis for _model-driven_ [CDS authorization](../guides/security/authorization), [managed data](../guides/domain-modeling#managed-data) as well as for [custom authorization enforcement](../guides/security/authorization#enforcement).
+Referring to the key concepts, the abstraction serves to decouple authorization and business logic from pluggable authentication strategy.
 
-According to key concept [pluggable and customizable](key-concept-pluggable), the authentication method is customizable freely. 
-CAP [leverages platform services](#key-concept-platform-services) to provide a set of authentication strategies that cover all important scenarios:
+### User Claims { #user-claims }
 
-- For _local development_ and _unit testing_, [mock user](#mock-user-auth) is an appropriate built-in authentication feature.
+After successful authentication, a CAP user is represented by the following properties:
 
-- For _cloud deployments_, in particular deployments for production, CAP integration of [SAP Cloud Identity Services](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) is first-choice for applications:  
-  - [Identity Authentication Service (IAS)](#ias-auth) offers an [OpenId Connect](https://openid.net/connect/) compliant, cross-landscape identity management and single sign-on capabilities. 
-  - [Authorization Management Service (AMS)](#ams-auth) offers central role and access management.
-
-- [XS User and Authentication and Authorization Service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (XSUAA) is a full-fleged [OAuth 2.0](https://oauth.net/2/)-based authorization server.
-It is available to support existing applications and services in the scope of individual BTP landscapes.
-
-::: tip
-CAP applications can run IAS and XSUAA in hybrid mode to support a smooth migration.
-:::
-
-### Mock User Authentication { #mock-user-auth }
-  - Test Authentiction
-  - setup
-  - testing
-
-### IAS Authentication and AMS { #ias-auth }
-  - setup cds add ias
-  - role definition / assignment -> CAP Authorization ?
-  
-### AMS Integration { #ams-auth }
-    - setup cds add ams
-  - Define Reuse Service
-
-### XSUAA Authentication { #xsuaa-auth }
-  - setup cds add xsuaa
-  - role definition / assignment -> CAP Authorization ?
-  - Define Reuse Service
-
-### Custom Authentication { #custom-auth }
-  - Service mesh 
-  - DWC Integration (internal)
-  - pointer to hooks and properties
-
-## Calling Authenticated Services
-- Internal Services (@protocol: none)
-- App local & internal-user (IAS + XSUAA)
-- BTP reuse (IAS + XSUAA)
-- CAP 2 app (IAS)
-
-## Pitfalls
-	- CAP backend has visible endpoints (AppRouter does not shield the endpoint!)
-	- Clients might have tokens (authenticated-user -> pretty open for all kinds of users!!)
-	- Don't mix business roles vs. technical roles vs. provider roles 
-  - Don't deviate from security defaults
-  - Don't miss to add authentication tests
-  - Don't authenticate manually
-  - Don't code against concrete user claims (e.g. XSUAAUserInfo)
-
-
-
-
-
-
-
-
-Find detailed instructions for setting up authentication in these runtime-specific guides:
-
-- [Set up authentication in Node.js.](/node.js/authentication)
-- [Set up authentication in Java.](/java/security#authentication)
-
-
-In _productive_ environment with security middleware activated, **all protocol adapter endpoints are authenticated by default**<sup>1</sup>, even if no [restrictions](#restrictions) are configured. Multi-tenant SaaS-applications require authentication to provide tenant isolation out of the box. In case there is the business need to expose open endpoints for anonymous users, it's required to take extra measures depending on runtime and security middleware capabilities.
-
-> <sup>1</sup> Starting with CAP Node.js 6.0.0 resp. CAP Java 1.25.0. _In previous versions endpoints without restrictions are public in single-tenant applications_.
-
-### Defining Internal Services
-
-CDS services which are only meant for *internal* usage, shouldn't be exposed via protocol adapters. In order to prevent access from external clients, annotate those services with `@protocol: 'none'`:
-
-```cds
-@protocol: 'none'
-service InternalService {
-  ...
-}
-```
-The `InternalService` service can only receive events sent by in-process handlers.
-
-## User Claims { #user-claims}
-
-CDS authorization is _model-driven_. This basically means that it binds access rules for CDS model elements to user claims. For instance, access to a service or entity is dependent on the role a user has been assigned to. Or you can even restrict access on an instance level, for example, to the user who created the instance.<br>
-The generic CDS authorization is built on a _CAP user concept_, which is an _abstraction_ of a concrete user type determined by the platform's identity service. This design decision makes different authentication strategies pluggable to generic CDS authorization.<br>
-After successful authentication, a (CAP) user is represented by the following properties:
-
-- Unique (logon) _name_ identifying the user. Unnamed users have a fixed name such as `system` or `anonymous`.
+- Unique (logon) _name_ identifying the user. Unnamed, technical users have a fixed name such as `system` or `anonymous`.
 - _Tenant_ for multitenant applications.
 - _Roles_ that the user has been granted by an administrator (see [User Roles](#roles)) or that are derived by the authentication level (see [Pseudo Roles](#pseudo-roles)).
-- _Attributes_ that the user has been assigned by an administrator.
+- _Attributes_ that the user has been assigned by an user administrator.
 
 In the CDS model, some of the user properties can be referenced with the `$user` prefix:
 
 | User Property                 | Reference           |
 |-------------------------------|---------------------|
 | Name                          | `$user`             |
-| Tenant                        | `$user.tenant`      |
 | Attribute (name \<attribute>) | `$user.<attribute>` |
 
 > A single user attribute can have several different values. For instance, the `$user.language` attribute can contain `['DE','FR']`.
 
-
 ### User Roles { #roles}
 
-As a basis for access control, you can design conceptual roles that are application specific. Such a role should reflect how a user can interact with the application. For instance, the role `Vendor` could describe users who are allowed to read sales articles and update sales figures. In contrast, a `ProcurementManager` can have full access to sales articles. Users can have several roles, that are assigned by an administrative user in the platform's authorization management solution.
-::: tip
-CDS-based authorization deliberately refrains from using technical concepts, such as _scopes_ as in _OAuth_, in favor of user roles, which are closer to the conceptual domain of business applications. This also results in much **smaller JWT tokens**.
-:::
+As a basis for access control, you can design CAP roles that are application specific and that are assigned to users at application runtime.
+A role should reflect _how_ a user can interact with the application and rather not describe a fine-grained event on technical level.
 
+annotate Issues with @(restrict: [
+    { grant: ['READ','WRITE'],
+      to: 'ReportIssues',
+      where: ($user = CreatedBy) },
+    { grant: ['READ'],
+      to: 'ReviewIssues' },
+    { grant: '*',
+      to: 'ManageIssues' }
+]);
+
+
+For instance, the role `Vendor` could describe access rules for users who are allowed to read sales articles and update sales figures, a `ProcurementManager` have full access to sales articles. 
+
+CAP roles represent basic building blocks for authorization rules that are defined by the application developers who have in-depth domain knowledge.
+Independently from that, user administrators combine CAP roles in higher-level policies and assign to business users in the platform's central authorization management solution.
+
+::: tip
+CDS-based authorization deliberately refrains from using technical concepts, such as _scopes_ as in _OAuth_, in favor of user roles, which are closer to the technical domain of business applications.
+:::
 
 ### Pseudo Roles { #pseudo-roles}
 
+
+  - pseudo roles ? 
+  - public users
+  - business users
+  - technical users
+  - provider vs. business tenant
+
+  
 It's frequently required to define access rules that aren't based on an application-specific user role, but rather on the _authentication level_ of the request. For instance, a service could be accessible not only for identified, but also for anonymous (for example, unauthenticated) users. Such roles are called pseudo roles as they aren't assigned by user administrators, but are added at runtime automatically.
 
 The following predefined pseudo roles are currently supported by CAP:
@@ -245,6 +167,132 @@ For XSUAA or IAS authentication, the request user is attached with the pseudo ro
 All technical clients that have access to the application's XSUAA or IAS service instance can call your service endpoints as `internal-user`.
 **Refrain from sharing this service instance with untrusted clients**, for instance by passing services keys or [SAP BTP Destination Service](https://help.sap.com/docs/connectivity/sap-btp-connectivity-cf/create-destinations-from-scratch) instances.
 :::
+
+
+
+
+### Modifying Users { #modifying-users }
+  - UserProvider  
+
+### Propagating Users { #propagating-users }
+	- request internal
+	- tenant switch
+	- privileged mode
+	- original authentication claim
+	- asynchronous -> implicit to technical user
+
+
+## Providing Authenticated Services { #authenticating-services }
+
+According to key concept [pluggable and customizable](key-concept-pluggable), the authentication method is customizable freely. 
+CAP [leverages platform services](#key-concept-platform-services) to provide a set of authentication strategies that cover all important scenarios:
+
+- For _local development_ and _unit testing_, [mock user](#mock-user-auth) is an appropriate built-in authentication feature.
+
+- For _cloud deployments_, in particular deployments for production, CAP integration of [SAP Cloud Identity Services](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) is first-choice for applications:  
+  - [Identity Authentication Service (IAS)](#ias-auth) offers an [OpenId Connect](https://openid.net/connect/) compliant, cross-landscape identity management and single sign-on capabilities. 
+  - [Authorization Management Service (AMS)](#ams-auth) offers central role and access management.
+
+- [XS User and Authentication and Authorization Service](https://help.sap.com/docs/CP_AUTHORIZ_TRUST_MNG) (XSUAA) is a full-fleged [OAuth 2.0](https://oauth.net/2/)-based authorization server.
+It is available to support existing applications and services in the scope of individual BTP landscapes.
+
+::: tip
+CAP applications can run IAS and XSUAA in hybrid mode to support a smooth migration.
+:::
+
+::: warn
+Without security middleware configured, CDS services are exposed to public. 
+Basic configuration of an authentication strategy is mandatory to protect your CAP application.
+:::
+
+### Mock User Authentication { #mock-user-auth }
+  - Test Authentiction
+  - setup
+  - testing
+
+::: Info
+Mock users are deactivated by default in production environment.
+:::
+
+### IAS Authentication and AMS { #ias-auth }
+  - setup cds add ias
+  - role definition / assignment -> CAP Authorization ?
+  
+### AMS Integration { #ams-auth }
+    - setup cds add ams
+  - Define Reuse Service
+
+### XSUAA Authentication { #xsuaa-auth }
+  - setup cds add xsuaa
+  - role definition / assignment -> CAP Authorization ?
+  - Define Reuse Service
+
+### Custom Authentication { #custom-auth }
+  - Service mesh 
+  - DWC Integration (internal)
+  - pointer to hooks and properties
+
+
+## Consuming Authenticated Services { #consuming-authenticated-services }
+
+### Local Services
+
+Local CDS services which are meant for *internal* usage only can be easily consumed by in-process function calls.
+They shouldn't be exposed via protocol adapters at all. 
+In order to prevent access from external clients, annotate those services with `@protocol: 'none'`:
+
+```cds
+@protocol: 'none'
+service InternalService {
+  ...
+}
+```
+`InternalService` is not handled by protocol adapters and can only receive events sent by in-process handlers.
+
+### Application-Internal Services
+- internal-user (IAS + XSUAA)
+
+### BTP Reuse Services
+- IAS 
+- XSUAA
+
+### External Services
+- IAS App-2-App
+- Via Destination (S/4)
+
+
+## Anti Patterns
+	- CAP backend has visible endpoints (AppRouter does not shield the endpoint!)
+	- Clients might have tokens (authenticated-user -> pretty open for all kinds of users!!)
+	- Don't mix business roles vs. technical roles vs. provider roles 
+  - Don't deviate from security defaults
+  - Don't miss to add authentication tests
+  - Don't authenticate manually
+  - Don't code against concrete user claims (e.g. XSUAAUserInfo)
+
+
+
+
+
+
+
+
+Find detailed instructions for setting up authentication in these runtime-specific guides:
+
+- [Set up authentication in Node.js.](/node.js/authentication)
+- [Set up authentication in Java.](/java/security#authentication)
+
+
+In _productive_ environment with security middleware activated, **all protocol adapter endpoints are authenticated by default**<sup>1</sup>, even if no [restrictions](#restrictions) are configured. Multi-tenant SaaS-applications require authentication to provide tenant isolation out of the box. In case there is the business need to expose open endpoints for anonymous users, it's required to take extra measures depending on runtime and security middleware capabilities.
+
+> <sup>1</sup> Starting with CAP Node.js 6.0.0 resp. CAP Java 1.25.0. _In previous versions endpoints without restrictions are public in single-tenant applications_.
+
+
+
+## User Claims { #user-claims}
+
+
+
 
 ### Mapping User Claims
 

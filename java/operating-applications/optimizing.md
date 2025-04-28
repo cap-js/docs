@@ -127,7 +127,7 @@ The typical usage would be
 `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
 
 :::tip
-Profiling precision increases if the following JVM args are set:
+Profiling accuracy improves if the following JVM args are set:
 - **-XX:+UnlockDiagnosticVMOptions**
 - **-XX:+DebugNonSafepoints**
 

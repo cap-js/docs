@@ -918,6 +918,8 @@ entity V as select from Books {
 }
 ```
 
+`❯ cds compile -2 sql --dialect hana`
+
 ```sql
 CREATE VIEW V AS SELECT
   (CASE WHEN locate(title, 'Raven') = 1 THEN TRUE ELSE FALSE END) AS lowerCase,

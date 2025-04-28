@@ -131,11 +131,11 @@ Profiling precision increases if the following JVM args are set:
 - **-XX:+UnlockDiagnosticVMOptions**
 - **-XX:+DebugNonSafepoints**
 
-These can be set by:
+These can be set in a running application by
 ```sh
 cf set-env sample-app-srv JBP_CONFIG_JAVA_OPTS "[java_opts: '-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints']"
 ```
-Setting these requires a restage of your app:
+and restaging your application
 ```sh
 cf restage sample-app-srv
 ```

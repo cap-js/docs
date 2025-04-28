@@ -937,16 +937,19 @@ by deviating from the casing given below.
   Removes leading and trailing whitespaces.
 
 - `contains(x, y)`  
-  Checks whether `y` is contained in `x` (fuzzy matching may apply).
+  Checks whether `y` is contained in `x` (case-sensitive).
 
 - `startswith(x, y)`  
-  Checks whether `y` starts with `x`.
+  Checks whether `y` starts with `x` (case-sensitive).
 
 - `endswith(x, y)`  
-  Checks whether `y` ends with `x`.
+  Checks whether `y` ends with `x` (case-sensitive).
 
 - `matchespattern(x, y)`  
   Checks whether `x` matches the regular expression `y`.
+
+- `indexof(x, y)` <sup>1</sup>  
+  Returns the index of the first occurrence of `y` in `x` (case-sensitive).
 
 - `substring(x, i, n?)` <sup>1</sup>  
   Extracts a substring from `x` starting at index `i` (0-based) with an optional length `n`.
@@ -957,9 +960,6 @@ by deviating from the casing given below.
     - Positive: extracts `n` characters
     - Omitted: extracts until the end of the string
     - Negative: invalid
-
-- `indexof(x, y)` <sup>1</sup>  
-  Returns the index of the first occurrence of `y` in `x`.
 
 - `length(x)`  
   Returns the length of the string `x`.

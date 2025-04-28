@@ -126,6 +126,21 @@ The typical usage would be
 
 `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
 
+:::tip
+Profiling precision increases if the following JVM args are set:
+- **-XX:+UnlockDiagnosticVMOptions**
+- **-XX:+DebugNonSafepoints**
+
+These can be set by:
+```sh
+cf set-env sample-app-srv JBP_CONFIG_JAVA_OPTS "[java_opts: '-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints']"
+```
+Setting these requires a restage of your app:
+```sh
+cf restage sample-app-srv
+```
+:::
+
 ### Remote JMX-Based Tools { #profiling-jmx}
 
 Java's standardized framework [Java Management Extensions](https://www.oracle.com/java/technologies/javase/javamanagement.html) (JMX) allows introspection and monitoring of the JVM's internal state via exposed Management Beans (MBeans). MBeans also allow to trigger operations at runtime, for instance setting a logger level. Spring Boot automatically creates a bunch of MBeans reflecting the current [Spring configuration and metrics](observability#spring-boot-actuators) and offers convenient ways for customization. To activate JMX in Spring, add the following property to your application configuration.:

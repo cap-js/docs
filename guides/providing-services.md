@@ -746,10 +746,14 @@ Here's an overview table:
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 
+
+::: warning
+Pessimistic locking is supported for domain entities (DB table rows). The locking is not possible for projections and views.
+:::
+
 ::: warning
 Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
-
 
 
 

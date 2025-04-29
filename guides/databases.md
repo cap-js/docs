@@ -988,8 +988,8 @@ by deviating from the casing given below.
   The midpoint between two integers is rounded away from zero (e.g., `0.5` → `1` and `-0.5` → `-1`).
   
   ::: warning `round` function with more than one argument
-  please note that most databases support `round` functions with multiple arguments.
-  The second parameter being the precision. SAP HANA even has a third argument which is the rounding mode.
+  Note that most databases support `round` functions with multiple arguments,
+  the second parameter being the precision. SAP HANA even has a third argument which for the rounding mode.
   If you provide more than one argument, the `round` function may behave differently depending on the database.
   :::
 

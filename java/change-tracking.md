@@ -173,45 +173,14 @@ You should consider this when you decide what to include in the identifier.
 
 ### Identifiers for Associated Entities
 
-When your entity has an association to another entity, you might want to log the changes in their relationship.
+For compositions, no special annotations are required, the identifiers of the target entity are used instead.
 
-Given the `Orders` entity with an association to a `Customer` instead of the element with customer name:
-```cds
-entity Orders {
-  key ID: UUID;
-  customer: Association to Customer;
-  [...]
-}
-```
-
-If you annotate such an association with `@changelog`, by default, the change log stores the value of the associated entity key.
-If you want, you can store some human-readable identifier instead. You define this by annotating the association with an own identifier:
-
-```cds
-annotate Orders {
-  customer @changelog: [ customer.name ]
-}
-```
-
-Elements from the `@changelog` annotation value must always be prefixed by the association name. The same caveats as for the identifiers for the entities apply here.
-
-:::warning Validation required
-If the target of the association is missing, for example, when an entity is updated with the ID for a customer
-that does not exist, the changelog entry will not be created. You need to validate
-such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
-:::
-
-With association identifiers you also must consider the changes in your entities structure along the projections. In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly in the source entity.
-
-### Identifiers for Compositions
-
-Identifiers for compositions should be added on the target entity of the composition instead of the element defining this composition, so that the changed elements of the compositions are always annotated with identifier of the composition entity.
-
-Given the entities `Orders` and `OrderItems` which are member of composition `items`: 
+For example, given the following model: 
 
 ```cds
 entity Orders : cuid {
   OrderNo  : String;
+  customer: Association to Customer;
   [...]
   items: Composition of many OrderItems on items.parent = $self;
 }
@@ -224,8 +193,7 @@ entity OrderItems : cuid {
 }
 ```
 
-You can assign identifiers on these entities so that changes in the `Orders` are annotated with some element from it and 
-the changes on the item of the order are annotated with the different set of values.
+You can annotate your model as follows to define identifiers for both entities.
 
 ```cds
 annotate Orders with @changelog: [OrderNo];
@@ -236,10 +204,30 @@ annotate OrderItems with @changelog: [
 ];
 ```
 
-Each entry in the changelog in case of the deep change will have appropriate identifier depending on the place of the changed element in the `Order` structure.
+Changes for `Orders` and `OrderItems` will have their own respective target or root identifiers. Values of the changed fields are not affected, 
+such identifiers simply annotate them with additional context. When no annotation is present, identifier is empty.
 
-You can also define the identifier on the element declaring the composition in the `Orders`, such identifier will not 
-be applied to the changes in the `OrderItems`. Identifiers on the elements are intended for the associations. 
+For associations, you might also replace the changed values with some value of the associated entity instead of the foreign key. 
+
+You annotate your entity like this:
+
+```cds
+annotate Orders {
+  customer @changelog: [ customer.name ]
+}
+```
+
+Elements from the `@changelog` annotation value must always be prefixed by the association name and the identifier of the target entity is not considered at all. 
+The same caveats as for the identifiers for the entities apply here.
+
+:::warning Validation required
+If the target of the association is missing, for example, when an entity is updated with the ID for a customer
+that does not exist, the changelog entry will not be created. You need to validate
+such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
+:::
+
+With association identifiers you also must consider the changes in your entities structure along the projections. 
+In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly.
 
 ### Displaying Changes
 

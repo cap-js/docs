@@ -1,7 +1,7 @@
 ---
 synopsis: >
   Learn about the flow feature in CAP Java.
-status: draft TODO: released (only valid status)
+status: released
 ---
 
 # Flow: Modeling State Transitions <Beta /> <Since version="4.0.0" of="com.sap.cds:cds-feature-flow" />
@@ -22,8 +22,8 @@ To use the flow feature, add a dependency to [cds-feature-flows](TODO) in the `s
 ```xml
 <dependency>
   <groupId>com.sap.cds</groupId>
-    <artifactId>cds-feature-flows</artifactId>
-    <scope>runtime</scope>
+  <artifactId>cds-feature-flows</artifactId>
+  <scope>runtime</scope>
 </dependency>
 ```
 
@@ -77,9 +77,9 @@ TODO: does readonly mean using the persistence service in custom handlers?
 
 Let's take a look at the [CAP SFLIGHT App](https://github.com/SAP-samples/cap-sflight) sample and how we can update it using the flow feature.
 
-The `cds-feature-flow` has been added to the dependenies.
+Let's add `cds-feature-flow` to the dependencies.
 
-Following is an extract of the relevant parts of the entity model that has been extended with the `@flow.status` annotation:
+Annotate the travel status element with the `@flow.status` annotation. Following is an extract of the relevant parts of the entity model:
 
 ```cds
 entity Travel : managed {
@@ -89,6 +89,10 @@ entity Travel : managed {
   TravelStatus   : Association to TravelStatus default 'O' @readonly;
 };
 
+entity TravelStatus : CodeList {
+  key code : TravelStatusCode;
+}
+
 type TravelStatusCode : String(1) enum {
   Open     = 'O';
   Accepted = 'A';
@@ -96,7 +100,7 @@ type TravelStatusCode : String(1) enum {
 };
 ```
 
-Now, let's have a look at the flow annotations in the service model:
+Now, let's have a look at the added flow annotations in the service model:
 
 ```cds
 service TravelService @(path:'/processor') {
@@ -117,7 +121,8 @@ service TravelService @(path:'/processor') {
 }
 ```
 
-We can simply remove the [AcceptRejectHandler](https://github.com/SAP-samples/cap-sflight/blob/main/srv/src/main/java/com/sap/cap/sflight/processor/AcceptRejectHandler.java). All of the logic is taken care of by the flow feature. The flow feature will validate that entry state is `Open`. The flow feature will transit the status to `Accepted` and `Canceled` respectively. 
+Finally, in the CAP SFLIGHT App, no action handler is needed. All of the logic is taken care of by the flow feature. The flow feature will validate that entry state is `Open`. The flow feature will transit the status to `Accepted` and `Canceled` respectively. 
+If you followed along, with the CAP SFLIGHT App, simply remove the [AcceptRejectHandler](https://github.com/SAP-samples/cap-sflight/blob/main/srv/src/main/java/com/sap/cap/sflight/processor/AcceptRejectHandler.java).
 
 TODO: validate that draft will work the same as in contracts/tests. It looks different here.
 

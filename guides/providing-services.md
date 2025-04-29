@@ -751,8 +751,9 @@ Here's an overview table:
 Pessimistic locking is supported for domain entities (DB table rows). The locking is not possible for projections and views.
 :::
 
-::: warning
-Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
+::: warning Restrictions
+-  Pessimistic locking is supported for domain entities (DB table rows). The locking is not possible for projections and views.
+-  Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
 
 

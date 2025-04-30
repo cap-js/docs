@@ -17,7 +17,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 To minimize overhead at runtime, [monitoring](observability#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues.
 In such a situation, the use of more focused profiling tools can be an option.
-Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
+Typically, such tools can focus on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users
@@ -58,9 +58,9 @@ Produces a thread dump on `stdout` which is here piped into a file for persisten
 
 #### Async Profiler
 
-Using `cf java` to profile Java applications running on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires **recent versions** of the **SAP Java Buildpack with SAPMachine 17** (`1.110.0`) and **21** (`2.24.0`).
+Using `cf java` to profile Java applications running on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires **recent versions** of the **SAP Java Buildpack with SapMachine 17** (`1.110.0`) and **21** (`2.24.0`).
 
-Also, the plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access). Once that is in place you can easily start profiling with `cf java`.
+Also, the plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access). Once that is in place, you can easily start profiling with `cf java`.
 
 `cf java` provides the following **async-profiler** related commands:
 
@@ -120,7 +120,7 @@ The typical usage would be
    cf java asprof-stop sample-app-srv
    ```
 
-    `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
+    `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed, for instance,  using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
 
 :::tip
 Profiling accuracy improves if the following JVM arguments are set:

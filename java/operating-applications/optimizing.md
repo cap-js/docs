@@ -36,9 +36,9 @@ The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`.
 
 ### Cloud Foundry Command Line Java Plugin
 
-The [Java Plugin](https://github.com/SAP/cf-cli-java-plugin) for the [Cloud Foundry cli](https://github.com/cloudfoundry/cli) tool provides convenience utilities to work with Java applications deployed on Cloud Foundry.
+The [Java Plugin](https://github.com/SAP/cf-cli-java-plugin) for the [Cloud Foundry cli](https://github.com/cloudfoundry/cli) tool provides convenience utilities to work with Java applications deployed on Cloud Foundry. It helps to create heap dumps, thread dumps and profiling records of deployed and running Java application instances. 
 
-It helps to create heap dumps, thread dumps and profiling records of deployed and running Java application instances. Please check the plugin documentation on details of its installation.
+Find the installation information in the plugin's [ReadMe](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#installation).
 
 #### Creating Heap Dumps
 
@@ -46,19 +46,15 @@ It helps to create heap dumps, thread dumps and profiling records of deployed an
 cf java heap-dump sample-app-srv
 ```
 
-`heap-dump` produces a `.hprof` file which can be viewed in a Java heap analyzer, such as [Memory Analyzer (MAT)](https://eclipse.dev/mat/).
+Produces a `.hprof` file which can be viewed in a Java heap analyzer, such as [Memory Analyzer (MAT)](https://eclipse.dev/mat/).
 
 #### Creating Thread Dumps
 
 ```sh
-cf java thread-dump sample-app-srv
-```
-
-`thread-dump` produces a thread dump on `stdout` which you can pipe into a file for persistence, e.g.
-
-```sh
 cf java thread-dump sample-app-srv > thread-dump.txt
 ```
+
+Produces a thread dump on `stdout` which is here piped into a file for persistence.
 
 #### Async Profiler
 
@@ -107,35 +103,35 @@ Also, the plugin requires the deployed application to have [SSH Access enabled](
   
 The typical usage would be
 
-1. **Start profiling** with one of `asprof-start-cpu` | `asprof-start-wall` | `asprof-start-alloc` | `asprof-start-lock`:
+1. Start profiling with one of `asprof-start-cpu` , `asprof-start-wall` , `asprof-start-alloc` , `asprof-start-lock`:
    ```sh
    cf java asprof-start-cpu sample-app-srv
    ```
 
-2. **Produce some load** in your Java application.
+2. Produce some load in your Java application.
 
-3. **Check** current asprof **status**, optionally:
+3. Optional: Check current async-profiler status:
    ```sh
    cf java asprof-status sample-app-srv
    ```
 
-4. And finally **Stop profiling**:
+4. Stop profiling:
    ```sh
    cf java asprof-stop sample-app-srv
    ```
 
-`asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
+    `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed for instance using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
 
 :::tip
-Profiling accuracy improves if the following JVM args are set:
+Profiling accuracy improves if the following JVM arguments are set:
 - **-XX:+UnlockDiagnosticVMOptions**
 - **-XX:+DebugNonSafepoints**
 
-These can be set in a running application by
+These can be set in a running application as follows:
 ```sh
 cf set-env sample-app-srv JBP_CONFIG_JAVA_OPTS "[java_opts: '-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints']"
 ```
-and restaging your application
+Then restage your application:
 ```sh
 cf restage sample-app-srv
 ```

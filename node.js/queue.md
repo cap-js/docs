@@ -45,7 +45,7 @@ The `cds.queued` function can also be called with optional configuration options
 const queued = cds.queued(srv, { kind: 'persistent-queue' })
 ```
 
-> The persistent queue can only be used if it's enabled globally with `cds.requires.queue = true` because it requires a dedicated database table.
+> The persistent queue can only be used if it's not disabled globally by `cds.requires.queue = false` because it requires a dedicated database table.
 
 ::: warning One-time configuration
 Once you queued a service, you cannot override its configuration options again.

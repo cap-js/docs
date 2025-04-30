@@ -918,7 +918,7 @@ entity V as select from Books {
 }
 ```
 
-`❯ cds compile -2 sql --dialect hana`
+`$ cds compile -2 sql --dialect hana`
 
 ```sql
 CREATE VIEW V AS SELECT

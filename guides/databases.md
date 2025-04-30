@@ -993,7 +993,7 @@ by deviating from the casing given below.
   
   ::: warning `round` function with more than one argument
   Note that most databases support `round` functions with multiple arguments,
-  the second parameter being the precision. SAP HANA even has a third argument which for the rounding mode.
+  the second parameter being the precision. SAP HANA even has a third argument which is the rounding mode.
   If you provide more than one argument, the `round` function may behave differently depending on the database.
   :::
 

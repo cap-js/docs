@@ -954,7 +954,7 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 
 Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
 
-### `@assert .notNull`
+### `@assert.notNull`
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 

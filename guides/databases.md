@@ -934,8 +934,9 @@ CREATE VIEW V AS SELECT
 FROM Books;
 ```
 
-💡 If you have your own User-Defined Functions (UDFs) with the same name, you can still use them,
-by deviating from the casing given below.
+💡 If you want to use a DB native function or a UDF (User-Defined Function) instead of the OData function mappings, you can
+do that by using a different casing than the OData function names as defined in the list below.
+For example, `startsWith` instead of `startswith` will be passed as-is to the database.
 
 #### String Functions
 

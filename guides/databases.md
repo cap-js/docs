@@ -903,7 +903,7 @@ TODO: remove the above with cds9
 
 ### OData standard functions
 
-The cds-compiler and all CAP Node.js database services come with out of the box support for common OData functions.
+The `@sap/cds-compiler` and all CAP Node.js database services come with out of the box support for common OData functions.
 
 ::: warning Case Sensitivity
 The OData function mappings are case-sensitive and must be written as in the list below.  
@@ -918,9 +918,11 @@ entity V as select from Books {
 }
 ```
 
+
 Then you compile the SAP HANA artifacts:
 
-`❯ cds compile -2 sql --dialect hana`
+`$ cds compile -2 sql --dialect hana`
+
 
 This is the result:
 

@@ -5,7 +5,7 @@ synopsis: >
 status: released
 ---
 
-# Queueing with `cds.core`
+# Queueing with `cds.queued`
 
 [[toc]]
 
@@ -23,13 +23,13 @@ Every CAP service can be _queued_ that means event dispatching becomes _asynchro
 ## Queueing a Service
 
 
-### cds.core(srv) {.method}
+### cds.queued(srv) {.method}
 
 Programmatically, you can get the queued service as follows:
 
 ```js
 const srv = await cds.connect.to('yourService')
-const queued = cds.core(srv)
+const queued = cds.queued(srv)
 
 await queued.emit('someEvent', { some: 'message' }) // asynchronous
 await queued.send('someEvent', { some: 'message' }) // asynchronous
@@ -39,10 +39,10 @@ await queued.send('someEvent', { some: 'message' }) // asynchronous
 You still need to `await` these operations. In case of a persistent queue, messages are stored in the database, within the current transaction.
 :::
 
-The `cds.core` function can also be called with optional configuration options.
+The `cds.queued` function can also be called with optional configuration options.
 
 ```js
-const queued = cds.core(srv, { kind: 'persistent-queue' })
+const queued = cds.queued(srv, { kind: 'persistent-queue' })
 ```
 
 > The persistent queue can only be used if it's enabled globally with `cds.requires.queue = true` because it requires a dedicated database table.
@@ -143,24 +143,23 @@ The respective message is then updated and the `attempts` field is set to `maxAt
 :::
 
 
-Your database model is automatically extended by the entity `cds.core.Tasks`:
+Your database model is automatically extended by the entity `cds.core.Queued.Messages`:
 
 ```cds
 namespace cds.core;
 
-entity Tasks {
+entity Queued.Messages {
   key ID                   : UUID;
       timestamp            : Timestamp;
       target               : String;
       msg                  : LargeString;
       attempts             : Integer default 0;
-      partition            : Integer default 0;
       lastError            : LargeString;
       lastAttemptTimestamp : Timestamp @cds.on.update: $now;
 }
 ```
 
-In your CDS model, you can refer to the entity `cds.core.Tasks` using the path `@sap/cds/srv/queue`,
+In your CDS model, you can refer to the entity `cds.core.Queued.Messages` using the path `@sap/cds/srv/queue`,
 for example to expose it in a service.
 
 
@@ -172,7 +171,7 @@ for example to expose it in a service.
 
 ### Managing the Dead Letter Queue
 
-You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.core.Tasks` as well as bound actions to either revive or delete the respective message.
+You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.core.Queued.Messages` as well as bound actions to either revive or delete the respective message.
 
 ::: tip
 Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) in the CAP Java documentation for additional considerations while we work on a general Outbox guide.
@@ -188,7 +187,7 @@ using from '@sap/cds/srv/queue';
 service OutboxDeadLetterQueueService {
 
   @readonly
-  entity DeadOutboxMessages as projection on cds.core.Tasks
+  entity DeadOutboxMessages as projection on cds.core.Queued.Messages
     actions {
       action revive();
       action delete();
@@ -257,14 +256,13 @@ To disable deferred emitting for a particular service, you can set the `outbox` 
 
 ### Delete Entries in the Tasks Table
 
-To manually delete entries in the table `cds.core.Tasks`, you can either
-expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.core.Tasks`
+To manually delete entries in the table `cds.core.Queued.Messages`, you can either
+expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.core.Queued.Messages`
 entity:
 
 ```js
 const db = await cds.connect.to('db')
-const { Tasks } = db.entities('cds.core')
-await DELETE.from(Tasks)
+await DELETE.from('cds.core.Queued.Messages')
 ```
 
 ### Tasks Table Not Found

@@ -133,13 +133,14 @@ After a maximum number of attempts, the message is ignored for processing and re
 therefore also acts as a dead letter queue.
 See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), to learn about how to handle such messages.
 
-There is only one active message processor per service, tenant, and app instance.
+There is only one active message processor per service, tenant, app instance and message.
 Hence, there won't be duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the message entry.
 
 ::: tip
 Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 The respective message is then updated and the `attempts` field is set to `maxAttempts` to prevent further processing.
 [Programming errors](./best-practices#error-types) crash the server instance and must be fixed.
+To mark your own errors as unrecoverable, you can set `unrecoverable = true` on the error object.
 :::
 
 
@@ -213,6 +214,33 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 <<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
 :::
 
+#### Additional APIs <Beta />
+
+To manually trigger the message processing, for example if your server is restarted, you can use the `flush` method.
+
+```js
+const srv = await cds.connect.to('yourService')
+cds.queued(srv).flush()       // for current tenant
+cds.queued(srv).flush(tenant) // for provided tenant
+```
+
+Once a message has been successfully processed, it will trigger the `<event>/#succeeded` handlers.
+
+```js
+srv.after('someEvent/#succeeded', (data, req) => {
+  // `data` is the result of the event processor
+  console.log('Message successfully processed:', data)
+})
+```
+
+Similarly, you can use the `<event/#failed` event to handle failed messages (once the maximum retry count is reached).
+
+```js
+srv.after('someEvent/#failed', (data, req) => {
+  // `data` is the error from the event processor
+  console.log('Message could not be processed:', data)
+})
+```
 
 ## In-Memory Queue
 

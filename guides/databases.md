@@ -28,7 +28,7 @@ With CDS 8, the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services
 
 ### Adding Database Packages  {.node}
 
-Following are cds-plugin packages for CAP Node.js runtime that support respective databases:
+Following are cds-plugin packages for CAP Node.js runtime that support the respective databases:
 
 | Database                       | Package                                                      | Remarks                            |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------- |
@@ -37,7 +37,7 @@ Following are cds-plugin packages for CAP Node.js runtime that support respectiv
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
 <!-- Do we really need to say that? -->
-> Follow the links above to find specific information for each.
+> Follow the preceding links to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, as follows:
 
@@ -345,7 +345,7 @@ Select.from(AUTHOR)
 
 ### Standard Operators {.node}
 
-The database services guarantee identical behavior of these operators:
+The database services guarantee the identical behavior of these operators:
 
 * `==`, `=` — with `=` null being translated to `is null`
 * `!=`, `<>` — with `!=` translated to `IS NOT` in SQLite, or to `IS DISTINCT FROM` in standard SQL, or to an equivalent polyfill in SAP HANA
@@ -360,8 +360,8 @@ The operator mappings are available for runtime queries only, but not in CDS fil
 
 ### Session Variables {.node}
 
-The API shown below, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
-This allows you to write respective code once and run it on all these databases:
+The API shown after this, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
+This allows you to write the respective code once and run it on all these databases:
 
 ```sql
 SELECT session_context('$user.id')
@@ -397,7 +397,7 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 ### Reading `LargeBinary` / BLOB {.node}
 
-Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they are skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they're skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
 
 ```js
 SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
@@ -424,7 +424,7 @@ You can also do this manually with the CLI command `cds compile --to <dialect>`.
 
 When you've created a CAP Java application with `cds init --java` or with CAP Java's [Maven archetype](../java/developing-applications/building#the-maven-archetype), the Maven build invokes the CDS compiler to generate a `schema.sql` file for your target database. In the `default` profile (development mode), an in-memory database is [initialized by Spring](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization) and the schema is bootstrapped from the `schema.sql` file.
 
-[Learn more about adding an inital database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
+[Learn more about adding an initial database schema.](../java/cqn-services/persistence-services#initial-database-schema){.learn-more}
 
 </div>
 
@@ -734,7 +734,7 @@ The following rules apply:
 - If you refer to a column name in the annotation, you need to take care of
   a potential name mapping yourself, for example, for structured elements.
 
-- Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views nor with elements.
+- Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views or with elements.
 - For SAP HANA tables, there's an implicit `@sql.prepend: 'COLUMN'` that is overwritten by an explicitly provided `@sql.prepend`.
 
 * Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
@@ -766,7 +766,7 @@ ROW TABLE E (
 [Learn more about Columnar and Row-Based Data Storage](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-administration-guide/columnar-and-row-based-data-storage){.learn-more}
 ### Reserved Words
 
-The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words cannot be used as identifiers. The list of reserved words varies per database.
+The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words can't be used as identifiers. The list of reserved words varies per database.
 
 Find here a collection of resources on selected databases and their reference documentation:
 
@@ -1134,7 +1134,7 @@ In case of conflicts, follow these steps to provide different models for differe
    ```
 
 4. For the Spring Boot side it's similar. If you have a local development database and a hybrid profile with a remote SAP HANA database, you only need to run in default (or any other) profile. For the SAP HANA part, the build and deploy part is done separately and the application just needs to be started using `cds bind`.
-Once you have 2 non-HANA local databases you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
+Once you have 2 non-HANA local databases, you need to have 2 distinct database configurations in your Spring Boot configuration (in most cases application.yaml).
 
     ```yaml
     spring:

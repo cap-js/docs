@@ -11,10 +11,10 @@
 | @cap-js/sqlite         | 1.11.0                                  |
 | @sap/cds               | 8.9.2                                   |
 | @sap/cds-compiler      | 5.9.2                                   |
-| @sap/cds-dk (global)   | 8.9.2                                   |
+| @sap/cds-dk (global)   | 8.9.3                                   |
 | @sap/cds-fiori         | 1.4.1                                   |
 | @sap/cds-foss          | 5.0.1                                   |
-| @sap/cds-mtxs          | 2.7.1                                   |
+| @sap/cds-mtxs          | 2.7.2                                   |
 | @sap/eslint-plugin-cds | 3.2.0                                   |
 | Node.js                | v20.19.0                                |
 </pre>

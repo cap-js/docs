@@ -64,40 +64,40 @@ Also, the plugin requires the deployed application to have [SSH Access enabled](
 
 `cf java` provides the following **async-profiler** related commands:
 
-- **asprof-start-cpu**
-  ```txt
+- `asprof-start-cpu`
+  
   Start an async-profiler CPU-time profile recording on a running Java application
-  ```
+  
 
-- **asprof-start-wall**
-  ```txt
+- `asprof-start-wall` 
+
   Start an async-profiler wall-clock profile recording on a running Java application
-  ```
+  
 
-- **asprof-start-alloc**
-  ```txt
+- `asprof-start-alloc`
+  
   Start an async-profiler allocation profile recording on a running Java application
-  ```
+  
 
-- **asprof-start-lock**
-  ```txt
+- `asprof-start-lock`
+  
   Start an async-profiler lock profile recording on a running Java application
-  ```
+  
 
-- **asprof-stop**
-  ```txt
+- `asprof-stop`
+  
   Stop an async-profiler profile recording on a running Java application
-  ```
+  
 
-- **asprof-status**
-  ```txt
+- `asprof-status`
+  
   Get the status of async-profiler on a running Java application
-  ```
+  
 
-- **asprof** (*Expert Mode*)
-  ```txt
+- `asprof` (*Expert Mode*)
+  
   Run async-profiler commands passed to asprof via --args
-  ```
+  
 
 ##### Usage
   

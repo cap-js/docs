@@ -233,7 +233,7 @@ srv.after('someEvent/#succeeded', (data, req) => {
 })
 ```
 
-Similarly, you can use the `<event/#failed` event to handle failed messages (once the maximum retry count is reached).
+Similarly, you can use the `<event>/#failed` event to handle failed messages (once the maximum retry count is reached).
 
 ```js
 srv.after('someEvent/#failed', (data, req) => {

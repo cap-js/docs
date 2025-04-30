@@ -909,7 +909,7 @@ The cds-compiler and all CAP Node.js database services come with out of the box 
 The OData function mappings are case-sensitive and must be written as in the list below.  
 :::
 
-e.g.
+Assuming you have the following entity definition:
 
 ```cds
 entity V as select from Books {
@@ -918,7 +918,11 @@ entity V as select from Books {
 }
 ```
 
+Then you compile the SAP HANA artifacts:
+
 `❯ cds compile -2 sql --dialect hana`
+
+This is the result:
 
 ```sql
 CREATE VIEW V AS SELECT
@@ -956,13 +960,11 @@ by deviating from the casing given below.
 
 - `substring(x, i, n?)` <sup>1</sup>  
   Extracts a substring from `x` starting at index `i` (0-based) with an optional length `n`.
-  - `i`:
-    - Positive: starts at index `i`
-    - Negative: starts `i` positions before the end
-  - `n`:
-    - Positive: extracts `n` characters
-    - Omitted: extracts until the end of the string
-    - Negative: invalid
+
+  | Parameter | Positive | Negative | Omitted
+  | --- | --- | --- | -- |
+  | `i` | starts at index `i` | starts `i` positions before the end |
+  | `n` | extracts `n` characters | invalid |  extracts until the end of the string
 
 - `length(x)`  
   Returns the length of the string `x`.
@@ -973,7 +975,7 @@ by deviating from the casing given below.
 - `toupper(x)`  
   Converts all characters in `x` to uppercase.
 
-<sup>1</sup> These functions work zero-based.  E.g., `substring('abcdef', 1, 3)` returns 'bcd'
+> <sup>1</sup> These functions work zero-based. For example, `substring('abcdef', 1, 3)` returns 'bcd'
 
 #### Numeric Functions
 
@@ -1018,7 +1020,7 @@ by deviating from the casing given below.
 
 ### SAP HANA Functions
 
-In addition to the OData standard functions, the cds-compiler and all CAP Node.js database services come with
+In addition to the OData standard functions, the `@sap/cds-compiler` and all CAP Node.js database services come with
 out of the box support for some common SAP HANA functions, to further increase the scope for portable testing:
 
 ::: warning Upper- and Lowercase are supported

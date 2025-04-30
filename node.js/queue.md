@@ -82,7 +82,7 @@ You can also configure services to be outboxed by default:
 Some services are outboxed by default, these services include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
 :::
 
-For transactional safety, you're encouraged to enable the [persistent queue](#persistent-queue).
+For transactional safety, you're encouraged to use the [persistent queue](#persistent-queue) which is enabled by default.
 
 
 ## Persistent Queue (Default) {#persistent-queue}

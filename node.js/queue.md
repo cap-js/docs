@@ -12,7 +12,7 @@ status: released
 
 ## Overview
 
-The _task queue_ feature allows you to defer request processing.
+The _task queue_ feature allows you to defer message processing.
 
 A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
 This prevents accidental execution of remote calls in case the transaction is rolled back.

@@ -21,7 +21,7 @@ As described in [Modular Architecture](building#starter-bundles#modular_architec
 Typical areas that require testing are the [services](../cqn-services/#cdsservices) that dispatch events to [event handlers](../event-handlers/), the event handlers themselves that implement the behaviour of the services, and finally the APIs that the application services define and that are exposed to clients through [OData](../cqn-services/application-services#odata-requests).
 
 ::: tip
-Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) and [*mocked users*]( https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
+Aside from [JUnit](https://junit.org/junit5/), the [Spring framework](https://docs.spring.io/spring-framework/docs/current/reference/html/index.html) provides much convenience for both unit and integration testing, like dependency injection via [*autowiring*](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-factory-autowire) or the usage of [MockMvc](https://docs.spring.io/spring-framework/reference/testing/mockmvc.html) and [*mocked users*](https://docs.spring.io/spring-security/reference/servlet/test/method.html#test-method-withmockuser). So whenever possible, it's recommended to use it for writing tests.
 :::
 
 ## Sample Tests
@@ -222,7 +222,7 @@ For a more extensive version of the previous `CatalogServiceTest` snippets, have
 
 Integration tests enable us to verify the behavior of a custom event handler execution doing a roundtrip starting at the protocol adapter layer and going through the whole CAP architecture until it reaches the service and event handler layer and then back again through the protocol adapter.
 
-As the services defined in our `CDS model` are exposed as `OData` endpoints, by using [MockMvc](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html#spring-mvc-test-framework) we can simply invoke a specific `OData` request and assert the response from the addressed service.
+As the services defined in our `CDS model` are exposed as `OData` endpoints, by using [MockMvc](https://docs.spring.io/spring-framework/reference/testing/mockmvc.html) we can simply invoke a specific `OData` request and assert the response from the addressed service.
 
 The following demonstrates this by invoking a `GET` request to the `OData` endpoint of our `Books` entity, which triggers the execution of the `discountBooks` method of the `CatalogServiceHandler` in our example:
 

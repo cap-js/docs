@@ -72,7 +72,7 @@ You can also configure services to be outboxed by default:
   "requires": {
     "yourService": {
       "kind": "odata",
-      "outbox": true
+      "outboxed": true
     }
   }
 }
@@ -267,14 +267,14 @@ The message is lost if its emit fails, there is no retry mechanism.
 
 ## Immediate Emit
 
-To disable deferred emitting for a particular service, you can set the `outbox` option of your service to `false`:
+To disable deferred emitting for a particular service, you can set the `outboxed` option of your service to `false`:
 
 ```json
 {
   "requires": {
     "messaging": {
       "kind": "enterprise-messaging",
-      "outbox": false
+      "outboxed": false
     }
   }
 }

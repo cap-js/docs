@@ -54,7 +54,7 @@ Once you queued a service, you cannot override its configuration options again.
 
 ### cds.unqueued(srv) {.method}
 
-Use this on an unqueued service to get back the original service:
+Use this on a queued service to get back the original service:
 
 ```js
 const unqueued = cds.unqueued(srv)

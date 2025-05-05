@@ -793,46 +793,6 @@ In addition to server-side input validation as introduced above, this adds a cor
 ```
 
 
-
-### `@Common.FieldControl`
-{#common-fieldcontrol}
-
-The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
-::: warning
-Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
-:::
-
-
-
-### `@assert .unique`
-
-Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
-
-```cds
-@assert.unique: {
-  locale: [ parent, locale ],
-  timeslice: [ parent, validFrom ],
-}
-entity LocalizedTemporalData {
-  key record_ID : UUID; // technical primary key
-  parent    : Association to Data;
-  locale    : String;
-  validFrom : Date;  validTo : Date;
-}
-```
-{.indent}
-
-This annotation is applicable to entities, which result in tables in SQL databases only.
-
-The value of the annotation is an array of paths referring to elements in the entity. These elements may be of a scalar type, structs, or managed associations. Individual foreign keys or unmanaged associations are not supported.
-
-If structured elements are specified, the unique constraint will contain all columns stemming from it. If the path points to a managed association, the unique constraint will contain all foreign key columns stemming from it.
-::: tip
-You don't need to specify `@assert.unique` constraints for the primary key elements of an entity as these are automatically secured by a SQL `PRIMARY KEY` constraint.
-:::
-
-
-
 ### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
@@ -952,16 +912,10 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 
 Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
 
-### `@assert .notNull`
 
-Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
+### Database Constraints
 
-```cds
-entity Foo {
-  bar : String not null @assert.notNull: false;
-}
-```
-
+Next to input validation, you can add [database constraints](databases#database-constraints) to prevent invalid data from being persisted.
 
 
 ## Custom Logic
@@ -1086,8 +1040,11 @@ service Sue {
   entity Foo { key ID:Integer } actions {
     function getStock() returns Integer;
     action order (x:Integer) returns Integer;
+    // Parameters marked with `not null` are not optional
+    action discard (reason: String not null);
     //bound to the collection and not a specific instance of Foo
     action customCreate (in: many $self, x: String) returns Foo;
+
   }
 }
 ```

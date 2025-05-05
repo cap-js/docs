@@ -841,6 +841,44 @@ Find here a collection of resources on selected databases and their reference do
 
 ## Database Constraints
 
+### Not Null
+
+You can specify that a column's value must not be null by adding the [`not null` constraint](http://localhost:5173/docs/cds/cdl#null-values) to the element, for example:
+
+```cds
+entity Books {
+  key ID: Integer;
+  title: String not null;
+}
+```
+
+### Unique
+
+Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
+
+```cds
+@assert.unique: {
+  locale: [ parent, locale ],
+  timeslice: [ parent, validFrom ],
+}
+entity LocalizedTemporalData {
+  key record_ID : UUID; // technical primary key
+  parent    : Association to Data;
+  locale    : String;
+  validFrom : Date;  validTo : Date;
+}
+```
+{.indent}
+
+The value of the annotation is an array of paths referring to elements in the entity. These elements may be of a scalar type, structs, or managed associations. Individual foreign keys or unmanaged associations are not supported.
+
+If structured elements are specified, the unique constraint will contain all columns stemming from it. If the path points to a managed association, the unique constraint will contain all foreign key columns stemming from it.
+::: tip
+You don't need to specify `@assert.unique` constraints for the primary key elements of an entity as these are automatically secured by a SQL `PRIMARY KEY` constraint.
+:::
+
+### Foreign Keys
+
 The information about foreign key relations contained in the associations of CDS models can be used to generate foreign key constraints on the database tables. Within CAP, referential consistency is established only at commit. The ["deferred" concept for foreign key constraints](https://www.sqlite.org/foreignkeys.html) in SQL databases allows the constraints to be checked and enforced at the time of the [COMMIT statement within a transaction](https://www.sqlite.org/lang_transaction.html) rather than immediately when the data is modified, providing more flexibility in maintaining data integrity.
 
 Enable generation of foreign key constraints on the database with:

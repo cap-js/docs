@@ -129,23 +129,27 @@ For example, if you have an entity that represents the order with a composition 
 you can annotate the elements of both and track the changes made through the order and the items in a deep update.
 
 ```cds
-entity OrderItems {
-  key ID: UUID;
+entity OrderItems : cuid {
+  parent    : Association to Orders;
   [...]
   quantity: Integer @changelog;
 }
 
-entity Orders {
-  key ID: UUID;
+entity Orders : cuid {
   customerName: String @changelog;
   [...]
-  items: Composition of many OrderItems;
+  items: Composition of many OrderItems on items.parent = $self;
 }
 ```
 
+You must extend the `Orders` with the aspect `changelog.changeTracked` and not the `OrderItems`. With this, all changes in the `Orders`, even deep ones,
+are associated with it properly.
+
 ### Identifiers for Changes
 
-You can store some elements of the entity together with the changes in the change log to produce a user-friendly identifier.
+You can store some elements of the entity together with the changes in the change log to produce a user-friendly identifier. 
+The best candidates for identifier elements are the elements that are insert-only or that don't change often.
+
 You define this identifier by annotating the entity with the `@changelog` annotation and including the elements that you want
 to store together with the changed value:
 
@@ -157,19 +161,6 @@ annotate Bookshop.Book with @changelog: [
 
 This identifier can contain the elements of the entity or values of to-one associations that are reachable via path.
 For example, for a book you can store an author name if you have an association from the book to the author.
-
-When you define the identifier for an entity, keep in mind that the projections of the annotated entity
-will inherit the annotation `@changelog`. If you change the structure of the projection,
-for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again
-to provide updated element names in the identifier.
-
-The best candidates for identifier elements are the elements that are insert-only or that don't change often.
-
-:::warning Stored as-is
-The values of the identifier are stored together with the change log as-is. They are not translated and some data types might
-not be formatted per user locale or some requirements, for example, different units of measurement or currencies.
-You should consider this when you decide what to include in the identifier.
-:::
 
 ### Identifiers for Associated Entities
 
@@ -218,7 +209,6 @@ annotate Orders {
 ```
 
 Elements from the `@changelog` annotation value must always be prefixed by the association name and the identifier of the target entity is not considered at all. 
-The same caveats as for the identifiers for the entities apply here.
 
 :::warning Validation required
 If the target of the association is missing, for example, when an entity is updated with the ID for a customer
@@ -226,8 +216,15 @@ that does not exist, the changelog entry will not be created. You need to valida
 such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
 :::
 
-With association identifiers you also must consider the changes in your entities structure along the projections. 
-In case your target entity is exposed using different projections with removed or renamed elements, you also need to adjust the identifier accordingly.
+### Caveats of Identifiers
+
+- When you define the identifier for an entity, keep in mind that the projections of the annotated entity
+will inherit the annotation `@changelog`. If you change the structure of the projection,
+for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again
+to provide updated element names in the identifier. This is one additional benefit of annotating the top-most projection for change tracking. 
+
+- The values of the identifier are stored together with the change log as-is. They are not translated and some data types might
+not be formatted per user locale or some requirements, for example, different units of measurement or currencies.
 
 ### Displaying Changes
 

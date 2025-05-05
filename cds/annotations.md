@@ -40,7 +40,6 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 |---------------------|----------------------------------------------------------------------|
 | `@readonly `        | see [Input Validation](../guides/providing-services#readonly)       |
 | `@mandatory`        | see [Input Validation](../guides/providing-services#mandatory)      |
-| `@assert.integrity` | see [Input Validation](../guides/databases#database-constraints)           |
 | `@assert.target`    | see [Input Validation](../guides/providing-services#assert-target)  |
 | `@assert.format`    | see [Input Validation](../guides/providing-services#assert-format)  |
 | `@assert.range`     | see [Input Validation](../guides/providing-services#assert-range)   |

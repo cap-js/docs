@@ -106,7 +106,7 @@ You can use the following configuration options:
     "outbox": {
       "kind": "persistent-outbox",
       "maxAttempts": 20,
-      "chunkSize": 100,
+      "chunkSize": 10,
       "storeLastError": true,
       "parallel": true
     }
@@ -117,9 +117,10 @@ You can use the following configuration options:
 The optional parameters are:
 
 - `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
-- `chunkSize` (default `100`): The number of messages which are read from the database table in one go.
+- `chunkSize` (default `10`): The number of messages which are read from the database table in one go.
 - `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the outbox table.
 - `parallel` (default `true`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
+  - If `parallel` is set to false, the effective `chunkSize` is `1`
 
 
 Once the transaction succeeds, the messages are read from the database table and emitted.

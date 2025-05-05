@@ -110,7 +110,7 @@ You can use the following configuration options:
     "queue": {
       "kind": "persistent-queue",
       "maxAttempts": 20,
-      "chunkSize": 100,
+      "chunkSize": 10,
       "storeLastError": true,
       "parallel": true
     }

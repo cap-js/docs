@@ -196,7 +196,7 @@ The `node.js` DatabaseService core class is implemented by the `@cap-js/db-servi
 
 The core principle of the `@cap-js` database services is "don't look at the data". As the database services are the foundational service of all CAP applications the performance of these services is especially important. The heaviest work the database service has to do is handling the `data`.
 
-#### JSON
+#### JSON {#databaseservice-json }
 
 In CAP applications all the `data` uses the `JSON` format. It would be nice if the databases could understand the same format. As this would allow the CAP applications to not transform the `data` between different formats. While `SQL` doesn't specify how `data` should be stored by the database implementing the specification. It does provide certain paradigms which require computationally heavy operations. Which has most implementations pick heavily optimized internal `data` formats that allow for improved performance. Over time the `JSON` format has gained wide popularity and has resulted in many modern databases implement the specification. Which allows CAP applications to convey its intentions to the database through these `JSON` APIs. Removing the need to transform the `data` when reading or writing.
 
@@ -308,6 +308,41 @@ Where now this query will always prodice the same `SQL` statement. Allowing HANA
 ```SQL
 SELECT * FROM entity WHERE ID IN (SELECT VAL FROM JSON_TABLE(?,'$' COLUMNS(VAL DOUBLE PATH '$.val')))
 ```
+
+
+#### Unification
+
+One of the primary features that had to be supported by all new `@cap-js` database services is path expressions. One of the most powerfull features was not being supported by the development focused `SQLite` database service. Which resulted in many applications developing around the missing feature. Allowing the usage of `SQLite`, but remove the possibility of using a very important fundamental feature. When extrapolating this requirement into a more general requirement it becomes unification.
+
+Therefor the following features are added to the new `@cap-js` database services to greatly improve the behavior of all the database services.
+
+##### Path expressions
+
+One of the most complex parts of the `@cap-js` database services. It allows for executing all `cqn` queries natively on all the database services. Providing improved overall performance, query definition simplification, inherent query optimizations.
+
+###### Expand
+
+When a `cqn` query contains an `expand` column this column is converted into an `sub select` which has the `on` conditions as its `where` clause referencing directly to the outer query. Allowing the database to create internal relationships between the different data sources and removes the inherent data duplication that comes with using `to-many` join conditions.
+
+###### Property navigation
+
+When a `cqn` query contains one or more property access that goes through an path expression these are translated into a `join`. The column name behavior is by default the path expression with the `.` replaced with `_`, but these can be overwritten by providing an `as` alias.
+
+###### Entity navigation
+
+When a `cqn` query references an entity through a path expression this is translated into a direct access into the final entity with a `where` clause that uses `exists` clauses to reduce the resulting data to match the restrictions applied by the path expression. This provides an innate benefit over using a `join` between the entities that it won't return duplicate data.
+
+##### Functions
+
+One of the features most databases provide, but are not extensively specified by the `SQL` standard are functions. So while there are a few functions which are universally supported by all databases. Most databases provide more functionalities that can be used, but will behave differently between databases or might just have a different function name. Therefor the `@cap-js` database services provide a set of universal functions that are supported by all the database services. The primary focus of the functions is to allow the `OData` protocol to be executed natively on the database.
+
+There are some functions that are provided by `HANA` which are not supported by other databases, but the primary goal of the application might be to run `HANA` in production. Therefor it is impossible or impractical to use `SQLite` for development. To improve this primary use case the `@cap-js` services are able to leverage the function framework to provide `HANA` function APIs. Not all functions will be available so when your application requires a `HANA` specific function [contributions](https://github.com/cap-js/cds-dbs/pulls) are always welcome. There are already some functions implemented of varied complexity from [`current_timestamp`](https://github.com/cap-js/cds-dbs/blob/7c6b2f5a6837afbeb1e24daef9a49e25cf7e92f0/db-service/lib/cql-functions.js#L186) to [`months_between`](https://github.com/cap-js/cds-dbs/blob/7c6b2f5a6837afbeb1e24daef9a49e25cf7e92f0/sqlite/lib/cql-functions.js#L129C3-L129C17) to [`hierarchy`](https://github.com/cap-js/cds-dbs/blob/7c6b2f5a6837afbeb1e24daef9a49e25cf7e92f0/db-service/lib/cql-functions.js#L200) allowing anyone with `cql` knowledge to implement any missing functions.
+
+##### Data structure
+
+A very common issue has been so far that applications where getting different results based upon which database or even which database driver they where using. Causing many un expected side effects when writing custom handlers. One of the primary root causes where `cds.Int64` and `cds.Decimal` which would either return as a `Number` or as a `String`. Which resulted in many application developers to write a custom handler that expected a `Number` to be returned for their productive system to receive a `String` which caused their computational logic to produce the wrong result. As javascript is very lenient it doesn't have a problem doing `1 + 1` or `'1' + 1`, but the produced result will very drastically.
+
+The way that the unified data structures is achieved is by leveraging the [`JSON`](#databaseservice-json) format as return type. Which results in all the database drivers only every handling arbitrary string contents. Which prevents the drivers from influencing the data structure.
 
 
 ##  <i>  More to Come </i>

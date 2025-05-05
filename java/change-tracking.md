@@ -218,6 +218,8 @@ such cases in the custom code or use annotations, for example, [`@assert.target`
 
 ### Caveats of Identifiers
 
+Consider the following important points that are relevant for all kinds of identifiers: 
+
 - When you define the identifier for an entity, keep in mind that the projections of the annotated entity
 will inherit the annotation `@changelog`. If you change the structure of the projection,
 for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again

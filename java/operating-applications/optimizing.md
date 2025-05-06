@@ -58,9 +58,9 @@ Produces a thread dump on `stdout` which is here piped into a file for persisten
 
 #### Async Profiler
 
-Using `cf java` to profile Java applications running on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires **recent versions** of the **SAP Java Buildpack with SapMachine 17** (`1.110.0`) and **21** (`2.24.0`).
+Using `cf java` to profile Java applications on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack?version=Cloud) and SapMachine 17 or 21.
 
-Also, the plugin requires the deployed application to have [SSH Access enabled](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access). Once that is in place, you can easily start profiling with `cf java`.
+Make sure [SSH Access](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access) is enabled for the deployed application. Once enabled, you can start profiling easily using `cf java`.
 
 `cf java` provides the following **async-profiler** related commands:
 

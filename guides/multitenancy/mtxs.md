@@ -1107,8 +1107,8 @@ Activates extension draft `ID` and makes it publicly visible.
 | **Parameters** | Description |
 | - | - |
 | `ID`  | String uniquely identifying the extension |
-| `level` | Target activation level, `1` or `2`, default is `2`, `1` is a no-op currently |
-| `options` | Various options, including deployment options (similar to [upgrade in SaasProvisioningService](#upgrade-options) ) |
+| `status` (optional) | Target activation level, `1` or `2`, default is `2`, `1` is a no-op currently |
+| `options` (optional) | Various options, including deployment options (similar to [upgrade in SaasProvisioningService](#upgrade-options) ) |
 
 </div>
 
@@ -1122,8 +1122,7 @@ Content-Type: application/json
 Authorization: Basic carol:
 
 {
-  "ID": "isbn-extension",
-  "level": 2
+  "ID": "isbn-extension"
 }
 ```
 

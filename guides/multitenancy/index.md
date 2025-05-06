@@ -1031,7 +1031,11 @@ The Boolean values in the _mtx/sidecar/package.json_ activate the default config
 
 ### Additional Services
 
+<<<<<<< HEAD
 In **CAP Java**, if your application uses a service that isn't supported out of the box, you can define dependencies by providing a custom handler.
+=======
+If your CAP Java application uses a service that isn't supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details.
+>>>>>>> origin/extension-draft-api
 
 [Learn more about defining dependent services](../../java/multitenancy#define-dependent-services){.learn-more}
 

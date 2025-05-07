@@ -127,6 +127,8 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `toggles`                     |       <X/>       |       <X/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
 | `xsuaa`                       |       <X/>       |       <X/>       |
+| `ias`                         |       <X/>       |       <X/>       |
+| `ams`                         |       <X/>       |       <X/>       |
 | `hana`                        |       <X/>       |       <X/>       |
 | `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
 | `sqlite`                      |       <X/>       |       <X/>       |

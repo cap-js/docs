@@ -250,7 +250,7 @@ npm i app/admin-books
 ln -sf ../package-lock.json
 
 # If project is multitenant
-npm i --package-lock-only mtx/sidecar
+npm i --package-lock-only --prefix mtx/sidecar
 
 # If package-lock.json doesn't exist
 npm i --package-lock-only

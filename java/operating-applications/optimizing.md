@@ -17,7 +17,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 To minimize overhead at runtime, [monitoring](observability#monitoring) information is gathered rather on a global application level and hence might not be sufficient to troubleshoot specific issues.
 In such a situation, the use of more focused profiling tools can be an option.
-Typically, such tools are capable of focusing on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
+Typically, such tools can focus on a specific aspect of an application (for instance CPU or Memory management), but they come with an additional overhead and should only be enabled when needed. Hence, they need to meet the following requirements:
 
 * Switchable at runtime
 * Use a communication channel not exposed to unauthorized users
@@ -28,20 +28,114 @@ How can dedicated Java tools access the running services in a secure manner? The
 ![This screenshot is explained in the accompanying text.](./assets/remote-tracing.png){width="600px"}
 
 As an authorized operator, you can access the container and start tools [locally](#profiling-local) in a CLI session running with the same user as the target process. Depending on the protocol, the JVM supports on-demand connections, for example, JVM diagnostic tools such as `jcmd`. Alternatively, additional JVM configuration is required as a prerequisite (JMX).
-A bunch of tools also support [remote](#profiling-remote) connections in a secure way. Instead of running the tool locally, a remote daemon is started as a proxy in the container, which connects the JVM with a remote profiling tool via an ssh tunnel.
 
 ### Local Tools { #profiling-local}
 
 Various CLI-based tools for JVMs are delivered with the SDK. Popular examples are [diagnostic tools](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html) such as `jcmd`, `jinfo`, `jstack`, and `jmap`, which help to fetch basic information about the JVM process regarding all relevant aspects. You can take stack traces, heap dumps, fetch garbage collection events and read Java properties and so on.
 The SAP JVM comes with additional handy profiling tools: `jvmmon` and `jvmprof`. The latter, for instance,  provides a helpful set of traces that allow a deep insight into JVM resource consumption. The collected data is stored within a `prf`-file and can be analyzed offline in the [SAP JVM Profiler frontend](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits).
 
-### Remote Tools { #profiling-remote}
+### Cloud Foundry Command Line Java Plugin
 
-It's even more convenient to interact with the JVM with a frontend client running on a local machine. As already mentioned, a remote daemon as the endpoint of an ssh tunnel is required. Some representative tools are:
+The [Java Plugin](https://github.com/SAP/cf-cli-java-plugin) for the [Cloud Foundry cli](https://github.com/cloudfoundry/cli) tool provides convenience utilities to work with Java applications deployed on Cloud Foundry. It helps to create heap dumps, thread dumps and profiling records of deployed and running Java application instances. 
 
-- [SAP JVM Profiler](https://wiki.scn.sap.com/wiki/display/ASJAVA/Features+and+Benefits) for SAP JVM with [Memory Analyzer](https://www.eclipse.org/mat/) integration. Find a detailed documentation how to set up a secure remote connection on [Profiling an Application Running on SAP JVM](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/e7097737709842b7bb1c3b9bf3d688b6.html).
+Find the installation information in the plugin's [ReadMe](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#installation).
 
-- [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) is a popular Java profiler available for different platforms and IDEs.
+#### Creating Heap Dumps
+
+```sh
+cf java heap-dump sample-app-srv
+```
+
+Produces a `.hprof` file which can be viewed in a Java heap analyzer, such as [Memory Analyzer (MAT)](https://eclipse.dev/mat/).
+
+#### Creating Thread Dumps
+
+```sh
+cf java thread-dump sample-app-srv > thread-dump.txt
+```
+
+Produces a thread dump on `stdout` which is here piped into a file for persistence.
+
+#### Async Profiler
+
+Using `cf java` to profile Java applications on Cloud Foundry with the [Async Profiler](https://github.com/async-profiler/async-profiler?tab=readme-ov-file#async-profiler) requires the [SAP Java Buildpack](https://help.sap.com/docs/btp/sap-business-technology-platform/sap-jakarta-buildpack?version=Cloud) and SapMachine 17 or 21.
+
+Make sure [SSH Access](https://github.com/SAP/cf-cli-java-plugin?tab=readme-ov-file#ssh-access) is enabled for the deployed application. Once enabled, you can start profiling easily using `cf java`.
+
+`cf java` provides the following **async-profiler** related commands:
+
+- `asprof-start-cpu`
+  
+  Start an async-profiler CPU-time profile recording on a running Java application
+  
+
+- `asprof-start-wall` 
+
+  Start an async-profiler wall-clock profile recording on a running Java application
+  
+
+- `asprof-start-alloc`
+  
+  Start an async-profiler allocation profile recording on a running Java application
+  
+
+- `asprof-start-lock`
+  
+  Start an async-profiler lock profile recording on a running Java application
+  
+
+- `asprof-stop`
+  
+  Stop an async-profiler profile recording on a running Java application
+  
+
+- `asprof-status`
+  
+  Get the status of async-profiler on a running Java application
+  
+
+- `asprof` (*Expert Mode*)
+  
+  Run async-profiler commands passed to asprof via --args
+  
+
+##### Usage
+  
+The typical usage would be
+
+1. Start profiling with one of `asprof-start-cpu` , `asprof-start-wall` , `asprof-start-alloc` , `asprof-start-lock`:
+   ```sh
+   cf java asprof-start-cpu sample-app-srv
+   ```
+
+2. Produce some load in your Java application.
+
+3. Optional: Check current async-profiler status:
+   ```sh
+   cf java asprof-status sample-app-srv
+   ```
+
+4. Stop profiling:
+   ```sh
+   cf java asprof-stop sample-app-srv
+   ```
+
+    `asprof-stop` produces a `.jfr` file in your current local working directory. `.jfr` files are *JFR recordings* and can be viewed, for instance,  using [multiple options](https://github.com/async-profiler/async-profiler/blob/master/docs/JfrVisualization.md).
+
+:::tip
+Profiling accuracy improves if the following JVM arguments are set:
+- **-XX:+UnlockDiagnosticVMOptions**
+- **-XX:+DebugNonSafepoints**
+
+These can be set in a running application as follows:
+```sh
+cf set-env sample-app-srv JBP_CONFIG_JAVA_OPTS "[java_opts: '-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints']"
+```
+Then restage your application:
+```sh
+cf restage sample-app-srv
+```
+:::
 
 ### Remote JMX-Based Tools { #profiling-jmx}
 

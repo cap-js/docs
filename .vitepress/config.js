@@ -106,7 +106,7 @@ config.rewrites = rewrites
 // Add custom capire info to the theme config
 config.themeConfig.capire = {
   versions: {
-    java_services: '3.9.1',
+    java_services: '3.10.0',
     java_cds4j: '3.10.0'
   },
   gotoLinks: [],

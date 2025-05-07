@@ -1140,7 +1140,6 @@ The _SaasProvisioningService_ is a façade for the _DeploymentService_ to adapt 
   - `workerSize` — max number of parallel asynchronous jobs per database
   - `clusterSize` — max number of database clusters, running `workerSize` jobs each
   - `queueSize` — max number of jobs waiting to run in the job queue
-- `dependencies` — SAP BTP SaaS Provisioning service dependencies
 
 #### HTTP Request Options
 

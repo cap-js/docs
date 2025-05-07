@@ -475,10 +475,6 @@ Without the additional custom field `query` and it's respective value, it would 
 
 :::
 
-::: tip
-Before `@sap/cds^7.5`, the configuration property was called `kibana_custom_fields`. As Kibana is the dashboard technology and the custom fields are actually a feature of the SAP Application Logging Service, we changed the name to `als_custom_fields`. `kibana_custom_fields` is supported until `@sap/cds^8`.
-:::
-
 For SAP Cloud Logging, the JSON formatter uses the following default configuration:
 
 ```jsonc

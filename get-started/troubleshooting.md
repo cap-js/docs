@@ -454,7 +454,7 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 
 </details>
 
-After you have successully deployed these changes to all affected HDI (tenant) containers (in all spaces, accounts etc.), you can remove the configuration again.
+After you have successfully deployed these changes to all affected HDI (tenant) containers (in all spaces, accounts etc.), you can remove the configuration again.
 
 
 ### How Do I Resolve Deployment Errors?

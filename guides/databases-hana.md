@@ -508,6 +508,12 @@ Examples:
 
 We recommend keeping _.hdbtable_ deployment for entities where you expect low data volume. Every _.hdbmigrationtable_ artifact becomes part of your versioned source code, creating a new migration version on every model change/build cycle. In turn, each such migration can require manual resolution.
 You can switch large-volume tables to _.hdbmigrationtable_ at any time, keeping in mind that the existing _.hdbtable_ design-time artifact needs to be undeployed.
+
+When choosing to use _.hdbmigrationtable_ for an entity with
+[localized elements](../guides/localized-data#localized-data) or [compositions of aspects](../cds/cdl#managed-compositions),
+the generated `.texts` and composition child entities are autmatically handled via _.hdbmigrationtable_, too.
+If this is not wanted, annotate these generated ewntities with `@cds.persistence.journal: false`.
+
 ::: tip
 Sticking to _.hdbtable_ for the actual application development phase avoids lots of initial migration versions that would need to be applied to the database schema.
 :::

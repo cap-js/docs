@@ -667,7 +667,7 @@ indirect dependencies between other objects, which can trigger other unnecessary
 or even unnecessary drop/create of indexes.
 
 As CAP doesn't need these native associations, by default no native HANA associations
-are created any more. 
+are created anymore starting with CAP 9. 
 
 In the unlikely case that you explicitly use them in other native HANA objects or in custom code,
 you can switch them back on:

@@ -332,7 +332,7 @@ __TODO__ verify option name
 ::: code-group
 
 ```sh [CLI]
-cds compile foo.cds --doscs --propagate-docs
+cds compile foo.cds --docs --propagate-docs
 ```
 
 ```js [JavaScript]

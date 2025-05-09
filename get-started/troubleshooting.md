@@ -402,7 +402,7 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 If you want to keep the data from _.csv_ files and data you've already added, apply [SAP Note 2922271](https://me.sap.com/notes/2922271).
 Depending on whether you have a single-tenant or multi-tenant application, see the following details for how to set the `path_parameter` and `undeploy` parameters:
 
-<details open><summary>Single-tenant applications</summary>
+:::details Single-tenant applications {open}
 
 Use the _db/undeploy.json_ file as given in the SAP note.
 The _package.json_ file that is mentioned in the SAP note is located in the _db/_ folder.
@@ -410,9 +410,9 @@ The _package.json_ file that is mentioned in the SAP note is located in the _db/
 - After the modification, run `cds build --production` and verify your changes have been copied to _gen/db/package.json_.
 - Don't modify _gen/db/package.json_ as it is overwritten on every build.
 
-</details>
+:::
 
-<details><summary>Multi-tenant applications</summary>
+:::details Multi-tenant applications {open}
 
 Instead of configuring the static deployer application in _db/package.json_, use environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the `cds` configuration in _package.json_, or add the options to the model update request as `hdi` parameter:
 
@@ -452,7 +452,7 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
 }
 ```
 
-</details>
+:::
 
 After you have successfully deployed these changes to all affected HDI (tenant) containers (in all spaces, accounts etc.), you can remove the configuration again.
 

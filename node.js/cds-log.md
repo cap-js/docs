@@ -413,6 +413,11 @@ Some header values shall not appear in logs, for example when pertaining to auth
 In case your application shares any sensitive data (for example, secrets) via headers, please ensure that you adjust the configuration as necessary.
 :::
 
+::: tip
+In the log entry, header field names are normalized to lowercase with `_` instead of `-`.
+Make sure your matchers work on the original header name, e.g., `"/Foo-Bar/"` instead of `"/foo_bar/"`.
+:::
+
 
 ### Custom Fields { #custom-fields }
 

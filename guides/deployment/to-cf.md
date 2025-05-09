@@ -233,7 +233,7 @@ The previous steps are required _only once_ in a project's lifetime. With that d
 
 Make sure you are logged in to Cloud Foundry and target the space you want to deploy to:
 ```sh
-cf login --sso
+cf login --sso  # to log on with SAP Universal ID
 cf target
 ```
 [Learn more about `cf login`](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}

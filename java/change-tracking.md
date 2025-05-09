@@ -143,12 +143,11 @@ entity Orders : cuid {
 ```
 
 You must extend the `Orders` with the aspect `changelog.changeTracked` and not the `OrderItems`. With this, all changes in the `Orders`, even deep ones,
-are associated with it properly.
+are associated with the `Orders`.
 
-### Identifiers for Changes
+### Identifiers for Entities
 
-You can store some elements of the entity together with the changes in the change log to produce a user-friendly identifier. 
-The best candidates for identifier elements are the elements that are insert-only or that don't change often.
+You can store some elements of the entity together with the changes in the change log to produce a user-friendly identifier that annotates changes.
 
 You define this identifier by annotating the entity with the `@changelog` annotation and including the elements that you want
 to store together with the changed value:
@@ -160,9 +159,9 @@ annotate Bookshop.Book with @changelog: [
 ```
 
 This identifier can contain the elements of the entity or values of to-one associations that are reachable via path.
-For example, for a book you can store an author name if you have an association from the book to the author.
+For example, for a book you can store an author name if you have an association from the book to the author. The best candidates for identifier are the elements that are insert-only or that don't change often.
 
-### Identifiers for Associated Entities
+### Identifiers for Compositions
 
 For compositions, no special annotations are required, the identifiers of the target entity are used instead.
 
@@ -195,10 +194,12 @@ annotate OrderItems with @changelog: [
 ];
 ```
 
-Changes for `Orders` and `OrderItems` will have their own respective target or root identifiers. Values of the changed fields are not affected, 
-such identifiers simply annotate them with additional context. When no annotation is present, identifier is empty.
+Changes for `Orders` and `OrderItems` will have their own respective target or root identifiers filled. 
 
-For associations, you might also replace the changed values with some value of the associated entity instead of the foreign key. 
+### Identifiers for Associations
+
+For associations, the value of the foreign key is stored in the changelog by default. You can change this and store values of the associated entity instead. 
+This kind of identifier changes the values stored in the changelog, while [entity identifiers](#identifiers-for-entities) annotate changed values.
 
 You annotate your entity like this:
 
@@ -207,8 +208,7 @@ annotate Orders {
   customer @changelog: [ customer.name ]
 }
 ```
-
-Elements from the `@changelog` annotation value must always be prefixed by the association name and the identifier of the target entity is not considered at all. 
+Elements from the `@changelog` annotation value must always be prefixed by the association name. Identifier defined on the association target is never considered.
 
 :::warning Validation required
 If the target of the association is missing, for example, when an entity is updated with the ID for a customer

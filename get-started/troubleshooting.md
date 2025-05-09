@@ -412,7 +412,7 @@ The _package.json_ file that is mentioned in the SAP note is located in the _db/
 
 :::
 
-:::details Multi-tenant applications {open}
+:::details Multi-tenant applications
 
 Instead of configuring the static deployer application in _db/package.json_, use environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the `cds` configuration in _package.json_, or add the options to the model update request as `hdi` parameter:
 

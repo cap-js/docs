@@ -35,6 +35,10 @@ CAP Java 4.0 increased some minimum required versions:
 
 CAP Java 3.0 no longer supports @sap/cds-dk ^7.
 
+### Removed feature `cds-feature-event-hub`
+
+The feature `cds-feature-event-hub` has been removed. The successor of this feature is the OSS plugin https://github.com/cap-java/cds-feature-event-hub.
+
 ### Changes in goal `generate` of the `cds-maven-plugin`
 
 1. Removed already deprecated properties:

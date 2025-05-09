@@ -806,7 +806,7 @@ Custom validations are required when using static or dynamic numeric values, for
 
 
 
-### `@assert.unique`
+### `@assert .unique`
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
 
@@ -835,7 +835,7 @@ You don't need to specify `@assert.unique` constraints for the primary key eleme
 
 
 
-### `@assert.target`
+### `@assert .target`
 
 Annotate a [managed to-one association](../cds/cdl#managed-associations) of a CDS model entity definition with the
 `@assert.target` annotation to check whether the target entity referenced by the association (the reference's target)
@@ -912,7 +912,7 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert.format`
+### `@assert .format`
 
 Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
@@ -922,7 +922,7 @@ entity Foo {
 }
 ```
 
-### `@assert.range`
+### `@assert .range`
 
 Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
 
@@ -954,7 +954,7 @@ In addition, you can use an underscore `_` to represent *Infinity* like that:
 
 Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
 
-### `@assert.notNull`
+### `@assert .notNull`
 
 Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
 

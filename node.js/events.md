@@ -409,7 +409,7 @@ if (req.errors) //> get out somehow...
 
 ####  <i>  Arguments </i>
 
-- `code` _Number (Optional)_ - Represents the error code associated with the message. If the number is in the range of HTTP status codes and the error has a severity of 4, this argument sets the HTTP response status code.
+- `code` _String (Optional)_ - Represents the error code associated with the message. If the string value is numeric and within the range of HTTP status codes **and** the error has a severity of 4, it is interpreted as a number to set the HTTP response status code.
 - `message` _String \| Object \| Error_ - See below for details on the non-string version.
 - `target` _String (Optional)_ - The name of an input field/element a message is related to.
 - `args` _Array (Optional)_ - Array of placeholder values. See [Localized Messages](cds-i18n) for details.

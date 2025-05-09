@@ -886,20 +886,13 @@ Instead, they protect the integrity of your data in the database layer against p
 ## Standard Database Functions
 { #functions-mappings-for-runtime-queries }
 
-A specified set of standard functions - inspired by [OData](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_StringandCollectionFunctions) and [SAP HANA](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/alphabetical-list-of-functions?locale=en-US) - is supported in a **database-agnostic**, hence portable way, and translated to the best-possible native SQL functions or polyfills.
+A specified set of standard functions - inspired by [OData](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#sec_StringandCollectionFunctions) and [SAP HANA](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/alphabetical-list-of-functions?locale=en-US) - is supported in a **database-agnostic**, hence portable way, and translated to the best-possible native SQL functions or polyfills during runtime (currently only Node.js) and for your CDL files.
 
-Those functions are automatically mapped during runtime (Node.js) already today.
-To switch on the same mappings for your CDL files, you have to set:
+__TODO__ keep this?
+For compatibility reasons, you can switch back to the old behavior in the compiler via
 
-<Config>cds.cdsc.standardDatabaseFunctions = true</Config>
+<Config>cds.cdsc.standardDatabaseFunctions = false</Config>
 
-::: tip
-this will be the default starting with `@sap/cds-compiler >= 9` and hence is only needed for earlier versions.
-:::
-
-<!--
-TODO: remove the above with cds9
--->
 
 ### OData standard functions
 

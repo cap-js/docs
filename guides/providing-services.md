@@ -771,6 +771,8 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 Do not use the `@readonly` annotation on keys in all variants.
 :::
 
+<div id="readonlywithexpressions"/>
+
 ### `@mandatory`
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
@@ -792,7 +794,7 @@ In addition to server-side input validation as introduced above, this adds a cor
 </Annotations>
 ```
 
-
+<div id="mandatorywithexpressions"/>
 
 ### `@Common.FieldControl`
 {#common-fieldcontrol}
@@ -962,7 +964,7 @@ entity Foo {
 }
 ```
 
-
+<div id="assertconstraints" />
 
 ## Custom Logic
 

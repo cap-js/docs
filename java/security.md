@@ -242,6 +242,13 @@ In the example, the `CustomUserInfoProvider` defines an overlay on the default X
 ### Mock User Authentication with Spring Boot { #mock-users}
 
 By default, CAP Java creates a security configuration, which accepts _mock users_ for test purposes.
+
+::: details Requirement
+
+Mock users are only initialized if the `org.springframework.boot:spring-boot-starter-security` dependency is present in the `pom.xml` file of your service.
+
+:::
+
 #### Preconfigured Mock Users
 
 For convenience, the runtime creates default mock users reflecting the [pseudo roles](../guides/security/authorization#pseudo-roles). They are named `authenticated`, `system` and `privileged` and can be used with an empty password. For instance, requests sent during a Spring MVC unit test with annotation `@WithMockUser("authenticated")` will pass authorization checks that require `authenticated-user`. The privileged user will pass any authorization checks. `cds.security.mock.defaultUsers = false` prevents the creation of default mock users at startup.

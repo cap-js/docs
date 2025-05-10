@@ -23,6 +23,36 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 [[toc]]
 
+## CAP Java 3.10 to CAP Java 4.0 { #three-to-four }
+
+### Minimum Versions
+
+CAP Java 4.0 increased some minimum required versions:
+
+| Dependency | Minimum Version |
+| --- | --- |
+| @sap/cds-dk | ^8 |
+
+CAP Java 3.0 no longer supports @sap/cds-dk ^7.
+
+### Removed feature `cds-feature-event-hub`
+
+The feature `cds-feature-event-hub` has been removed from CAP Java. The successor of this feature is the [CDS Plugin for SAP Cloud Application Event Hub](https://github.com/cap-java/cds-feature-event-hub). This new CAP Java Plugin has the same Maven group ID and artifact ID as the previous CAP Java feature, but it starts versioning with `4.0.0`.
+
+### Changes in goal `generate` of the `cds-maven-plugin`
+
+1. Removed already deprecated properties:
+- sharedInterfaces
+- uniqueEventContexts
+
+2. Deprecated properties and marked for removal:
+- eventContext
+- cqnService
+
+3. Changed default value of properties:
+- excludes: "localized.**" -> null
+
+
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
 ### Minimum Versions

@@ -786,7 +786,7 @@ Find here a collection of resources on selected databases and their reference do
 
 ### Not Null
 
-You can specify that a column's value must not be `NULL` by adding the [`not null` constraint](http://localhost:5173/docs/cds/cdl#null-values) to the element, for example:
+You can specify that a column's value must not be `NULL` by adding the [`not null` constraint](../cds/cdl#null-values) to the element, for example:
 
 ```cds
 entity Books {

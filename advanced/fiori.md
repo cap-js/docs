@@ -502,7 +502,7 @@ Then define an `on` handler for serving the request:
 ```js
 srv.on('READ', 'Configuration', async req => {
     req.reply({
-        isAdmin: req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
+        isAdmin: !req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
     });
 });
 ```
@@ -511,8 +511,8 @@ Finally, refer to the singleton in the annotation by using a [dynamic expression
 
 ```cds
 annotate service.Books with @(
-    UI.CreateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
-    UI.UpdateHidden : { $edmJson: {$Not: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
+    UI.CreateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'}  },
+    UI.UpdateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} } },
 );
 ```
 

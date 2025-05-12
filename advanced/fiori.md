@@ -502,7 +502,7 @@ Then define an `on` handler for serving the request:
 ```js
 srv.on('READ', 'Configuration', async req => {
     req.reply({
-        isAdmin: !req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
+        isNotAdmin: !req.user.is('admin') //admin is the role, which for example is also used in @requires annotation
     });
 });
 ```

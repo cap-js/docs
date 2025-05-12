@@ -110,7 +110,7 @@ Relevant source files from _db_ or _srv_ folders are copied into this folder, wh
 **Note:**
 `cds build` provides options you can use to switch on or off the copy behavior on build task level:
 
-```json
+```json [package.json]
 {
   "build": {
     "tasks": [

@@ -511,8 +511,8 @@ Finally, refer to the singleton in the annotation by using a [dynamic expression
 
 ```cds
 annotate service.Books with @(
-    UI.CreateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} },
-    UI.UpdateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isAdmin'} },
+    UI.CreateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isNotAdmin'} },
+    UI.UpdateHidden : { $edmJson: { $Path: '/CatalogService.EntityContainer/Configuration/isNotAdmin'} },
 );
 ```
 
@@ -521,8 +521,8 @@ The Entity Container is OData specific and refers to the `$metadata` of the ODat
 :::details SAP Fiori elements also allows to not include it in the path
 ```cds
 annotate service.Books with @(
-    UI.CreateHidden : { $edmJson: { $Path: '/Configuration/isAdmin'} },
-    UI.UpdateHidden : { $edmJson: { $Path: '/Configuration/isAdmin'} },
+    UI.CreateHidden : { $edmJson: { $Path: '/Configuration/isNotAdmin'} },
+    UI.UpdateHidden : { $edmJson: { $Path: '/Configuration/isNotAdmin'} },
 );
 ```
 :::

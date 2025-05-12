@@ -795,6 +795,7 @@ entity Books {
 }
 ```
 
+
 ### Unique
 
 Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
@@ -944,7 +945,7 @@ TODO: remove the above with cds9
 The `@sap/cds-compiler` and all CAP Node.js database services come with out of the box support for common OData functions.
 
 ::: warning Case Sensitivity
-The OData function mappings are case-sensitive and must be written as in the list below.  
+The OData function mappings are case-sensitive and must be written as in the list below.
 :::
 
 Assuming you have the following entity definition:
@@ -978,28 +979,28 @@ For example, `startsWith` instead of `startswith` will be passed as-is to the da
 
 #### String Functions
 
-- `concat(x, y, ...)`  
+- `concat(x, y, ...)`
   Concatenates the given strings or numbers.
 
-- `trim(x)`  
+- `trim(x)`
   Removes leading and trailing whitespaces.
 
-- `contains(x, y)`  
+- `contains(x, y)`
   Checks whether `y` is contained in `x` (case-sensitive).
 
-- `startswith(x, y)`  
+- `startswith(x, y)`
   Checks whether `y` starts with `x` (case-sensitive).
 
-- `endswith(x, y)`  
+- `endswith(x, y)`
   Checks whether `y` ends with `x` (case-sensitive).
 
-- `matchespattern(x, y)`  
+- `matchespattern(x, y)`
   Checks whether `x` matches the regular expression `y`.
 
-- `indexof(x, y)` <sup>1</sup>  
+- `indexof(x, y)` <sup>1</sup>
   Returns the index of the first occurrence of `y` in `x` (case-sensitive).
 
-- `substring(x, i, n?)` <sup>1</sup>  
+- `substring(x, i, n?)` <sup>1</sup>
   Extracts a substring from `x` starting at index `i` (0-based) with an optional length `n`.
 
   | Parameter | Positive | Negative | Omitted
@@ -1007,29 +1008,29 @@ For example, `startsWith` instead of `startswith` will be passed as-is to the da
   | `i` | starts at index `i` | starts `i` positions before the end |
   | `n` | extracts `n` characters | invalid |  extracts until the end of the string
 
-- `length(x)`  
+- `length(x)`
   Returns the length of the string `x`.
 
-- `tolower(x)`  
+- `tolower(x)`
   Converts all characters in `x` to lowercase.
 
-- `toupper(x)`  
+- `toupper(x)`
   Converts all characters in `x` to uppercase.
 
 > <sup>1</sup> These functions work zero-based. For example, `substring('abcdef', 1, 3)` returns 'bcd'
 
 #### Numeric Functions
 
-- `ceiling(x)`  
+- `ceiling(x)`
   Rounds the numeric parameter up to the nearest integer.
 
-- `floor(x)`  
+- `floor(x)`
   Rounds the numeric parameter down to the nearest integer.
 
-- `round(x)`  
-  Rounds the numeric parameter to the nearest integer.  
+- `round(x)`
+  Rounds the numeric parameter to the nearest integer.
   The midpoint between two integers is rounded away from zero (e.g., `0.5` → `1` and `-0.5` → `-1`).
-  
+
   ::: warning `round` function with more than one argument
   Note that most databases support `round` functions with multiple arguments,
   the second parameter being the precision. SAP HANA even has a third argument which is the rounding mode.
@@ -1038,24 +1039,24 @@ For example, `startsWith` instead of `startswith` will be passed as-is to the da
 
 #### Date and Time Functions
 
-- `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`  
+- `year(x)`, `month(x)`, `day(x)`, `hour(x)`, `minute(x)`, `second(x)`
   Extracts and returns specific date / time parts as integer value from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
 
-- `time(x)`, `date(x)`  
+- `time(x)`, `date(x)`
   Extracts and returns a time or date from a given `cds.DateTime`, `cds.Date`, or `cds.Time`.
 
-- `fractionalseconds(x)`  
+- `fractionalseconds(x)`
   Returns a `Decimal` representing the fractional seconds for a given `cds.Timestamp`.
 
-- `maxdatetime()`  
+- `maxdatetime()`
   Returns the latest possible point in time: `'9999-12-31T23:59:59.999Z'`.
 
-- `mindatetime()`  
+- `mindatetime()`
   Returns the earliest possible point in time: `'0001-01-01T00:00:00.000Z'`.
 
 #### Aggregate Functions
 
-- `min(x)`, `max(x)`, `sum(x)`, `average(x)`, `count(x)`, `countdistinct(x)`  
+- `min(x)`, `max(x)`, `sum(x)`, `average(x)`, `count(x)`, `countdistinct(x)`
   Standard aggregate functions used to calculate minimum, maximum, sum, average, count, and distinct count of values.
 
 
@@ -1068,30 +1069,30 @@ out of the box support for some common SAP HANA functions, to further increase t
 For the SAP HANA functions, both usages are allowed: all-lowercase as given above, as well as all-uppercase.
 :::
 
-- `years_between`  
+- `years_between`
   Computes the number of years between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/years-between-function-datetime?locale=en-US))
-- `months_between`  
+- `months_between`
   Computes the number of months between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/months-between-function-datetime?locale=en-US))
-- `days_between`  
+- `days_between`
   Computes the number of days between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/days-between-function-datetime?locale=en-US))
-- `seconds_between`  
+- `seconds_between`
   Computes the number of seconds between two specified dates. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/seconds-between-function-datetime?locale=en-US))
-- `nano100_between`  
+- `nano100_between`
   Computes the time difference between two dates to the precision of 0.1 microseconds. ([link](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-sql-reference-guide/nano100-between-function-datetime?locale=en-US))
 
 ### Special Runtime Functions
 
 In addition to the OData and SAP HANA standard functions, the **CAP runtimes** provides special functions that are only available for runtime queries:
 
-- `search(x, y)`  
+- `search(x, y)`
   Checks whether `y` is contained in any element of `x` (fuzzy matching may apply).
   See [Searching Data](../guides/providing-services#searching-data) for more details.
 
-- `session_context(<var>)`  
+- `session_context(<var>)`
   Utilizes standard variable names to maintain session context.
   Refer to [Session Variables](#session-variables) for additional information.
 
-- `now()`  
+- `now()`
   Returns the current timestamp.
 
 ## Using Native Features  { #native-db-functions}

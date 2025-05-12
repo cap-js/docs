@@ -25,6 +25,10 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ## CAP Java 3.10 to CAP Java 4.0 { #three-to-four }
 
+### New License
+
+The license of CAP Java 4.0 has changed and it's released under the new [SAP Developer License Agreement for CAP](https://cap.cloud.sap/resources/license/developer-license-3_2_CAP%20V2.txt).
+
 ### Minimum Versions
 
 CAP Java 4.0 increased some minimum required versions:

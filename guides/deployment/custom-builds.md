@@ -141,7 +141,7 @@ This causes `cds build` to create the build output below the individual source f
 
 ## Implement a Build Plugin {#custom-build-plugins}
 
-CDS already offers build plugins to create deployment layouts for the most use cases. However, you find cases where these plugins are not enough and you have to develop your own. This section shows how such a build plugin can be implemented and how it can be used in projects.
+CDS already offers build plugins to create deployment layouts for the most use cases. However, you will find cases where these plugins are not enough and you have to develop your own. This section shows how such a build plugin can be implemented and how it can be used in projects.
 
 Build plugins are run by `cds build` to generate the required deployment artifacts. Build tasks hold the actual project specific configuration. The task's `for` property value has to match the build plugin ID.
 

@@ -736,7 +736,7 @@ The records are locked until the end of the transaction by commit or rollback st
 Here's an overview table:
 
 | State              | Select Without Lock   | Select With Shared Lock |  Select With Exclusive Lock/Update |
-| --------------- | ----------------------- | -------------------------- |  ------------------------------------- | 
+| --------------- | ----------------------- | -------------------------- |  ------------------------------------- |
 | not locked      | passes | passes  | passes |
 | shared lock     | passes | passes  | waits |
 | exclusive lock | passes | waits  | waits |
@@ -746,12 +746,11 @@ Here's an overview table:
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 
-::: warning
-Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
+
+::: warning Restrictions
+-  Pessimistic locking is supported for domain entities (DB table rows). The locking is not possible for projections and views.
+-  Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
-
-
-
 
 ## Input Validation
 
@@ -770,6 +769,8 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 ::: warning Not allowed on keys
 Do not use the `@readonly` annotation on keys in all variants.
 :::
+
+<div id="readonlywithexpressions"/>
 
 ### `@mandatory`
 
@@ -791,6 +792,46 @@ In addition to server-side input validation as introduced above, this adds a cor
   <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
 </Annotations>
 ```
+
+<div id="mandatorywithexpressions"/>
+
+### `@Common.FieldControl`
+{#common-fieldcontrol}
+
+The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
+::: warning
+Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
+:::
+
+
+
+### `@assert .unique`
+
+Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
+
+```cds
+@assert.unique: {
+  locale: [ parent, locale ],
+  timeslice: [ parent, validFrom ],
+}
+entity LocalizedTemporalData {
+  key record_ID : UUID; // technical primary key
+  parent    : Association to Data;
+  locale    : String;
+  validFrom : Date;  validTo : Date;
+}
+```
+{.indent}
+
+This annotation is applicable to entities, which result in tables in SQL databases only.
+
+The value of the annotation is an array of paths referring to elements in the entity. These elements may be of a scalar type, structs, or managed associations. Individual foreign keys or unmanaged associations are not supported.
+
+If structured elements are specified, the unique constraint will contain all columns stemming from it. If the path points to a managed association, the unique constraint will contain all foreign key columns stemming from it.
+::: tip
+You don't need to specify `@assert.unique` constraints for the primary key elements of an entity as these are automatically secured by a SQL `PRIMARY KEY` constraint.
+:::
+
 
 
 ### `@assert .target`
@@ -917,6 +958,7 @@ Support for open intervals and infinity is available for CAP Node.js since `@sap
 
 Next to input validation, you can add [database constraints](databases#database-constraints) to prevent invalid data from being persisted.
 
+<div id="assertconstraints" />
 
 ## Custom Logic
 

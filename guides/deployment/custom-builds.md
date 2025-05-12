@@ -19,7 +19,7 @@ status: released
 
 The CDS model folders and files used by `cds build` are determined as follows:
 
-- Known root folders, by [default](../../get-started/#project-structure) the folders _db/, srv/, app/_,  can also be configured by [_folders.db, folders.srv, folders.app_](../../get-started/#project-structure).
+- Known root folders, by [default](../../get-started/#project-structure) the folders _db/, srv/, app/_,  can also be configured by [`folders.db`, `folders.srv`, `folders.app`](../../get-started/#project-structure).
 - The _src_ folder configured for the individual build task.
 - If [Feature toggles](../extensibility/feature-toggles#enable-feature-toggles) are enabled: subfolders of the folder _fts_.
 - CDS Model folders and files defined by the [required services](../../node.js/cds-env#services) of your project. This also includes models used by required built-in CDS services, like [persistent outbox](../../node.js/outbox#persistent-outbox) or [MTX related services](../multitenancy/mtxs#mtx-services-reference).

@@ -19,7 +19,7 @@
 # [Fiori Drafts](../../java/fiori-drafts)
 # [Messaging](messaging)
 # [Audit Logging](auditlog)
-# [Change Tracking](../../java/change-tracking)
+# [Change Tracking](change-tracking)
 # [Transactional Outbox](outbox)
 # [Multitenancy](../../java/multitenancy)
   ## [Multitenancy (Classic)](../../java/multitenancy-classic)

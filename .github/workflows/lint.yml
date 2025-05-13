@@ -19,7 +19,7 @@ jobs:
       run: |
         git config --global credential.helper "cache --timeout=3600"
         echo -e "url=https://user:${GH_TOKEN}@github.com\n" | git credential approve
-        echo -e "url=https://user:${GH_TOKEN_PARENT}@github.tools.sap\n" | git credential approve
+        echo -e "url=https://user:${GH_TOKEN_TOOLS}@github.tools.sap\n" | git credential approve
         git clone --depth 1 --no-single-branch https://github.tools.sap/cap/docs docs
         cd docs
         git checkout $GITHUB_HEAD_REF || git checkout main
@@ -28,7 +28,7 @@ jobs:
         git checkout $GITHUB_HEAD_REF
       env:
         GH_TOKEN:        ${{ secrets.GITHUB_TOKEN }}
-        GH_TOKEN_PARENT: ${{ secrets.GH_TOKEN_PARENT }}
+        GH_TOKEN_TOOLS: ${{ secrets.GH_TOKEN_TOOLS }}
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:

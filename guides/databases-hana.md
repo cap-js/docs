@@ -25,7 +25,7 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 Run this to use SAP HANA Cloud for production:
 
 ```sh
-npm add @cap-js/hana
+cds add hana
 ```
 
 ::: details Using other SAP HANA drivers...
@@ -34,9 +34,9 @@ Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) drive
 
 :::
 
-::: tip Prefer `cds add`
+:::info prefer `cds add …` over `npm add …`
 
-... as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+It  does the equivalent of e.g. `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database).
 
 :::
 

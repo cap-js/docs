@@ -1069,7 +1069,7 @@ In addition to the OData and SAP HANA standard functions, the **CAP runtimes** p
 
 ## Using Native Features  { #native-db-functions}
 
-The CDS-to-SQL compiler **understands** the standard functions listed above and rewrites them to suitable native SQL (or polyfills) in a database-agnostic way.  
+The CDS-to-SQL compiler _understands_ the standard functions listed above and rewrites them to suitable native SQL (or polyfills) in a database-agnostic way.  
 
 For any **other** function call that follows the regular `function(arg1, arg2, …)` syntax, the compiler simply forwards the call unchanged to the target database.
 This means you can freely mix the portable standard functions with vendor-specific or user-defined functions in your CDS models.

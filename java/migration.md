@@ -37,7 +37,7 @@ CAP Java 4.0 increased some minimum required versions:
 | --- | --- |
 | @sap/cds-dk | ^8 |
 
-CAP Java 3.0 no longer supports @sap/cds-dk ^7.
+CAP Java 4.0 no longer supports @sap/cds-dk ^7.
 
 ### Removed feature `cds-feature-event-hub`
 

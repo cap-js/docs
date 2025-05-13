@@ -196,7 +196,7 @@ annotate OrderItems with @changelog: [
 
 Changes for `Orders` and `OrderItems` will have their own respective target or root identifiers filled. 
 
-### Identifiers for Associations
+### Human-readable values for associations
 
 For associations, the value of the foreign key is stored in the changelog by default. You can change this and store values of the associated entity instead. 
 This kind of identifier changes the values stored in the changelog, while [entity identifiers](#identifiers-for-entities) annotate changed values.
@@ -218,7 +218,7 @@ such cases in the custom code or use annotations, for example, [`@assert.target`
 
 ### Caveats of Identifiers
 
-Consider the following important points that are relevant for all kinds of identifiers: 
+Consider the following important points that are relevant for all kinds of identifiers and human-readable values: 
 
 - When you define the identifier for an entity, keep in mind that the projections of the annotated entity
 will inherit the annotation `@changelog`. If you change the structure of the projection,

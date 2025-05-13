@@ -41,7 +41,7 @@ CAP Java 4.0 no longer supports @sap/cds-dk ^7.
 
 ### Removed feature `cds-feature-event-hub`
 
-The feature `cds-feature-event-hub` has been removed from CAP Java. The successor of this feature is the [CDS Plugin for SAP Cloud Application Event Hub](https://github.com/cap-java/cds-feature-event-hub). This new CAP Java Plugin is published indepdently of CAP Java and is open source. It however has the same Maven group ID and artifact ID as the previous CAP Java feature and starts versioning with `4.0.0`.
+The feature `cds-feature-event-hub` has been removed from CAP Java. The successor of this feature is the [CDS Plugin for SAP Cloud Application Event Hub](https://github.com/cap-java/cds-feature-event-hub). This new CAP Java Plugin is published independently of CAP Java and is open source. It however has the same Maven group ID and artifact ID as the previous CAP Java feature and starts versioning with `4.0.0`.
 
 ### Changes in goal `generate` of the `cds-maven-plugin`
 

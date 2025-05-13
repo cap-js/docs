@@ -27,7 +27,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 ### New License
 
-The license of CAP Java 4.0 has changed and it's released under the new [SAP Developer License Agreement for CAP](https://cap.cloud.sap/resources/license/developer-license-3_2_CAP%20V2.txt).
+The license of CAP Java 4.0 has changed and it's released under the new [SAP Developer License Agreement for CAP](https://cap.cloud.sap/resources/license/developer-license-3_2_CAP.txt).
 
 ### Minimum Versions
 
@@ -41,7 +41,7 @@ CAP Java 4.0 no longer supports @sap/cds-dk ^7.
 
 ### Removed feature `cds-feature-event-hub`
 
-The feature `cds-feature-event-hub` has been removed from CAP Java. The successor of this feature is the [CDS Plugin for SAP Cloud Application Event Hub](https://github.com/cap-java/cds-feature-event-hub). This new CAP Java Plugin has the same Maven group ID and artifact ID as the previous CAP Java feature, but it starts versioning with `4.0.0`.
+The feature `cds-feature-event-hub` has been removed from CAP Java. The successor of this feature is the [CDS Plugin for SAP Cloud Application Event Hub](https://github.com/cap-java/cds-feature-event-hub). This new CAP Java Plugin is published indepdently of CAP Java and is open source. It however has the same Maven group ID and artifact ID as the previous CAP Java feature and starts versioning with `4.0.0`.
 
 ### Changes in goal `generate` of the `cds-maven-plugin`
 
@@ -56,6 +56,57 @@ The feature `cds-feature-event-hub` has been removed from CAP Java. The successo
 3. Changed default value of properties:
 - excludes: "localized.**" -> null
 
+### Removed unstructured messages from MessagingService { #removed-unstructured }
+
+The deprecated `cds.messaging.services.<key>.structured` property, which allowed to handle messages as (unstructured) plain strings has now been completely removed.
+Messaging services always represent data in a structured way by using a `Map`. Headers are represented in a separate `Map`.
+
+With this change the following deprecated methods have been removed:
+- `void MessagingService.emit(String, String)`
+- `String TopicMessageEventContext.getData()`
+
+When publishing a unstructured String-based message, wrap the message into a Map:
+
+```java
+// instead of
+messagingService.emit("myTopic", "unstructured message");
+// use
+messagingService.emit("myTopic", Map.of("message", "unstructured message")); // [!code focus]
+```
+
+In case you receive a unstructured String-based message from a message broker, it is also wrapped into a structured message with a `message` property:
+
+```java
+@On(event = "myTopic")
+void handleMyTopic(TopicMessageEventContext context) {
+  // instead of
+  String message = context.getData();
+  // use
+  String message = (String) context.getDataMap().get("message"); // [!code focus]
+}
+```
+
+This change has no effect on CDS modelled events, as these have always been structured.
+
+### Adjusted Property Defaults
+
+Some property defaults have been adjusted:
+
+| Property | Old Value | New Value | Explanation |
+| --- | --- | --- | --- |
+
+### Removed Properties
+
+The following table gives an overview about the removed properties:
+
+| Removed Property | Replacement / Explanation |
+| --- | --- |
+| `cds.messaging.services.`<br>`<key>.structured` | [Use structured messages.](#removed-unstructured) |
+| `cds.security.authorization.`<br>`emptyAttributeValuesAreRestricted` | [Use conditions with explicit checks for empty attributes.](../guides/security/authorization#user-attrs) |
+| `cds.odataV4.serializer.buffered` | OData V4 responses are now always streamed while serialized. |
+| `cds.environment.k8s` | Use service bindings from SAP BTP Operator on Kyma. |
+| `cds.multiTenancy.subscriptionManager.`<br>`clientCertificateHeader` | `cds.security.authentication.`<br>`clientCertificateHeader` |
+| `cds.multiTenancy.security.`<br>`internalUserAccess.enabled` | `cds.security.authentication.`<br>`internalUserAccess.enabled` |
 
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 

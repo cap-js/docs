@@ -168,7 +168,14 @@ Spring comes with its own [standard logger groups](https://docs.spring.io/spring
 
 #### Log CDS Configuration
 
-Upon start-up, you can get an overview of the configured CDS properties. Turn on by setting the log level for `com.sap.cds.properties` to `DEBUG` in the _application.yaml_ file:
+Upon start-up, you can get an overview of the configured CDS properties. Use this feature to:
+- list all accepted CDS properties and double-check the running configuration
+- check for warnings of usage of deprecated properties
+- check for warnings of usage of undocumented properties
+
+Please note that secrets are masked.
+
+Turn it on by setting the log level for `com.sap.cds.properties` to `DEBUG` in the _application.yaml_ file:
 
 ::: code-group
 ```yaml [srv/src/main/resources/application.yaml]

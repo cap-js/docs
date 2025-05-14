@@ -93,7 +93,7 @@ The following diagram illustrates the deployment workflow:
 
 #### Get Access to a Container Registry
 
-SAP BTP doesn't provide a container registry, but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
+SAP BTP doesn't provide a container image registry (or container repository), but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
 
 ::: tip Ensure network access
 

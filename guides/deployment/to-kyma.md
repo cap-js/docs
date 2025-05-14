@@ -102,12 +102,13 @@ To use a docker image from a private repository, you need to [create an image pu
 ::: details Use this script to create the docker pull secret...
 
 ```sh
-echo -n "Your repository: "; read YOUR_REPOSITORY
+echo -n "Secret name: "; read SECRET_NAME
+echo -n "Your docker server: "; read YOUR_REGISTRY
 echo -n "Your user: "; read YOUR_USER
 echo -n "Your email: "; read YOUR_EMAIL
 echo -n "Your API key: "; read -s YOUR_API_KEY
 kubectl create secret docker-registry \
-  "$YOUR_REPOSITORY" \
+  "$SECRET_NAME" \
   "--docker-server=$YOUR_REGISTRY" \
   "--docker-username=$YOUR_USER" \
   "--docker-password=$YOUR_API_KEY" \
@@ -118,10 +119,10 @@ The `image` property needs to contain the full tag that was used to push the ima
 ```yaml
 spec:
   imagePullSecrets:
-  - name: $YOUR_REPOSITORY
+  - name: $SECRET_NAME
   containers:
   - name: cap-srv
-    image: $YOUR_REPOSITORY.docker.io/$YOUR_IMAGE:$YOUR_VERSION
+    image: $YOUR_REGISTRY/$YOUR_IMAGE:$YOUR_VERSION
 ```
 :::
 

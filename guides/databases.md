@@ -809,7 +809,8 @@ entity LocalizedTemporalData {
   key record_ID : UUID; // technical primary key
   parent    : Association to Data;
   locale    : String;
-  validFrom : Date;  validTo : Date;
+  validFrom : Date;  
+  validTo : Date;
 }
 ```
 {.indent}

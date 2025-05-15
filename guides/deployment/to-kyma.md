@@ -129,8 +129,6 @@ It is recommended to use a technical user for this secret that has only read per
 
 ## Deploy to Kyma
 
-- Start Docker Desktop
-
 Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
 
 ```sh
@@ -166,6 +164,8 @@ They support the deployment of your CAP service, database, UI content, and the c
 :::
 
 #### Build and Deploy
+
+**First, ensure the Docker daemon** is running, for example by starting Docker Desktop.
 
 You can now quickly deploy the application like so:
 

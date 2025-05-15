@@ -85,6 +85,12 @@ The following diagram illustrates the deployment workflow:
 + Make sure your SAP HANA Cloud is [mapped to your namespace](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718#toc-hId-569025164)
 + Ensure SAP HANA Cloud is accessible from your Kyma cluster by [configuring trusted source IPs](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html)
 
+#### Configure Kubernetes
+
+- Download the Kubernetes configuration from BTP and move it to _$HOME/.kube/config_.
+
+[Learn more in the BTP Kyma documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/access-kyma-instance-using-kubectl){.learn-more}
+
 #### Get Access to a Container Registry
 
 SAP BTP doesn't provide a container registry, but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
@@ -102,27 +108,16 @@ To use a docker image from a private repository, you need to [create an image pu
 ::: details Use this script to create the docker pull secret...
 
 ```sh
-echo -n "Secret name: "; read SECRET_NAME
 echo -n "Your docker server: "; read YOUR_REGISTRY
 echo -n "Your user: "; read YOUR_USER
 echo -n "Your email: "; read YOUR_EMAIL
-echo -n "Your API key: "; read -s YOUR_API_KEY
+echo -n "Your API token: "; read -s YOUR_API_TOKEN
 kubectl create secret docker-registry \
-  "$SECRET_NAME" \
+  docker-registry \
   "--docker-server=$YOUR_REGISTRY" \
   "--docker-username=$YOUR_USER" \
-  "--docker-password=$YOUR_API_KEY" \
+  "--docker-password=$YOUR_API_TOKEN" \
   "--docker-email=$YOUR_EMAIL"
-```
-The `image` property needs to contain the full tag that was used to push the image to the repository:
-
-```yaml
-spec:
-  imagePullSecrets:
-  - name: $SECRET_NAME
-  containers:
-  - name: cap-srv
-    image: $YOUR_REGISTRY/$YOUR_IMAGE:$YOUR_VERSION
 ```
 :::
 
@@ -133,6 +128,8 @@ It is recommended to use a technical user for this secret that has only read per
 <span id="afterprivatereg" />
 
 ## Deploy to Kyma
+
+- Start Docker Desktop
 
 Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
 

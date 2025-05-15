@@ -70,7 +70,7 @@ const config = defineConfig({
 
   vite: {
     build: {
-      chunkSizeWarningLimit: 5000, // chunk for local search index dominates
+      chunkSizeWarningLimit: 6000, // chunk for local search index dominates
     },
     css: {
       preprocessorOptions: {

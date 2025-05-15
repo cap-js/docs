@@ -229,7 +229,6 @@ Features:
 
 Outlook:
 - **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
-- **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
 - **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
 
 Available for:

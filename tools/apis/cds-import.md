@@ -89,7 +89,6 @@ const csn = await cds.import.from.openapi(OpenAPI_JSON_file)
 | `responses["2XX"].content.application/json`  | `returns`                                                    |
 | `$ref`                                       | `type` or `includes`                                         |
 | `components.schemas` / `definitions`         | Named `types`                                                |
-| inline schema                                | `anonymous.typeX`                                            |
 | `enum`                                       | `enum`, `@assert.range`                                      |
 | `format: date/time/uuid/binary`              | `cds.Date`, `cds.Time`, `cds.Timestamp`, `cds.UUID`, etc.    |
 | `pattern`                                    | `@assert.format`                                             |

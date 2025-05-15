@@ -68,6 +68,38 @@ const csn = await cds.import.from.openapi(OpenAPI_JSON_file)
 ```
 <br>
 
+# OpenAPI to CDS (OData CSN) Conversion Mapping
+
+| **OpenAPI**                        | **OData Equivalent**                                   |
+|---------------------------------------------|--------------------------------------------------------------|
+| `info.title`                                 | `serviceName`, `@Core.Description`                           |
+| `info.version`                               | `@Core.SchemaVersion`                                       |
+| `info.description`                           | `@Core.LongDescription`                                     |
+| `paths.{path}.{method}`                      | `function` (GET) or `action` (others)                        |
+| `tags[0]`                                    | `@Common.Label`                                              |
+| `summary` / `description`                    | `@Core.Description`, `@Core.LongDescription`                |
+| `parameters[].in`                            | `@openapi.in`                                                |
+| `parameters[].name`                          | Transformed param name + `@openapi.name` if needed           |
+| `parameters[].required`                      | `@openapi.required`                                          |
+| `parameters[].style`, `explode`, `allowReserved` | `@openapi.style`, `@openapi.explode`, `@openapi.allowReserved` |
+| `parameters[].default`                       | `default: { val: ... }`                                      |
+| `parameters[].description`                   | `@description`                                               |
+| `requestBody.content.application/json.schema` | `params.body`                                               |
+| `requestBody.$ref`                           | Dereferenced and used                                       |
+| `responses["2XX"].content.application/json`  | `returns`                                                    |
+| `$ref`                                       | `type` or `includes`                                         |
+| `components.schemas` / `definitions`         | Named `types`                                                |
+| inline schema                                | `anonymous.typeX`                                            |
+| `enum`                                       | `enum`, `@assert.range`                                      |
+| `format: date/time/uuid/binary`              | `cds.Date`, `cds.Time`, `cds.Timestamp`, `cds.UUID`, etc.    |
+| `pattern`                                    | `@assert.format`                                             |
+| `allOf`, `anyOf`, `oneOf`                    | `@openapi.allOf`, `@openapi.anyOf`, `@openapi.oneOf`         |
+| `example` / `examples[0]`                    | `@Core.Example.Value`                                        |
+| `type: object` with `properties`             | `elements`                                                   |
+| `required` (on properties)                   | `@mandatory`                                                 |
+
+---
+
 ## cds.import.from.asyncapi() {.method}
 
 This API can be used to convert the AsyncAPI specification file (JSON) into CSN.

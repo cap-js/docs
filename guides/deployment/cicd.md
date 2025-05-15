@@ -40,4 +40,3 @@ Try the tutorial [Create Automated System Tests for SAP Cloud Application Progra
 
 GitHub offers continuous integration workflows using [GitHub Actions](https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration). In our [SFlight sample,](https://github.com/SAP-samples/cap-sflight) we use GitHub Actions in two simple workflows to test our samples on [current Node.js and Java versions](https://github.com/SAP-samples/cap-sflight/tree/main/.github/workflows).
 
-We also defined our [own actions](https://github.com/SAP-samples/cap-sflight/tree/main/.github/actions) and use them in a [custom workflow](https://github.com/SAP-samples/cap-sflight/blob/main/.github/workflows/deploy-btp.yml).

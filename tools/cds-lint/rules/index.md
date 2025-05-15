@@ -12,7 +12,7 @@ status: released
 
 # Rules Reference
 
-Below you can find all rules of the \`@sap/eslint-plugin-cds\` ESLint plugin.
+Below you can find all rules of the `@sap/eslint-plugin-cds` ESLint plugin.
 
 They are grouped by categories [Model Validation](#model-validation) and [Environment](#environment) to help you understand their purpose.
 

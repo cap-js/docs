@@ -811,6 +811,7 @@ Besides these kinds of topic manipulations, additional topic manipulations might
 
 
 ### Messages Representation
+{#enhanced-messages-representation}
 
 Messages are provided as two separate `Map` objects, representing data and headers. This enables handling of message headers, like `cloudevents` headers, separately from the message data itself. If using a message broker that supports native headers, for example Kafka, the headers are separated from the business data in the message broker. For message brokers that don't natively support headers, headers and data are merged into a combined structure by following the rule `{...headers, data: data}`.
 

@@ -319,14 +319,16 @@ srv:
   # [Service bindings](#configuration-options-for-service-bindings)
   bindings:
 
-  # [Kubernetes container resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  # Kubernetes container resources
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
   resources:
 
   # Map of additional env variables
   env:
     MY_ENV_VAR: 1
 
-  # [Kubernetes Liveness, Readiness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  # Kubernetes Liveness, Readiness and Startup Probes
+  # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   health:
     liveness:
       path: <endpoint>
@@ -334,7 +336,7 @@ srv:
       path: <endpoint>
     startupTimeout: <seconds>
 
-  # [Container image](#configuration-options-for-container-images)
+  # Container image
   image:
 ```
 :::
@@ -433,7 +435,6 @@ kyma.operator.kyma-project.io/default edited
 
 [Learn more about adding modules from the Kyma Dashboard.](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c){.learn-more style="margin-top:10px"}
 
-:::
 
 #### Configuration Options for Services
 

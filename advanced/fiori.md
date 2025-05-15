@@ -25,63 +25,35 @@ This guide explains how to add one or more SAP Fiori elements apps to a CAP proj
 
 For entities exposed via OData V4 there is a _Fiori preview_ link on the index page. It dynamically serves an SAP Fiori Elements list page that allows you to quickly see the effect of annotation changes without having to create a UI application first.
 
-<div class="impl node">
-
 ::: details Be aware that this is **not meant for production**.
+
+<div class="impl node">
 
 The preview not meant as a replacement for a proper SAP Fiori Elements (UI5) application.
 It is only active locally where the [development profile](../node.js/cds-env#profiles) is enabled.
 
-To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
-
-::: code-group
-
-```json [package.json]
-{
-  "cds": {
-    "features": {
-      "fiori_preview": true
-    }
-  }
-}
-```
-```json [.cdsrc.json]
-{
-  "features": {
-    "fiori_preview": true
-  }
-}
-```
-
-:::
+To also enable it in cloud deployments, for test or demo purposes maybe, set <Config>cds.fiori.preview:true</Config>.
 
 </div>
 
 <div class="impl java">
 
-::: details Be aware that this is **not meant for production**.
-
 The preview not meant as a replacement for a proper SAP Fiori Elements (UI5) application.
 It is active by default, but disabled automatically in case the [production profile](../java/developing-applications/configuring#production-profile) is enabled.
 
-To also enable it in cloud deployments, for test or demo purposes maybe, add the following configuration:
-
-::: code-group
-```yaml [srv/src/main/resources/application.yaml]
-cds:
-  index-page:
-    enabled: true
-```
-:::
+To also enable it in cloud deployments, for test or demo purposes maybe, set <Config java>cds.index-page.enabled:true</Config>.
 
 </div>
+
+:::
+
 
 ## Adding Fiori Apps
 
 As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
 
 
-| Folder/Sub Folder        | Description                          |
+| Folder/Sub Folder          | Description                          |
 |----------------------------|--------------------------------------|
 | `app/`                     | All SAP Fiori apps should go in here |
 | &nbsp; &nbsp; `browse/`    | SAP Fiori app for end users          |
@@ -97,9 +69,12 @@ Links to Fiori applications created in the `app/` folder are automatically added
 
 ### Using SAP Fiori Tools
 
-The SAP Fiori tools provide advanced support for adding SAP Fiori apps to existing CAP projects as well as a wealth of productivity tools, for example for adding SAP Fiori annotations, or graphical modeling and editing. They can be used locally in [Visual Studio Code (VS Code)](https://marketplace.visualstudio.com/items?itemName=SAPSE.sap-ux-fiori-tools-extension-pack) or in [SAP Business Application Studio](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/b0110400b44748d7b844bb5977a657fa.html).
+The SAP Fiori tools provide advanced support for [adding SAP Fiori apps](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/db44d45051794d778f1dd50def0fa267.html) to existing CAP projects as well as a wealth of productivity tools, for example for adding SAP Fiori annotations, or graphical modeling and editing. They can be used locally in [Visual Studio Code (VS Code)](https://marketplace.visualstudio.com/items?itemName=SAPSE.sap-ux-fiori-tools-extension-pack) or in [SAP Business Application Studio](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/b0110400b44748d7b844bb5977a657fa.html).
 
-[Learn more about **how to install SAP Fiori tools**.](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/2d8b1cb11f6541e5ab16f05461c64201.html){.learn-more}
+
+### Using [`cds add`](../tools/cds-cli#sample)
+
+Use `cds add sample` to add Fiori sample code to an existing project, or create a new one with `cds init <project> --add sample`.
 
 
 ### From [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
@@ -152,14 +127,14 @@ While CDS in principle allows you to add such annotations everywhere in your mod
       fiori-service.cds #> annotating ../srv/admin-service.cds
    ./browse
       fiori-service.cds #> annotating ../srv/cat-service.cds
-   index.cds
+   services.cds #> imports ./admin/fiori-service and ./browse/fiori-service
 ./srv  #> all service definitions should stay clean in here:
    admin-service.cds
    cat-service.cds
 ...
 ```
 
-[See this also in **cap/samples/fiori**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more}
+[See this also in **cap/samples/fiori**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/services.cds){.learn-more}
 
 **Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-modeling#domain-driven-design) and [Separation of Concerns](../guides/domain-modeling#separation-of-concerns).
 
@@ -187,7 +162,7 @@ The CDS OData Language Server provides a list of context-sensitive suggestions b
 
 #### Using Code Completion
 
-To trigger code completion, choose <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> (other platforms). The list of suggested values is displayed.
+To trigger code completion, choose <kbd>⌃</kbd><kbd>Space</kbd> (macOS) or <kbd>Ctrl</kbd><kbd>Space</kbd> (other platforms). The list of suggested values is displayed.
 
 > Note: You can filter the list of suggested values by typing more characters.
 
@@ -322,7 +297,7 @@ You can navigate to the referenced annotation using the [Peek Definition](#peek-
 #### Peek Definition { #peek-definition}
 
 Peek Definition lets you preview and update the referenced annotation without switching away from the code that you're writing. It's triggered when your cursor is inside the referenced annotation value.
-- Using a keyboard: choose <kbd class="space">⌥</kbd> + <kbd>F12</kbd> (macOS) or <kbd>Alt</kbd> + <kbd>F12</kbd> (other platforms)
+- Using a keyboard: choose <kbd class="space">⌥</kbd><kbd>F12</kbd> (macOS) or <kbd>Alt</kbd><kbd>F12</kbd> (other platforms)
 - Using a mouse: right-click and select **Peek Definition**
 If an annotation is defined in multiple sources, all these sources are listed. You can select which one you want to view or update. Annotation layering isn't considered.
 
@@ -333,7 +308,7 @@ Go To Definition lets you navigate to the source of the referenced annotation an
 
 Place your cursor inside the path referencing the annotation term segment or translatable string value, and trigger Go to Definition:
 
--   Using a keyboard: choose <kbd>F12</kbd> in VS Code, or <kbd>Ctrl</kbd> + <kbd>F12</kbd> in SAP Business Application Studio
+-   Using a keyboard: choose <kbd>F12</kbd> in VS Code, or <kbd>Ctrl</kbd><kbd>F12</kbd> in SAP Business Application Studio
 -   Using a mouse: right-click and select **Go To Definition**
 -   Using a keyboard and mouse: <kbd>⌘</kbd> + mouse click (macOS) or <kbd>Ctrl</kbd> + mouse click (other platforms)
 
@@ -353,7 +328,7 @@ The annotation language server provides quick information for annotation terms, 
 
 To view the quick info for an annotation term, record type, or property used in the annotation file, hover your mouse over it. The accompanying documentation is displayed in a hover window, if provided in the respective OData vocabularies.
 
-To view the quick info for each suggestion in the code completion list, either pressing <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> (macOS) or <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> (other platforms), or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list. You can close this by pressing <kbd>⌘</kbd> + <kbd class="space">⎵</kbd> / <kbd>Ctrl</kbd> + <kbd class="space">⎵</kbd> again or by clicking on the close icon.
+To view the quick info for each suggestion in the code completion list, either pressing <kbd>⌃</kbd><kbd>Space</kbd> (macOS) or <kbd>Ctrl</kbd><kbd>Space</kbd> (other platforms), or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list.
 
 
 #### Internationalization Support
@@ -426,14 +401,15 @@ To enable draft for an entity exposed by a service, simply annotate it with `@od
 annotate AdminService.Books with @odata.draft.enabled;
 ```
 
-[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L51){.learn-more}
+[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L94){.learn-more}
 
 ::: warning
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
 :::
 
 ### Difference between Compositions and Associations
-Be aware that you must not modify associated entities through drafts. Only compositions will get a "Create" button in SAP Fiori elements UIs because they are stored as part of the same draft entity.
+
+Be aware that you cannot modify _associated_ entities through drafts. Only _compositions_ will get a "Create" button in SAP Fiori elements UIs because they are stored as part of the same draft entity.
 
 ### Enabling Draft for [Localized Data](../guides/localized-data) {#draft-for-localized-data}
 
@@ -452,13 +428,14 @@ Adding the annotation `@fiori.draft.enabled` won't work if the corresponding `_t
 :::
 
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
-[See it live in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app/admin-books/fiori-service.cds#L50){.learn-more}
 
-If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/14ac3efaa13fc025f621b4eed369d03f1ca48341/fiori/app/admin-books/fiori-service.cds#L70) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
+[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L93){.learn-more}
+
+If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L116) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
 
 ### Validating Drafts
 
-You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the `PATCH` events to validate input per field, during the edit session, as follows.
+You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the respective `UPDATE` events to validate input per field, during the edit session, as follows.
 
 
 ##### ... in Java
@@ -626,7 +603,7 @@ We're going to look at three things.
 1. Dynamically define the buttons status on the UI
 
 
-First you need to define an action, like in the [_travel-service.cds_ file](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.cds#L11).
+First you need to define an action, like in the [_travel-service.cds_ file](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/srv/travel-service.cds#L11).
 
 ```cds
 entity Travel as projection on my.Travel actions {
@@ -637,16 +614,15 @@ entity Travel as projection on my.Travel actions {
   };
 ```
 
-To define what the action actually is doing, you need to write some custom code. See the [_travel-service.js_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.js#L126) file for example:
+To define what the action actually is doing, you need to write some custom code. See the [_travel-service.ts_](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/srv/travel-service.ts#L86) file for example:
 
 ```js
-this.on('acceptTravel', req => UPDATE(req._target).with({TravelStatus_code:'A'}))
+this.on('acceptTravel', req => UPDATE(req.subject).with({TravelStatus_code:'A'}))
 ```
-> Note: `req._target` is a workaround that has been [introduced in SFlight](https://github.com/SAP-samples/cap-sflight/blob/685867de9e6a91d61276671e4af7354029c70ac8/srv/workarounds.js#L52). In the future, there might be an official API for it.
 
-Create the buttons, to bring this action onto the UI and make it actionable for the user. There are two buttons: On the overview and in the detail screen. Both are defined in the [_layouts.cds_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/layouts.cds) file.
+Create the buttons, to bring this action onto the UI and make it actionable for the user. There are two buttons: On the overview and in the detail screen. Both are defined in the [_layouts.cds_](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/app/travel_processor/layouts.cds) file.
 
-For the overview of all travels, use the [`@UI.LineItem` annotation](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/layouts.cds#L40-L41).
+For the overview of all travels, use the [`@UI.LineItem` annotation](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/app/travel_processor/layouts.cds#L40-L41).
 
 ```cds
 annotate TravelService.Travel with @UI : {
@@ -658,7 +634,7 @@ LineItem : [
 };
 ```
 
-For the detail screen of a travel, use the [`@UI.Identification` annotation](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/layouts.cds#L9-L10).
+For the detail screen of a travel, use the [`@UI.Identification` annotation](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/app/travel_processor/layouts.cds#L9-L10).
 
 ```cds
 annotate TravelService.Travel with @UI : {
@@ -670,7 +646,7 @@ annotate TravelService.Travel with @UI : {
 };
 ```
 
-Now, the buttons are there and connected to the action. The missing piece is to define the availability of the buttons dynamically. Annotate the `Travel` entity in the `TravelService` service accordingly in the [_field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/8f65dc8b7985bc22584d2a9f94335f110c0450ea/app/travel_processor/field-control.cds#L20-L32) file.
+Now, the buttons are there and connected to the action. The missing piece is to define the availability of the buttons dynamically. Annotate the `Travel` entity in the `TravelService` service accordingly in the [_field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/42ee666e40f9dba1176f8263b512c10d23f07907/app/travel_processor/field-control.cds#L23-L36) file.
 
 ```cds
 annotate TravelService.Travel with actions {
@@ -683,7 +659,7 @@ annotate TravelService.Travel with actions {
 This annotation uses [dynamic expressions](../advanced/odata#dynamic-expressions) to control the buttons for each action. And the status of a travel on the UI is updated, triggered by the `@Common.SideEffects.TargetProperties` annotation.
 
 :::info More complex calculation
-If you have the need for a more complex calculation, then the interesting parts in SFLIGHT are [virtual fields in _field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/field-control.cds#L10-L16) (also lines 37-44) and [custom code in _travel-service.js_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.js#L13-L22).
+If you have the need for a more complex calculation, then the interesting parts in (an older version of) SFLIGHT are [virtual fields in _field-control.cds_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/app/travel_processor/field-control.cds#L10-L16) (also lines 37-44) and [custom code in _travel-service.js_](https://github.com/SAP-samples/cap-sflight/blob/dfc7827da843ace0ea126f76fc78a6591b325c67/srv/travel-service.js#L13-L22).
 :::
 
 

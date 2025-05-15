@@ -170,6 +170,14 @@ Other options in this goal enable or disable certain features that change the wa
   - Characters `/` and `$` behave just like `_`: they used to provide camel-cased name and provide better support for models coming from ABAP systems.
   - If the name of the element is prefixed by `_`, this character will remain the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
+- [`cqnService`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnService)
+  
+  This switch enables generation of [typed service interfaces](/java/cqn-services/application-services#trigger-action-or-function). This switch is deprecated and should not be disabled.
+
+- [`eventContext`](/java/assets/cds-maven-plugin-site/generate-mojo.html#eventContext)
+
+  This switch enables generation of interfaces representing contexts for actions, functions and events that are modelled through CDS. This switch is deprecated and should not be disabled. 
+
 :::warning Check migration guides!
 In major releases of CAP Java, some of these switches can be made new default and some other switches might be removed. This might introduce compile errors
 in your application that needs to be fixed.

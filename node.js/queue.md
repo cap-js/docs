@@ -251,7 +251,7 @@ Event handlers have to be registered for these specific events. The `*` wildcard
 
 ## In-Memory Queue
 
-You can enable it globally for all queued services with:
+You can enable the in-memory queue globally with:
 
 ```json
 {

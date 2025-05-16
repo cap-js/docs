@@ -118,6 +118,7 @@ kubectl create secret docker-registry \
   "--docker-username=$YOUR_USER" \
   "--docker-password=$YOUR_API_TOKEN" \
   "--docker-email=$YOUR_EMAIL"
+# The 2nd 'docker-registry' above is our default secret name.
 ```
 :::
 

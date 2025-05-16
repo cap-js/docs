@@ -167,7 +167,7 @@ Other options in this goal enable or disable certain features that change the wa
 
   - Names from CDS model that are Java keywords are suffixed with `_`. 
   - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield the same name in Java.
-  - Characters `/` and `$` behave as separator for name, just like `_` does. `_` used to convert name of CDS entity to camel case or screaming case (for constants).
+  - Characters `/` and `$` behave as separator for name during case conversions, just like `_` does. 
   - If the name of the element is prefixed by `_`, this character will remain the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
 - [`cqnService`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnService)

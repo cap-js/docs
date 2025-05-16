@@ -172,11 +172,11 @@ Other options in this goal enable or disable certain features that change the wa
 
 - [`cqnService`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnService)
   
-  This switch enables generation of [typed service interfaces](/java/cqn-services/application-services#trigger-action-or-function). This switch is deprecated and should not be disabled.
+  This switch enables generation of [typed service interfaces](/java/cqn-services/application-services#trigger-action-or-function). This switch is deprecated and should not be used.
 
 - [`eventContext`](/java/assets/cds-maven-plugin-site/generate-mojo.html#eventContext)
 
-  This switch enables generation of interfaces representing contexts for actions, functions and events that are modelled through CDS. This switch is deprecated and should not be disabled. 
+  This switch enables generation of interfaces representing contexts for actions, functions and events that are modelled through CDS. This switch is deprecated and should not be used. 
 
 :::warning Check migration guides!
 In major releases of CAP Java, some of these switches can be made new default and some other switches might be removed. This might introduce compile errors

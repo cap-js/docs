@@ -87,7 +87,7 @@ The following diagram illustrates the deployment workflow:
 
 #### Configure Kubernetes
 
-- Download the Kubernetes configuration from BTP and move it to _$HOME/.kube/config_.
+Download the Kubernetes configuration from BTP and move it to _$HOME/.kube/config_.
 
 [Learn more in the BTP Kyma documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/access-kyma-instance-using-kubectl){.learn-more}
 

@@ -218,7 +218,7 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 <<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
 :::
 
-#### Additional APIs <Beta />
+### Additional APIs <Beta />
 
 To manually trigger the message processing, for example if your server is restarted, you can use the `flush` method.
 

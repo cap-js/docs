@@ -246,7 +246,7 @@ srv.after('someEvent/#failed', (data, req) => {
 ```
 
 ::: tip
-Event handlers have to be registered for these specific events. They are excluded from the `*` wildcard handler.
+Event handlers have to be registered for these specific events. The `*` wildcard handler will not be called for these.
 :::
 
 ## In-Memory Queue

@@ -659,9 +659,9 @@ All limitations for the SAP HANA Cloud database can be found in the [SAP Help Po
 
 ### Native Associations
 
-In previous CAP releases, CDS associations were by default reflected in the respective SAP HANA
+In previous CAP releases, CDS associations were by default reflected in SAP HANA
 database tables and views by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
-But the presence of such native associations increases (re-)deploy times:
+But the presence of such native associations significantly increases (re-)deploy times:
 They need to be validated in the HDI deployment, and they can introduce
 indirect dependencies between other objects, which can trigger other unnecessary revalidations
 or even unnecessary drop/create of indexes.
@@ -669,8 +669,8 @@ or even unnecessary drop/create of indexes.
 As CAP doesn't need these native associations, by default no native HANA associations
 are created anymore starting with CAP 9. 
 
-In the unlikely case that you explicitly use them in other native HANA objects or in custom code,
-you can switch them back on:
+In the unlikely case that you need native HANA associations because you explicitly use them
+in other native HANA objects or in custom code, you can switch them back on:
 
 ::: code-group
 
@@ -698,7 +698,7 @@ you can switch them back on:
 ::: warning Initial full table migration
 Be aware that the first deployment after this **configuration change may take longer**.
 
-For each entity with associations, the respective database object will be touched
+For each entity with associations, the respective database object is touched
 (DROP/CREATE for views, full table migration via shadow table and data copy for tables).
 
 :::

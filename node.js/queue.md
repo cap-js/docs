@@ -224,8 +224,7 @@ To manually trigger the message processing, for example if your server is restar
 
 ```js
 const srv = await cds.connect.to('yourService')
-cds.queued(srv).flush()       // for current tenant
-cds.queued(srv).flush(tenant) // for provided tenant
+cds.queued(srv).flush()
 ```
 
 Once a message has been successfully processed, it will trigger the `<event>/#succeeded` handlers.

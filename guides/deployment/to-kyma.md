@@ -132,10 +132,23 @@ It is recommended to use a technical user for this secret that has only read per
 
 Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
 
+<div class="impl java">
+
+```sh
+cds init bookshop --add java,sample && cd bookshop
+cds add hana,xsuaa
+```
+
+</div>
+<div class="impl node">
+
 ```sh
 cds init bookshop --add sample && cd bookshop
 cds add hana,xsuaa
 ```
+
+</div>
+
 
 #### User Interfaces <Beta />
 

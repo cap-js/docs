@@ -108,7 +108,7 @@ To use a docker image from a private repository, you need to [create an image pu
 ::: details Use this script to create the docker pull secret...
 
 ```sh
-echo -n "Your docker server: "; read YOUR_REGISTRY
+echo -n "Your docker registry server: "; read YOUR_REGISTRY
 echo -n "Your user: "; read YOUR_USER
 echo -n "Your email: "; read YOUR_EMAIL
 echo -n "Your API token: "; read -s YOUR_API_TOKEN

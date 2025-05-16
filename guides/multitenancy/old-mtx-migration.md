@@ -20,13 +20,13 @@ Towards new multitenancy capabilities
 
 <ImplVariantsHint />
 
-::: warning
-It is strongly recommended to separate any model changes from the migration. If you need to do model changes for the migration, please deploy the application
+::: warning Separate model changes from migration
+We strongly recommended to separate any model changes from the migration. If you need to do model changes for the migration, please deploy the application
 based on `@sap/cds-mtx` and upgrade all tenants using the [upgrade endpoint](./old-mtx-apis.md#upgrade-base-model-from-filesystem-asynchronous) before you do the migration.
 :::
-::: warning
+::: warning Deprecated! Update all modules
 Make sure that you always use the latest version of the CAP modules using `npm outdated`. For Java, also check the versions configured in `pom.xml` files. Since
-`@sap/cds-mtx` is deprecated for quite some time now and will no longer run with e. g. the latest version of `@sap/cds`, updating the versions and adapting your application to it
+`@sap/cds-mtx` is deprecated for quite some time now and will no longer run with, for example, the latest version of `@sap/cds`, updating the versions and adapting your application to it
 can only be done together with the migration to `@sap/cds-mtxs`. Please also read all release notes carefully and check it for changes that need to be made to the configuration.
 :::
 
@@ -417,7 +417,7 @@ With `@sap/cds-mtxs`, the same configuration has moved to the `cds.xt.Extensibil
 
 See also [Extensibility configuration](./mtxs.md#extensibility-config)
 
-### Verify application locally
+### Verify Application Locally
 
 As first verification of your configuration changes, you can try to run your application locally in [hybrid mode](../../advanced/hybrid-testing#run-with-service-bindings). To bind all the service
 that are bound to your existing application, you can call `cds bind --to-app-services <your application>`. Afterwards, you can run `cds run --profile hybrid --resolve-bindings`.

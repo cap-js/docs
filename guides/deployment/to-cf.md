@@ -69,7 +69,7 @@ cd bookshop
 
 In addition, you need to prepare the following:
 
-#### 1. SAP BTP with SAP HANA Cloud Database up and Running {#btp-and-hana}
+#### 1. SAP BTP with SAP HANA Cloud Database Up and Running {#btp-and-hana}
 
 - Access to [SAP BTP, for example a trial](https://developers.sap.com/tutorials/hcp-create-trial-account.html)
 - An [SAP HANA Cloud database running](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/create-sap-hana-database-instance-using-sap-hana-cloud-central) in your subaccount <!--, mapped to your space -->
@@ -126,17 +126,15 @@ npm i @sap/cds        #> if necessary
 
 ## Prepare for Production {#prepare-for-production}
 
-If you followed CAP's grow-as-you-go approach so far, you've developed your application with an in-memory database and basic/mock authentication. To prepare for production you need to ensure respective production-grade choices are configured:
+If you followed CAP's grow-as-you-go approach, you've developed your application with an in-memory database and basic (mocked) authentication. In the cloud, you typically use production-grade services like SAP HANA and authentication providers.
 
-![You need to add SAP HANA Cloud, an App Router and XSUAA.](assets/deploy-overview.drawio.svg){style="margin: 30px auto"}
-
-We'll use the `cds add <facets>` CLI command for that, which ensures the required services are configured correctly and corresponding package dependencies are added to your _package.json_.
+The `cds add <facets>` command ensures required services are configured correctly and their dependencies are added to your _package.json_.
 
 ### 1. SAP HANA Database
 
 <div class="impl node">
 
-While we used SQLite as a low-cost stand-in during development, we're going to use an SAP HANA Cloud database for production:
+While we used SQLite as a low-cost stand-in during development, we're using an SAP HANA Cloud database for production:
 
 </div>
 
@@ -210,6 +208,8 @@ For **single-tenant applications**, you can use [SAP Build Work Zone, Standard E
 cds add workzone
 ```
 
+**Important:** This also requires you to set up SAP Build Work Zone, Standard Edition [according to the SAP Learning tutorial](https://developers.sap.com/tutorials/spa-configure-workzone.html).
+
 ### 6. Optional: Multitenancy { #add-multitenancy }
 
 To enable multitenancy for production, run the following command:
@@ -231,13 +231,19 @@ The previous steps are required _only once_ in a project's lifetime. With that d
 
 ## Build and Deploy
 
+Make sure you are logged in to Cloud Foundry and target the space you want to deploy to:
+```sh
+cf login --sso  # to log on with SAP Universal ID
+cf target
+```
+[Learn more about `cf login`](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
+
+
 You can now freeze dependencies, build, and deploy the application:
 
 ```sh
 cds up
 ```
-
-[You need to be logged in to Cloud Foundry.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
 
 ::: details Essentially, this automates the following steps...
 
@@ -250,7 +256,7 @@ npm i app/admin-books
 ln -sf ../package-lock.json
 
 # If project is multitenant
-npm i --package-lock-only mtx/sidecar
+npm i --package-lock-only --prefix mtx/sidecar
 
 # If package-lock.json doesn't exist
 npm i --package-lock-only

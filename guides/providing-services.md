@@ -746,12 +746,11 @@ Here's an overview table:
 
 [Learn more about using the `Select.lock()` method in the Java runtime.](../java/working-with-cql/query-api#write-lock){.learn-more}
 
-::: warning
-Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
+
+::: warning Restrictions
+-  Pessimistic locking is supported for domain entities (DB table rows). The locking is not possible for projections and views.
+-  Pessimistic locking is not supported by SQLite. H2 supports exclusive locks only.
 :::
-
-
-
 
 ## Input Validation
 
@@ -770,6 +769,8 @@ The same applies for fields with the [OData Annotations](../advanced/odata#annot
 ::: warning Not allowed on keys
 Do not use the `@readonly` annotation on keys in all variants.
 :::
+
+<div id="readonlywithexpressions"/>
 
 ### `@mandatory`
 
@@ -792,7 +793,7 @@ In addition to server-side input validation as introduced above, this adds a cor
 </Annotations>
 ```
 
-
+<div id="mandatorywithexpressions"/>
 
 ### `@Common.FieldControl`
 {#common-fieldcontrol}
@@ -962,7 +963,7 @@ entity Foo {
 }
 ```
 
-
+<div id="assertconstraints" />
 
 ## Custom Logic
 

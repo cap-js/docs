@@ -92,12 +92,12 @@ The option [`basePackage`](/java/assets/cds-maven-plugin-site/generate-mojo.html
 ### Filter for CDS Entities
 
 By default, complete model of your application is generated including all imported or re-used models. 
-You can use options [`includes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#includes) or [`excludes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#excludes) to specify the part of your overall model that is subject to code generation.
+You can use options [`includes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#includes) and [`excludes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#excludes) to specify the part of your overall model that is subject to code generation. Both inclusion and exclusion can be used together, inclusion evaluated first, then exclusion filter out included set of entities.
 
-For example, the pattern `my.bookshop.*` will exclude all definitions with namespace `my.bookshop` and the pattern `my.bookshop.**` will exclude all definitions with fully qualified name starting with `my.bookshop`. 
+These options use patterns that are applied on the fully qualified names of the entities in CDS models. For example, the pattern `my.bookshop.*` will cover all definitions with namespace `my.bookshop` and the pattern `my.bookshop.**` will cover all definitions with fully qualified name starting with `my.bookshop`. 
 
 :::warning Cross-namespace references are not resolved
-Options `includes` and `excludes` are simple filters. If other parts of your model reference types from the excluded area, the resulting code will not compile.
+Options `includes` and `excludes` are simple filters. If included parts of your model reference types from the excluded area, the resulting code will not compile.
 :::
 
 ### Style of Interfaces
@@ -165,9 +165,9 @@ Other options in this goal enable or disable certain features that change the wa
   CDS models from external sources might include elements that have some special characters in their names or include elements that clash with Java keywords. Such cases always can be solved with [renaming features](/java/cds-data#renaming-elements-in-java) provided by code generator, but in case of large models, this is tedious.
   This switch enables following conversions on the names coming from CDS models to reduce the amount of renaming that needs to be done:
 
-  - Names from CDS model that are Java keywords are prefixed with `_`. 
-  - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield same name in Java.
-  - Characters `/` and `$` behave just like `_`: they used to provide camel-cased name and provide better support for models coming from ABAP systems.
+  - Names from CDS model that are Java keywords are suffixed with `_`. 
+  - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield the same name in Java.
+  - Characters `/` and `$` behave as separator for name, just like `_` does. `_` used to convert name of CDS entity to camel case or screaming case (for constants).
   - If the name of the element is prefixed by `_`, this character will remain the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
 - [`cqnService`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnService)

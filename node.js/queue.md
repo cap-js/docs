@@ -258,7 +258,7 @@ You can enable it globally for all queued services with:
   }
 }
 ```
-Messages are emitted only when the current transaction is successful. Until then, messages are only kept in memory.
+Messages are emitted only when the current transaction is successfully committed. Until then, messages are only kept in memory.
 This is similar to the following code if done manually:
 ```js
 cds.context.on('succeeded', () => this.emit(msg))

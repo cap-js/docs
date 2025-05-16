@@ -65,22 +65,21 @@ This is useful if your service is outboxed (i.e., queued) per configuration.
 
 ### Per Configuration
 
-You can also configure services to be outboxed by default:
+Some services are outboxed by default; these include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
+You can configure the outbox behavior by specifying the `outboxed` option in your service configuration.
 
 ```json
 {
   "requires": {
     "yourService": {
       "kind": "odata",
-      "outboxed": true
+      "outboxed": {
+        "maxAttempts": 5
+      }
     }
   }
 }
 ```
-
-::: tip Outboxed by default
-Some services are outboxed by default; these include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
-:::
 
 For transactional safety, you're encouraged to use the [persistent queue](#persistent-queue) which is enabled by default.
 

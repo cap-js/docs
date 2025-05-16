@@ -17,7 +17,7 @@ The _task queue_ feature allows you to defer event processing.
 A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
 This prevents accidental execution of remote calls in case the transaction is rolled back.
 
-Every CAP service can be _queued_ that means event dispatching becomes _asynchronous_.
+Every CAP service can be _queued_, meaning that event dispatching becomes _asynchronous_.
 
 
 ## Queueing a Service

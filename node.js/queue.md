@@ -99,8 +99,7 @@ You can disable it globally with:
 }
 ```
 
-Using the persistent queue, the to-be-emitted message is stored in a database table first. The same database transaction is used
-as for other operations, therefore transactional consistency is guaranteed.
+Using the persistent queue, the to-be-emitted message is stored in a database table within the current transaction, therefore transactional consistency is guaranteed.
 
 You can use the following configuration options:
 
@@ -112,7 +111,9 @@ You can use the following configuration options:
       "maxAttempts": 20,
       "chunkSize": 10,
       "storeLastError": true,
-      "parallel": true
+      "parallel": true,
+      "timeout": "1h",
+      "legacyLocking": true
     }
   }
 }
@@ -124,6 +125,8 @@ The optional parameters are:
 - `chunkSize` (default `10`): The number of messages which are read from the database table in one go. Only applies for `parallel != false`.
 - `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the tasks table.
 - `parallel` (default `true`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
+- `timeout` (default `"1h"`): The time after which a message with `status = "processing"` can be processed again. Only for `legacyLocking = false`.
+- `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. This is recommended but incompatible for parallel usage with `@sap/cds^8` instances.
 
 
 Once the transaction succeeds, the messages are read from the database table and emitted.

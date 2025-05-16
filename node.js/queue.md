@@ -170,7 +170,7 @@ for example to expose it in a service.
 
 #### Known Limitations
 
-- If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing.
+- If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing. It can be triggered manually using the `flush` method.
 - The service that handles the queued event must not use user roles and attributes as they are not stored. However, the user ID is stored to recreate the correct context.
 
 

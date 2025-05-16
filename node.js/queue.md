@@ -204,7 +204,7 @@ service OutboxDeadLetterQueueService {
 
 #### 2. Filter for Dead Entries
 
-As `maxAttempts` is configurable, its value can not be added as a static filter to projection `DeadOutboxMessages`, but must be considered programmatically.
+As `maxAttempts` is configurable, its value cannot be added as a static filter to projection `DeadOutboxMessages`, but must be considered programmatically.
 
 ::: code-group
 <<< ./assets/dead-letter-queue-1.js#snippet{5-8} [srv/outbox-dead-letter-queue-service.js]

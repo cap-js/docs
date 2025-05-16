@@ -319,7 +319,7 @@ domain: <cluster-domain>
 
 # Container image registry
 image:
-  registry: <registry-url>
+  registry: <registry-server>
 ```
 :::
 

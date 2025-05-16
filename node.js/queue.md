@@ -144,7 +144,7 @@ To mark your own errors as unrecoverable, you can set `unrecoverable = true` on 
 :::
 
 
-Your database model is automatically extended by the entity `cds.core.Queued.Messages`:
+Your database model is automatically extended by the entity `cds.outbox.Messages`:
 
 ```cds
 namespace cds.core;
@@ -160,7 +160,7 @@ entity Queued.Messages {
 }
 ```
 
-In your CDS model, you can refer to the entity `cds.core.Queued.Messages` using the path `@sap/cds/srv/queue`,
+In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`,
 for example to expose it in a service.
 
 
@@ -172,7 +172,7 @@ for example to expose it in a service.
 
 ### Managing the Dead Letter Queue
 
-You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.core.Queued.Messages` as well as bound actions to either revive or delete the respective message.
+You can manage the dead letter queue by implementing a service that exposes a read-only projection on entity `cds.outbox.Messages` as well as bound actions to either revive or delete the respective message.
 
 ::: tip
 Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) in the CAP Java documentation for additional considerations while we work on a general Outbox guide.
@@ -182,13 +182,13 @@ Please see [Outbox Dead Letter Queue](../java/outbox#outbox-dead-letter-queue) i
 
 ::: code-group
 ```cds [srv/outbox-dead-letter-queue-service.cds]
-using from '@sap/cds/srv/queue';
+using from '@sap/cds/srv/outbox';
 
 @requires: 'internal-user'
 service OutboxDeadLetterQueueService {
 
   @readonly
-  entity DeadOutboxMessages as projection on cds.core.Queued.Messages
+  entity DeadOutboxMessages as projection on cds.outbox.Messages
     actions {
       action revive();
       action delete();
@@ -284,25 +284,25 @@ To disable deferred emitting for a particular service, you can set the `outboxed
 
 ### Delete Entries in the Tasks Table
 
-To manually delete entries in the table `cds.core.Queued.Messages`, you can either
-expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.core.Queued.Messages`
+To manually delete entries in the table `cds.outbox.Messages`, you can either
+expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.outbox.Messages`
 entity:
 
 ```js
 const db = await cds.connect.to('db')
-await DELETE.from('cds.core.Queued.Messages')
+await DELETE.from('cds.outbox.Messages')
 ```
 
 ### Tasks Table Not Found
 
 If the tasks table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
 
-In case you have overwritten `requires.db.model` there, make sure to add the queue model path `@sap/cds/srv/queue`:
+In case you have overwritten `requires.db.model` there, make sure to add the queue model path `@sap/cds/srv/outbox`:
 
 ```jsonc
 "requires": {
   "db": { ...
-    "model": [..., "@sap/cds/srv/queue"]
+    "model": [..., "@sap/cds/srv/outbox"]
   }
 }
 ```

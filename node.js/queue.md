@@ -152,7 +152,7 @@ Your database model is automatically extended by the entity `cds.outbox.Messages
 ```cds
 namespace cds.outbox;
 
-entity Queued.Messages {
+entity Messages {
   key ID                   : UUID;
       timestamp            : Timestamp;
       target               : String;

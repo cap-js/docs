@@ -302,7 +302,9 @@ entity Employees {
 ```
 
 The text of a doc comment is stored in CSN in the property `doc`.
-When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
+Doc comments are not propagated. For example, a doc comment defined for an entity
+isn't automatically copied to projections of this entity.
+When generating OData EDM(X), doc comments are translated to the annotation `@Core.Description`.
 
 In CAP Node.js, doc comments need to be switched on when calling the compiler:
 
@@ -322,27 +324,6 @@ cds.compile(..., { docs: true })
 In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin).
 In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
 :::
-
-
-Doc comments are not propagated by default. For example, a doc comment defined for an entity
-isn't automatically copied to projections of this entity. Propagation can be switched on:
-
-__TODO__ verify option name
-
-::: code-group
-
-```sh [CLI]
-cds compile foo.cds --docs --propagate-docs
-```
-
-```js [JavaScript]
-cds.compile(..., { docs: true, propagateDocs: true })
-```
-
-:::
-
-When switched on, propagation of doc comments can selectively be stopped via an empty one: `/** */`.
-
 
 When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated
 to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):

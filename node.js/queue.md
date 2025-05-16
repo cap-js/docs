@@ -78,7 +78,7 @@ You can also configure services to be outboxed by default:
 }
 ```
 
-::: tip Queued by default
+::: tip Outboxed by default
 Some services are outboxed by default, these services include [`cds.MessagingService`](messaging) and `cds.AuditLogService`.
 :::
 

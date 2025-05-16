@@ -264,7 +264,7 @@ This is similar to the following code if done manually:
 cds.context.on('succeeded', () => this.emit(msg))
 ```
 ::: warning No retry mechanism
-The message is lost if its emit fails, there is no retry mechanism.
+The message is lost if the emit fails. There is no retry mechanism.
 :::
 
 

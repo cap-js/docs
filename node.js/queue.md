@@ -245,6 +245,10 @@ srv.after('someEvent/#failed', (data, req) => {
 })
 ```
 
+::: tip
+Event handlers have to be registered for these specific events. They are excluded from the `*` wildcard handler.
+:::
+
 ## In-Memory Queue
 
 You can enable it globally for all queued services with:

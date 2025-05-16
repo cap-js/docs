@@ -128,8 +128,8 @@ The optional parameters are:
 - `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. This is recommended but incompatible for parallel usage with `@sap/cds^8` instances.
 
 
-Once the transaction succeeds, the messages are read from the database table and emitted.
-If an emit was successful, the respective message is deleted from the database table.
+Once the transaction succeeds, the messages are read from the database table and dispatched.
+If it was successful, the respective message is deleted from the database table.
 If not, the system retries the message after exponentially increasing delays.
 After a maximum number of attempts, the message is ignored for processing and remains in the database table which
 therefore also acts as a dead letter queue.

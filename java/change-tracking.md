@@ -208,7 +208,7 @@ annotate Orders {
   customer @changelog: [ customer.name ]
 }
 ```
-Elements from the `@changelog` annotation value must always be prefixed by the association name. Identifier defined on the association target is never considered.
+Elements from the `@changelog` annotation value must always be prefixed by the association name.
 
 :::warning Validation required
 If the target of the association is missing, for example, when an entity is updated with the ID for a customer

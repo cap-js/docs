@@ -131,13 +131,13 @@ The optional parameters are:
 
 Once the transaction succeeds, the messages are read from the database table and emitted.
 If an emit was successful, the respective message is deleted from the database table.
-If not, there will be retries after (exponentially growing) waiting times.
+If not, the system retries the message after exponentially increasing delays.
 After a maximum number of attempts, the message is ignored for processing and remains in the database table which
 therefore also acts as a dead letter queue.
 See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), to learn about how to handle such messages.
 
 There is only one active message processor per service, tenant, app instance and message.
-Hence, there won't be duplicate emits except in the unlikely case of an app crash right after the emit and before the deletion of the message entry.
+This ensures no duplicate emits, except in the unlikely case of an app crash right after the emit and before the message is deleted.
 
 ::: tip
 Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.

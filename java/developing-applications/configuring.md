@@ -130,7 +130,7 @@ Once, when starting a project, decide on the style of the interfaces that is bes
 
 The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
 
-Moreover, it doesn't change the way how event contexts and entities, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
+Moreover, it doesn't change the way how event contexts, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 
 ### Code Generation Features
 
@@ -168,7 +168,7 @@ Other options in this goal enable or disable certain features that change the wa
   - Names from CDS model that are Java keywords are suffixed with `_`. 
   - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield the same name in Java.
   - Characters `/` and `$` behave as separator for name during case conversions, just like `_` does. 
-  - If the name of the element is prefixed by `_`, this character will remain the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
+  - Leading `_` will remain in the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
 - [`cqnService`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnService)
   

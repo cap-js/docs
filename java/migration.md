@@ -94,6 +94,22 @@ Some property defaults have been adjusted:
 
 | Property | Old Value | New Value | Explanation |
 | --- | --- | --- | --- |
+| `cds.security.authorization.deep.enabled` | false | true | [Deep Authorization](./security#deep-auth) is now enabled by default. |
+| `cds.security.authorization.instanceBased.rejectSelectedUnauthorizedEntity.enabled` | false | true | Requests that violate instance-based authorization conditions now fail with 403, instead of 404. |
+| `cds.security.authorization.instanceBased.checkInputData.enabled` | false | true | [Authorization Checks On Input Data](./security#input-data-auth) are now enabled by default. |
+| `cds.persistence.changeSet.enforceTransactional` | true | false | [Avoiding Transactions for Select queries](./event-handlers/changeset-contexts#avoid-transactions) is now enabled by default. |
+| `cds.errors.defaultTranslations.enabled` | false | true | [Translations for Validation Error Messages](./event-handlers/indicating-errors#ootb-translated-messages) are now enabled by default. |
+| `cds.taskScheduler.enabled` | false | true | The new optimized outbox message collector implementation is now enabled by default. |
+
+### Deprecated Properties
+
+The following properties have been deprecated and might be removed in a future major version:
+
+- `cds.errors.combined`
+- `cds.sql.hana.optimizationMode`
+- `cds.outbox.services.<key>.storeLastError.enabled`
+
+The functionality provided by these properties is enabled by default and there is no reason to switch these off.
 
 ### Removed Properties
 

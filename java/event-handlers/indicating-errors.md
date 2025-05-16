@@ -45,7 +45,7 @@ The OData adapters turn all exceptions into an OData error response to indicate 
 
 ## Messages
 
-The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn't affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase. You can change this by setting [`cds.errors.combined`](../developing-applications/properties#cds-errors-combined) to `false`.
+The [Messages](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Messages.html) API allows event handlers to add errors, warnings, info, or success messages to the currently processed request. Adding info, warning or success messages doesn't affect the event processing or the transaction. For error messages by default a `ServiceException` is thrown at the end of the `Before` handler phase.
 
 The `Messages` interface provides a logger-like API to collect these messages. Additional optional details can be added to the [Message](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/messages/Message.html) using a builder API.
 You can access the `Messages` API from the Event Context:
@@ -82,7 +82,7 @@ messages.throwIfError();
 If there are any collected error messages, this method creates a [ServiceException](https://www.javadoc.io/doc/com.sap.cds/cds-services-api/latest/com/sap/cds/services/ServiceException.html) from _one_ of these error messages.
 The OData adapter turns this exception into an OData error response to indicate the error to the client. The remaining error messages are written into the `details` section of the error response.
 
-If the CDS property [`cds.errors.combined`](../developing-applications/properties#cds-errors-combined) is set to true (default), `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
+`Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
 
 
 ## Formatting and Localization
@@ -127,7 +127,7 @@ throw new ServiceException(ErrorStatuses.BAD_REQUEST, "my.message.key", paramNum
 CAP Java provides out-of-the-box translation for error messages that originate from input validation annotations such as `@assert...` or `@mandatory` and security annotations `@requires` and `@restrict`.
 
 The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
-You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
+You can disable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: false</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
 ### Exporting the Default Messages
 

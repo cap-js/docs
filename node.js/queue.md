@@ -150,7 +150,7 @@ To mark your own errors as unrecoverable, you can set `unrecoverable = true` on 
 Your database model is automatically extended by the entity `cds.outbox.Messages`:
 
 ```cds
-namespace cds.core;
+namespace cds.outbox;
 
 entity Queued.Messages {
   key ID                   : UUID;

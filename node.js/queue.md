@@ -42,7 +42,7 @@ You still need to `await` these operations. In case of a persistent queue, which
 The `cds.queued` function can also be called with optional configuration options.
 
 ```js
-const queued = cds.queued(srv, { kind: 'persistent-queue' })
+const queued = cds.queued(srv, { maxAttempts: 5 })
 ```
 
 > The persistent queue can only be used if it's not disabled globally by `cds.requires.queue = false` because it requires a dedicated database table.

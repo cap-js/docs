@@ -835,9 +835,6 @@ Constructs a _INSERT into SELECT_ statement.
 ```js
 INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
-### as() {.method}
-
-The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.
 
 
 ## UPSERT {.class}

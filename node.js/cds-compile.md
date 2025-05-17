@@ -183,15 +183,6 @@ for (let [edm,{file,suffix}] of all)
   console.log (file,suffix,edm)
 ```
 
-
-### .hdbcds() {.method .deprecated}
-
-Generates `hdbcds` output.
-
-Current SAP HANA Cloud versions do no longer support `.hdbcds`. The command is supported for backward compatibility with older versions of [SAP HANA Service for SAP BTP](https://help.sap.com/docs/HANA_SERVICE).
-
-Use [`cds.compile.to.hana`](#hana) instead.
-
 ### .hdbtable() {.method .deprecated}
 
 Use [`cds.compile.to.hana`](#hana) instead.

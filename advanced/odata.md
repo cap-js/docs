@@ -1060,14 +1060,13 @@ If the `groupby` transformation only includes a subset of the entity keys, the r
 | `aggregate`                  | aggregate values                            |        <X/>        | <X/>  |
 | `compute`                    | add computed properties to the result set   |       <Na/>        | <X/>  |
 | `expand`                     | expand navigation properties                |       <Na/>        | <Na/> |
-| `concat`                     | append additional aggregation to the result | <X/><sup>(1)</sup> | <X/>  |
-| `skip` / `top`               | paginate                                    | <X/><sup>(1)</sup> | <X/>  |
-| `orderby`                    | sort the input set                          | <X/><sup>(1)</sup> | <X/>  |
+| `concat`                     | append additional aggregation to the result |        <X/>        | <X/>  |
+| `skip` / `top`               | paginate                                    |        <X/>        | <X/>  |
+| `orderby`                    | sort the input set                          |        <X/>        | <X/>  |
 | `topcount`/`bottomcount`     | retain highest/lowest _n_ values            |       <Na/>        | <Na/> |
 | `toppercent`/`bottompercent` | retain highest/lowest _p_% values           |       <Na/>        | <Na/> |
 | `topsum`/`bottomsum`         | retain _n_ values limited by sum            |       <Na/>        | <Na/> |
 
-- <sup>(1)</sup> Supported with experimental feature `cds.features.odata_new_parser = true`
 
 #### `concat`
 

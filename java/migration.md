@@ -309,12 +309,20 @@ Since version 1.27 CAP Java is running with Spring Boot 2.7, which uses Spring S
 
 Make sure that all libraries used in your project are either compatible with Spring Boot 3 / Jakarta EE 10 or alternatively offer a new version which you can adopt.
 
-CAP Java 2.0 itself requires updated [dependency versions](./versions#dependencies-version-2) of:
-- `@sap/cds-dk`
-- `@sap/cds-compiler`
-- XSUAA library
-- SAP Cloud SDK
-- Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
+CAP Java 2.0 itself requires updated minimum dependency versions:
+
+| Dependency | Minimum Version | Recommended Version |
+| --- | --- | --- |
+| JDK | 17 | 21 |
+| Maven | 3.5.0 | 3.9.8 |
+| @sap/cds-dk | 6 | 7 |
+| @sap/cds-compiler | 3 | 4 |
+| Spring Boot | 3.0 | latest |
+| XSUAA | 3.0 | latest |
+| SAP Cloud SDK | 4.24 | latest |
+| Java Logging | 3.7 | latest |
+
+Java Logging (replace `cf-java-logging-support-servlet` with `cf-java-logging-support-servlet-jakarta`)
 
 ::: warning
 The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.

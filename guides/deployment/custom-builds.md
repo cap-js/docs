@@ -19,9 +19,9 @@ status: released
 
 The CDS model folders and files used by `cds build` are determined as follows:
 
-- Known root folders, by [default](../../get-started/#project-structure) the folders _db/, srv/, app/_,  can also be configured by [_folders.db, folders.srv, folders.app_](../../get-started/#project-structure).
+- Known root folders, by [default](../../get-started/#project-structure) the folders _db/, srv/, app/_,  can also be configured by [`folders.db`, `folders.srv`, `folders.app`](../../get-started/#project-structure).
 - The _src_ folder configured for the individual build task.
-- If [Feature toggles](../extensibility/feature-toggles#enable-feature-toggles) are enabled: subfolders of the folder _fts_.
+- If [feature toggles](../extensibility/feature-toggles#enable-feature-toggles) are enabled: subfolders of the folder _fts_.
 - CDS Model folders and files defined by the [required services](../../node.js/cds-env#services) of your project. This also includes models used by required built-in CDS services, like [persistent outbox](../../node.js/outbox#persistent-outbox) or [MTX related services](../multitenancy/mtxs#mtx-services-reference).
 
 Feature toggle folders and required built-in service models will also be added if user defined models have already been configured as [_model_ option](#build-task-properties) in your build tasks.
@@ -32,7 +32,7 @@ Feature toggle folders and required built-in service models will also be added i
 For example, you want to configure the _src_ folder and add the default models. To achieve this, do not define the _model_ option in your build task. That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
 :::
 
-To control which tasks `cds build` executes, you can add them as part of your [project configuration](../../node.js/cds-env#project-settings) in _package.json_ or _.cdsrc.json_.
+To control which tasks `cds build` executes, you can add them as part of your [project configuration](../../node.js/cds-env#project-settings) in _package.json_ or _.cdsrc.json_, as outlined [below](#build-task-properties).
 
 ## Properties
 
@@ -96,7 +96,7 @@ If you want to change the default target folder, use the `target` property in _.
 #### Node.js
 
 Node.js projects use the folder _./gen_ below the project root as build target folder by default.<br>
-Relevant source files from _db_ or _srv_ folders are copied into this folder, which makes it a self-contained folder that is ready for deployment. The default folder names can be changed with the _folders.db_, _folders.srv_, _folders.app_ configuration. Or you can go for individual build task configuration for full flexibility.
+Relevant source files from _db_ or _srv_ folders are copied into this folder, which makes it self-contained and ready for deployment. The default folder names can be changed with the `folders.db`, `folders.srv`, `folders.app` configuration. Or you can go for individual build task configuration for full flexibility.
 
   Project files like _.cdsrc.json_ or _.npmrc_ located in the _root_ folder or in the _srv_ folder of your project are copied into the application's deployment folder (default _gen/srv_). Files located in the _srv_ folder have precedence over the corresponding files located in the project root directory.
   As a consequence these files are used when deployed to production. Make sure that the folders do not contain one of these files by mistake. Consider using profiles `development` or `production` in order to distinguish environments. CDS configuration that should be kept locally can be defined in a file _.cdsrc-private.json_.
@@ -108,9 +108,9 @@ Relevant source files from _db_ or _srv_ folders are copied into this folder, wh
 [Learn more about `cds env get`](../../node.js/cds-env#cli){.learn-more}
 
 **Note:**
-`cds build` provides options you can use to switch on or off the copy behavior on build task level:
+`cds build` provides options you can use to switch the copy behavior on build task level on or off:
 
-```json
+```json [package.json]
 {
   "build": {
     "tasks": [
@@ -141,7 +141,7 @@ This causes `cds build` to create the build output below the individual source f
 
 ## Implement a Build Plugin {#custom-build-plugins}
 
-CDS already offers build plugins to create deployment layouts for the most use cases. However, you find cases where these plugins are not enough and you have to develop your own. This section shows how such a build plugin can be implemented and how it can be used in projects.
+CDS already offers build plugins to create deployment layouts for the most use cases. However, you will find cases where these plugins are not enough and you have to develop your own. This section shows how such a build plugin can be implemented and how it can be used in projects.
 
 Build plugins are run by `cds build` to generate the required deployment artifacts. Build tasks hold the actual project specific configuration. The task's `for` property value has to match the build plugin ID.
 

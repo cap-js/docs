@@ -57,7 +57,7 @@
 # [cds. utils](cds-utils)
 # [cds. test()](cds-test)
 # [cds. plugins](cds-plugins)
-# [cds. outboxed()](outbox)
+# [cds. queued()](queue)
 # [TypeScript](typescript)
 # [Fiori Support](fiori)
 # [Best Practices](best-practices)

@@ -70,19 +70,17 @@ cds:
     services:
       DefaultOutboxOrdered:
         maxAttempts: 10
-        storeLastError: true
         # ordered: true
       DefaultOutboxUnordered:
         maxAttempts: 10
-        storeLastError: true
         # ordered: false
 ```
 :::
 You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
-- `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
-  of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 - `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise, the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances. This option can't be changed for the default persistent outboxes.
+
+The persistent outbox stores the last error that occurred, when trying to emit the message of an entry. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
@@ -94,10 +92,8 @@ cds:
     services:
       MyCustomOutbox:
         maxAttempts: 5
-        storeLastError: false
       MyOtherCustomOutbox:
         maxAttempts: 10
-        storeLastError: true
 ```
 :::
 Afterward you can access the outbox instances from the service catalog:

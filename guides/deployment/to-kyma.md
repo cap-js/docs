@@ -135,7 +135,7 @@ Let's  start with a new sample project and prepare it for production using an SA
 <div class="impl java">
 
 ```sh
-cds init bookshop --add java,sample && cd bookshop
+cds init bookshop --java --add sample && cd bookshop
 cds add hana,xsuaa
 ```
 

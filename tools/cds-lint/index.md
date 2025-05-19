@@ -34,25 +34,7 @@ The following command automatically installs ESLint, the CDS ESLint plugin, and 
 cds add lint
 ```
 
-<pre class="log">
-
-Adding feature 'lint'...
-
-Successfully added features to your project.
-
-
-<span>Almost done - <text style="color: orange">you are missing 2 npm dependencies</text>:</span>
-
-(1) ESLint v>=8.0.0
-(2) ESLint plugin for CDS
-
-
-<text style="color: orange">Install dependencies now</text>? [y/n] y
-
-Successfully added features to your project.
-</pre>
-
-If a _package.json_, _pom.xml_, or _.cdsrc.json_ file is found, you have the choice to install the ESLint dependencies directly. Once confirmed, this will install ESLint and the CDS plugin, as well as add the corresponding configuration for the recommended rules into your project.
+You may be asked to install ESLint as additional dependency in case it is not available in your project yet. Just follow the instructions on screen.
 
 
 ### CDS Lint CLI {#usage-lint-cli}
@@ -72,7 +54,7 @@ It follows standard ESLint behaviour. If there are no lint errors, there is no o
 Make sure you have ESLint and our ESLint plugin installed via [`cds add lint`](#cds-add-lint).
 :::
 
-To turn on Lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
+To turn on lint checking in your VS Code Editor simply download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) for _Visual Studio Code_.
 CDS Lint seamlessly integrates with it. For _SAP Business Application Studio_ this comes preinstalled.
 
 Now you can see lint reports also in your editor. You can see all rules [marked as **Editor default** here](./rules/). Any other (project-based) rules are not turned on by

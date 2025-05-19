@@ -1394,7 +1394,7 @@ The MTA-based deployment is described in [the deployment guide](deployment/). Yo
 
 
 ```sh
-cds add xsuaa,destination,connectivity --for production
+cds add xsuaa,destination,connectivity
 ```
 
 ::: details Learn what this does in the background...

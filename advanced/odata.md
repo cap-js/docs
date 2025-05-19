@@ -1106,9 +1106,9 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 
 | Transformation                                | Description                                                      | Node.js |        Java        |
 |-----------------------------------------------|------------------------------------------------------------------|:-------:|:------------------:|
-| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <Na/>  | <X/><sup>(1)</sup> |
-| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <Na/>  | <X/><sup>(1)</sup> |
-| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <Na/>  | <X/><sup>(1)</sup> |
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
 
 - <sup>(1)</sup> Beta feature, API may change
 
@@ -1139,6 +1139,75 @@ GET SalesOrganizations?$apply=
    /ancestors(..., ID, filter(contains(Name, 'New York')), keep start)
 ```
 
+#### Modeling Recursive Hierarchies
+
+Recursive hierarchies are parent-child hierarchies, where each entity references its parent and through that defines the hierarchical structure. A common example is a company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
+
+##### Domain Model
+
+The simplest domain model looks as follows:
+
+```cds
+entity Employee : Hierarchy {
+  key ID       : UUID;
+      parent   : Association to Employee;
+      fullName : String;
+}
+
+aspect Hierarchy {
+  virtual LimitedDescendantCount : Integer64;
+  virtual DistanceFromRoot       : Integer64;
+  virtual DrillState             : String;
+  virtual LimitedRank            : Integer64;
+}
+```
+
+The entity `Employee` has the element `ID`, which identifies the hierarchy node. The `parent` association references the same entity, which establishes the parent-child relationship.
+
+##### Virtual Elements of a Hierarchy
+
+The `Hierarchy` aspect defines a set of virtual elements, automatically calculated by the backend at runtime, to describe the state of the hierarchy. This information is requested by the UI to correctly render the hierarchy in a *TreeTable* during user interaction.
+
+##### Service Model
+
+The following service defines the projection on the domain model.
+
+```cds
+@odata.apply.transformations
+service HRService {
+    entity HREmployee as projection on Employee;
+}
+```
+
+::: warning
+The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence layer.
+:::
+
+##### OData v4 Annotations for Fiori
+
+To link the backend and Fiori UI, the projected service entity must be enriched with the following annotations.
+
+```cds
+annotate HRService.HREmployee with @Aggregation.RecursiveHierarchy #EmployeeHierarchy: {
+    $Type: 'Aggregation.RecursiveHierarchyType',
+    NodeProperty: ID,
+    ParentNavigationProperty: parent
+};
+```
+
+Here the `EmployeeHierarchy` specifies a hierarchy qualifier, `NodeProperty` (identifying the hierarchy node) is linked to `ID` of the entity `HREmployee`, and the `ParentNavigationProperty` is linked to a corresponding `parent` association.
+
+```cds
+annotate HRService.HREmployee with @Hierarchy.RecursiveHierarchy #EmployeeHierarchy: {
+  $Type: 'Hierarchy.RecursiveHierarchyType',
+  LimitedDescendantCount: LimitedDescendantCount,
+  DistanceFromRoot: DistanceFromRoot,
+  DrillState: DrillState,
+  LimitedRank: LimitedRank
+};
+```
+
+Here the same qualifier `EmployeeHierarchy` is referenced to list the names of the [virtual elements of the hierarchy](#virtual-elements-of-a-hierarchy).
 
 ### Aggregation Methods
 

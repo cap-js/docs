@@ -17,7 +17,7 @@ Follow these steps to add TypeScript support:
 1. Install typescript packages globally:
 
     ```sh
-    npm i -g typescript ts-node
+    npm i -g typescript ts-node tsx
     ```
 
 2. Add a basic _tsconfig.json_ file to your project:

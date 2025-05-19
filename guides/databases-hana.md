@@ -511,7 +511,7 @@ You can switch large-volume tables to _.hdbmigrationtable_ at any time, keeping 
 
 When choosing to use _.hdbmigrationtable_ for an entity with
 [localized elements](../guides/localized-data#localized-data) or [compositions of aspects](../cds/cdl#managed-compositions),
-the generated `.texts` and composition child entities are autmatically handled via _.hdbmigrationtable_, too.
+the generated `.texts` and composition child entities are automatically handled via _.hdbmigrationtable_, too.
 If this is not desired, annotate these generated entities with `@cds.persistence.journal: false`.
 
 ::: tip

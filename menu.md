@@ -47,6 +47,8 @@
   ### [Apache Kafka](../guides/messaging/apache-kafka)
   ### [Events from S/4](guides/messaging/s4)
 
+## [Task Queues](guides/task-queues/)
+
 ## [Protocols/APIs](advanced/publishing-apis/)
 
   ### [OData APIs](advanced/odata)

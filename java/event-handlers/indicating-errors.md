@@ -129,27 +129,6 @@ CAP Java provides out-of-the-box translation for error messages that originate f
 The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
 You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
-### Exporting the Default Messages
-
-As of CAP Java 1.10.0, you can extract the available default messages as a resource bundle file for further processing (for example, translation). Therefore, the delivery artifact [cds-services-utils](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) contains a resource bundle `cds-messages-template.properties` with all available error codes and default messages. Application developers can use this template to customize error messages thrown by the CAP Java SDK in the application.
-
-1. [Download](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) the artifact or get it from the local Maven repository in `~/.m2/repository/com/sap/cds/cds-services-utils/<VERSION>/cds-services-utils-<VERSION>.jar`.
-1. Extract the file.
-    ```sh
-    jar -f cds-services-utils-<VERSION>.jar -x cds-messages-template.properties
-    ```
-    ::: tip
-    \<VERSION> is the version of CAP Java you're using in your project.
-    :::
-
-1. Rename the extracted file `cds-messages-template.properties` appropriately (for example, to `cds-messages.properties`) and move it to the resource directory of your application.
-1. In your Spring Boot application, you have to register this additional [resource bundle](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization) accordingly.
-
-> Now, you're able to customize the stack error messages in your application.
-
-With new CAP Java versions, there could be also new or changed error messages in the stack. To identify these changes, export `cds-messages-template.properties` from the new CAP Java version and compare it with the previous version using a diff tool.
-
-
 ## Target
 
 When SAP Fiori interprets messages it can handle an additional `target` property, which, for example, specifies which element of an entity the message refers to. SAP Fiori can use this information to display the message along the corresponding field on the UI.

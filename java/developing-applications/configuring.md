@@ -167,7 +167,7 @@ Other options in this goal enable or disable certain features that change the wa
 
   - Names from CDS model that are Java keywords are suffixed with `_`. 
   - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield the same name in Java.
-  - Characters `/` and `$` behave as a separator for the name during case conversions, similar to `_` and `.`. 
+  - Characters `/` and `$` behave as a separator for the name during case conversions, similar to `_` and `.`. For example, `GET_MATERIAL` yields `GetMaterial` (or `getMaterial` for attributes and methods). The same now applies for the names with `/`, for example, name `/DMO/GET_MATERIAL` will be converted to `DmoGetMaterial`.  
   - Leading `_` will remain in the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
 :::warning Check migration guides!

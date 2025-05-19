@@ -129,6 +129,11 @@ CAP Java provides out-of-the-box translation for error messages that originate f
 The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
 You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
+### Provide custom error messages
+
+By default, CAP Java provides error messages in several languages. If these error messages or translation are not sufficient for an application, they can be overwritten with custom error messages. Therefore, an application has to provide a `errors_<LOCALE>.proberties` resource bundle in the folder `srv/src/main/resources/com/sap/cds/i18n/`.
+To know which error codes and messages are available by default, one can download the artifact `cds-services-impl-<REVISION>-sources.jar` from the public Maven repository. Then extract the Java enumaration `com.sap.cds.services.utils.CdsErrorStatuses` from this source jar. This enumartion shows all available error codes and messages that are used by the CAP Java runtime.
+
 ## Target
 
 When SAP Fiori interprets messages it can handle an additional `target` property, which, for example, specifies which element of an entity the message refers to. SAP Fiori can use this information to display the message along the corresponding field on the UI.

@@ -659,48 +659,23 @@ All limitations for the SAP HANA Cloud database can be found in the [SAP Help Po
 
 ### Native Associations
 
-For SAP HANA, CDS associations are by default reflected in the respective database tables and views
-by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
-
-CAP no longer needs these native associations (provided you use the new database
-service _@cap-js/hana_ for the CAP Node.js stack).
-
-Unless you explicitly use them in other native HANA objects, we recommend
-switching off the generation of native HANA associations, as they increase deploy times:
+In previous CAP releases, CDS associations were by default reflected in SAP HANA
+database tables and views by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
+But the presence of such native associations significantly increases (re-)deploy times:
 They need to be validated in the HDI deployment, and they can introduce
 indirect dependencies between other objects, which can trigger other unnecessary revalidations
-or even unnecessary drop/create of indexes. By switching them off, all this effort is saved.
+or even unnecessary drop/create of indexes.
 
-::: code-group
+As CAP doesn't need these native associations, by default no native HANA associations
+are created anymore starting with CAP 9. 
 
-```json [package.json]
-{
-  "cds": {
-    "sql": {
-      "native_hana_associations": false
-    }
-  }
-}
-```
-
-```json [cdsrc.json]
-{
-  "sql": {
-    "native_hana_associations": false
-  }
-}
-```
-
-:::
-
-
-For new projects, `cds add hana` automatically adds this configuration.
+In the unlikely case that you need native HANA associations because you explicitly use them
+in other native HANA objects or in custom code, you can switch them back on with <Config>cds.sql.native_hana_associations = true</Config>.
 
 ::: warning Initial full table migration
-Be aware, that the first deployment after this **configuration change may take longer**.
+Be aware that the first deployment after this **configuration change may take longer**.
 
-For each entity with associations, the respective database object will be touched
+For each entity with associations, the respective database object is touched
 (DROP/CREATE for views, full table migration via shadow table and data copy for tables).
-This is also the reason why we haven't changed the default so far.
-Subsequent deployments will benefit, however.
+
 :::

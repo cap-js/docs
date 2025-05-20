@@ -172,9 +172,9 @@ public class SessionContextHandler implements EventHandler {
 ## Avoiding Transactions for Select { #avoid-transactions }
 
 CAP ensures that every interaction with a service is inside of a ChangeSet Context. However transactions are not started at that point in time yet.
-Upon first interaction with the Persistence Service CAP will start the transaction. Once a transaction has been started, a connection for that transaction is reserved from the connection pool. This connection is only returned to the connection pool on commit or rollback of the transaction.
+By default, any kind of first interaction with the Persistence Service will begin the transaction. Once a transaction has been started, a connection for that transaction is reserved from the connection pool. This connection is only returned to the connection pool on commit or rollback of the transaction.
 
-However, `READ` events which run simple Select queries don't actually require transactions in most cases, thus CAP doesn't start a transaction in these cases. A connection for these queries is obtained from the connection pool and returned immediately after executing the queries on the database. This can increase throughput of an application, by making connections available for concurrent requests faster. As soon as a modifying statement is executed on the Persistence Service, a transaction is started. All subsequent Select queries will participate in that transaction. Note, that this behaviour is only transparent when using the default transaction isolation level "Read Committed".
+However, `READ` events which run simple Select queries don't actually require transactions in most cases. When setting the property `cds.persistence.changeSet.enforceTransactional` to `false` most Select queries do not cause a transaction to be started any longer. A connection for these queries is obtained from the connection pool and returned immediately after executing the queries on the database. This can increase throughput of an application, by making connections available for concurrent requests faster. As soon as a modifying statement is executed on the Persistence Service, a transaction is started. All subsequent Select queries will participate in that transaction. Note, that this behaviour is only transparent when using the default transaction isolation level "Read Committed".
 
 A ChangeSet Context can always be marked as requiring a transaction, by calling the `markTransactional` on the `ChangeSetContext` or `ChangeSetContextRunner`. The next interaction with the Persistence Service will guarantee to start a transaction in that case. Alternatively, Spring Boot annotations `@Transactional` can be used to eagerly start a transaction.
 
@@ -182,5 +182,3 @@ Some Select queries will still require a transaction:
 
 - Select queries with a lock: These are treated like a modifying statement and will start a transaction.
 - Select queries reading streamed media data: These are currently not automatically detected. The surrounding ChangeSet Context needs to be marked as transactional explicitly. If not done, `InputStream`s might be corrupted or closed when trying to read them after the connection was returned to the connection pool already.
-
-You can enforce transaction also for `READ` events by setting the property `cds.persistence.changeSet.enforceTransactional` to `false`.

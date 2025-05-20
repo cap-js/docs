@@ -232,7 +232,7 @@ Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to disp
 
 ![A vue.js UI, showing the bookshop sample with the adding a review functionality](assets/capire-reviews.png)
 
-- Enter username *bob* with empty password to authenticate
+- Enter username *bob* with empty password to authenticate.
 - Choose one of the reviews.
 - Change the 5-star rating with the dropdown.
 - Choose *Submit*.

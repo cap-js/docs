@@ -131,8 +131,8 @@ You can enable these translated error messages by setting [<Config java>cds.erro
 
 ### Provide custom error messages
 
-By default, CAP Java provides error messages in several languages. If these error messages or translation are not sufficient for an application, they can be overwritten with custom error messages. Therefore, an application has to provide a `errors_<LOCALE>.proberties` resource bundle in the folder `srv/src/main/resources/com/sap/cds/i18n/`.
-To know which error codes and messages are available by default, one can download the artifact `cds-services-impl-<REVISION>-sources.jar` from the public Maven repository. Then extract the Java enumeration `com.sap.cds.services.utils.CdsErrorStatuses` from this source jar. This enumartion shows all available error codes and messages that are used by the CAP Java runtime.
+By default, CAP Java provides error messages in several languages. If these error messages or translation are not sufficient for an application, they can be overwritten with custom error messages. Therefore, an application can provide a `messages_<LOCALE>.proberties` resource bundle in the folder `src/main/resources/`.
+To know which error codes and messages are available by default, you can have a look at the Java enumaration `com.sap.cds.services.utils.CdsErrorStatuses` with your favorite IDE. This enumeration shows all available error codes and messages that are used by the CAP Java runtime.
 
 ## Target
 

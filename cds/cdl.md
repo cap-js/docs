@@ -804,6 +804,21 @@ By using a cast, annotations and other properties are inherited from the provide
 
 <div id="afterinferredsig" />
 
+### Virtual elements in views
+
+Virtual elements can be defined in views or projections like this:
+```cds
+entity SomeView as select from Employee {
+  // ...,
+  virtual virt1 : String(22),
+  virtual virt2  // virtual element without type
+}
+```
+These virtual elements have no relation to the query source `Employee` but are new fields
+in the view. Virtual elements in views or projections are handled as described in the
+section on [virtual elements in entities](#virtual-elements).
+
+
 <div id="beforeviewwithparam" />
 
 ### Views with Parameters

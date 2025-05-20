@@ -670,30 +670,7 @@ As CAP doesn't need these native associations, by default no native HANA associa
 are created anymore starting with CAP 9. 
 
 In the unlikely case that you need native HANA associations because you explicitly use them
-in other native HANA objects or in custom code, you can switch them back on:
-
-::: code-group
-
-```json [package.json]
-{
-  "cds": {
-    "sql": {
-      "native_hana_associations": true
-    }
-  }
-}
-```
-
-```json [cdsrc.json]
-{
-  "sql": {
-    "native_hana_associations": true
-  }
-}
-```
-
-:::
-
+in other native HANA objects or in custom code, you can switch them back on with <Config>cds.sql.native_hana_associations = true</Config>.
 
 ::: warning Initial full table migration
 Be aware that the first deployment after this **configuration change may take longer**.

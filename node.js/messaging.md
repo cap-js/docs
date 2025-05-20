@@ -148,7 +148,7 @@ messaging.on('cap/msg/system/review/reviewed', msg => {
 ```
 
 Once all handlers are executed successfully, the message is acknowledged.
-If one handler throws an error, the message broker will be informed that the message couldn't be consumed properly and might send the message again. To avoid endless cycles, consider catching all errors.
+If one handler throws an error, the message broker will be informed that the message couldn't be consumed properly and it might send the message again. To avoid endless cycles, consider catching all errors.
 
 If you want to receive all messages without creating topic subscriptions, you can register on `'*'`. This is useful when consuming messages from a dead letter queue.
 
@@ -283,20 +283,21 @@ Example:
 
 ```json
 {
-    "requires": {
-        "messaging": {
-            "kind": "enterprise-messaging-shared",
-            "queue": {
-               "name": "my/enterprise/messaging/queue",
-               "accessType": "EXCLUSIVE",
-               "maxMessageSizeInBytes": 19000000
-            },
-            "amqp": {
-              "incomingSessionWindow": 100
-            }
-        }
+  "requires": {
+    "messaging": {
+      "kind": "enterprise-messaging-shared",
+      "queue": {
+        "name": "my/enterprise/messaging/queue",
+        "accessType": "EXCLUSIVE",
+        "maxMessageSizeInBytes": 19000000
+      },
+      "amqp": {
+        "incomingSessionWindow": 100
+      }
     }
+  }
 }
+
 ```
 
 ::: warning _❗ Warning_
@@ -325,21 +326,20 @@ Example:
 
 ```json
 {
-    "requires": {
-        "messaging": {
-            "kind": "enterprise-messaging",
-            "queue": {
-               "name": "my/enterprise/messaging/queue",
-               "accessType": "EXCLUSIVE",
-               "maxMessageSizeInBytes": 19000000
-            },
-            "webhook": {
-              "waitingPeriod": 7000
-            }
-        }
+  "requires": {
+    "messaging": {
+      "kind": "enterprise-messaging",
+      "queue": {
+        "name": "my/enterprise/messaging/queue",
+        "accessType": "EXCLUSIVE",
+        "maxMessageSizeInBytes": 19000000
+      },
+      "webhook": {
+        "waitingPeriod": 7000
+      }
     }
+  }
 }
-
 ```
 <!-- ```js -->
 <!-- { -->
@@ -451,13 +451,14 @@ Example:
 
 ```json
 {
-    "requires": {
-        "messaging": {
-            "kind": "file-based-messaging",
-            "file": "../msg-box"
-        }
+  "requires": {
+    "messaging": {
+      "kind": "file-based-messaging",
+      "file": "../msg-box"
     }
+  }
 }
+
 ```
 
 ::: warning No tenant isolation in multitenant scenario

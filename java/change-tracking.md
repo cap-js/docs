@@ -119,14 +119,13 @@ The level where you annotate your elements with the annotation `@changelog` is v
 the elements on the _domain_ level, every change made through every projection of the entity is tracked.
 If you annotate the elements on the _service_ level, only the changes made through that projection are tracked.
 
-In case of the books example above, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
+Using the previous books example, the changes made through the service entity `Bookshop.Books` are tracked, but the changes
 made on the domain entity are omitted. That can be beneficial if you have a service that is used for data replication
 or mass changes where change tracking can be a very expensive operation, and you do not want to generate changes from such operations.
 
 Change tracking also works with the entities that have compositions and tracks the changes made to the items of the compositions.
 
-For example, if you have an entity that represents the order with a composition that represents the items of the order,
-you can annotate the elements of both and track the changes made through the order and the items in a deep update.
+In the following example you have an entity that represents the order with a composition that represents the items of the order. You can annotate the elements of both and track the changes made through the order and the items in a deep update.
 
 ```cds
 entity OrderItems : cuid {
@@ -142,8 +141,9 @@ entity Orders : cuid {
 }
 ```
 
-You must extend the `Orders` with the aspect `changelog.changeTracked` and not the `OrderItems`. With this, all changes in the `Orders`, even deep ones,
-are associated with the `Orders`.
+:::tip Remember: Extend `Orders` entity
+You must extend the `Orders` with the aspect `changelog.changeTracked` and not the `OrderItems`. With this, all changes in the `Orders`, even deep ones, are associated with the `Orders`.
+:::
 
 ### Identifiers for Entities
 
@@ -163,7 +163,7 @@ For example, for a book you can store an author name if you have an association 
 
 ### Identifiers for Compositions
 
-For compositions, no special annotations are required, the identifiers of the target entity are used instead.
+For compositions, no special annotations are required. The identifiers of the target entity are used instead.
 
 For example, given the following model: 
 
@@ -198,7 +198,7 @@ Changes for `Orders` and `OrderItems` will have their own respective target or r
 
 ### Human-readable values for associations
 
-For associations, the value of the foreign key is stored in the changelog by default. You can change this and store values of the associated entity instead. 
+For associations, the value of the foreign key is stored in the changelog by default. You can change this and store the values of the associated entity instead. 
 This kind of identifier changes the values stored in the changelog, while [entity identifiers](#identifiers-for-entities) annotate changed values.
 
 You annotate your entity like this:
@@ -212,7 +212,7 @@ Elements from the `@changelog` annotation value must always be prefixed by the a
 
 :::warning Validation required
 If the target of the association is missing, for example, when an entity is updated with the ID for a customer
-that does not exist, the changelog entry will not be created. You need to validate
+that does not exist, the changelog entry is not created. You need to validate
 such cases in the custom code or use annotations, for example, [`@assert.target`](/guides/providing-services#assert-target).
 :::
 
@@ -221,7 +221,7 @@ such cases in the custom code or use annotations, for example, [`@assert.target`
 Consider the following important points that are relevant for all kinds of identifiers and human-readable values: 
 
 - When you define the identifier for an entity, keep in mind that the projections of the annotated entity
-will inherit the annotation `@changelog`. If you change the structure of the projection,
+inherit the annotation `@changelog`. If you change the structure of the projection,
 for example, exclude or rename the elements that are used in the identifier, you must annotate the projection again
 to provide updated element names in the identifier. This is one additional benefit of annotating the top-most projection for change tracking. 
 
@@ -255,7 +255,7 @@ If you want to have a common UI for all changes, you need to expose the change l
 your own presentation for it as the changes are exposed only as part of the change-tracked entity. This projection
 must be read-only and shouldn't be writable via OData requests.
 
-The change log is extended with the texts for your entities from the `@title` annotation and the element. Otherwise, the change log contains only the technical names of the entities and the elements.
+The change log is extended with the texts coming from your entities' `@title` annotation and the element. Otherwise, the change log contains only the technical names of the entities and the elements.
 Titles are translated, if they're annotated as translatable. See [Externalizing Texts Bundles](../guides/i18n#localization-i18n) for more information.
 
 ## How Changes are Stored
@@ -286,18 +286,15 @@ are considered as modified. Each change detected by the change tracking feature 
 In the case of the deeply structured documents, for example, entities with the compositions, the change tracking feature detects
 the changes across the complete document and stores them in the change log with the metadata reflecting the structure of the change.
 
-For example, given the order and item model from above, if you change values for the tracked elements with
-the deep update, for example, the customer name in the order and the quantity of the item, the change log contains
-two entries: one for the order and one for the item. The change log entry for the item will also reflect that
-the root of the change is an order. Both changes will be reachable through the association `changes` of the order entity.
+Take the order and item model used previously in this guide as an example. If you change values for the tracked elements with the deep update, for example, the customer name in the order and the quantity of the item, the change log contains two entries: one for the order and one for the item. The change log entry for the item will also reflect that the root of the change is an order. Both changes will be reachable through the association `changes` of the order entity.
 
-:::warning Prefer deep updates for change tracked entities
-If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item and won't be associated with an order and will not be reachable through the `changes` association. While the updates of composition targets directly is possible, the change tracking feature does not attempt to resolve the parent entity by itself, it requires that either OData request or a CQL statement provide the reference to the parent e.g. `Orders`.   
+:::warning Prefer deep updates for change-tracked entities
+If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item. The change won't be associated with an order and will not be reachable through the `changes` association. While the updates of composition targets directly are possible, the change tracking feature does not attempt to resolve the parent entity by itself, it requires that either OData request or a CQL statement provide the reference to the parent, for example, `Orders`.   
 :::
 
 ## Reacting on Changes
 
-You can write an event handler to observe the change log entries. Keep in mind, that the change log entries
+You can write an event handler to observe the change log entries. Keep in mind that the change log entries
 are created for each statement and this event will not be bound to any kind of transaction or a batch operation.
 
 First, update the dependency's scope to `compile` in the `srv/pom.xml` file of your service:

@@ -820,7 +820,7 @@ entity SomeView as select from Employee {
 ```
 These virtual elements have no relation to the query source `Employee` but are new fields
 in the view. Virtual elements in views or projections are handled as described in the
-section on [virtual elements in entities](#virtual-elements);
+section on [virtual elements in entities](#virtual-elements).
 
 
 <div id="beforeviewwithparam" />

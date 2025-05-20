@@ -15,7 +15,7 @@ status: released
 
 ## Concepts
 
-Usually the emit of messages should be delayed until the main transaction succeeded, otherwise recipients also receive messages in case of a rollback.
+Usually the emit of messages should be delayed until the main transaction has succeeded, otherwise recipients also receive messages in case of a rollback.
 To solve this problem, a transactional outbox can be used to defer the emit of messages until the success of the current transaction.
 
 ## In-Memory Outbox (Default) { #in-memory}

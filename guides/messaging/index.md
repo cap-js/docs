@@ -42,7 +42,7 @@ The core of CAP's processing model: all services are event emitters. Events can 
 
 ### Typical Emitter and Receiver Roles
 
-In contrast to the previous code sample, emitters and receivers of events are decoupled, in different services and processes. And as all active things in CAP are services, so are usually emitters and receivers of events. Typical patterns look like that:
+In contrast to the previous code sample, emitters and receivers of events are decoupled, in different services and processes. And as in CAP all active things are services, usually so are emitters and receivers of events. Typical patterns look like that:
 
 ```js
 class Emitter extends cds.Service { async someMethod() {
@@ -91,7 +91,7 @@ In essence, services receive events. The emitting service itself or other servic
 :::
 
 
-### Why Using Messaging?
+### Why Use Messaging?
 
 Using messaging has two major advantages:
 
@@ -128,8 +128,8 @@ service ReviewsService {
 
   // Sync API
   entity Reviews as projection on my.Reviews excluding { likes }
-  action like (review: Reviews:ID);
-  action unlike (review: Reviews:ID);
+  action like (review: type of Reviews:ID);
+  action unlike (review: type of Reviews:ID);
 
   // Async API
   event reviewed : {
@@ -146,7 +146,7 @@ service ReviewsService {
 As you can read from the definitions, the service's synchronous API allows to create, read, update, and delete user `Reviews` for arbitrary review subjects. In addition, the service's asynchronous API declares the `reviewed` event that shall be emitted whenever a subject's average rating changes.
 
 ::: tip
-**Services in CAP** combine **synchronous** *and* **asynchronous** APIs. Events are declared on conceptual level focusing on domain, instead of low-level wire protocols.
+**Services in CAP** combine **synchronous** *and* **asynchronous** APIs. Events are declared on a conceptual level focusing on domain, instead of low-level wire protocols.
 :::
 
 ### Emitting Events
@@ -157,9 +157,9 @@ Find the code to emit events in *[@capire/reviews/srv/reviews-service.js](https:
 class ReviewsService extends cds.ApplicationService { async init() {
 
   // Emit a `reviewed` event whenever a subject's avg rating changes
-  this.after (['CREATE','UPDATE','DELETE'], 'Reviews', (req) => {
+  this.after (['CREATE','UPDATE','DELETE'], 'Reviews', async (req) => {
     let { subject } = req.data, count, rating //= ...
-    return this.emit ('reviewed', { subject, count, rating })
+    await this.emit ('reviewed', { subject, count, rating })
   })
 
 }}
@@ -169,8 +169,8 @@ class ReviewsService extends cds.ApplicationService { async init() {
 
 Method `srv.emit()` is used to emit event messages. As you can see, emitters usually emit messages to themselves, that is, `this`, to inform potential listeners about certain events. Emitters don't know the receivers of the events they emit. There might be none, there might be local ones in the same process, or remote ones in separate processes.
 
-::: tip Messaging on Conceptual Level
-Simply use `srv.emit()` to emit events, and let the CAP framework care for wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
+::: tip Messaging on a Conceptual Level
+Simply use `srv.emit()` to emit events, and let the CAP framework take care of wire protocols like CloudEvents, transports via message brokers, multitenancy handling, and so forth.
 :::
 
 ### Receiving Events
@@ -232,10 +232,10 @@ Now, open [http://localhost:4004/reviews](http://localhost:4004/reviews) to disp
 
 ![A vue.js UI, showing the bookshop sample with the adding a review functionality](assets/capire-reviews.png)
 
+- Enter username *bob* with empty password to authenticate
 - Choose one of the reviews.
 - Change the 5-star rating with the dropdown.
 - Choose *Submit*.
-- Enter *bob* to authenticate.
 
 → In the terminal window you should see a server reaction like this:
 
@@ -256,13 +256,13 @@ Open [http://localhost:4004/bookshop](http://localhost:4004/bookshop) to see the
 
 ## Using Message Channels
 
-When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care for that message channel behind the scenes as illustrated in the following graphic:
+When emitters and receivers live in separate processes, you need to add a message channel to forward event messages. CAP provides messaging services, which take care of that message channel behind the scenes as illustrated in the following graphic:
 
 ![The reviews service and the catalog service, each in a seperate process, are connected to the messaging service which holds the messaging channel behind the scenes.](assets/remote.drawio.svg)
 
 
 ::: tip Uniform, Agnostic Messaging
-CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which stays on conceptual level.
+CAP provides messaging services, which transport messages behind the scenes using different messaging channels and brokers. All of this happens without the need to touch your code, which remains on a conceptual level.
 :::
 
 ### 1. Use `file-based-messaging` in Development
@@ -295,11 +295,16 @@ cds watch reviews
 The trace output should contain these lines, confirming that you're using `file-based-messaging`, and that the `ReviewsService` is served by that process at port 4005:
 
 ```log
-[cds] - connect to messaging > file-based-messaging { file: '~/.cds-msg-box' }
-[cds] - serving ReviewsService { path: '/reviews', impl: '../reviews/srv/reviews-service.js' }
+[cds] - connect to messaging > file-based-messaging 
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: '../../cds/lib/srv/middlewares/auth/basic-auth'
+} 
+
+[cds] - serving ReviewsService { impl: 'reviews/srv/reviews-service.js', path: '/reviews' }
 
 [cds] - server listening on { url: 'http://localhost:4005' }
-[cds] - launched at 5/25/2023, 4:53:46 PM, version: 7.0.0, in: 593.274ms
+[cds] - server launched in: 309.992ms
 ```
 
 Then, in a separate terminal start the `bookstore` server as before:
@@ -308,17 +313,22 @@ Then, in a separate terminal start the `bookstore` server as before:
 cds watch bookstore
 ```
 
-This time the trace output is different to [when you started all in a single server](#start-single-server). The output confirms that you're using `file-based-messaging`, and that you now *connected* to the separately started `ReviewsService` at port 4005:
+This time the trace output is different from [when you started all services in a single server](#start-single-server). The output confirms that you're using `file-based-messaging`, and that you now *connected* to the separately started `ReviewsService` at port 4005:
 
 ```log
-[cds] - connect to messaging > file-based-messaging { file: '~/.cds-msg-box' }
-[cds] - mocking OrdersService { path: '/orders', impl: '../orders/srv/orders-service.js' }
-[cds] - serving CatalogService { path: '/browse', impl: '../reviews/srv/cat-service.js' }
-[cds] - serving AdminService { path: '/admin', impl: '../reviews/srv/admin-service.js' }
+[cds] - connect to messaging > file-based-messaging 
+[cds] - serving CatalogService { impl: 'bookshop/srv/cat-service.js', path: '/browse' }
+[cds] - serving AdminService { impl: 'bookshop/srv/admin-service.js', path: '/admin' }
+[cds] - serving UserService { impl: 'bookshop/srv/user-service.js', path: '/user' }
+[cds] - serving DataService {
+  impl: 'etc/data-viewer/srv/data-service.js',
+  path: '/odata/v4/-data'
+}
 [cds] - connect to ReviewsService > odata { url: 'http://localhost:4005/reviews' }
+[cds] - connect to OrdersService > odata { url: 'http://localhost:4004/odata/v4/orders' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 5/25/2023, 4:55:46 PM, version: 7.0.0, in: 1.053s
+[cds] - server launched in: 598.628ms
 ```
 
 ### 3. Add or Update Reviews {#add-or-update-reviews-2}
@@ -557,7 +567,7 @@ Application developers shouldn't have to care for such technical details. CAP en
 ## [Using SAP Cloud Application Event Hub](./event-broker) {#sap-event-broker}
 
 CAP has growing out-of-the-box support for SAP Cloud Application Event Hub.
-As an application developer, all you need to do is configuring CAP to use `event-broker`, as in this excerpt from a _package.json_:
+As an application developer, all you need to do is configure CAP to use `event-broker`, as in this excerpt from a _package.json_:
 
 ```jsonc
 "cds": {
@@ -584,7 +594,7 @@ Find additional information about deploying SAP Cloud Application Event Hub on S
 ## [Using SAP Event Mesh](./event-mesh) {#sap-event-mesh}
 
 CAP has out-of-the-box support for SAP Event Mesh.
-As an application developer, all you need to do is configuring CAP to use `enterprise-messaging`, usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
+As an application developer, all you need to do is configure CAP to use `enterprise-messaging`, usually in combination with `cloudevents` format, as in this excerpt from a _package.json_:
 
 ```jsonc
 "cds": {

@@ -162,7 +162,7 @@ The CDS OData Language Server provides a list of context-sensitive suggestions b
 
 #### Using Code Completion
 
-To trigger code completion, choose <kbd>⌃</kbd><kbd>Space</kbd> (macOS) or <kbd>Ctrl</kbd><kbd>Space</kbd> (other platforms). The list of suggested values is displayed.
+To trigger code completion, choose <kbd>Ctrl</kbd><kbd>Space</kbd>. The list of suggested values is displayed.
 
 > Note: You can filter the list of suggested values by typing more characters.
 
@@ -328,7 +328,7 @@ The annotation language server provides quick information for annotation terms, 
 
 To view the quick info for an annotation term, record type, or property used in the annotation file, hover your mouse over it. The accompanying documentation is displayed in a hover window, if provided in the respective OData vocabularies.
 
-To view the quick info for each suggestion in the code completion list, either pressing <kbd>⌃</kbd><kbd>Space</kbd> (macOS) or <kbd>Ctrl</kbd><kbd>Space</kbd> (other platforms), or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list.
+To view the quick info for each suggestion in the code completion list, either pressing <kbd>Ctrl</kbd><kbd>Space</kbd>, or click the *info* icon. The accompanying documentation for the suggestion expands to the side. The expanded documentation stays open and updates as you navigate the list.
 
 
 #### Internationalization Support

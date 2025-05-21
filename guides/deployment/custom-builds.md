@@ -108,7 +108,7 @@ Relevant source files from _db_ or _srv_ folders are copied into this folder, wh
 [Learn more about `cds env get`](../../node.js/cds-env#cli){.learn-more}
 
 **Note:**
-`cds build` provides options you can use to switch the copy behavior on build task level on or off:
+`cds build` provides `options` you can use to switch the copy behavior of specific files on or off on build task level:
 
 ```json [package.json]
 {

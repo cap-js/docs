@@ -168,7 +168,7 @@ Available for:
 ## Attachments
 
 
-The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
+The Attachments plugin provides out-of-the-box support for attachment handling. On Node.js, attachments are stored on AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store), whereas Java stores attachments on the SAP HANA database. To use it, simply add a composition of the predefined aspect `Attachments` like so:
 
 ```cds
 using { Attachments } from '@cap-js/attachments';
@@ -189,10 +189,7 @@ Features:
 - (Automatic) Fiori Annotations for Upload Controls
 - Streaming and piping to avoid memory overloads
 - Support for different storage backends
-
-Outlook:
-
-- Multitenancy intrinsically handled by the plugin
+- Support for Multitenancy
 
 
 Available for:

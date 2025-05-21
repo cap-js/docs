@@ -33,7 +33,7 @@ For example, you want to configure the _src_ folder and add the default models. 
 
 ::: code-group
 
-```json [package.json]
+```jsonc [package.json]
 {
   "build": {
     "target": "gen",

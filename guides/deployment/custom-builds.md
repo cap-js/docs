@@ -114,7 +114,7 @@ Alternatively you can execute build tasks and pass the described arguments from 
 
 ### Build Target Folder {#build-target-folder}
 
-If you want to change the default target folder, use the <Config keyOnly>cds.build.target=myfolder</Config> property. It is resolved based on the root folder of your project.
+If you want to change the default target folder, use the <Config keyOnly>cds.build.target=path/to/my/folder</Config> property. It is resolved based on the root folder of your project.
 
 
 

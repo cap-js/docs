@@ -114,7 +114,7 @@ service CatalogService {
 
 `@AsyncAPI.Extensions` can be used to provide arbitrary extensions. 
 If a specific annotation exists for a given extension, it takes precedence over the definition using @AsyncAPI.Extensions.
-For example, if both `@AsyncAPI.ShortText` and @`AsyncAPI.Extensions: { ![sap-shortText]: 'baz' }` are provided, the value from `@AsyncAPI.ShortText` will override the one defined in @AsyncAPI.Extensions.
+For example, if both `@AsyncAPI.ShortText` and `@AsyncAPI.Extensions: { ![sap-shortText]: 'baz' }` are provided, the value from `@AsyncAPI.ShortText` will override the one defined in @AsyncAPI.Extensions.
 
 For example:
 

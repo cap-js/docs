@@ -31,7 +31,9 @@ Feature toggle folders and required built-in service models will also be added i
 ::: tip If custom build tasks are configured, those properties have precedence
 For example, you want to configure the _src_ folder and add the default models. To achieve this, do not define the _model_ option in your build task:
 
-```json
+::: code-group
+
+```json [package.json]
 {
   "build": {
     "target": "gen",
@@ -46,6 +48,8 @@ For example, you want to configure the _src_ folder and add the default models. 
 }
 ```
 
+:::
+
  That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
 :::
 
@@ -57,7 +61,9 @@ To control which tasks `cds build` executes, you can add them as part of your [p
 
 The following build tasks represent the default configuration dynamically determined by `cds build` for a minimal Node.js project when executing `cds build --production` or `cds build --profile production` :
 
-```json
+::: code-group
+
+```json [package.json]
 {
   "build": {
     "target": "gen",
@@ -68,6 +74,8 @@ The following build tasks represent the default configuration dynamically determ
   }
 }
 ```
+
+:::
 
 ::: tip
 The executed build tasks are logged to the command line. You can use them as a blue print – copy & paste them into your CDS configuration and adapt them to your needs. See also the command line help for further details using `cds build --help`.
@@ -127,6 +135,8 @@ Relevant source files from _db_ or _srv_ folders are copied into this folder, wh
 **Note:**
 `cds build` provides `options` you can use to switch the copy behavior of specific files on or off on build task level:
 
+::: code-group
+
 ```json [package.json]
 {
   "build": {
@@ -137,6 +147,8 @@ Relevant source files from _db_ or _srv_ folders are copied into this folder, wh
   }
 }
 ```
+
+:::
 
 #### npm Workspace Support <Beta /> {#build-ws}
 

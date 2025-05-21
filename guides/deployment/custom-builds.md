@@ -29,7 +29,24 @@ Feature toggle folders and required built-in service models will also be added i
 [Learn more about the calculation of the concrete list of CDS models.](../../node.js/cds-compile#cds-resolve){.learn-more}
 
 ::: tip If custom build tasks are configured, those properties have precedence
-For example, you want to configure the _src_ folder and add the default models. To achieve this, do not define the _model_ option in your build task. That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
+For example, you want to configure the _src_ folder and add the default models. To achieve this, do not define the _model_ option in your build task:
+
+```json
+{
+  "build": {
+    "target": "gen",
+    "tasks": [
+      {
+        "for": "nodejs",
+        "src": "srv",
+        "options": { /* no "model" entry here */ }
+      }
+    ]
+  }
+}
+```
+
+ That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
 :::
 
 To control which tasks `cds build` executes, you can add them as part of your [project configuration](../../node.js/cds-env#project-settings) in _package.json_ or _.cdsrc.json_, as outlined [below](#build-task-properties).

@@ -410,6 +410,12 @@ service CatalogService {}
 
 Be aware that using an absolute path will disallow serving the service at multiple protocols.
 
+### Base Protocol Adapter
+
+All CAP-own protocol adapters extend a base protocol adapter that mounts the following middlewares:
+1. `http_log`: log all incoming requests
+2. `requires_check`: check the required roles for the respective service
+
 ### Custom Protocol Adapter
 
 Similar to the configuration of the GraphQL Adapter, you can plug in your own protocol.

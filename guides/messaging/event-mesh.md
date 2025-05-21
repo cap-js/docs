@@ -22,7 +22,7 @@ The following guide is based on a productive (paid) account on SAP BTP. It's not
 - Alternatively follow [one of the guides in SAP Help Portal](https://help.sap.com/docs/SAP_EM/bf82e6b26456494cbdd197057c09979f/3ef34ffcbbe94d3e8fff0f9ea2d5911d.html).
 
 ::: tip
-**Important:** You don't need to manually create queues or queue subscriptions as CAP takes care for that automatically based on declared events and subscriptions.
+**Important:** You don't need to manually create queues or queue subscriptions as CAP takes care of that automatically based on declared events and subscriptions.
 :::
 
 
@@ -55,7 +55,7 @@ The `enterprise-messaging` implementation handles these things automatically and
 
 ### Optional: Add `namespace` Prefixing Rules
 
-SAP Event Mesh documentation recommends to prefix all event names with the service instance's configured `namespace`, both, when emitting as well as when subscribing to events. If you followed these rules, add corresponding rules to your configuration in _package.json_ to have CAP's messaging service implementations enforcing these rules automatically:
+SAP Event Mesh documentation recommends to prefix all event names with the service instance's configured `namespace`, both, when emitting as well as when subscribing to events. If you followed these rules, add corresponding rules to your configuration in _package.json_ to have CAP's messaging service implementations enforce these rules automatically:
 
 ```json
 "cds": {
@@ -124,7 +124,7 @@ Before [deploying to the cloud](#deploy-to-the-cloud-with-mta), you may want to 
 
 ### CAP Automatically Creates Queues and Subscriptions
 
-When you run the services with a bound instance of SAP Event Mesh as documented in a previous section, CAP messaging service implementations will automatically create a queue for each receiver process. The queue name is chosen automatically and the receiver's subscriptions added.
+When you run the services with a bound instance of SAP Event Mesh as documented in a previous section, CAP messaging service implementations will automatically create a queue for each receiver process. The queue name is chosen automatically and the receiver's subscriptions are added.
 
 
 ### Optional: Configure Queue Names

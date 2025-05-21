@@ -35,34 +35,7 @@ Regarding the _outbox_, please see the following existing documentation:
 Through the _inbox_, inbound messages can be accepted as asynchronous tasks.
 That is, the messaging service persists the message to the database, acknowledges it to the message broker, and schedules its processing.
 
-The inbox can be enabled as follows:
-
-**Node.js**
-
-::: code-group
-```json [package.json]
-"cds": {
-  "requires": {
-    "messaging:": {
-      "inboxed": true
-    }
-  }
-}
-```
-:::
-
-**Java**
-
-::: code-group
-```yaml [srv/src/main/resources/application.yaml]
-cds:
-  messaging:
-    services:
-      - name: "messaging-name"
-        inbox:
-          enabled: true
-```
-:::
+Simply configure your messaging service for Node.js as <Config>cds.requires.messaging.inboxed = true</Config> and for CAP Java as <Config java keyOnly>cds.messaging.services=[{"name": "messaging-name", "inbox": {"enabled": true}}]</Config>
 
 **Inboxing moves the dead letter queue into your CAP app❗️**
 

@@ -119,11 +119,20 @@ For example, if both `@AsyncAPI.ShortText` and `@AsyncAPI.Extensions: { ![sap-sh
 For example:
 
 ```cds
-@AsyncAPI.Extensions: {
-    ![foo-bar]: 'baz'
+@AsyncAPI.Extensions   : {
+  ![foo-bar]                    : 'baz',
+  ![sap-shortText]              : 'Service Base 1'
+}
+
+service CatalogService {
+  @AsyncAPI.Extensions          : {
+    ![sap-event-source]           : '/{region}/sap.app.test'
   }
+  event SampleEntity.Changed.v1 : projection on CatalogService.SampleEntity;
+}
 ```
-- target: `service`, `event`
+
+The `@AsyncAPI.Extensions` annotation can be applied at both the service level and the event level.
 
 Since the AsyncAPI specification requires all extensions to be prefixed with `x-`, the compiler will automatically add this prefix. Therefore, do not include the `x-` prefix when specifying extensions in `@AsyncAPI.Extensions`.
 

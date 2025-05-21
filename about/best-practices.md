@@ -597,7 +597,7 @@ The *[Hexagonal Architecture](https://alistair.cockburn.us/hexagonal-architectur
 
 ... and he illustrated that like this:
 
-![Hexagonal architecture basic.gif](https://alistair.cockburn.us/wp-content/uploads/2018/02/Hexagonal-architecture-basic-1.gif)
+![Hexagonal architecture basic.gif](https://alistair.cockburn.us/hexFig1.png)
 
 In a nutshell, this introduction to the objectives of hexagonal architecture translates to that in our world of cloud-based business applications:
 
@@ -928,7 +928,7 @@ Whenever you have to integrate external services, you should follow the Calesi p
        requires: {
          'audit-log': {
            "[development]": { impl: ".../audit-log-mock.js" },
-           "[production]":  { impl: ".../the-reasl-audit-log-srv.js" },
+           "[production]":  { impl: ".../the-real-audit-log-srv.js" },
          }
        }
      }

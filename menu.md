@@ -42,8 +42,8 @@
 
 ## [Events & Messaging](guides/messaging/)
 
+  ### [SAP Cloud Appl. Event Hub](guides/messaging/event-broker)
   ### [SAP Event Mesh](guides/messaging/event-mesh)
-  ### [SAP Event Hub](guides/messaging/event-broker)
   ### [Apache Kafka](../guides/messaging/apache-kafka)
   ### [Events from S/4](guides/messaging/s4)
 
@@ -91,7 +91,7 @@
 
   ### [Deploy to Cloud Foundry](../guides/deployment/to-cf)
   ### [Deploy to Kyma/K8s](../guides/deployment/to-kyma)
-  ### [Deploy to Shared DB](../guides/deployment/shared-db)
+  ### [Microservices with CAP](../guides/deployment/microservices)
   ### [Deploy with Confidence](../guides/deployment/dwc)
   ### [Deploy with CI/CD](../guides/deployment/cicd)
   ### [Custom Builds](../guides/deployment/custom-builds)
@@ -164,4 +164,4 @@
 ## [Telemetry](plugins/#telemetry)
 ## [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 ## [CAP Operator for K8s](plugins/#cap-operator-plugin)
-## [SAP Cloud Appl. Event Hub](plugins/#event-broker-plugin)
+## [SAP Cloud Appl. Event Hub](plugins/#event-hub)

@@ -13,6 +13,7 @@
       <em>esm</em>                          - ESM-compatible Node.js project
       <em>typer</em>                        - type generation for CDS models
       <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
+      <em>extension</em>                    - Extension project
       <em>tiny-sample</em>                  - add minimal sample files
       <em>sample</em>                       - add sample files including Fiori UI
       <em>handler</em>                      - handler stubs for service entities, actions and functions
@@ -83,7 +84,7 @@
 
       --plan
 
-        Override the service plan used for the MTA generation.
+        Specify the service plan.
 
       --with-telemetry
 
@@ -138,6 +139,13 @@
         Use CloudEvents formatting.
 
 
+    <em>cds add extension</em>
+
+      --base | -p
+
+        The project to extend.
+
+
     <em>cds add handler</em>
 
       --filter | -f
@@ -181,6 +189,13 @@
       --dry
 
         Print the generated requests to the console instead of writing them to a file.
+
+
+    <em>cds add xsuaa</em>
+
+      --plan
+
+        Specify the service plan.
 
 
 <strong>EXAMPLES</strong>

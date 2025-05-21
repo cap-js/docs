@@ -6,7 +6,6 @@ breadcrumbs:
   - Cookbook
   - Deployment
   - Deploy to Kyma
-impl-variants: true
 status: released
 # uacp: Used as link target from Help Portal at https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/29c25e504fdb4752b0383d3c407f52a6.html and https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/e4a7559baf9f4e4394302442745edcd9.html
 ---
@@ -15,13 +14,44 @@ status: released
   import { h } from 'vue'
   const X  =  () => h('span', { class: 'x',   title: 'mandatory' }, ['✓'] )
 </script>
-<style scoped>
+<style scoped lang="scss">
   .x   { color: var(--vp-c-green-2); }
+  h3 code + em { color: #666; font-weight: normal; }
+  ol {
+    margin-left: -10px;
+    counter-reset: my-counter;
+    li {
+      counter-increment: my-counter;
+      list-style: none;
+      &::before {
+        content: counter(my-counter);
+        color: var(--vp-c-text-1);
+        background-color: var(--vp-code-bg);
+        width: 20px;
+        height: 20px;
+        background-size: 20px;
+        line-height: 22px;
+        border-radius: 50%;
+        font-weight: 400;
+        text-align: center;
+        font-size: 12px;
+        vertical-align: middle;
+        display: inline-block;
+        position: relative;
+        top: -2px;
+        left: -30px;
+        margin-right: -20px;
+      }
+      p {
+        display: inline;
+      }
+    }
+  }
 </style>
 
-# Deploy to Kyma Runtime
+# Deploy to Kyma
 
-You can run your CAP application in the [Kyma Runtime](https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime?region=all). This runtime of the SAP Business Technology Platform is the SAP managed offering for the [Kyma project](https://kyma-project.io/). This guide helps you to run your CAP applications on SAP BTP Kyma Runtime.
+You can run your CAP application in the [SAP BTP Kyma Runtime](https://discovery-center.cloud.sap/serviceCatalog/kyma-runtime?region=all), the SAP-managed offering for the [Kyma project](https://kyma-project.io/).
 
 <ImplVariantsHint />
 
@@ -29,179 +59,160 @@ You can run your CAP application in the [Kyma Runtime](https://discovery-center.
 
 ## Overview
 
-As well as Kubernetes, Kyma is a platform to run containerized workloads. The service's files are provided as a container image, commonly referred to as a Docker image. In addition, the containers to be run on Kubernetes, their configuration and everything else that is needed to run them, are described by Kubernetes resources.
+Kyma is a Kubernetes-based runtime for deploying and managing containerized applications. Applications are packaged as container images—typically Docker images—and their deployment and operations are defined using Kubernetes resource configurations.
 
-In consequence, two kinds of artifacts are needed to run applications on Kubernetes:
+Deploying apps on the SAP BTP Kyma Runtime requires two main artifact types:
 
-1. Container images
-2. Kubernetes resources
+1. **Container Images** – Your application packaged in a container
+2. **Kubernetes Resources** – Configurations for deployment and scaling
 
-The following diagram shows the steps to run on the SAP BTP Kyma Runtime:
+The following diagram illustrates the deployment workflow:
 
-![A CAP Helm chart is added to your project. Then you built your project as container images and push those images to a container registry of your choice. As last step the Helm chart is deployed to your Kyma resources, where service instances of SAP BTP services are created and pods pull the previously created container images from the container registry.](assets/deploy-kyma.drawio.svg)
+![A CAP Helm chart is added to your project. Then you build your project as container images and push those images to a container registry of your choice. As last step the Helm chart is deployed to your Kyma resources, where service instances of SAP BTP services are created and pods pull the previously created container images from the container registry.](assets/deploy-kyma.drawio.svg)
 
-1. [**Add** a Helm chart](#cds-add-helm)
-2. [**Build** container images](#build-images)
-3. [**Deploy** your application by applying Kubernetes resources](#deploy-helm-chart)
 
 ## Prerequisites {#prerequisites}
 
-+ You prepared your project as described in the [Deploy to Cloud Foundry](to-cf) guide.
-+ Use a Kyma enabled [Trial Account](https://account.hanatrial.ondemand.com/) or [learn how to get access to a Kyma cluster](#get-access-to-a-cluster).
++ Use a Kyma-enabled [Trial Account](https://account.hanatrial.ondemand.com/) or purchase a Kyma cluster from SAP
 + You need a [Container Image Registry](#get-access-to-a-container-registry)
 + Get the required SAP BTP service entitlements
++ Install [Docker Desktop or Docker for Linux](https://docs.docker.com/get-docker/)
 + Download and install the following command line tools:
   + [`kubectl` command line client](https://kubernetes.io/docs/tasks/tools/) for Kubernetes
-  + [Docker Desktop or Docker for Linux](https://docs.docker.com/get-docker/)
   + [`pack` command line tool](https://buildpacks.io/docs/tools/pack/)
   + [`helm` command line tool](https://helm.sh/docs/intro/install/)
   + [`ctz` command line tool](https://www.npmjs.com/package/ctz)
++ Make sure your SAP HANA Cloud is [mapped to your namespace](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718#toc-hId-569025164)
++ Ensure SAP HANA Cloud is accessible from your Kyma cluster by [configuring trusted source IPs](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html)
 
-::: warning
-Make yourself familiar with Kyma and Kubernetes. CAP doesn't provide consulting on it.
+#### Configure Kubernetes
+
+Download the Kubernetes configuration from SAP BTP and move it to _$HOME/.kube/config_.
+
+[Learn more in the SAP BTP Kyma documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/access-kyma-instance-using-kubectl){.learn-more}
+
+#### Get Access to a Container Registry
+
+SAP BTP doesn't provide a container image registry (or container repository), but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
+
+::: tip Ensure network access
+
+Verify the Kubernetes cluster has network access to the container registry, especially if hosted behind a VPN or within a restricted network environment.
+
 :::
 
-## Prepare for Production
+#### Set Up Your Cluster for a Private Container Registry
 
-The detailed procedure is described in the [Deploy to Cloud Foundry guide](to-cf#prepare-for-production). Run this command to fast-forward:
+To use a docker image from a private repository, you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) and configure this secret for your containers.
+
+::: details Use this script to create the docker pull secret...
 
 ```sh
-cds add hana,xsuaa --for production
+echo -n "Your docker registry server: "; read YOUR_REGISTRY
+echo -n "Your user: "; read YOUR_USER
+echo -n "Your email: "; read YOUR_EMAIL
+echo -n "Your API token: "; read -s YOUR_API_TOKEN
+kubectl create secret docker-registry \
+  docker-registry \
+  "--docker-server=$YOUR_REGISTRY" \
+  "--docker-username=$YOUR_USER" \
+  "--docker-password=$YOUR_API_TOKEN" \
+  "--docker-email=$YOUR_EMAIL"
+# The 2nd 'docker-registry' above is our default secret name.
+```
+:::
+
+::: warning Assign limited permissions to the technical user
+It is recommended to use a technical user for this secret that has only read permission, because users with access to the Kubernetes cluster can reveal the password from the secret.
+:::
+
+<span id="afterprivatereg" />
+
+## Deploy to Kyma
+
+Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
+
+<div class="impl java">
+
+```sh
+cds init bookshop --java --add sample && cd bookshop
+cds add hana,xsuaa
 ```
 
-## Add Helm Chart {#cds-add-helm}
+</div>
+<div class="impl node">
 
-CAP provides a configurable [Helm chart](https://helm.sh/) for Node.js and Java applications.
+```sh
+cds init bookshop --add sample && cd bookshop
+cds add hana,xsuaa
+```
+
+</div>
+
+
+#### User Interfaces <Beta />
+
+If you need a UI, you can also add SAP Build Work Zone support:
+
+```sh
+cds add workzone
+```
+> This is currently only supported for single-tenant scenarios.
+
+<!-- For that, create a container image with your UI files configured with the [HTML5 application deployer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html). -->
+
+#### Add CAP Helm Charts
+
+CAP provides a configurable [Helm chart](https://helm.sh/) for Node.js and Java applications, which can be added like so:
 
 ```sh
 cds add helm
 ```
+> You will be asked to provide a Kyma domain, the secret name to pull images and your container registry name.
 
-This command adds the Helm chart to the _chart_ folder of your project with 3 files: `values.yaml`, `Chart.yaml` and `values.schema.json`.
+::: details Running `cds build` now creates a _gen_/_chart_ folder
 
-During cds build, the _gen_/_chart_ folder is generated. This folder will have all the necessary files required to deploy the helm chart. Files from the _chart_ folder in root of the project are copied to the folder generated in _gen_ folder.
+This folder will have all the necessary files required to deploy the Helm chart. Files from the _chart_ folder are copied to _gen/chart_.
+They support the deployment of your CAP service, database, UI content, and the creation of instances for BTP services.
 
-The files in the _gen/chart_ folder support the deployment of your CAP service, database and UI content, and the creation of instances for BTP services.
-
-[Learn more about CAP Helm chart.](#about-cap-helm){.learn-more}
-
-## Build Images {#build-images}
-
-We'll be using the [Containerize Build Tool](https://www.npmjs.com/package/ctz/) to build the images. The modules are configured in a `containerize.yaml` descriptor file, which we generate with:
-
-```sh
-cds add containerize
-```
-
-#### Configure Image Repository
-
-Specify the repository where you want to push the images:
-
-```yaml
-...
-repository: <your-container-registry>
-```
-
-::: warning
-You should be logged in to the above repository to be able to push images to it. You can use `docker login <your-container-registry> -u <your-user>` to login.
 :::
 
-Now, we use the `ctz` build tool to build all the images:
+#### Build and Deploy
+
+**First, ensure the Docker daemon** is running, for example by starting Docker Desktop.
+
+You can now quickly deploy the application like so:
 
 ```sh
-ctz containerize.yaml
+cds up -2 k8s
 ```
 
-> This will start containerizing your modules based on the configuration in the specified file. After it is done, it will ask whether you want to push the images or not. Type `y` and press enter to push your images. You can also use the above command with `--push` flag to skip this. If you want more logs, you can use the `--log` flag with the above command.
+::: details Essentially, this automates the following steps...
 
-[Learn more about Containerize Build Tool](https://www.npmjs.com/package/ctz/){.learn-more}
+```zsh
+cds add helm,containerize # if not already done
 
-### UI Deployment
+# Installing app dependencies, e.g.
+npm i app/browse
+npm i app/admin-books
 
-For UI access, you can use the standalone and the managed App Router as explained in [this blog](https://blogs.sap.com/2021/12/09/using-sap-application-router-with-kyma-runtime/).
+# If project is multitenant
+npm i --package-lock-only mtx/sidecar
 
-The `cds add helm` command [supports deployment](#html5-applications) to the [HTML5 application repository](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/f8520f572a6445a7bfaff4a1bbcbe60a.html?locale=en-US&version=Cloud) which can be used with both options.
+# If package-lock.json doesn't exist
+npm i --package-lock-only
 
-For that, create a container image with your UI files configured with the [HTML5 application deployer](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html).
+# Final assembly and deployment, e.g.
+ctz containerize.yaml --log --push
+helm upgrade --install bookshop ./gen/chart --wait --wait-for-jobs --set-file xsuaa.jsonParameters=xs-security.json
+kubectl rollout status deployment bookshop-srv --timeout=8m
+kubectl rollout status deployment bookshop-approuter --timeout=8m
+kubectl rollout status deployment bookshop-sidecar --timeout=8m
+```
 
-The `cds add helm` command also supports deployment of standalone approuter.
-
-To configure backend destinations, have a look at the [approuter configuration section.](#configure-approuter-specifications)
-
-## Deploy Helm Chart {#deploy-helm-chart}
-
-Once your Helm chart is created, your container images are uploaded to a registry and your cluster is prepared, you're almost set for deploying your Kyma application.
-
-### Create Service Instances for SAP HANA Cloud {#hana-cloud-instance}
-
-1. Enable SAP HANA for your project as explained in the [CAP guide for SAP HANA](../databases-hana).
-2. Create an SAP HANA database.
-3. To create HDI containers from Kyma, you need to [create a mapping between your namespace and SAP HANA Cloud instance](https://blogs.sap.com/2022/12/15/consuming-sap-hana-cloud-from-the-kyma-environment/).
-
-::: warning Set trusted source IP addresses
-Make sure that your SAP HANA Cloud instance can be accessed from your Kyma cluster by [setting the trusted source IP addresses](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html).
 :::
 
-### Deploy using CAP Helm Chart
-
-Before deployment, you need to set the container image and cluster specific settings.
-
-#### Configure Access to Your Container Images
-
-Add your container image settings to your _chart/values.yaml_:
-
-```yaml
-...
-global:
-  domain: <your-kyma-domain>
-  imagePullSecret:
-    name: <your-imagepull-secret>
-  image:
-    registry: <your-container-registry>
-    tag: latest
-```
-
-You can use the pre-configured domain name for your Kyma cluster:
-
-```yaml
-kubectl get gateway -n kyma-system kyma-gateway \
-        -o jsonpath='{.spec.servers[0].hosts[0]}'
-```
-
-To use images on private container registries you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
-
-For image registry, use the same value you mentioned in `containerize.yaml`
-
-#### Configure Approuter Specifications
-
-By default `srv-api` and `mtx-api` (only in Multi Tenant Application) are configured. If you're using any other destination or your `xs-app.json` file has a different destination, update the destinations under the `backendDestinations` key in _values.yaml_ file:
-
-```yaml
-backendDestinations:
-  backend:
-    service: srv
-```
-
-> `backend` is the name of the destination. `service` points to the deployment name whose url will be used for this destination.
-
-#### Deploy CAP Helm Chart
-
-1. Execute `cds build --production` to generate the helm chart in _gen_ folder.
-2. Deploy using `helm` command:
-
-    ```sh
-    helm upgrade --install bookshop ./gen/chart \
-         --namespace bookshop-namespace
-         --create-namespace
-    ```
-
-    This installs the Helm chart from the _gen/chart_ folder with the release name `bookshop` in the namespace `bookshop-namespace`.
-
-    ::: tip
-    With the `helm upgrade --install` command you can install a new chart as well as upgrade an existing chart.
-    :::
-
-This process can take a few minutes to complete and create the log output:
+This process can take a few minutes to complete and logs output like this:
 
 ```log
 […]
@@ -212,200 +223,171 @@ Your services are available at:
 […]
 ```
 
-Copy and open this URL in your web browser. It's the URL of your application.
+You can use this URL to access the approuter as the entry point of your application.
 
-::: info
-  If a standalone approuter is present, the srv and sidecar aren't exposed and only the approuter URL will be logged. But if an approuter isn't present then srv and sidecar are also exposed and their URL will also be logged.
-:::
-
-[Learn more about using a private registry with your Kyma cluster.](#setup-your-cluster-for-a-private-container-registry){.learn-more} [Learn more about the CAP Helm chart settings](#configure-helm-chart){ .learn-more} [Learn more about using `helm upgrade`](https://helm.sh/docs/helm/helm_upgrade){ .learn-more}
-
-::: tip
+<!-- ::: tip See the examples
 Try out the [CAP SFLIGHT](https://github.com/SAP-samples/cap-sflight)
 and [CAP for Java](https://github.com/SAP-samples/cloud-cap-samples-java) examples on Kyma.
+::: -->
+
+---
+{style="margin-top:11em"}
+
+## Deep Dives
+
+
+<span id="aftercluster" />
+
+<span id="beforeend" />
+
+
+### Configure Image Repository
+
+Specify the repository where you want to push the images:
+
+::: code-group
+
+```yaml [containerize.yaml]
+...
+repository: <your-container-registry>
+```
+
 :::
 
-## Customize Helm Chart {#customize-helm-chart}
+Now, we use the `ctz` build tool to build all the images:
 
-### About CAP Helm Chart { #about-cap-helm}
+```sh
+ctz containerize.yaml
+```
+
+This will start containerizing your modules based on the configuration in _containerize.yaml_. After finishing, it will ask whether you want to push the images or not. Type `y` and press enter to push your images. You can also use the above command with `--push` flag to auto-confirm. If you want more logs, you can use the `--log` flag with the above command.
+
+[Learn more about the `ctz` build tool.](https://www.npmjs.com/package/ctz/){.learn-more style="margin-top:10px"}
+
+### Customize Helm Chart {#customize-helm-chart}
+
+#### About CAP Helm Charts {#about-cap-helm}
 
 The following files are added to a _chart_ folder by executing `cds add helm`:
 
-| File/Pattern          | Description  |
-| --------------------- | ---------------------------------------------------------- |
-| _values.yaml_         | [Configuration](#configure-helm-chart) of the chart; The initial configuration is determined from your CAP project. |
-| _Chart.yaml_          | Chart metadata that is initially determined from the _package.json_ file                                |
-| _values.schema.json_  | JSON Schema for _values.yaml_ file                                                                      |
+```zsh
+chart/
+├── values.yaml         # Default configuration of the chart
+├── Chart.yaml          # Chart metadata
+└── values.schema.json  # JSON Schema for values.yaml file
+```
 
-The following files are added to a _gen/chart_ folder along with all the files in the _chart_ folder in the root of the project by executing `cds build` after adding `helm`:
+[Learn more about _values.yaml_.](https://helm.sh/docs/chart_template_guide/values_files/){.learn-more}
+[Learn more about _Chart.yaml_.](https://helm.sh/docs/topics/charts/){.learn-more}
 
-| File/Pattern          | Description  |
-| --------------------- | ---------------------------------------------------------- |
-| _templates/*.tpl_     | Template libraries used in the template resources                                                       |
-| _templates/NOTES.txt_ | Message printed after installing or upgrading the Helm charts                                           |
-| _templates/*.yaml_    | Template files for the Kubernetes resources                                                             |
+<br>
 
-[Learn how to create a Helm chart from scratch from the Helm documentation.](https://helm.sh/docs){.learn-more}
+In addition, a `cds build` also puts some files to the _gen/chart_ folder:
 
-### Configure {#configure-helm-chart}
+```zsh
+chart/
+├── templates/
+│   ├── NOTES.txt # Message printed after Helm upgrade
+│   ├── *.tpl     # Template libraries used in template resources
+│   ├── *.yaml    # Template files for Kubernetes resources
+```
 
-[CAP's Helm chart](#cds-add-helm) can be configured by the settings as explained below. Mandatory settings are marked with <X/>.
+[Learn how to create a Helm chart from scratch.](https://helm.sh/docs){.learn-more}
 
-You can change the configuration by editing the _chart/values.yaml_ file. When you call `cds add helm` again, your changes will be persisted and only missing default values are added.
+#### Configure {#configure-helm-chart}
 
-The `helm` CLI also offers you other options to overwrite settings from _chart/values.yaml_ file:
+You can change the configuration of CAP Helm charts by editing the _chart/values.yaml_ file. The `helm` CLI also offers you other options to overwrite settings from _chart/values.yaml_ file:
 
 + Overwrite properties using the  `--set` parameter.
-+ Overwrite properties from a YAML file using the `-f` parameter.
++ Overwrite properties from a YAML or JSON file using the `-f` parameter.
 
-::: tip
+::: tip Multiple deployment types
 It is recommended to do the main configuration in the _chart/values.yaml_ file and have additional YAML files for specific deployment types (dev, test, productive) and targets.
 :::
 
 #### Global Properties
 
-| Property        | Description                                                   | Mandatory |
-| --------------- | ------------------------------------------------------------- | :---------: |
-| imagePullSecret &rarr; name | Name of secret to access the container registry   | (<X/> ) <sup>1</sup>    |
-| domain          | Kubernetes cluster ingress domain (used for application URLs) | <X/>         |
-| image &rarr; registry | Name of the container registry from where images are pulled   | <X/>   |
+::: code-group
 
-<sup>1</sup>: Mandatory only for private docker registries
+```yaml [values.yaml]
+# Secret name to access container registry, only for private registries
+imagePullSecret:
+  name: <docker-secret>
+
+# Kubernetes cluster ingress domain (used for application URLs)
+domain: <cluster-domain>
+
+# Container image registry
+image:
+  registry: <registry-server>
+```
+:::
 
 #### Deployment Properties
 
 The following properties are available for the `srv` key:
 
-| Property                     | Description                                                                                                                                                | Mandatory |
-|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------:|
-| **bindings**                 | [Service Bindings](#configuration-options-for-service-bindings)                                                                                            |           |
-| **resources**                | [Kubernetes Container resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)                                           |   <X/>    |
-| **env**                      | Map of additional env variables                                                                                                                            |           |
-| **health**                   | [Kubernetes Liveness, Readyness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |           |
-| &rarr; liveness &rarr; path  | Endpoint for liveness and startup probe                                                                                                                    |   <X/>    |
-| &rarr; readiness &rarr; path | Endpoint for readiness probe                                                                                                                               |   <X/>    |
-| &rarr; startupTimeout        | Wait time in seconds until the health checks are started                                                                                                   |           |
-| **image**                    | [Container image](#configuration-options-for-container-images)                                                                                             |           |
+::: code-group
+```yaml [values.yaml]
+srv:
+  # [Service bindings](#configuration-options-for-service-bindings)
+  bindings:
 
-You can explore more configuration options in the subchart's directory _gen/chart/charts/web-application_.
+  # Kubernetes container resources
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  resources:
 
-#### SAP BTP Services
+  # Map of additional env variables
+  env:
+    MY_ENV_VAR: 1
 
-The helm chart supports to create service instances for commonly used services. Services are pre-populated in the _chart/values.yaml_ file based on the used services in the `requires` section of the CAP configuration (for example, _package.json_) file.
+  # Kubernetes Liveness, Readiness and Startup Probes
+  # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  health:
+    liveness:
+      path: <endpoint>
+    readiness:
+      path: <endpoint>
+    startupTimeout: <seconds>
+
+  # Container image
+  image:
+```
+:::
+
+> You can explore more configuration options in the subchart's directory _gen/chart/charts/web-application_.
+
+### SAP BTP Services
+
+You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, go to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
+
+You can find information about planned SAP BTP, Kyma Runtime features in the [product road map](https://roadmaps.sap.com/board?PRODUCT=73554900100800003012&PRODUCT=73554900100800003012).
+
+#### Built-in SAP BTP Services
+
+The Helm chart supports creating service instances for commonly used services. Services are pre-populated in _chart/values.yaml_ based on the used services in the `requires` section of the CAP configuration.
 
 You can use the following services in your configuration:
 
-| Property                               | Description                                                                                                                                         | Mandatory |
-|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|:---------:|
-| **xsuaa**                              | Enables the creation of a XSUAA service instance. See details for [Node.js](../../node.js/authentication) and [Java](../../java/security) projects. |           |
-| parameters &rarr; xsappname            | Name of XSUAA application. Overwrites the value from the _xs-security.json_ file. (unique per subaccount)                                           |   <X/>    |
-| parameters &rarr; HTML5Runtime_enabled | Set to true for use with Launchpad Service                                                                                                          |           |
-| **connectivity**                       | Enables [on-premise connectivity](#connectivity-service)                                                                                            |           |
-| **event-mesh**                         | Enables SAP Event Mesh; [messaging guide](../messaging/), [how to enable the SAP Event Mesh](../messaging/event-mesh)                               |           |
-| **html5-apps-repo-host**               | HTML5 Application Repository                                                                                                                        |           |
-| **hana**                               | HDI Shared Container                                                                                                                                |           |
-| **service-manager**                    | Service Manager Container                                                                                                                           |           |
-| **saas-registry**                      | SaaS Registry Service                                                                                                                               |           |
-
-[Learn how to configure services in your Helm chart](#configuration-options-for-services){.learn-more}
-
-#### SAP HANA
-
-The deployment job of your database content to a HDI container can be configured using the `hana-deployer` section with the following properties:
-
-| Property      | Description                                                                                                      | Mandatory |
-|---------------|------------------------------------------------------------------------------------------------------------------|:---------:|
-| **bindings**  | [Service binding](#configuration-options-for-service-bindings) to the HDI container's secret                     |   <X/>    |
-| **image**     | [Container image](#configuration-options-for-container-images) of the HDI deployer                               |   <X/>    |
-| **resources** | [Kubernetes Container resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |   <X/>    |
-| **env**       | Map of additional environment variables                                                                          |           |
-
-#### HTML5 Applications
-
-The deployment job of HTML5 applications can be configured using the `html5-apps-deployer` section with the following properties:
-
-[Container image]: #configuration-options-for-container-images
-[HTML5 application deployer]: https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html
-[Kubernetes Container resources]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-
-| Property                 | Description                                                                                                                           | Mandatory |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------|:---------:|
-| **image**                | [Container image] of the [HTML5 application deployer]                                                                                 |   <X/>    |
-| **bindings**             | [Service bindings](#configuration-options-for-service-bindings) to XSUAA, destinations and HTML5 Application Repository Host services |   <X/>    |
-| **resources**            | [Kubernetes Container resources]                                                                                                      |   <X/>    |
-| **env**                  | Map of additional environment variables                                                                                               |           |
-| &rarr; SAP_CLOUD_SERVICE | Name for your business service (unique per subaccount)                                                                                |   <X/>    |
-
-::: tip
-Run `cds add html5-repo` to automate the setup for HTML5 application deployment.
-:::
-
-#### Backend Destinations
-
-Backend destinations maybe required for HTML5 applications or for App Router deployment. They can be configured using the `backendDestinations` section with the following properties:
-
-| Property         | Description                                         |
-|------------------|-----------------------------------------------------|
-| (key)            | Name of backend destination                         |
-| service: (value) | Value is the target Kubernetes service (like `srv`) |
-
-If you want to add an external destination, you can do so by providing the `external` property like this:
-
-```yaml
-...
-backendDestinations:
-  srv-api:
-    service: srv
-  ui5: # [!code ++]
-    external: true # [!code ++]
-    name: ui5 # [!code ++]
-    Type: HTTP # [!code ++]
-    proxyType: Internet # [!code ++]
-    url: https://ui5.sap.com # [!code ++]
-    Authentication: NoAuthentication # [!code ++]
+::: code-group
+```yaml [values.yaml]
+xsuaa:
+  parameters:
+    xsappname: <name>
+    HTML5Runtime_enabled: true # for SAP Launchpad service
+event-mesh: …
+connectivity: …
+destination: …
+html5-apps-repo-host: …
+hana: …
+service-manager: …
+saas-registry: …
 ```
-
-> Our helm chart will remove the `external` key and add the rest of the keys as-is to the environment variable.
-
-#### Connectivity Service
-
-Use `cds add connectivity`, to add a volume to your `srv` deployment.
-::: warning
-Create an instance of the SAP BTP Connectivity service with plan `connectivity_proxy` and a service binding, before deploying the first application that requires it. Using this plan, a proxy to the connectivity service gets installed into your Kyma cluster. This may take a few minutes. The connectivity proxy uses the first created instance in a cluster for authentication. This instance must not be deleted as long as connectivity is used.
 :::
 
-The volume you've added to your `srv` deployment is needed, to add additional connection information, compared to what's available from the service binding.
+<span id="beforemodify" />
 
-```yaml
-srv:
-...
-  additionalVolumes:
-    - name: connectivity-secret
-      volumeMount:
-        mountPath: /bindings/connectivity
-        readOnly: true
-      projected:
-        sources:
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-          - secret:
-              name: <your-connectivity-binding>
-              optional: false
-              items:
-                - key: token_service_url
-                  path: url
-          - configMap:
-              name: "RELEASE-NAME-connectivity-proxy-info"
-              optional: false
-```
-
-In the volumes added, replace the value of `<your-connectivity-binding>` with the binding that you created earlier. If the binding is created in a different namespace then you need to create a secret with details from the binding and use that secret.
-::: tip
-You don't have to edit `RELEASE-NAME` in the `configMap` property. It is passed as a template string and will be replaced with your actual release name by Helm.
-:::
-
-#### Arbitrary Service
+#### Arbitrary BTP Services
 
 These are the steps to create and bind to an arbitrary service, using the binding of the feature toggle service to the CAP application as an example:
 
@@ -419,7 +401,7 @@ These are the steps to create and bind to an arbitrary service, using the bindin
         version: 0.1.0
     ```
 
-2. Add the service configuration and the binding in the _chart/values.yaml_ file:
+2. Add service configuration and binding in _chart/values.yaml_:
 
     ```yaml
     feature-flags:
@@ -432,54 +414,154 @@ These are the steps to create and bind to an arbitrary service, using the bindin
             serviceInstanceName: feature-flags
     ```
 
-    > The `alias` property in the `dependencies` array must match the property added in the root of _chart/values.yaml_ and the value of `serviceInstanceName` in the binding.
-::: warning
-There should be at least one service instance created by `cds add helm` if you want to bind an arbitrary service.
+    > The `alias` property in `dependencies` must match the property added in the root of _chart/values.yaml_ and the value of `serviceInstanceName` in the binding.
+
+::: details Additional requirements for the SAP Connectivity service...
+
+To access the SAP Connectivity service, add the following modules in your Kyma Cluster:
+
+- connectivity-proxy
+- transparent-proxy
+- istio
+
+You can do so using the `kubectl` CLI:
+
+```sh
+kubectl edit kyma default -n kyma-system
+```
+
+Then, add the three modules:
+::: code-group
+```yaml [editor]
+spec:
+  modules:
+    - name: connectivity-proxy
+    - name: transparent-proxy
+    - name: istio
+```
 :::
+
+Finally, you should see a success message as follows:
+
+```sh
+kyma.operator.kyma-project.io/default edited
+```
+
+[Learn more about adding modules from the Kyma Dashboard.](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c){.learn-more style="margin-top:10px"}
+
 
 #### Configuration Options for Services
 
 _Services have the following configuration options:_
 
-| Property            | Type        | Description                                            | Mandatory
-| ------------------- | ----------- | ---------------------------------------- |:-----: |
-| **fullNameOverride**    | string      | Use instead of the generated name                      |
-| **serviceOfferingName** | string      | Technical service offering name from service catalog   | <X/>
-| **servicePlanName**     | string      | Technical service plan name from service catalog       | <X/>
-| **externalName**        | string      | The name for the service instance in SAP BTP           |
-| **customTags**          | array of string      | List of custom tags describing the service instance, will be copied to `ServiceBinding` secret in the key called `tags`          |
-| **parameters**          | object      | Object with service parameters                         |
-| **jsonParameters**      | string      | Some services support the provisioning of additional configuration parameters. For the list of supported parameters, check the documentation of the particular service offering.           |
-| **parametersFrom**      | array of object      | List of secrets from which parameters are populated.           |
+::: code-group
+```yaml [values.yaml]
+### Required ###
+serviceOfferingName: my-service
+servicePlanName: my-plan
+
+### Optional ###
+
+# Use instead of generated nname
+fullNameOverride: <use instead of the generated name>
+
+# Name for service instance in SAP BTP
+externalName: <name for service instance in SAP BTP>
+
+# List of tags describing service,
+# copied to ServiceBinding secret in a 'tags' key
+customTags:
+  - foo
+  - bar
+
+# Some services support additional configuration,
+# as found in the respective service offering
+parameters:
+  key: val
+jsonParameters: {}
+
+# List of secrets from which parameters are populated
+parametersFrom:
+  - secretKeyRef:
+      name: my-secret
+      key: secret-parameter
+```
+:::
 
 The `jsonParameters` key can also be specified using the `--set file` flag while installing/upgrading Helm release. For example, `jsonParameters` for the `xsuaa` property can be defined using the following command:
 
 ```sh
-helm install bookshop ./chart --set-file xsuaa.jsonParameters=xs-security.json
+helm install bookshop ./chart \
+  --set-file xsuaa.jsonParameters=xs-security.json
 ```
 
-You can explore more configuration options in the subchart's directory _gen/chart/charts/service-instance_.
+> You can explore more configuration options in the subchart's directory _gen/chart/charts/service-instance_.
 
 #### Configuration Options for Service Bindings
 
-| Property                | Description                                      |     Mandatory      |
-|-------------------------|--------------------------------------------------|:------------------:|
-| (key)                   | Name of the service binding                      |                    |
-| secretFrom              | Bind to Kubernetes secret                        | (<X/>)<sup>1</sup> |
-| serviceInstanceName     | Bind to service instance within the Helm chart   | (<X/>)<sup>1</sup> |
-| serviceInstanceFullname | Bind to service instance using the absolute name | (<X/>)<sup>1</sup> |
-| parameters              | Object with service binding parameters           |                    |
-
-<sup>1</sup>: Exactly one of these properties need to be specified
+::: code-group
+``` yaml [values.yaml]
+<service name>:
+  # Exactly one of these must be specified
+  serviceInstanceName: my-service # within Helm chart
+  serviceInstanceFullName: my-service-full-name # using absolute name
+  # Additional parameters
+  parameters:
+    key: val
+```
+:::
 
 #### Configuration Options for Container Images
 
-| Property   | Description                                     | Mandatory |
-|------------|-------------------------------------------------|:---------:|
-| repository | Full container image repository name            |   <X/>    |
-| tag        | Container image version tag (default: `latest`) |           |
+::: code-group
+``` yaml [values.yaml]
+repository: my-repo.docker.io # container repo name
+tag: latest # optional container image version tag
+```
+:::
 
-<span id="beforemodify" />
+#### HTML5 Applications
+
+::: code-group
+``` yaml [values.yaml]
+html5-apps-deployer:
+  image:
+  bindings:
+  resources:
+  env:
+    # Name of your business service (unique per subaccount)
+    SAP_CLOUD_SERVICE: <service-name>
+```
+:::
+
+[Container image]: #configuration-options-for-container-images
+[HTML5 application deployer]: https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/9b178ab3388c4647b0c52f2c85641844.html
+[Kubernetes Container resources]: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
+#### Backend Destinations
+
+Backend destinations maybe required for HTML5 applications or for App Router deployment. They can be configured using `backendDestinations`.
+
+If you want to add an external destination, you can do so by providing the `external` property like this:
+
+::: code-group
+``` yaml [values.yaml]
+...
+srv: # Key is the target service, e.g. 'srv'
+  backendDestinations:
+    srv-api:
+      service: srv
+    ui5: # [!code ++]
+      external: true # [!code ++]
+      name: ui5 # [!code ++]
+      Type: HTTP # [!code ++]
+      proxyType: Internet # [!code ++]
+      url: https://ui5.sap.com # [!code ++]
+      Authentication: NoAuthentication # [!code ++]
+```
+:::
+
+> Our Helm chart will remove the `external` key and add the rest of the keys as-is to the environment variable.
 
 ### Modify
 
@@ -493,29 +575,25 @@ You can run `cds add helm` again to update your Helm chart. It has the following
 
 ### Extend
 
-1. Adding new files to the Helm chart does not conflict with `cds add helm`.
-2. A modification-free approach to change files is to use [Kustomize](https://kustomize.io/) as a [post-processor](https://helm.sh/docs/topics/advanced/#post-rendering) for your Helm chart. This might be usable for small changes if you don't want to branch-out from the generated `cds add helm` content.
+Instead of modifying consider extending the CAP Helm chart. Just make sure adding new files to the Helm chart does not conflict with `cds add helm`.
 
-## Additional Information
+::: tip Consider Kustomize
+A modification-free approach to change files is to use [Kustomize](https://kustomize.io/) as a [post-processor](https://helm.sh/docs/topics/advanced/#post-rendering) for your Helm chart. This might be usable for small changes if you don't want to branch-out from the generated `cds add helm` content.
+:::
 
-### SAP BTP Services and Features
 
-You can find a list of SAP BTP services in the [Discovery Center](https://discovery-center.cloud.sap/viewServices?provider=all&regions=all&showFilters=true). To find out if a service is supported in the Kyma and Kubernetes environment, goto to the **Service Marketplace** of your Subaccount in the SAP BTP Cockpit and select Kyma or Kubernetes in the environment filter.
+### Services from Cloud Foundry
 
-You can find information about planned SAP BTP, Kyma Runtime features in the [product road map](https://roadmaps.sap.com/board?PRODUCT=73554900100800003012&PRODUCT=73554900100800003012).
+To bind service instances created on Cloud Foundry (CF) to a workload (`srv`, `hana-deployer`, `html5-deployer`, `approuter` or `sidecar`) in the Kyma environment, do the following:
 
-### Using Service Instance created on Cloud Foundry
-
-To bind service instances created on Cloud Foundry to a workload (`srv`, `hana-deployer`, `html5-deployer`, `approuter` or `sidecar`) in Kyma environment, do the following:
-
-1. In your cluster, create a secret with credentials from the service key of that instance.
+1. Create a secret with credentials from the service key of that instance.
 
 2. Use the `fromSecret` property inside the `bindings` key of the workload.
 
-For example, if you want to use an `hdi-shared` instance created on Cloud Foundry:
+For example, if you want to use an `hdi-shared` instance created on CF:
 
-1. [Create a Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/#creating-a-secret) with the credentials from a service key from the Cloud Foundry account.
-2. Add additional properties to the Kubernetes secret.
+1. [Create a Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/#creating-a-secret) with service key credentials from CF
+2. Add additional properties to the Kubernetes secret:
 
     ```yaml
     stringData:
@@ -550,109 +628,57 @@ For example, if you want to use an `hdi-shared` instance created on Cloud Foundr
       tags: '[ "hana", "database", "relational" ]'
     ```
 
-::: tip
-Update the values of the properties accordingly.
-:::
+    > Update the values of the properties accordingly.
 
-3. Change the `serviceInstanceName` property to `fromSecret` from each workload which has that service instance in `bindings` in _chart/values.yaml_ file:
+3. Change `serviceInstanceName` to `fromSecret` for each workload with that service instance in `bindings` in _chart/values.yaml_:
 
-    ::: code-group
-
-    ```yaml [srv]
+    ```yaml [values.yaml]
     …
     srv:
       bindings:
         db:
-            serviceInstanceName: // [!code --]
-            fromSecret: <your secret> // [!code ++]
-    ```
-
-    ```yaml [hana-deployer]
-    …
+            serviceInstanceName: ## [!code --]
+            fromSecret: <your secret> ## [!code ++]
     hana-deployer:
       bindings:
         hana:
-          serviceInstanceName: // [!code --]
-          fromSecret: <your secret> // [!code ++]
+          serviceInstanceName: ## [!code --]
+          fromSecret: <your secret> ## [!code ++]
     ```
 
-    :::
-
-4. Delete `hana` property in _chart/values.yaml_ file.
-
-    ::: code-group
+4. Delete `hana` in _chart/values.yaml_:
 
       ```yaml
       …
-      hana: // [!code --]
-        serviceOfferingName: hana // [!code --]
-        servicePlanName: hdi-shared // [!code --]
+      hana: ## [!code --]
+        serviceOfferingName: hana ## [!code --]
+        servicePlanName: hdi-shared ## [!code --]
       …
       ```
 
-    :::
-
-5. Make the following changes to _chart/Chart.yaml_ file.
-
-    ::: code-group
+5. Make the following changes to _chart/Chart.yaml_:
 
       ```yaml
       …
       dependencies:
         …
-        - name: service-instance // [!code --]
-          alias: hana // [!code --]
-          version: ">0.0.0" // [!code --]
+        - name: service-instance ## [!code --]
+          alias: hana ## [!code --]
+          version: ">0.0.0" ## [!code --]
         …
       ```
 
-    :::
+### Cloud Native Buildpacks
 
-### About Cloud Native Buildpacks
+Cloud Native Buildpacks provide advantages like embracing [best practices](https://buildpacks.io/features/) and secure standards such as:
 
-Cloud Native Buildpacks provide advantages such as embracing [best practices](https://buildpacks.io/features/) and secure standards like:
++ Resulting images use an unprivileged user
++ Builds are [reproducible](https://buildpacks.io/docs/features/reproducibility/)
++ [Software Bill of Materials](https://buildpacks.io/docs/features/bill-of-materials/) (SBoM) baked into the image
++ Auto-detection of base images
 
-+ Resulting images use an unprivileged user.
-+ Builds are [reproducible](https://buildpacks.io/docs/features/reproducibility/).
-+ [Software Bill of Materials](https://buildpacks.io/docs/features/bill-of-materials/) (SBoM) for all dependencies baked into the image.
-+ Auto detection, no need to manually select base images.
+Additionally Cloud Native Buildpacks can be easily plugged together to fulfill more complex requirements. For example the [ca-certificates](https://github.com/paketo-buildpacks/ca-certificates) enables adding additional certificates to the system trust-store at build and runtime. When using Cloud Native Buildpacks you can continuously benefit from best practices coming from the community without any changes required.
 
-Additionally Cloud Native Buildpacks can be easily plugged together to fulfill more complex requirements. For example the [ca-certificates](https://github.com/paketo-buildpacks/ca-certificates) enables adding additional certificates to the system trust-store at build and runtime. When using Cloud Native Buildpacks you can continuously benefit from the best practices coming from the community without any changes required.
+[Learn more about Cloud Native Buildpacks Concepts.](https://buildpacks.io/docs/concepts/){ .learn-more}
 
-[Learn more about Cloud Native Buildpacks Concepts](https://buildpacks.io/docs/concepts/){ .learn-more}
-
-One way of using Cloud Native Buildpacks in CI/CD is by utilizing the [`cnbBuild`](https://www.project-piper.io/steps/cnbBuild/) step of Project "Piper". This does not require any special setup, like providing a Docker daemon, and works out of the box for Jenkins and Azure DevOps Pipelines.
-
-[Learn more about Support for Cloud Native Buildpacks in Jenkins](https://medium.com/buildpacks/support-for-cloud-native-buildpacks-in-jenkins-656330156e77){ .learn-more}
-
-<div id="beforegetaccesstoacluster" />
-
-### Get Access to a Cluster
-
-You can either purchase a Kyma cluster from SAP, create your [personal trial](https://hanatrial.ondemand.com/) account or sign-up for the [free tier](https://www.sap.com/products/business-technology-platform/trial.html#new-customers) offering to get a SAP managed Kyma Kubernetes cluster.
-
-<span id="beforecontainerreg" />
-
-### Get Access to a Container Registry
-
-SAP BTP doesn't provide a container registry.
-
-You can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure. However, you need to consider that the Kubernetes cluster needs to access the container registry from its network.
-
-+ The use of a public container registry gives everyone access to your container images.
-+ In a private container registry, your container images are protected. You will need to configure a **pull secret** to allow your cluster to access it.
-
-#### Setup Your Cluster for a Public Container Registry
-
-Make sure that the container registry is accessible from your Kubernetes cluster. No further setup is required.
-
-#### Setup Your Cluster for a Private Container Registry
-
-To use a docker image from a private repository, you need to [create an image pull secret](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/) and configure this secret for your containers.
-::: warning
-It is recommended to use a technical user for this secret that has only read permission, because users with access to the Kubernetes cluster can reveal the password from the secret easily.
-:::
-
-<span id="afterprivatereg" />
-
-<span id="beforeend" />
+<div id="aftercloudnative" />

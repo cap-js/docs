@@ -207,9 +207,10 @@ GET http://localhost/odata/OrderItemsViewAssoc?$expand=Items&$select=OrderNo,Ite
 First sort on the `OrdersItems` and then join back to the `OrdersHeaders` with the help of an association:
 
 ```cds
-view SortedOrdersAssoc as select
-from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
-order by OrdersItems.title;
+view SortedOrdersAssoc as select {*, Header.OrderNo, Header.buyer, Header.currency } as Flatten 
+from (
+  select from OrdersItems {*} order by OrdersItems.title
+);
 ```
 
 #### **Bad**{.bad}
@@ -239,9 +240,11 @@ Basically, what is true for [Sorting](#sorting) is also valid for filtering.
 #### **Good**{.good}
 
 ```cds
-view FilteredOrdersAssoc as select
-from OrdersItems {*, Header.OrderNo, Header.buyer, Header.currency }
-where OrdersItems.price > 100;
+view FilteredOrdersAssoc as select {*, Header.OrderNo, Header.buyer, Header.currency } as Flatten
+from (
+  select from OrdersItems {*}
+  where OrdersItems.price > 100
+);
 ```
 
 #### **Bad**{.bad}
@@ -260,7 +263,7 @@ view FilteredOrdersJoin as select
 from OrdersHeaders JOIN OrdersItems on OrdersHeaders.ID = OrdersItems.Header.ID
 where price > 100;
 ```
-This query cannot utilize database indexes properly.
+This query needs to identify that prices can be filtered before the join. Filtering beforehand prevents the full join from being materialized and then reduced to a smaller subset.
 
 ## Calculated Fields
 Database operations on calculated fields cannot leverage any DB indexes.  This impacts performance significantly, as calculated fields cause full table scans.

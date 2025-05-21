@@ -36,7 +36,7 @@ Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) drive
 
 ::: tip Prefer `cds add`
 
-... as documented in the [deployment guide](deployment/to-cf#_1-using-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
+... as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database), which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources.
 
 :::
 
@@ -180,7 +180,7 @@ There are two ways to include SAP HANA in your setup: Use SAP HANA in a [hybrid 
 
 To make the following configuration steps work, we assume that you've provisioned, set up, and started, for example, your SAP HANA Cloud instance in the [trial environment](https://cockpit.hanatrial.ondemand.com). If you need to prepare your SAP HANA first, see [How to Get an SAP HANA Cloud Instance for SAP Business Technology Platform, Cloud Foundry environment](../get-started/troubleshooting#get-hana) to learn about your options.
 
-### Prepare for Production { #configure-hana .node }
+### Prepare for Production { #configure-hana }
 
 To prepare the project, execute:
 
@@ -198,18 +198,18 @@ No further configuration is necessary for Node.js. For Java, see the [Use SAP HA
 
 
 
-### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana .node }
+### Using `cds deploy` for Ad-Hoc Deployments { #cds-deploy-hana }
 
 `cds deploy` lets you deploy _just the database parts_ of the project to an SAP HANA instance. The server application (the Node.js or Java part) still runs locally and connects to the remote database instance, allowing for fast development roundtrips.
 
-Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#deploy) with the correct target, that is, org and space.
+Make sure that you're [logged in to Cloud Foundry](deployment/to-cf#build-and-deploy) with the correct target, that is, org and space.
 Then in the project root folder, just execute:
 
 ```sh
 cds deploy --to hana
 ```
 
-> To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid`.
+> To connect to your SAP HANA Cloud instance use `cds watch --profile hybrid` in Node.js or[ `mvn cds:watch` in Java](../java/developing-applications/running#local-development-support) projects.
 
 Behind the scenes, `cds deploy` does the following:
 
@@ -254,7 +254,7 @@ This takes the logon information and the service name from the `someEnvFile.json
 
 This is equivalent to `cds deploy --to hana:myservice` and ignores information coming from `--vcap-file`. A warning is printed after deploying.
 
-### Using `cf deploy` or `cf push` { .node }
+### Using `cf deploy` or `cf push`
 
 See the [Deploying to Cloud Foundry](deployment/) guide for information about how to deploy the complete application to SAP Business Technology Platform, including a dedicated deployer application for the SAP HANA database.
 
@@ -508,6 +508,12 @@ Examples:
 
 We recommend keeping _.hdbtable_ deployment for entities where you expect low data volume. Every _.hdbmigrationtable_ artifact becomes part of your versioned source code, creating a new migration version on every model change/build cycle. In turn, each such migration can require manual resolution.
 You can switch large-volume tables to _.hdbmigrationtable_ at any time, keeping in mind that the existing _.hdbtable_ design-time artifact needs to be undeployed.
+
+When choosing to use _.hdbmigrationtable_ for an entity with
+[localized elements](../guides/localized-data#localized-data) or [compositions of aspects](../cds/cdl#managed-compositions),
+the generated `.texts` and composition child entities are automatically handled via _.hdbmigrationtable_, too.
+If this is not desired, annotate these generated entities with `@cds.persistence.journal: false`.
+
 ::: tip
 Sticking to _.hdbtable_ for the actual application development phase avoids lots of initial migration versions that would need to be applied to the database schema.
 :::
@@ -659,48 +665,23 @@ All limitations for the SAP HANA Cloud database can be found in the [SAP Help Po
 
 ### Native Associations
 
-For SAP HANA, CDS associations are by default reflected in the respective database tables and views
-by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
-
-CAP no longer needs these native associations (provided you use the new database
-service _@cap-js/hana_ for the CAP Node.js stack).
-
-Unless you explicitly use them in other native HANA objects, we recommend
-switching off the generation of native HANA associations, as they increase deploy times:
+In previous CAP releases, CDS associations were by default reflected in SAP HANA
+database tables and views by _Native HANA Associations_ (HANA SQL clause `WITH ASSOCIATIONS`).
+But the presence of such native associations significantly increases (re-)deploy times:
 They need to be validated in the HDI deployment, and they can introduce
 indirect dependencies between other objects, which can trigger other unnecessary revalidations
-or even unnecessary drop/create of indexes. By switching them off, all this effort is saved.
+or even unnecessary drop/create of indexes.
 
-::: code-group
+As CAP doesn't need these native associations, by default no native HANA associations
+are created anymore starting with CAP 9. 
 
-```json [package.json]
-{
-  "cds": {
-    "sql": {
-      "native_hana_associations": false
-    }
-  }
-}
-```
-
-```json [cdsrc.json]
-{
-  "sql": {
-    "native_hana_associations": false
-  }
-}
-```
-
-:::
-
-
-For new projects, `cds add hana` automatically adds this configuration.
+In the unlikely case that you need native HANA associations because you explicitly use them
+in other native HANA objects or in custom code, you can switch them back on with <Config>cds.sql.native_hana_associations = true</Config>.
 
 ::: warning Initial full table migration
-Be aware, that the first deployment after this **configuration change may take longer**.
+Be aware that the first deployment after this **configuration change may take longer**.
 
-For each entity with associations, the respective database object will be touched
+For each entity with associations, the respective database object is touched
 (DROP/CREATE for views, full table migration via shadow table and data copy for tables).
-This is also the reason why we haven't changed the default so far.
-Subsequent deployments will benefit, however.
+
 :::

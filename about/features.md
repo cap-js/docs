@@ -178,15 +178,15 @@ Following is an index of the features currently covered by CAP, with status and 
 
 ### Events / Messaging
 
-|                                                                                                                                                             |  CDS  |   Node.js    | Java |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:------------:|:----:|
-| [Declared Events in CDS](../cds/cdl#events)                                                                                                                 | <X/>  |     <X/>     | <X/> |
-| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> |     <X/>     | <X/> |
-| SAP Event Mesh (For single-tenant apps) [[Node.js](../node.js/messaging#event-mesh-shared)\|[Java](../java/messaging#configuring-sap-event-mesh-support)]   | <Na/> |     <X/>     | <X/> |
-| SAP Cloud Application Event Hub (For single-tenant apps) [[Node.js](../node.js/messaging#event-broker)]                                                     | <Na/> | <X/><br>beta | <D/> |
-| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> |     <X/>     | <X/> |
-| Import AsyncAPI                                                                                                                                             | <O/>  |              |      |
-| Export AsyncAPI                                                                                                                                             | <X/>  |              |      |
+|                                                                                                                                                             | CDS   | Node.js                   | Java                      |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----:|:-------------------------:|:-------------------------:|
+| [Declared Events in CDS](../cds/cdl#events)                                                                                                                 | <X/>  | <X/>                      | <X/>                      |
+| Mock Broker (to speed up local dev) [[Node.js](../node.js/messaging#file-based)\|[Java](../java/messaging#local-testing)]                                   | <Na/> | <X/>                      | <X/>                      |
+| [SAP Cloud Application Event Hub](../guides/messaging/event-broker)                                                                                            | <Na/> | <X/><br><sup>plugin</sup> | <X/><br><sup>plugin</sup> |
+| [SAP Event Mesh](../guides/messaging/event-mesh)                                                                                                            | <Na/> | <X/>                      | <X/>                      |
+| Composite Messaging (routing by configuration) [[Node.js](../node.js/messaging#composite-messaging)\|[Java](../java/messaging#composite-messaging-service)] | <Na/> | <X/>                      | <X/>                      |
+| Import AsyncAPI                                                                                                                                             | <O/>  |                           |                           |
+| Export AsyncAPI                                                                                                                                             | <X/>  |                           |                           |
 
 <span id="events-messaging-more" />
 

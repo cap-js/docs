@@ -9,10 +9,6 @@
     working directory as default.
 
 <strong>OPTIONS</strong>
-    <em>--java</em>
-
-        Create a CAP Java project.
-
     <em>--add</em> &lt;feature | comma-separated list of features&gt;
 
         Add one or more features while creating the project.
@@ -24,6 +20,7 @@
       <em>esm</em>                          - ESM-compatible Node.js project
       <em>typer</em>                        - type generation for CDS models
       <em>typescript</em>                   - add minimum configuration for a bare TypeScript project
+      <em>extension</em>                    - Extension project
       <em>tiny-sample</em>                  - add minimal sample files
       <em>sample</em>                       - add sample files including Fiori UI
       <em>handler</em>                      - handler stubs for service entities, actions and functions
@@ -67,6 +64,10 @@
       <em>http</em>                         - add .http files for modeled services
       <em>lint</em>                         - configure cds lint
       <em>pipeline</em>                     - CI/CD pipeline integration
+
+    <em>--java</em>
+
+        Create a CAP Java project.
 
     <em>--java:mvn</em> &lt;Comma separated maven archetype specific parameters&gt;
 

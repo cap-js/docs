@@ -133,7 +133,12 @@ Make sure that:
 
 ### Why are requests occasionally rejected with "Acquiring client from pool timed out" or "ResourceRequest timed out"?
 
-This error indicates database client pool settings don't match the application's requirements. There are two possible root causes:
+**First of all**, make sure the SAP HANA database is accessible in your application's environment.
+This includes making sure the SAP HANA is either part of or mapped to your Cloud Foundry space or Kyma cluster and the IP addresses are [in an allowed range](https://help.sap.com/docs/HANA_SERVICE_CF/cc53ad464a57404b8d453bbadbc81ceb/71eb651f84274a0cb2f2b4380df91724.html). Connectivity issues are likely the root cause if you experience this error during application startup.
+
+[Learn how to set up SAP HANA instance mappings](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/map-sap-hana-database-to-another-environment-context){.learn-more style="margin-top:10px"}
+
+If you frequently get this error during normal runtime operation your database client pool settings likely don't match the application's requirements. There are two possible root causes:
 
 |  | Explanation |
 | --- | ---- |
@@ -369,7 +374,7 @@ sqlite>
 
 If you want to test further, use _.help_ command to see all available commands in _sqlite3_.
 
-In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
+In case you want a visual interface tool to work with SQLite, you can use [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
 ## SAP HANA { #hana}
@@ -392,11 +397,24 @@ On trial, your SAP HANA Cloud instance will be automatically stopped overnight, 
 | _Root Cause_ | SAP HANA still claims exclusive ownership of the data that was once deployed through `hdbtabledata` artifacts, even though the CSV files are now deleted in your project.
 | _Solution_ | Add an _undeploy.json_ file to the root of your database module (the _db_ folder by default). This file defines the files **and data** to be deleted. See section [HDI Delta Deployment and Undeploy Allow List](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c2b99f19e9264c4d9ae9221b22f6f589/ebb0a1d1d41e4ab0a06ea951717e7d3d.html) for more details.
 
-::: tip
-If you want to keep the data from _.csv_ files and data you've already added, see [SAP Note 2922271](https://me.sap.com/notes/2922271) for more details.
+
+#### How do I keep existing data?
+If you want to keep the data from _.csv_ files and data you've already added, apply [SAP Note 2922271](https://me.sap.com/notes/2922271).
+Depending on whether you have a single-tenant or multi-tenant application, see the following details for how to set the `path_parameter` and `undeploy` parameters:
+
+:::details Single-tenant applications {open}
+
+Use the _db/undeploy.json_ file as given in the SAP note.
+The _package.json_ file that is mentioned in the SAP note is located in the _db/_ folder.
+- If you don't find a _db/package.json_ file, use _gen/db/package.json_ (created by `cds build`) as a template and copy it to _db/package.json_.
+- After the modification, run `cds build --production` and verify your changes have been copied to _gen/db/package.json_.
+- Don't modify _gen/db/package.json_ as it is overwritten on every build.
+
 :::
 
-You can apply this solution also when using the `cds-mtxs` library. You can either set the options via the environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the CDS configuration or you can add them to the model update request as `hdi` parameter:
+:::details Multi-tenant applications
+
+Instead of configuring the static deployer application in _db/package.json_, use environment variable [`HDI_DEPLOY_OPTIONS`](https://help.sap.com/docs/SAP_HANA_PLATFORM/4505d0bdaf4948449b7f7379d24d0f0d/a4bbc2dd8a20442387dc7b706e8d3070.html), the `cds` configuration in _package.json_, or add the options to the model update request as `hdi` parameter:
 
 CDS configuration for [Deployment Service](../guides/multitenancy/mtxs#deployment-config)
 ```json
@@ -433,6 +451,11 @@ Options in [Saas Provisioning Service upgrade API](../guides/multitenancy/mtxs#e
   }
 }
 ```
+
+:::
+
+After you have successfully deployed these changes to all affected HDI (tenant) containers (in all spaces, accounts etc.), you can remove the configuration again.
+
 
 ### How Do I Resolve Deployment Errors?
 
@@ -577,6 +600,7 @@ If the MTA build fails with `The 'npm ci' command can only install with an exist
 - _package-lock.json_ should also be added to version control, so make sure that _.gitignore_ does __not__ contain it.
 
 The purpose of _package-lock.json_ is to pin your project's dependencies to allow for reproducible builds.
+
 [Learn more about dependency management in Node.js.](../node.js/best-practices#dependencies){.learn-more}
 
 ### How Can I Reduce the MTA Archive Size During Development? { #reduce-mta-size}

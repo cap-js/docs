@@ -64,10 +64,6 @@ Additionally, you can add your logic to the draft-specific events as follows:
 - The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created.
 - The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Note, that composition children of the active entity will also be updated or created.
 
-::: info Compatibility flag
-For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
-:::
-
 ### Draft Locks
 
 To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
@@ -145,6 +141,10 @@ You can set the property to one of the following:
 - number of days like `'30d'` 
 - number of hours like `'72h'`
 - number of milliseconds like `1000`
+
+::: info Technical background
+It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there's no periodic job that does the garbage collection.
+:::
 
 ### Differences to Previous Version
 

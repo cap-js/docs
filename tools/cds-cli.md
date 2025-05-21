@@ -127,6 +127,8 @@ The facets built into `@sap/cds-dk` provide you with a large set of standard fea
 | `toggles`                     |       <X/>       |       <X/>       |
 | `extensibility`               |       <X/>       |       <X/>       |
 | `xsuaa`                       |       <X/>       |       <X/>       |
+| `ias`                         |       <X/>       |       <X/>       |
+| `ams`                         |       <X/>       |       <X/>       |
 | `hana`                        |       <X/>       |       <X/>       |
 | `postgres`                    | <X/><sup>1</sup> | <X/><sup>1</sup> |
 | `sqlite`                      |       <X/>       |       <X/>       |
@@ -378,12 +380,17 @@ cds add handler --filter Books
 
 ## cds env
 
-Use `cds env` to inspect currently effective config settings:
+Use `cds env` to inspect currently effective config settings of your Node.js application:
 
 <!--@include: ./assets/help/cds-env-requires-db.out.md -->
 
 ::: details See the full help text of `cds env`
 <!--@include: ./assets/help/cds-env.out.md -->
+:::
+
+::: tip Inspect configuration for Java applications
+While `cds env` does _not_ show the [runtime SpringBoot configuration for CAP Java applications](../java/developing-applications/configuring), you can still use it to learn about _designtime_ configuration, which applies to Java applications as well.  Examples are build tasks (`cds env build.tasks`) or build plugins (`cds env plugins`).<br>
+Also, the [multitenancy sidecar](../java/multitenancy) is a Node.js application, for which `cds env` shows the entire configuration if executed in the _mtx/sidecar_ folder.
 :::
 
 
@@ -463,10 +470,14 @@ To customize the diagram layout, use these settings in the _Cds > Preview_ categ
 
 ## cds watch
 
-Use `cds watch` to watch for changed files, restarting your server.
+Use `cds watch` to watch for changed files, restarting your Node.js server.
 
 ::: details See the full help text of `cds watch`
 <!--@include: ./assets/help/cds-watch.out.md-->
+:::
+
+::: tip Watch for Java
+For CAP Java applications, you can use [`mvn cds:watch`](../java/developing-applications/running#cds-watch) instead.
 :::
 
 ### Includes and Excludes <Since version="8.7.0" of="@sap/cds-dk" />
@@ -476,9 +487,6 @@ Additional watched or ignored paths can be specified via CLI options:
 ```sh
 cds watch --include ../other-app --exclude .idea/
 ```
-
-Alternatively, you can add these paths through settings <Config keyOnly>cds.watch.include: ["../other-app"]</Config> and <Config keyOnly>cds.watch.exclude: [".idea"]</Config> to your project configuration.
-
 
 ## cds repl
 
@@ -545,15 +553,20 @@ There a couple of shortcuts and convenience functions:
 <!--@include: ./assets/help/cds-repl.out.md-->
 :::
 
+::: tip Repl for Java
+`cds repl` does not run Java code, but can still be useful:
+For example, if you work on Node.js things like [building plugins](../guides/deployment/custom-builds#custom-build-plugins) that make use of Node.js APIs.
+:::
 
-## Debugging with `cds debug` <Beta /> {#cds-debug}
+
+## Debugging with `cds debug` {#cds-debug}
 
 `cds debug` lets you debug applications running locally or remotely on SAP BTP Cloud Foundry.
 Local applications will be started in debug mode, while (already running) remote applications are put into debug mode.
 
 To debug an application on Cloud Foundry, the following is important:
 - You're logged in to the space where the application is deployed to.
-- You have developer permissions in that space -> [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment).
+- You have developer permissions in that space. → [Space Developer role](https://help.sap.com/docs/btp/sap-business-technology-platform/about-roles-in-cloud-foundry-environment)
 - The app is running and [reachable through SSH](https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html#check-ssh-permissions).
 
 Effectively, run:

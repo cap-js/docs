@@ -55,10 +55,9 @@ entity Authors : entity {
 ```
 
 ::: details Noteworthy...
-
 In the example above `entity` shows up as a keyword, as well as an identifier of an aspect declaration and references to that.
-
 :::
+
 Keywords are *case-insensitive*, but are most commonly used in lowercase notation.
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
@@ -303,20 +302,9 @@ entity Employees {
 ```
 
 The text of a doc comment is stored in CSN in the property `doc`.
-When generating OData EDM(X), it appears as value for the annotation `@Core.Description`.
-
-When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
-
-```sql
-CREATE TABLE Employees (
-  ID INTEGER,
-  name NVARCHAR(...) COMMENT 'I am the description for "name"'
-) COMMENT 'I am the description for "Employee"'
-```
-
-::: tip
-Propagation of doc comments can be stopped via an empty one: `/** */`.
-:::
+Doc comments are not propagated. For example, a doc comment defined for an entity
+isn't automatically copied to projections of this entity.
+When generating OData EDM(X), doc comments are translated to the annotation `@Core.Description`.
 
 In CAP Node.js, doc comments need to be switched on when calling the compiler:
 
@@ -332,13 +320,20 @@ cds.compile(..., { docs: true })
 
 :::
 
-::: tip Doc comments are enabled by default in CAP Java.
-In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin). In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
+::: tip Doc comments are automatically enabled in CAP Java.
+In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin).
+In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
 :::
 
+When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated
+to the HANA `COMMENT` feature for tables, table columns, and for views (but not for view columns):
 
-
-
+```sql
+CREATE TABLE Employees (
+  ID INTEGER,
+  name NVARCHAR(...) COMMENT 'I am the description for "name"'
+) COMMENT 'I am the description for "Employee"'
+```
 
 
 ## Entities & Type Definitions
@@ -423,6 +418,20 @@ entity Books {
     value : Decimal(10,3);
     currency : Currency;
   };
+}
+```
+
+You can declare structured types based on other
+definitions using the `projection on` syntax.
+You can use nested projections or aliases as known from entity projections.
+Only the effective signature of the projection is relevant.
+
+<!-- cds-mode: upcoming -->
+```cds
+type CustomerData : projection on Customer {
+  name.firstName, // select from structures
+  name.lastName,
+  address as customerAddress, // aliases
 }
 ```
 
@@ -552,7 +561,7 @@ A calculated element can be *used* in every location where an expression can occ
 * in a query together with nested projections (inline/expand)
 
 ::: warning
- For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
+For the Node.js runtime, only the new database services under the _@cap-js_ scope support this feature.
 :::
 
 #### On-write
@@ -625,6 +634,14 @@ type CreatedAt : Timestamp default $now;
 type Complex {
   real : Decimal default 0.0;
   imag : Decimal default 0.0;
+}
+```
+
+If the element has an enum type, you can use the enum symbol instead of a literal value:
+```cds
+type Status : String enum {open; closed;}
+entity Order {
+  status : Status default #open;
 }
 ```
 
@@ -786,6 +803,21 @@ By using a cast, annotations and other properties are inherited from the provide
 :::
 
 <div id="afterinferredsig" />
+
+### Virtual elements in views
+
+Virtual elements can be defined in views or projections like this:
+```cds
+entity SomeView as select from Employee {
+  // ...,
+  virtual virt1 : String(22),
+  virtual virt2  // virtual element without type
+}
+```
+These virtual elements have no relation to the query source `Employee` but are new fields
+in the view. Virtual elements in views or projections are handled as described in the
+section on [virtual elements in entities](#virtual-elements).
+
 
 <div id="beforeviewwithparam" />
 
@@ -1421,7 +1453,7 @@ actions {
 In CSN, the expression is represented as a record with two properties:
 * A string representation of the expression is stored in property `=`.
 * A tokenized representation of the expression is stored in one of the properties
-`xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
+  `xpr`, `ref`, `val`, `func`, etc. (like if the expression was written in a query).
 
 ```json
 {
@@ -1712,23 +1744,36 @@ annotate Foo:nestedStructField.existingField @title:'Nested Field';
 
 ### Named Aspects
 
-You can use `extend` or `annotate` with predefined aspects, to apply the same extensions to multiple targets:
+You can use `extend` with predefined aspects, to apply the same extensions to multiple targets:
 
 ```cds
-aspect SomeAspect {
+@annotation
+aspect NamedAspect {
   created { at: Timestamp; _by: User; }
+} actions {
+  action A() returns String;
 }
 ```
 ```cds
-extend Foo with SomeAspect;
-extend Bar with SomeAspect;
+extend Foo with NamedAspect;
+extend Bar with NamedAspect;
 ```
 
-If you use `extend`, all nested fields in the named aspect are interpreted as being extension fields. If you use `annotate`, the nested fields are interpreted as existing fields and the annotations are copied to the corresponding target elements.
+By extending an entity with an aspect, you add all the aspect's fields, actions, and annotations to the entity.
 
-The named extension can be anything, for example, including other `types` or `entities`.
 Use keyword `aspect` as shown in the example to declare definitions that are only meant to be used in such extensions, not as types for elements.
 
+To reuse annotations, without adding elements, use an empty aspect and extend your target with it
+You can even extend projections with such aspects.
+
+```cds
+@annotation
+aspect ReuseAnnotations {};
+entity Proj as projection on Bar;
+```
+```cds
+extend Proj with ReuseAnnotations;
+```
 
 
 ### Includes -- `:` as Shortcut Syntax {#includes}
@@ -1779,7 +1824,7 @@ extend SomeView with columns {
 ```
 
 Enhancing nested structs isn't supported. Furthermore, the table alias of the view's data source
-is not accessible in such an extend. 
+is not accessible in such an extend.
 
 You can use the common [`annotate` directive](#annotate) to just add/override annotations of a view's elements.
 
@@ -2071,7 +2116,7 @@ service MyOrders { ...
 }
 ```
 
-An event can also be defined as projection on an entity, type, or another event.
+An event can also be defined as projection on an entity, structured type, or another event.
 Only the effective signature of the projection is relevant.
 ```cds
 service MyOrders { ...

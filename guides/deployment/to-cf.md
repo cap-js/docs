@@ -66,11 +66,10 @@ cd bookshop
 </div>
 
 <br>
-<br>
 
 In addition, you need to prepare the following:
 
-#### 1. SAP BTP with SAP HANA Cloud Database up and Running {#btp-and-hana}
+#### 1. SAP BTP with SAP HANA Cloud Database Up and Running {#btp-and-hana}
 
 - Access to [SAP BTP, for example a trial](https://developers.sap.com/tutorials/hcp-create-trial-account.html)
 - An [SAP HANA Cloud database running](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/create-sap-hana-database-instance-using-sap-hana-cloud-central) in your subaccount <!--, mapped to your space -->
@@ -127,54 +126,45 @@ npm i @sap/cds        #> if necessary
 
 ## Prepare for Production {#prepare-for-production}
 
-If you followed CAP's grow-as-you-go approach so far, you've developed your application with an in-memory database and basic/mock authentication. To prepare for production you need to ensure respective production-grade choices are configured:
+If you followed CAP's grow-as-you-go approach, you've developed your application with an in-memory database and basic (mocked) authentication. In the cloud, you typically use production-grade services like SAP HANA and authentication providers.
 
-![You need to add SAP HANA Cloud, an App Router and XSUAA.](assets/deploy-overview.drawio.svg){style="margin: 30px auto"}
+The `cds add <facets>` command ensures required services are configured correctly and their dependencies are added to your _package.json_.
 
-We'll use the `cds add <facets>` CLI command for that, which ensures the required services are configured correctly and corresponding package dependencies are added to your _package.json_.
-
-### 1. Using SAP HANA Database
+### 1. SAP HANA Database
 
 <div class="impl node">
-While we used SQLite as a low-cost stand-in during development, we're going to use a managed SAP HANA database for production:
+
+While we used SQLite as a low-cost stand-in during development, we're using an SAP HANA Cloud database for production:
+
 </div>
 
 <div class="impl java">
-While we used SQLite or H2 as a low-cost stand-in during development, we're going to use a managed SAP HANA database for production:
+
+While we used SQLite or H2 as a low-cost stand-in during development, we're going to use an SAP HANA Cloud database for production:
+
 </div>
 
 ```sh
-cds add hana --for production
+cds add hana
 ```
 
 [Learn more about using SAP HANA for production.](../databases-hana){.learn-more}
 
-### 2. Using XSUAA-Based Authentication
+### 2. Authorization/Authentication
 
 Configure your app for XSUAA-based authentication:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 ::: tip This will also generate an `xs-security.json` file
 The roles/scopes are derived from authorization-related annotations in your CDS models. Ensure to rerun `cds compile --to xsuaa`, as documented in the [_Authorization_ guide](/guides/security/authorization#xsuaa-configuration) whenever there are changes to these annotations.
 :::
 
-::: details For trial and extension landscapes, OAuth configuration is required
-Add the following snippet to your _xs-security.json_ and adapt it to the landscape you're deploying to:
-
-```json
-"oauth2-configuration": {
-  "redirect-uris": ["https://*.cfapps.us10-001.hana.ondemand.com/**"]
-}
-```
-
-:::
-
 [Learn more about SAP Authorization and Trust Management/XSUAA.](https://discovery-center.cloud.sap/serviceCatalog/authorization-and-trust-management-service?region=all){.learn-more}
 
-### 3. Using MTA-Based Deployment { #add-mta-yaml}
+### 3. MTA-Based Deployment { #add-mta-yaml}
 
 We'll be using the [Cloud MTA Build Tool](https://sap.github.io/cloud-mta-build-tool/) to execute the deployment. The modules and services are configured in an `mta.yaml` deployment descriptor file, which we generate with:
 
@@ -184,15 +174,15 @@ cds add mta
 
 [Learn more about MTA-based deployment.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/d04fc0e2ad894545aebfd7126384307c.html?locale=en-US){.learn-more}
 
-### 4. Using App Router as Gateway { #add-app-router}
+### 4. App Router as Gateway { #add-app-router}
 
 The _App Router_ acts as a single point-of-entry gateway to route requests to. In particular, it ensures user login and authentication in combination with XSUAA.
 
 Two deployment options are available:
 
-- **Managed App Router**: for SAP Build Work Zone, the Managed App Router provided by SAP Fiori Launchpad is available.  See the [end-to-end tutorial](https://developers.sap.com/tutorials/integrate-with-work-zone.html) for the necessary configuration in `mta.yaml` and on each _SAP Fiori application_.
-- **Custom App Router**: for scenarios without SAP Fiori Launchpad, the App Router needs to be deployed along with your application.
-  Use the following command to enhance the application configuration:
+- **Managed App Router**: for SAP Build Work Zone, the Managed App Router provided by SAP Fiori Launchpad is available.
+- **Custom App Router**: for custom scenarios without SAP Fiori Launchpad, the App Router needs to be deployed along with your application.
+  In this case, use the following command to enhance the application configuration:
 
     ```sh
     cds add approuter
@@ -202,7 +192,7 @@ Two deployment options are available:
 
 ### 5. User Interfaces { #add-ui }
 
-#### SAP Cloud Portal
+#### Option A: SAP Cloud Portal
 
 If you intend to deploy user interface applications, you also need to set up the [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service) in combination with the [SAP Cloud Portal service](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service):
 
@@ -210,7 +200,7 @@ If you intend to deploy user interface applications, you also need to set up the
 cds add portal
 ```
 
-#### SAP Build Work Zone, Standard Edition <Beta />
+#### Option B: SAP Build Work Zone, Standard Edition <Beta />
 
 For **single-tenant applications**, you can use [SAP Build Work Zone, Standard Edition](https://discovery-center.cloud.sap/serviceCatalog/sap-build-work-zone-standard-edition):
 
@@ -218,17 +208,19 @@ For **single-tenant applications**, you can use [SAP Build Work Zone, Standard E
 cds add workzone
 ```
 
-### 6. Optional: Add Multitenancy { #add-multitenancy }
+**Important:** This also requires you to set up SAP Build Work Zone, Standard Edition [according to the SAP Learning tutorial](https://developers.sap.com/tutorials/spa-configure-workzone.html).
+
+### 6. Optional: Multitenancy { #add-multitenancy }
 
 To enable multitenancy for production, run the following command:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
-> If necessary, modifies deployment descriptors such as _mta.yaml_ for Cloud Foundry.
-
 [Learn more about MTX services.](../multitenancy/#behind-the-scenes){.learn-more}
+
+<br>
 
 ::: tip You're set!
 The previous steps are required _only once_ in a project's lifetime. With that done, we can repeatedly deploy the application.
@@ -236,108 +228,103 @@ The previous steps are required _only once_ in a project's lifetime. With that d
 
 <br>
 
-### 7. Freeze Dependencies { #freeze-dependencies }
 
-<div class="impl node">
+## Build and Deploy
 
-Deployed applications should freeze all their dependencies, including transient ones. Create a _package-lock.json_ file for that:
-
+Make sure you are logged in to Cloud Foundry and target the space you want to deploy to:
 ```sh
-npm update --package-lock-only
+cf login --sso  # to log on with SAP Universal ID
+cf target
 ```
+[Learn more about `cf login`](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
 
-</div>
-
-If you use multitenancy, also freeze dependencies for the MTX sidecar:
-
-```sh
-npm update --package-lock-only --prefix mtx/sidecar
-```
-
-In addition, you need install and freeze dependencies for your UI applications:
-
-```sh
-npm i --prefix app/browse
-npm i --prefix app/admin-books
-```
-
-[Learn more about dependency management for Node.js](../../node.js/best-practices#dependencies){.learn-more}
-
-::: tip Regularly update your `package-lock.json` to consume latest versions and bug fixes
-Do so by running this command again, for example each time you deploy a new version of your application.
+::: tip Prevent outdated lock file issues
+If your project already includes a _package-lock.json_, run `npm update` to make sure it’s in sync with your _package.json_ before proceeding.
 :::
 
-## Build & Assemble { #build-mta }
+You can now freeze dependencies, build, and deploy the application:
 
-### Build Deployables with `cds build`
+```sh
+cds up
+```
 
-Run `cds build` to generate additional deployment artifacts and prepare everything for production in a local `./gen` folder as a staging area. While `cds build` is included in the next step `mbt build`, you can also run it selectively as a test, and to inspect what is generated:
+::: details Essentially, this automates the following steps...
+
+```sh
+# Installing app dependencies, e.g.
+npm i app/browse
+npm i app/admin-books
+
+# If project is monorepo
+ln -sf ../package-lock.json
+
+# If project is multitenant
+npm i --package-lock-only --prefix mtx/sidecar
+
+# If package-lock.json doesn't exist
+npm i --package-lock-only
+
+# Final assembly and deployment...
+mbt build -t gen --mtar mta.tar
+cf deploy gen/mta.tar -f
+```
+:::
+
+::: details Test with `cds build`
+
+While `cds build` is already ran as part of `mbt build` in `cds up`, you can also run it standalone to inspect what is generated for production:
 
 ```sh
 cds build --production
 ```
 
-[Learn more about running and customizing `cds build`.](custom-builds){.learn-more}
-
-### Assemble with `mbt build`
-
-::: info Prepare monorepo setups
-The CAP samples repository on GitHub has a more advanced (monorepo) structure, so tell the `mbt` tool to find the `package-lock.json` on top-level:
-
-```sh
-ln -sf ../package-lock.json
-```
+[Learn more about running and customizing `cds build`.](custom-builds){.learn-more style="margin-top: 10px"}
 
 :::
 
-Now, we use the `mbt` build tool to assemble everything into a single `mta.tar` archive:
+[Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#mta){.learn-more style="margin-top: 10px"}
+[Learn how to reduce the MTA archive size **during development**.](../../get-started/troubleshooting#reduce-mta-size){.learn-more}
 
-```sh
-mbt build -t gen --mtar mta.tar
-```
-
-[Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#mta){.learn-more}
-
-[Learn how to reduce the MTA archive size during development.](../../get-started/troubleshooting#reduce-mta-size){.learn-more}
-
-## Deploy to Cloud {#deploy}
-
-Finally, we can deploy the generated archive to Cloud Foundry:
-
-```sh
-cf deploy gen/mta.tar
-```
-
-[You need to be logged in to Cloud Foundry.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
-
-This process can take some minutes and finally creates a log output like this:
+This process can take some minutes and finally logs an output like this:
 
 ```log
 […]
 Application "bookshop" started and available at
-"[org]-[space]-bookshop.landscape-domain.com"
+"[org]-[space]-bookshop.<landscape-domain>.com"
 […]
 ```
 
-Copy and open this URL in your web browser. It's the URL of your App Router application.
+You can use this URL to access the approuter as the entry point of your application.
 
-::: tip For multitenant applications, you have to subscribe a tenant first
-In this case, the application is accessible via a tenant-specific URL after onboarding.
+For **multitenant applications**, you have to subscribe a tenant first. The application is accessible via a tenant-specific URL after subscription.
+
+::: tip No index page and SAP Fiori preview in the cloud
+The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to seeing during local development, are only meant for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori elements application through on of the [user interface options](#add-ui) outlined before.
 :::
 
 ### Inspect Apps in BTP Cockpit
 
 Visit the "Applications" section in your [SAP BTP cockpit](https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/144e1733d0d64d58a7176e817fa6aeb3.html) to see the deployed apps:
 
-![The screenshot shows the SAP BTP cockpit, when a user navigates to his dev space in the trial account and looks at all deployed applications.](./assets/apps-cockpit.png){.mute-dark}
+![The screenshot shows the SAP BTP cockpit, when a user navigates to his dev space in the trial account and looks at all deployed applications.](./assets/apps-cockpit.png)
 
-::: tip Assign the _admin_ role
-We didn't do the _admin_ role assignment for the `AdminService`. You need to create a role collection and [assign the role and your user](https://developers.sap.com/tutorials/btp-app-role-assignment.html) to get access.
+::: tip Next up: Assign the _admin_ role
+In order to access the admin APIs you need to assign the _admin_ role required by `AdminService`. Create a role collection and [assign the role and your user](https://developers.sap.com/tutorials/btp-app-role-assignment.html) to get access.
 :::
 
 [Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#cflogs-recent){.learn-more}
 
-### Upgrade Tenants {.java}
+
+## Keep Dependencies Up-to-date { #freeze-dependencies }
+
+Deployed applications should freeze all their dependencies, including transient ones. Therefore, on first execution, `cds up` creates a _package-lock.json_ file for all application modules.
+
+It is **essential to regularly update dependencies** to consume latest bug fixes and improvements. Not doing so will increase the risk of **security vulnerabilities**, expose your application to **known bugs**, and make future upgrades significantly harder and more time-consuming.
+
+We recommend setting up [Dependabot](https://docs.github.com/en/code-security/dependabot), [Renovate](https://docs.renovatebot.com/) or similar automated solutions to update dependencies **one-by-one** to easily identify breaking changes, minimize risks, and ensure continuous compatibility and **stability of your application**.
+
+
+## Upgrade Tenants {.java}
 
 The CAP Java SDK offers `main` methods for Subscribe/Unsubscribe in the classes `com.sap.cds.framework.spring.utils.Subscribe/Unsubscribe` that can be called from the command line. This way, you can run the tenant subscribe/unsubscribe for the specified tenant. This would trigger also your custom handlers, which is useful for the local testing scenarios.
 
@@ -345,8 +332,8 @@ In order to register all handlers of the application properly during the executi
 
 The handler registration provides additional information that is used for the tenant subscribe, for example, messaging subscriptions that are created.
 
-::: warning
-You can stop the CAP Java back end when you call this method, but the _MTX Sidecar_ application must be running!
+::: warning The MTX sidecar must be running
+You can stop the CAP Java backend when you call this method, but the MTX sidecar application must be running!
 :::
 
 This synchronization can also be automated, for example using [Cloud Foundry Tasks](https://docs.cloudfoundry.org/devguide/using-tasks.html) on SAP BTP and [Module Hooks](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/b9245ba90aa14681a416065df8e8c593.html) in your MTA.
@@ -355,10 +342,10 @@ The `main` method optionally takes tenant ID (string) as the first input argumen
 
 The method returns the following exit codes.
 
-| Exit Code | Result                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------ |
-| 0         | Tenant subscribed/unsubscribed successfully.                                                                  |
-| 3         | Failed to subscribe/unsubscribe the tenant. Rerun the procedure to make sure the tenant is subscribed/unsubscribed.          |
+| Exit Code  | Result                                                                                                              |
+|-----------:|---------------------------------------------------------------------------------------------------------------------|
+| 0          | Tenant subscribed/unsubscribed successfully.                                                                        |
+| 3          | Failed to subscribe/unsubscribe the tenant. Rerun the procedure to make sure the tenant is subscribed/unsubscribed. |
 
 To run this method locally, use the following command where `<jar-file>` is the one of your applications:
 
@@ -392,6 +379,7 @@ sed -i 's/org.springframework.boot.loader.JarLauncher/-Dloader.main=com.sap.cds.
 
 :::
 
+<!--
 ---
 {style="margin-top:11em"}
 
@@ -471,12 +459,10 @@ cf logs <app-name>-db-deployer --recent
 
 to ensure that SAP HANA deployment was successful. The application itself is by default in state `started` after HDI deployment has finished, even if the HDI deployer returned an error. To save resources, you can explicitly stop the deployer application afterwards.
 :::
-::: tip No Fiori preview in the cloud
-The [SAP Fiori Preview](../../advanced/fiori#sap-fiori-preview), that you are used to see from local development, is only available for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori application.
-:::
+
 
 ::: warning
 Multitenant applications are not supported yet as multitenancy-related settings are not added to the generated descriptors. The data has to be entered manually.
 :::
 
-[Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#aborted-deployment-with-the-create-service-push-plugin){.learn-more}
+[Got errors? See the troubleshooting guide.](../../get-started/troubleshooting#aborted-deployment-with-the-create-service-push-plugin){.learn-more} -->

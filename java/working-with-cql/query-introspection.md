@@ -255,7 +255,7 @@ Predicate filter = CQL.and(titles, stock);
 
 The `filter` consists of three predicates, substituting the following tree:
 
-```
+```zsh
                                        AND
                     ┌───────────────────┴───────────────────┐
                     IN                                      GT
@@ -265,7 +265,7 @@ The `filter` consists of three predicates, substituting the following tree:
 
 which corresponds to the following CQN token tree (numbers in brackets show the visit order):
 
-```
+```txt
                             CqnConnectivePredicate (8)
                   ┌───────────────────┴───────────────────┐
             CqnInPredicate (4)                  CqnComparisonPredicate (7)

@@ -27,6 +27,8 @@
 # [Security](security)
   ## [IAS and AMS](../../java/ams)
 # [Spring Boot Integration](spring-boot-integration)
+# [Integrating applications](../../java/integrating-applications/)
+  ## [Unified Customer Landscape](../../java/integrating-applications/ucl)
 # [Developing Applications](developing-applications/)
   ## [Building](developing-applications/building)
   ## [Running](developing-applications/running)

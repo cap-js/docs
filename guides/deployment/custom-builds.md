@@ -82,11 +82,14 @@ The `for` property defines the executed build task type. Currently supported typ
     In this scenario the required services are implemented by the Node.js application itself which is the default for Node.js.
 - `mtx-sidecar`: Creates a deployment layout for Java or Node.js projects using multitenancy, feature toggles, extensibility or a combination of these _with_ sidecar architecture.<br>
   Java projects have to use a sidecar architecture. For Node.js this is optional, but allows for better scalability in multitenant scenarios.
+
   [Learn more about **Multitenant Saas Application Deployment**](./to-cf){.learn-more}
 - `mtx-extension`: Creates a deployment layout (_extension.tgz_ file) for an MTX extension project, which is required for extension activation using `cds push`. Extension point restrictions defined by the SaaS app provider are validated by default. If any restriction is violated the build aborts and the errors are logged.<br>
-  The build task is created by default for projects that have `"cds": { "extends": "\<SaaS app name\>" }` configured in their _package.json_.<br>
+  The build task is created by default for projects that have `"cds": { "extends": "\<SaaS app name\>" }` configured in their _package.json_.
+
   [Learn more about **Extending and Customizing SaaS Solutions**](../extensibility/customization){.learn-more}
-- Additional types may be supported by build plugin contributions. <br>
+- Additional types may be supported by build plugin contributions.
+
   [Learn more about **Running Build Plugins**](#run-the-plugin){.learn-more}
 
 Build tasks can be customized using the following properties:
@@ -95,6 +98,7 @@ Build tasks can be customized using the following properties:
 - `dest`: Optional destination of the modules builds, relative to the enclosing project. The _src_ folder is used by default.
 - `options`: Sets the options according to the target technology.<br>
   - `model`: It has type _string_ or _array of string_. The given list of folders or individual _.cds_ file names is resolved based on the current working dir or the project folder passed to cds build. CDS built-in models (prefix _@sap/cds*_) are added by default to the user-defined list of models.
+
   [Learn more about **Core Data Services (CDS)**](../../cds/){.learn-more}
 
 **Note:**

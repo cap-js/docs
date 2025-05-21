@@ -159,7 +159,7 @@ As an effect, your workspace dependencies can be deployed to SAP BTP without the
 Behind the scenes, `cds build --ws-pack` creates a tarball in folder _gen/srv_ for each workspace dependency of your project that has a `*` version identifier.  Dependencies in _gen/package.json_ will be adapted to point to the correct tarball file URL:
 
 ::: code-group
-```json [package.json]
+```jsonc [package.json]
 {
   "dependencies": {
     "some-package": "^1",  // regular package

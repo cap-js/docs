@@ -46,8 +46,7 @@
   ### [SAP Event Mesh](guides/messaging/event-mesh)
   ### [Apache Kafka](../guides/messaging/apache-kafka)
   ### [Events from S/4](guides/messaging/s4)
-
-## [Task Queues](guides/task-queues/)
+  ### [Task Queues](guides/messaging/task-queues)
 
 ## [Protocols/APIs](advanced/publishing-apis/)
 

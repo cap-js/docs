@@ -53,7 +53,7 @@ For example, you want to configure the _src_ folder and add the default models. 
  That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
 :::
 
-To control which tasks `cds build` executes, you can add them as part of your [project configuration](../../node.js/cds-env#project-settings) in _package.json_ or _.cdsrc.json_, as outlined [below](#build-task-properties).
+To control which tasks `cds build` executes, you can add them as part of your [project configuration](../../node.js/cds-env#project-settings) in _package.json_ or _.cdsrc.json_, as outlined [in the following chapter](#build-task-properties).
 
 ## Properties
 

@@ -254,6 +254,14 @@ cds add multitenancy
   You can always inspect the _effective_ configuration with `cds env`.
   :::
 
+  <div class="impl java">
+
+  :::warning Known Issue
+  If you get the message 'Invalid MTX sidecar configuration', you need to add the dependency to `@sap/cds-mtxs` also to the `package.json` in your project root.
+  This is a know issue in CDS 9.
+  :::
+  </div>
+
 ## Install Dependencies
 
 <div class="impl node">

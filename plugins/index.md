@@ -168,7 +168,7 @@ Available for:
 ## Attachments
 
 
-The Attachments plugin provides out-of-the-box handling of attachments stored in, for example, AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store). To use it, simply add a composition of the predefined aspect `Attachments` like so:
+The Attachments plugin provides out-of-the-box support for attachment handling. On Node.js, attachments are stored on AWS S/3 through [SAP BTP's Object Store service](https://discovery-center.cloud.sap/serviceCatalog/object-store), whereas Java stores attachments on the SAP HANA database. To use it, simply add a composition of the predefined aspect `Attachments` like so:
 
 ```cds
 using { Attachments } from '@cap-js/attachments';
@@ -189,10 +189,7 @@ Features:
 - (Automatic) Fiori Annotations for Upload Controls
 - Streaming and piping to avoid memory overloads
 - Support for different storage backends
-
-Outlook:
-
-- Multitenancy intrinsically handled by the plugin
+- Support for Multitenancy
 
 
 Available for:
@@ -229,7 +226,6 @@ Features:
 
 Outlook:
 - **Support for Versioned Repository**: Ensure better document control and historical tracking with native support for versioned repositories, enabling you to manage document revisions effectively.
-- **Permission Management**: Implement granular permission handling to ensure that only authorized users can access, modify, or manage documents, bolstering security and compliance.
 - **Native Document Management Features with SAP Document Management Service**: Access a wide array of native document management features provided by the SAP Document Management service, including metadata management, advanced search capabilities, and audit trails. For more information, see [SAP Document Management Service](https://help.sap.com/docs/document-management-service/sap-document-management-service/what-is-document-management-service).
 
 Available for:
@@ -393,6 +389,15 @@ Available for:
 [![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/event-broker#readme)
 [![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-event-hub#readme)
 
+{#advanced-event-mesh}
+## SAP Integration Suite, advanced event mesh <Beta /> 
+
+[SAP Integration Suite, advanced event mesh](https://www.sap.com/germany/products/technology-platform/integration-suite/advanced-event-mesh.html) allows you to, amongst others, integrate non-SAP systems into your event-driven architecture.
+
+Available for:
+
+[![Node.js logo](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/advanced-event-mesh#readme)
+[![Java logo](../assets/logos/java.svg){style="height:3em; display:inline; margin:0 0.2em;"}](https://github.com/cap-java/cds-feature-advanced-event-mesh#readme)
 
 ## ABAP RFC
 

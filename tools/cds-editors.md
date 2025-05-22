@@ -346,14 +346,6 @@ Keeps track of the active editor in focus. Only changes there are immediately va
 The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is, having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
 
-::: warning Large models can lead to **high CPU and memory load**
-If switched to *OpenEditorsAndDirectSources*, all model files on every change, for example typed character, are recompiled.
-
-If switched to _OpenEditorsOnly_, all open files, for example split tabs, are recompiled.
-
-The high resource consumption might impact the editor's responsiveness.
-:::
-
 ##### Cds > Contributions > [Enablement: Odata](vscode://settings/cds.contributions.enablement.odata)
 
 Default: *on*
@@ -406,7 +398,7 @@ You want to create a preview of a specific _.cds_ file in your project. You can 
 
 ##### Visualize CDS file dependencies
 
-Use the command from the context menu on a folder or CDS file.
+Use the command from the context menu on a folder or CDS file, or from within the popup when hovering over an _import_ path at the end of an _using_ statement.
 
 A selection popup appears to choose one of three modes:
 
@@ -446,7 +438,7 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Beta /> { #cds-formatter}
+### CDS Source Formatter { #cds-formatter}
 
 The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline to ensure consistent formatting.
 

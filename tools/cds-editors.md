@@ -398,7 +398,7 @@ You want to create a preview of a specific _.cds_ file in your project. You can 
 
 ##### Visualize CDS file dependencies
 
-Use the command from the context menu on a folder or CDS file, or from within the popup when hovering over an _import_ path at the end of an _using_ statement.
+Use the command from the context menu on a folder or CDS file, or from within the popup when hovering over an _import_ path at the end of a _using_ statement.
 
 A selection popup appears to choose one of three modes:
 

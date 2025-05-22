@@ -48,7 +48,6 @@ For example, you want to configure the _src_ folder and add the default models. 
 }
 ```
 
-:::
 
  That way, the model paths will still be dynamically determined, but the _src_ folder is taken from the build task configuration. So you benefit from the automatic determination of models, for example, when adding a new external services, or when CAP is changing any built-in service configuration values.
 :::

@@ -94,6 +94,49 @@ The `DRAFT_CREATE` is an internal event that is not triggered by OData requests 
 
 For more examples, see the [Bookshop sample application](https://github.com/SAP-samples/cloud-cap-samples-java/tree/master/srv/src/main/java/my/bookshop/handlers/AdminServiceHandler.java).
 
+## Validating Drafts <Beta />
+
+CAP Java supports persisting (error) messages for draft-enabled entities and providing _state messages_ to the UI5 OData V4 model.
+This enables validations of drafts and giving feedback about errors to users faster in the UI.
+
+To enable this feature, set the following properties in your `.cdsrc.json`:
+
+::: code-group
+```json [.cdsrc.json]
+{
+  "cdsc": {
+    "beta": {
+      "draftMessages": true
+    }
+  }
+}
+```
+:::
+
+::: warning Document-based URLs
+The state messages feature relies on UI5 to use _document URLs_. CAP sets the annotation `@Common.AddressViaNavigationPath` to instruct UI5 to use _document URLs_. This requires UI5 version >= 1.135.0.
+:::
+
+Setting this property adds additional elements to your draft-enabled entities and `DraftAdministrativeData`, which are required to store and serve state messages.
+
+If this feature is activated, you can observe the following improvements, without any changes to the application code:
+
+- Error messages for annotation-based validations (for example, `@mandatory` or `@assert...`) already appear while editing the draft.
+- Custom validations can now be bound to the `DRAFT_PATCH` event and can write (error) messages. It's ensured that the invalid value is still persisted, as expected by the draft choreography.
+- Messages no longer unexpectedly vanish from the UI after editing another field.
+- Messages are automatically loaded when reopening a previously edited draft.
+
+By default, side-effect annotations are generated in the EDMX that instruct UI5 to fetch state messages after every `PATCH` request.
+In case more precise side-effect annotations are required you can disable the default side-effect annotation per entity:
+
+```cds
+annotate MyService.MyEntity with @Common.SideEffects #alwaysFetchMessages: null;
+```
+
+::: warning Requires Schema Update
+Enabling draft messages requires a database schema update, as it adds an additional element to `DraftAdministrativeData`.
+:::
+
 ## Activating Drafts
 
 When you finish editing drafts by pressing the *Save* button, a draft gets activated. That means, either a single `CREATE` or `UPDATE` event is triggered to create or update the active entity with all of its compositions through a deeply structured document. You can register to these events to validate the activated data.

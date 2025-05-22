@@ -44,6 +44,7 @@ jobs:
         working-directory: docs
         env:
           NODE_OPTIONS: "--max-old-space-size=6144"
+          VITE_CAPIRE_CI_HOST: "github.com"
       - name: Find broken anchor links
         working-directory: docs
         run: |

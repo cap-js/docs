@@ -23,7 +23,6 @@
 # [State Transitions](../../java/flows)
 # [Transactional Outbox](outbox)
 # [Multitenancy](../../java/multitenancy)
-  ## [Multitenancy (Classic)](../../java/multitenancy-classic)
 # [Security](security)
   ## [IAS and AMS](../../java/ams)
 # [Spring Boot Integration](spring-boot-integration)

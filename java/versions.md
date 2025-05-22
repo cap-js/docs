@@ -61,8 +61,21 @@ CAP Java uses various dependencies that are also used by the applications themse
 If the applications decide to manage the versions of these dependencies, it's helpful to know the minimum versions of these dependencies that CAP Java requires.
 The following table lists these minimum versions for various common dependencies, based on the latest release:
 
+#### Active Version 4.x { #dependencies-version-4 }
 
-#### Active Version 3.x { #dependencies-version-3 }
+| Dependency | Minimum Version | Recommended Version |
+| --- | --- | --- |
+| JDK | 17 | 21 |
+| Maven | 3.6.3 | 3.9.9 |
+| @sap/cds-dk | 8 | latest |
+| @sap/cds-compiler | 5 | latest |
+| Spring Boot | 3.0 | latest |
+| XSUAA | 3.1 | latest |
+| SAP Cloud SDK | 5.9 | latest |
+| Java Logging | 3.7 | latest |
+| Node.js | 20 | 22 |
+
+#### Maintenance Version 3.10.x { #dependencies-version-3 }
 
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
@@ -74,26 +87,6 @@ The following table lists these minimum versions for various common dependencies
 | XSUAA | 3.0 | latest |
 | SAP Cloud SDK | 5.9 | latest |
 | Java Logging | 3.7 | latest |
-
-#### Maintenance Version 2.10.x { #dependencies-version-2 }
-
-| Dependency | Minimum Version | Recommended Version |
-| --- | --- | --- |
-| JDK | 17 | 21 |
-| Maven | 3.5.0 | 3.9.8 |
-| @sap/cds-dk | 6 | 7 |
-| @sap/cds-compiler | 3 | 4 |
-| Spring Boot | 3.0 | latest |
-| XSUAA | 3.0 | latest |
-| SAP Cloud SDK | 4.24 | latest |
-| Java Logging | 3.7 | latest |
-
-::: warning
-The Cloud SDK BOM `sdk-bom` manages XSUAA until version 2.x, which isn't compatible with CAP Java 2.x.
-You have two options:
-* Replace `sdk-bom` with `sdk-modules-bom`, which [manages all Cloud SDK dependencies but not the transitive dependencies.](https://sap.github.io/cloud-sdk/docs/java/guides/manage-dependencies#the-sap-cloud-sdk-bill-of-material)
-* Or, add [dependency management for XSUAA](https://github.com/SAP/cloud-security-services-integration-library#installation) before Cloud SDK's `sdk-bom`.
-:::
 
 
 ### Consistent Versions

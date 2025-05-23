@@ -225,6 +225,10 @@ Your services are available at:
 
 You can use this URL to access the approuter as the entry point of your application.
 
+::: info SaaS Extensibility
+Share the above App-Router URL with SaaS consumers for logging in as extension developers using `cds login` or other [extensibility-related commands](https://cap.cloud.sap/docs/guides/extensibility/customization#prep-as-operator).
+:::
+
 <!-- ::: tip See the examples
 Try out the [CAP SFLIGHT](https://github.com/SAP-samples/cap-sflight)
 and [CAP for Java](https://github.com/SAP-samples/cloud-cap-samples-java) examples on Kyma.

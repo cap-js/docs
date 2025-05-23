@@ -42,7 +42,7 @@ Simply configure your messaging service for Node.js as <Config>cds.requires.mess
 With the inbox, all messages are acknowledged towards the message broker regardless of whether they can be processed or not.
 Hence, failures need to be managed via the dead letter queue built on `cds.outbox.Messages`.
 
-[Learn more about the dead letter queue in Node.js.](../../node.js/outbox#managing-the-dead-letter-queue){.learn-more}
+[Learn more about the dead letter queue in Node.js.](../../node.js/queue#managing-the-dead-letter-queue){.learn-more}
 [Learn more about the dead letter queue in Java.](../../java/outbox#outbox-dead-letter-queue){.learn-more}
 
 Inboxing is especially beneficial in case the message broker does not allow to trigger redelivery and/ or "fix" the message payload.

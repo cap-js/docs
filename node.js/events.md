@@ -315,8 +315,7 @@ This is a convenience shortcut to [`msg.target.name`](#target).
 
 ### . params {.property}
 
-Provides access to parameters in URL paths as an [*iterable*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol) with the contents matching the positional occurrence of parameters in the url path. In the case of compound parameters, the respective entry is the key value pairs as given in the URL.
-<!-- If the respective resource has a single key predicate called `ID`, the value is returned directly. -->
+Provides access to parameters in URL paths as an [*iterable*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol) with the contents matching the positional occurrence of parameters in the url path. The respective entry is the key value pair matching the entity definition.
 
 For example, the parameters in an HTTP request like that:
 
@@ -328,7 +327,7 @@ The provided parameters can be accessed as follows:
 
 ```js
 const [ author, book ] = req.params
-// > author === 101
+// > author === { ID: 101 }
 // > book === { title: 'Eleonora', edition: 2 }
 ```
 

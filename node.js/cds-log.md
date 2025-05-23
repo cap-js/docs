@@ -415,7 +415,7 @@ In case your application shares any sensitive data (for example, secrets) via he
 
 ::: tip
 In the log entry, header field names are normalized to lowercase with `_` instead of `-`.
-Make sure your matchers work on the original header name, e.g., `"/Foo-Bar/"` instead of `"/foo_bar/"`.
+Make sure your matchers work on the original header name, for example, `"/Foo-Bar/"` instead of the normalized `"/foo_bar/"`.
 :::
 
 

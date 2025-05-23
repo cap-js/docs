@@ -305,7 +305,7 @@ cds:
 
 Support for SAP Cloud Application Event Hub is provided via [plugin](../plugins/#event-hub).
 
-#### Configuring SAP Integration Suite, Advanced Event Mesh Support: { #configuring-advanced-event-mesh-support}
+#### Configuring SAP Integration Suite, Advanced Event Mesh Support <Beta />: { #configuring-advanced-event-mesh-support}
 
 ::: code-group
 ```xml [srv/pom.xml]

@@ -26,7 +26,7 @@ This guide will grow with the functionality.
 
 Regarding the _outbox_, please see the following existing documentation:
 - [Transactional Outbox](../../java/outbox) in CAP Java
-- [Outboxing with `cds.outboxed`](../../node.js/outbox) in CAP Node.js
+- [Outboxing with `cds.queued`](../../node.js/queue) in CAP Node.js
 
 
 

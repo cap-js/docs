@@ -225,6 +225,8 @@ Your services are available at:
 
 You can use this URL to access the approuter as the entry point of your application.
 
+For **multitenant applications**, you have to subscribe a tenant first. The application is accessible via a tenant-specific URL after subscription.
+
 ::: info SaaS Extensibility
 Share the above App-Router URL with SaaS consumers for logging in as extension developers using `cds login` or other [extensibility-related commands](https://cap.cloud.sap/docs/guides/extensibility/customization#prep-as-operator).
 :::

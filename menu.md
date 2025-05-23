@@ -166,3 +166,5 @@
 ## [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 ## [CAP Operator for K8s](plugins/#cap-operator-plugin)
 ## [SAP Cloud Appl. Event Hub](plugins/#event-hub)
+<!-- TODO: how can we abbreviate this? -->
+## [SAP Integration Suite, Advanced Event Mesh](plugins/#advanced-event-mesh)

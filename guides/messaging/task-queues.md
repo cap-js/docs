@@ -25,8 +25,8 @@ This guide will grow with the functionality.
 ## Outbox { #outbox }
 
 Regarding the _outbox_, please see the following existing documentation:
-- [Transactional Outbox](../java/outbox) in CAP Java
-- [Outboxing with `cds.outboxed`](../node.js/outbox) in CAP Node.js
+- [Transactional Outbox](../../java/outbox) in CAP Java
+- [Outboxing with `cds.outboxed`](../../node.js/outbox) in CAP Node.js
 
 
 
@@ -42,8 +42,8 @@ Simply configure your messaging service for Node.js as <Config>cds.requires.mess
 With the inbox, all messages are acknowledged towards the message broker regardless of whether they can be processed or not.
 Hence, failures need to be managed via the dead letter queue built on `cds.outbox.Messages`.
 
-[Learn more about the dead letter queue in Node.js.](../node.js/outbox#managing-the-dead-letter-queue){.learn-more}
-[Learn more about the dead letter queue in Java.](../java/outbox#outbox-dead-letter-queue){.learn-more}
+[Learn more about the dead letter queue in Node.js.](../../node.js/outbox#managing-the-dead-letter-queue){.learn-more}
+[Learn more about the dead letter queue in Java.](../../java/outbox#outbox-dead-letter-queue){.learn-more}
 
 Inboxing is especially beneficial in case the message broker does not allow to trigger redelivery and/ or "fix" the message payload.
 

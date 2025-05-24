@@ -21,44 +21,44 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 The [predefined CDS types](../cds/types) are mapped to Java types and as follows:
 
-| CDS Type           | Java Type              | Remark                                                                   |
-|--------------------|------------------------|--------------------------------------------------------------------------|
-| `cds.UUID`         | `java.lang.String`     |                                                                          |
-| `cds.Boolean`      | `java.lang.Boolean`    |                                                                          |
-| `cds.UInt8`        | `java.lang.Short`      |                                                                          |
-| `cds.Int16`        | `java.lang.Short`      |                                                                          |
-| `cds.Int32`        | `java.lang.Integer`    |                                                                          |
-| `cds.Integer`      | `java.lang.Integer`    |                                                                          |
-| `cds.Int64`        | `java.lang.Long`       |                                                                          |
-| `cds.Integer64`    | `java.lang.Long`       |                                                                          |
-| `cds.Decimal`      | `java.math.BigDecimal` |                                                                          |
-| `cds.DecimalFloat` | `java.math.BigDecimal` | deprecated                                                               |
-| `cds.Double`       | `java.lang.Double`     |                                                                          |
-| `cds.Date`         | `java.time.LocalDate`  | date without a time-zone (year-month-day)                                |
-| `cds.Time`         | `java.time.LocalTime`  | time without a time-zone (hour-minute-second)                            |
-| `cds.DateTime`     | `java.time.Instant`    | instant on the time-line with _sec_ precision                            |
-| `cds.Timestamp`    | `java.time.Instant`    | instant on the time-line with _µs_ precision                             |
-| `cds.String`       | `java.lang.String`     |                                                                          |
-| `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
-| `cds.Binary`       | `byte[]`               |                                                                          |
-| `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
-| `cds.Vector`       | `com.sap.cds.CdsVector`| for [vector embeddings](#vector-embeddings)                              |
+| CDS Type           | Java Type               | Remark                                                                   |
+| ------------------ | ----------------------- | ------------------------------------------------------------------------ |
+| `cds.UUID`         | `java.lang.String`      |                                                                          |
+| `cds.Boolean`      | `java.lang.Boolean`     |                                                                          |
+| `cds.UInt8`        | `java.lang.Short`       |                                                                          |
+| `cds.Int16`        | `java.lang.Short`       |                                                                          |
+| `cds.Int32`        | `java.lang.Integer`     |                                                                          |
+| `cds.Integer`      | `java.lang.Integer`     |                                                                          |
+| `cds.Int64`        | `java.lang.Long`        |                                                                          |
+| `cds.Integer64`    | `java.lang.Long`        |                                                                          |
+| `cds.Decimal`      | `java.math.BigDecimal`  |                                                                          |
+| `cds.DecimalFloat` | `java.math.BigDecimal`  | deprecated                                                               |
+| `cds.Double`       | `java.lang.Double`      |                                                                          |
+| `cds.Date`         | `java.time.LocalDate`   | date without a time-zone (year-month-day)                                |
+| `cds.Time`         | `java.time.LocalTime`   | time without a time-zone (hour-minute-second)                            |
+| `cds.DateTime`     | `java.time.Instant`     | instant on the time-line with _sec_ precision                            |
+| `cds.Timestamp`    | `java.time.Instant`     | instant on the time-line with _µs_ precision                             |
+| `cds.String`       | `java.lang.String`      |                                                                          |
+| `cds.LargeString`  | `java.lang.String`      | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
+| `cds.Binary`       | `byte[]`                |                                                                          |
+| `cds.LargeBinary`  | `byte[]`                | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `cds.Vector`       | `com.sap.cds.CdsVector` | for [vector embeddings](#vector-embeddings)                              |
 
 ### SAP HANA-Specific Data Types
 
 To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../advanced/hana#hana-types) are supported:
 
-| CDS Type | Java Type | Remark |
-| --- | --- | ---  |
-| `hana.TINYINT` | `java.lang.Short` | |
-| `hana.SMALLINT` | `java.lang.Short` | |
-| `hana.SMALLDECIMAL` | `java.math.BigDecimal` | |
-| `hana.REAL` | `java.lang.Float` | |
-| `hana.CHAR` | `java.lang.String` | |
-| `hana.NCHAR` | `java.lang.String` | |
-| `hana.VARCHAR` | `java.lang.String` | |
-| `hana.CLOB` | `java.lang.String` | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType` |
-| `hana.BINARY` | `byte[]` |  |
+| CDS Type            | Java Type              | Remark                                                              |
+| ------------------- | ---------------------- | ------------------------------------------------------------------- |
+| `hana.TINYINT`      | `java.lang.Short`      |                                                                     |
+| `hana.SMALLINT`     | `java.lang.Short`      |                                                                     |
+| `hana.SMALLDECIMAL` | `java.math.BigDecimal` |                                                                     |
+| `hana.REAL`         | `java.lang.Float`      |                                                                     |
+| `hana.CHAR`         | `java.lang.String`     |                                                                     |
+| `hana.NCHAR`        | `java.lang.String`     |                                                                     |
+| `hana.VARCHAR`      | `java.lang.String`     |                                                                     |
+| `hana.CLOB`         | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `hana.BINARY`       | `byte[]`               |                                                                     |
 
 
 > <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./cqn-services/persistence-services#database-support) for more details on database support and limitations.
@@ -260,7 +260,154 @@ Empty nested maps are automatically removed by `removePath`.
 Use path access methods of `CdsData` to conveniently manipulate nested data structures.
 :::
 
-### Serialization
+### Deserialization and Serialization
+
+To deserialize JSON strings to CDS Data and serialize CDS Data to JSON strings the
+interface `CdsJsonConverter` can be used. `CdsJsonConverter` implements the Builder design
+pattern for creating instances:
+
+```java
+CdsModel model;
+CdsJsonConverter converter = CdsJsonConverter.builder(model).build();
+```
+
+The builder requires a CDS Model that is used for serialization and deserialization of data.
+It provides methods to configure the converter before building an instance:
+
+```java
+CdsModel model;
+CdsJsonConverter converter = CdsJsonConverter
+  .builder(model)
+  .include(CdsJsonConverter.Include.REJECTING)
+  .writeFeatures(JSONizable.WriteFeatures.WRITE_NUMBERS_AS_STRINGS)
+  .build();
+```
+
+The `include` method defines how JSON data is handled when it does not correspond to declared CDS properties.
+The `writeFeatures` allows to configure the serialization of CDS Data.
+
+`CdsJsonConverter` provides two kinds of methods to parse JSON data to CDS data, parsing a JSON object to
+CDS Data and parsing a JSON array to a list of CDS Data:
+
+::: code-group
+```java [Parse object]
+// Converts a JSON object string to a CdsData instance using the specified qualified name.
+CdsData fromJsonObject(@Nonnull String jsonObject, @Nonnull String qualifiedName);
+
+// Converts a JSON object string to a CdsData instance using the specified CDS structured type.
+CdsData fromJsonObject(@Nonnull String jsonObject, @Nonnull CdsStructuredType structuredType);
+
+// Converts a JSON object string to a specific class type that extends @link CdsData.
+<T extends CdsData> T fromJsonObject(@Nonnull String json, @Nonnull Class<T> clazz);
+
+```
+
+```java [Parse array]
+// Converts a JSON array string to a list of CdsData instances using the specified qualified name.
+List<CdsData> fromJsonArray(@Nonnull String jsonArray, @Nonnull String qualifiedName);
+
+// Converts a JSON array string to a list of CdsData instances using the specified CDS structured type.
+List<CdsData> fromJsonArray(@Nonnull String jsonArray, @Nonnull CdsStructuredType structuredType);
+
+// Converts a JSON array string to a list of instnces of a specific class type that extends CdsData.
+<T extends CdsData> List<T> fromJsonArray(@Nonnull String json, @Nonnull Class<T> clazz);
+```
+:::
+
+Both kinds provide different forms of the methods:
+
+1. Parse the JSON string based on the fully qualified name of a CDS Model structured type.
+2. Parse the JSON string based on the CDS Structured Type retrieved from the CDS Model.
+3. Parse the JSON string based on a generated POJO.
+
+Depending on the configuration exceptions might be thrown, if the JSON data doesn't match the type to which it shall be parsed.
+
+The following examples show how to use the different method kinds.
+
+::: code-group
+```java [Example: Parse object]
+String json;
+CdsModel model;
+CdsJsonConverter converter = CdsJsonConverter
+  .builder(model)
+  .include(CdsJsonConverter.Include.REJECTING)
+  .writeFeatures(JSONizable.WriteFeatures.WRITE_NUMBERS_AS_STRINGS)
+  .build();
+
+// Converts a JSON object string to a CdsData instance using the specified qualified name.
+CdsData cdsData = converter.fromJsonObject(json, "CatalogService.Books");
+
+// Converts a JSON object string to a CdsData instance using the specified CDS structured type.
+CdsStructuredType structuredType = model.getStructuredType("CatalogService.Books");
+cdsData = converter.fromJsonObject(json, structuredType);
+
+
+// Converts a JSON object string to a specific class type that extends @link CdsData.
+Books book = converter.fromJsonObject(json, Books.class);
+
+```
+
+```java [Example: Parse array]
+String jsonArray;
+CdsModel model;
+CdsJsonConverter converter = CdsJsonConverter
+  .builder(model)
+  .include(CdsJsonConverter.Include.REJECTING)
+  .writeFeatures(JSONizable.WriteFeatures.WRITE_NUMBERS_AS_STRINGS)
+  .build();
+
+// Converts a JSON array string to a list of CdsData instances using the specified qualified name.
+List<CdsData> cdsData = converter.fromJsonArray(jsonArray, "CatalogService.Books");
+
+// Converts a JSON array string to a list of CdsData instances using the specified CDS structured type.
+CdsStructuredType structuredType = model.getStructuredType("CatalogService.Books");
+cdsData = fromJsonArray(jsonArray, structuredType);
+
+// Converts a JSON array string to a list of instnces of a specific class type that extends CdsData.
+List<Books> fromJsonArray(jsonArray, Books.class);
+```
+:::
+
+Besides parsing JSON data, `CdsJsonConverter` also supports serialization of CDS Data to a JSON object
+or a JSON array:
+
+```java
+CdsModel model;
+CdsJsonConverter converter = CdsJsonConverter
+  .builder(model)
+  .include(CdsJsonConverter.Include.REJECTING)
+  .writeFeatures(JSONizable.WriteFeatures.WRITE_NUMBERS_AS_STRINGS)
+  .build();
+
+Books book = Books.create();
+book.setTitle("Moby-Dick");
+book.putPath("author.name", "Herman Melville");
+
+Strong json = converter.toJsonObject(book);
+/*
+Result:
+
+{"title":"Moby-Dick", "author":{"name":"Herman Melville"}}
+*/
+
+List<Book> books = new ArrayList<>();
+books.add(book);
+book = Books.create();
+book.setTitle("Sherlock Holmes");
+book.putPath("author.name", "Sir Arthur Conan Doyle");
+
+String jsonArray = converter.toJsonArray(books);
+/*
+Result:
+
+[
+  {"title":"Moby-Dick", "author":{"name":"Herman Melville"}},
+  {"title":"Sherlock Holmes", "author":{"name":"Sir Arthur Conan Doyle"}}
+]
+*/
+```
+
+The serialization is donne according to the write features that are set when building the converter.
 
 CDS Data has built-in serialization to JSON, which is helpful for debugging:
 
@@ -271,6 +418,7 @@ person.putPath("name.first", "Frank"); // path access
 
 person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ```
+
 ::: warning
 Avoid cyclic relationships between CdsData objects when using toJson.
 :::

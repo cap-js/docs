@@ -23,7 +23,7 @@ Every CAP service can be _queued_, meaning that event dispatching becomes _async
 ## Queueing a Service
 
 
-### cds.queued(srv) {.method}
+### cds. queued (srv) {.method}
 
 Programmatically, you can get the queued service as follows:
 
@@ -52,7 +52,7 @@ Once you queued a service, you cannot override its configuration options again.
 :::
 
 
-### cds.unqueued(srv) {.method}
+### cds. unqueued (srv) {.method}
 
 Use this on a queued service to get back the original service:
 
@@ -100,7 +100,7 @@ You can disable it globally with:
 
 Using the persistent queue, the to-be-emitted message is stored in a database table within the current transaction, therefore transactional consistency is guaranteed.
 
-You can use the following configuration options:
+::: details You can use the following configuration options:
 
 ```json
 {
@@ -127,6 +127,7 @@ The optional parameters are:
 - `timeout` (default `"1h"`): The time after which a message with `status = "processing"` can be processed again. Only for `legacyLocking = false`.
 - `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. This is recommended but incompatible for parallel usage with `@sap/cds^8` instances.
 
+:::
 
 Once the transaction succeeds, the messages are read from the database table and dispatched.
 If it was successful, the respective message is deleted from the database table.

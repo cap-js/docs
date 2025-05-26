@@ -89,17 +89,7 @@ For transactional safety, you're encouraged to use the [persistent queue](#persi
 
 ## Persistent Queue (Default) {#persistent-queue}
 
-The persistent queue is enabled by default.
-
-You can disable it globally via:
-
-```json
-{
-  "requires": {
-    "queue": false
-  }
-}
-```
+The persistent queue is the default configuration.
 
 Using the persistent queue, the to-be-emitted message is stored in a database table within the current transaction, therefore transactional consistency is guaranteed.
 
@@ -266,11 +256,14 @@ You can enable the in-memory queue globally with:
   }
 }
 ```
+
 Messages are emitted only after the current transaction is successfully committed. Until then, messages are only kept in memory.
 This is similar to the following code if done manually:
+
 ```js
 cds.context.on('succeeded', () => this.emit(msg))
 ```
+
 ::: warning No retry mechanism
 The message is lost if the emit fails. There's no retry mechanism.
 :::
@@ -278,7 +271,17 @@ The message is lost if the emit fails. There's no retry mechanism.
 
 ## Immediate Emit
 
-To disable deferred emitting for a particular service, you can set the `outboxed` option of your service to `false`:
+Queueing can be disabled globally via:
+
+```json
+{
+  "requires": {
+    "queue": false
+  }
+}
+```
+
+To disable deferred emitting for a particular service only, you can set the `outboxed` option of that service to `false`:
 
 ```json
 {

@@ -50,6 +50,8 @@ const qd_srv = cds.queued(srv, { maxAttempts: 5 })
 Once you queued a service, you cannot override its configuration options again.
 :::
 
+For backwards compatibility, `cds.outboxed(srv)` works as a synonym.
+
 
 ### cds. unqueued (srv) {.method}
 
@@ -60,6 +62,8 @@ const srv = cds.unqueued(qd_srv)
 ```
 
 This is useful if your service is outboxed (that is, queued) per configuration.
+
+For backwards compatibility, `cds.unboxed(srv)` works as a synonym.
 
 
 ### Per Configuration

@@ -371,7 +371,7 @@ npm add @sap/xssec
 
 #### Token Validation
 
-For tokens issued by SAP Cloud Identity Service, `@sap/xssec` offers two validations: (1) token ownership validation via x5t thumbprint and (2) proof token validation.
+For tokens issued by SAP Cloud Identity Service, `@sap/xssec` offers two additional validations: (1) token ownership via x5t thumbprint and (2) proof-of-possession.
 These validations are enabled by default for requests to the app's `cert` route (`.cert` segment in the domain).
 
 The default behavior can be overwritten via additional configuration like so:

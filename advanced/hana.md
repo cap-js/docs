@@ -50,7 +50,7 @@ Steps to match the signature of a database object in a facade entity:
 * For a view, table function, or calculation view with parameters, check that the parameter names and types match, too.
   Functions with table-like input parameters are not supported.
 
-> Note: If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add [`@assert.notNull: false`](../guides/providing-services#assert-notnull). This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
+> Note: If a field of that entity is defined as `not null` and you want to disable its runtime check, you can add `@assert.notNull: false`. This is important if you want to use, for example [SAP HANA history tables](https://help.sap.com/docs/SAP_HANA_PLATFORM/6b94445c94ae495c83a19646e7c3fd56/d0b2c5142a19405fb912f71782cd0a84.html).
 
 
 As a result, the database name is defined by the name of the entity or its elements, after applying the SQL name mapping.

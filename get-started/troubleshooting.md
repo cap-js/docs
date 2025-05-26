@@ -374,7 +374,7 @@ sqlite>
 
 If you want to test further, use _.help_ command to see all available commands in _sqlite3_.
 
-In case you want a visual interface tool to work with SQLite, you can use [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
+In case you want a visual interface tool to work with SQLite, you can use [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer). It's available as an extension for VS Code and integrated in SAP Business Application Studio.
 
 
 ## SAP HANA { #hana}

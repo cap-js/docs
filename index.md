@@ -36,7 +36,7 @@ features:
   details:
     •&nbsp; Capture intent ⇒ What, not how! <br/>
     •&nbsp; Minimized boilerplate coding <br/>
-    •&nbsp; Developers + domain experts <br/>
+    •&nbsp; Minimized technical debt <br/>
   link: about/
   linkText: Read the Primer
 
@@ -44,7 +44,7 @@ features:
   icon: 🌀
   details:
     •&nbsp; Jumpstart with minimal setup <br/>
-    •&nbsp; Rapid dev at minimized costs <br/>
+    •&nbsp; Fast inner loop dev & tests <br/>
     •&nbsp; Grow as you go... <br/>
   link: get-started/in-a-nutshell
   linkText: Get Started in a Nutshell

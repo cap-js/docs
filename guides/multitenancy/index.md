@@ -34,19 +34,22 @@ npm update -g @sap/cds-dk
 
 To get a ready-to-use _bookshop_ application you can modify and deploy, run:
 
-::: code-group
+<span class="impl node">
 
 ```sh [Node.js]
 cds init bookshop --add sample
 cd bookshop
 ```
 
+</span>
+<span class="impl java">
+
 ```sh [Java]
 cds init bookshop --java --add tiny-sample
 cd bookshop
 ```
 
-:::
+</span>
 
 ## Enable Multitenancy {#enable-multitenancy}
 

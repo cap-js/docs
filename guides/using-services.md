@@ -623,7 +623,8 @@ CAP automatically tries to delegate queries to database entities, which don't ex
 
 To avoid this error, you need to handle projections. Write a handler function to delegate a query to the remote service and run the incoming query on the external service.
 
-::: code-group
+<span class="impl node">
+
 ```js [Node.js]
 module.exports = cds.service.impl(async function() {
   const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
@@ -633,6 +634,9 @@ module.exports = cds.service.impl(async function() {
   });
 });
 ```
+
+</span>
+<span class="impl java">
 
 ```java [Java]
 @Component
@@ -649,7 +653,7 @@ public class RiskServiceHandler implements EventHandler {
 }
 ```
 
-:::
+</span>
 
 [For Node.js, get more details in the end-to-end tutorial.](https://developers.sap.com/tutorials/btp-app-ext-service-add-consumption.html#0a5ed8cc-d0fa-4a52-bb56-9c864cd66e71){.learn-more}
 

@@ -1,11 +1,10 @@
 ---
 synopsis: >
-  Learn details about the task-queue feature.
-# layout: node-js
+  Learn details about the task queue feature.
 status: released
 ---
 
-# Queuing with `cds.queued`
+# Queueing with `cds.queued`
 
 [[toc]]
 
@@ -20,7 +19,7 @@ This prevents accidental execution of remote calls in case the transaction is ro
 Every CAP service can be _queued_, meaning that event dispatching becomes _asynchronous_.
 
 
-## Queuing a Service
+## Queueing a Service
 
 
 ### cds. queued (srv) {.method}
@@ -29,10 +28,10 @@ Programmatically, you can get the queued service as follows:
 
 ```js
 const srv = await cds.connect.to('yourService')
-const queued = cds.queued(srv)
+const qd_srv = cds.queued(srv)
 
-await queued.emit('someEvent', { some: 'message' }) // asynchronous
-await queued.send('someEvent', { some: 'message' }) // asynchronous
+await qd_srv.emit('someEvent', { some: 'message' }) // asynchronous
+await qd_srv.send('someEvent', { some: 'message' }) // asynchronous
 ```
 
 ::: tip `await` needed
@@ -42,10 +41,10 @@ You still need to `await` these operations because they're asynchronous. In case
 The `cds.queued` function can also be called with optional configuration options.
 
 ```js
-const queued = cds.queued(srv, { maxAttempts: 5 })
+const qd_srv = cds.queued(srv, { maxAttempts: 5 })
 ```
 
-> The persistent queue can only be used if it's not disabled globally by `cds.requires.queue = false` because it requires a dedicated database table.
+> The persistent queue can only be used if it is not disabled globally via `cds.requires.queue = false`, as it requires a dedicated database table.
 
 ::: warning One-time configuration
 Once you queued a service, you cannot override its configuration options again.
@@ -57,7 +56,7 @@ Once you queued a service, you cannot override its configuration options again.
 Use this on a queued service to get back to the original service:
 
 ```js
-const unqueued = cds.unqueued(srv)
+const srv = cds.unqueued(qd_srv)
 ```
 
 This is useful if your service is outboxed (that is, queued) per configuration.
@@ -81,14 +80,14 @@ You can configure the outbox behavior by specifying the `outboxed` option in you
 }
 ```
 
-For transactional safety, you're encouraged to use the [persistent queue](#persistent-queue) which is enabled by default.
+For transactional safety, you're encouraged to use the [persistent queue](#persistent-queue), which is enabled by default.
 
 
 ## Persistent Queue (Default) {#persistent-queue}
 
 The persistent queue is enabled by default.
 
-You can disable it globally with:
+You can disable it globally via:
 
 ```json
 {
@@ -100,7 +99,7 @@ You can disable it globally with:
 
 Using the persistent queue, the to-be-emitted message is stored in a database table within the current transaction, therefore transactional consistency is guaranteed.
 
-::: details You can use the following configuration options:
+::: details You can use the following configuration options (listed with their respective default value):
 
 ```json
 {
@@ -108,11 +107,11 @@ Using the persistent queue, the to-be-emitted message is stored in a database ta
     "queue": {
       "kind": "persistent-queue",
       "maxAttempts": 20,
+      "parallel": true,
       "chunkSize": 10,
       "storeLastError": true,
-      "parallel": true,
-      "timeout": "1h",
-      "legacyLocking": true
+      "legacyLocking": true,
+      "timeout": "1h"
     }
   }
 }
@@ -120,24 +119,24 @@ Using the persistent queue, the to-be-emitted message is stored in a database ta
 
 The optional parameters are:
 
-- `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will remain in the database table.
-- `chunkSize` (default `10`): The number of messages which are read from the database table in one go. Only applies for `parallel != false`.
-- `storeLastError` (default `true`): Specifies if error information of the last failed emit is stored in the tasks table.
-- `parallel` (default `true`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
-- `timeout` (default `"1h"`): The time after which a message with `status = "processing"` can be processed again. Only for `legacyLocking = false`.
-- `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. This is recommended but incompatible for parallel usage with `@sap/cds^8` instances.
+- `maxAttempts` (default `20`): The number of unsuccessful emits until the message is considered unprocessable. The message will remain in the database table!
+- `parallel` (default `true`): Specifies if messages are sent in parallel (faster, but the order isn't guaranteed).
+- `chunkSize` (default `10`): The number of messages that are read from the database table in one go. Only applies for `parallel !== false`.
+- `storeLastError` (default `true`): Specifies whether error information of the last failed emit is stored in the tasks table.
+- `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. Although this is the recommended approach, it is incompatible with task runners still on `@sap/cds^8`.
+- `timeout` (default `"1h"`): The time after which a message with `status === "processing"` is considered to be abandoned and eligable to be processed again. Only for `legacyLocking === false`.
 
 :::
 
 Once the transaction succeeds, the messages are read from the database table and dispatched.
-If it was successful, the respective message is deleted from the database table.
-If not, the system retries the message after exponentially increasing delays.
-After a maximum number of attempts, the message is ignored for processing and remains in the database table which
+If processing was successful, the respective message is deleted from the database table.
+If processing failed, the system retries the message after exponentially increasing delays.
+After a maximum number of attempts, the message is ignored for processing and remains in the database, which
 therefore also acts as a dead letter queue.
 See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), to learn about how to handle such messages.
 
-There's only one active message processor per service, tenant, app instance, and message.
-This ensures that no duplicate emits happen, except in the unlikely case of an app crash right after the emit and before the message is deleted.
+There is only one active message processor per service, tenant, app instance, and message.
+This ensures that no duplicate emits happen, except in the highly unlikely case of an app crash right after successful processing but  before the message could be deleted.
 
 ::: tip Unrecoverable errors
 Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
@@ -165,16 +164,13 @@ entity Messages {
 }
 ```
 
-In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`,
-for example to expose it in a service.
+In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`, for example to expose it in a service (cf. [Managing the Dead Letter Queue](#managing-the-dead-letter-queue)).
 
 
 #### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing. It can be triggered manually using the `flush` method.
-- The service that handles the queued event must not use user roles and attributes as they are not stored. However, the user ID is stored to re-create the correct context.
-
-### Disable Persistent Queue
+- The service that handles the queued event must not rely on user roles and attributes, as they are not stored with the message. In other words, asynchroneous task are always processed in a priviledged mode. However, the user ID is stored to re-create the correct context.
 
 ### Managing the Dead Letter Queue
 
@@ -220,7 +216,9 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 <<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
 :::
 
-### Additional APIs <Beta />
+### Additional APIs <Alpha />
+
+TODO: are these not the same for the in-memory queue?
 
 To manually trigger the message processing, for example if your server is restarted, you can use the `flush` method.
 
@@ -291,7 +289,7 @@ To disable deferred emitting for a particular service, you can set the `outboxed
 
 ## Troubleshooting
 
-### Delete Entries in the Tasks Table
+### Delete Entries in the Messages Table
 
 To manually delete entries in the table `cds.outbox.Messages`, you can either
 expose it in a service, see [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), or programmatically modify it using the `cds.outbox.Messages`
@@ -302,11 +300,11 @@ const db = await cds.connect.to('db')
 await DELETE.from('cds.outbox.Messages')
 ```
 
-### Tasks Table Not Found
+### Messages Table Not Found
 
-If the tasks table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
+If the messages table is not found on the database, this can be caused by insufficient configuration data in _package.json_.
 
-In case you have overwritten `requires.db.model` there, make sure to add the queue model path `@sap/cds/srv/outbox`:
+In case you have overwritten `requires.db.model` there, make sure to add the outbox model path `@sap/cds/srv/outbox`:
 
 ```jsonc
 "requires": {

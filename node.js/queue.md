@@ -5,7 +5,7 @@ synopsis: >
 status: released
 ---
 
-# Queueing with `cds.queued`
+# Queuing with `cds.queued`
 
 [[toc]]
 
@@ -20,7 +20,7 @@ This prevents accidental execution of remote calls in case the transaction is ro
 Every CAP service can be _queued_, meaning that event dispatching becomes _asynchronous_.
 
 
-## Queueing a Service
+## Queuing a Service
 
 
 ### cds. queued (srv) {.method}
@@ -35,8 +35,8 @@ await queued.emit('someEvent', { some: 'message' }) // asynchronous
 await queued.send('someEvent', { some: 'message' }) // asynchronous
 ```
 
-::: tip
-You still need to `await` these operations because they are asynchronous. In case of a persistent queue, which is the default, messages are stored in the database, within the current transaction.
+::: tip `await` needed
+You still need to `await` these operations because they're asynchronous. In case of a persistent queue, which is the default, messages are stored in the database, within the current transaction.
 :::
 
 The `cds.queued` function can also be called with optional configuration options.
@@ -54,13 +54,13 @@ Once you queued a service, you cannot override its configuration options again.
 
 ### cds. unqueued (srv) {.method}
 
-Use this on a queued service to get back the original service:
+Use this on a queued service to get back to the original service:
 
 ```js
 const unqueued = cds.unqueued(srv)
 ```
 
-This is useful if your service is outboxed (i.e., queued) per configuration.
+This is useful if your service is outboxed (that is, queued) per configuration.
 
 
 ### Per Configuration
@@ -120,9 +120,9 @@ Using the persistent queue, the to-be-emitted message is stored in a database ta
 
 The optional parameters are:
 
-- `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will still remain in the database table.
+- `maxAttempts` (default `20`): The number of unsuccessful emits until the message is ignored. It will remain in the database table.
 - `chunkSize` (default `10`): The number of messages which are read from the database table in one go. Only applies for `parallel != false`.
-- `storeLastError` (default `true`): Specifies if error information of the last failed emit should be stored in the tasks table.
+- `storeLastError` (default `true`): Specifies if error information of the last failed emit is stored in the tasks table.
 - `parallel` (default `true`): Specifies if messages are sent in parallel (faster but the order isn't guaranteed).
 - `timeout` (default `"1h"`): The time after which a message with `status = "processing"` can be processed again. Only for `legacyLocking = false`.
 - `legacyLocking` (default `true`): If set to `false`, database locks are only used to set the status of the message to `processing` to prevent long-kept database locks. This is recommended but incompatible for parallel usage with `@sap/cds^8` instances.
@@ -136,10 +136,10 @@ After a maximum number of attempts, the message is ignored for processing and re
 therefore also acts as a dead letter queue.
 See [Managing the Dead Letter Queue](#managing-the-dead-letter-queue), to learn about how to handle such messages.
 
-There is only one active message processor per service, tenant, app instance and message.
-This ensures no duplicate emits, except in the unlikely case of an app crash right after the emit and before the message is deleted.
+There's only one active message processor per service, tenant, app instance, and message.
+This ensures that no duplicate emits happen, except in the unlikely case of an app crash right after the emit and before the message is deleted.
 
-::: tip
+::: tip Unrecoverable errors
 Some errors during the emit are identified as unrecoverable, for example in [SAP Event Mesh](../guides/messaging/event-mesh) if the used topic is forbidden.
 The respective message is then updated and the `attempts` field is set to `maxAttempts` to prevent further processing.
 [Programming errors](./best-practices#error-types) crash the server instance and must be fixed.
@@ -172,8 +172,9 @@ for example to expose it in a service.
 #### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing. It can be triggered manually using the `flush` method.
-- The service that handles the queued event must not use user roles and attributes as they are not stored. However, the user ID is stored to recreate the correct context.
+- The service that handles the queued event must not use user roles and attributes as they are not stored. However, the user ID is stored to re-create the correct context.
 
+### Disable Persistent Queue
 
 ### Managing the Dead Letter Queue
 
@@ -228,7 +229,7 @@ const srv = await cds.connect.to('yourService')
 cds.queued(srv).flush()
 ```
 
-Once a message has been successfully processed, it will trigger the `<event>/#succeeded` handlers.
+Once a message has been successfully processed, it triggers the `<event>/#succeeded` handlers.
 
 ```js
 srv.after('someEvent/#succeeded', (data, req) => {
@@ -246,8 +247,8 @@ srv.after('someEvent/#failed', (data, req) => {
 })
 ```
 
-::: tip
-Event handlers have to be registered for these specific events. The `*` wildcard handler will not be called for these.
+::: tip Register on specific events
+Event handlers have to be registered for these specific events. The `*` wildcard handler is not called for these.
 :::
 
 ## In-Memory Queue
@@ -269,7 +270,7 @@ This is similar to the following code if done manually:
 cds.context.on('succeeded', () => this.emit(msg))
 ```
 ::: warning No retry mechanism
-The message is lost if the emit fails. There is no retry mechanism.
+The message is lost if the emit fails. There's no retry mechanism.
 :::
 
 

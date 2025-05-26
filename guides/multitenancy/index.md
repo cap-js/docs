@@ -274,6 +274,11 @@ After adding multitenancy, Maven build should be used to generate the model rela
 mvn install
 ```
 
+:::warning Error message: 'Invalid MTX sidecar configuration'
+If you get the message 'Invalid MTX sidecar configuration', you need to add the dependency to `@sap/cds-mtxs` also to the `package.json` in your project root.
+This is a known issue in CDS 9.
+:::
+
 </div>
 
 ## Test-Drive Locally {#test-locally}

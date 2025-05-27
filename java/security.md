@@ -65,9 +65,9 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 #### Proof-Of-Possession for IAS { #proof-of-possession}
 
-Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
+Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application.
 
-Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. 
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token.
 
 On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
 
@@ -357,7 +357,6 @@ In addition to standard authorization, CAP Java provides additional out of the b
 
 Queries to Application Services are not only authorized by the target entity which has a `@restrict` or `@requires` annotation, but also for all __associated entities__ that are used in the statement. 
 __Compositions__ are neither checked nor extended with additional filters.
-
 For instance, consider the following model:
 
 ```cds
@@ -431,7 +430,7 @@ It can be disabled by setting <Config java>cds.security.authorization.instance-b
 
 #### Authorization Checks On Input Data { #input-data-auth }
 
-CAP Java now can also validate input data of `CREATE` and `UPDATE` events with regards to instance-based authorization conditions.
+Input data of `CREATE` and `UPDATE` events is also validated with regards to instance-based authorization conditions.
 Invalid input that does not meet the condition is rejected with response code `400`.
 
 Let's assume an entity `Orders` which restricts access to users classified by assigned accounting areas:

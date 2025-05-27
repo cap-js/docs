@@ -17,7 +17,7 @@ The _task queue_ feature allows you to defer event processing.
 A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
 This prevents accidental execution of remote calls in case the transaction is rolled back.
 
-Every non-database service can be _queued_, meaning that event dispatching becomes _asynchronous_.
+Every non-database CAP service can be _queued_, meaning that event dispatching becomes _asynchronous_.
 
 ::: tip
 The _task queue_ feature can be disabled globally via <Config>cds.requires.queue = false</Config>.

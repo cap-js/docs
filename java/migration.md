@@ -122,6 +122,16 @@ The following table gives an overview about the removed properties:
 | `cds.multiTenancy.subscriptionManager.`<br>`clientCertificateHeader` | `cds.security.authentication.`<br>`clientCertificateHeader` |
 | `cds.multiTenancy.security.`<br>`internalUserAccess.enabled` | `cds.security.authentication.`<br>`internalUserAccess.enabled` |
 
+### Removed Java APIs
+
+- Removed deprecated classes:
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`
+
+- Removed deprecated methods:
+  - `com.sap.cds.ql.cqn.Modifier.search(String term)`
+  - `com.sap.cds.ql.cqn.Modifier.selectListValue(Value<?> value, String alias)`
+  - `com.sap.cds.ql.SelectableValue.withoutAlias()`
+
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 
 ### Minimum Versions

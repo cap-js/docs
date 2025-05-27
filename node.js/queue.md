@@ -24,6 +24,10 @@ Every CAP service can be _queued_, meaning that event dispatching becomes _async
 
 ### cds. queued (srv) {.method}
 
+```tsx
+function cds.queued ( srv: Service, options? ) => QueuedService
+```
+
 Programmatically, you can get the queued service as follows:
 
 ```js
@@ -54,6 +58,10 @@ For backwards compatibility, `cds.outboxed(srv)` works as a synonym.
 
 
 ### cds. unqueued (srv) {.method}
+
+```tsx
+function cds.unqueued ( srv: QueuedService ) => Service
+```
 
 Use this on a queued service to get back to the original service:
 

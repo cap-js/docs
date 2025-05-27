@@ -323,7 +323,7 @@ cds:
 ```
 :::
 
-Support for SAP Integration Suite, Advanced Event Mesh is provided via [plugin](../plugins/#advanced-event-mesh).
+Support for SAP Integration Suite, advanced event mesh is provided via [plugin](../plugins/#advanced-event-mesh).
 
 <span id="beforeredispubsub" />
 

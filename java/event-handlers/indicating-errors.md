@@ -129,26 +129,10 @@ CAP Java provides out-of-the-box translation for error messages that originate f
 The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
 You can disable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: false</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
-### Exporting the Default Messages
+### Provide custom error messages
 
-As of CAP Java 1.10.0, you can extract the available default messages as a resource bundle file for further processing (for example, translation). Therefore, the delivery artifact [cds-services-utils](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) contains a resource bundle `cds-messages-template.properties` with all available error codes and default messages. Application developers can use this template to customize error messages thrown by the CAP Java SDK in the application.
-
-1. [Download](https://search.maven.org/artifact/com.sap.cds/cds-services-utils) the artifact or get it from the local Maven repository in `~/.m2/repository/com/sap/cds/cds-services-utils/<VERSION>/cds-services-utils-<VERSION>.jar`.
-1. Extract the file.
-    ```sh
-    jar -f cds-services-utils-<VERSION>.jar -x cds-messages-template.properties
-    ```
-    ::: tip
-    \<VERSION> is the version of CAP Java you're using in your project.
-    :::
-
-1. Rename the extracted file `cds-messages-template.properties` appropriately (for example, to `cds-messages.properties`) and move it to the resource directory of your application.
-1. In your Spring Boot application, you have to register this additional [resource bundle](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.internationalization) accordingly.
-
-> Now, you're able to customize the stack error messages in your application.
-
-With new CAP Java versions, there could be also new or changed error messages in the stack. To identify these changes, export `cds-messages-template.properties` from the new CAP Java version and compare it with the previous version using a diff tool.
-
+By default, CAP Java provides error messages in several languages. If an error message or translation isn't sufficient for an application, it can be overwritten with a custom error message. Applications can provide the new error message under the respective error code in the application's `messages.properties` resource bundle under `src/main/resources`.
+To know which error codes and messages are available by default, you can have a look at the Java enumeration `com.sap.cds.services.utils.CdsErrorStatuses` with your favorite IDE. This enumeration shows all available error codes and messages that are used by the CAP Java runtime.
 
 ## Target
 

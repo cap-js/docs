@@ -178,7 +178,7 @@ In your CDS model, you can refer to the entity `cds.outbox.Messages` using the p
 ### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing. It can be triggered manually using the `flush` method.
-- The service that handles the queued event must not rely on user roles and attributes, as they are not stored with the message. In other words, asynchronous task are always processed in a priviledged mode. However, the user ID is stored to re-create the correct context.
+- The service that handles the queued event must not rely on user roles and attributes, as they are not stored with the message. In other words, asynchronous task are always processed in a privileged mode. However, the user ID is stored to re-create the correct context.
 
 
 ### Managing the Dead Letter Queue

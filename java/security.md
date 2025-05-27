@@ -420,7 +420,7 @@ Hence, if the user isn't authorized to query an entity, requests targeting a *si
 To allow the UI to distinguish between *not found* and *forbidden*, CAP Java can detect this situation and rejects`PATCH` and `DELETE` requests to single entities with forbidden accordingly.
 The additional authorization check may affect performance.
 
-::: warn
+::: warning
 To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable or add custom code to overrule the default behaviour otherwise.
 :::
 

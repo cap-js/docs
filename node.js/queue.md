@@ -212,7 +212,14 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 
 ### Additional APIs <Alpha />
 
-TODO: are these not the same for the in-memory queue?
+You can use the `schedule` method as a shortcut for `cds.queued(srv).send()`, with optional scheduling options `after` and `every`:
+
+```js
+await srv.schedule('someEvent', { some: 'message' })
+await srv.schedule('someEvent', { some: 'message' }).after('1h') // after one hour
+await srv.schedule('someEvent', { some: 'message' }).every('1h') // every hour after each processing
+```
+
 
 To manually trigger the message processing, for example if your server is restarted, you can use the `flush` method.
 

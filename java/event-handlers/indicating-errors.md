@@ -84,6 +84,7 @@ The OData adapter turns this exception into an OData error response to indicate 
 
 `Messages.throwIfError()` is automatically called at the end of the `Before` handler phase to abort the event processing in case of errors. It is recommended to use the Messages API for validation errors and rely on the framework calling `Messages.throwIfError()` automatically, instead of throwing a `ServiceException`.
 
+
 ## Formatting and Localization
 
 Texts passed to both `ServiceException` and the `Messages` API can be formatted and localized.
@@ -126,7 +127,7 @@ throw new ServiceException(ErrorStatuses.BAD_REQUEST, "my.message.key", paramNum
 CAP Java provides out-of-the-box translation for error messages that originate from input validation annotations such as `@assert...` or `@mandatory` and security annotations `@requires` and `@restrict`.
 
 The error messages are optimized for UI scenarios and avoid any technical references to entity names or element names. Message targets are used where appropriate to allow the UI to show the error message next to the affected UI element.
-You can enable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: true</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
+You can disable these translated error messages by setting [<Config java>cds.errors.defaultTranslations.enabled: false</Config>](../developing-applications/properties#cds-errors-defaultTranslations-enabled).
 
 ### Provide custom error messages
 

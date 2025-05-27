@@ -9,6 +9,7 @@ status: released
 [[toc]]
 
 
+
 ## Overview
 
 The _task queue_ feature allows you to defer event processing.
@@ -16,7 +17,11 @@ The _task queue_ feature allows you to defer event processing.
 A common use case is the outbox pattern, where remote operations are deferred until the main transaction has been successfully committed.
 This prevents accidental execution of remote calls in case the transaction is rolled back.
 
-Every CAP service can be _queued_, meaning that event dispatching becomes _asynchronous_.
+Every non-database service can be _queued_, meaning that event dispatching becomes _asynchronous_.
+
+::: tip
+The _task queue_ feature can be disabled globally via <Config>cds.requires.queue = false</Config>.
+:::
 
 
 ## Queueing a Service
@@ -95,13 +100,14 @@ You can configure the outbox behavior by specifying the `outboxed` option in you
 For transactional safety, you're encouraged to use the [persistent queue](#persistent-queue), which is enabled by default.
 
 
+
 ## Persistent Queue (Default) {#persistent-queue}
 
 The persistent queue is the default configuration.
 
 Using the persistent queue, the to-be-emitted message is stored in a database table within the current transaction, therefore transactional consistency is guaranteed.
 
-::: details You can use the following configuration options (listed with their respective default value):
+::: details You can use the following configuration options:
 
 ```json
 {
@@ -169,10 +175,11 @@ entity Messages {
 In your CDS model, you can refer to the entity `cds.outbox.Messages` using the path `@sap/cds/srv/outbox`, for example to expose it in a service (cf. [Managing the Dead Letter Queue](#managing-the-dead-letter-queue)).
 
 
-#### Known Limitations
+### Known Limitations
 
 - If the app crashes, another emit for the respective tenant and service is necessary to restart the message processing. It can be triggered manually using the `flush` method.
 - The service that handles the queued event must not rely on user roles and attributes, as they are not stored with the message. In other words, asynchroneous task are always processed in a priviledged mode. However, the user ID is stored to re-create the correct context.
+
 
 ### Managing the Dead Letter Queue
 
@@ -218,6 +225,7 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 <<< ./assets/dead-letter-queue-2.js#snippet{10-12,14-16} [srv/outbox-dead-letter-queue-service.js]
 :::
 
+
 ### Additional APIs <Alpha />
 
 You can use the `schedule` method as a shortcut for `cds.queued(srv).send()`, with optional scheduling options `after` and `every`:
@@ -258,6 +266,8 @@ srv.after('someEvent/#failed', (data, req) => {
 Event handlers have to be registered for these specific events. The `*` wildcard handler is not called for these.
 :::
 
+
+
 ## In-Memory Queue
 
 You can enable the in-memory queue globally with:
@@ -284,17 +294,8 @@ The message is lost if the emit fails. There's no retry mechanism.
 :::
 
 
+
 ## Immediate Emit
-
-Queueing can be disabled globally via:
-
-```json
-{
-  "requires": {
-    "queue": false
-  }
-}
-```
 
 To disable deferred emitting for a particular service only, you can set the `outboxed` option of that service to `false`:
 
@@ -309,7 +310,10 @@ To disable deferred emitting for a particular service only, you can set the `out
 }
 ```
 
+
+
 ## Troubleshooting
+
 
 ### Delete Entries in the Messages Table
 
@@ -321,6 +325,7 @@ entity:
 const db = await cds.connect.to('db')
 await DELETE.from('cds.outbox.Messages')
 ```
+
 
 ### Messages Table Not Found
 

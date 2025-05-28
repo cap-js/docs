@@ -407,7 +407,7 @@ The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#ge
 To avoid schema redeployments when you add or update CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This annotation tells the CDS compiler to skip generating static database views for these entities. Instead, the CAP Java runtime dynamically resolves such views at query time.
 
 ::: warning Limitations
-Runtime views support only simple [CDS projections](../../cds/cdl#as-projection-on). They do not support complex views that use aggregations, unions, joins, or subqueries in the `FROM` clause. To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`. [Calculated elements](../cds/cdl#calculated-elements) are not yet supported in runtime views.
+Runtime views support only simple [CDS projections](../../cds/cdl#as-projection-on). They do not support complex views that use aggregations, unions, joins, or subqueries in the `FROM` clause. To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`. [Calculated elements](../../cds/cdl#calculated-elements) are not yet supported in runtime views.
 :::
 
 For example, consider the following CDS model and query:

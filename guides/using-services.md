@@ -92,7 +92,7 @@ If you want to learn about this topic based on the [Incident Management](https:/
 ## Install Dependencies { .node }
 <!-- TODO: No fixed major version numbers? -->
 ```sh
-npm add @sap-cloud-sdk/http-client@3.x @sap-cloud-sdk/connectivity@3.x @sap-cloud-sdk/resilience@3.x
+npm add @sap-cloud-sdk/http-client@4.x @sap-cloud-sdk/connectivity@4.x @sap-cloud-sdk/resilience@4.x
 ```
 
 ## Get and Import an External Service API { #external-service-api }
@@ -986,7 +986,7 @@ Since you don't want to use the destination for local testing, but only for prod
 }
 ```
 
-Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap-cloud-sdk_connectivity.DestinationFetchOptions.html) inside a `destinationOptions` object:
+Additionally, you can provide [destination options](https://sap.github.io/cloud-sdk/api/v4/interfaces/sap-cloud-sdk_connectivity.DestinationFetchOptions.html) inside a `destinationOptions` object:
 
 ```jsonc
 "cds": {
@@ -1394,7 +1394,7 @@ The MTA-based deployment is described in [the deployment guide](deployment/). Yo
 
 
 ```sh
-cds add xsuaa,destination,connectivity --for production
+cds add xsuaa,destination,connectivity
 ```
 
 ::: details Learn what this does in the background...
@@ -1661,7 +1661,7 @@ This list specifies the properties for application defined destinations.
 | `queries`                  | Map of URL parameters                     |
 | `forwardAuthToken`         | [Forward auth token](#forward-auth-token) |
 
-[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v3/interfaces/sap_cloud_sdk_connectivity.Destination.html){.learn-more .node}
+[Destination Type in SAP Cloud SDK for JavaScript](https://sap.github.io/cloud-sdk/api/v4/interfaces/sap-cloud-sdk_connectivity.Destination.html){.learn-more .node}
 [HttpDestination Type in SAP Cloud SDK for Java](https://help.sap.com/doc/82a32040212742019ce79dda40f789b9/1.0/en-US/index.html){.learn-more .java}
 
 #### Authentication Types

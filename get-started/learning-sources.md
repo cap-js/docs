@@ -71,6 +71,12 @@ In here, we collected several interesting sample projects for you. Not all of th
       display:inline;
       margin:0 0.2em;
       padding-bottom:5px;
+   }main .vp-doc a.github img {
+      content: url(../assets/logos/github.svg);
+      height:3em;
+      display:inline;
+      margin:0 0.2em;
+      padding-bottom:5px;
    }
    main .vp-doc a:has(> img):hover {
       opacity: 0.7;
@@ -148,7 +154,7 @@ By using BTP services and the SAP Cloud Application Programming Model (CAP), you
 The repository includes the “Poetry Slam Manager” application as a ready-to-run example. It also provides tutorials on how to build the application from scratch using an incremental development approach.
 Based on this sample application, you find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
 
-
+<span id="prdstdcap" />
 
 ## Open Source Projects
 

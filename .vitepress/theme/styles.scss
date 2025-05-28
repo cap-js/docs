@@ -57,7 +57,8 @@
     --vp-c-text-1: rgba(255, 255, 245, 0.86);
 
     /* brightness fine-tuned to turn #fff into --vp-c-bg */
-    img, svg.adapt-dark {
+    img, svg.adapt-dark,
+    video.bright { // assuming videos are usually dark, only darken them if marked as bright
       filter: brightness(.884) invert(1) hue-rotate(177deg)
     }
     img.mute-dark {
@@ -143,9 +144,7 @@ main {
 
     table {
       tr, th, td {
-        // &:nth-child(2n) {
-          background-color: transparent !important;
-        // }
+        background-color: var(--vp-c-bg);
       }
       td, th {
         border-color: #bbb; .dark & { border-color: #555 };
@@ -519,11 +518,6 @@ a.learn-more, p.learn-more, .learn-more {
 
 .VPBadge { white-space: nowrap; }
 
-/* remove transparency in the odd rows (when it scrolls over outline) */
-tr:nth-child(odd) {
-  background-color: var(--vp-c-bg);
-}
-
 html.java {
   & .node {
     display: none;
@@ -548,6 +542,10 @@ html.node {
   table:hover,
   table:focus {
     min-width: fit-content;
+  }
+  tr { // make wide rows go over outline, not below it
+    z-index: 1;
+    position: relative;
   }
   [class*='language-'] pre {
     overflow: hidden !important;

@@ -35,7 +35,7 @@ npm run start
 ```
 
 This will respond with:
-```
+```sh
   vitepress v1...
 
   ➜  Local:   http://localhost:5173/docs/

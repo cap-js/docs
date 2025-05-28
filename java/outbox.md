@@ -70,19 +70,17 @@ cds:
     services:
       DefaultOutboxOrdered:
         maxAttempts: 10
-        storeLastError: true
         # ordered: true
       DefaultOutboxUnordered:
         maxAttempts: 10
-        storeLastError: true
         # ordered: false
 ```
 :::
 You have the following configuration options:
 - `maxAttempts` (default `10`): The number of unsuccessful emits until the message is ignored. It still remains in the database table.
-- `storeLastError` (default `true`): If this flag is enabled, the last error that occurred, when trying to emit the message
-  of an entry, is stored. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 - `ordered` (default `true`): If this flag is enabled, the outbox instance processes the entries in the order they have been submitted to it. Otherwise, the outbox may process entries randomly and in parallel, by leveraging outbox processors running in multiple application instances. This option can't be changed for the default persistent outboxes.
+
+The persistent outbox stores the last error that occurred, when trying to emit the message of an entry. The error is stored in the element `lastError` of the entity `cds.outbox.Messages`.
 
 ### Configuring Custom Outboxes { #custom-outboxes}
 
@@ -94,10 +92,8 @@ cds:
     services:
       MyCustomOutbox:
         maxAttempts: 5
-        storeLastError: false
       MyOtherCustomOutbox:
         maxAttempts: 10
-        storeLastError: true
 ```
 :::
 Afterward you can access the outbox instances from the service catalog:
@@ -160,7 +156,7 @@ To do this, the Maven `resource.filtering` configuration in the `srv/pom.xml` mu
 To be sure that the deployment version has been set correctly, you can find a log entry at startup that shows the configured version:
 
 ```bash
-2024-12-19T11:21:33.253+01:00 INFO 3420 --- [main] cds.serviceces.impl.utils.BuildInfo : application.deployment.version: 1.0.0-SNAPSHOT
+2024-12-19T11:21:33.253+01:00 INFO 3420 --- [main] cds.services.impl.utils.BuildInfo : application.deployment.version: 1.0.0-SNAPSHOT
 ```
 
 And finally, if for some reason you don't want to use a version check for a particular outbox collector, you can switch it off via the outbox configuration [<Config java filesOnly>cds.outbox.services.MyCustomOutbox.checkVersion: false</Config>](../java/developing-applications/properties#cds-outbox-services-<key>-checkVersion).
@@ -228,7 +224,7 @@ As the `OutboxMessage` instance is serialized and stored in the database, all da
 must be serializable and deserializable to/from JSON. The following example shows the submission of a custom message to an outbox:
 
 ```java
-OutboxService outboxService = runtime.getServiceCatalog(OutboxService.class, "<OutboxServiceName>");
+OutboxService outboxService = runtime.getServiceCatalog().getService(OutboxService.class, "<OutboxServiceName>");
 
 OutboxMessage message = OutboxMessage.create();
 message.setParams(Map.of("name", "John", "lastname", "Doe"));

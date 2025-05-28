@@ -65,16 +65,17 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 #### Proof-Of-Possession for IAS { #proof-of-possession}
 
-Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
+Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application.
 
-Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token.
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token.
 
-Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
+On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
 
 <div id="meshdomain" />
 
+On Kyma, it is required to configure an additional component (i.e. a gateway in Istio) which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header. An example can be found in the Bookshop sample application [here](https://github.com/SAP-samples/cloud-cap-samples-java/tree/ias-ams-kyma/k8s). Besides defining the actual `Gateway` resource, it is required to expose the application under the new domain (see the `values.yaml` [here](https://github.com/SAP-samples/cloud-cap-samples-java/blob/e9c779cb64c0937815910988387b0775d8842765/helm/values.yaml#L47).
 
-The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. This can be achieved by setting `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)).
+The Proof-Of-Possession also affects approuter calls to a CAP Java application. The approuter needs to be configured to forward the certificate to the CAP application. First, set `forwardAuthCertificates: true` on the destination pointing to your CAP backend (for more details see [the `environment destinations` section on npmjs.org](https://www.npmjs.com/package/@sap/approuter#environment-destinations)). Second, configure the destination to use the route of the CAP backend that has been configured to accept client certificates as described previously.
 
 When authenticating incoming requests with IAS, the Proof-Of-Possession is activated by default. This requires using at least version `3.5.1` of the [SAP BTP Spring Security Client](https://github.com/SAP/cloud-security-services-integration-library/tree/main/spring-security) library.
 
@@ -241,6 +242,13 @@ In the example, the `CustomUserInfoProvider` defines an overlay on the default X
 ### Mock User Authentication with Spring Boot { #mock-users}
 
 By default, CAP Java creates a security configuration, which accepts _mock users_ for test purposes.
+
+::: details Requirement
+
+Mock users are only initialized if the `org.springframework.boot:spring-boot-starter-security` dependency is present in the `pom.xml` file of your service.
+
+:::
+
 #### Preconfigured Mock Users
 
 For convenience, the runtime creates default mock users reflecting the [pseudo roles](../guides/security/authorization#pseudo-roles). They are named `authenticated`, `system` and `privileged` and can be used with an empty password. For instance, requests sent during a Spring MVC unit test with annotation `@WithMockUser("authenticated")` will pass authorization checks that require `authenticated-user`. The privileged user will pass any authorization checks. `cds.security.mock.defaultUsers = false` prevents the creation of default mock users at startup.
@@ -353,7 +361,74 @@ More specific access control is provided by the `@restrict` annotation, which al
 
 Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/security/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/security/authorization#domain-driven-authorization) built on more complex model constraints.
 
-<span id="declarative-auth"></span>
+#### Deep Authorization { #deep-auth}
+
+Queries to Application Services are not only authorized by the target entity which has a `@restrict` or `@requires` annotation, but also for all __associated entities__ that are used in the statement. __Compositions__ are neither checked nor extended with additional filters.
+
+For instance, consider the following model:
+
+```cds
+@(restrict: [{ grant: 'READ', to: 'Manager' }])
+entity Books {...}
+
+@(restrict: [{ grant: 'READ', to: 'Manager' }])
+entity Orders {
+  key ID: String;
+  items: Composition of many {
+    key book: Association to Books;
+    quantity: Integer;
+  }
+}
+```
+
+For the following OData request `GET Orders(ID='1')/items?$expand=book`, authorizations for `Orders` and for `Books` are checked.
+If the entity `Books` has a `where` clause for [instance-based authorization](/java/security#instance-based-auth),
+it will be added as a filter to the sub-request with the expand.
+
+Custom CQL statements submitted to the [Application Service](/java/cqn-services/application-services) instances
+are also authorized by the same rules including the path expressions and subqueries used in them.
+
+For example, the following statement checks role-based authorizations for both `Orders` and `Books`,
+because the association to `Books` is used in the select list.
+
+```java
+Select.from(Orders_.class,
+    f -> f.filter(o -> o.ID().eq("1")).items())
+  .columns(c -> c.book().title());
+```
+
+For modification statements with associated entities used in infix filters or where clauses,
+role-based authorizations are checked as well. Associated entities require `READ` authorization, in contrast to the target of the statement itself.
+
+The following statement requires `UPDATE` authorization on `Orders` and `READ` authorization on `Books`
+because an association from `Orders.items` to the book is used in the where condition.
+
+```java
+Update.entity(Orders_.class, f -> f.filter(o -> o.ID().eq("1")).items())
+  .data("quantity", 2)
+  .where(t -> t.book().ID().eq(1));
+```
+:::tip Modification of Statements
+Be careful when you modify or extend the statements in custom handlers.
+Make sure you keep the filters for authorization.
+:::
+
+Deep authorizations are on by default and can be disabled by setting `cds.security.authorization.deep.enabled: false`.
+
+#### Authorization Checks On Input Data { #input-data-auth }
+
+Input data of `CREATE` and `UPDATE` events is also validated with regards to instance-based authorization conditions.
+Invalid input that does not meet the condition is rejected with response code `400`.
+
+Let's assume an entity `Orders` which restricts access to users classified by assigned accounting areas:
+
+```cds
+annotate Orders with @(restrict: [
+  { grant: '*', where: 'accountingArea = $user.accountingAreas' } ]);
+```
+
+A user with accounting areas `[Development, Research]` is not able to send an `UPDATE` request, that changes `accountingArea` from `Research` or `Development` to `CarFleet`, for example.
+Note that the `UPDATE` on instances _not matching the request user's accounting areas_ (for example, `CarFleet`) are rejected by standard instance-based authorization checks.
 
 #### Current Limitations
 

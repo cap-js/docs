@@ -29,7 +29,7 @@ status: released
 OData is an OASIS standard, which essentially enhances plain REST with standardized system query options like `$select`, `$expand`, `$filter`, etc. Find a rough overview of the feature coverage in the following table:
 
 | Query Options  | Remarks                                   | Node.js    | Java    |
-|----------------|-------------------------------------------|------------|---------|
+|----------------|-------------------------------------------|:------------:|:---------:|
 | `$search`      | Search in multiple/all text elements<sup>(1)</sup>| <X/> | <X/>   |
 | `$value`       | Retrieves single rows/values              | <X/>      | <X/>  |
 | `$top`,`$skip` | Requests paginated results                | <X/>      | <X/>   |
@@ -48,22 +48,22 @@ OData is an OASIS standard, which essentially enhances plain REST with standardi
 
 System query options can also be applied to an [expanded navigation property](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361039) (nested within `$expand`):
 
-| Query Options  | Remarks                                   | Node.js  | Java   |
-|----------------|-------------------------------------------|----------|--------|
-| `$select`      | Select properties of associated entities  | <X/>     | <X/>   |
-| `$filter`      | Filter associated entities                | <X/>     | <X/>   |
-| `$expand`      | Nested expand                             | <X/>     | <X/>   |
-| `$orderby`     | Sort associated entities                  | <X/>     | <X/>   |
-| `$top`,`$skip` | Paginate associated entities              | <X/>     | <X/>   |
-| `$count`       | Count associated entities                 | <Na/>    | <X/>   |
-| `$search`      | Search associated entities                | <Na/>    | <Na/>  |
+| Query Options  | Remarks                                  | Node.js | Java  |
+|----------------|------------------------------------------|:-------:|:-----:|
+| `$select`      | Select properties of associated entities |  <X/>   | <X/>  |
+| `$filter`      | Filter associated entities               |  <X/>   | <X/>  |
+| `$expand`      | Nested expand                            |  <X/>   | <X/>  |
+| `$orderby`     | Sort associated entities                 |  <X/>   | <X/>  |
+| `$top`,`$skip` | Paginate associated entities             |  <X/>   | <X/>  |
+| `$count`       | Count associated entities                |  <Na/>  | <X/>  |
+| `$search`      | Search associated entities               |  <Na/>  | <Na/> |
 
 
 [Learn more in the **Getting Started guide on odata.org**.](https://www.odata.org/getting-started/){.learn-more}
 [Learn more in the tutorials **Take a Deep Dive into OData**.](https://developers.sap.com/mission.scp-3-odata.html){.learn-more}
 
-| Data Modification | Remarks                                   | Node.js    | Java    |
-|-------------------|-------------------------------------------|------------|---------|
+| Data Modification | Remarks                                   | Node.js      |   Java    |
+|-------------------|-------------------------------------------|:------------:|:---------:|
 | [Create an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_CreateanEntity) | `POST` request on Entity collection | <X/> | <X/> |
 | [Update an Entity](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UpdateanEntity) | `PATCH` or `PUT` request on Entity | <X/> | <X/> |
 [ETags](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html#sec_UseofETagsforAvoidingUpdateConflicts) | For avoiding update conflicts | <X/> | <X/> |
@@ -82,23 +82,23 @@ PATCH /CatalogService/Books
 Content-Type: application/json
 
 {
-    "@context": "#$delta",
-    "value": [
-        {
-            "ID": 17,
-            "title": "CAP - what's new in 2023",
-            "price": 29.99,
-            "author_ID": 999
-        },
-        {
-            "ID": 85,
-            "price": 9.99
-        },
-        {
-            "ID": 42,
-            "@removed": { "reason": "deleted" }
-        }
-    ]
+  "@context": "#$delta",
+  "value": [
+    {
+      "ID": 17,
+      "title": "CAP - what's new in 2023",
+      "price": 29.99,
+      "author_ID": 999
+    },
+    {
+      "ID": 85,
+      "price": 9.99
+    },
+    {
+      "ID": 42,
+      "@removed": { "reason": "deleted" }
+    }
+  ]
 }
 ```
 
@@ -565,9 +565,9 @@ if they bring a real benefit. In general, you should keep your models as flat as
 Example:
 ```cds
 type Price {
-  @Measures.ISOCurrency: (currency)
+  @Measures.ISOCurrency: (currency) // [!code highlight]
   amount : Decimal;
-  currency : String(3);
+  currency : String(3); // [!code highlight]
 }
 
 service S {
@@ -602,7 +602,7 @@ service S {
   entity E {
     key id : Integer;
     f : Association to F;
-    @Some.Term: (f.struc.y)
+    @Some.Term: (f.struc.y) // [!code highlight]
     val : Integer;
   }
   entity F {
@@ -628,7 +628,7 @@ The CDS path `f.struc.y` is translated to the OData path `f/struc_y`:
     <Property Name="struc_y" Type="Edm.Int32"/>
   </EntityType>
   <Annotations Target="S.E/val">
-    <Annotation Term="Some.Term" Path="f/struc_y"/>
+    <Annotation Term="Some.Term" Path="f/struc_y"/> <!-- [!code highlight] -->
   </Annotations>
 </Schema>
 ```
@@ -644,7 +644,7 @@ service S {
   entity Authors { key ID : Integer; name : String; }
   entity Books   { key ID : Integer; author : Association to Authors; }
 
-  annotate Books:author with @Common.Text: (author.name); 
+  annotate Books:author with @Common.Text: (author.name); // [!code highlight]
 }
 ```
 
@@ -659,11 +659,11 @@ Resulting OData API:
   <EntityType Name="Books">
     <!-- ... -->
     <NavigationProperty Name="author" Type="S.Authors"/>
-    <Property Name="author_ID" Type="Edm.Int32"/>
+    <Property Name="author_ID" Type="Edm.Int32"/> <!-- [!code highlight] -->
   </EntityType>
-  <Annotations Target="S.Books/author_ID">
-    <Annotation Term="Common.Text" Path="author/name"/>
-  </Annotations>
+  <Annotations Target="S.Books/author_ID"> <!-- [!code highlight] -->
+    <Annotation Term="Common.Text" Path="author/name"/> <!-- [!code highlight] -->
+  </Annotations> <!-- [!code highlight] -->
 </Schema>
 ```
 
@@ -725,8 +725,8 @@ for [some Fiori UI annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65
 service S {
   @UI.LineItem: [ // ...
   {
-    Value: (status),
-    Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) )
+    Value: (status), // [!code highlight]
+    Criticality: ( status = 'O' ? 2 : ( status = 'A' ? 3 : 0 ) ) // [!code highlight]
   }]
   entity Order {
     key id : Integer;
@@ -747,7 +747,7 @@ service S {
     // ...
     status : String;
   } actions {
-    @Core.OperationAvailable: ( :in.status <> 'A' )
+    @Core.OperationAvailable: ( :in.status <> 'A' ) // [!code highlight]
     action accept (in: $self)
   }
 }
@@ -804,7 +804,7 @@ converted into the corresponding EDM primitive type.
 
 CAP only provides a syntactic translation. It is up to each client
 whether an expression value is supported for a particular annotation.
-See for example [Firori's list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+See for example [SAP Fiori Elements' list of supported annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
 :::
 
@@ -821,17 +821,17 @@ CDS has no corresponding language feature. For OData annotations, nesting can be
 
 ```cds
 @UI.LineItem: [
-    {Value: ApplicationName, @UI.Importance: #High},
-    {Value: Description},
-    {Value: SourceName},
-    {Value: ChangedBy},
-    {Value: ChangedAt}
-  ]
-@UI.LineItem.@UI.Criticality: #Positive
+  {Value: ApplicationName, @UI.Importance: #High}, // [!code highlight]
+  {Value: Description},
+  {Value: SourceName},
+  {Value: ChangedBy},
+  {Value: ChangedAt}
+]
+@UI.LineItem.@UI.Criticality: #Positive // [!code highlight]
 
 
 @Common.Text: Text
-@Common.Text.@UI.TextArrangement: #TextOnly
+@Common.Text.@UI.TextArrangement: #TextOnly // [!code highlight]
 ```
 
 Alternatively, annotating a single value or a Collection by turning them into a structure with an artificial property `$value` is still possible, but deprecated:
@@ -839,7 +839,7 @@ Alternatively, annotating a single value or a Collection by turning them into a 
 ```cds
 @UI.LineItem: {
   $value:[ /* ... */ ], @UI.Criticality: #Positive
- }
+}
 
 @Common.Text: {
   $value: Text, @UI.TextArrangement: #TextOnly
@@ -862,14 +862,14 @@ In any case, the resulting EDMX is:
   <Collection>
     <Record Type="UI.DataField">
       <PropertyValue Property="Value" Path="ApplicationName"/>
-      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
+      <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/> <!-- [!code highlight] -->
     </Record>
     ...
   </Collection>
-  <Annotation Term="UI.Criticality" EnumMember="UI.CriticalityType/Positive"/>
+  <Annotation Term="UI.Criticality" EnumMember="UI.CriticalityType/Positive"/> <!-- [!code highlight] -->
 </Annotation>
 <Annotation Term="Common.Text" Path="Text">
-  <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+  <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/> <!-- [!code highlight] -->
 </Annotation>
 ```
 
@@ -968,8 +968,8 @@ You can add further vocabularies to the translation process [using configuration
 
 ### [OASIS Vocabularies](https://github.com/oasis-tcs/odata-vocabularies#further-description-of-this-repository) { target="_blank"}
 
-| Vocabulary                                                         | Description                                  |
-| ------------------------------------------------------------------ | -------------------------------------------- |
+| Vocabulary                                                                                                                              | Description                                  |
+|-----------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | [@Aggregation](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Aggregation.V1.md){target="_blank"}     | for describing aggregatable data             |
 | [@Authorization](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Authorization.V1.md){target="_blank"} | for authorization requirements               |
 | [@Capabilities](https://github.com/oasis-tcs/odata-vocabularies/tree/main/vocabularies/Org.OData.Capabilities.V1.md){target="_blank"}   | for restricting capabilities of a service    |
@@ -982,56 +982,24 @@ You can add further vocabularies to the translation process [using configuration
 
 ### [SAP Vocabularies](https://github.com/SAP/odata-vocabularies#readme){target="_blank"}
 
-| Vocabulary                                                    | Description                                       |
-| ------------------------------------------------------------- | ------------------------------------------------- |
-| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Analytics.md){target="_blank"}         | for annotating analytical resources               |
-| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/CodeList.md){target="_blank"}           | for code lists                                    |
-| [@Common](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Common.md){target="_blank"}               | for all SAP vocabularies                          |
-| [@Communication](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Communication.md){target="_blank"} | for annotating communication-relevant information |
-| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/DataIntegration.md){target="_blank"} | for data integration                          |
-| [@PDF](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PDF.md){target="_blank"}                     | for PDF                                           |
-| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PersonalData.md){target="_blank"}   | for annotating personal data                      |
-| [@Session](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Session.md){target="_blank"}             | for sticky sessions for data modification         |
-| [@UI](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/UI.md){target="_blank"}                       | for presenting data in user interfaces            |
+| Vocabulary                                                                                                               | Description                                       |
+|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [@Analytics](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Analytics.md){target="_blank"}             | for annotating analytical resources               |
+| [@CodeList](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/CodeList.md){target="_blank"}               | for code lists                                    |
+| [@Common](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Common.md){target="_blank"}                   | for all SAP vocabularies                          |
+| [@Communication](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Communication.md){target="_blank"}     | for annotating communication-relevant information |
+| [@DataIntegration](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/DataIntegration.md){target="_blank"} | for data integration                              |
+| [@PDF](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PDF.md){target="_blank"}                         | for PDF                                           |
+| [@PersonalData](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/PersonalData.md){target="_blank"}       | for annotating personal data                      |
+| [@Session](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/Session.md){target="_blank"}                 | for sticky sessions for data modification         |
+| [@UI](https://github.com/SAP/odata-vocabularies/tree/main/vocabularies/UI.md){target="_blank"}                           | for presenting data in user interfaces            |
 
 [Learn more about annotations in CDS and OData and how they work together](https://github.com/SAP-samples/odata-basics-handsonsapdev/blob/annotations/bookshop/README.md){.learn-more}
 
 
 ### Additional Vocabularies
 
-Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the following configuration option:
-
-::: code-group
-```json [package.json]
-{
-  "cds": {
-    "cdsc": {
-      "odataVocabularies": {
-        "MyVocabulary": {
-          "Alias": "MyVocabulary",
-          "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
-          "Uri": "<link to vocabulary document>"
-        }
-      }
-    }
-  }
-}
-```
-
-```json [.cdsrc.json]
-{
-  "cdsc": {
-    "odataVocabularies": {
-      "MyVocabulary": {
-        "Alias": "MyVocabulary",
-        "Namespace": "com.sap.vocabularies.MyVocabulary.v1",
-        "Uri": "<link to vocabulary document>"
-      }
-    }
-  }
-}
-```
-:::
+Assuming you have a vocabulary `com.MyCompany.vocabularies.MyVocabulary.v1`, you can set the configuration option <Config keyOnly filesOnly>cds.cdsc.odataVocabularies.MyVocabulary: {"Alias": "MyVocabulary", "Namespace": "com.sap.vocabularies.MyVocabulary.v1", "Uri": "\<link to vocabulary document\>"}</Config>.
 
 With this configuration, all annotations prefixed with `MyVocabulary` are considered in the translation.
 
@@ -1084,22 +1052,21 @@ If the `groupby` transformation only includes a subset of the entity keys, the r
 
 ### Transformations
 
-| Transformation                | Description                                  | Node.js | Java   |
-|-------------------------------|----------------------------------------------|---------|--------|
-| `filter`                      | filter by filter expression                  | <X/>   | <X/>  |
-| `search`                      | filter by search term or expression          | <Na/>  | <X/>  |
-| `groupby`                     | group by dimensions and aggregates values    | <X/>   | <X/>  |
-| `aggregate`                   | aggregate values                             | <X/>   | <X/>  |
-| `compute`                     | add computed properties to the result set    | <Na/>  | <X/>  |
-| `expand`                      | expand navigation properties                 | <Na/>  | <Na/> |
-| `concat`                      | append additional aggregation to the result  | <X/><sup>(1)</sup>   | <X/>  |
-| `skip` / `top`                | paginate                                     | <X/><sup>(1)</sup>   | <X/>  |
-| `orderby`                     | sort the input set                           | <X/><sup>(1)</sup>   | <X/>  |
-| `topcount`/`bottomcount`      | retain highest/lowest _n_ values             | <Na/>  | <Na/> |
-| `toppercent`/`bottompercent`  | retain highest/lowest _p_% values            | <Na/>  | <Na/> |
-| `topsum`/`bottomsum`          | retain _n_ values limited by sum             | <Na/>  | <Na/> |
+| Transformation               | Description                                 |      Node.js       | Java  |
+|------------------------------|---------------------------------------------|:------------------:|:-----:|
+| `filter`                     | filter by filter expression                 |        <X/>        | <X/>  |
+| `search`                     | filter by search term or expression         |       <Na/>        | <X/>  |
+| `groupby`                    | group by dimensions and aggregates values   |        <X/>        | <X/>  |
+| `aggregate`                  | aggregate values                            |        <X/>        | <X/>  |
+| `compute`                    | add computed properties to the result set   |       <Na/>        | <X/>  |
+| `expand`                     | expand navigation properties                |       <Na/>        | <Na/> |
+| `concat`                     | append additional aggregation to the result |        <X/>        | <X/>  |
+| `skip` / `top`               | paginate                                    |        <X/>        | <X/>  |
+| `orderby`                    | sort the input set                          |        <X/>        | <X/>  |
+| `topcount`/`bottomcount`     | retain highest/lowest _n_ values            |       <Na/>        | <Na/> |
+| `toppercent`/`bottompercent` | retain highest/lowest _p_% values           |       <Na/>        | <Na/> |
+| `topsum`/`bottomsum`         | retain _n_ values limited by sum            |       <Na/>        | <Na/> |
 
-- <sup>(1)</sup> Supported with experimental feature `cds.features.odata_new_parser = true`
 
 #### `concat`
 
@@ -1136,11 +1103,11 @@ This query groups the 500 most expensive books by author name and determines the
 
 Provide support for hierarchy attribute calculation and navigation, and allow the execution of typical hierarchy operations directly on relational data.
 
-| Transformation                                | Description                                                        | Node.js | Java               |
-|-----------------------------------------------|--------------------------------------------------------------------|---------|--------------------|
-| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data   | <Na/>   | <X/><sup>(1)</sup> |
-| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy        | <Na/>   | <X/><sup>(1)</sup> |
-| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy      | <Na/>   | <X/><sup>(1)</sup> |
+| Transformation                                | Description                                                      | Node.js |        Java        |
+|-----------------------------------------------|------------------------------------------------------------------|:-------:|:------------------:|
+| `com.sap.vocabularies.Hierarchy.v1.TopLevels` | generate a hierarchy based on recursive parent-child source data |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `ancestors`                                   | return all ancestors of a set of start nodes in a hierarchy      |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
+| `descendants`                                 | return all descendants of a set of start nodes in a hierarchy    |  <X/><sup>(1)</sup>  | <X/><sup>(1)</sup> |
 
 - <sup>(1)</sup> Beta feature, API may change
 
@@ -1171,18 +1138,87 @@ GET SalesOrganizations?$apply=
    /ancestors(..., ID, filter(contains(Name, 'New York')), keep start)
 ```
 
+#### Modeling Recursive Hierarchies
+
+Recursive hierarchies are parent-child hierarchies, where each entity references its parent and through that defines the hierarchical structure. A common example is a company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
+
+##### Domain Model
+
+The simplest domain model looks as follows:
+
+```cds
+entity Employee : Hierarchy {
+  key ID       : UUID;
+      parent   : Association to Employee;
+      fullName : String;
+}
+
+aspect Hierarchy {
+  virtual LimitedDescendantCount : Integer64;
+  virtual DistanceFromRoot       : Integer64;
+  virtual DrillState             : String;
+  virtual LimitedRank            : Integer64;
+}
+```
+
+The entity `Employee` has the element `ID`, which identifies the hierarchy node. The `parent` association references the same entity, which establishes the parent-child relationship.
+
+##### Virtual Elements of a Hierarchy
+
+The `Hierarchy` aspect defines a set of virtual elements, automatically calculated by the backend at runtime, to describe the state of the hierarchy. This information is requested by the UI to correctly render the hierarchy in a *TreeTable* during user interaction.
+
+##### Service Model
+
+The following service defines the projection on the domain model.
+
+```cds
+@odata.apply.transformations
+service HRService {
+    entity HREmployee as projection on Employee;
+}
+```
+
+::: warning
+The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence layer.
+:::
+
+##### OData v4 Annotations for Fiori
+
+To link the backend and Fiori UI, the projected service entity must be enriched with the following annotations.
+
+```cds
+annotate HRService.HREmployee with @Aggregation.RecursiveHierarchy #EmployeeHierarchy: {
+    $Type: 'Aggregation.RecursiveHierarchyType',
+    NodeProperty: ID,
+    ParentNavigationProperty: parent
+};
+```
+
+Here the `EmployeeHierarchy` specifies a hierarchy qualifier, `NodeProperty` (identifying the hierarchy node) is linked to `ID` of the entity `HREmployee`, and the `ParentNavigationProperty` is linked to a corresponding `parent` association.
+
+```cds
+annotate HRService.HREmployee with @Hierarchy.RecursiveHierarchy #EmployeeHierarchy: {
+  $Type: 'Hierarchy.RecursiveHierarchyType',
+  LimitedDescendantCount: LimitedDescendantCount,
+  DistanceFromRoot: DistanceFromRoot,
+  DrillState: DrillState,
+  LimitedRank: LimitedRank
+};
+```
+
+Here the same qualifier `EmployeeHierarchy` is referenced to list the names of the [virtual elements of the hierarchy](#virtual-elements-of-a-hierarchy).
 
 ### Aggregation Methods
 
-| Aggregation Method            | Description        | Node.js | Java   |
-|-------------------------------|--------------------|---------|--------|
-| `min`           | smallest value                   | <X/>   | <X/>  |
-| `max`           | largest                          | <X/>   | <X/>  |
-| `sum`           | sum of values                    | <X/>   | <X/>  |
-| `average`       | average of values                | <X/>   | <X/>  |
-| `countdistinct` | count of distinct values         | <X/>   | <X/>  |
-| custom method   | custom aggregation method        | <Na/>  | <Na/> |
-| `$count`        | number of instances in input set | <X/>   | <X/>  |
+| Aggregation Method | Description                      | Node.js | Java  |
+|--------------------|----------------------------------|:-------:|:-----:|
+| `min`              | smallest value                   |  <X/>   | <X/>  |
+| `max`              | largest                          |  <X/>   | <X/>  |
+| `sum`              | sum of values                    |  <X/>   | <X/>  |
+| `average`          | average of values                |  <X/>   | <X/>  |
+| `countdistinct`    | count of distinct values         |  <X/>   | <X/>  |
+| custom method      | custom aggregation method        |  <Na/>  | <Na/> |
+| `$count`           | number of instances in input set |  <X/>   | <X/>  |
 
 ### Custom Aggregates
 
@@ -1227,13 +1263,13 @@ The aggregation method (typically, sum) is specified with the `@Aggregation.defa
 @Aggregation.CustomAggregate#amount   : 'Edm.Decimal'
 @Aggregation.CustomAggregate#currency : 'Edm.String'
 entity Sales {
-    key id        : GUID;
-        productId : GUID;
-        @Semantics.amount.currencyCode: 'currency'
-        @Aggregation.default: #SUM
-        amount    : Decimal(10,2);
-        @Semantics.currencyCode
-        currency  : String(3);
+  key id        : GUID;
+      productId : GUID;
+      @Semantics.amount.currencyCode: 'currency'
+      @Aggregation.default: #SUM
+      amount    : Decimal(10,2);
+      @Semantics.currencyCode
+      currency  : String(3);
 }
 ```
 
@@ -1246,16 +1282,16 @@ A custom aggregate for a currency code or unit of measure should also be exposed
 
 ### Other Features
 
-| Feature                                 | Node.js | Java   |
-|-----------------------------------------|---------|--------|
-| use path expressions in transformations | <X/>   | <X/>  |
-| chain transformations                   | <X/>   | <X/>  |
-| chain transformations within group by   | <Na/>  | <Na/> |
-| `groupby` with `rollup`/`$all`          | <Na/>  | <Na/> |
-| `$expand` result set of `$apply`        | <Na/>  | <Na/> |
-| `$filter`/`$search` result set          | <X/>   | <X/>  |
-| sort result set with `$orderby`         | <X/>   | <X/>  |
-| paginate result set with `$top`/`$skip` | <X/>   | <X/>  |
+| Feature                                 | Node.js | Java  |
+|-----------------------------------------|:-------:|:-----:|
+| use path expressions in transformations |  <X/>   | <X/>  |
+| chain transformations                   |  <X/>   | <X/>  |
+| chain transformations within group by   |  <Na/>  | <Na/> |
+| `groupby` with `rollup`/`$all`          |  <Na/>  | <Na/> |
+| `$expand` result set of `$apply`        |  <Na/>  | <Na/> |
+| `$filter`/`$search` result set          |  <X/>   | <X/>  |
+| sort result set with `$orderby`         |  <X/>   | <X/>  |
+| paginate result set with `$top`/`$skip` |  <X/>   | <X/>  |
 
 
 ## Open Types

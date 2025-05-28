@@ -369,6 +369,28 @@ npm add @sap/xssec
 ```
 :::
 
+#### Token Validation
+
+For tokens issued by SAP Cloud Identity Service, `@sap/xssec` offers two additional validations: (1) token ownership via x5t thumbprint and (2) proof-of-possession.
+These validations are enabled by default for requests to the app's `cert` route (`.cert` segment in the domain).
+
+The default behavior can be overwritten using additional configuration as follows:
+
+```json
+"requires": {
+  "auth": {
+    "kind": "ias",
+    "config": { // passed to @sap/xssec as is
+      "validation": {
+        "x5t": { "enabled": false },
+        "proofToken": { "enabled": false }
+      }
+    }
+  }
+}
+```
+
+Please see [`@sap/xssec` documentation](https://www.npmjs.com/package/@sap/xssec) for more details.
 
 ### Custom Authentication { #custom }
 
@@ -420,7 +442,7 @@ export default function custom_auth(req: Req, res: Response, next: NextFunction)
 
 ## Authentication Enforced in Production
 
-In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitely get `@requires: 'authenticated-user'`.
+In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitly get `@requires: 'authenticated-user'`.
 
 This can be disabled via feature flag <Config>cds.requires.auth.restrict_all_services: false</Config>, or by using [mocked authentication](#mocked) explicitly in production.
 

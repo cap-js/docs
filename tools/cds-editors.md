@@ -65,7 +65,7 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 
 #### Add CDS Editor
 
-1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds#overview).
+1. Go to [**Visual Studio Marketplace**](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds).
 2. Click *Install* and confirm the popup dialog.
 3. In VS Code, choose *Install* to enable the extension.
 
@@ -75,19 +75,19 @@ See [Developing a CAP Application in SAP Business Application Studio](https://he
 
 #### Add Useful Plugins
 
-In addition we recommend installing these VS Code Extensions:
+In addition we recommend installing these VS Code extensions:
 
-   - [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-   - [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
-   - [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
-   - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+- [SQLite Viewer](https://marketplace.visualstudio.com/items?itemName=qwtel.sqlite-viewer)
+- [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 
 
 
 #### Run Services
 
-To run services, just open the Integrated Terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
+To run services, just open the integrated terminal in VS Code and use one of the `cds serve` variants, for example, use `cds watch` to automatically react on changes.
 
 Alternatively, you can use the preconfigured tasks or launch configurations you get when creating a project with `cds init`.
 For example, in the _Debug_ view launch _cds run_ with the green arrow button:
@@ -346,14 +346,6 @@ Keeps track of the active editor in focus. Only changes there are immediately va
 The *ActiveEditorOnly* mode is especially useful in situations when navigating through a large model, that is, having multiple files open (even if they are not shown as tabs)
 and editing a file that the others directly or indirectly depend on.
 
-::: warning Large models can lead to **high CPU and memory load**
-If switched to *OpenEditorsAndDirectSources*, all model files on every change, for example typed character, are recompiled.
-
-If switched to _OpenEditorsOnly_, all open files, for example split tabs, are recompiled.
-
-The high resource consumption might impact the editor's responsiveness.
-:::
-
 ##### Cds > Contributions > [Enablement: Odata](vscode://settings/cds.contributions.enablement.odata)
 
 Default: *on*
@@ -406,7 +398,7 @@ You want to create a preview of a specific _.cds_ file in your project. You can 
 
 ##### Visualize CDS file dependencies
 
-Use the command from the context menu on a folder or CDS file.
+Use the command from the context menu on a folder or CDS file, or from within the popup when hovering over an _import_ path at the end of a _using_ statement.
 
 A selection popup appears to choose one of three modes:
 
@@ -446,40 +438,57 @@ Until a further change, reference calculation is reasonably fast.
 - Changing settings in _CDS_ section will currently perform a complete workspace invalidation, that is, required indexes will lead to recompilations on demand as described above.
 - Changing certain `cds.env` settings, for example folder configurations, will invalidate the workspace as well.
 
-### CDS Source Formatter <Beta /> 
-{ #cds-formatter}
+### CDS Source Formatter { #cds-formatter}
 
-The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline, to guarantee a consistent
-formatting.
+The CDS code formatter provides a command line interface. Use it as a pre-commit hook or within your CI/CD pipeline to ensure consistent formatting.
 
 #### Installation
 
-Install the CDS language server globally as a library via `npm i -g @sap/cds-lsp`.
-A new shell command `format-cds` is available.
+Install the CDS language server globally as a library via
+
+```sh
+npm i -g @sap/cds-lsp
+```
+
+You can now use the formatter command:
+
+```sh
+format-cds
+```
 
 #### Usage
 
-Show help via `format-cds -h`. This explains all commands and formatting options in detail including the default value for
-each formatting option.
+For detailed usage information run the help command:
 
-It is recommended to generate once for each project a settings file (_.cdsprettier.json_) with all default formatting options available. Execute `format-cds --init` in the project root. An existing file would not be overwritten. To adapt your settings to your preferred style, open the _.cdsprettier.json_ file in VS Code. You get code completion and help for each option. There is also a settings UI in [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds),
-reachable via command `CDS: Show Formatting Options Configuration`. This allows to see the effects of each formatting option
-on an editable sample source. Commit the _.cdsprettier.json_ file into your version control system.
+```sh
+format-cds -h
+```
 
-Use `format-cds` to format all your CDS source files. The effective set of formatting options is calculated in order of precedence:
-- Default options
-- Options from _.cdsprettier.json_ file
-- Command line formatting options
+You can create a settings file (_.cdsprettier.json_) with custom formatting options for your project.
 
-It is possible to have _.cdsprettier.json_ files in subfolders. In this case the most relevant settings file per CDS source file
-is taken.
+Run this to create an initial version:
+```sh
+format-cds --init
+```
+> Commit the _.cdsprettier.json_ file into your version control system.
+
+::: tip Use the visual VS Code settings
+Run `CDS: Show Formatting Options Configuration` to jump to the [SAP CDS Language Support](https://marketplace.visualstudio.com/items?itemName=SAPSE.vscode-cds) settings, which shows a preview of selected formatter options.
+:::
+
+The effective set of formatting options is calculated in order of precedence:
+1. Command line options
+2. Options from _.cdsprettier.json_
+3. Default options
+
+It is possible to have _.cdsprettier.json_ files in subfolders. In that case, the closest file in the folder hierarchy is used for the respective CDS source.
 
 Use `format-cds <foldername1> <foldername2> <filename> ...` to restrict the set of CDS source files.
-By default, backup files with _.bak_ file extension will be created.
 
-Use `-f` switch to force an overwrite without creating a backup.
+By default, backup files with the _.bak_ file extension will be created. Use the `-f` switch to force an overwrite without creating a backup.
 This is on your own risk. Should there be problems data loss might occur, especially when formatting in a pre-commit hook.
-Better add _.bak_ to your _.gitignore_ file and not use `-f`.
+
+> We recommend adding _.bak_ to your _.gitignore_ file.
 
 ### GitHub Integration
 

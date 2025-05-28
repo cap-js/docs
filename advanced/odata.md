@@ -1172,15 +1172,11 @@ The `Hierarchy` aspect defines a set of virtual elements, automatically calculat
 The following service defines the projection on the domain model.
 
 ```cds
-@odata.apply.transformations
 service HRService {
     entity HREmployee as projection on Employee;
 }
 ```
 
-::: warning
-The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence layer.
-:::
 
 ##### OData v4 Annotations for Fiori
 

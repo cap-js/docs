@@ -104,7 +104,7 @@ Content-Type: application/json
 
 PATCH requests with delta payload are executed using batch delete and [upsert](../java/working-with-cql/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
 
-Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by annotating the entity with
+Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../guides/security/authorization#requires). Delta updates must be explicitly enabled by annotating the entity with
 
 ```cds
 @Capabilities.UpdateRestrictions.DeltaUpdateSupported

@@ -129,7 +129,7 @@ The following table gives an overview about the removed properties:
 
 - Removed deprecated methods:
   - `com.sap.cds.ql.cqn.Modifier.search(String term)`, use `searchTerm(CqnSearchTermPredicate)` instead
-  - `com.sap.cds.ql.cqn.Modifier.selectListValue(Value<?> value, String alias)`, use `selectListValue(SelectableValue)` instead
+  - `com.sap.cds.ql.cqn.Modifier.selectListValue(Value<?> value, String alias)`, use `selectListValue(SelectableValue value, String alias)` instead
   - `com.sap.cds.ql.SelectableValue.withoutAlias()`, use `as("alias")` instead
 
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }

@@ -404,7 +404,7 @@ The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock
 
 The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements from your CDS model, including SQL views for all CDS [views and projections](../../cds/cdl#views-projections). As a result, adding or modifying CDS views typically requires redeploying the database schema.
 
-To avoid schema redeployments when you add or update CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This annotation tells the CDS compiler to skip generating static database views for these entities. Instead, the CAP Java runtime dynamically resolves such views at query time.
+To avoid schema redeployments when you add or update CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This annotation tells the CDS compiler to skip generating database views for these entities. Instead, the CAP Java runtime dynamically resolves such views at runtime.
 
 ::: warning Limitations
 Runtime views support only simple [CDS projections](../../cds/cdl#as-projection-on). They do not support complex views that use aggregations, unions, joins, or subqueries in the `FROM` clause. To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`. [Calculated elements](../../cds/cdl#calculated-elements) are not yet supported in runtime views.
@@ -430,7 +430,7 @@ Select BooksWithLowStock where author = 'Kafka'
 
 CAP Java provides two modes for resolving runtime views:
 
-**`cte` mode**: The runtime translates the view definition into a Common Table Expression (CTE) and sends it with the query to the database.
+**`cte` mode**: The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
 ```sql
 WITH BOOKSWITHLOWSTOCK_CTE AS (
@@ -447,10 +447,10 @@ SELECT ID, TITLE, AUTHOR AS "author"
 ```
 
 ::: tip
-CAP Java 4 uses `cte` mode by default. In 3.10, enable it with **cds.sql.runtimeView.mode: cte**.
+CAP Java 4.x uses `cte` mode by default. In 3.10, enable it with **cds.sql.runtimeView.mode: cte**.
 :::
 
-**`resolve` mode**: The runtime resolves the view definition to the underlying persistence entities and executes the query directly against them.
+**`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against them.
 
 ```sql
 SELECT B.ID, B.TITLE, A.NAME AS "author"

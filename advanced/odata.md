@@ -104,7 +104,7 @@ Content-Type: application/json
 
 PATCH requests with delta payload are executed using batch delete and [upsert](../java/working-with-cql/query-api#bulk-upsert) statements, and are more efficient than OData [batch requests](https://docs.oasis-open.org/odata/odata/v4.01/csprd02/part1-protocol/odata-v4.01-csprd02-part1-protocol.html#sec_BatchRequests).
 
-Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../java/security#role-based-auth). Delta updates must be explicitly enabled by annotating the entity with
+Use PATCH on entity collections for uploading mass data using a dedicated service, which is secured using [role-based authorization](../guides/security/authorization#requires). Delta updates must be explicitly enabled by annotating the entity with
 
 ```cds
 @Capabilities.UpdateRestrictions.DeltaUpdateSupported
@@ -1060,14 +1060,13 @@ If the `groupby` transformation only includes a subset of the entity keys, the r
 | `aggregate`                  | aggregate values                            |        <X/>        | <X/>  |
 | `compute`                    | add computed properties to the result set   |       <Na/>        | <X/>  |
 | `expand`                     | expand navigation properties                |       <Na/>        | <Na/> |
-| `concat`                     | append additional aggregation to the result | <X/><sup>(1)</sup> | <X/>  |
-| `skip` / `top`               | paginate                                    | <X/><sup>(1)</sup> | <X/>  |
-| `orderby`                    | sort the input set                          | <X/><sup>(1)</sup> | <X/>  |
+| `concat`                     | append additional aggregation to the result |        <X/>        | <X/>  |
+| `skip` / `top`               | paginate                                    |        <X/>        | <X/>  |
+| `orderby`                    | sort the input set                          |        <X/>        | <X/>  |
 | `topcount`/`bottomcount`     | retain highest/lowest _n_ values            |       <Na/>        | <Na/> |
 | `toppercent`/`bottompercent` | retain highest/lowest _p_% values           |       <Na/>        | <Na/> |
 | `topsum`/`bottomsum`         | retain _n_ values limited by sum            |       <Na/>        | <Na/> |
 
-- <sup>(1)</sup> Supported with experimental feature `cds.features.odata_new_parser = true`
 
 #### `concat`
 
@@ -1173,15 +1172,11 @@ The `Hierarchy` aspect defines a set of virtual elements, automatically calculat
 The following service defines the projection on the domain model.
 
 ```cds
-@odata.apply.transformations
 service HRService {
     entity HREmployee as projection on Employee;
 }
 ```
 
-::: warning
-The service must be annotated with `@odata.apply.transformations`. This instructs the Java Runtime to push down the whole transformation pipeline to the persistence layer.
-:::
 
 ##### OData v4 Annotations for Fiori
 

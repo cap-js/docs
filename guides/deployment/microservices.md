@@ -1,6 +1,7 @@
 ---
 synopsis: >
   A guide on deploying SAP Cloud Application Programming Model (CAP) applications as microservices to the SAP BTP Cloud Foundry environment.
+status: released
 ---
 
 # Microservices with CAP
@@ -10,10 +11,10 @@ A comprehensive guide on deploying your CAP application as microservices.
 [[toc]]
 
 
-## Create a Solution Monorepo <UnderConstruction/>
+## Create a Solution Monorepo
 
 Assumed we want to create a composite application consisting of two or more micro services, each living in a separate GitHub repository, for example:
-<!-- Those links aren't working links. Why do we use those? -->
+
 - https://github.com/capire/bookstore
 - https://github.com/capire/reviews
 - https://github.com/capire/orders

@@ -175,15 +175,8 @@ Upon start-up, you can get an overview of the configured CDS properties. Use thi
 
 Please note that secrets are masked.
 
-Turn it on by setting the log level for `com.sap.cds.properties` to `DEBUG` in the _application.yaml_ file:
+Turn it on by setting the log level <Config Java>com.sap.cds.properties = DEBUG</Config>.
 
-::: code-group
-```yaml [srv/src/main/resources/application.yaml]
-logging:
-  level:
-    com.sap.cds.properties: DEBUG  # [!code highlight]
-```
-:::
 
 ::: details Sample output:
 

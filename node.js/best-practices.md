@@ -385,27 +385,40 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ`, `action`, or `function` handler, content information can be configured as part of the handlers result object. 
+[Media Data](../guides/providing-services#serving-media-data) can be also served from a custom `READ`, `action`, or `function` handler.
+For actions and functions the same set of media data annotations is supported.
+```cds
+@(Core.MediaType: 'text/csv', Core.ContentDisposition.Filename: 'Books.csv')
+type csv:  LargeBinary;
+entity Books { ... } actions {
+  function csvExport () returns csv;
+}
+```
+Return type can be also annotated directly in action or function declaration.
+```cds
+function csvExport () returns @Core.MediaType csv;
+}
+```
 
-Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable). Include options to specify content disposition headers:
+When returning a custom media data, content information can be configured as part of the handlers result object. 
+
+Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`). Include options to specify content disposition headers:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
-  const readable = new Readable()
-  req.reply(readable, {
+  req.reply(myReadable, {
     mimetype: 'image/jpeg', // > optional
     filename: 'cover.jpg', // > optional
   })
 })
 ```
 
-Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
+Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
   if (coverImageIsRequested) {
-    const readable = new Readable()
-    return Object.assign(readable, {
+    return Object.assign(myReadable, {
       mimetype: 'image/jpeg', // > optional
       filename: 'cover.jpg', // > optional
     })
@@ -416,13 +429,12 @@ srv.on('READ', 'Books', (req, next) => {
 
 :::details Compatibility option
 If needed for compatibility reasons, convey the content information using a result object specifying the information as it would appear if extracted from the appropriate CDS annotations.
-In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
 
 ```js
 srv.on('getCoverImageFunction', 'Books', (req) => {
-  const readable = new Readable()
   return {
-    value: readable,
+    value: myReadable,
     $mediaContentType: 'image/jpeg',
     $mediaContentDispositionFilename: 'cover.jpg', // > optional
     $mediaContentDispositionType: 'inline' // > optional
@@ -436,12 +448,10 @@ In addition, the Node.js runtime will respect manually set header values.
 
 ```js
 srv.on('unboundAction', (req, res) => {
-  const readable = new Readable()
-
   res.setHeader('content-type', 'image/jpeg')
   res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
 
-  return readable
+  return myReadable
 })
 ```
 

@@ -1562,7 +1562,7 @@ These comparison operators are supported:
 <tr>
 <td>GE</td><td>&gt;=</td>
 <td>
-    Test if this value is greater than or equalt to a given value.
+    Test if this value is greater than or equal to a given value.
 </td>
 <td>
 

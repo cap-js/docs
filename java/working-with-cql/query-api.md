@@ -1474,8 +1474,14 @@ These comparison operators are supported:
 <table>
 <thead>
 <tr>
+<th colspan="2" align=center>Operator</th><th/><th/>
+</tr>
+<tr>
 <th>
-    Predicate
+    CAP Java
+</th>
+<th>
+    CDL
 </th>
 <th width="400">
     Description
@@ -1488,11 +1494,9 @@ These comparison operators are supported:
 
 <tbody>
 <tr>
+<td>EQ</td><td>=</td>
 <td>
-EQ
-</td>
-<td>
-    Test if this value equals a given value. NULL values might be treated as unknown resulting in a three-valued logic as in SQL.
+    Test if this value equals a given value. NULL values might be treated as unknown resulting in a <i>three-valued logic</i> as in SQL.
 </td>
 <td align="left">
 <code>Select.from("bookshop.Books")
@@ -1502,11 +1506,9 @@ EQ
 </tr>
 
 <tr>
+<td>NE</td><td>&lt;&gt;</td>
 <td>
-NE
-</td>
-<td>
-    Test if this value is NOT equal to a given value. NULL values might be treated as unknown resulting in a three-valued logic as in SQL.
+    Test if this value is NOT equal to a given value. NULL values might be treated as unknown resulting in a <i>three-valued logic</i> as in SQL.
 </td>
 <td>
 <code>Select.from("bookshop.Books")
@@ -1516,11 +1518,9 @@ NE
 </tr>
 
 <tr>
+<td>IS</td><td>==</td>
 <td>
-IS
-</td>
-<td>
-    Test if this value equals a given value. NULL values are treated as any other value.
+    Test if this value equals a given value. NULL values are treated as any other value (<i>Boolean logic</i>).
 </td>
 <td>
 
@@ -1532,11 +1532,9 @@ IS
 </tr>
 
 <tr>
+<td>IS NOT</td><td>!=</td>
 <td>
-IS NOT
-</td>
-<td>
-    Test if this value is NOT equal to a given value. NULL values are treated as any other value.
+    Test if this value is NOT equal to a given value. NULL values are treated as any other value (<i>Boolean logic</i>).
 </td>
 <td>
 
@@ -1548,9 +1546,7 @@ IS NOT
 </tr>
 
 <tr>
-<td>
-GT
-</td>
+<td>GT</td><td>&gt;</td>
 <td>
     Test if this value is greater than a given value.
 </td>
@@ -1564,9 +1560,21 @@ GT
 </tr>
 
 <tr>
+<td>GE</td><td>&gt;=</td>
 <td>
-LT
+    Test if this value is greater than or equalt to a given value.
 </td>
+<td>
+
+<code>Select.from("bookshop.Books")
+  .where(b -> b.get("stock")
+  .<span class="na">ge</span>(5));</code>
+
+</td>
+</tr>
+
+<tr>
+<td>LT</td><td>&lt;</td>
 <td>
     Test if this value is less than a given value.
 </td>
@@ -1580,9 +1588,7 @@ LT
 </tr>
 
 <tr>
-<td>
-LE
-</td>
+<td>LE</td><td>&lt;=</td>
 <td>
     Test if this value is less than or equal to a given value.
 </td>
@@ -1596,7 +1602,7 @@ LE
 </tr>
 
 <tr>
-<td>
+<td colspan="2">
 BETWEEN
 </td>
 <td>

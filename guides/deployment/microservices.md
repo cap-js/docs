@@ -907,7 +907,6 @@ resources:
 
 #### Subsequent updates
 
-- TODO... 
 - Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
 - `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
 - Ensure to first deploy `shared-db` before deploying the others

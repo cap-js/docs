@@ -87,6 +87,7 @@ The following table lists these minimum versions for various common dependencies
 | XSUAA | 3.0 | latest |
 | SAP Cloud SDK | 5.9 | latest |
 | Java Logging | 3.7 | latest |
+| Node.js | 18 | 20 |
 
 
 ### Consistent Versions

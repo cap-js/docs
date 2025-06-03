@@ -907,11 +907,7 @@ resources:
 
 #### Subsequent updates
 
-- Whenever one of the projects has changes affecting the database, that triggers a new deployment of the `shared-db` project
-- `git submodules` gives you control of which versions to pull, for example by `git branches` or `git tags` 
-- Ensure to first deploy `shared-db` before deploying the others
-
-
+Whenever one of the projects has changes affecting the database, the database artifacts need to be deployed prior to the application deployment. With a single `mta.yaml`, this is handled in the scope of the mta deployment. When using multiple deployment units, ensure to first deploy the `shared-db` project before deploying the others.
 
 ## Late-Cut Microservices
 

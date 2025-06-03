@@ -447,8 +447,8 @@ In addition, the Node.js runtime will respect manually set header values.
 
 ```js
 srv.on('unboundAction', (req, res) => {
-  res.setHeader('content-type', 'image/jpeg')
-  res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
+  req.http?.res.setHeader('content-type', 'image/jpeg')
+  req.http?.res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
 
   return myReadable
 })

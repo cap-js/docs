@@ -228,6 +228,8 @@ Finally, entries in the dead letter queue can either be _revived_ by resetting t
 
 ### Additional APIs <Alpha />
 
+#### Task Scheduling
+
 You can use the `schedule` method as a shortcut for `cds.queued(srv).send()`, with optional scheduling options `after` and `every`:
 
 ```js
@@ -236,6 +238,7 @@ await srv.schedule('someEvent', { some: 'message' }).after('1h') // after one ho
 await srv.schedule('someEvent', { some: 'message' }).every('1h') // every hour after each processing
 ```
 
+#### Task Processing
 
 To manually trigger the message processing, for example if your server is restarted, you can use the `flush` method.
 
@@ -243,6 +246,8 @@ To manually trigger the message processing, for example if your server is restar
 const srv = await cds.connect.to('yourService')
 cds.queued(srv).flush()
 ```
+
+#### Task Callbacks
 
 Once a message has been successfully processed, it triggers the `<event>/#succeeded` handlers.
 

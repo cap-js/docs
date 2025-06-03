@@ -43,6 +43,7 @@ The [predefined CDS types](../cds/types) are mapped to Java types and as follows
 | `cds.Binary`       | `byte[]`                |                                                                          |
 | `cds.LargeBinary`  | `byte[]`                | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
 | `cds.Vector`       | `com.sap.cds.CdsVector` | for [vector embeddings](#vector-embeddings)                              |
+| `cds.Map`          | `java.util.Map`         | for arbitray [structured data](#structured-data)<sup>(2)</sup>           |
 
 ### SAP HANA-Specific Data Types
 
@@ -62,6 +63,7 @@ To facilitate using legacy CDS models, the following [SAP HANA-specific data typ
 
 
 > <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./cqn-services/persistence-services#database-support) for more details on database support and limitations.
+> <sup>(2)</sup> Serialized as JSON to a CLOB column or JSONB column (on Postgres)
 
 ::: warning
 The framework isn't responsible for closing the stream when writing to the database. You decide when the stream is to be closed. If you forget to close the stream, the open stream can lead to a memory leak.

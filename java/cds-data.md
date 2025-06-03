@@ -43,7 +43,7 @@ The [predefined CDS types](../cds/types) are mapped to Java types and as follows
 | `cds.Binary`       | `byte[]`                |                                                                          |
 | `cds.LargeBinary`  | `byte[]`                | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
 | `cds.Vector`       | `com.sap.cds.CdsVector` | for [vector embeddings](#vector-embeddings)                              |
-| `cds.Map`          | `java.util.Map`         | for arbitray [structured data](#structured-data)<sup>(2)</sup>           |
+| `cds.Map`          | `java.util.Map`         | for arbitrary [structured data](#structured-data)<sup>(2)</sup>          |
 
 ### SAP HANA-Specific Data Types
 

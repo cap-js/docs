@@ -399,7 +399,7 @@ The return type can be also annotated directly in the action or function declara
 function csvExport () returns @Core.MediaType csv;
 ```
 
-When returning a custom media data, content information can be configured as part of the handlers result object. 
+When returning custom media data, content information can be configured as part of the handlers result object. 
 
 Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`). Include options to specify content disposition headers:
 

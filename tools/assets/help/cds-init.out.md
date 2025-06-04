@@ -84,7 +84,7 @@
     <em>cds init</em> bookshop --java
     <em>cds init</em> bookshop --add hana
     <em>cds init</em> bookshop --add multitenancy,mta
-    <em>cds init</em> --java --java:mvn groupId=myGroup,artifactId=newId,package=my.company
+    <em>cds init</em> --java --java:mvn DgroupId=myGroup,DartifactId=newId,Dpackage=my.company
 
 <strong>SEE ALSO</strong>
     <em>cds add</em> - to augment your projects later on

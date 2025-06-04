@@ -396,7 +396,7 @@ entity Books { ... } actions {
 ```
 The return type can be also annotated directly in the action or function declaration.
 ```cds
-function csvExport () returns @Core.MediaType csv;
+function csvExport () returns @Core.MediaType LargeBinary;
 ```
 
 When returning custom media data, content information can be configured as part of the handlers result object. 

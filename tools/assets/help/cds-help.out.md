@@ -22,6 +22,8 @@
     <em>e</em> | <em>env</em>         inspect effective configuration
     <em>b</em> | <em>build</em>       prepare for deployment
     <em>d</em> | <em>deploy</em>      deploy to databases or cloud
+    <em> </em> | <em>up</em>          build and deploy your application
+    <em> </em> | <em>debug</em>       debug your application
     <em> </em> | <em>subscribe</em>   subscribe a tenant to a multitenant SaaS app
     <em> </em> | <em>unsubscribe</em> unsubscribe a tenant from a multitenant SaaS app
     <em>l</em> | <em>login</em>       login to extensible multitenant SaaS app

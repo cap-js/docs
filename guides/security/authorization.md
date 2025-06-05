@@ -492,7 +492,7 @@ The condition defined in the `where`-clause typically associates domain data wit
 - `UPDATE` (as reject condition<sup>2</sup>)
 - `DELETE` (as reject condition<sup>2</sup>)
 
- > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.  
+ > <sup>1</sup> Node.js supports _static expressions_ that *don't have any reference to the model* such as `where: $user.level = 2` for all events.
  > <sup>2</sup> CAP Java uses a filter condition by default.
 
 For instance, a user is allowed to read or edit `Orders` (defined with the `managed` aspect) that they have created:
@@ -515,13 +515,6 @@ Supported features are:
 * Combining predicates to expressions with `and` and `or` logical operators.
 * Value references to constants, [user attributes](#user-attrs), and entity data (elements including [paths](#association-paths))
 * [Exists predicate](#exists-predicate) based on subselects.
-
-
-<div class="impl java">
-
-CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it using the configuration option <Config java keyOnly label="reject-selected-unauthorized-entity">cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>.
-
-</div>
 
 ::: info Avoid enumerable keys
 In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.
@@ -899,7 +892,7 @@ Information about roles and attributes has to be made available to the UAA platf
 Derive scopes, attributes, and role templates from the CDS model:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 This generates an _xs-security.json_ file:

@@ -85,9 +85,15 @@ The following diagram illustrates the deployment workflow:
 + Make sure your SAP HANA Cloud is [mapped to your namespace](https://community.sap.com/t5/technology-blogs-by-sap/consuming-sap-hana-cloud-from-the-kyma-environment/ba-p/13552718#toc-hId-569025164)
 + Ensure SAP HANA Cloud is accessible from your Kyma cluster by [configuring trusted source IPs](https://help.sap.com/docs/HANA_CLOUD/9ae9104a46f74a6583ce5182e7fb20cb/0610e4440c7643b48d869a6376ccaecd.html)
 
+#### Configure Kubernetes
+
+Download the Kubernetes configuration from SAP BTP and move it to _$HOME/.kube/config_.
+
+[Learn more in the SAP BTP Kyma documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/access-kyma-instance-using-kubectl){.learn-more}
+
 #### Get Access to a Container Registry
 
-SAP BTP doesn't provide a container registry, but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
+SAP BTP doesn't provide a container image registry (or container repository), but you can choose from offerings of hosted open source and private container image registries, as well as solutions that can be run on premise or in your own cloud infrastructure.
 
 ::: tip Ensure network access
 
@@ -102,26 +108,17 @@ To use a docker image from a private repository, you need to [create an image pu
 ::: details Use this script to create the docker pull secret...
 
 ```sh
-echo -n "Your repository: "; read YOUR_REPOSITORY
+echo -n "Your docker registry server: "; read YOUR_REGISTRY
 echo -n "Your user: "; read YOUR_USER
 echo -n "Your email: "; read YOUR_EMAIL
-echo -n "Your API key: "; read -s YOUR_API_KEY
+echo -n "Your API token: "; read -s YOUR_API_TOKEN
 kubectl create secret docker-registry \
-  "$YOUR_REPOSITORY" \
+  docker-registry \
   "--docker-server=$YOUR_REGISTRY" \
   "--docker-username=$YOUR_USER" \
-  "--docker-password=$YOUR_API_KEY" \
+  "--docker-password=$YOUR_API_TOKEN" \
   "--docker-email=$YOUR_EMAIL"
-```
-The `image` property needs to contain the full tag that was used to push the image to the repository:
-
-```yaml
-spec:
-  imagePullSecrets:
-  - name: $YOUR_REPOSITORY
-  containers:
-  - name: cap-srv
-    image: $YOUR_REPOSITORY.docker.io/$YOUR_IMAGE:$YOUR_VERSION
+# The 2nd 'docker-registry' above is our default secret name.
 ```
 :::
 
@@ -135,10 +132,23 @@ It is recommended to use a technical user for this secret that has only read per
 
 Let's  start with a new sample project and prepare it for production using an SAP HANA database and XSUAA for authentication:
 
+<div class="impl java">
+
+```sh
+cds init bookshop --java --add sample && cd bookshop
+cds add hana,xsuaa
+```
+
+</div>
+<div class="impl node">
+
 ```sh
 cds init bookshop --add sample && cd bookshop
-cds add hana,xsuaa --for production
+cds add hana,xsuaa
 ```
+
+</div>
+
 
 #### User Interfaces <Beta />
 
@@ -168,6 +178,8 @@ They support the deployment of your CAP service, database, UI content, and the c
 :::
 
 #### Build and Deploy
+
+**First, ensure the Docker daemon** is running, for example by starting Docker Desktop.
 
 You can now quickly deploy the application like so:
 
@@ -307,7 +319,7 @@ domain: <cluster-domain>
 
 # Container image registry
 image:
-  registry: <registry-url>
+  registry: <registry-server>
 ```
 :::
 
@@ -321,14 +333,16 @@ srv:
   # [Service bindings](#configuration-options-for-service-bindings)
   bindings:
 
-  # [Kubernetes container resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+  # Kubernetes container resources
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
   resources:
 
   # Map of additional env variables
   env:
     MY_ENV_VAR: 1
 
-  # [Kubernetes Liveness, Readiness and Startup Probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+  # Kubernetes Liveness, Readiness and Startup Probes
+  # https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
   health:
     liveness:
       path: <endpoint>
@@ -336,7 +350,7 @@ srv:
       path: <endpoint>
     startupTimeout: <seconds>
 
-  # [Container image](#configuration-options-for-container-images)
+  # Container image
   image:
 ```
 :::
@@ -435,7 +449,6 @@ kyma.operator.kyma-project.io/default edited
 
 [Learn more about adding modules from the Kyma Dashboard.](https://help.sap.com/docs/btp/sap-business-technology-platform/enable-and-disable-kyma-module?version=Cloud#loio1b548e9ad4744b978b8b595288b0cb5c){.learn-more style="margin-top:10px"}
 
-:::
 
 #### Configuration Options for Services
 

@@ -53,7 +53,7 @@ cd bookshop
 Now, you can run this to enable multitenancy for your CAP application:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
 <div class="impl node">
@@ -273,6 +273,11 @@ After adding multitenancy, Maven build should be used to generate the model rela
 ```sh
 mvn install
 ```
+
+:::warning Error message: 'Invalid MTX sidecar configuration'
+If you get the message 'Invalid MTX sidecar configuration', you need to add the dependency to `@sap/cds-mtxs` also to the `package.json` in your project root.
+This is a known issue in CDS 9.
+:::
 
 </div>
 
@@ -715,7 +720,7 @@ In order to get your multitenant application deployed, follow this excerpt from 
 Once: Add SAP HANA Cloud, XSUAA, and [App Router](../deployment/to-cf#add-app-router) configuration. The App Router acts as a single point-of-entry gateway to route requests to. In particular, it ensures user login and authentication in combination with XSUAA.
 
 ```sh
-cds add hana,xsuaa --for production
+cds add hana,xsuaa
 ```
 
 If you intend to serve UIs you can easily set up the SAP Cloud Portal service:
@@ -751,33 +756,15 @@ Add the following snippet to your _xs-security.json_ and adapt it to the landsca
 
 [Learn more about configured BTP services for SaaS applications.](#behind-the-scenes){.learn-more}
 
-[Freeze the `npm` dependencies](../deployment/to-cf#freeze-dependencies) for server and MTX sidecar.
-
-```sh
-npm update --package-lock-only
-npm update --package-lock-only --prefix mtx/sidecar
-```
-
-In addition, you need install and freeze dependencies for your UI applications:
-```sh
-npm i --prefix app/browse
-npm i --prefix app/admin-books
-```
-
-**Build and deploy**:
 
 ::: code-group
 
 ```sh [Cloud Foundry]
-mbt build -t gen --mtar mta.tar
-cf deploy gen/mta.tar
+cds up
 ```
 
 ```sh [Kyma]
-# Omit `--push` flag for testing, otherwise `ctz`
-# will push images to the specified repository
-ctz containerize.yaml --push
-helm upgrade --install bookshop ./chart
+cds up --to k8s
 ```
 
 :::
@@ -993,14 +980,14 @@ cds watch --profile dev
 ## SaaS Dependencies {#saas-dependencies}
 Some of the xsuaa-based services your application consumes need to be registered as _reuse services_ to work in multitenant environments. This holds true for the usage of both the SaaS Registry service and the Subscription Manager Service (SMS).
 
-CAP Java as well as `@sap/cds-mtxs`, each offer an easy way to integrate these dependencies. They support some services out of the box and also provide a simple API for applications. Most notably, you need such dependencies for the following SAP BTP services: [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service). 
+CAP Java as well as `@sap/cds-mtxs`, each offer an easy way to integrate these dependencies. They support some services out of the box and also provide a simple API for applications. Most notably, you need such dependencies for the following SAP BTP services: [Audit Log](https://discovery-center.cloud.sap/serviceCatalog/audit-log-service), [Event Mesh](https://discovery-center.cloud.sap/serviceCatalog/event-mesh), [Destination](https://discovery-center.cloud.sap/serviceCatalog/destination), [HTML5 Application Repository](https://discovery-center.cloud.sap/serviceCatalog/html5-application-repository-service), and [Cloud Portal](https://discovery-center.cloud.sap/serviceCatalog/cloud-portal-service).
 
 For CAP Java, all these services are supported natively and SaaS dependencies are automatically created if such a service instance is bound to the CAP Java application, that is, the `srv` module.
 
 :::tip Explicitly activate the Destination service
 SaaS dependency for Destination service needs to be activated explicitly in the `application.yaml` due to security reasons. SaaS dependencies for some of the other services can be **de**activated by setting the corresponding property to `false` in the `application.yaml`.
 
-Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties). 
+Refer to the `cds.multiTenancy.dependencies` section in the [CDS properties](/java/developing-applications/properties#cds-properties).
 :::
 
 For CAP Node.js, all these services are supported natively and can be activated individually by providing configuration in `cds.requires`. In the most common case, you simply activate service dependencies like so:
@@ -1049,10 +1036,11 @@ The Boolean values in the _mtx/sidecar/package.json_ activate the default config
 
 ### Additional Services
 
-If your CAP Java application uses a service that isn't supported out of the box, you can add a custom dependency by providing a custom handler. Refer to [Define Dependent Services](../../java/multitenancy#define-dependent-services) for details. 
+In **CAP Java**, if your application uses a service that isn't supported out of the box, you can define dependencies by providing a custom handler.
 
+[Learn more about defining dependent services](../../java/multitenancy#define-dependent-services){.learn-more}
 
-In Node.js, you can use the `subscriptionDependency` setting to provide a dependency configuration similar to the standard configuration shown before. Use your application's or CAP plugin's _package.json_:
+In **CAP Node.js**, you can use a custom `subscriptionDependency` entry in your application's or CAP plugin's _package.json_:
 
 ```json [package.json]
 "cds": {
@@ -1067,7 +1055,6 @@ In Node.js, you can use the `subscriptionDependency` setting to provide a depend
 > The `subscriptionDependency` specifies the property name of the credentials value with the desired `xsappname`, starting from `cds.requires['my-service'].credentials`. Usually it's just `"xsappname"`, but JavaScript objects interpreted as a key path are also allowed, such as `{ "uaa": "xsappname" }` in the defaults example for `portal`.
 
 Alternatively, overriding the [`dependencies`](./mtxs#get-dependencies) handler gives you full flexibility for any custom implementation.
-
 
 <div id="subscriptiondashboard" />
 

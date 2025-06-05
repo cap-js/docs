@@ -69,7 +69,7 @@ cd bookshop
 
 In addition, you need to prepare the following:
 
-#### 1. SAP BTP with SAP HANA Cloud Database up and Running {#btp-and-hana}
+#### 1. SAP BTP with SAP HANA Cloud Database Up and Running {#btp-and-hana}
 
 - Access to [SAP BTP, for example a trial](https://developers.sap.com/tutorials/hcp-create-trial-account.html)
 - An [SAP HANA Cloud database running](https://help.sap.com/docs/hana-cloud/sap-hana-cloud-administration-guide/create-sap-hana-database-instance-using-sap-hana-cloud-central) in your subaccount <!--, mapped to your space -->
@@ -126,17 +126,15 @@ npm i @sap/cds        #> if necessary
 
 ## Prepare for Production {#prepare-for-production}
 
-If you followed CAP's grow-as-you-go approach so far, you've developed your application with an in-memory database and basic/mock authentication. To prepare for production you need to ensure respective production-grade choices are configured:
+If you followed CAP's grow-as-you-go approach, you've developed your application with an in-memory database and basic (mocked) authentication. In the cloud, you typically use production-grade services like SAP HANA and authentication providers.
 
-![You need to add SAP HANA Cloud, an App Router and XSUAA.](assets/deploy-overview.drawio.svg){style="margin: 30px auto"}
-
-We'll use the `cds add <facets>` CLI command for that, which ensures the required services are configured correctly and corresponding package dependencies are added to your _package.json_.
+The `cds add <facets>` command ensures required services are configured correctly and their dependencies are added to your _package.json_.
 
 ### 1. SAP HANA Database
 
 <div class="impl node">
 
-While we used SQLite as a low-cost stand-in during development, we're going to use an SAP HANA Cloud database for production:
+While we used SQLite as a low-cost stand-in during development, we're using an SAP HANA Cloud database for production:
 
 </div>
 
@@ -147,7 +145,7 @@ While we used SQLite or H2 as a low-cost stand-in during development, we're goin
 </div>
 
 ```sh
-cds add hana --for production
+cds add hana
 ```
 
 [Learn more about using SAP HANA for production.](../databases-hana){.learn-more}
@@ -157,22 +155,11 @@ cds add hana --for production
 Configure your app for XSUAA-based authentication:
 
 ```sh
-cds add xsuaa --for production
+cds add xsuaa
 ```
 
 ::: tip This will also generate an `xs-security.json` file
 The roles/scopes are derived from authorization-related annotations in your CDS models. Ensure to rerun `cds compile --to xsuaa`, as documented in the [_Authorization_ guide](/guides/security/authorization#xsuaa-configuration) whenever there are changes to these annotations.
-:::
-
-::: details For trial and extension landscapes, OAuth configuration is required
-Add the following snippet to your _xs-security.json_ and adapt it to the landscape you're deploying to:
-
-```json
-"oauth2-configuration": {
-  "redirect-uris": ["https://*.cfapps.us10-001.hana.ondemand.com/**"]
-}
-```
-
 :::
 
 [Learn more about SAP Authorization and Trust Management/XSUAA.](https://discovery-center.cloud.sap/serviceCatalog/authorization-and-trust-management-service?region=all){.learn-more}
@@ -221,12 +208,14 @@ For **single-tenant applications**, you can use [SAP Build Work Zone, Standard E
 cds add workzone
 ```
 
+**Important:** This also requires you to set up SAP Build Work Zone, Standard Edition [according to the SAP Learning tutorial](https://developers.sap.com/tutorials/spa-configure-workzone.html).
+
 ### 6. Optional: Multitenancy { #add-multitenancy }
 
 To enable multitenancy for production, run the following command:
 
 ```sh
-cds add multitenancy --for production
+cds add multitenancy
 ```
 
 [Learn more about MTX services.](../multitenancy/#behind-the-scenes){.learn-more}
@@ -242,23 +231,22 @@ The previous steps are required _only once_ in a project's lifetime. With that d
 
 ## Build and Deploy
 
+Make sure you are logged in to Cloud Foundry and target the space you want to deploy to:
+```sh
+cf login --sso  # to log on with SAP Universal ID
+cf target
+```
+[Learn more about `cf login`](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
+
+::: tip Prevent outdated lock file issues
+If your project already includes a _package-lock.json_, run `npm update` to make sure it’s in sync with your _package.json_ before proceeding.
+:::
+
 You can now freeze dependencies, build, and deploy the application:
 
 ```sh
 cds up
 ```
-
-[You need to be logged in to Cloud Foundry.](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html){.learn-more}
-
-<!-- ::: info Prepare monorepo setups
-The CAP samples repository on GitHub has a more advanced (monorepo) structure, so tell the `mbt` tool to find the `package-lock.json` on top-level:
-
-```sh
-ln -sf ../package-lock.json
-```
-
-::: -->
-
 
 ::: details Essentially, this automates the following steps...
 
@@ -267,8 +255,11 @@ ln -sf ../package-lock.json
 npm i app/browse
 npm i app/admin-books
 
+# If project is monorepo
+ln -sf ../package-lock.json
+
 # If project is multitenant
-npm i --package-lock-only mtx/sidecar
+npm i --package-lock-only --prefix mtx/sidecar
 
 # If package-lock.json doesn't exist
 npm i --package-lock-only
@@ -308,7 +299,7 @@ You can use this URL to access the approuter as the entry point of your applicat
 For **multitenant applications**, you have to subscribe a tenant first. The application is accessible via a tenant-specific URL after subscription.
 
 ::: tip No index page and SAP Fiori preview in the cloud
-The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to see from local development, are only available for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori Elements application through on of the [user interface options](#add-ui) outlined before.
+The default index page and [SAP Fiori preview](../../advanced/fiori#sap-fiori-preview), that you are used to seeing during local development, are only meant for the development profile and not available in the cloud. For productive applications, you should add a proper SAP Fiori elements application through on of the [user interface options](#add-ui) outlined before.
 :::
 
 ### Inspect Apps in BTP Cockpit

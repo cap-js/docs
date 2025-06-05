@@ -70,7 +70,7 @@ const config = defineConfig({
 
   vite: {
     build: {
-      chunkSizeWarningLimit: 5000, // chunk for local search index dominates
+      chunkSizeWarningLimit: 6000, // chunk for local search index dominates
     },
     css: {
       preprocessorOptions: {
@@ -106,8 +106,8 @@ config.rewrites = rewrites
 // Add custom capire info to the theme config
 config.themeConfig.capire = {
   versions: {
-    java_services: '3.9.0',
-    java_cds4j: '3.9.0'
+    java_services: '3.10.1',
+    java_cds4j: '3.10.1'
   },
   gotoLinks: [],
   maven_host_base: 'https://repo1.maven.org/maven2'

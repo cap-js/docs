@@ -46,6 +46,7 @@
   ### [SAP Event Mesh](guides/messaging/event-mesh)
   ### [Apache Kafka](../guides/messaging/apache-kafka)
   ### [Events from S/4](guides/messaging/s4)
+  ### [Task Queues](guides/messaging/task-queues)
 
 ## [Protocols/APIs](advanced/publishing-apis/)
 
@@ -91,7 +92,7 @@
 
   ### [Deploy to Cloud Foundry](../guides/deployment/to-cf)
   ### [Deploy to Kyma/K8s](../guides/deployment/to-kyma)
-  ### [Deploy to Shared DB](../guides/deployment/shared-db)
+  ### [Microservices with CAP](../guides/deployment/microservices)
   ### [Deploy with Confidence](../guides/deployment/dwc)
   ### [Deploy with CI/CD](../guides/deployment/cicd)
   ### [Custom Builds](../guides/deployment/custom-builds)
@@ -165,3 +166,4 @@
 ## [Open Resource Discovery](plugins/#ord-open-resource-discovery)
 ## [CAP Operator for K8s](plugins/#cap-operator-plugin)
 ## [SAP Cloud Appl. Event Hub](plugins/#event-hub)
+## [Advanced Event Mesh](plugins/#advanced-event-mesh)

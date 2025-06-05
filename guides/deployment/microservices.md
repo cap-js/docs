@@ -593,7 +593,7 @@ mv app/router .deploy/app-router
 ```
 
 ::: code-group
-```yaml
+```yaml [mta.yaml]
 modules:
   ...
   - name: samples

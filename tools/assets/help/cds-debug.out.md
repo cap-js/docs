@@ -25,6 +25,10 @@
 
       the debug port (default: '9229' for Node.js, '8000' for Java)
 
+    <em>-f</em> | <em>--force</em>
+
+      if necessary, automatically enable ssh for the app and restart it
+
 <strong>EXAMPLES</strong>
     <em>cds debug</em>
     <em>cds debug</em> bookshop-srv --port 8001

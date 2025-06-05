@@ -18,7 +18,7 @@
 
     - json, yml
     - edm, edmx, edmx-v2, edmx-v4, edmx-w4, edmx-x4
-    - sql, hdbcds, hdbtable, hana
+    - sql, hana, hdbtable
     - cdl
     - xsuaa
     - openapi

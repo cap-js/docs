@@ -166,6 +166,34 @@ Most of the loggers are used on DEBUG level by default as they produce quite som
 Spring comes with its own [standard logger groups](https://docs.spring.io/spring-boot/docs/2.1.1.RELEASE/reference/html/boot-features-logging.html#boot-features-custom-log-groups). For instance, `web` is useful to track HTTP requests. However, HTTP access logs gathered by the Cloud Foundry platform router are also available in the application log.
 :::
 
+#### Log CDS Configuration
+
+Upon start-up, you can get an overview of the configured CDS properties. Use this feature to:
+- list all accepted CDS properties and double-check the running configuration
+- check for warnings of usage of deprecated properties
+- check for warnings of usage of undocumented properties
+
+Please note that secrets are masked.
+
+Turn it on by setting the log level <Config Java>com.sap.cds.properties = DEBUG</Config>.
+
+
+::: details Sample output:
+
+```sh
+... DEBUG ... com.sap.cds.properties : 'cds.dataSource.autoConfig.enabled': 'false' (default: 'true')
+... DEBUG ... com.sap.cds.properties : 'cds.dataSource.embedded': 'true' (default: 'false')
+...  WARN ... com.sap.cds.properties : 'cds.security.authorization.emptyAttributeValuesAreRestricted': 'false' (default: 'true', deprecated, not documented)
+... DEBUG ... com.sap.cds.properties : 'cds.security.mock.users.admin.name': 'admin'
+... DEBUG ... com.sap.cds.properties : 'cds.security.mock.users.admin.password': '***' (sensitive)
+... DEBUG ... com.sap.cds.properties : 'cds.security.mock.users.admin.roles[0]': 'admin'
+... DEBUG ... com.sap.cds.properties : 'cds.security.mock.users.admin.roles[1]': 'cds.Developer'
+... DEBUG ... com.sap.cds.properties : 'cds.security.mock.users.admin.attributes.businessPartner[0]': '10401010'
+... DEBUG ... com.sap.cds.properties : 'cds.odataV4.endpoint.path': '/api' (default: '/odata/v4')
+... DEBUG ... com.sap.cds.properties : 'cds.errors.defaultTranslations.enabled': 'true' (default: 'false')
+```
+:::
+
 ### Logging Service { #logging-service}
 
 The SAP BTP platform offers the [SAP Application Logging service for SAP BTP](https://help.sap.com/docs/r/product/APPLICATION_LOGGING)

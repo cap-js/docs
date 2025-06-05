@@ -310,6 +310,32 @@ await cds.ql`SELECT from Authors {
 
 
 
+## cds.ql() {.method}
+
+Use the `cds.ql()` method to construct instances of [`cds.Query`](#class-cds-ql-query) from these inputs:
+
+- tagged template strings (SELECT only)
+- normal strings (SELECT only)
+- plain CQN objects
+
+For example:
+
+```js
+let q = cds.ql ({ SELECT: { from: {ref:[ Books.name ]} }})
+let q = cds.ql (`SELECT from Books { ID, title }`)
+let q = cds.ql `SELECT from ${Books} { ID, title }`
+q instanceof cds.ql.Query //> true
+```
+
+If the input is already a `cds.Query` instance, it is returned unchanged:
+
+```js
+let q1 = cds.ql `SELECT from Books`
+let q2 = cds.ql (q1)
+q1 === q2 //> true
+```
+
+
 ## cds.ql. Query {#class-cds-ql-query .class}
 
 Instances of `cds.Query` capture queries at runtime. Subclasses provide [fluent APIs](#constructing-queries) to construct queries as highlighted below.

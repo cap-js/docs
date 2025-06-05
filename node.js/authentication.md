@@ -483,7 +483,7 @@ If you don't know the API endpoint, have a look at section [Regions and API Endp
     ```json
     "oauth2-configuration": {
       "redirect-uris": [
-        "http://localhost:5000/"
+        "http://localhost:5000/login/callback"
       ]
     }
     ```

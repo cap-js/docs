@@ -13,15 +13,72 @@ The latter include **database** services. In all cases use `cds.connect` to conn
 [[toc]]
 
 
+## Connecting to Required Services { #cds-connect-to }
+
+
+
+### cds. connect.to () {.method}
+
+Use `cds.connect.to()` to connect to services configured in a project's `cds.requires` configuration.
+
+```js
+const ReviewsService = await cds.connect.to('ReviewsService')
+```
+
+The method returns a _Promise_ resolving to a _[Service](../cds/cdl#services)_ instance which acts as a client proxy to the service's API, allowing you to call its methods and access its data using common [`cds.Service`](core-services#consuming-services) methods, e.g.:
+
+```js
+let reviews = await ReviewsService.read ('Reviews')
+```
+
+
+**Arguments** are as follows:
+
+```ts:no-line-numbers
+async function cds.connect.to (
+  name? : string,  // reference to an entry in `cds.requires` config
+  options? : {
+    kind : string  // reference to a preset in `cds.requires.kinds` config
+    impl : string  // module name of the implementation
+  }
+) : Promise<Service>
+```
+
+Argument `name` is used to look up connect options from [configured services](#cds-env-requires), which are defined in the `cds.requires` section of your _package.json_ or _.cdsrc.json_ or _.yaml_ files.
+
+Argument `options` also allows to pass additional options such as `credentials` programmatically, and thus create services without configurations and [service bindings](#service-bindings), for example, you could connect to a local SQLite database in your tests like this:
+
+```js
+const db2 = await cds.connect.to ({
+  kind: 'sqlite', credentials: { url: 'db2.sqlite' }
+})
+```
+
+
+### cds. services {#cds-connect-caching .property}
+
+When connecting to a service using `cds.connect.to()`, the service instance is cached in [`cds.services`](cds-facade#cds-services) under the service name. This means that subsequent calls to `cds.connect.to()` with the same service name will all return the same instance. As services constructed by [`cds.serve`](cds-serve#cds-serve) are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
+
+You can also access cached service instance like this:
+
+```js
+const { ReviewsService } = cds.services
+```
+
+> Note: If _ad-hoc_ options are provided, the instance is not cached.
+
 
 
 ## Configuring Required Services {#cds-env-requires }
 
-To configure required remote services in Node.js, simply add respective entries to the `cds.requires` sections in your _package.json_ or in _.cdsrc.json_ (omitting the `cds.` prefix). These configurations are constructed as follows:
+To configure required remote services in Node.js, simply add respective entries to the `cds.requires` sections in your _package.json_ or in _.cdsrc.json_ or _.yaml_. These configurations are constructed as follows:
 
-```json
-"cds": {
+::: code-group
+
+```json [package.json]
+{"cds":{
   "requires": {
+    "db": { "kind": "sqlite", "credentials": { "url":"db.sqlite" }},
     "ReviewsService": {
       "kind": "odata", "model": "@capire/reviews"
     },
@@ -29,8 +86,25 @@ To configure required remote services in Node.js, simply add respective entries 
       "kind": "odata", "model": "@capire/orders"
     },
   }
-}
+}}
 ```
+
+```yaml [.cdsrc.yaml]
+cds:
+  requires:
+    db:
+      kind: sqlite
+      credentials:
+        url: db.sqlite
+    ReviewsService:
+      kind: odata,
+      model: @capire/reviews
+    OrdersService:
+      kind: odata,
+      model: @capire/orders
+```
+
+:::
 
 Entries in this section tell the service loader to not serve that service as part of your application, but expects a service binding at runtime in order to connect to the external service provider. The options are as follows:
 
@@ -104,124 +178,6 @@ If you specify a model, then a service definition for your required service must
 The example specifies `service: 'BusinessPartnerService'`, which results in a check for a service called `BusinessPartnerService` instead of `remote-service` in the model loaded from `some/imported/model`.
 
 
-### cds.requires.<i>\<srv\></i>`.credentials`
-
-Specify the credentials to connect to the service. Credentials need to be kept secure and should not be part of a configuration file.
-
-
-
-
-
-## Connecting to Required Services { #cds-connect-to }
-
-
-
-### cds. connect.to () {.method}
-
-Declaration:
-
-```ts:no-line-numbers
-async function cds.connect.to (
-  name : string,  // reference to an entry in `cds.requires` config
-  options : {
-    kind : string // reference to a preset in `cds.requires.kinds` config
-    impl : string // module name of the implementation
-  }
-)
-```
-
-Use `cds.connect.to()` to connect to services configured in a project's `cds.requires` configuration. Usually such services are remote services, which in turn can be mocked locally. Here's an example:
-
-::: code-group
-
-```json [package.json]
-{"cds":{
-  "requires":{
-    "db": { "kind": "sqlite", "credentials": { "url":"db.sqlite" }},
-    "ReviewsService": { "kind": "odata-v4" }
-  }
-}}
-```
-
-:::
-
-```js
-const ReviewsService = cds.connect.to('ReviewsService')
-const db = cds.connect.to('db')
-```
-
-Argument `options` allows to pass options programmatically, and thus create services without configurations, for example:
-
-```js
-const db2 = cds.connect.to ({
-  kind: 'sqlite', credentials: { url: 'db2.sqlite' }
-})
-```
-
-In essence, `cds.connect.to()` works like that:
-
-```js
-let o = { ...cds.requires[name], ...options }
-let csn = o.model ? await cds.load(o.model) : cds.model
-let Service = require (o.impl) //> a subclass of cds.Service
-let srv = new Service (name, csn, o)
-return srv.init() ?? srv
-```
-
-
-
-
-### cds.connect.to  <i>  (name, options?) &#8594; service </i>
-
-Connects to a required service and returns a _Promise_ resolving to a corresponding _[Service](../cds/cdl#services)_ instance.
-Subsequent invocations with the same service name all return the same instance.
-
-```js
-const srv = await cds.connect.to ('some-service')
-const { Books } = srv.entities
-await srv.run (SELECT.from(Books))
-```
-
-
-_**Arguments:**_
-
-* `name` is used to look up connect options from [configured services](#cds-env-requires).
-* `options` allows to provide _ad-hoc_ options, overriding [configured ones](#cds-env-requires).
-
-
-_**Caching:**_
-
-Service instances are cached in [`cds.services`](cds-facade#cds-services), thus subsequent connects with the same service name return the initially connected one. As services constructed by [`cds.serve`](cds-serve#cds-serve) are registered with [`cds.services`](cds-facade#cds-services) as well, a connect finds and returns them as local service connections.
-
-If _ad-hoc_ options are provided, the instance is not cached.
-
-
-
-### cds.connect.to  <i>  (options) &#8594; service </i>
-
-Ad-hoc connection (&rarr; only for tests):
-
-```js
-cds.connect.to ({ kind:'sqlite', credentials:{database:'my.db'} })
-```
-
-
-
-### cds.connect.to  <i>  ('\<kind\>:\<url\>') &#8594; service </i>
-
-This is a shortcut for ad-hoc connections.
-
-For example:
-```js
-cds.connect.to ('sqlite:my.db')
-```
-
-is equivalent to:
-
-```js
-cds.connect.to ({kind: 'sqlite', credentials:{database:'my.db'}})
-```
-
 
 
 ## Service Bindings {#service-bindings}
@@ -239,12 +195,66 @@ A service binding connects an application with a cloud service. For that, the cl
 }
 ```
 
+
+### cds.requires.<i>\<srv\></i>.credentials
+
+All service binding information goes into this property. It's filled from the process environment when starting server processes, managed by deployment environments. Service bindings provide the details about how to reach a required service at runtime, that is, providing requisite credentials, most prominently the target service's `url`.
+
+
 You specify the credentials to be used for a service by using one of the following:
-- Environment variables
+
+- Process environment variables
+- Command line options
 - File system
 - Auto binding
 
-What to use depends on your environment.
+For example, in development, you can add them to a _.env_ file as follows:
+
+```properties
+# .env file
+cds.requires.remote-service.credentials = { "url":"http://...", ... }
+```
+
+::: warning ❗ Never add secrets or passwords to _package.json_ or _.cdsrc.json_!
+General rule of thumb: `.credentials` are always filled (and overridden) from process environment on process start.
+:::
+
+
+
+### Basic Mechanism {#bindings-via-cds-env}
+
+
+The CAP Node.js runtime expects to find the service bindings in `cds.env.requires`.
+
+1. Configured required services constitute endpoints for service bindings.
+
+   ```json
+   "cds": {
+     "requires": {
+       "ReviewsService": {...},
+      }
+   }
+   ```
+
+2. These are made available to the runtime via `cds.env.requires`.
+
+   ```js
+   const { ReviewsService } = cds.env.requires
+   ```
+
+3. Service Bindings essentially fill in `credentials` to these entries.
+
+   ```js
+   const { ReviewsService } = cds.env.requires
+   ReviewsService.credentials = {
+     url: "http://localhost:4005/reviews"
+   }
+   ```
+
+The latter is appropriate in test suites. In productive code, you never provide credentials in a hard-coded way. Instead, use one of the options presented in the following sections.
+
+
+
 
 ### In Cloud Foundry {#bindings-in-cloud-platforms}
 
@@ -257,6 +267,8 @@ Find general information about how to configure service bindings in Cloud Foundr
 Cloud Foundry uses auto configuration of service credentials through the `VCAP_SERVICES` environment variable.
 
 [Learn more about environment variables on Cloud Foundry and `cf env`.](https://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html){.learn-more}
+
+
 
 #### Through `VCAP_SERVICES` env var {#vcap_services}
 
@@ -371,6 +383,8 @@ Here are a few examples:
 </tr>
 </tbody>
 </table>
+
+
 
 
 ### In Kubernetes / Kyma { #in-kubernetes-kyma}
@@ -608,79 +622,9 @@ The resulting `VCAP_SERVICES` env variable looks like this:
 ```
 
 
-## Hybrid Testing
 
 
-In addition to the [static configuration of required services](#service-bindings), additional information, such as urls, secrets, or passwords are required to actually send requests to remote endpoints. These are dynamically filled into property `credentials` from process environments, as explained in the following.
-
-
-### cds.requires.<i>\<srv\></i>.credentials
-
-All service binding information goes into this property. It's filled from the process environment when starting server processes, managed by deployment environments. Service bindings provide the details about how to reach a required service at runtime, that is, providing requisite credentials, most prominently the target service's `url`.
-
-For development purposes, you can pass them on the command line or add them to a _.env_ or _default-env.json_ file as follows:
-
-```properties
-# .env file
-cds.requires.remote-service.credentials = { "url":"http://...", ... }
-```
-::: warning
-❗ Never add secrets or passwords to _package.json_ or _.cdsrc.json_!
-General rule of thumb: `.credentials` are always filled (and overridden) from process environment on process start.
-:::
-
-One prominent exception of that, which you would frequently add to your _package.json_ is the definition of a database file for persistent sqlite database during development:
-```json
-  "cds": { "requires": {
-    "db": {
-      "kind": "sql",
-      "[development]": {
-        "kind": "sqlite",
-        "credentials": {
-          "url": "db/bookshop.sqlite"
-        }
-      }
-    }
-  }}
-```
-
-
-
-
-### Basic Mechanism {#bindings-via-cds-env}
-
-
-The CAP Node.js runtime expects to find the service bindings in `cds.env.requires`.
-
-1. Configured required services constitute endpoints for service bindings.
-
-   ```json
-   "cds": {
-     "requires": {
-       "ReviewsService": {...},
-      }
-   }
-   ```
-
-2. These are made available to the runtime via `cds.env.requires`.
-
-   ```js
-   const { ReviewsService } = cds.env.requires
-   ```
-
-3. Service Bindings essentially fill in `credentials` to these entries.
-
-   ```js
-   const { ReviewsService } = cds.env.requires
-   ReviewsService.credentials = {
-     url: "http://localhost:4005/reviews"
-   }
-   ```
-
-The latter is appropriate in test suites. In productive code, you never provide credentials in a hard-coded way. Instead, use one of the options presented in the following sections.
-
-
-### Through _.cdsrc-private.json_ File for Local Testing
+### Through _.cdsrc-private.json_ File for Hybrid Testing
 
 [Learn more about hybrid testing using _.cdsrc-private.json_.](../advanced/hybrid-testing#bind-to-cloud-services)
 

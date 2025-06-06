@@ -588,3 +588,5 @@ Content-Type: application/json
 
 > [!warning] Error Sanitization
 > In production, error responses should never disclose internal information that could be exploited by attackers. To ensure that, all errors with a `5xx` status code are returned to the client with only the respective generic message (example: `500 Internal Server Error`).
+>
+> In very rare cases, you might want to return 5xx errors with a meaningful message to the client. This can be achieved with `err.$sanitize = false`. Use that option with care!

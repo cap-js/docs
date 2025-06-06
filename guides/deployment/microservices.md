@@ -466,18 +466,6 @@ resources:
 ```
 :::
 
-Add the *processed-after* property, so that the xsuaa instance is created after the messaging:
-
-::: code-group
-```yaml [mta.yaml]
-resources:
-  ...
-  - name: samples-auth
-    processed-after: #[!code ++]
-      - samples-messaging #[!code ++]
-```
-:::
-
 ::: details Configure each app for cloud readiness
 Enable messaging for the modules that use it:
 
@@ -593,7 +581,7 @@ mv app/router .deploy/app-router
 ```
 
 ::: code-group
-```yaml
+```yaml [mta.yaml]
 modules:
   ...
   - name: samples

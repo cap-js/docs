@@ -19,13 +19,13 @@ Assumed we want to create a composite application consisting of two or more micr
 - https://github.com/capire/reviews
 - https://github.com/capire/orders
 
-With some additional repos, used as dependencies in the same manner, like:
+With some additional repositories, used as dependencies in the same manner, like:
 
 - https://github.com/capire/common
 - https://github.com/capire/bookshop
 - https://github.com/capire/data-viewer
 
-This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[NPM workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques...
+This guide describes a way to manage development and deployment via *[monorepos](https://en.wikipedia.org/wiki/Monorepo)* using *[NPM workspaces](https://docs.npmjs.com/cli/using-npm/workspaces)* and *[git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)* techniques.
 
 1. Create a new monorepo root directory using *NPM workspaces*:
 
@@ -98,7 +98,10 @@ When one of the projects is cloned in isolation, it's still possible to fetch de
 
 ## Using a Shared Database
 
-If you have multiple CAP applications relying on the same domain model or want to split up a monolithic CAP application **on the service level only while still sharing the underlying database layer**, you can deploy your model to a single database and then share it across applications.
+You can deploy your model to a single database and then share it across applications, if you have one of the following scenarios:
+
+- multiple CAP applications relying on the same domain model
+- a monolithic CAP application that you want to split up  **on the service level only, while still sharing the underlying database layer**
 
 In the following steps, we create an additional project to easily collect the relevant models from these projects, and act as a vehicle to deploy these models to SAP HANA in a controlled way.
 
@@ -185,9 +188,9 @@ The project structure used here is as follows:
 └─ package.json
 ```
 
-The `shared-db` module is simply another CAP project, with only db content. The dependencies are installed via NPM, so it's still possible to install via an NPM registry if used outside of the monorepo setup.
+The `shared-db` module is simply another CAP project, with only database content. The dependencies are installed via NPM, so it's still possible to install via an NPM registry if used outside of the monorepo setup.
 
-The db model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all NPM workspaces.
+The database model could also be collected on root level instead of creating a separate `shared-db` module. When collecting on root level, the `cds build --ws` option can be used to collect the models of all NPM workspaces.
 
 :::
 
@@ -463,18 +466,6 @@ resources:
 ```
 :::
 
-Add the *processed-after* property, so that the xsuaa instance is created after the messaging:
-
-::: code-group
-```yaml [mta.yaml]
-resources:
-  ...
-  - name: samples-auth
-    processed-after: #[!code ++]
-      - samples-messaging #[!code ++]
-```
-:::
-
 ::: details Configure each app for cloud readiness
 Enable messaging for the modules that use it:
 
@@ -590,7 +581,7 @@ mv app/router .deploy/app-router
 ```
 
 ::: code-group
-```yaml
+```yaml [mta.yaml]
 modules:
   ...
   - name: samples
@@ -658,7 +649,7 @@ modules:
 ```
 :::
 
-The _xs-app.json_ file describes how to forward incoming request to the API endpoint / OData services and is located in the app/router folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
+The _xs-app.json_ file describes how to forward incoming request to the API endpoint / OData services and is located in the _.deploy/app-router_ folder. Each exposed CAP Service endpoint needs to be directed to the corresponding application which is providing this CAP service.
 
 ::: code-group
 ```json [.deploy/app-router/xs-app.json]
@@ -792,13 +783,13 @@ You can then navigate to this url and the corresponding apps
 ```
 
 
-## Deployment as separate mta
+## Deployment as Separate MTA
 
-This is an alternative to the all-in-one deployment. Assume the applications each already have their own mta.yaml. For example by running `cds add mta` in the `reviews`, `orders` and `bookstore` folder.
+This is an alternative to the all-in-one deployment. Assume the applications each already have their own _mta.yaml_. For example by running `cds add mta` in the _reviews_, _orders_ and _bookstore_ folder.
 
 ### Database
 
-We can add the [previously created](#using-a-shared-database) `shared-db` project as its own mta deployment:
+We can add the [previously created](#using-a-shared-database) `shared-db` project as its own MTA deployment:
 
 ::: code-group
 ```sh [shared-db/]
@@ -877,7 +868,7 @@ resources:
 
 The only thing left to care about is to ensure all 3+1 projects are bound and connected to the same database at deployment, subscription, and runtime.
 
-Configure the mta.yaml of the other apps to bind to the existing shared database, for example, in the reviews module:
+Configure the _mta.yaml_ of the other apps to bind to the existing shared database, for example, in the reviews module:
 
 ```yaml [reviews/mta.yaml]
 ...
@@ -907,7 +898,7 @@ resources:
 
 #### Subsequent updates
 
-Whenever one of the projects has changes affecting the database, the database artifacts need to be deployed prior to the application deployment. With a single `mta.yaml`, this is handled in the scope of the mta deployment. When using multiple deployment units, ensure to first deploy the `shared-db` project before deploying the others.
+Whenever one of the projects has changes affecting the database, the database artifacts need to be deployed prior to the application deployment. With a single _mta.yaml_, this is handled in the scope of the MTA deployment. When using multiple deployment units, ensure to first deploy the `shared-db` project before deploying the others.
 
 ## Late-Cut Microservices
 
@@ -932,7 +923,7 @@ Instead of just choosing between a monolith and microservices, these aspects can
 
 Since each cut not only has benefits, but also drawbacks, it's important to choose which benefits actually help the overall product and which drawbacks can be accepted.
 
-![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared db, two each contain an app connected to the shared db, one contains a db and an app, which is also connected to the shared db](./assets/microservices/complex.excalidraw.svg)
+![Multiple deployment units - one contains the UIs, one contains shared service instances, one contains a shared database, two each contain an app connected to the shared database, one contains a database and an app, which is also connected to the shared database](./assets/microservices/complex.excalidraw.svg)
 
 ### A Late Cut
 
@@ -941,16 +932,16 @@ When developing a product, it may initially not be apparent where the boundaries
 Keeping this in mind, an app can be developed as a modular application with use case specific CAP services.
 It can first be deployed as a [monolith / modulith](#monolith-or-microservice). Once the boundaries are clear, it can then be split into multiple applications.
 
-Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with shared db, as true microservices, or a combination of these, just via configuration change.
+Generally, the semantic separation and structure can be enforced using modules. The deployment configuration is then an independent step on top. In this way, the same application can be deployed as a monolith, as microservices with a shared database, as true microservices, or a combination of these, just via configuration change.
 
 ![Modules which can be arranged in different deploy configurations, for example, as a monolith (bookshop, reviews, orders), as two apps (bookshop, orders in one, reviews in the other), and so on.](./assets/microservices/late-cut.excalidraw.svg)
 
-### Best Practices
+### Best Practices {.good}
 
 * Prefer a late cut
 * Stay flexible in where to cut
-* Prefer staying loosely coupled → for example, ReviewsService → reviewed events → UPDATE avg ratings
-* Leverage db-level integration selectively → Prefer referring to (public) service entities, not (private) db entities
+* Prefer staying loosely coupled → for example, ReviewsService → reviewed events → UPDATE average ratings
+* Leverage database-level integration selectively → Prefer referring to (public) service entities, not (private) database entities
 
 ## Appendix
 
@@ -958,27 +949,27 @@ Generally, the semantic separation and structure can be enforced using modules. 
 
 A monolith is a single deployment unit with a single application. This is very convenient, because every part of the app is accessible in memory.
 
-![A monolith](./assets/microservices/monolith.excalidraw.svg)
+![A diagram showing a monolithic application architecture. Three modules labeled bookshop, reviews, and orders are grouped together inside a single large container, representing one deployment unit. The modules are visually separated within the container but are part of the same application. The environment is clean and technical, focusing on modular structure within a unified deployment. The tone is neutral and informative. Text in the image includes bookshop, reviews, and orders.](./assets/microservices/monolith.excalidraw.svg)
 
 A modulith, even though the app is separated into multiple CAP services inside multiple modules, can still be deployed as a single monolithic application.
 This combines the benefit of a clear structure and distributed development while keeping a simple deployment.
 
-![A single app containing the modules bookshop, reviews, and orders](./assets/microservices/modulith.excalidraw.svg)
+![A single application visualized as a large container holding three labeled modules: bookshop, reviews, and orders. The modules are grouped together within the container, indicating they are part of the same deployment unit. The environment is clean and technical, focusing on modular structure within a unified application. The tone is neutral and informative. Text in the image includes bookshop, reviews, and orders.](./assets/microservices/modulith.excalidraw.svg)
 
 True microservices each consist of their own deployment unit with their own application and their own database.
 Meaning that they're truly independent of each other. And it works well if they are actually independent.
 
-![A simplified microservices view - three deployment units, each with one app and one database](./assets/microservices/true-microservices.excalidraw.svg)
+![Diagram showing a simplified microservices architecture with three separate deployment units. Each unit contains one application labeled App and one database labeled DU. The units are visually separated, emphasizing their independence. The environment is clean and technical, focusing on the modular structure of microservices. The tone is neutral and informative. No additional text is present in the image.](./assets/microservices/true-microservices.excalidraw.svg)
 
 What was mentioned earlier is a simplified view. In an actual microservice deployment, there are typically shared service instances and wiring needs to be provided so that apps can talk to each other, directly or via events.
 If the microservices are not cut well, the communication overhead leads to high performance losses and often the need for data replication or caching.
 
-![A more complete microservices view - two deployment units with one app, one db and some UIs each, one deployment unit for shared service instances](./assets/microservices/true-microservices-full.excalidraw.svg)
+![Diagram showing a detailed microservices architecture with three separate deployment units. Each unit contains one application labeled App and one database labeled DU. The units are visually separated, emphasizing their independence. Between the applications, there are two types of communication: a solid line labeled Events connecting the rightmost and center units, and a solid line connecting the center and left units. The environment is clean and technical, focusing on the modular structure and event-driven communication between microservices. The tone is neutral and informative. Text in the image includes DU, App, and Events.](./assets/microservices/true-microservices-full.excalidraw.svg)
 
 
 ### Application Instances
 
-Having only a single virtual machine or container, the application can only be scaled vertically by increasing the cpu and memory resources. This typically has an upper limit and requires a restart when scaling.
+Having only a single virtual machine or container, the application can only be scaled vertically by increasing the CPU and memory resources. This typically has an upper limit and requires a restart when scaling.
 
 To improve scalability, we can start multiple instances of the same application.
 
@@ -1024,13 +1015,13 @@ Drawbacks:
 #### Resource Separation
 
 One part of an application may do highly critical background processing, while another handles incoming requests.
-The incoming requests take cpu cycles and consume memory, which should rather be used for the background processing.
+The incoming requests take CPU cycles and consume memory, which should rather be used for the background processing.
 To make sure that there are always enough resources for specific tasks, they can be split into their own app.
 
 #### Independent Scaling
 
 Similar to resource separation, different parts of the app may have different requirements and profiles for scaling.
-For some parts, a 100% cpu utilization over an extended period is accepted for efficiency, while request handling apps need spare resources to handle user requests with low latency.
+For some parts, a 100% CPU utilization over an extended period is accepted for efficiency, while request handling apps need spare resources to handle user requests with low latency.
 
 #### Fault Tolerance
 
@@ -1055,7 +1046,7 @@ Drawbacks:
 - Coordination between deployment units for updates with dependencies
 - Configuration wiring to connect systems across deployment units
 
-![One deployment unit for UIs and one deployment unit for apps, db and so on.](./assets/microservices/multiple-deployment-units.excalidraw.svg)
+![Diagram illustrating multiple deployment units in a microservices architecture. The image shows several distinct containers, each representing a deployment unit. One unit contains UIs, another contains shared service instances, a third contains a shared database, and two separate units each contain an app connected to the shared database. There is also a unit that contains both a database and an app, which is also connected to the shared database. The containers are visually separated, emphasizing modularity and independent deployment. The environment is technical and organized, focusing on the structure and relationships between deployment units. Text in the image includes DU, App, and UIs. The tone is neutral and informative, highlighting architectural flexibility and separation of concerns in microservices deployment.](./assets/microservices/multiple-deployment-units.excalidraw.svg)
 
 
 With a single deployment unit, when a fix for one part needs to be deployed, the risk of redeploying the rest of the application needs to be considered.

@@ -357,4 +357,4 @@ Add the model path accordingly:
 }
 ```
 
-Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/#project-structure) with `db`, `srv`, and `app` folders. In this case, you can delete the entire `model` configuration.
+Note that model configuration isn't required for CAP projects using the [standard project layout](../get-started/index.md#project-structure) with `db`, `srv`, and `app` folders. In this case, you can delete the entire `model` configuration.

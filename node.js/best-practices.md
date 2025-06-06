@@ -401,7 +401,7 @@ function csvExport () returns @Core.MediaType LargeBinary;
 
 When returning custom media data, content information can be configured as part of the handlers result object. 
 
-Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`). Include options to specify content disposition headers:
+Ideally, handlers use [`req.reply`](events#req-reply-results), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`). Include options to specify content disposition headers:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {

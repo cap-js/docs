@@ -286,12 +286,11 @@ Vector embeddings let you add semantic search, recommendations, and generative A
    <div class="impl java">
 
    ```Java
-   var aiClient = OpenAiClient.forModel(OpenAiModel.TEXT_EMBEDDING_3_SMALL); // [!code focus]
+   var aiClient = OpenAiClient.forModel(OpenAiModel.TEXT_EMBEDDING_3_SMALL);
+   var response = aiClient.embedding(
+      new OpenAiEmbeddingRequest(List.of(book.getDescription())));
 
-   var request = new OpenAiEmbeddingRequest(List.of(book.getDescription()));
-
-   book.setEmbedding(CdsVector.of(
-     aiClient.embedding(request).getEmbeddings().get(0)));
+   book.setEmbedding(CdsVector.of(response.getEmbeddings().get(0)));
    ```
    </div>
 

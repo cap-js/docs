@@ -321,13 +321,12 @@ Vector embeddings let you add semantic search, recommendations, and generative A
    <div class="impl node">
 
    ```js
-const response = await new AzureOpenAiEmbeddingClient(
+   const response = await new AzureOpenAiEmbeddingClient(
     'text-embedding-3-small'
-  ).run({
+   ).run({
     input: 'How to use vector embeddings in CAP?'
-  });
-const questionEmbedding = response.getEmbedding();
-   // questionEmbedding is a string like '[0.3,0.7,0.1,...]'
+   });
+   const questionEmbedding = response.getEmbedding();
    let similarBooks = await SELECT.from('Books')
      .where`cosine_similarity(embedding, to_real_vector(${questionEmbedding})) > 0.9`;
    ```

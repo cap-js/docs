@@ -288,12 +288,10 @@ Vector embeddings let you add semantic search, recommendations, and generative A
    ```Java
    var aiClient = OpenAiClient.forModel(OpenAiModel.TEXT_EMBEDDING_3_SMALL); // [!code focus]
 
-   var params = new OpenAiEmbeddingParameters();
-   params.setInputType("document");
-   params.setInput(book.getDescription()); // [!code focus:4]
+   var request = new OpenAiEmbeddingRequest(List.of(book.getDescription()));
 
    book.setEmbedding(CdsVector.of(
-     aiClient.embedding(params).getData().get(0).getEmbedding()));
+     aiClient.embedding(request).getEmbeddings().get(0)));
    ```
    </div>
 
@@ -323,6 +321,12 @@ Vector embeddings let you add semantic search, recommendations, and generative A
    <div class="impl node">
 
    ```js
+const response = await new AzureOpenAiEmbeddingClient(
+    'text-embedding-3-small'
+  ).run({
+    input: 'Hello, world!'
+  });
+const embedding = response.getEmbedding();
    // questionEmbedding is a string like '[0.3,0.7,0.1,...]'
    let similarBooks = await SELECT.from('Books')
      .where`cosine_similarity(embedding, to_real_vector(${questionEmbedding})) > 0.9`;

@@ -138,7 +138,7 @@ These are the (not so beneficial) side effects you when using a shared persisten
 
    > Note how *NPM workspaces* allows us to use the package names of the projects, and nicely creates symlinks in *node_modules* accordingly.
 
-2. Add a `db/schema.cds` file as a mashup to actually collect the models:
+2. Add a `shared-db/db/schema.cds` file as a mashup to actually collect the models:
 
   ::: code-group
    ```cds [shared-db/db/schema.cds]
@@ -155,10 +155,10 @@ These are the (not so beneficial) side effects you when using a shared persisten
 With that we're basically done with the setup of the collector project. In sum, it's just another CAP project with some cds models in it, which we can handle as usual. We can test whether it all works as expected, for example, we can test-compile and test-deploy it to sqlite and hana, build it, and deploy it to the cloud as usual:
 
 ```sh
-cds db -2 sql
+cds shared-db/db -2 sql
 ```
 ```sh
-cds db -2 hana
+cds shared-db/db -2 hana
 ```
 
 ```sh

@@ -290,7 +290,7 @@ Vector embeddings let you add semantic search, recommendations, and generative A
    var response = aiClient.embedding(
       new OpenAiEmbeddingRequest(List.of(book.getDescription())));
 
-   book.setEmbedding(CdsVector.of(response.getEmbeddings().get(0)));
+   book.setEmbedding(CdsVector.of(response.getEmbeddingVectors().get(0)));
    ```
    </div>
 
@@ -300,10 +300,9 @@ Vector embeddings let you add semantic search, recommendations, and generative A
 
    ```Java
    // Compute embedding for user question
-   params.setInputType("query");
-   params.setInput("How to use vector embeddings in CAP?");
+   var request = new OpenAiEmbeddingRequest(List.of("How to use vector embeddings in CAP?"));
    CdsVector userQuestion = CdsVector.of(
-    aiClient.embedding(params).getData().get(0).getEmbedding());
+    aiClient.embedding(request).getEmbeddingVectors().get(0));
 
    // Compute similarity between user question and book embeddings
    var similarity = CQL.cosineSimilarity( // computed on SAP HANA

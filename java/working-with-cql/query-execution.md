@@ -117,12 +117,12 @@ var params = Map.of("minStock", 100);
 Result result = service.run(query, params);
 ```
 
-#### Adding Query Hints for SAP HANA { #hana-hints}
+### Query Hints { #hana-hints}
 
 To add a hint clause to a statement, use the `hints` method and prefix the [SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) with `hdb.`:
 
 ```java
-CqnSelect query = Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_SAMPLES(0)");
+Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_SAMPLES(0)");
 ```
 ::: warning
 Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and therefore **must not** contain external input!
@@ -160,7 +160,7 @@ If no rows are touched the execution is successful but the row count is 0.
 The setters of an [update with expressions](../working-with-cql/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
 :::
 
-### Working with Structured Documents
+### Structured Documents
 
 It's possible to work with structured data as the insert, update, and delete operations cascade along *compositions*.
 
@@ -223,45 +223,123 @@ CqnDelete delete = Delete.from("bookshop.Orders").matching(singletonMap("OrderNo
 long deleteCount = service.run(delete).rowCount();
 ```
 
-### Resolvable Views and Projections { #updatable-views}
+## Views and Projections { #views }
 
-The CAP Java SDK aims to resolve statements on non-complex views and projections to their underlying entity. When delegating queries between Application Services and Remote Services, statements are resolved to the entity definitions of the targeted service. Using the Persistence Service, only modifying statements are resolved before executing database queries. This allows to execute [Insert](./query-api#insert), [Upsert](./query-api#upsert), [Update](./query-api#update), and [Delete](./query-api#delete) operations on database views. For [Select](./query-api#select) statements database views are always leveraged, if available.
+The CDS compiler automatically generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files from your CDS model, including database views for all CDS [views and projections](../../cds/cdl#views-projections).
 
-Views and projections can be resolved if the following conditions are met:
+These views are used to read data from the database, while write operations are resolved to the underlying entities, if possible.
 
-- The view definition does not use any other clause than `columns` and `excluding`.
-- The projection includes all key elements; with the exception of insert operations with generated UUID keys.
-- The projection includes all elements with a `not null` constraint, unless they have a default value.
-- The projection must not include calculated fields when running queries against a remote OData service.
-- The projection must not include [path expressions](../../cds/cql#path-expressions) using to-many associations.
+::: warning
+Avoid using to-many associations on the select list of CDS views, as this prevents write operations and can lead to performance issues due to duplicating records on the DB.
+:::
 
-For [Insert](./query-api#insert) or [Update](./query-api#update) operations, if the projection contains functions or expressions, these values are ignored. Path expressions navigating *to-one* associations, can be used in projections as shown by the `Header` view in the following example. The `Header` view includes the element `country` from the associated entity `Address`.
+### Runtime Views { #runtimeviews }
+
+To add or update CDS views without redeploying the database schema, annotate your views with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This tells the CDS compiler to skip generating database views for these entities. Instead, the CAP Java runtime dynamically resolves these views at runtime.
+
+::: warning Limitations
+Runtime views do not support complex views that use aggregations, unions, joins, or subqueries in the `FROM` clause.
+
+To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`.
+:::
+
+For example, consider the following CDS model and query:
 
 ```cds
-// Supported
-entity Order as projection on bookshop.Order;
-entity Order as projection on bookshop.Order { ID, status as state };
-entity Order as projection on bookshop.Order excluding { status };
-entity Header as projection on bookshop.OrderHeader { key ID, address.country as country };
+entity Books {
+  key id     : UUID;
+      title  : String;
+      stock  : Integer;
+      author : Association to one Authors;
+}
+@cds.persistence.skip
+entity BooksWithLowStock as projection on Books {
+    id, title, author.name as author
+} where stock < 10;
+```
+```sql
+Select BooksWithLowStock where author = 'Kafka'
 ```
 
-If a view is too complex to be resolved by the CDS runtime, the statement remains unmodified. Views that cannot be resolved by the CDS runtime include the use of `join`, `union` and the `where` clause.
+CAP Java provides two modes for resolving runtime views:
+
+**`cte` mode**: The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
+
+```sql
+WITH BOOKSWITHLOWSTOCK_CTE AS (
+    SELECT B.ID,
+           B.TITLE,
+           A.NAME AS "AUTHOR"
+      FROM BOOKS B
+      LEFT OUTER JOIN AUTHOR A ON B.AUTHOR_ID = A.ID
+     WHERE B.STOCK < 10
+)
+SELECT ID, TITLE, AUTHOR AS "author"
+  FROM BOOKSWITHLOWSTOCK_CTE
+ WHERE A.NAME = ?
+```
+
+::: tip
+In CAP Java 3.10, enable `cte` mode with **cds.sql.runtimeView.mode: cte**
+:::
+
+**`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against them.
+
+```sql
+SELECT B.ID, B.TITLE, A.NAME AS "author"
+  FROM BOOKS AS B
+  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
+ WHERE B.STOCK < 10 AND A.NAME = ?
+```
+
+::: warning Limitations of `resolve` mode
+Expands to other runtime views and complex draft queries are not supported.
+:::
+
+
+### Write through Views { #updatable-views}
+
+To run [Insert](./query-api#insert), [Upsert](./query-api#upsert), [Update](./query-api#update), and [Delete](./query-api#delete) statements on CDS views, the CAP Java runtime resolves them to the underlying entity definitions, if possible - similar to the runtime view *resolve* mode for queries.
+
+When delegating queries between Application Services and Remote Services, statements are also resolved to the entity definitions of the targeted service.
+
+Views and projections can be resolved for write operations if the following conditions are met:
+
+- The view definition does not use any other clause than `columns` and `excluding` - `join`, `union` and `where` are not supported.
+- The projection includes all key elements; with the exception of insert operations with generated UUID keys.
+- The projection includes all elements with a `not null` constraint, unless they have a default value.
+- The projection must not include [path expressions](../../cds/cql#path-expressions) using to-many associations.
+- Projections targeting remote OData services must not include calculated elements.
+
+For [Insert](./query-api#insert) or [Update](./query-api#update) operations, if the projection contains functions or expressions, these values are ignored. 
+
+Path expressions navigating *to-one* compositions, can be used in projections as shown by `headerStatus` in the following example, which includes the element `status` of the `OrderHeader` entity.
+
+```cds
+entity Order as projection on bookshop.Order;
+entity Order as projection on bookshop.Order { ID, status as state };
+
+entity Order as projection on bookshop.Order {
+  ID,
+  header.status        as headerStatus,
+  header.customer.name as customerName @readonly
+} excluding { status };
+```
+
+::: warning Path Expressions using Associations are readonly
+Path expressions navigating associations are by default [not writable](#cascading-over-associations) and need to be annotated with [@readonly](../../guides/providing-services#readonly).
+:::
+
+Write operations on views that cannot be resolved by the CAP Java runtime remain unmodified
 - For the Persistence Service, this means the runtime _attempts_ to execute the write operation on the database view. Whether this execution is possible is [database dependent](../cqn-services/persistence-services#database-support).
 - For Application Services and Remote Services, the targeted service will reject the statement.
 
-Example of a view that can't be resolved:
-
-```cds
-// Unsupported
-entity DeliveredOrders as select from bookshop.Order where status = 'delivered';
-entity Orders as select from bookshop.Order inner join bookshop.OrderHeader on Order.header.ID = OrderHeader.ID { Order.ID, Order.items, OrderHeader.status };
-```
 
 ## Concurrency Control
 
 Concurrency control allows protecting your data against unexpected concurrent changes.
 
-### Optimistic Concurrency Control {#optimistic}
+### Optimistic Locking {#optimistic}
 
 Use _optimistic_ concurrency control to detect concurrent modification of data _across requests_. The implementation relies on an _ETag_, which changes whenever an entity instance is updated. Typically, the ETag value is stored in an element of the entity.
 
@@ -400,64 +478,6 @@ The `lock()` method has an optional parameter `timeout` that indicates the maxim
 
 The parameter `mode` allows to specify whether an `EXCLUSIVE` or a `SHARED` lock should be set.
 
-## Runtime Views { #runtimeviews }
-
-The CDS compiler generates [SQL DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) statements from your CDS model, including SQL views for all CDS [views and projections](../../cds/cdl#views-projections). As a result, adding or modifying CDS views typically requires redeploying the database schema.
-
-To avoid schema redeployments when you add or update CDS views, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This annotation tells the CDS compiler to skip generating database views for these entities. Instead, the CAP Java runtime dynamically resolves such views at runtime.
-
-::: warning Limitations
-Runtime views support only simple [CDS projections](../../cds/cdl#as-projection-on). They do not support complex views that use aggregations, unions, joins, or subqueries in the `FROM` clause. To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`. [Calculated elements](../../cds/cdl#calculated-elements) are not yet supported in runtime views.
-:::
-
-For example, consider the following CDS model and query:
-
-```cds
-entity Books {
-  key id     : UUID;
-      title  : String;
-      stock  : Integer;
-      author : Association to one Authors;
-}
-@cds.persistence.skip
-entity BooksWithLowStock as projection on Books {
-    id, title, author.name as author
-} where stock < 10;
-```
-```sql
-Select BooksWithLowStock where author = 'Kafka'
-```
-
-CAP Java provides two modes for resolving runtime views:
-
-**`cte` mode**: The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
-
-```sql
-WITH BOOKSWITHLOWSTOCK_CTE AS (
-    SELECT B.ID,
-           B.TITLE,
-           A.NAME AS "AUTHOR"
-      FROM BOOKS B
-      LEFT OUTER JOIN AUTHOR A ON B.AUTHOR_ID = A.ID
-     WHERE B.STOCK < 10
-)
-SELECT ID, TITLE, AUTHOR AS "author"
-  FROM BOOKSWITHLOWSTOCK_CTE
- WHERE A.NAME = ?
-```
-
-::: tip
-CAP Java 4.x uses `cte` mode by default. In 3.10, enable it with **cds.sql.runtimeView.mode: cte**.
-:::
-
-**`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against them.
-
-```sql
-SELECT B.ID, B.TITLE, A.NAME AS "author"
-  FROM BOOKS AS B
-  LEFT OUTER JOIN AUTHORS AS A ON B.AUTHOR_ID = A.ID
- WHERE B.STOCK < 10 AND A.NAME = ?
-```
 
 ## Using I/O Streams in Queries
 
@@ -602,7 +622,7 @@ Map<String, String> titleToDescription =
 For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](../cqn-services/persistence-services#staticmodel).
 
 
-### Using Entity References from Result Rows in CDS QL Statements {#entity-refs}
+### Entity References {#entity-refs}
 
 For result rows that contain all key values of an entity, you get an [entity reference](./query-api#entity-refs) via the `ref()` method. This reference addresses the entity via the key values from the result row.
 

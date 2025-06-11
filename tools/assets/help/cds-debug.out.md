@@ -13,7 +13,7 @@
     Cloud Foundry space (check with 'cf target').
     SSH access to the app is required (check with 'cf ssh-enabled').
 
-    If no &lt;app&gt; is given, the app in the current working is started
+    If no &lt;app&gt; is given, the app in the current working directory is started
     (with 'cds watch --debug' for Node.js and 'mvn spring-boot:run' for Java).
 
 <strong>OPTIONS</strong>

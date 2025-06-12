@@ -249,15 +249,15 @@ For runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities, s
 
 ```cds
 entity Books {
-  key id     : UUID;
+  key ID     : UUID;
       title  : String;
       stock  : Integer;
       author : Association to one Authors;
 }
 @cds.persistence.skip
 entity BooksWithLowStock as projection on Books {
-    id, title, author.name as author
-} where stock < 10;
+    ID, title, author.name as author
+} where stock < 10; // makes the view read only
 ```
 ```sql
 SELECT from BooksWithLowStock where author = 'Kafka'
@@ -301,13 +301,13 @@ SELECT B.ID, B.TITLE, A.NAME AS "author"
 ```
 
 ::: warning Limitations of `resolve` mode
-Expands to other runtime views, complex draft queries, and [draft-enabling](../fiori-drafts#reading-drafts) runtime views are not supported in *resolve* mode.
+Using associations introduced by the view (mixins), as well as complex draft queries, and [draft-enabling](../fiori-drafts#reading-drafts) runtime views are not supported in *resolve* mode.
 :::
 
 
 ### Write through Views { #updatable-views }
 
-You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views. If possible, the CAP Java runtime resolves these to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
+You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views. The CAP Java runtime attempts to resolve these to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
 
 When delegating queries between Application Services and Remote Services, statements are also resolved to the targeted service's entity definitions.
 
@@ -327,17 +327,20 @@ entity Order as projection on bookshop.Order excluding { status };
 entity Order as projection on bookshop.Order {
   key ID,
       header.status        as headerStatus,
-      header.customer.name as customerName @readonly
+      header.customer.name as customerName @readonly,
+      items                as lineItems // aliased composition
 };
 ```
 
-::: warning Path Expressions using associations are readonly
-Path expressions navigating associations are [not writable](#cascading-over-associations) by default and must be annotated with [@readonly](../../guides/providing-services#readonly) to avoid issues on write.
+[Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions is supported if there are corresponding compositions in the underlying entity definition. Deep write via compositions only defined in the view (mixins) is not supported and the data for these composition targets is ignored. Values for elements corresponding to *expressions* and *functions* is ignored as well.
+
+::: warning Path Expressions
+Path expressions navigating *associations* (e.g. *header.customer.name*) are [not writable](#cascading-over-associations) by default. To avoid issues on write, annotate them with [@readonly](../../guides/providing-services#readonly).
+
+Path expressions over *compositions* (e.g. *header.status*) are writable but require Insert data to include values for all *not null* elements of the target entity.
 :::
 
-Values for elements corresponding to expressions and functions in the projection of the CDS view are ignored in the data of [Insert](./query-api#insert), [Upsert](./query-api#upsert) and [Update](./query-api#update).
-
-If a view cannot be resolved by the CAP Java runtime, the write operation is either rejected (Application/Remote Services), or attempted directly on the database view (Persistence Service), see [database support](../cqn-services/persistence-services#database-support) for details.
+If the CAP Java runtime cannot resolve a view, write operations are either rejected (Application/Remote Services) or attempted directly on the database view (Persistence Service). See [database support](../cqn-services/persistence-services#database-support) for details.
 
 ### Delete through Views { #delete-via-view }
 

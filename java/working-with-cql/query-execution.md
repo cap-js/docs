@@ -301,39 +301,45 @@ Expands to other runtime views and complex draft queries are not supported.
 
 ### Write through Views { #updatable-views }
 
-You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), [Update](./query-api#update), and [Delete](./query-api#delete) statements on CDS views. If possible, the CAP Java runtime resolves these to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
+You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views. If possible, the CAP Java runtime resolves these to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
 
 When delegating queries between Application Services and Remote Services, statements are also resolved to the targeted service's entity definitions.
 
 Write operations on CDS views are supported if:
 
-- The view definition uses only `columns` and `excluding` (no `join`, `union`, or `where`).
-- The projection includes all key elements (except for insert operations with generated UUID keys).
-- The projection includes all `not null` elements, unless they have a default value.
+- The view definition uses only *columns* and *excluding* (no *join*, *union*, or *where*).
+- The projection includes all *not null* elements (incl. keys), unless they have a default or generated value.
 - The projection does not include [path expressions](../../cds/cql#path-expressions) using *to-many* associations.
-- Projections targeting remote OData services do not include calculated elements.
+- Projections targeting *remote OData* services must not include calculated elements.
 
-For [Insert](./query-api#insert) or [Update](./query-api#update), values for functions and expressions in the projection are ignored.
-
-You can use path expressions navigating *to-one* compositions, as shown by `headerStatus` in this example:
+You can use path expressions navigating *to-one* compositions, as shown by `headerStatus`:
 
 ```cds
-entity Order as projection on bookshop.Order;
-entity Order as projection on bookshop.Order { ID, status as state };
+// CDS views supporting write operations
+entity Order as projection on bookshop.Order excluding { status };
 
 entity Order as projection on bookshop.Order {
-  ID,
-  header.status        as headerStatus,
-  header.customer.name as customerName @readonly
-} excluding { status };
+  key ID,
+      header.status        as headerStatus,
+      header.customer.name as customerName @readonly
+};
 ```
 
 ::: warning Path Expressions using associations are readonly
 Path expressions navigating associations are [not writable](#cascading-over-associations) by default and must be annotated with [@readonly](../../guides/providing-services#readonly) to avoid issues on write.
 :::
 
-If a view cannot be resolved by the CAP Java runtime, the write operation is attempted directly on the database view (Persistence Service), or rejected (Application/Remote Services). See [database support](../cqn-services/persistence-services#database-support) for details.
+Values for elements corresponding to expressions and functions in the projection of the CDS view are ignored in the data of [Insert](./query-api#insert), [Upsert](./query-api#upsert) and [Update](./query-api#update).
 
+If a view cannot be resolved by the CAP Java runtime, the write operation is either rejected (Application/Remote Services), or attempted directly on the database view (Persistence Service), see [database support](../cqn-services/persistence-services#database-support) for details.
+
+### Delete through Views { #delete-via-view }
+
+[Delete](./query-api#delete) operations on CDS views are resolved to the underlying entity definitions by the CAP Java runtime, if possible. Delete via CDS views using *join*, *union*, or *where* is not supported.
+
+::: warning 
+[Cascading Delete](./query-execution#cascading-delete) is applied on persistence entity level, compositions that are added, changed or removed in CDS views are not considered by cascading delete.
+:::
 
 
 ## Concurrency Control

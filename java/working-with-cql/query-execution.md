@@ -332,7 +332,7 @@ entity Order as projection on bookshop.Order {
 };
 ```
 
-[Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions is supported if there are corresponding compositions in the underlying entity definition. Deep write via compositions only defined in the view (mixins) is not supported and the data for these composition targets is ignored. Values for elements corresponding to *expressions* and *functions* is ignored as well.
+[Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions is supported if there are corresponding compositions in the underlying entity definition. Deep write via compositions that are only defined in the view (mixins) is not supported and the data for such mixin compositions is ignored. Data for elements corresponding to *expressions* and *functions* is ignored as well.
 
 ::: warning Path Expressions
 Path expressions navigating *associations* (e.g. *header.customer.name*) are [not writable](#cascading-over-associations) by default. To avoid issues on write, annotate them with [@readonly](../../guides/providing-services#readonly).

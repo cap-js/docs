@@ -238,11 +238,11 @@ Do not use to-many associations in the select clause of CDS views. This blocks w
 To add or update CDS views without redeploying the database schema, annotate your views with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This tells the CDS compiler to skip generating database views for these entities, and the CAP Java runtime resolves them dynamically at runtime.
 
 ::: warning Limitations
-Runtime views do not support complex views using aggregations, unions, joins, or subqueries in the `FROM` clause.
+Runtime views do not support aggregations, unions, joins, or subqueries in the FROM clause.
 :::
 
 ::: tip Draft-enabled entities
-To read [draft-enabled](../fiori-drafts#reading-drafts) entities, set `cds.drafts.persistence` to `split`.
+For runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities, set *cds.drafts.persistence* to `split` and run draft queries through the [draft service](../fiori-drafts#draft-service).
 :::
 
 **Example** - consider the following CDS model and query:
@@ -263,7 +263,7 @@ entity BooksWithLowStock as projection on Books {
 SELECT from BooksWithLowStock where author = 'Kafka'
 ```
 
-CAP Java provides two modes for resolving runtime views:
+CAP Java supports two modes for resolving runtime views:
 
 **`cte` mode**: The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
@@ -285,6 +285,12 @@ SELECT ID, TITLE, AUTHOR AS "author"
 In CAP Java 3.10, enable `cte` mode with **cds.sql.runtimeView.mode: cte**
 :::
 
+::: warning Draft-enabling runtime views requires schema update
+When [draft-enabling](../fiori-drafts#reading-drafts) a runtime view, a corresponding draft persistence table is created for the CDS view and a database schema update is required when changing the runtime view. 
+
+[Draft activate](../fiori-drafts#editing-drafts) triggers a [write through view](#updatable-views) and the restrictions apply.
+:::
+
 **`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
 
 ```sql
@@ -295,7 +301,7 @@ SELECT B.ID, B.TITLE, A.NAME AS "author"
 ```
 
 ::: warning Limitations of `resolve` mode
-Expands to other runtime views and complex draft queries are not supported.
+Expands to other runtime views, complex draft queries, and [draft-enabling](../fiori-drafts#reading-drafts) runtime views are not supported in *resolve* mode.
 :::
 
 
@@ -337,8 +343,8 @@ If a view cannot be resolved by the CAP Java runtime, the write operation is eit
 
 [Delete](./query-api#delete) operations on CDS views are resolved to the underlying entity definitions by the CAP Java runtime, if possible. Delete via CDS views using *join*, *union*, or *where* is not supported.
 
-::: warning 
-[Cascading Delete](./query-execution#cascading-delete) is applied on persistence entity level, compositions that are added, changed or removed in CDS views are not considered by cascading delete.
+::: warning Cascading Delete is applied on persistence entity level
+Compositions that are added, changed or removed in CDS views are not considered by [cascading delete](./query-execution#cascading-delete).
 :::
 
 

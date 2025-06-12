@@ -446,9 +446,9 @@ srv.on('getCoverImageFunction', 'Books', (req) => {
 In addition, the Node.js runtime will respect manually set header values.
 
 ```js
-srv.on('unboundAction', (req, res) => {
-  req.http?.res.setHeader('content-type', 'image/jpeg')
-  req.http?.res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
+srv.on('unboundAction', (req) => {
+  cds.context.http?.res.setHeader('content-type', 'image/jpeg')
+  cds.context.http?.res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
 
   return myReadable
 })

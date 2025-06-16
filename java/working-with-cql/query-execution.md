@@ -301,10 +301,10 @@ Using associations introduced by the view (mixins), as well as complex draft que
 
 If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities and want to run draft specific queries on these views, set the *cds.drafts.persistence* configuration to `split` and run the queries through the [Draft Service](../fiori-drafts#draft-service) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
 
-::: warning Draft-enabling runtime views requires schema update
-When [draft-enabling](../fiori-drafts#reading-drafts) a runtime view, a corresponding draft persistence table is created for this view and a database schema update is required when changing the runtime view.
+::: warning Avoid draft-enabling runtime views
+[Draft-enabling](../fiori-drafts#reading-drafts) runtime views is only supported in *cte* mode. The cds-compiler creates a corresponding draft persistence table for the view and a database schema update is required each time the runtime view is changed.
 
-[Draft activate](../fiori-drafts#editing-drafts) updates the active entity via the runtime view, therefore the runtime view must fulfill all requirements of a [writable view](#updatable-views).
+[Draft activate](../fiori-drafts#editing-drafts) updates the active entity via the runtime view, therefore the view must fulfill all requirements of an [updatable view](#updatable-views).
 :::
 
 ### Write through Views { #updatable-views }

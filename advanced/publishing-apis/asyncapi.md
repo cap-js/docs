@@ -110,6 +110,39 @@ service CatalogService {
 }
 ```
 
+## Extensions { #extensions}
+
+`@AsyncAPI.Extensions` can be used to provide arbitrary extensions. 
+If a specific annotation exists for a given extension, it takes precedence over the definition using @AsyncAPI.Extensions.
+For example, if both `@AsyncAPI.ShortText` and `@AsyncAPI.Extensions: { ![sap-shortText]: 'baz' }` are provided, the value from `@AsyncAPI.ShortText` will override the one defined in @AsyncAPI.Extensions.
+
+For example:
+
+```cds
+@AsyncAPI.Extensions   : {
+  ![foo-bar]                    : 'baz',
+  ![sap-shortText]              : 'Service Base 1'
+}
+
+service CatalogService {
+  @AsyncAPI.Extensions          : {
+    ![sap-event-source]           : '/{region}/sap.app.test'
+  }
+  event SampleEntity.Changed.v1 : projection on CatalogService.SampleEntity;
+}
+```
+
+The `@AsyncAPI.Extensions` annotation can be applied at both the service level and the event level.
+
+Since the AsyncAPI specification requires all extensions to be prefixed with `x-`, the compiler will automatically add this prefix. Therefore, do not include the `x-` prefix when specifying extensions in `@AsyncAPI.Extensions`.
+
+### Behavior with `--merged` flag
+
+When the `--merged` CLI flag is used:
+
+- Extensions defined via `@AsyncAPI.Extensions` on `services` are **ignored**.
+- Extensions defined via `@AsyncAPI.Extensions` on `events` remain effective and are applied as expected.
+
 ## Type Mapping { #mapping}
 
 CDS Type to AsyncAPI Mapping
@@ -120,15 +153,15 @@ CDS Type to AsyncAPI Mapping
 | `Boolean`                              | `{ "type": "boolean" }`                                                                             |
 | `Integer`                              | `{ "type": "integer" }`                                                                             |
 | `Integer64`                            | `{ "type": "string", "format": "int64" }`                                                           |
-| `Decimal`, `{precision, scale}`        | `{ "type": "string", "format": "decimal", "formatPrecision": <precision>, "formatScale": <scale> }` |
-| `Decimal`, without scale               | `{ "type": "string", "format": "decimal", "formatPrecision": <precision> }`                         |
+| `Decimal`, `{precision, scale}`        | `{ "type": "string", "format": "decimal", "x-sap-precision": <precision>, "x-sap-scale": <scale> }` |
+| `Decimal`, without scale               | `{ "type": "string", "format": "decimal", "x-sap-precision": <precision> }`                         |
 | `Decimal`, without precision and scale | `{ "type": "string", "format": "decimal" }`                                                         |
 | `Double`                               | `{ "type": "number" }`                                                                              |
 | `Date`                                 | `{ "type": "string", "format": "date" }`                                                            |
 | `Time`                                 | `{ "type": "string", "format": "partial-time" }`                                                    |
 | `DateTime`                             | `{ "type": "string", "format": "date-time" }`                                                       |
 | `Timestamp`                            | `{ "type": "string", "format": "date-time" }`                                                       |
-| `String`                               | `{ "type": "string", "maxLength": length }`                                                         |
-| `Binary`                               | `{ "type": "string", "maxLength": length }`                                                         |
+| `String`, `{maxLength}`                | `{ "type": "string", "maxLength": length }`                                                         |
+| `Binary`, `{maxLength}`                | `{ "type": "string", "maxLength": length }`                                                         |
 | `LargeBinary`                          | `{ "type": "string" }`                                                                              |
 | `LargeString`                          | `{ "type": "string" }`                                                                              |

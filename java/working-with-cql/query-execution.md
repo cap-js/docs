@@ -229,6 +229,9 @@ The CDS compiler generates [DDL](../../guides/databases?impl-variant=java#genera
 
 Entity tables and views are deployed to the database. Read statements on CDS views target the database view, while write operations are resolved to the underlying entity table by the CAP Java runtime, when possible.
 
+::: tip Avoid mixin compositions
+Avoid introducing new compositions in CDS views and prefer associations instead, as [deep write](#updatable-views) and [cascading delete](#delete-via-view) are only supported for compositions in persistence entities.
+:::
 ::: warning Avoid to-many associations
 Do not use to-many associations in the select clause of CDS views. This blocks write operations and can cause performance issues due to record duplication on read.
 :::
@@ -345,11 +348,29 @@ If the CAP Java runtime cannot resolve a view, write operations are either rejec
 
 ### Delete through Views { #delete-via-view }
 
-[Delete](./query-api#delete) operations on CDS views are resolved to the underlying entity definitions by the CAP Java runtime, if possible. Delete via CDS views using *join*, *union*, or *where* is not supported.
+The CAP Java runtime attempts to resolve [Delete](./query-api#delete) operations to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
 
 ::: warning Cascading Delete is applied on persistence entity level
 Compositions that are added, changed or removed in CDS views are not considered by [cascading delete](./query-execution#cascading-delete).
 :::
+
+For example, the following CDS model defines `Order` with header and items, and `OrderView` which excludes header and exposes items as `lineItems`:
+
+```cds
+entity Order : cuid, managed {
+      header : Composition of one OrderHeader;
+      items  : Composition of many OrderItem on items.parent = $self;
+}
+entity OrderView as projection on db.Order {
+  ID,
+  items as lineItems,
+  delivery : Composition of one Delivery on delivery.order = $self
+}
+```
+```sql
+DELETE from OrderView where ID = 42
+```
+The delete operation is resolved to the underlying `Order` entity with ID *42* and cascades over the `header` and `items` compositions. The `delivery` composition, which is only defined in the view, is ignored and does not cascade the delete operation to `Delivery`.
 
 
 ## Concurrency Control

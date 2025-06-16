@@ -155,10 +155,14 @@ These are the (not so beneficial) side effects you when using a shared persisten
 With that we're basically done with the setup of the collector project. In sum, it's just another CAP project with some cds models in it, which we can handle as usual. We can test whether it all works as expected, for example, we can test-compile and test-deploy it to sqlite and hana, build it, and deploy it to the cloud as usual:
 
 ```sh
-cds shared-db/db -2 sql
+cd shared-db
+```
+
+```sh
+cds db -2 sql
 ```
 ```sh
-cds shared-db/db -2 hana
+cds db -2 hana
 ```
 
 ```sh
@@ -166,6 +170,10 @@ cds deploy -2 sqlite
 ```
 ```sh
 cds build --for hana
+```
+
+```sh
+cd ..
 ```
 
 > Note: As we can see in the output for `cds deploy` and `cds build`, it also correctly collects and adds all initial data from enclosed `.csv` files. 

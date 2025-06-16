@@ -230,19 +230,15 @@ The CDS compiler generates [DDL](../../guides/databases?impl-variant=java#genera
 Entity tables and views are deployed to the database. Read statements on CDS views target the database view, while write operations are resolved to the underlying entity table by the CAP Java runtime, when possible.
 
 ::: warning Avoid to-many associations
-Do not use to-many associations in the select clause of CDS views. This blocks write operations and can cause performance issues due to record duplication.
+Do not use to-many associations in the select clause of CDS views. This blocks write operations and can cause performance issues due to record duplication on read.
 :::
 
-### Runtime Views { #runtimeviews }
+### Read from Runtime Views { #runtimeviews }
 
 To add or update CDS views without redeploying the database schema, annotate your views with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This tells the CDS compiler to skip generating database views for these entities, and the CAP Java runtime resolves them dynamically at runtime.
 
-::: warning Limitations
+::: info Limitations
 Runtime views do not support aggregations, unions, joins, or subqueries in the FROM clause.
-:::
-
-::: tip Draft-enabled entities
-For runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities, set *cds.drafts.persistence* to `split` and run draft queries through the [draft service](../fiori-drafts#draft-service).
 :::
 
 **Example** - consider the following CDS model and query:
@@ -282,13 +278,7 @@ SELECT ID, TITLE, AUTHOR AS "author"
 ```
 
 ::: tip
-In CAP Java 3.10, enable `cte` mode with **cds.sql.runtimeView.mode: cte**
-:::
-
-::: warning Draft-enabling runtime views requires schema update
-When [draft-enabling](../fiori-drafts#reading-drafts) a runtime view, a corresponding draft persistence table is created for the CDS view and a database schema update is required when changing the runtime view. 
-
-[Draft activate](../fiori-drafts#editing-drafts) triggers a [write through view](#updatable-views) and the restrictions apply.
+In CAP Java 3.10, enable **cte** mode with *cds.sql.runtimeView.mode: cte*
 :::
 
 **`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
@@ -300,10 +290,19 @@ SELECT B.ID, B.TITLE, A.NAME AS "author"
  WHERE B.STOCK < 10 AND A.NAME = ?
 ```
 
-::: warning Limitations of `resolve` mode
+::: info Limitations of `resolve` mode
 Using associations introduced by the view (mixins), as well as complex draft queries, and [draft-enabling](../fiori-drafts#reading-drafts) runtime views are not supported in *resolve* mode.
 :::
 
+### Draft with Runtime Views { #draft-views }
+
+If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities and want to run draft specific queries on these views, set the *cds.drafts.persistence* configuration to `split` and run the queries through the [Draft Service](../fiori-drafts#draft-service) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
+
+::: warning Draft-enabling runtime views requires schema update
+When [draft-enabling](../fiori-drafts#reading-drafts) a runtime view, a corresponding draft persistence table is created for this view and a database schema update is required when changing the runtime view.
+
+[Draft activate](../fiori-drafts#editing-drafts) updates the active entity via the runtime view, therefore the runtime view must fulfill all requirements of a [writable view](#updatable-views).
+:::
 
 ### Write through Views { #updatable-views }
 
@@ -326,21 +325,23 @@ entity Order as projection on bookshop.Order excluding { status };
 
 entity Order as projection on bookshop.Order {
   key ID,
-      header.status        as headerStatus,
-      header.customer.name as customerName @readonly,
-      items                as lineItems // aliased composition
+      header.status          as headerStatus,
+      header.customer.name   as customerName @readonly,
+      items                  as lineItems,        // aliased composition
+      toUpper(shipToCountry) as country : String  // ignored on write
 };
 ```
 
-[Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions is supported if there are corresponding compositions in the underlying entity definition. Deep write via compositions that are only defined in the view (mixins) is not supported and the data for such mixin compositions is ignored. Data for elements corresponding to *expressions* and *functions* is ignored as well.
+- Data for elements corresponding to *expressions* and *functions* (*country*) is ignored.
+- [Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions (*items*) is supported if there are corresponding compositions in the underlying entity definition. Deep write via compositions that are only defined in the view (mixins) is not supported and the data for such mixin compositions is ignored. 
 
-::: warning Path Expressions
+::: warning Path Expressions in Views
 Path expressions navigating *associations* (e.g. *header.customer.name*) are [not writable](#cascading-over-associations) by default. To avoid issues on write, annotate them with [@readonly](../../guides/providing-services#readonly).
 
-Path expressions over *compositions* (e.g. *header.status*) are writable but require Insert data to include values for all *not null* elements of the target entity.
+Path expressions over *compositions* (e.g. *header.status*) are writable but require the Insert data to include values for all *not null* elements of the target entity. In the example above, the order header must have a generated key to support inserting new orders with a status.
 :::
 
-If the CAP Java runtime cannot resolve a view, write operations are either rejected (Application/Remote Services) or attempted directly on the database view (Persistence Service). See [database support](../cqn-services/persistence-services#database-support) for details.
+If the CAP Java runtime cannot resolve a view, write operations are either rejected (Application/Remote Services) or attempted directly on the database view (Persistence Service). In the second case the execution depends on the [database support](../cqn-services/persistence-services#database-support).
 
 ### Delete through Views { #delete-via-view }
 

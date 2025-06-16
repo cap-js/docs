@@ -471,7 +471,7 @@ The name of the CDS element referred to by a getter or setter, is defined throug
 
 For all structured types of the CDS model, accessor interfaces can be generated using the [CDS Maven Plugin](/java/assets/cds-maven-plugin-site/plugin-info.html). The generated accessor interfaces allow for hybrid access and easy serialization to JSON. Code generation is executed by default at build time and is configurable.
 
-See more in [Configuring Code Generation for Typed Access](/java/developing-applications/configuring#codegen-config) for advanced options. {.learn-more}
+See more in [Configuring Code Generation for Typed Access](/java/developing-applications/building#codegen-config) for advanced options. {.learn-more}
 
 #### Renaming Elements in Java
 

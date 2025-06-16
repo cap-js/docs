@@ -264,7 +264,9 @@ SELECT from BooksWithLowStock where author = 'Kafka'
 
 CAP Java supports two modes for resolving runtime views:
 
-**`cte` mode**: The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
+#### CTE mode
+
+This is the default mode in CAP Java `4.x`. The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
 ```sql
 WITH BOOKSWITHLOWSTOCK_CTE AS (
@@ -280,11 +282,13 @@ SELECT ID, TITLE, AUTHOR AS "author"
  WHERE A.NAME = ?
 ```
 
-::: tip
-In CAP Java 3.10, enable **cte** mode with *cds.sql.runtimeView.mode: cte*
+::: tip CAP Java 3.10
+Enable *cte* mode with *cds.sql.runtimeView.mode: cte*
 :::
 
-**`resolve` mode**: The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
+#### Resolve mode
+
+The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
 
 ```sql
 SELECT B.ID, B.TITLE, A.NAME AS "author"
@@ -309,7 +313,7 @@ If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) e
 
 ### Write through Views { #updatable-views }
 
-You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views. The CAP Java runtime attempts to resolve these to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
+You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views. The CAP Java runtime attempts to resolve these to the underlying entity definitions—similar to the runtime view [resolve mode](query-execution#resolve-mode) for queries.
 
 When delegating queries between Application Services and Remote Services, statements are also resolved to the targeted service's entity definitions.
 
@@ -348,7 +352,7 @@ If the CAP Java runtime cannot resolve a view, write operations are either rejec
 
 ### Delete through Views { #delete-via-view }
 
-The CAP Java runtime attempts to resolve [Delete](./query-api#delete) operations to the underlying entity definitions—similar to the [runtime view](#runtimeviews) *resolve* mode for queries.
+The CAP Java runtime attempts to resolve [Delete](./query-api#delete) operations to the underlying entity definitions—similar to the runtime view [resolve mode](query-execution#resolve-mode) for queries.
 
 ::: warning Cascading Delete is applied on persistence entity level
 Compositions that are added, changed or removed in CDS views are not considered by [cascading delete](./query-execution#cascading-delete).

@@ -14,16 +14,21 @@ export default defineLoader({
 })
 
 async function fetchProperties(): Promise<JavaSdkProperties[]> {
-  // console.debug(`\n  fetching properties of CDS Java ${version}`)
+  // console.debug(`\n  fetching properties of CDS Java ${version}`, url)
   const resp = await fetch(url)
   const jar = await resp.arrayBuffer()
 
   return new Promise((res, rej) => {
-    const zip = new AdmZip(Buffer.from(jar))
-    zip.readAsTextAsync('properties.json', (data, err) => {
-      if (err)  return rej(err)
-      res(JSON.parse(data).properties)
-    })
+    try {
+      const zip = new AdmZip(Buffer.from(jar))
+      zip.readAsTextAsync('properties.json', (data, err) => {
+        if (err)  return rej(err)
+        res(JSON.parse(data).properties)
+      })
+    } catch (err) {
+      return rej(new Error(`Could not load ${url}, response: ${Buffer.from(jar)}`, {cause: err}))
+      // return res([])
+    }
   })
 }
 

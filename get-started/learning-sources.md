@@ -108,6 +108,7 @@ It's available in both Node.js and Java. The Node.js variant contains additional
 
 ### Incidents Mgmt {.github}
 
+> [![]()](https://github.com/cap-java/incidents-app){.java}
 > [![]()](https://github.com/cap-js/incidents-app){.node}
 
 A reference sample application for CAP and the SAP BTP Developer Guide.

@@ -187,6 +187,7 @@ Based on this sample application, you find the bill of materials and a sizing ex
 
 ## Videos
 
+- [The Art and Science of CAP](https://www.youtube.com/playlist?list=PL6RpkC85SLQAe45xlhIfhTYB9G0mdRVjI) <br> by DJ Adams and Daniel Hutzel
 - [Back to basics: CAP Node.js](https://www.youtube.com/playlist?list=PL6RpkC85SLQBHPdfHQ0Ry2TMdsT-muECx) <br> by DJ Adams
 - [Hybrid Testing and Alternative DBs](https://youtu.be/vqub4vJbZX8?si=j5ZkPR6vPb59iBBy) <br> by Thomas Jung
 - [Consume External Services](https://youtu.be/rWQFbXFEr1M) <br> by Thomas Jung

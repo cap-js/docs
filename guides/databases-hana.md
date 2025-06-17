@@ -256,7 +256,7 @@ The HANA Service provides dedicated support for native SAP HANA features as foll
 Vector embeddings let you add semantic search, recommendations, and generative AI features to your CAP application on SAP HANA Cloud. Embeddings are numeric arrays that represent the meaning of unstructured data (text, images, etc.), making it possible to compare and search for items that are semantically related to each other or a user query.
 
 #### Add Embeddings to Your CDS Model
-Use the `cds.Vector` type in your CDS model to store embeddings. Set the dimension to match your embedding model (e.g., 1536 for OpenAI *text-embedding-3-small*).
+Use the `cds.Vector` type in your CDS model to store embeddings. Set the dimension to match your embedding model (for example, 1536 for OpenAI *text-embedding-3-small*).
 
    ```cds
    entity Books : cuid {

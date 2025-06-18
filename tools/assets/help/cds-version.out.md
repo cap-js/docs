@@ -4,7 +4,7 @@
 
 <em>@cap-js/asyncapi</em>: 1.0.3
 <em>@cap-js/cds-types</em>: 0.11.0
-<em>@cap-js/db-service</em>: 2.1.1
+<em>@cap-js/db-service</em>: 2.1.2
 <em>@cap-js/openapi</em>: 1.2.3
 <em>@cap-js/sqlite</em>: 2.0.1
 <em>@sap/cds</em>: 9.0.3
@@ -12,6 +12,6 @@
 <em>@sap/cds-dk (global)</em>: 9.0.5
 <em>@sap/cds-fiori</em>: 2.0.1
 <em>@sap/cds-mtxs</em>: 3.0.1
-<em>Node.js</em>: v20.19.2
+<em>Node.js</em>: v22.16.0
 <em>your-project</em>: 1.0.0
 </pre>

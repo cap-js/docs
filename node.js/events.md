@@ -368,8 +368,8 @@ It's available for CRUD events and bound actions.
 function req.reply (
   results  : object | object[] | string | number | true | false | null,
   options? : {
-    mimeType? : string
-    fileName? : string
+    mimetype? : string
+    filename? : string
   }
 )
 ```

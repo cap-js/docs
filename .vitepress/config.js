@@ -110,7 +110,7 @@ config.themeConfig.capire = {
     java_cds4j: '4.0.2'
   },
   gotoLinks: [],
-  maven_host_base: 'https://repo1.maven.org/maven2'
+  maven_host_base: 'https://repo1.maven.org/maven2' // Maven Central has stricter traffic throttling, so don't use it by default
 }
 
 // Add meta tag to prevent indexing of preview deployments

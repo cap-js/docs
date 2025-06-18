@@ -1,4 +1,5 @@
-{ "properties": [
+{
+  "properties": [
     {
       "header": true,
       "name": "cds.environment",

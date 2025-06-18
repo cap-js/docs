@@ -362,15 +362,19 @@ It's available for CRUD events and bound actions.
 
 
 
-### req. reply (results) {.method}
+### req. reply () {.method}
 
 ```tsx
 function req.reply (
-  results : object | object[] | string | number | true | false | null
+  results  : object | object[] | string | number | true | false | null,
+  options? : {
+    mimeType? : string
+    fileName? : string
+  }
 )
 ```
 
-Stores the given argument in `req.results`, which is subsequently sent back to the client, rendered in a protocol-specific way.
+Stores the first argument in `req.results`, which is subsequently sent back to the client, rendered in a protocol-specific way.
 
 ```js
 this.on ('READ', Books, req => {
@@ -392,6 +396,7 @@ this.on ('READ', Books, req => {
 })
 ```
 
+The additional `options` parameter can be used to specify content disposition headers in case of [custom streaming (beta)](best-practices#custom-streaming-beta). 
 
 ### req. reject ({ ... }) {.method #req-reject}
 

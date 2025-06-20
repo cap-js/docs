@@ -37,7 +37,7 @@ Follow the steps after this for a minimalistic local setup. Alternatively, you c
 - With the prerequisites met, install the [`cds` toolkit](../tools/cds-cli) *globally*:
 
     ```sh
-    npm add -g @sap/cds-dk
+    npm i -g @sap/cds-dk
     ```
 
     [Visit the _Troubleshooting_ guide](troubleshooting.md) if you encounter any errors. {.learn-more}

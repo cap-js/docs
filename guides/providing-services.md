@@ -1123,7 +1123,35 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 <br>
 
 
-**Programmatic** usage via **generic APIs** would look like this for Node.js:
+**Programmatic** usage via **generic APIs** for Node.js:
+
+For unbound actions and functions:
+
+```ts
+async function srv.send (
+  event   : string | { event, data?, headers? },  
+  data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+For bound actions and functions:
+
+```ts
+async function srv.send (
+  event   : string | { event, entity, data?, params, headers? },
+  entity  : string,
+  data?   : object | any,
+  params  : array of any,
+)
+return : result of this.dispatch(req)
+```
+
+-  `event` is a name of a custom action or function
+-  `entity` is a name of an entity
+-  `params` are keys of the entity instance
+
+Programmatic usage would look like this for Node.js:
 
 ```js
   const srv = await cds.connect.to('Sue')

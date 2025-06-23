@@ -1139,10 +1139,9 @@ For bound actions and functions:
 
 ```ts
 async function srv.send (
-  event   : string | { event, entity, data?, params, headers? },
-  entity  : string,
-  data?   : object | any,
-  params  : array of any,
+ event   : string | { event, entity, data?, params, headers? },
+ entity  : string,
+ data?   : object | any
 )
 return : result of this.dispatch(req)
 ```
@@ -1159,10 +1158,10 @@ Programmatic usage would look like this for Node.js:
   await srv.send('sum',{x:1,y:2})
   await srv.send('add',{x:11,to:2})
   await srv.send('stock',{id:2})
-  // bound actions/functions
+  // actions/functions bound to collection
   await srv.send('getStock','Foo',{id:2})
-  //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
+  // for actions/functions bound to entity instance, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [{id:2}]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.

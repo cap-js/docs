@@ -309,10 +309,9 @@ The delete operation is resolved to the underlying `Order` entity with ID *42* a
 
 To add or update CDS views without redeploying the database schema, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This tells the CDS compiler to skip generating database views for these CDS views, and the CAP Java runtime resolves them dynamically on each request.
 
+Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views. However, if a runtime view cannot be resolved, a fallback to database views is not possible, and the statement fails with an error.
 
-Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views.
-
-**Example** - consider the following CDS model and query:
+**Read via Runtime Views** - consider the following CDS model and query:
 
 ```cds
 entity Books {
@@ -383,7 +382,7 @@ Remember to run draft specific queries through the [Draft Service](../fiori-draf
 
 
 ::: tip Draft Queries on Runtime Views
-If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities and want to run draft specific queries on these views, set the *cds.drafts.persistence* configuration to `split`.
+If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities and want to run draft specific queries on these views, set the [*cds.drafts.persistence*](../fiori-drafts#reading-drafts) configuration to `split`.
 :::
 
 ::: warning Avoid draft-enabling Runtime Views
@@ -400,7 +399,6 @@ For read, the CDS views are resolved similar to the runtime view [resolve](#rtvi
 - not include [calculated elements](../../cds/cdl#calculated-elements)
 
 If a view cannot be resolved, read and write operations are rejected.
-
 
 
 ## Concurrency Control

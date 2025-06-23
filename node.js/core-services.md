@@ -809,7 +809,7 @@ Examples:
 await srv.send('POST','/Books', { title: 'Catweazle' })
 await srv.send('GET','/Books')
 await srv.send('GET','/Books/201')
-await srv.send('submitOrder', ...)
+await srv.send('submitOrder', {...})
 ```
 
 These requests would be processed by respective [event handlers](#srv-on-before-after) registered like that:

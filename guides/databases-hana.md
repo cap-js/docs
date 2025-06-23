@@ -253,10 +253,16 @@ The HANA Service provides dedicated support for native SAP HANA features as foll
 
 ### Vector Embeddings { #vector-embeddings }
 
-Vector embeddings let you add semantic search, recommendations, and generative AI features to your CAP application on SAP HANA Cloud. Embeddings are numeric arrays that represent the meaning of unstructured data (text, images, etc.), making it possible to compare and search for items that are semantically related to each other or a user query.
+Vector embeddings let you add semantic search, recommendations, and generative AI features to your CAP application. Embeddings are numeric arrays that represent the meaning of unstructured data (text, images, etc.), making it possible to compare and search for items that are semantically related to each other or a user query.
+
+#### Choose an Embedding Model
+
+Choose an embedding model that fits your use case and data (for example english or multilingual text). The model determines the number of dimensions of the resulting output vector. Check the documentation of the respective embedding model for details.
+
+Use the [SAP Generative AI Hub](https://community.sap.com/t5/technology-blogs-by-sap/how-sap-s-generative-ai-hub-facilitates-embedded-trustworthy-and-reliable/ba-p/13596153) for unified consumption of embedding models and LLMs across different vendors and open source models. Check for available models on the [SAP AI Launchpad](https://help.sap.com/docs/ai-launchpad/sap-ai-launchpad-user-guide/models-and-scenarios-in-generative-ai-hub-fef463b24bff4f44a33e98bb1e4f3148#models).
 
 #### Add Embeddings to Your CDS Model
-Use the `cds.Vector` type in your CDS model to store embeddings. Set the dimension to match your embedding model (for example, 1536 for OpenAI *text-embedding-3-small*).
+Use the `cds.Vector` type in your CDS model to store embeddings on SAP HANA Cloud. Set the dimension to match your embedding model (for example, 1536 for OpenAI *text-embedding-3-small*).
 
    ```cds
    entity Books : cuid {

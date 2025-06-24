@@ -308,7 +308,7 @@ await cds.ql`SELECT from Authors {
 > Using `cds repl` as shown above is likely the best way to learn how to construct queries in detail.
 > When doing so, ensure to use the `cds.ql` functions with full queries in CQL syntax, as shown in the example above, as that is the most reliable way to ensure correctness.
 
-
+[An article by DJ Adams exploring `cds repl`.](https://qmacro.org/blog/posts/2025/03/21/level-up-your-cap-skills-by-learning-how-to-use-the-cds-repl/){.learn-more}
 
 ## cds.ql() {.method}
 

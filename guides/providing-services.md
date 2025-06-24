@@ -441,8 +441,9 @@ Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns
 You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
 - Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
-- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config><sup>(1)</sup> 
 
+<sup>(1)</sup> If set to `false`, fuzzy search is disabled and falls back to a case insensitive substring search.
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 

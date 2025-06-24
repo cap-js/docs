@@ -174,14 +174,14 @@ An MTX sidecar is a standard, yet minimal Node.js CAP project. By default it's a
 {
   "name": "bookshop-mtx", "version": "0.0.0",
   "dependencies": {
-    "@sap/cds": "^7",
-    "@sap/cds-hana": "^2",
-    "@sap/cds-mtxs": "^1",
+    "@sap/cds": "^9",
+    "@cap-js/hana": "^2",
+    "@sap/cds-mtxs": "^3",
     "@sap/xssec": "^4",
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^2"
   },
   "scripts": {
     "start": "cds-serve"

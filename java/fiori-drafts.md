@@ -113,7 +113,7 @@ To enable this feature, set the following properties in your `.cdsrc.json`:
 :::
 
 ::: warning Uses _document URLs_ and requires UI5 version >=1.135.0
-The _state messages_ feature relies on UI5 to use _document URLs_. CAP sets the annotation `@Common.AddressViaNavigationPath` to instruct UI5 to use _document URLs_. This requires UI5 version >= 1.135.0.
+The _state messages_ feature relies on UI5 to use _document URLs_. That's because, with this feature enabled, CAP sets the annotation `@Common.AddressViaNavigationPath` to instruct UI5 to use _document URLs_. In turn, this requires UI5 version >= 1.135.0.
 :::
 
 Setting the `draftMessages` property adds additional elements to your draft-enabled entities and [`DraftAdministrativeData`](/guides/security/data-protection-privacy#dpp-cap), which are required to store and serve state messages. For this to work, CAP Java supports persisting (error) messages for draft-enabled entities.

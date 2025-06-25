@@ -385,8 +385,8 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-[Media Data](../guides/providing-services#serving-media-data) can be also served from a custom `READ`, `action`, or `function` handler.
-For actions and functions the same set of media data annotations is supported.
+[Media Data](../guides/providing-services#serving-media-data) can be served from custom handlers of the type `READ`, `action`, or `function`.
+Actions and functions support the same set of `media data` annotations.
 ```cds
 @(Core.MediaType: 'text/csv', Core.ContentDisposition.Filename: 'Books.csv')
 type csv:  LargeBinary;
@@ -394,14 +394,14 @@ entity Books { ... } actions {
   function csvExport () returns csv;
 }
 ```
-The return type can be also annotated directly in the action or function declaration.
+Alternatively, the return type can be annotated in the declarations of actions or functions.
 ```cds
 function csvExport () returns @Core.MediaType LargeBinary;
 ```
 
-When returning custom media data, content information can be configured as part of the handlers result object. 
+When returning custom media data, content information can be configured as part of the handlers `result` object. 
 
-Ideally, handlers use [`req.reply`](events#req-reply-results), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`). Include options to specify content disposition headers:
+When calling [`req.reply`](events#req-reply-results) in handlers, you can include options with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) to specify the [content disposition headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Disposition). In the following example, the options are specified in the `stream.Readable` instance named `myReadable` :
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
@@ -412,7 +412,7 @@ srv.on('READ', 'Books', (req, next) => {
 })
 ```
 
-Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
+Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named `myReadable` in the example) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
@@ -428,7 +428,7 @@ srv.on('READ', 'Books', (req, next) => {
 
 :::details Compatibility option
 If needed for compatibility reasons, convey the content information using a result object specifying the information as it would appear if extracted from the appropriate CDS annotations.
-In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named here `myReadable`) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named `myReadable` in the example) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
 
 ```js
 srv.on('getCoverImageFunction', 'Books', (req) => {

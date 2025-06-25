@@ -241,7 +241,7 @@ Additional note about OData: For requests that are part of a changeset, the even
 
 
 
-Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers](./core-services#srv-handle-event), such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply-results).
+Class `cds.Request` extends [`cds.Event`] with additional features to represent and deal with synchronous requests to services in [event handlers](./core-services#srv-handle-event), such as the [query](#query), additional [request parameters](#params), the [authenticated user](#user), and [methods to send responses](#req-reply).
 
 
 [Router]: https://expressjs.com/en/4x/api.html#router
@@ -362,15 +362,19 @@ It's available for CRUD events and bound actions.
 
 
 
-### req. reply (results) {.method}
+### req. reply () {.method}
 
 ```tsx
 function req.reply (
-  results : object | object[] | string | number | true | false | null
+  results  : object | object[] | string | number | true | false | null,
+  options? : {
+    mimetype? : string
+    filename? : string
+  }
 )
 ```
 
-Stores the given argument in `req.results`, which is subsequently sent back to the client, rendered in a protocol-specific way.
+Stores the first argument in `req.results`, which is subsequently sent back to the client, rendered in a protocol-specific way.
 
 ```js
 this.on ('READ', Books, req => {
@@ -392,6 +396,7 @@ this.on ('READ', Books, req => {
 })
 ```
 
+The additional `options` argument can be used to specify content disposition headers in case of [custom streaming (beta)](best-practices#custom-streaming-beta). 
 
 ### req. reject ({ ... }) {.method #req-reject}
 

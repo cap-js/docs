@@ -285,7 +285,7 @@ book.setEmbedding(CdsVector.of(response.getEmbeddingVectors().get(0)));
 :::
 
 #### Query for Similarity
-At runtime, use SAP HANA’s built-in vector functions to search for similar items. For example, find books with embeddings similar to a user question:
+At runtime, use SAP HANA's built-in vector functions to search for similar items. For example, find books with embeddings similar to a user question:
 
 ::: code-group
 ```Java [Java]

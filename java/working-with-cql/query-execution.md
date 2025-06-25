@@ -385,7 +385,7 @@ That means:
 -> [Draft-enabled](../fiori-drafts#reading-drafts) CDS views must fulfill all requirements of [updatable views](#updatable-views).
 {.indent}
 
-Remember to run draft specific queries through the [Draft Service](../fiori-drafts#draft-service) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
+Remember to run draft specific queries through the [Draft Service](../fiori-drafts#draftservices) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
 
 
 ::: tip Draft Queries on Runtime Views

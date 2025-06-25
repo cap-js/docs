@@ -311,7 +311,12 @@ To add or update CDS views without redeploying the database schema, annotate the
 
 Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views. However, if a runtime view cannot be resolved, a fallback to database views is not possible, and the statement fails with an error.
 
-**Read via Runtime Views** - consider the following CDS model and query:
+CAP Java supports two modes for resolving runtime views on read:
+- `CTE`
+- `Resolve`
+
+
+In the following section about `CTE` and `Resolve` we use the following CDS model and query as example:
 
 ```cds
 entity Books {
@@ -329,7 +334,6 @@ entity BooksWithLowStock as projection on Books {
 SELECT from BooksWithLowStock where author = 'Kafka'
 ```
 
-CAP Java supports two modes for resolving runtime views on read:
 
 #### Read in `CTE` mode { #rtview-cte }
 
@@ -374,9 +378,12 @@ Using associations that are only [defined](../../cds/cql#association-definitions
 
 ### Draft Queries on Views { #draft-views }
 
-When draft-enabling a CDS view, the CDS Compiler creates a corresponding draft persistence table for this view. [Draft activate](../fiori-drafts#editing-drafts) updates the active entity via the view, therefore
+When draft-enabling a CDS view, the CDS Compiler creates a corresponding draft persistence table for this view. [Draft activate](../fiori-drafts#editing-drafts) updates the active entity via the view. 
 
-- [Draft-enabled](../fiori-drafts#reading-drafts) CDS views must fulfill all requirements of [updatable views](#updatable-views).
+That means:
+<br>
+-> [Draft-enabled](../fiori-drafts#reading-drafts) CDS views must fulfill all requirements of [updatable views](#updatable-views).
+{.indent}
 
 Remember to run draft specific queries through the [Draft Service](../fiori-drafts#draft-service) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
 

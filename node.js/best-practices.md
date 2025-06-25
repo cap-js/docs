@@ -394,7 +394,7 @@ entity Books { ... } actions {
   function csvExport () returns csv;
 }
 ```
-Alternatively, the return type can be annotated in the declarations of actions or functions.
+Alternatively, the return type can be annotated directly in the declarations of actions or functions.
 ```cds
 function csvExport () returns @Core.MediaType LargeBinary;
 ```

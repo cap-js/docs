@@ -316,7 +316,7 @@ CAP Java supports two modes for resolving runtime views on read:
 - `resolve`
 
 
-In the following section about `CTE` and `Resolve` we use the following CDS model and query as example:
+In the following section about `cte` and `resolve` we use the following CDS model and query as example:
 
 ```cds
 entity Books {

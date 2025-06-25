@@ -335,7 +335,7 @@ SELECT from BooksWithLowStock where author = 'Kafka'
 ```
 
 
-#### Read in `CTE` mode { #rtview-cte }
+#### Read in `cte` mode { #rtview-cte }
 
 This is the default mode in CAP Java `4.x`. The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
@@ -361,7 +361,7 @@ SELECT ID, TITLE, AUTHOR AS "author"
 Enable *cte* mode with *cds.sql.runtimeView.mode: cte*
 :::
 
-#### Read in `Resolve` mode { #rtview-resolve }
+#### Read in `resolve` mode { #rtview-resolve }
 
 The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
 

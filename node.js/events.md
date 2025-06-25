@@ -343,7 +343,7 @@ Captures the incoming request as a [CQN query](cds-ql#class-cds-ql-query). For e
 req.query = {SELECT:{from:{ref:['Books']}}}
 ```
 
-If bound custom operations `req.query` contains the query to the entity, on which the bound custom operation is called. For unbound custom operations, `req.query` contains an empty object.
+If bound custom operations, then `req.query` contains the query to the entity on which the bound custom operation is called. For unbound custom operations, `req.query` contains an empty object.
 
 ### . subject {.property}
 

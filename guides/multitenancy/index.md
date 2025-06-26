@@ -861,6 +861,9 @@ You should now see the route mapped to your application.
 
 :::
 
+
+[Learn more about configuring the approuter for multitenancy](https://help.sap.com/docs/btp/sap-business-technology-platform/mta-cf-env-configure-approuter-application).{.learn-more}
+
 ### Update Database Schema
 
 <div class="impl java">

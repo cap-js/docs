@@ -1129,7 +1129,7 @@ For unbound actions and functions:
 
 ```ts
 async function srv.send (
-  event   : string | { event, data?, headers? },  
+  event   : string | { event, data?, headers?: object },  
   data?   : object | any
 )
 return : result of this.dispatch(req)

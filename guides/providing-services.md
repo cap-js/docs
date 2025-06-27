@@ -1139,7 +1139,7 @@ For bound actions and functions:
 
 ```ts
 async function srv.send (
- event   : string | { event, entity, data?, params, headers? },
+ event   : string | { event, entity, data?, params?: array of object, headers?: object },
  entity  : string,
  data?   : object | any
 )

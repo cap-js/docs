@@ -1112,7 +1112,7 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 - <sup>(1)</sup> Beta feature, API may change
 
 ::: warning
-Generic implementation is supported on SAP HANA only
+Generic implementation is supported on SAP HANA (both Stacks), H2 (for Java) and Sqlite (for Node.js) Databases
 :::
 
 :::info

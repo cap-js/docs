@@ -225,12 +225,22 @@ long deleteCount = service.run(delete).rowCount();
 
 ## Views and Projections { #views }
 
-The CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files from your CDS model, by default including database views for all CDS [views and projections](../../cds/cdl#views-projections). These tables and views are deployed to the [database](../cqn-services/persistence-services#database-support). 
+With CDS [views](../../cds/cdl#views-projections) you can derive new entities from existing ones, for example to rename or exclude certain elements, or to add [virtual elements](../../cds/cdl#virtual-elements-in-views) for specific use cases.
 
-CDS views can be defined by simple [projections](../../cds/cdl#as-projection-on) or complex [selects](../../cds/cdl#as-select-from) including *joins*, *unions*, and *aggregations*. Read statements on CDS views target the generated database views.
+The CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files from your CDS model, including SQL views for the CDS views. These views are deployed to the [database](../cqn-services/persistence-services#database-support) and used by the CAP runtime to read data.
 
-For [write](#updatable-views) and [delete](#delete-via-view) operations, the CAP Java runtime attempts to resolve the CDS views to their underlying persistence entities, which is only supported for simple projections.
+For *read-only* views, you can use the full feature set of [selects](../../cds/cdl#as-select-from), including *joins*, *unions*, and *aggregations*. However, such complex views are not writable and require a schema redeployment if the view definition is changed.
 
+To [write data](#updatable-views) or [delete](#delete-via-view) through views, only use simple [projections](../../cds/cdl#as-projection-on). The CAP Java runtime attempts to resolve the CDS views to their underlying persistence entities, rewriting the statement and data accordingly, which is not supported for complex views.
+
+For simple projections the generation of SQL views can be avoided by using [runtime views](#runtimeviews). This allows you to change the view definition without redeploying the database schema and is the prerequisite for lightweight extensibility via predefined extension fields.
+
+::: tip Indicate read-only
+Use the `@readonly` annotation to indicate that a view or a view element is not writable.
+:::
+::: tip Prefer simple views
+Prefer creating multiple simple views, each tailored to a specific use case, rather than a single complex view that tries to address multiple use cases simultaneously.
+:::
 ::: warning Avoid selecting to-many Associations
 Do not use [*to-many associations*](../../cds/cdl#to-many-associations) in the select clause of CDS views. This blocks write operations and may cause performance issues due to record duplication on read.
 :::
@@ -311,12 +321,7 @@ To add or update CDS views without redeploying the database schema, annotate the
 
 Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views. However, if a runtime view cannot be resolved, a fallback to database views is not possible, and the statement fails with an error.
 
-CAP Java supports two modes for resolving runtime views on read:
-- `cte`
-- `resolve`
-
-
-In the following section about `cte` and `resolve` we use the following CDS model and query as example:
+CAP Java provides two modes for resolving runtime views during read operations: [cte](#rtview-cte) and [resolve](#rtview-resolve). The following section introduces both modes using the CDS model and query below:
 
 ```cds
 entity Books {
@@ -337,7 +342,7 @@ SELECT from BooksWithLowStock where author = 'Kafka'
 
 #### Read in `cte` mode { #rtview-cte }
 
-This is the default mode in CAP Java `4.x`. The runtime translates the view definition into a _Common Table Expression_ (CTE) and sends it with the query to the database.
+This is the default mode in CAP Java `4.x`. The runtime translates the [view definition](#runtimeviews) into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
 ```sql
 WITH BOOKSWITHLOWSTOCK_CTE AS (
@@ -363,7 +368,7 @@ Enable *cte* mode with *cds.sql.runtimeView.mode: cte*
 
 #### Read in `resolve` mode { #rtview-resolve }
 
-The runtime _resolves_ the view definition to the underlying persistence entities and executes the query directly against the corresponding tables.
+The runtime _resolves_ the [view definition](#runtimeviews) to the underlying persistence entities and executes the query directly against the corresponding tables.
 
 ```sql
 SELECT B.ID, B.TITLE, A.NAME AS "author"

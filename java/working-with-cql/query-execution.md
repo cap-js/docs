@@ -358,10 +358,6 @@ SELECT ID, TITLE, AUTHOR AS "author"
  WHERE A.NAME = ?
 ```
 
-::: info Limitations of `cte` mode
-[Pessimistic locking](#pessimistic-locking) queries on runtime views in *cte* mode are not supported on SAP HANA.
-:::
-
 ::: tip CAP Java 3.10
 Enable *cte* mode with *cds.sql.runtimeView.mode: cte*
 :::
@@ -379,6 +375,9 @@ SELECT B.ID, B.TITLE, A.NAME AS "author"
 
 ::: info Limitations of `resolve` mode
 Using associations that are only [defined](../../cds/cql#association-definitions) in the view, as well as complex draft queries are not supported in *resolve* mode.
+:::
+::: info Pessimistic Locking on PostgreSQL
+On PostgreSQL, some [pessimistic locking](#pessimistic-locking) queries on runtime views navigating associations require the *cte* mode.
 :::
 
 ### Draft Queries on Views { #draft-views }

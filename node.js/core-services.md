@@ -799,9 +799,7 @@ Use this method to send synchronous requests to a service for execution.
 -  `method` is an HTTP method
 -  `path` can be an arbitrary URL, starting with a leading `'/'`, it is passed to a service without any modification as a string
 
-For calling bound / unbound actions and functions from the service further variants of `srv.send` are additionally supported,
-as described in the Section [Calling Actions / Functions](../guides/providing-services#calling-actions-functions).
-Basically the action or function name to be used instead of the HTTP method.
+To call bound / unbound actions and functions from the service further variants of `srv.send` are additionally supported, as described in the Section [Calling Actions / Functions](../guides/providing-services#calling-actions-functions). Basically, use the action or function name instead of the HTTP method.
 
 Examples:
 

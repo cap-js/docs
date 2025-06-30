@@ -117,15 +117,15 @@ var params = Map.of("minStock", 100);
 Result result = service.run(query, params);
 ```
 
-#### Adding Query Hints for SAP HANA { #hana-hints}
+### Query Hints { #query-hints}
 
-To add a hint clause to a statement, use the `hints` method and prefix the [SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) with `hdb.`:
+Use the `hints` method to add specific hints to a CDS QL statement. [SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) need to be prefix with `hdb.`
 
 ```java
-CqnSelect query = Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_SAMPLES(0)");
+Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.HEX_INDEX_JOIN");
 ```
-::: warning
-Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and therefore **must not** contain external input!
+::: danger
+Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and **must not** contain untrusted input!
 :::
 
 ### Data Manipulation

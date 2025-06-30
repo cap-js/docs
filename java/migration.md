@@ -98,6 +98,7 @@ Some property defaults have been adjusted:
 | `cds.security.authorization.instanceBased.rejectSelectedUnauthorizedEntity.enabled` | false | true | Requests that violate instance-based authorization conditions now fail with 403, instead of 404. |
 | `cds.security.authorization.instanceBased.checkInputData.enabled` | false | true | [Authorization Checks On Input Data](./security#input-data-auth) are now enabled by default. |
 | `cds.errors.defaultTranslations.enabled` | false | true | [Translations for Validation Error Messages](./event-handlers/indicating-errors#ootb-translated-messages) are now enabled by default. |
+| `cds.sql.runtimeView.mode` | resolve | cte | [Runtime views](./working-with-cql/query-execution#runtimeviews) are now by default translated into Common Table Expressions |
 
 ### Deprecated Properties
 
@@ -121,6 +122,16 @@ The following table gives an overview about the removed properties:
 | `cds.environment.k8s` | Use service bindings from SAP BTP Operator on Kyma. |
 | `cds.multiTenancy.subscriptionManager.`<br>`clientCertificateHeader` | `cds.security.authentication.`<br>`clientCertificateHeader` |
 | `cds.multiTenancy.security.`<br>`internalUserAccess.enabled` | `cds.security.authentication.`<br>`internalUserAccess.enabled` |
+
+### Removed Java APIs
+
+- Removed deprecated classes:
+  - `com.sap.cds.ql.cqn.CqnSearchPredicate`, use `CqnSearchTermPredicate` instead
+
+- Removed deprecated methods:
+  - `com.sap.cds.ql.cqn.Modifier.search(String term)`, use `searchTerm(CqnSearchTermPredicate)` instead
+  - `com.sap.cds.ql.cqn.Modifier.selectListValue(Value<?> value, String alias)`, use `selectListValue(SelectableValue value, String alias)` instead
+  - `com.sap.cds.ql.SelectableValue.withoutAlias()`, use `as(String alias)` instead
 
 ## CAP Java 2.10 to CAP Java 3.0 { #two-to-three }
 

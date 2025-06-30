@@ -385,27 +385,39 @@ Internally the [timestamp](events#timestamp) is a JavaScript `Date` object, that
 
 ## Custom Streaming <Beta /> { #custom-streaming-beta }
 
-When returning [Media Data](../guides/providing-services#serving-media-data) from a custom `READ`, `action`, or `function` handler, content information can be configured as part of the handlers result object. 
+[Media Data](../guides/providing-services#serving-media-data) can be served from custom handlers of the type `READ`, `action`, or `function`.
+Actions and functions support the same set of `media data` annotations.
+```cds
+@(Core.MediaType: 'text/csv', Core.ContentDisposition.Filename: 'Books.csv')
+type csv:  LargeBinary;
+entity Books { ... } actions {
+  function csvExport () returns csv;
+}
+```
+Alternatively, the return type can be annotated directly in the declarations of actions or functions.
+```cds
+function csvExport () returns @Core.MediaType LargeBinary;
+```
 
-Ideally, handlers use [`req.reply`](events#req-reply), calling it with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable). Include options to specify content disposition headers:
+When returning custom media data, content information can be configured as part of the handlers `result` object. 
+
+When calling [`req.reply`](events#req-reply-results) in handlers, you can include options with an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) to specify the [content disposition headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Disposition). In the following example, the options are specified in the `stream.Readable` instance named `myReadable` :
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
-  const readable = new Readable()
-  req.reply(readable, {
+  req.reply(myReadable, {
     mimetype: 'image/jpeg', // > optional
     filename: 'cover.jpg', // > optional
   })
 })
 ```
 
-Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
+Alternatively, you can return an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named `myReadable` in the example) directly and configure content disposition information by assigning relevant property values (`mimetype`, `filename`) directly to that object:
 
 ```js
 srv.on('READ', 'Books', (req, next) => {
   if (coverImageIsRequested) {
-    const readable = new Readable()
-    return Object.assign(readable, {
+    return Object.assign(myReadable, {
       mimetype: 'image/jpeg', // > optional
       filename: 'cover.jpg', // > optional
     })
@@ -416,13 +428,12 @@ srv.on('READ', 'Books', (req, next) => {
 
 :::details Compatibility option
 If needed for compatibility reasons, convey the content information using a result object specifying the information as it would appear if extracted from the appropriate CDS annotations.
-In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
+In the returned object, `value` is an instance of [stream.Readable](https://nodejs.org/api/stream.html#class-streamreadable) (named `myReadable` in the example) and the properties `$mediaContentType`, `$mediaContentDispositionFilename`, and `$mediaContentDispositionType` are used to set the respective headers.
 
 ```js
 srv.on('getCoverImageFunction', 'Books', (req) => {
-  const readable = new Readable()
   return {
-    value: readable,
+    value: myReadable,
     $mediaContentType: 'image/jpeg',
     $mediaContentDispositionFilename: 'cover.jpg', // > optional
     $mediaContentDispositionType: 'inline' // > optional
@@ -435,13 +446,11 @@ srv.on('getCoverImageFunction', 'Books', (req) => {
 In addition, the Node.js runtime will respect manually set header values.
 
 ```js
-srv.on('unboundAction', (req, res) => {
-  const readable = new Readable()
+srv.on('unboundAction', (req) => {
+  cds.context.http?.res.setHeader('content-type', 'image/jpeg')
+  cds.context.http?.res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
 
-  res.setHeader('content-type', 'image/jpeg')
-  res.setHeader('content-disposition', 'inline; filename="cover.jpg"')
-
-  return readable
+  return myReadable
 })
 ```
 

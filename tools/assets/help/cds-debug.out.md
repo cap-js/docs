@@ -13,7 +13,7 @@
     Cloud Foundry space (check with 'cf target').
     SSH access to the app is required (check with 'cf ssh-enabled').
 
-    If no &lt;app&gt; is given, the app in the current working is started
+    If no &lt;app&gt; is given, the app in the current working directory is started
     (with 'cds watch --debug' for Node.js and 'mvn spring-boot:run' for Java).
 
 <strong>OPTIONS</strong>
@@ -24,6 +24,10 @@
     <em>-p</em> | <em>--port</em>
 
       the debug port (default: '9229' for Node.js, '8000' for Java)
+
+    <em>-f</em> | <em>--force</em>
+
+      if necessary, automatically enable ssh for the app and restart it
 
 <strong>EXAMPLES</strong>
     <em>cds debug</em>

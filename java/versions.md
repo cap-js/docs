@@ -80,13 +80,14 @@ The following table lists these minimum versions for various common dependencies
 | Dependency | Minimum Version | Recommended Version |
 | --- | --- | --- |
 | JDK | 17 | 21 |
-| Maven | 3.6.3 | 3.9.8 |
+| Maven | 3.6.3 | 3.9.9 |
 | @sap/cds-dk | 7 | latest |
 | @sap/cds-compiler | 4 | latest |
 | Spring Boot | 3.0 | latest |
 | XSUAA | 3.0 | latest |
 | SAP Cloud SDK | 5.9 | latest |
 | Java Logging | 3.7 | latest |
+| Node.js | 18 | 20 |
 
 
 ### Consistent Versions

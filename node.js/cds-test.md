@@ -89,7 +89,7 @@ await POST (`/browse/submitOrder`, { book: 201, quantity: 5 })
 
 
 #### Authenticated Endpoints
-`cds.test()` uses the standard authentication strategy in development mode, which is the [mocked authentication](../node.js/authentication#mocked). This also includes the usage of [pre-definded mock users](../node.js/authentication#mock-users)
+`cds.test()` uses the standard authentication strategy in development mode, which is the [mocked authentication](./authentication#mocked). This also includes the usage of [pre-definded mock users](./authentication#mock-users)
 
 You can set the user for an authenticated request like this:
 
@@ -106,7 +106,7 @@ Authorization: Basic alice:
 ```
 :::
 
-[Learn how to explicitly configure mock users in your _package.json_ file.](../node.js/authentication#mocked){.learn-more}
+[Learn how to explicitly configure mock users in your _package.json_ file.](./authentication#mocked){.learn-more}
 
 ### Using Jest or Mocha
 

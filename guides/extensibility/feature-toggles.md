@@ -255,18 +255,12 @@ An MTX sidecar is a standard, yet minimalistic Node.js CAP project. By default i
 {
   "name": "mtx-sidecar", "version": "0.0.0",
   "dependencies": {
-    "@sap/cds": "^7",
-    "@sap/cds-mtxs": "^1",
+    "@sap/cds": "^9",
+    "@sap/cds-mtxs": "^3",
     "express": "^4"
   },
   "cds": {
-    "requires": {
-      "cds.xt.ModelProviderService": "in-sidecar"
-    },
-    "[development]": {
-      "requires": { "auth": "dummy" },
-      "server": { "port": 4005 }
-    }
+    "profile": "mtx-sidecar"
   }
 }
 ```

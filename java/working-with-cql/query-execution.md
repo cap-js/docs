@@ -325,7 +325,7 @@ Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not 
 
 CAP Java provides two modes for resolving runtime views during read operations: [cte](#rtview-cte) and [resolve](#rtview-resolve). 
 
-::: details Set the runtime view mode
+::: details Changing the runtime view mode
 To globally set the runtime view mode, use the property `cds.sql.runtimeView.mode` with value `cte` or `resolve` in the *application.yml*. To set the mode for a specific runtime view, annotate it with `@cds.java.runtimeView.mode: cte|resolve`.
 
 To set the mode for a specific query, use a [hint](#hana-hints):

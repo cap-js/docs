@@ -278,7 +278,7 @@ It is recommended to use these constants with the `event` or `entity` attributes
 
 ## Event Handler Method Signatures { #handlersignature}
 
-The most basic signature of an event handler method is `public void process(EventContext context)`. However event-specific Event Context and entity data arguments and certain return values are supported as well and can be freely combined.
+The most basic signature of an event handler method is `public void process(EventContext context)`. However event-specific Event Context and entity data arguments and return values are supported as well and can be freely combined.
 It is even valid for event handler methods to have no arguments at all. Handler methods don't necessarily have to be public methods. They can also be methods with protected, private, or package visibility.
 
 ### Event Context Arguments { #contextarguments}
@@ -325,8 +325,6 @@ public void changeBooks(EventContext context) {
     }
 }
 ```
-
-
 
 ### Entity Data Arguments { #pojoarguments}
 
@@ -391,6 +389,58 @@ During the `Before` and `On` phase changes affect the data carried by the CQN st
 During the `After` phase changes affect the return value of the event.
 :::
 
+### Entity Reference Arguments
+
+You can get a entity reference reflecting the reference of the currently processed CQN statement, by declaring a corresponding argument in your method signature.
+
+```java
+@After(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)
+public void changedBook(CqnStructuredTypeRef ref) { }
+```
+
+The CAP Java SDK Maven Plugin can generate query builder interfaces for entities defined in the CDS model. These interfaces allow for a [type-safe query building](../query-api#concepts) and can be used in arguments as well:
+
+```java
+@After(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)
+public void changedBook(Books_ ref) { }
+```
+
+If an entity reference argument is used CAP can infer the entity for the event handler registration from the entity reference argument:
+
+```java
+@After(event = CqnService.EVENT_UPDATE)
+public void changedBook(Books_ ref) { }
+```
+
+::: tip
+The mapping between a query builer interface and an entity, is based on the `@CdsName` annotation of the query builder interface.
+:::
+
+Entity data arguments work on all events that operate with a `CqnStatement`. This is the case for all CRUD events and custom bound actions or functions.
+
+You can directly use these reference to build further queries in your event handlers:
+
+```java
+@After(event = CqnService.EVENT_UPDATE)
+public void changedBook(Books_ ref) {
+  CqnSelect select = Select.from(ref).columns(b -> b.title());
+}
+```
+
+### Service Arguments { #servicearguments }
+
+The CAP Java SDK Maven Plugin can [generate service interfaces](../cqn-services/application-services#trigger-action-or-function) for services defined in the CDS model.
+
+To easily access these generated application-specific interfaces you can declare corresponding arguments in your method signature.
+The same approach works for generic interfaces like `CqnService` or `DraftService`.
+
+The service instances that can be provided to the event handler are always the service instance the event is processed by.
+
+```java
+@After(event = CqnService.EVENT_UPDATE)
+public void changedBook(Books book, AdminService service) { }
+```
+
 ### Return Values
 
 The return value of an event can be set by returning a value in an event handler method:
@@ -405,7 +455,7 @@ public Result readBooks(CdsReadEventContext context) {
 In case an event handler method of the `Before` or `On` phase has a return value it automatically [completes the event processing](#eventcompletion), once it is executed.
 Event handler methods of the `After` phase that have a return value, replace the return value of the event.
 
-Only return values that extend `Iterable<? extends Map<String, Object>>` are supported. The `Result` object or a list of entity data (for example `List<Books>`) fulfill this requirement.
+For [CRUD events](../cqn-services/application-services#crudevents) and [draft-specific CRUD events](../fiori-drafts#draftevents) return values that extend `Iterable<? extends Map<String, Object>>` are supported. The `Result` object or a list of entity data (for example `List<Books>`) fulfill this requirement.
 
 ```java
 @On(entity = Books_.CDS_NAME)
@@ -416,11 +466,26 @@ public List<Books> readBooks(CdsReadEventContext context) {
 }
 ```
 
-Event handler methods with return values only work on [CRUD events](../cqn-services/application-services#crudevents) of [CQN-based services](../cqn-services/#cdsservices) or the [draft-specific CRUD events](../fiori-drafts#draftevents) provided by Draft Services.
-
 ::: tip
 To learn how to build your own Result objects, have a look at the [Result Builder API](../cqn-services/application-services#result-builder)
 :::
+
+For custom actions or functions you can directly return the return value of the corresponding action or function in your event handler:
+
+Given the following CDS model:
+```cds
+service World {
+  function hello() returns String;
+}
+```
+
+The event handler can directly return a `String`, which corresponds to the return type of the `hello` function:
+```java
+@On(event = "hello")
+public String hello() {
+  return "Hello World";
+}
+```
 
 ### Ordering of Event Handler Methods
 

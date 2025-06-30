@@ -398,7 +398,7 @@ You can get a entity reference reflecting the reference of the currently process
 public void changedBook(CqnStructuredTypeRef ref) { }
 ```
 
-The CAP Java SDK Maven Plugin can generate query builder interfaces for entities defined in the CDS model. These interfaces allow for a [type-safe query building](../query-api#concepts) and can be used in arguments as well:
+The CAP Java SDK Maven Plugin can generate query builder interfaces for entities defined in the CDS model. These interfaces allow for a [type-safe query building](../working-with-cql/query-api#concepts) and can be used in arguments as well:
 
 ```java
 @After(event = CqnService.EVENT_UPDATE, entity = Books_.CDS_NAME)

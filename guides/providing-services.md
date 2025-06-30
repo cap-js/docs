@@ -1108,7 +1108,7 @@ module.exports = class Sue extends cds.Service {
 ```js
 GET .../sue/sum(x=1,y=2)              // unbound function
 GET .../sue/stock(id=2)               // unbound function
-POST .../sue/add {"x":11,"to":2}       // unbound action
+POST .../sue/add {"x":11,"to":2}      // unbound action
 GET .../sue/Foo(2)/Sue.getStock()     // bound function
 POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
 ```

@@ -1112,7 +1112,7 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 - <sup>(1)</sup> Beta feature, API may change
 
 ::: warning
-Generic implementation is supported on the following databases
+Generic implementation is supported on the following databases:
 
 |   | SAP HANA | H2 | PostgreSQL | SQLite |
 |---|---|---|---|---|

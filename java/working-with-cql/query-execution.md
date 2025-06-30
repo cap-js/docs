@@ -323,7 +323,17 @@ To add or update CDS views without redeploying the database schema, annotate the
 
 Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views. However, if a runtime view cannot be resolved, a fallback to database views is not possible, and the statement fails with an error.
 
-CAP Java provides two modes for resolving runtime views during read operations: [cte](#rtview-cte) and [resolve](#rtview-resolve). The following section introduces both modes using the CDS model and query below:
+CAP Java provides two modes for resolving runtime views during read operations: [cte](#rtview-cte) and [resolve](#rtview-resolve). 
+
+::: details Set the runtime view mode
+Set *cds.sql.runtimeView.mode* with value *cte* or *resolve* to globally set the runtime view mode, use a query [hint](#hana-hints) to set the mode for a specific query:
+
+```Java
+Select.from(BooksWithLowStock).hint("cds.sql.runtimeView.mode", "cte");
+```
+:::
+
+The following section introduces both modes using the CDS model and query below:
 
 ```cds
 entity Books {

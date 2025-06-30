@@ -413,7 +413,7 @@ public void changedBook(Books_ ref) { }
 ```
 
 ::: tip
-The mapping between a query builer interface and an entity, is based on the `@CdsName` annotation of the query builder interface.
+The mapping between a query builder interface and an entity is based on the `@CdsName` annotation of the query builder interface.
 :::
 
 Entity data arguments work on all events that operate with a `CqnStatement`. This is the case for all CRUD events and custom bound actions or functions.

@@ -1109,9 +1109,9 @@ module.exports = class Sue extends cds.Service {
 ```js
 GET .../sue/sum(x=1,y=2)              // unbound function
 GET .../sue/stock(id=2)               // unbound function
-POST .../sue/add {"x":1,"to":2}       // unbound action
+POST .../sue/add {"x":11,"to":2}      // unbound action
 GET .../sue/Foo(2)/Sue.getStock()     // bound function
-POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
+POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
 ```
 
 > Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
@@ -1129,8 +1129,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   const srv = await cds.connect.to('Sue')
   // unbound actions/functions
   await srv.send('sum',{x:1,y:2})
-  await srv.send('add',{x:11,to:2})
   await srv.send('stock',{id:2})
+  await srv.send('add',{x:11,to:2})
   // bound actions/functions
   await srv.send('getStock','Foo',{id:2})
   //for passing the params property, use this syntax
@@ -1147,8 +1147,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   const srv = await cds.connect.to(Sue)
   // unbound actions/functions
   srv.sum(1,2)
-  srv.add(11,2)
   srv.stock(2)
+  srv.add(11,2)
   // bound actions/functions
   srv.getStock('Foo',2)
   srv.order('Foo',2,3)

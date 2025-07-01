@@ -1111,14 +1111,12 @@ Provide support for hierarchy attribute calculation and navigation, and allow th
 
 - <sup>(1)</sup> Beta feature, API may change
 
-::: warning
 Generic implementation is supported on the following databases:
 
 |   | SAP HANA | H2 | PostgreSQL | SQLite |
 |---|---|---|---|---|
 | CAP Java | ✓ | ✓ | | |
 | CAP Node.js | ✓ |  |✓ |✓ |
-:::
 
 :::info
 The source elements of the entity defining the recursive parent-child relation are identified by a naming convention or aliases `node_id` and `parent_id`.

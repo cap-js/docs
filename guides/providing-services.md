@@ -1123,7 +1123,34 @@ POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
 <br>
 
 
-**Programmatic** usage via **generic APIs** would look like this for Node.js:
+**Programmatic** usage via **generic APIs** for Node.js:
+
+For unbound actions and functions:
+
+```ts
+async function srv.send (
+  event   : string | { event, data?, headers?: object },  
+  data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+For bound actions and functions:
+
+```ts
+async function srv.send (
+ event   : string | { event, entity, data?, params?: array of object, headers?: object },
+ entity  : string,
+ data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+-  `event` is a name of a custom action or function
+-  `entity` is a name of an entity
+-  `params` are keys of the entity instance
+
+Programmatic usage would look like this for Node.js:
 
 ```js
   const srv = await cds.connect.to('Sue')
@@ -1131,10 +1158,10 @@ POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
   await srv.send('sum',{x:1,y:2})
   await srv.send('stock',{id:2})
   await srv.send('add',{x:11,to:2})
-  // bound actions/functions
+  // actions/functions bound to collection
   await srv.send('getStock','Foo',{id:2})
-  //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
+  // for actions/functions bound to entity instance, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [{id:2}]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.

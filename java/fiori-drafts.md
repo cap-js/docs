@@ -104,9 +104,7 @@ To enable this feature, set the following properties in your `.cdsrc.json`:
 ```json [.cdsrc.json]
 {
   "cdsc": {
-    "beta": {
       "draftMessages": true
-    }
   }
 }
 ```

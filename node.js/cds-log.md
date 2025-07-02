@@ -253,7 +253,7 @@ cds.log.Logger = cds.log.winstonLogger({
       level: 'error'
     })
   ],
-});
+})
 ```
 
 ### _Custom Loggers_

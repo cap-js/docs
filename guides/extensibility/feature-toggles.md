@@ -128,6 +128,7 @@ Note the following limitations for `.cds` files in features:
 
 - no `.cds` files in subfolders, for example, `fts/isbn/sub/file.cds`
 - no `using` dependencies between features
+- anything you depend on in your feature must be part of your base model
 - further limitations re `extend aspect` → to be documented
 :::
 

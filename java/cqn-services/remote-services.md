@@ -283,6 +283,58 @@ In case data from _Remote Services_ should be combined with data from the databa
 Refer to the [Integrate and Extend guide](../../guides/using-services#integrate-and-extend) for more details.
 :::
 
+### Consuming Media Properties
+
+#### Reading Media Properties
+
+To read the media element of the entity, you write `Select` statement that targets single instance of this entity with the primary key
+in its `from()` clause and include _one_ media element in the select list. 
+Otherwise, the statement will be interpreted as regular read and will not return values for media elements.
+
+Given the following model:
+```cds
+entity Media {
+   key ID: UUID;
+   
+   @Core.MediaType: 'image/png'
+   image: LargeBinary;
+}
+```
+
+If you want to read `image` of this entity, you write statement like this:
+```java
+Select.from(CQL.entity(Media_.class)
+    .filter(f -> f.ID().eq("...")))
+    .columns(Media_::image)
+```
+
+The content of the media element is returned as an `InputStream` that is not buffered and must be consumed so that HTTP connection is released.
+In addition, content type and file name are returned back if they defined as the elements of your entity.
+
+
+#### Writing Media Properties
+
+Media properties are written with the `Update` statements. Each statement must reference single entity's instance and
+must include value for media property as `InputStream` or `StringReader` and optional content type if content type is defined as the element.
+
+If the value of the element is `null`, this is interpreted as deletion of value for this media property. 
+
+Payload with values for other elements (excluding keys and annotated elements) treated as regular update and values for media properties are ignored.
+
+For example, the following statement updates the value of the element `image` in remote service:
+```java
+Media payload = Media.create();
+payload.setImage(...);
+
+Update
+  .entity(CQL.entity(Media_.class)
+  .filter(f -> f.ID().eq("..."))).entry(payload);
+``` 
+
+`Insert` statements do not support media properties. Entity with media property value can be created by `Insert` followed by an `Update`.
+
+All kinds of statements targeting media properties must not be bulked or batched. 
+
 ## Cloud SDK Integration
 
 ### Maven Dependencies {#cloud-sdk-dependencies}

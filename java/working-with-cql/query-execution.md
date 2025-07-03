@@ -231,7 +231,7 @@ With CDS [views](../../cds/cdl#views-projections) you can derive new entities fr
 Prefer creating multiple simple views, each tailored to a specific use case, rather than a single complex view that tries to address multiple use cases simultaneously.
 :::
 
-The CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files from your CDS model, including SQL views for the CDS views. These views are deployed to the [database](../cqn-services/persistence-services#database-support) and used by the CAP runtime to read data.
+From the CDS model the CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files, which include SQL views for the CDS views. These views are deployed to the [database](../cqn-services/persistence-services#database-support) and used by the CAP runtime to read data.
 
 For *read-only* views, you can use the full feature set of [selects](../../cds/cdl#as-select-from), including *joins*, *unions*, and *aggregations*. However, such complex views are not writable and require a schema redeployment if the view definition is changed.
 
@@ -282,7 +282,7 @@ UPDATE entity OrderView2
 ```
 - Data for elements corresponding to *expressions* and *functions* (*country*) is ignored.
 - [Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions (*lineItems*) is supported if there are corresponding compositions (*items*) in the underlying entity definition. Deep write via compositions that are only defined in the view (for example via [mixins](../../cds/cql#association-definitions)) is not supported and the data is ignored.
-- [Path expressions](../../cds/cql#path-expressions) over compositions (*header.status*) are writable. For [Inserts](./query-api#insert), the view must expose all *not null* elements of the target entity and the data must include values for all of them. In the example above, the order header must have a generated key to support inserting new orders with a value for *headerStatus*.
+- [Path expressions](../../cds/cql#path-expressions) over compositions *of one* (*header.status*) are writable. For [Inserts](./query-api#insert), the view must expose all *not null* elements of the target entity and the data must include values for all of them. In the example above, the order header must have a generated key to support inserting new orders with a value for *headerStatus*.
 
     ::: warning Path Expressions over Associations
     Path expressions navigating *associations* (*header.customer.name*) are [not writable](#cascading-over-associations) by default. To avoid issues on write, annotate them with [@readonly](../../guides/providing-services#readonly).
@@ -326,12 +326,12 @@ Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not 
 CAP Java provides two modes for resolving runtime views during read operations: [cte](#rtview-cte) and [resolve](#rtview-resolve). 
 
 ::: details Changing the runtime view mode
-To globally set the runtime view mode, use the property `cds.sql.runtimeView.mode` with value `cte` or `resolve` in the *application.yml*. To set the mode for a specific runtime view, annotate it with `@cds.java.runtimeView.mode: cte|resolve`.
+To globally set the runtime view mode, use the property `cds.sql.runtimeView.mode` with value `cte` (the default) or `resolve` in the *application.yml*. To set the mode for a specific runtime view, annotate it with `@cds.java.runtimeView.mode: cte|resolve`.
 
 To set the mode for a specific query, use a [hint](#hana-hints):
 
 ```Java
-Select.from(BooksWithLowStock).hint("cds.sql.runtimeView.mode", "cte");
+Select.from(BooksWithLowStock).hint("cds.sql.runtimeView.mode", "resolve");
 ```
 :::
 
@@ -356,7 +356,7 @@ SELECT from BooksWithLowStock where author = 'Kafka'
 
 #### Read in `cte` mode { #rtview-cte }
 
-This is the default mode in CAP Java `4.x`. The runtime translates the [view definition](#runtimeviews) into a _Common Table Expression_ (CTE) and sends it with the query to the database.
+This is the default mode since CAP Java `4.x`. The runtime translates the [view definition](#runtimeviews) into a _Common Table Expression_ (CTE) and sends it with the query to the database.
 
 ```sql
 WITH BOOKSWITHLOWSTOCK_CTE AS (

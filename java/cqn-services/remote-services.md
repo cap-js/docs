@@ -305,7 +305,7 @@ If you want to read `image` of this entity, you write statement like this:
 ```java
 Select.from(CQL.entity(Media_.class)
     .filter(f -> f.ID().eq("...")))
-    .columns(Media_::image)
+    .columns(Media_::image);
 ```
 
 The content of the media element is returned as an `InputStream` that is not buffered and must be consumed so that HTTP connection is released.
@@ -319,9 +319,12 @@ must include value for media property as `InputStream` or `StringReader` and opt
 
 If the value of the element is `null`, this is interpreted as deletion of value for this media property. 
 
+::: warning Mixing media and non-media elements
 Payload with values for other elements (excluding keys and annotated elements) treated as regular update and values for media properties are ignored.
+:::
 
 For example, the following statement updates the value of the element `image` in remote service:
+
 ```java
 Media payload = Media.create();
 payload.setImage(...);
@@ -329,11 +332,15 @@ payload.setImage(...);
 Update
   .entity(CQL.entity(Media_.class)
   .filter(f -> f.ID().eq("..."))).entry(payload);
-``` 
+```
 
+:::tip
 `Insert` statements do not support media properties. Entity with media property value can be created by `Insert` followed by an `Update`.
+:::
 
-All kinds of statements targeting media properties must not be bulked or batched. 
+:::danger
+Batched or bulked `Updates` are rejected. Media elements can only be updated per dedicated statement.
+:::
 
 ## Cloud SDK Integration
 

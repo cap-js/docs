@@ -484,6 +484,10 @@ Other options in this goal enable or disable certain features that change the wa
     - Characters `/` and `$` behave as a separator for the name during case conversions, similar to `_` and `.`. For example, `GET_MATERIAL` yields `GetMaterial` (or `getMaterial` for attributes and methods). The same now applies for the names with `/`, for example, name `/DMO/GET_MATERIAL` will be converted to `DmoGetMaterial`.
     - Leading `_` will remain in the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
+- ['cqnServiceGetters'](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnServiceGetters)
+
+  The method `getService()` in generated [event-specific Event Context interfaces](../event-handlers/#eventcontext) is overridden to return the typed service interface instead of generic `Service` type.
+
 :::warning Check migration guides!
 In major releases of CAP Java, some of these switches can be made new default and some other switches might be removed. This might introduce compile errors
 in your application that needs to be fixed.

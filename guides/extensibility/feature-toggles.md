@@ -127,7 +127,7 @@ This feature extends corresponding SAP Fiori annotations to display already exis
 Note the following limitations for `.cds` files in features:
 
 - no `.cds` files in subfolders, for example, `fts/isbn/sub/file.cds`
-- no `using` dependencies between features
+- no `using` dependencies between features, any entity, service or type that you refer to or extend needs to be part of the base model
 - further limitations re `extend aspect` → to be documented
 :::
 

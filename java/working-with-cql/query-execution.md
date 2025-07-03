@@ -229,7 +229,7 @@ With CDS [views](../../cds/cdl#views-projections) you can derive new entities fr
 
 From the CDS model the CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files, which include SQL views for the CDS views. These views are deployed to the [database](../cqn-services/persistence-services#database-support) and used by the CAP runtime to read data.
 
-For *read-only* views, you can use the full feature set of [selects](../../cds/cdl#as-select-from), including *joins*, *unions*, and *aggregations*. However, such complex views are not writable and require a schema redeployment if the view definition is changed.
+For *read-only* views, you can use the full feature set of [selects](../../cds/cdl#as-select-from), including *aggregations* to summarize, as well as *joins* and *unions* to combine data from multiple entities. However, such complex views are *not writable* and require a schema redeployment if the view definition is changed.
 
 ::: warning Annotate read-only views and elements
 Use the `@readonly` annotation to indicate that a view or a view element is not writable, as this is not automatically detected by the CDS compiler.

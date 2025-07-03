@@ -339,7 +339,7 @@ Update
 :::
 
 :::danger
-Batched or bulked `Updates` are rejected. Media elements can only be updated per dedicated statement.
+Batched or bulked `Updates` are rejected. Media elements can only be updated one per dedicated statement.
 :::
 
 ## Cloud SDK Integration

@@ -227,24 +227,23 @@ long deleteCount = service.run(delete).rowCount();
 
 With CDS [views](../../cds/cdl#views-projections) you can derive new entities from existing ones, for example to rename or exclude certain elements, or to add [virtual elements](../../cds/cdl#virtual-elements-in-views) for specific use cases.
 
-::: tip Prefer simple views
-Prefer creating multiple simple views, each tailored to a specific use case, rather than a single complex view that tries to address multiple use cases simultaneously.
-:::
-
 From the CDS model the CDS compiler generates [DDL](../../guides/databases?impl-variant=java#generating-sql-ddl) files, which include SQL views for the CDS views. These views are deployed to the [database](../cqn-services/persistence-services#database-support) and used by the CAP runtime to read data.
 
 For *read-only* views, you can use the full feature set of [selects](../../cds/cdl#as-select-from), including *joins*, *unions*, and *aggregations*. However, such complex views are not writable and require a schema redeployment if the view definition is changed.
 
-::: tip Indicate read-only
-Use the `@readonly` annotation to indicate that a view or a view element is not writable.
+::: warning Annotate read-only views and elements
+Use the `@readonly` annotation to indicate that a view or a view element is not writable, as this is not automatically detected by the CDS compiler.
 :::
 
 To [write data](#updatable-views) or [delete](#delete-via-view) through views, only use simple [projections](../../cds/cdl#as-projection-on). The CAP Java runtime attempts to resolve the CDS views to their underlying persistence entities, rewriting the statement and data accordingly, which is not supported for complex views.
 
-For simple projections, the generation of SQL views can be avoided by using [runtime views](#runtimeviews). This allows you to change the view definition without redeploying the database schema and is the prerequisite for lightweight extensibility via predefined extension fields.
+For simple [projections](../../cds/cdl#as-projection-on), the generation of SQL views can be avoided by using [runtime views](#runtimeviews). This allows you to change the view definition without redeploying the database schema and is the prerequisite for lightweight extensibility via predefined extension fields.
 
-::: warning Avoid selecting to-many Associations
-Do not use [*to-many associations*](../../cds/cdl#to-many-associations) in the select clause of CDS views. This blocks write operations and may cause performance issues due to record duplication on read.
+::: tip Prefer simple views
+Prefer creating multiple simple views, each tailored to a specific use case, rather than a single complex view that tries to address multiple use cases simultaneously.
+:::
+::: warning Avoid selecting paths over to-many Associations
+Do not use [path expressions](../../cds/cql#path-expressions-in-all-other-clauses) over [*to-many associations*](../../cds/cdl#to-many-associations) in the select clause of CDS views. This blocks write operations and may cause performance issues due to record duplication on read.
 :::
 ::: warning Avoid Composition Definitions in Views
 Avoid [defining](../../cds/cql#association-definitions) new *compositions* in CDS views and prefer *associations* instead, as [deep write](#updatable-views) and [cascading delete](#delete-via-view) are only supported for compositions in persistence entities.
@@ -319,7 +318,7 @@ The delete operation is resolved to the underlying `Order` entity with ID *42* a
 
 ### Runtime Views { #runtimeviews }
 
-To add or update CDS views without redeploying the database schema, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This tells the CDS compiler to skip generating database views for these CDS views, and the CAP Java runtime resolves them dynamically on each request.
+To add or update CDS views without redeploying the database schema, annotate them with [@cds.persistence.skip](../../guides/databases#cds-persistence-skip). This advises the CDS compiler to skip generating database views for these CDS views. Instead, CAP Java resolves them *at runtime* on each request.
 
 Runtime views must be simple [projections](../../cds/cdl#as-projection-on), not using *aggregations*, *join*, *union* or *subqueries* in the *from* clause, but may have a *where* condition if they are only used to read. On write, the restrictions for [write through views](#updatable-views) apply in the same way as for standard CDS views. However, if a runtime view cannot be resolved, a fallback to database views is not possible, and the statement fails with an error.
 

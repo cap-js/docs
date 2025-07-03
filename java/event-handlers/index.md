@@ -423,7 +423,7 @@ You can directly use these reference to build further queries in your event hand
 ```java
 @After(event = CqnService.EVENT_UPDATE)
 public void changedBook(Books_ ref) {
-  CqnSelect select = Select.from(ref).columns(b -> b.title());
+  var select = Select.from(ref).columns(b -> b.title());
 }
 ```
 

@@ -287,7 +287,7 @@ Refer to the [Integrate and Extend guide](../../guides/using-services#integrate-
 
 #### Reading Media Elements
 
-To read a media element of an entity, you need to create a CQN statement that targets a single instance of this entity via its primary key in its `from()` clause and include _one_ media element in the select list.
+To read a [media elements](/guides/providing-services#annotating-media-elements) of an entity, you need to create a CQN statement that targets a single instance of this entity via its primary key in its `from()` clause and include _one_ media element in the select list.
 Otherwise, the statement will be interpreted as a regular read and will not return values for media elements. Bulk reads are not supported.
 
 Given the following model:
@@ -315,7 +315,7 @@ In addition, content type and file name are returned back if corresponding eleme
 
 #### Writing Media Elements
 
-You write media elements with `Update` statements. Statements still need to target a single entity instance and
+You write [media elements](/guides/providing-services#annotating-media-elements) with `Update` statements. Statements still need to target a single entity instance and
 must include a single value for the media element as `InputStream` or `Reader`. Optionally the content type can be provided, if a corresponding element exists.
 Batched or bulk updates are not supported and rejected.
 
@@ -337,7 +337,9 @@ Update.entity(Media_.class).entry(payload);
 
 Updates are translated to OData requests to [update the media element value](/guides/providing-services#updating-media-resources) or [delete the value](/guides/providing-services#deleting-media-resources).
 
+:::tip Creating an entity with media elements
 `Insert` statements do not support media elements. Values for media elements need to be provided in a subsequent update.
+:::
 
 ## Cloud SDK Integration
 

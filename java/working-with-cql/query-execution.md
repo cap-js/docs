@@ -333,7 +333,7 @@ Select.from(BooksWithLowStock).hint("cds.sql.runtimeView.mode", "resolve");
 ```
 :::
 
-The following section introduces both modes using the CDS model and query below:
+The next two sections introduce both modes using the following CDS model and query:
 
 ```cds
 entity Books {

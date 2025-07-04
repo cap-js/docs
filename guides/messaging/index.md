@@ -157,7 +157,7 @@ Find the code to emit events in *[@capire/reviews/srv/reviews-service.js](https:
 class ReviewsService extends cds.ApplicationService { async init() {
 
   // Emit a `reviewed` event whenever a subject's avg rating changes
-  this.after (['CREATE','UPDATE','DELETE'], 'Reviews', (req) => {
+  this.after (['CREATE','UPDATE','DELETE'], 'Reviews', (_, req) => {
     let { subject } = req.data, count, rating //= ...
     return this.emit ('reviewed', { subject, count, rating })
   })

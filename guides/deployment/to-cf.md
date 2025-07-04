@@ -120,8 +120,8 @@ npm i @sap/cds        #> if necessary
 
    ```sh
    cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org
-   cf install-plugin multiapps
-   cf install-plugin html5-plugin
+   cf install-plugin -f multiapps
+   cf install-plugin -f html5-plugin
    ```
 
 ## Prepare for Production {#prepare-for-production}

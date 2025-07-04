@@ -9,9 +9,9 @@
 | @cap-js/db-service     | 2.1.2                                   |
 | @cap-js/openapi        | 1.2.3                                   |
 | @cap-js/sqlite         | 2.0.1                                   |
-| @sap/cds               | 9.0.3                                   |
-| @sap/cds-compiler      | 6.0.12                                  |
-| @sap/cds-dk (global)   | 9.0.5                                   |
+| @sap/cds               | 9.0.4                                   |
+| @sap/cds-compiler      | 6.0.14                                  |
+| @sap/cds-dk (global)   | 9.0.6                                   |
 | @sap/cds-fiori         | 2.0.1                                   |
 | @sap/cds-mtxs          | 3.0.1                                   |
 | Node.js                | v22.16.0                                |

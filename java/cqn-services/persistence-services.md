@@ -147,7 +147,7 @@ By default, the SAP HANA adapter in CAP Java generates SQL that is optimized for
 cds.sql.hana.optimizationMode: legacy
 ```
 
-Use the [hints](../working-with-cql/query-execution#hana-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
+Use the [hints](../working-with-cql/query-execution#query-hints) `hdb.USE_HEX_PLAN` and `hdb.NO_USE_HEX_PLAN` to overrule the configured optimization mode per statement.
 
 ::: warning Rare error in `HEX` mode
 In some corner cases, particularly when using [native HANA views](../../advanced/hana#create-native-sap-hana-objects), queries in `HEX` optimization mode may fail with a "hex enforced but cannot be selected" error. This is the case if the statement execution requires the combination of HEX only features with other features that are not yet supported by the HEX engine. If CAP detects this error it will, as a fallback, execute the query in _legacy_ mode.

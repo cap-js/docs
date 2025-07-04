@@ -467,7 +467,7 @@ public List<Books> readBooks(CdsReadEventContext context) {
 ```
 
 ::: tip
-To learn how to build your own Result objects, have a look at the [Result Builder API](../cqn-services/application-services#result-builder)
+To learn how to build your own Result objects, have a look at [Result Handling](../cqn-services/application-services#result-handling)
 :::
 
 For custom actions or functions, you can directly return the return value of the corresponding action or function in your event handler:

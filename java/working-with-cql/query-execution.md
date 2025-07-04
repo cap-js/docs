@@ -244,7 +244,7 @@ Prefer creating multiple simple views, each tailored to a specific use case, rat
 ::: warning Avoid selecting paths over to-many Associations
 Do not use [path expressions](../../cds/cql#path-expressions-in-all-other-clauses) over [*to-many associations*](../../cds/cdl#to-many-associations) in the select clause of CDS views. This blocks write operations and may cause performance issues due to record duplication on read.
 :::
-::: warning Avoid Composition Definitions in Views
+::: warning Avoid composition definitions in views
 Avoid [defining](../../cds/cql#association-definitions) new *compositions* in CDS views and prefer *associations* instead, as [deep write](#updatable-views) and [cascading delete](#delete-via-view) are only supported for compositions in persistence entities.
 :::
 

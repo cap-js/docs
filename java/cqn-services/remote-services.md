@@ -486,7 +486,3 @@ OAuth2DestinationBuilder
         .property("name", "my-destination")
         .build();
 ```
-
-### Limitations
-
-Streaming of media content is not supported. This means that elements of an entity annotated with `@Core.MediaType` cannot be accessed via Remote OData Services and will cause an error. It is recommended to exclude these elements in your projections on the imported entity.

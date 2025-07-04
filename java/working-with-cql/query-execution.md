@@ -124,7 +124,7 @@ To add a hint clause to a statement, use the `hints` method and prefix the [SAP 
 ```java
 Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.ESTIMATION_SAMPLES(0)");
 ```
-::: warning
+::: warning No external input in SQL for SAP HANA
 Hints prefixed with `hdb.` are directly rendered into SQL for SAP HANA and therefore **must not** contain external input!
 :::
 
@@ -156,7 +156,7 @@ long rowCount = service.run(update).rowCount();
 
 If no rows are touched the execution is successful but the row count is 0.
 
-:::warning
+:::warning Update with expressions
 The setters of an [update with expressions](../working-with-cql/query-api#update-expressions) are evaluated on the database. The result of these expressions is not contained in the update result.
 :::
 
@@ -167,7 +167,8 @@ It's possible to work with structured data as the insert, update, and delete ope
 #### Cascading over Associations { #cascading-over-associations}
 
 By default, *insert*, *update* and *delete* operations cascade over [compositions](../../guides/domain-modeling#compositions) only. For associations, this can be enabled using the `@cascade` annotation.
-::: warning
+
+::: warning Avoid cascading over associations
 Cascading operations over associations isn't considered good practice and should be avoided.
 :::
 
@@ -189,12 +190,10 @@ entity Author {
 }
 ```
 
-::: warning _❗ Warning_ <!--  -->
-For inactive draft entities `@cascade` annotations are ignored.
-:::
+::: warning _Warning_
+- For inactive draft entities `@cascade` annotations are ignored.
 
-::: warning _❗ Warning_ <!--  -->
-The @cascade annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a FK constraint with [`@assert.integrity:false`](../../guides/databases#database-constraints).
+- The `@cascade` annotation is not respected by foreign key constraints on the database. To avoid unexpected behaviour you might have to disable a foreign key constraint with [`@assert.integrity:false`](../../guides/databases#database-constraints).
 :::
 
 #### Deep Insert / Upsert { #deep-insert-upsert}
@@ -251,7 +250,7 @@ Avoid [defining](../../cds/cql#association-definitions) new *compositions* in CD
 
 ### Write through Views { #updatable-views }
 
-You can run [Insert](./query-api#insert), [Upsert](./query-api#upsert), and [Update](./query-api#update) statements on CDS views that are writable on the database or can be resolved to a single persistence entity by the CAP Java runtime.
+You can run [insert](./query-api#insert), [upsert](./query-api#upsert), and [update](./query-api#update) statements on CDS views that are writable on the database or can be resolved to a single persistence entity by the CAP Java runtime.
 
 CDS views must fulfill the following requirements to be resolvable:
 
@@ -281,7 +280,7 @@ UPDATE entity OrderView2
 ```
 - Data for elements corresponding to *expressions* and *functions* (*country*) is ignored.
 - [Deep write](./query-execution#deep-insert-upsert) via (aliased) compositions (*lineItems*) is supported if there are corresponding compositions (*items*) in the underlying entity definition. Deep write via compositions that are only defined in the view (for example via [mixins](../../cds/cql#association-definitions)) is not supported and the data is ignored.
-- [Path expressions](../../cds/cql#path-expressions) over compositions *of one* (*header.status*) are writable. For [Inserts](./query-api#insert), the view must expose all *not null* elements of the target entity and the data must include values for all of them. In the example above, the order header must have a generated key to support inserting new orders with a value for *headerStatus*.
+- [Path expressions](../../cds/cql#path-expressions) over compositions *of one* (*header.status*) are writable. For [inserts](./query-api#insert), the view must expose all *not null* elements of the target entity and the data must include values for all of them. In the example above, the order header must have a generated key to support inserting new orders with a value for *headerStatus*.
 
     ::: warning Path Expressions over Associations
     Path expressions navigating *associations* (*header.customer.name*) are [not writable](#cascading-over-associations) by default. To avoid issues on write, annotate them with [@readonly](../../guides/providing-services#readonly).
@@ -289,7 +288,7 @@ UPDATE entity OrderView2
 
 ### Delete through Views { #delete-via-view }
 
-The CAP Java runtime attempts to resolve [Deletes](./query-api#delete) on CDS views to the underlying persistence entity definitions and the [write through views](#updatable-views) restrictions apply accordingly.
+The CAP Java runtime attempts to resolve [deletes](./query-api#delete) on CDS views to the underlying persistence entity definitions and the [write through views](#updatable-views) restrictions apply accordingly.
 
 If a view cannot be resolved, the delete operation is executed directly on the database view and the execution depends on the [database](../cqn-services/persistence-services#database-support) support.
 

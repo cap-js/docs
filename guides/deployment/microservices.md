@@ -159,10 +159,10 @@ cd shared-db
 ```
 
 ```sh
-cds db -2 sql
+cds compile db -2 sql
 ```
 ```sh
-cds db -2 hana
+cds compile db -2 hana
 ```
 
 ```sh

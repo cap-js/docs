@@ -292,7 +292,7 @@ The CAP Java runtime attempts to resolve [deletes](./query-api#delete) on CDS vi
 
 If a view cannot be resolved, the delete operation is executed directly on the database view and the execution depends on the [database](../cqn-services/persistence-services#database-support) support.
 
-::: danger Delete Cascades on Persistence Entity Level
+::: danger Delete cascades on persistence entity level
 [Cascading delete](./query-execution#cascading-delete) is applied on persistence entity level only, including compositions that are excluded from the view.
 Compositions that are [added](../../cds/cql#association-definitions) in CDS views, as well as changes to compositions (such as filters and redirects) are not considered.
 :::
@@ -388,7 +388,7 @@ SELECT B.ID, B.TITLE, A.NAME AS "author"
 ::: info Limitations of `resolve` mode
 Using associations that are only [defined](../../cds/cql#association-definitions) in the view, as well as complex draft queries are not supported in *resolve* mode.
 :::
-::: info Pessimistic Locking on PostgreSQL
+::: info Pessimistic locking on PostgreSQL
 On PostgreSQL, some [pessimistic locking](#pessimistic-locking) queries on runtime views navigating associations require the *cte* mode.
 :::
 
@@ -404,21 +404,21 @@ That means:
 Remember to run draft specific queries through the [Draft Service](../fiori-drafts#draftservices) or [Application Service](../cqn-services/application-services#application-services). The [Persistence Service](../cqn-services/persistence-services) only works for non-draft specific queries.
 
 
-::: tip Draft Queries on Runtime Views
+::: tip Draft queries on runtime views
 If you define runtime views on [draft-enabled](../fiori-drafts#reading-drafts) entities and want to run draft specific queries on these views, set the [*cds.drafts.persistence*](../fiori-drafts#reading-drafts) configuration to `split`.
 :::
 
-::: warning Avoid draft-enabling Runtime Views
+::: warning Avoid draft-enabling runtime views
 Draft-enabling runtime views is only supported in [*CTE*](#rtview-cte) mode and requires a schema deployment to update the draft table when the runtime view is changed.
 :::
 
 ### Views on Remote Services
 
-When delegating queries between Application Services and Remote Services, statements are resolved to the targeted service's entity definitions by the CAP Java runtime. 
+When delegating queries between Application Services and Remote Services, statements are resolved to the targeted service's entity definition by the CAP Java runtime. 
 
-For read, the CDS views are resolved similar to the runtime view [resolve](#rtview-resolve) mode. For write operations, views targeting *remote OData* services must
+For read, the CDS views are resolved similar to the runtime view [resolve](#rtview-resolve) mode. For write operations, views targeting *remote OData* services must fulfill the following:
 
-- fulfill all requirements of [writable views](#updatable-views)
+- all requirements of [writable views](#updatable-views)
 - not include [calculated elements](../../cds/cdl#calculated-elements)
 
 If a view cannot be resolved, read and write operations are rejected.

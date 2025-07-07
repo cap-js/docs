@@ -601,7 +601,7 @@ Supported features of `exists` predicate:
 * Use target paths (`where: 'exists a1.b1[...]`).
 * Usage of [user attributes](#user-attrs).
 ::: warning
-Paths *inside* the filter (`where: (exists a1[b1.c = ...])) are not yet supported.
+Paths *inside* the filter (`where: (exists a1[b1.c = ...])`) are not yet supported.
 :::
 
 <!--  * Note that in the Node.js stack, variant `a1[b1.c = ...]` only works on SAP HANA (as `b1.c` is a path expression).  -->

@@ -441,8 +441,9 @@ Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns
 You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
 - Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
-- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config><sup>(1)</sup> 
 
+<sup>(1)</sup> If set to `false`, fuzzy search is disabled and falls back to a case insensitive substring search.
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
@@ -1108,9 +1109,9 @@ module.exports = class Sue extends cds.Service {
 ```js
 GET .../sue/sum(x=1,y=2)              // unbound function
 GET .../sue/stock(id=2)               // unbound function
-POST .../sue/add {"x":1,"to":2}       // unbound action
+POST .../sue/add {"x":11,"to":2}      // unbound action
 GET .../sue/Foo(2)/Sue.getStock()     // bound function
-POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
+POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
 ```
 
 > Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
@@ -1122,18 +1123,45 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 <br>
 
 
-**Programmatic** usage via **generic APIs** would look like this for Node.js:
+**Programmatic** usage via **generic APIs** for Node.js:
+
+For unbound actions and functions:
+
+```ts
+async function srv.send (
+  event   : string | { event, data?, headers?: object },  
+  data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+For bound actions and functions:
+
+```ts
+async function srv.send (
+ event   : string | { event, entity, data?, params?: array of object, headers?: object },
+ entity  : string,
+ data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+-  `event` is a name of a custom action or function
+-  `entity` is a name of an entity
+-  `params` are keys of the entity instance
+
+Programmatic usage would look like this for Node.js:
 
 ```js
   const srv = await cds.connect.to('Sue')
   // unbound actions/functions
   await srv.send('sum',{x:1,y:2})
-  await srv.send('add',{x:11,to:2})
   await srv.send('stock',{id:2})
-  // bound actions/functions
+  await srv.send('add',{x:11,to:2})
+  // actions/functions bound to collection
   await srv.send('getStock','Foo',{id:2})
-  //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
+  // for actions/functions bound to entity instance, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [{id:2}]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1146,8 +1174,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   const srv = await cds.connect.to(Sue)
   // unbound actions/functions
   srv.sum(1,2)
-  srv.add(11,2)
   srv.stock(2)
+  srv.add(11,2)
   // bound actions/functions
   srv.getStock('Foo',2)
   srv.order('Foo',2,3)

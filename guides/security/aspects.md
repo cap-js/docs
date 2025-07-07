@@ -530,17 +530,13 @@ The total number of request of OData batches can be limited by application confi
 
 Use settings <Config java>cds.odataV4.batch.maxRequests</Config> resp. <Config java>cds.odataV2.batch.maxRequests</Config> to limit the amount of queries per OData `$batch`.
 
-</div>
-
-<div class="impl java">
-
 To prevent clients from requesting too much data, you can define restrictions on `$expands` for your entities: 
 
 - Use `@Capabilities.ExpandRestrictions.Expandable: false` to prevent any expands from the entity. 
 - Use `@Capabilities.ExpandRestrictions.NonExpandableProperties: [...]` to restrict expands for certain properties.
 - Use `@Capabilities.ExpandRestrictions.MaxLevels: ...` to set maximum allowed depth of an `$expand` from this entity. You can set an application-wide limit with <Config>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
 
-Good candidates for expand restrictions are associations to the same type (for example, when your entity represents tree or a hierarchy) or backlink associations of the compositions or many-to-many associations. 
+Good candidates for expand restrictions are the associations to the same type (for example, when your entity represents tree or a hierarchy) or backlink associations of the compositions or many-to-many associations. 
 
 </div>
 
@@ -548,7 +544,7 @@ Good candidates for expand restrictions are associations to the same type (for e
 
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
-Also the maximum amount of requests per `$batch` request need to be configured with <Config>cds.odata.batch_limit = \<max_requests\></Config>
+Also, the maximum amount of requests per `$batch` request need to be configured with <Config>cds.odata.batch_limit = \<max_requests\></Config>
 :::
 
 </div>

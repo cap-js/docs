@@ -107,7 +107,7 @@ config.rewrites = rewrites
 config.themeConfig.capire = {
   versions: {
     java_services: '4.1.0',
-    java_cds4j: '4.1.0'
+    java_cds4j: '4.1.1'
   },
   gotoLinks: []
 }

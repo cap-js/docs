@@ -300,7 +300,7 @@ In the application's _package.json_, add a dependency to your plugin package to 
 
 ```jsonc [package.json]
 "dependencies": {
-  "@cap-js/postgres": "^1"
+  "@cap-js/postgres": "^2"
 }
 ```
 

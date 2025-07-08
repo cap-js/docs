@@ -83,8 +83,8 @@ npm add @sap/cds-mtxs
   "version": "1.0.0",
   "dependencies": {
     "@capire/common": "*",
-    "@sap/cds": ">=5",
-    "@sap/cds-mtxs": "^1"
+    "@sap/cds": ">=9",
+    "@sap/cds-mtxs": "^3"
   },
   "cds": {
     "requires": {

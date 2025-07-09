@@ -325,9 +325,8 @@ Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items().filter(i
 
 Such statements supported only if: 
 - path expression starts in the root of the document (order, in this case)
-- path navigates only through a compositions 
-- all its segments specify keys so that the complete path targets single target instance.
-
+- path navigates only through the compositions 
+- all its segments specify keys so that the complete path targets single target instance (item, in this case)
 
 :::warning Limitation
 Direct modifications of composition items are not supported by change tracking and generally should be avoided.

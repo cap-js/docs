@@ -283,14 +283,65 @@ values of the entity: data that weren't present in the old values are considered
 the new values are considered as deleted. Elements that are present in both old and new values but have different values
 are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry.
 
+As a general rule, modify change tracked entities only with statements that specify primary keys and avoid [searched updates](/java/working-with-cql/query-api#searched-update).
+
+### Changes in Deeply Structured Documents
+
 In the case of the deeply structured documents, for example, entities with the compositions, the change tracking feature detects
 the changes across the complete document and stores them in the change log with the metadata reflecting the structure of the change.
 
-Take the order and item model used previously in this guide as an example. If you change values for the tracked elements with the deep update, for example, the customer name in the order and the quantity of the item, the change log contains two entries: one for the order and one for the item. The change log entry for the item will also reflect that the root of the change is an order. Both changes will be reachable through the association `changes` of the order entity.
+Take the order and item model used previously in this guide as an example.
 
-:::warning Prefer deep updates for change-tracked entities
-If you change the values of the `OrderItems` entity directly via an OData request or a CQL statement, the change log contains only one entry for the item. The change won't be associated with an order and will not be reachable through the `changes` association. While the updates of composition targets directly are possible, the change tracking feature does not attempt to resolve the parent entity by itself, it requires that either OData request or a CQL statement provide the reference to the parent, for example, `Orders`.   
+For deep updates, use `Update` statement with [delta representation](/java/working-with-cql/query-api#deep-update-delta) for its items 
+or [full set representation](/java/working-with-cql/query-api#deep-update-full-set) if you overwrite complete document. Rest of 
+
+Following update will yield two changelog entries: one for the order and one for the item. 
+The change log entry for the item will also reflect that the root of the change is an order. 
+Both changes will be reachable through the association `changes` of the order entity.
+
+```java
+Orders order = Orders.create("...");
+order.setOrderNo("N1");
+OrderItems item = OrderItems.create("...");
+item.setQuantity(3);
+
+order.setItems(CdsList.delta(item));
+Update.entity(Orders_.class).entry(order);
+```
+
+If you still want to update items directly, use the statement with path expression to specify that item of the certain order is to be updated:
+
+```java
+OrderItems item = OrderItems.create("...");
+item.setQuantity(3);
+Update.entity(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items()).entry(item);
+```
+
+Similar `Delete` statement can be used to remove an item from an order:
+
+```java
+Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items().filter(i -> i.ID().eq("...")));
+```
+
+Such statements supported only if: 
+- path expression starts in the root of the document (order, in this case)
+- path navigates only through a compositions 
+- all its segments specify keys so that the complete path targets single target instance.
+
+
+:::warning Limitation
+Direct modifications of composition items are not supported by change tracking and generally should be avoided.
 :::
+
+For example, in case of following update changelog entry for an item _will not_ be associated with an order: 
+
+```java
+OrderItems item = OrderItems.create("...");
+item.setQuantity(3);
+Update.entity(OrderItems_.class).entry(item);
+```
+
+You must rewrite such statements using one of the ways illustrated above.
 
 ## Reacting on Changes
 

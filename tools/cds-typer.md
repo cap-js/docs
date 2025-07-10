@@ -17,7 +17,6 @@ The following chapter describes the [`cds-typer` package](https://www.npmjs.com/
 If you are planning to use cds-typer in a TypeScript project, you should read the [setup guide for CDS with TypeScript](../node.js/typescript) first.
 :::
 
-
 ## Quickstart using VS Code {#cds-typer-vscode}
 
 1. In your project's root, execute `cds add typer`.

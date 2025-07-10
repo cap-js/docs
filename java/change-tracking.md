@@ -280,16 +280,14 @@ If you want to delete changelogs together with your entities, your **domain enti
 To enable deletion of changes per entity, annotate it like this:
 
 ```cds
-annotate my.Orders.changes:change with @cascade: { delete };
+annotate model.Books.changes:change with @cascade: { delete };
 ```
 
 To enable this for all entities in the model, add the following annotation to your model:
 
 ```cds
-annotate changelog.ChangeLink:change with @cascade: { delete };
+annotate sap.changelog.ChangeLink:change with @cascade: { delete };
 ```
-
-In both cases, deletion tracking is disabled and [event to react on changes](/java/change-tracking#reacting-on-changes) is never issued for deletions.
 
 ## Detection of Changes
 

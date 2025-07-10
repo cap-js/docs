@@ -537,7 +537,7 @@ To prevent clients from requesting too much data, you can define restrictions on
 - Use `@Capabilities.ExpandRestrictions.MaxLevels: ...` to set maximum allowed depth of an `$expand` from this entity. You can set an application-wide limit with <Config java>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
 
 :::warning
-These restrictions apply on CQN queries sent to the [application services](/java/cqn-services/#application-services).
+These restrictions are enforced on 'READ' events on [Application services](/java/cqn-services/#application-services).
 :::
 
 Good candidates for expand restrictions are associations to the same type (for example, when your entity represents tree or a hierarchy<sup>1></sup>), backlink associations of compositions, or many-to-many associations.

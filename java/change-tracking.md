@@ -275,13 +275,9 @@ Each entry in the `Changes` entity contains the following information:
 
 By default, changes remain in your database even when their entities are deleted.
 
-If you want to delete changelogs together with your entities, extend relevant domain entities with the `changelog.changeTracked` aspect.
+If you want to delete changelogs together with your entities, your **domain entity** must be extended with `changelog.changeTracked` aspect.
 
-```cds
-extend model.Books with changelog.changeTracked;
-```
-
-To enable deletion of changes per entity, annotate the respective **domain entity** like this:
+To enable deletion of changes per entity, annotate it like this:
 
 ```cds
 annotate my.Orders.changes:change with @cascade: { delete };

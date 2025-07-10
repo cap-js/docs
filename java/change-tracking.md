@@ -273,6 +273,28 @@ Each entry in the `Changes` entity contains the following information:
 - The data type of the changed attribute.
 - The technical path from the root entity to the tracked target entity.
 
+By default, changes remain in your database even when their entities are deleted.
+
+If you want to delete changelogs together with your entities you must extend relevant domain entities with the `changelog.changeTracked` aspect.
+
+```cds
+extend model.Books with changelog.changeTracked;
+```
+
+If you want to enable deletion of changes per entity, you annotate the respective **domain entity** like this:
+
+```cds
+annotate my.Orders.changes:change with @cascade: { delete };
+```
+
+You can also enable cascading deletion for changelogs for all entities like this:
+
+```cds
+annotate changelog.ChangeLink:change with @cascade: { delete };
+```
+
+In both cases, deletion tracking is disabled and [event to react on changes](/java/change-tracking#reacting-on-changes) is never issued for deletions.
+
 ## Detection of Changes
 
 The change tracking intercepts the modifying CQL statements (`Insert`, `Upsert`, `Update`, and `Delete`) and

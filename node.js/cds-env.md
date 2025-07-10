@@ -86,6 +86,9 @@ As depicted in the figure below `cds.env` provides one-stop convenient and trans
 | 9 | [`process.env`](#process-env) | runtime env vars from shell or cloud
 | 10 |  [`process.env.VCAP_SERVICES`](#services) | service bindings
 | 11 |  [_~/.cds-services.json_](#services) | service bindings for [_development_ profile](#profiles)
+| tbd | [./.cdsrc.js]() | static project settings, also in plugins
+| tbd | [./.cdsrc.yaml]() | static project settings, also in plugins
+| tbd | [./.hybrid.env]() | profile-specific project env (lines of `name=value`)
 
 > - `./` represents a project's root directory.
 > - `~/` represents a user's home directory.

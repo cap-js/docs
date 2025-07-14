@@ -332,7 +332,7 @@ Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items());
 Same path expression can be used in the `Insert` statement to directly add an item to a composition.
 
 Changes are correctly referenced to the root if the following conditions are true:
-- path expression starts at the root of the document (order, in this case)
+- path expression starts at the root of the document (`Orders`, in this case)
 - path navigates only through the compositions within the same document tree
 - All segments of the path, except the last one, must include keys
 

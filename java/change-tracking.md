@@ -323,9 +323,17 @@ Similar `Delete` statement can be used to remove an item from an order:
 Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items().filter(i -> i.ID().eq("...")));
 ```
 
-Such statements supported only if: 
-- path expression starts in the root of the document (order, in this case)
-- path navigates only through the compositions
+Last segment can omit keys to indicate bulk deletion:
+
+```java
+Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items());
+```
+
+Same path expression can be used in the `Insert` to directly add an item to a composition.
+
+Such statements correctly reference changes to the root entities only if:
+- path expression starts at the root of the document (order, in this case)
+- path navigates only through the compositions within the same document tree
 - segments of the path, except the last one, include keys
 
 :::warning Limitation

@@ -357,7 +357,8 @@ It is crucial to make the service `OutboxDeadLetterQueueService` accessible for 
 
 ### Reading Dead Entries
 
-This filtering of dead entries are done on the database by adding `where` clauses for each outbox and their maximum number of retries. The following code provides the handler for the `DeadLetterQueueService` that reads the dead entries directly from the entity `Messages`:
+This filtering of dead entries is done on the database by adding `where` clauses for each outbox and their maximum number of retries. The following code provides the handler for the `DeadLetterQueueService` that modifies the where clause by adding
+additional conditions for filtering the outbox entries:
 
 ```java
 @Component
@@ -370,35 +371,28 @@ public class DeadOutboxMessagesHandler implements EventHandler {
         this.db = db;
     }
 
-    @On(service = PersistenceService.DEFAULT_NAME, entity = DeadOutboxMessages_.CDS_NAME)
-    public void readDeadOutboxMessages(CdsReadEventContext context) {
-        Optional<Predicate> outboxFilters = this.createOutboxFilters(context.getCdsRuntime());
+    @Before(entity = DeadOutboxMessages_.CDS_NAME)
+    public void modifyWhereClause(CdsReadEventContext context) {
         CqnSelect cqn = context.getCqn();
-        Select<StructuredType<?>> select = Select
-          .from(Messages_.CDS_NAME)
-          .columns(cqn.items());
+        Optional<Predicate> outboxFilters = this.createOutboxFilters(context.getCdsRuntime());
+        CqnSelect modifiedCqn = copy(
+          cqn,
+          new Modifier() {
+              @Override
+              public CqnPredicate where(Predicate where) {
+                  if (where != null && outboxFilters.isPresent()) {
+                      return where.and(outboxFilters.get());
+                  } else if (where == null && outboxFilters.isPresent()) {
+                      return outboxFilters.get();
+                  } else if (where != null && !outboxFilters.isPresent()) {
+                      return where;
+                  } else {
+                      return null;
+                  }
+              }
+          });
 
-        select = select.groupBy(cqn.groupBy());
-        select = select.excluding(cqn.excluding());
-        if(cqn.having().isPresent()) {
-            select = select.having(cqn.having().get());
-        }
-        if(cqn.search().isPresent()) {
-            select.search(cqn.search().get());
-        }
-        if(cqn.where().isPresent()) {
-            CqnPredicate where = cqn.where().get();
-            if (outboxFilters.isPresent()) {
-                where = outboxFilters.get().and(where);
-            }
-            select = select.where(where);
-        } else if (outboxFilters.isPresent()) {
-            select = select.where(outboxFilters.get());
-        }
-        select = select.orderBy(cqn.orderBy()).limit(cqn.top(), cqn.skip()).inlineCount();
-
-        List<Row> deadMessages = this.db.run(select).list();
-        context.setResult(ResultBuilder.selectedRows(deadMessages).inlineCount(deadMessages.size()).result());
+        context.setCqn(modifiedCqn);
     }
 
     private Optional<Predicate> createOutboxFilters(CdsRuntime runtime) {
@@ -461,8 +455,7 @@ The injected `PersistenceService` instance is used to perform the operations on 
 [Learn more about CQL statement inspection.](./working-with-cql/query-introspection#cqnanalyzer){.learn-more}
 
 ::: tip Use paging logic
-Avoid to read all entries of the `cds.outbox.Messages` or `OutboxDeadLetterQueueService.DeadOutboxMessages` table at once, as the size of an entry is unpredictable
-and depends on the size of the payload. Prefer paging logic instead.
+Avoid to read all entries of the `cds.outbox.Messages` or `OutboxDeadLetterQueueService.DeadOutboxMessages` table at once, as the size of an entry is unpredictable and depends on the size of the payload. Prefer paging logic instead.
 :::
 
 ## Observability using Open Telemetry

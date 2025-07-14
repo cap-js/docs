@@ -334,7 +334,7 @@ Same path expression can be used in the `Insert` statement to directly add an it
 Changes are correctly referenced to the root if the following conditions are true:
 - path expression starts at the root of the document (order, in this case)
 - path navigates only through the compositions within the same document tree
-- segments of the path, except the last one, include keys
+- All segments of the path, except the last one, must include keys
 
 :::warning Limitation
 Direct modifications of composition items are not supported by change tracking and generally should be avoided.

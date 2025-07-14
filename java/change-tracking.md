@@ -293,7 +293,7 @@ the changes across the complete document and stores them in the change log with 
 Take the order and item model used previously in this guide as an example.
 
 For deep updates, use `Update` statement with [delta representation](/java/working-with-cql/query-api#deep-update-delta) for its items 
-or [full set representation](/java/working-with-cql/query-api#deep-update-full-set) if you overwrite complete document. Rest of 
+or [full set representation](/java/working-with-cql/query-api#deep-update-full-set) if you overwrite complete document.
 
 Following update will yield two changelog entries: one for the order and one for the item. 
 The change log entry for the item will also reflect that the root of the change is an order. 

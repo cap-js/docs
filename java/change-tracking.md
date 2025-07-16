@@ -283,7 +283,7 @@ values of the entity: data that weren't present in the old values are considered
 the new values are considered as deleted. Elements that are present in both old and new values but have different values
 are considered as modified. Each change detected by the change tracking feature is stored in the change log as a separate entry.
 
-As a general rule, modify change tracked entities only with statements that specify primary keys and avoid [searched updates](/java/working-with-cql/query-api#searched-update).
+As a rule, specify primary keys to modify change tracked entities and avoid using [searched updates](/java/working-with-cql/query-api#searched-update).
 
 ### Changes in Deeply Structured Documents
 
@@ -292,12 +292,9 @@ the changes across the complete document and stores them in the change log with 
 
 Take the order and item model used previously in this guide as an example.
 
-For deep updates, use `Update` statement with [delta representation](/java/working-with-cql/query-api#deep-update-delta) for its items 
-or [full set representation](/java/working-with-cql/query-api#deep-update-full-set) if you overwrite complete document.
+For deep updates, use the [delta representation](/java/working-with-cql/query-api#deep-update-delta) for its items or the [full set representation](/java/working-with-cql/query-api#deep-update-full-set) to overwrite complete document.
 
-Following update will yield two changelog entries: one for the order and one for the item. 
-The change log entry for the item will also reflect that the root of the change is an order. 
-Both changes will be reachable through the association `changes` of the order entity.
+The following example yields two changelog entries: one for the order and one for the item. The change log entry for the item reflects that the root of the change is an order. Both changes are reachable through the association `changes` of the order entity.
 
 ```java
 Orders order = Orders.create("...");
@@ -309,7 +306,7 @@ order.setItems(CdsList.delta(item));
 Update.entity(Orders_.class).entry(order);
 ```
 
-If you still want to update items directly, use the statement with path expression to specify that item of the certain order is to be updated:
+If a direct update is unavoidable, Specify the order item that needs to be updated with a path expression:
 
 ```java
 OrderItems item = OrderItems.create("...");
@@ -317,30 +314,30 @@ item.setQuantity(3);
 Update.entity(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items()).entry(item);
 ```
 
-Similar `Delete` statement can be used to remove an item from an order:
+Similarly, a `Delete` statement can be used to remove an item from an order:
 
 ```java
 Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items().filter(i -> i.ID().eq("...")));
 ```
 
-Last segment can omit keys to indicate bulk deletion:
+The last segment can omit keys to indicate **bulk deletion**:
 
 ```java
 Delete.from(Orders_.class, o -> o.filter(f -> f.ID().eq("...")).items());
 ```
 
-Same path expression can be used in the `Insert` statement to directly add an item to a composition.
+The same path expression can be used in the `Insert` statement to directly add an item to a composition.
 
 Changes are correctly referenced to the root if the following conditions are true:
-- path expression starts at the root of the document (`Orders`, in this case)
-- path navigates only through the compositions within the same document tree
-- All segments of the path, except the last one, must include keys
+- The path expression starts at the root of the document (`Orders`, in this case).
+- The path navigates only through the compositions within the same document tree.
+- All segments of the path, except the last one, must include keys.
 
 :::warning Limitation
-Direct modifications of composition items are not supported by change tracking and generally should be avoided.
+Avoid Direct modifications of composition items, they aren't supported by change tracking.
 :::
 
-For example, in case of following update changelog entry for an item _will not_ be associated with an order: 
+In the following example, the item's updated changelog entry _won't_ be associated with an order: 
 
 ```java
 OrderItems item = OrderItems.create("...");
@@ -348,7 +345,7 @@ item.setQuantity(3);
 Update.entity(OrderItems_.class).entry(item);
 ```
 
-You must rewrite such statements using one of the ways illustrated above.
+You must rewrite such statements using one of the previously illustrated ways.
 
 ## Reacting on Changes
 

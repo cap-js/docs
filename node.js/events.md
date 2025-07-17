@@ -353,14 +353,14 @@ It can be used as input for [cds.ql](cds-ql) as follows:
 ```js
 SELECT.one.from(req.subject)   //> returns single object
 SELECT.from(req.subject)      //> returns one or many in array
-UPDATE(req.subject)          //> updates one or many
+UPDATE(req.subject)          //> updates one or all
 DELETE(req.subject)         //> deletes one or many
 ```
 It contains the path of the request without the filter condition. To include the filter use:
 ```js
 this.before ('UPDATE', Incidents, async req => {
     let filter = await SELECT.from (req.subject).where(req.query.UPDATE.where) //> adds filter from the request
-    let customFilter = await SELECT.from (req.subject).where(req.query.UPDATE.where,`and`, `status.code = 'C'`) //> adds filter from the request and custom filter
+    let customFilter = await SELECT.from (req.subject).where(req.query.UPDATE.where).where `status.code = 'C'` //> adds filter from the request and custom filter
 })
 ```
 

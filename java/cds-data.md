@@ -497,7 +497,7 @@ Following is an example of the fluent style:
    Books.create().author(author).title("Wuthering Heights");
 ```
 
-The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
+The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle){target="_blank"} of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
 
 Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
 

@@ -78,7 +78,7 @@ You can set the property to one of the following:
 - number of milliseconds like `1000`
 
 :::tip Delete released draft locks
-If the `draft_lock_timeout` has been reached, every user can delete other users' drafts to create an own draft. There can't be two draft at the same time on the same entity.
+If the `draft_lock_timeout` has been reached, every user can delete other users' drafts to create an own draft. There can't be two drafts at the same time on the same entity.
 :::
 
 ### Garbage Collection of Stale Drafts

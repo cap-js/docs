@@ -322,7 +322,7 @@ cds.compile(..., { docs: true })
 
 ::: tip Doc comments are automatically enabled in CAP Java.
 In CAP Java, doc comments are automatically enabled by the [CDS Maven Plugin](../java/developing-applications/building#cds-maven-plugin).
-In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation).
+In generated interfaces they are [converted to corresponding Javadoc comments](../java/assets/cds-maven-plugin-site/generate-mojo.html#documentation){target="_blank"}.
 :::
 
 When generating output for deployment to SAP HANA, the first paragraph of a doc comment is translated

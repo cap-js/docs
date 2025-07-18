@@ -364,7 +364,7 @@ Filtering the dead entries is done by adding by adding an appropriate `where`-cl
 @ServiceName(OutboxDeadLetterQueueService_.CDS_NAME)
 public class DeadOutboxMessagesHandler implements EventHandler {
 
-	private final PersistenceService db;
+    private final PersistenceService db;
 
     public DeadOutboxMessagesHandler(@Qualifier(PersistenceService.DEFAULT_NAME) PersistenceService db) {
         this.db = db;
@@ -373,24 +373,19 @@ public class DeadOutboxMessagesHandler implements EventHandler {
     @Before(entity = DeadOutboxMessages_.CDS_NAME)
     public void addDeadEntryFilter(CdsReadEventContext context) {
         Optional<Predicate> outboxFilters = this.createOutboxFilters(context.getCdsRuntime());
-        CqnSelect modifiedCqn = copy(
-          context.getCqn(),
-          new Modifier() {
-              @Override
-              public CqnPredicate where(Predicate where) {
-                  if (where != null && outboxFilters.isPresent()) {
-                      return where.and(outboxFilters.get());
-                  } else if (where == null && outboxFilters.isPresent()) {
-                      return outboxFilters.get();
-                  } else if (where != null && !outboxFilters.isPresent()) {
-                      return where;
-                  } else {
-                      return null;
-                  }
-              }
-          });
 
-        context.setCqn(modifiedCqn);
+        if (outboxFilters.isPresent()) {
+            CqnSelect modifiedCqn =
+              copy(
+                  context.getCqn(),
+                  new Modifier() {
+                    @Override
+                    public CqnPredicate where(Predicate where) {
+                        return  outboxFilters.get().and(where);
+                    }
+                  });
+            context.setCqn(modifiedCqn);
+        }
     }
 
     private Optional<Predicate> createOutboxFilters(CdsRuntime runtime) {

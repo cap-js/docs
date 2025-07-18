@@ -245,7 +245,7 @@ You can specify winston custom options to that method [as documented for `winsto
 
 ```js
 cds.log.Logger = cds.log.winstonLogger({
-  format: winston.format.simple()
+  format: winston.format.simple(),
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
@@ -411,6 +411,11 @@ Some header values shall not appear in logs, for example when pertaining to auth
 
 ::: warning
 In case your application shares any sensitive data (for example, secrets) via headers, please ensure that you adjust the configuration as necessary.
+:::
+
+::: tip
+In the log entry, header field names are normalized to lowercase with `_` instead of `-`.
+Make sure your matchers work on the original header name, for example, `"/Foo-Bar/"` instead of the normalized `"/foo_bar/"`.
 :::
 
 

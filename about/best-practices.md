@@ -368,7 +368,7 @@ Handling synchronous requests vs asynchronous event messages:
 ```js [Handling sync Requests]
 class CatalogService { async init() {
   this.on ('SubmitOrder', req => {        // sync action request
-    const { book, quantity } = msg.data  // process it...
+    const { book, quantity } = req.data  // process it...
   })
 }}
 ```

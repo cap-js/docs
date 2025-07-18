@@ -357,8 +357,7 @@ It is crucial to make the service `OutboxDeadLetterQueueService` accessible for 
 
 ### Reading Dead Entries
 
-This filtering of dead entries is done on the database by adding `where` clauses for each outbox and their maximum number of retries. The following code provides the handler for the `DeadLetterQueueService` that modifies the where clause by adding
-additional conditions for filtering the outbox entries:
+Filtering the dead entries is done by adding by adding an appropriate `where`-clause to `READ`-queries on the outbox message entries which reached maximum number of retries. The following code provides an example handler implementation defining this behaviour for the `DeadLetterQueueService`:
 
 ```java
 @Component
@@ -372,11 +371,10 @@ public class DeadOutboxMessagesHandler implements EventHandler {
     }
 
     @Before(entity = DeadOutboxMessages_.CDS_NAME)
-    public void modifyWhereClause(CdsReadEventContext context) {
-        CqnSelect cqn = context.getCqn();
+    public void addDeadEntryFilter(CdsReadEventContext context) {
         Optional<Predicate> outboxFilters = this.createOutboxFilters(context.getCdsRuntime());
         CqnSelect modifiedCqn = copy(
-          cqn,
+          context.getCqn(),
           new Modifier() {
               @Override
               public CqnPredicate where(Predicate where) {
@@ -455,7 +453,7 @@ The injected `PersistenceService` instance is used to perform the operations on 
 [Learn more about CQL statement inspection.](./working-with-cql/query-introspection#cqnanalyzer){.learn-more}
 
 ::: tip Use paging logic
-Avoid to read all entries of the `cds.outbox.Messages` or `OutboxDeadLetterQueueService.DeadOutboxMessages` table at once, as the size of an entry is unpredictable and depends on the size of the payload. Prefer paging logic instead.
+Avoid to read all outbox entries at once as a single entry can have significant size reflecting the request's payload. Prefer `READ`-queries with paging instead.
 :::
 
 ## Observability using Open Telemetry

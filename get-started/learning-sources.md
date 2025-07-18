@@ -71,6 +71,12 @@ In here, we collected several interesting sample projects for you. Not all of th
       display:inline;
       margin:0 0.2em;
       padding-bottom:5px;
+   }main .vp-doc a.github img {
+      content: url(../assets/logos/github.svg);
+      height:3em;
+      display:inline;
+      margin:0 0.2em;
+      padding-bottom:5px;
    }
    main .vp-doc a:has(> img):hover {
       opacity: 0.7;
@@ -102,6 +108,7 @@ It's available in both Node.js and Java. The Node.js variant contains additional
 
 ### Incidents Mgmt {.github}
 
+> [![]()](https://github.com/cap-java/incidents-app){.java}
 > [![]()](https://github.com/cap-js/incidents-app){.node}
 
 A reference sample application for CAP and the SAP BTP Developer Guide.
@@ -148,7 +155,7 @@ By using BTP services and the SAP Cloud Application Programming Model (CAP), you
 The repository includes the “Poetry Slam Manager” application as a ready-to-run example. It also provides tutorials on how to build the application from scratch using an incremental development approach.
 Based on this sample application, you find the bill of materials and a sizing example. This addresses the question "Which BTP resources do I need to subscribe to and in what quantities?" and serves as a basis for cost calculation.
 
-
+<span id="prdstdcap" />
 
 ## Open Source Projects
 
@@ -180,6 +187,7 @@ Based on this sample application, you find the bill of materials and a sizing ex
 
 ## Videos
 
+- [The Art and Science of CAP](https://www.youtube.com/playlist?list=PL6RpkC85SLQAe45xlhIfhTYB9G0mdRVjI) <br> by DJ Adams and Daniel Hutzel
 - [Back to basics: CAP Node.js](https://www.youtube.com/playlist?list=PL6RpkC85SLQBHPdfHQ0Ry2TMdsT-muECx) <br> by DJ Adams
 - [Hybrid Testing and Alternative DBs](https://youtu.be/vqub4vJbZX8?si=j5ZkPR6vPb59iBBy) <br> by Thomas Jung
 - [Consume External Services](https://youtu.be/rWQFbXFEr1M) <br> by Thomas Jung

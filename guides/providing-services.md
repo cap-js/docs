@@ -441,8 +441,9 @@ Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns
 You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
 - Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
-- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config>
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config><sup>(1)</sup> 
 
+<sup>(1)</sup> If set to `false`, fuzzy search is disabled and falls back to a case insensitive substring search.
 
 Override the fuzziness for elements, using the `@Search.fuzzinessThreshold` annotation:
 
@@ -736,7 +737,7 @@ The records are locked until the end of the transaction by commit or rollback st
 Here's an overview table:
 
 | State              | Select Without Lock   | Select With Shared Lock |  Select With Exclusive Lock/Update |
-| --------------- | ----------------------- | -------------------------- |  ------------------------------------- | 
+| --------------- | ----------------------- | -------------------------- |  ------------------------------------- |
 | not locked      | passes | passes  | passes |
 | shared lock     | passes | passes  | waits |
 | exclusive lock | passes | waits  | waits |
@@ -772,6 +773,7 @@ Do not use the `@readonly` annotation on keys in all variants.
 
 <div id="readonlywithexpressions"/>
 
+
 ### `@mandatory`
 
 Elements marked with `@mandatory` are checked for nonempty input: `null` and (trimmed) empty strings are rejected.
@@ -795,42 +797,49 @@ In addition to server-side input validation as introduced above, this adds a cor
 
 <div id="mandatorywithexpressions"/>
 
-### `@Common.FieldControl`
-{#common-fieldcontrol}
 
-The input validation for `@Common.FieldControl: #Mandatory` and `@Common.FieldControl: #ReadOnly` is done from the CAP runtimes automatically.
-::: warning
-Custom validations are required when using static or dynamic numeric values, for example, `@Common.FieldControl: 1` or `@Common.FieldControl: integer_field`.
-:::
+### `@assert .format`
 
-
-
-### `@assert .unique`
-
-Annotate an entity with `@assert.unique.<constraintName>`, specifying one or more element combinations to enforce uniqueness checks on all CREATE and UPDATE operations. For example:
+Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
 
 ```cds
-@assert.unique: {
-  locale: [ parent, locale ],
-  timeslice: [ parent, validFrom ],
-}
-entity LocalizedTemporalData {
-  key record_ID : UUID; // technical primary key
-  parent    : Association to Data;
-  locale    : String;
-  validFrom : Date;  validTo : Date;
+entity Foo {
+  bar : String @assert.format: '[a-z]ear';
 }
 ```
-{.indent}
 
-This annotation is applicable to entities, which result in tables in SQL databases only.
 
-The value of the annotation is an array of paths referring to elements in the entity. These elements may be of a scalar type, structs, or managed associations. Individual foreign keys or unmanaged associations are not supported.
+### `@assert .range`
 
-If structured elements are specified, the unique constraint will contain all columns stemming from it. If the path points to a managed association, the unique constraint will contain all foreign key columns stemming from it.
-::: tip
-You don't need to specify `@assert.unique` constraints for the primary key elements of an entity as these are automatically secured by a SQL `PRIMARY KEY` constraint.
-:::
+Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
+
+```cds
+entity Foo {
+  bar : Integer  @assert.range: [ 0, 3 ];
+  boo : Decimal  @assert.range: [ 2.1, 10.25 ];
+  car : DateTime @assert.range: ['2018-10-31', '2019-01-15'];
+  zoo : String   @assert.range enum { high; medium; low; };
+}
+```
+#### ... with open intervals
+
+By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
+
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),100]    // 0 < input ≤ 100
+@assert.range: [0,(100)]    // 0 ≤ input < 100
+@assert.range: [(0),(100)]  // 0 < input < 100
+```
+In addition, you can use an underscore `_` to represent *Infinity* like that:
+<!-- cds-mode: ignore; duplicate annotations -->
+```cds
+@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
+@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
+```
+>  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
+
+Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
 
 
 
@@ -911,57 +920,13 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
-### `@assert .format`
 
-Allows you to specify a regular expression string (in ECMA 262 format in CAP Node.js and java.util.regex.Pattern format in CAP Java) that all string input must match.
+<div id="assertconstraints" />
 
-```cds
-entity Foo {
-  bar : String @assert.format: '[a-z]ear';
-}
-```
 
-### `@assert .range`
+### Database Constraints
 
-Allows you to specify `[ min, max ]` ranges for elements with ordinal types &mdash; that is, numeric or date/time types. For `enum` elements, `true` can be specified to restrict all input to the defined enum values.
-
-```cds
-entity Foo {
-  bar : Integer  @assert.range: [ 0, 3 ];
-  boo : Decimal  @assert.range: [ 2.1, 10.25 ];
-  car : DateTime @assert.range: ['2018-10-31', '2019-01-15'];
-  zoo : String   @assert.range enum { high; medium; low; };
-}
-```
-#### ... with open intervals
-
-By default, specified `[min,max]` ranges are interpreted as closed intervals, that means, the performed checks are `min ≤ input ≤ max`. You can also specify open intervals by wrapping the *min* and/or *max* values into parenthesis like that:
-
-<!-- cds-mode: ignore; duplicate annotations -->
-```cds
-@assert.range: [(0),100]    // 0 < input ≤ 100
-@assert.range: [0,(100)]    // 0 ≤ input < 100
-@assert.range: [(0),(100)]  // 0 < input < 100
-```
-In addition, you can use an underscore `_` to represent *Infinity* like that:
-<!-- cds-mode: ignore; duplicate annotations -->
-```cds
-@assert.range: [(0),_]  // positive numbers only, _ means +Infinity here
-@assert.range: [_,(0)]  // negative number only, _ means -Infinity here
-```
->  Basically values wrapped in parentheses _`(x)`_ can be read as _excluding `x`_ for *min* or *max*. Note that the underscore `_` doesn't have to be wrapped into parenthesis, as by definition no number can be equal to *Infinity* .
-
-Support for open intervals and infinity is available for CAP Node.js since `@sap/cds` version **8.5** and in CAP Java since version **3.5.0**.
-
-### `@assert .notNull`
-
-Annotate a property with `@assert.notNull: false` to have it ignored during the generic not null check, for example if your persistence fills it automatically.
-
-```cds
-entity Foo {
-  bar : String not null @assert.notNull: false;
-}
-```
+Next to input validation, you can add [database constraints](databases#database-constraints) to prevent invalid data from being persisted.
 
 <div id="assertconstraints" />
 
@@ -1089,6 +1054,8 @@ service Sue {
     action order (x:Integer) returns Integer;
     //bound to the collection and not a specific instance of Foo
     action customCreate (in: many $self, x: String) returns Foo;
+    // All parameters are optional by default, unless marked with `not null`:
+    action discard (reason: String not null);
   }
 }
 ```
@@ -1142,9 +1109,9 @@ module.exports = class Sue extends cds.Service {
 ```js
 GET .../sue/sum(x=1,y=2)              // unbound function
 GET .../sue/stock(id=2)               // unbound function
-POST .../sue/add {"x":1,"to":2}       // unbound action
+POST .../sue/add {"x":11,"to":2}      // unbound action
 GET .../sue/Foo(2)/Sue.getStock()     // bound function
-POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
+POST .../sue/Foo(2)/Sue.order {"x":3} // bound action
 ```
 
 > Note: You always need to add the `()` for functions, even if no arguments are required. The OData standard specifies that bound actions/functions need to be prefixed with the service's name. In the previous example, entity `Foo` has a bound action `order`. That action must be called via `/Foo(2)/Sue.order` instead of simply `/Foo(2)/order`.
@@ -1156,18 +1123,45 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
 <br>
 
 
-**Programmatic** usage via **generic APIs** would look like this for Node.js:
+**Programmatic** usage via **generic APIs** for Node.js:
+
+For unbound actions and functions:
+
+```ts
+async function srv.send (
+  event   : string | { event, data?, headers?: object },  
+  data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+For bound actions and functions:
+
+```ts
+async function srv.send (
+ event   : string | { event, entity, data?, params?: array of object, headers?: object },
+ entity  : string,
+ data?   : object | any
+)
+return : result of this.dispatch(req)
+```
+
+-  `event` is a name of a custom action or function
+-  `entity` is a name of an entity
+-  `params` are keys of the entity instance
+
+Programmatic usage would look like this for Node.js:
 
 ```js
   const srv = await cds.connect.to('Sue')
   // unbound actions/functions
   await srv.send('sum',{x:1,y:2})
-  await srv.send('add',{x:11,to:2})
   await srv.send('stock',{id:2})
-  // bound actions/functions
+  await srv.send('add',{x:11,to:2})
+  // actions/functions bound to collection
   await srv.send('getStock','Foo',{id:2})
-  //for passing the params property, use this syntax
-  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [2]})
+  // for actions/functions bound to entity instance, use this syntax
+  await srv.send({ event: 'order', entity: 'Foo', data: {x:3}, params: [{id:2}]})
 ```
 
 > Note: Always pass the target entity name as second argument for bound actions/functions.
@@ -1180,8 +1174,8 @@ POST .../sue/Foo(2)/Sue.order {"x":1} // bound action
   const srv = await cds.connect.to(Sue)
   // unbound actions/functions
   srv.sum(1,2)
-  srv.add(11,2)
   srv.stock(2)
+  srv.add(11,2)
   // bound actions/functions
   srv.getStock('Foo',2)
   srv.order('Foo',2,3)

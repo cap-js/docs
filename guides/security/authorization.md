@@ -190,7 +190,7 @@ service SomeService {
 
 #### Events to Auto-Exposed Entities { #events-and-auto-expose}
 
-In general, entities can be exposed in services in different ways: it can be **explicitly exposed** by the modeler (for example, by a projection), or it can be **auto-exposed** by the CDS compiler due to some reason.
+In general, entities can be exposed in services in different ways: they can be **explicitly exposed** by the modeler (for example, by a projection), or they can be **auto-exposed** by the CDS compiler due to some reason.
 Access to auto-exposed entities needs to be controlled in a specific way. Consider the following example:
 
 ```cds
@@ -515,13 +515,6 @@ Supported features are:
 * Combining predicates to expressions with `and` and `or` logical operators.
 * Value references to constants, [user attributes](#user-attrs), and entity data (elements including [paths](#association-paths))
 * [Exists predicate](#exists-predicate) based on subselects.
-
-
-<div class="impl java">
-
-CAP Java offers the option to enable rejection conditions for `UPDATE`, `DELETE` and custom events. Enable it using the configuration option <Config java keyOnly label="reject-selected-unauthorized-entity">cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: true</Config>.
-
-</div>
 
 ::: info Avoid enumerable keys
 In case the filter condition is not met in an `UPDATE` or `DELETE` request, the runtime rejects the request (response code 403) even if the user is not even allowed to read the entity. To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable.

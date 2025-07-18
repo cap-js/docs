@@ -308,6 +308,32 @@ await cds.ql`SELECT from Authors {
 > Using `cds repl` as shown above is likely the best way to learn how to construct queries in detail.
 > When doing so, ensure to use the `cds.ql` functions with full queries in CQL syntax, as shown in the example above, as that is the most reliable way to ensure correctness.
 
+[An article by DJ Adams exploring `cds repl`.](https://qmacro.org/blog/posts/2025/03/21/level-up-your-cap-skills-by-learning-how-to-use-the-cds-repl/){.learn-more}
+
+## cds.ql() {.method}
+
+Use the `cds.ql()` method to construct instances of [`cds.Query`](#class-cds-ql-query) from these inputs:
+
+- tagged template strings (SELECT only)
+- normal strings (SELECT only)
+- plain CQN objects
+
+For example:
+
+```js
+let q = cds.ql ({ SELECT: { from: {ref:[ Books.name ]} }})
+let q = cds.ql (`SELECT from Books { ID, title }`)
+let q = cds.ql `SELECT from ${Books} { ID, title }`
+q instanceof cds.ql.Query //> true
+```
+
+If the input is already a `cds.Query` instance, it is returned unchanged:
+
+```js
+let q1 = cds.ql `SELECT from Books`
+let q2 = cds.ql (q1)
+q1 === q2 //> true
+```
 
 
 ## cds.ql. Query {#class-cds-ql-query .class}
@@ -835,9 +861,6 @@ Constructs a _INSERT into SELECT_ statement.
 ```js
 INSERT.into('Bar') .from (SELECT.from('Foo'))
 ```
-### as() {.method}
-
-The use of _.as()_ method is deprecated. Please use [_.from()_](#from) method instead.
 
 
 ## UPSERT {.class}

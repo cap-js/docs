@@ -65,9 +65,9 @@ Choose an appropriate XSUAA service plan to fit the requirements. For instance, 
 
 #### Proof-Of-Possession for IAS { #proof-of-possession}
 
-Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application. 
+Proof-Of-Possession is a technique for additional security where a JWT token is **bound** to a particular OAuth client for which the token was issued. On BTP, Proof-Of-Possession is supported by IAS and can be used by a CAP Java application.
 
-Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token. 
+Typically, a caller of a CAP application provides a JWT token issued by IAS to authenticate a request. With Proof-Of-Possession in place, a mutual TLS (mTLS) tunnel is established between the caller and your CAP application in addition to the JWT token. Clients calling your CAP application need to send the certificate provided by their `identity` service instance in addition to the IAS token.
 
 On Cloud Foundry, the CAP application needs to be exposed under an additional route which accepts client certificates and forwards them to the application as `X-Forwarded-Client-Cert` header (for example, the `.cert.cfapps.<landscape>` domain).
 
@@ -106,11 +106,10 @@ service BooksService @(requires: 'any') {
 | `/BooksService`           |      <Na/>       |
 | `/BooksService/$metadata` |      <Na/>       |
 | `/BooksService/Books`     |      <Na/>       |
-| `/BooksService/Reviews`   | <X/><sup>1</sup> |
+| `/BooksService/Reviews`   |       <X/>       |
 | `/BooksService/Orders`    |       <X/>       |
 
 
-> <sup>1</sup> Since version 1.25.0
 ::: tip
 For multitenant applications, it's required to authenticate all endpoints as the tenant information is essential for processing the request.
 :::
@@ -242,6 +241,13 @@ In the example, the `CustomUserInfoProvider` defines an overlay on the default X
 ### Mock User Authentication with Spring Boot { #mock-users}
 
 By default, CAP Java creates a security configuration, which accepts _mock users_ for test purposes.
+
+::: details Requirement
+
+Mock users are only initialized if the `org.springframework.boot:spring-boot-starter-security` dependency is present in the `pom.xml` file of your service.
+
+:::
+
 #### Preconfigured Mock Users
 
 For convenience, the runtime creates default mock users reflecting the [pseudo roles](../guides/security/authorization#pseudo-roles). They are named `authenticated`, `system` and `privileged` and can be used with an empty password. For instance, requests sent during a Spring MVC unit test with annotation `@WithMockUser("authenticated")` will pass authorization checks that require `authenticated-user`. The privileged user will pass any authorization checks. `cds.security.mock.defaultUsers = false` prevents the creation of default mock users at startup.
@@ -338,33 +344,110 @@ The mock user `Alice` is assigned to the mock tenant `CrazyCars` for which the f
 
 CAP Java SDK provides a comprehensive authorization service. By defining authorization rules declaratively via annotations in your CDS model, the runtime enforces authorization of the requests in a generic manner. Two different levels of authorization can be distinguished:
 
-- [Role-based authorization](#role-based-auth) allows to restrict resource access depending on user roles.
-- [Instance-based authorization](#instance-based-auth) allows to define user privileges even on entity instance level, that is, a user can be restricted to instances that fulfill a certain condition.
+- [Role-based authorization](../guides/security/authorization#requires) allows to restrict resource access depending on user roles.
+- [Instance-based authorization](../guides/security/authorization#instance-based-auth) allows to define user privileges even on entity instance level, that is, a user can be restricted to instances that fulfill a certain condition.
 
 It's recommended to configure authorization declaratively in the CDS model. If necessary, custom implementations can be built on the [Authorization API](#enforcement-api).
 
 A precise description of the general authorization capabilities in CAP can be found in the [Authorization](../guides/security/authorization) guide.
 
-### Role-Based Authorization { #role-based-auth}
+In addition to standard authorization, CAP Java provides additional out of the box capabilities to reduce custom code:
 
-Use CDS annotation `@requires` to specify in the CDS model which role a user requires to access the annotated CDS resources such as services, entities, actions, and functions (see [Restricting Roles with @requires](../guides/security/authorization#requires)). The generic authorization handler of the runtime rejects all requests with response code 403 that don't match the accepted roles.
-More specific access control is provided by the `@restrict` annotation, which allows to combine roles with the allowed set of events. For instance, this helps to distinguish between users that may only read an entity from those who are allowed to edit. See section [Control Access with @restrict](../guides/security/authorization#restrict-annotation) to find details about the possibilities.
+#### Deep Authorization { #deep-auth}
 
-### Instance-Based Authorization { #instance-based-auth}
+Queries to Application Services are not only authorized by the target entity which has a `@restrict` or `@requires` annotation, but also for all __associated entities__ that are used in the statement. 
+__Compositions__ are neither checked nor extended with additional filters.
+For instance, consider the following model:
 
-Whereas role-based authorization applies to whole entities only, [Instance-Based Authorization](../guides/security/authorization#instance-based-auth) allows to add more specific conditions that apply on entity instance level and depend on the attributes that are assigned to the request user. A typical use case is to narrow down the set of visible entity instances depending on user properties (for example, `CountryCode` or `Department`). Instance-based authorization is also basis for [domain-driven authorizations](../guides/security/authorization#domain-driven-authorization) built on more complex model constraints.
+```cds
+@(restrict: [{ grant: 'READ', to: 'Manager' }])
+entity Books {...}
 
-<span id="declarative-auth"></span>
+@(restrict: [{ grant: 'READ', to: 'Manager' }])
+entity Orders {
+  key ID: String;
+  items: Composition of many {
+    key book: Association to Books;
+    quantity: Integer;
+  }
+}
+```
 
-#### Current Limitations
+For the following OData request `GET Orders(ID='1')/items?$expand=book`, authorizations for `Orders` and for `Books` are checked. 
+If the entity `Books` has a `where` clause for [instance-based authorization](/java/security#instance-based-auth), 
+it will be added as a filter to the sub-request with the expand.
 
-The CAP Java SDK translates the `where`-condition in the `@restrict` annotation to a predicate, which is appended to the `CQN` statement of the request. This applies only to `READ`,`UPDATE`, and `DELETE` events. In the current version, the following limitations apply:
-* For `UPDATE` and `DELETE` events no paths in the `where`-condition are supported.
-* Paths in `where`-conditions with `to-many` associations or compositions can only be used with an [`exists` predicate](../guides/security/authorization#exists-predicate).
-* `UPDATE` and `DELETE` requests that address instances that aren't covered by the condition (for example, which aren't visible) aren't rejected, but work on the limited set of instances as expected.
-As a workaround for the limitations with paths in `where`-conditions, you may consider using the `exists` predicate instead.
+Custom CQL statements submitted to the [Application Service](/java/cqn-services/application-services) instances 
+are also authorized by the same rules including the path expressions and subqueries used in them.
 
-CAP Java SDK supports [User Attribute Values](../guides/security/authorization#user-attrs) that can be referred by `$user.<attribute-name>` in the where-clause of the `@restrict`-annotation. Currently, only comparison predicates with user attribute values are supported (`<,<=,=,=>,>`). Note that generally a user attribute represents an *array of strings* and *not* a single value. A given value list `[code1, code2]` for `$user.code` in predicate `$user.code = Code` evaluates to `(code1 = Code) or (code2 = Code)` in the resulting statement.
+For example, the following statement checks role-based authorizations for both `Orders` and `Books`, 
+because the association to `Books` is used in the select list. 
+
+```java
+Select.from(Orders_.class,
+    f -> f.filter(o -> o.ID().eq("1")).items())
+  .columns(c -> c.book().title());
+```
+
+For modification statements with associated entities used in infix filters or where clauses,
+role-based authorizations are checked as well. Associated entities require `READ` authorization, in contrast to the target of the statement itself.
+
+The following statement requires `UPDATE` authorization on `Orders` and `READ` authorization on `Books`
+because an association from `Orders.items` to the book is used in the where condition.
+
+```java
+Update.entity(Orders_.class, f -> f.filter(o -> o.ID().eq("1")).items())
+  .data("quantity", 2)
+  .where(t -> t.book().ID().eq(1));
+```
+:::tip Modification of Statements
+Be careful when you modify or extend the statements in custom handlers.
+Make sure you keep the filters for authorization.
+:::
+
+Starting with CAP Java `4.0`, deep authorization is on by default. 
+It can be disabled by setting <Config java>cds.security.authorization.deep.enabled: false</Config>.
+
+[Learn more about `@restrict.where` in the instance-based authorization guide.](/guides/security/authorization#instance-based-auth){.learn-more}
+
+#### Forbidden on Rejected Entity Selection { #reject-403 }
+
+Entities that have an instance-based authorization condition, that is [`@restrict.where`](/guides/security/authorization#restrict-annotation), 
+are guarded by the CAP Java runtime by adding a filter condition to the DB query **excluding not matching instances from the result**. 
+Hence, if the user isn't authorized to query an entity, requests targeting a *single* entity return *404 - Not Found* response and not *403 - Forbidden*.
+
+To allow the UI to distinguish between *not found* and *forbidden*, CAP Java can detect this situation and rejects`PATCH` and `DELETE` requests to single entities with forbidden accordingly.
+The additional authorization check may affect performance.
+
+::: warning
+To avoid to disclosure the existence of such entities to unauthorized users, make sure that the key is not efficiently enumerable or add custom code to overrule the default behaviour otherwise.
+:::
+
+Starting with CAP Java `4.0`, the reject behaviour is on by default.
+It can be disabled by setting <Config java>cds.security.authorization.instance-based.reject-selected-unauthorized-entity.enabled: false</Config>.
+
+[Learn more about `@restrict.where` in the instance-based authorization guide.](/guides/security/authorization#instance-based-auth){.learn-more}
+
+#### Authorization Checks On Input Data { #input-data-auth }
+
+Input data of `CREATE` and `UPDATE` events is also validated with regards to instance-based authorization conditions.
+Invalid input that does not meet the condition is rejected with response code `400`.
+
+Let's assume an entity `Orders` which restricts access to users classified by assigned accounting areas:
+
+```cds
+annotate Orders with @(restrict: [
+  { grant: '*', where: 'accountingArea = $user.accountingAreas' } ]);
+```
+
+A user with accounting areas `[Development, Research]` is not able to send an `UPDATE` request, that changes `accountingArea` from `Research` or `Development` to `CarFleet`, for example.
+Note that the `UPDATE` on instances _not matching the request user's accounting areas_ (for example, `CarFleet`) are rejected by standard instance-based authorization checks.
+
+Starting with CAP Java `4.0`, deep authorization is on by default.
+It can be disabled by setting <Config java>cds.security.authorization.instanceBased.checkInputData: false</Config>.
+
+[Learn more about `@restrict.where` in the instance-based authorization guide.](/guides/security/authorization#instance-based-auth){.learn-more}
+
 
 ### Enforcement API & Custom Handlers { #enforcement-api}
 

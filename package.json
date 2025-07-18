@@ -19,7 +19,7 @@
   "devDependencies": {
     "@cap-js/cds-typer": "^0",
     "@cap-js/cds-types": "^0",
-    "@sap/cds": "^8",
+    "@sap/cds": "^9",
     "@shikijs/vitepress-twoslash": "^2.0.0",
     "@types/adm-zip": ">=0.5.0",
     "@types/express": "^4.17.21",

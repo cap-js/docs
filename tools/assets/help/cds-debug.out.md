@@ -12,8 +12,9 @@
     If &lt;app&gt; is given, it's assumed to be running on the currently logged-in
     Cloud Foundry space (check with 'cf target').
     SSH access to the app is required (check with 'cf ssh-enabled').
+    Chrome DevTools are opened automatically for Node.js applications.
 
-    If no &lt;app&gt; is given, the app in the current working is started
+    If no &lt;app&gt; is given, the app in the current working directory is started
     (with 'cds watch --debug' for Node.js and 'mvn spring-boot:run' for Java).
 
 <strong>OPTIONS</strong>
@@ -25,7 +26,16 @@
 
       the debug port (default: '9229' for Node.js, '8000' for Java)
 
+    <em>--no-devtools</em>
+
+      don't open developer tools automatically
+
+    <em>-f</em> | <em>--force</em>
+
+      if necessary, automatically enable ssh for the app and restart it
+
 <strong>EXAMPLES</strong>
     <em>cds debug</em>
     <em>cds debug</em> bookshop-srv --port 8001
+    <em>cds debug</em> bookshop-srv --host 0.0.0.0
 </pre>

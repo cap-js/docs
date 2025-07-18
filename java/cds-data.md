@@ -21,47 +21,49 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 The [predefined CDS types](../cds/types) are mapped to Java types and as follows:
 
-| CDS Type           | Java Type              | Remark                                                                   |
-|--------------------|------------------------|--------------------------------------------------------------------------|
-| `cds.UUID`         | `java.lang.String`     |                                                                          |
-| `cds.Boolean`      | `java.lang.Boolean`    |                                                                          |
-| `cds.UInt8`        | `java.lang.Short`      |                                                                          |
-| `cds.Int16`        | `java.lang.Short`      |                                                                          |
-| `cds.Int32`        | `java.lang.Integer`    |                                                                          |
-| `cds.Integer`      | `java.lang.Integer`    |                                                                          |
-| `cds.Int64`        | `java.lang.Long`       |                                                                          |
-| `cds.Integer64`    | `java.lang.Long`       |                                                                          |
-| `cds.Decimal`      | `java.math.BigDecimal` |                                                                          |
-| `cds.DecimalFloat` | `java.math.BigDecimal` | deprecated                                                               |
-| `cds.Double`       | `java.lang.Double`     |                                                                          |
-| `cds.Date`         | `java.time.LocalDate`  | date without a time-zone (year-month-day)                                |
-| `cds.Time`         | `java.time.LocalTime`  | time without a time-zone (hour-minute-second)                            |
-| `cds.DateTime`     | `java.time.Instant`    | instant on the time-line with _sec_ precision                            |
-| `cds.Timestamp`    | `java.time.Instant`    | instant on the time-line with _µs_ precision                             |
-| `cds.String`       | `java.lang.String`     |                                                                          |
-| `cds.LargeString`  | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
-| `cds.Binary`       | `byte[]`               |                                                                          |
-| `cds.LargeBinary`  | `byte[]`               | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
-| `cds.Vector`       | `com.sap.cds.CdsVector`| for [vector embeddings](#vector-embeddings)                              |
+| CDS Type           | Java Type               | Remark                                                                   |
+| ------------------ | ----------------------- | ------------------------------------------------------------------------ |
+| `cds.UUID`         | `java.lang.String`      |                                                                          |
+| `cds.Boolean`      | `java.lang.Boolean`     |                                                                          |
+| `cds.UInt8`        | `java.lang.Short`       |                                                                          |
+| `cds.Int16`        | `java.lang.Short`       |                                                                          |
+| `cds.Int32`        | `java.lang.Integer`     |                                                                          |
+| `cds.Integer`      | `java.lang.Integer`     |                                                                          |
+| `cds.Int64`        | `java.lang.Long`        |                                                                          |
+| `cds.Integer64`    | `java.lang.Long`        |                                                                          |
+| `cds.Decimal`      | `java.math.BigDecimal`  |                                                                          |
+| `cds.DecimalFloat` | `java.math.BigDecimal`  | deprecated                                                               |
+| `cds.Double`       | `java.lang.Double`      |                                                                          |
+| `cds.Date`         | `java.time.LocalDate`   | date without a time-zone (year-month-day)                                |
+| `cds.Time`         | `java.time.LocalTime`   | time without a time-zone (hour-minute-second)                            |
+| `cds.DateTime`     | `java.time.Instant`     | instant on the time-line with _sec_ precision                            |
+| `cds.Timestamp`    | `java.time.Instant`     | instant on the time-line with _µs_ precision                             |
+| `cds.String`       | `java.lang.String`      |                                                                          |
+| `cds.LargeString`  | `java.lang.String`      | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType`      |
+| `cds.Binary`       | `byte[]`                |                                                                          |
+| `cds.LargeBinary`  | `byte[]`                | `java.io.InputStream` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `cds.Vector`       | `com.sap.cds.CdsVector` | for [vector embeddings](#vector-embeddings)                              |
+| `cds.Map`          | `java.util.Map`         | for arbitrary [structured data](#structured-data)<sup>(2)</sup>          |
 
 ### SAP HANA-Specific Data Types
 
 To facilitate using legacy CDS models, the following [SAP HANA-specific data types](../advanced/hana#hana-types) are supported:
 
-| CDS Type | Java Type | Remark |
-| --- | --- | ---  |
-| `hana.TINYINT` | `java.lang.Short` | |
-| `hana.SMALLINT` | `java.lang.Short` | |
-| `hana.SMALLDECIMAL` | `java.math.BigDecimal` | |
-| `hana.REAL` | `java.lang.Float` | |
-| `hana.CHAR` | `java.lang.String` | |
-| `hana.NCHAR` | `java.lang.String` | |
-| `hana.VARCHAR` | `java.lang.String` | |
-| `hana.CLOB` | `java.lang.String` | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType` |
-| `hana.BINARY` | `byte[]` |  |
+| CDS Type            | Java Type              | Remark                                                              |
+| ------------------- | ---------------------- | ------------------------------------------------------------------- |
+| `hana.TINYINT`      | `java.lang.Short`      |                                                                     |
+| `hana.SMALLINT`     | `java.lang.Short`      |                                                                     |
+| `hana.SMALLDECIMAL` | `java.math.BigDecimal` |                                                                     |
+| `hana.REAL`         | `java.lang.Float`      |                                                                     |
+| `hana.CHAR`         | `java.lang.String`     |                                                                     |
+| `hana.NCHAR`        | `java.lang.String`     |                                                                     |
+| `hana.VARCHAR`      | `java.lang.String`     |                                                                     |
+| `hana.CLOB`         | `java.lang.String`     | `java.io.Reader` <sup>(1)</sup> if annotated with `@Core.MediaType` |
+| `hana.BINARY`       | `byte[]`               |                                                                     |
 
 
 > <sup>(1)</sup> Although the API to handle large objects is the same for every database, the streaming feature, however, is supported (and tested) in **SAP HANA**, **PostgreSQL**, and **H2**. See section [Database Support in Java](./cqn-services/persistence-services#database-support) for more details on database support and limitations.
+> <sup>(2)</sup> Serialized as JSON to a CLOB column or JSONB column (on Postgres)
 
 ::: warning
 The framework isn't responsible for closing the stream when writing to the database. You decide when the stream is to be closed. If you forget to close the stream, the open stream can lead to a memory leak.
@@ -274,6 +276,8 @@ person.toJson(); // { "salutation" : "Mr.", name : { "first" : "Frank" } }
 ::: warning
 Avoid cyclic relationships between CdsData objects when using toJson.
 :::
+
+<div id="cdsdata-serialization-jsonconverter"/>
 
 
 ## Vector Embeddings <Beta /> { #vector-embeddings }
@@ -493,7 +497,7 @@ Following is an example of the fluent style:
    Books.create().author(author).title("Wuthering Heights");
 ```
 
-The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle) of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
+The generation mode is configured by the property [`<methodStyle>`](./assets/cds-maven-plugin-site/generate-mojo.html#methodstyle){target="_blank"} of the goal `cds:generate` provided by the CDS Maven Plugin. The selected `<methodStyle>` affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
 
 Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
 
@@ -1290,7 +1294,7 @@ For the download scenario, as well, you don't need to implement any custom handl
 If you want to override the default logic to process the uploaded stream with custom logic (for example, to parse a stream of CSV data), the best place to do that is in a custom `On` handler, as the following examples shows:
 
 ```java
-@On(event = CdsService.EVENT_UPDATE)
+@On(event = CqnService.EVENT_UPDATE)
 public void processCoverImage(CdsUpdateEventContext context, List<Books> books) {
 	books.forEach(book -> {
 		InputStream is = book.getCoverImage();
@@ -1355,7 +1359,7 @@ For uploads, you can either use a custom `Before` or `On` handler to wrap the pr
 Using a custom `Before` handler makes sense if the stream's final destination is the persistence layer of the CAP Java SDK, which writes the content to the database. Note that the pre-processing logic in this example is implemented in the `read()` methods of the `FilterInputStream` and is only called when the data is streamed, during the `On` phase of the request:
 
 ```java
-@Before(event = CdsService.EVENT_UPDATE)
+@Before(event = CqnService.EVENT_UPDATE)
 public void preProcessCoverImage(CdsUpdateEventContext context, List<Books> books) {
 	books.forEach(book -> {
 		book.setCoverImage(new CoverImagePreProcessor(book.getCoverImage()));
@@ -1368,7 +1372,7 @@ The original `InputStream` is replaced by the proxy implementation in the `cover
 Using a custom `On` handler makes sense if you want to prevent that the default `On` handler is executed and to control the final destination for the stream. You then have the option to pass the streamed data on to some other service for persistence:
 
 ```java
-@On(event = CdsService.EVENT_UPDATE)
+@On(event = CqnService.EVENT_UPDATE)
 public Result processCoverImage(CdsUpdateEventContext context, List<Books> books) {
 	books.forEach(book -> {
 		book.setCoverImage(new CoverImagePreProcessor(book.getCoverImage()));

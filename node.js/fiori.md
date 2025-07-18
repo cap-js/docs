@@ -64,10 +64,6 @@ Additionally, you can add your logic to the draft-specific events as follows:
 - The `EDIT` event is triggered when you start editing an active entity. As a result `MyEntity.drafts` is created.
 - The `SAVE` event is just a shortcut for `['UPDATE', 'CREATE']` on an active entity. This event is also triggered when you press the `SAVE` button in UI after finishing editing your draft. Note, that composition children of the active entity will also be updated or created.
 
-::: info Compatibility flag
-For compatibility to previous variants, set `cds.fiori.draft_compat` to `true`.
-:::
-
 ### Draft Locks
 
 To prevent inconsistency, the entities with draft are locked for modifications by other users. The lock is released when the draft is saved, canceled or a timeout is hit. The default timeout is 15 minutes. You can configure this timeout by the following application configuration property:
@@ -81,8 +77,35 @@ You can set the property to one of the following:
 - number of minutes like `'10min'`
 - number of milliseconds like `1000`
 
-### Bypassing the SAP Fiori Draft Flow
+:::tip Delete released draft locks
+If the `draft_lock_timeout` has been reached, every user can delete other users' drafts to create an own draft. There can't be two drafts at the same time on the same entity.
+:::
 
+### Garbage Collection of Stale Drafts
+
+Inactive drafts are deleted automatically after the default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
+
+```json
+{
+  "cds": {
+    "fiori": {
+      "draft_deletion_timeout": "28d"
+    }
+  }
+}
+```
+
+You can set the property to one of the following:
+- `false` in order to deactivate the timeout
+- number of days like `'30d'` 
+- number of hours like `'72h'`
+- number of milliseconds like `1000`
+
+::: info Technical background
+It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there's no periodic job that does the garbage collection.
+:::
+
+### Bypassing the SAP Fiori Draft Flow
 Creating or modifying active instances directly is possible without creating drafts. This comes in handy when technical services without a UI interact with each other.
 
 To enable this feature, set this feature flag in your configuration:
@@ -124,30 +147,6 @@ same editable properties without creating drafts for each row.
 :::warning Additional entry point
 Note that this feature creates additional entry points to your application. Custom handlers are triggered with delta
 payloads rather than the complete business object.
-:::
-
-### Garbage Collection of Stale Drafts
-
-Inactive drafts are deleted automatically after the default timeout of 30 days. You can configure or deactivate this timeout by the following configuration:
-
-```json
-{
-  "cds": {
-    "fiori": {
-      "draft_deletion_timeout": "28d"
-    }
-  }
-}
-```
-
-You can set the property to one of the following:
-- `false` in order to deactivate the timeout
-- number of days like `'30d'` 
-- number of hours like `'72h'`
-- number of milliseconds like `1000`
-
-::: info Technical background
-It can occur that inactive drafts are still in the database after the configured timeout. The deletion is implemented as a side effect of creating new drafts and there's no periodic job that does the garbage collection.
 :::
 
 ### Differences to Previous Version

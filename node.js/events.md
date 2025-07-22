@@ -352,7 +352,7 @@ It can be used as input for [cds.ql](cds-ql) as follows:
 
 ```js
 SELECT.one.from(req.subject)   //> returns single object
-SELECT.from(req.subject)      //> returns one or many in array
+SELECT.from(req.subject)      //> returns one or all in array
 UPDATE(req.subject)          //> updates one or all
 DELETE(req.subject)         //> deletes one or all
 ```

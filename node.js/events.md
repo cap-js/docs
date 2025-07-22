@@ -354,7 +354,7 @@ It can be used as input for [cds.ql](cds-ql) as follows:
 SELECT.one.from(req.subject)   //> returns single object
 SELECT.from(req.subject)      //> returns one or many in array
 UPDATE(req.subject)          //> updates one or all
-DELETE(req.subject)         //> deletes one or many
+DELETE(req.subject)         //> deletes one or all
 ```
 It contains the path of the request without the filter condition. To include the filter use:
 ```js

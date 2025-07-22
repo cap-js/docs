@@ -1635,9 +1635,9 @@ The Node.js runtime supports `odata` as an alias for `odata-v4` as well.
 | Resolve associations (within the same remote service)     | <Y/> |  <Y/>   |
 | Redirected associations                                   | <Y/> |  <Y/>   |
 | Flatten associations                                      | <X/> |  <X/>   |
-| `where` conditions                                        | <X/> |  <X/>   |
-| `order by`                                                | <X/> |  <X/>   |
-| Infix filter for associations                             | <X/> |  <X/>   |
+| `where` conditions                                        | <X/> |  <Y/>   |
+| `order by`                                                | <X/> |  <Y/>   |
+| Infix filter for associations                             | <X/> |  <Y/>   |
 | Model Associations with mixins                            | <Y/> |  <Y/>   |
 
 ### Supported Features for Application Defined Destinations

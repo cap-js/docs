@@ -376,7 +376,7 @@ define entity Employees {
 {#types}
 
 You can declare custom types to reuse later on, for example, for elements in entity definitions.
-Custom-defined types can be simple, that is derived from one of the predefined types, structure types or [Associations](#associations).
+Custom-defined types can be simple, that is derived from one of the predefined types, structured types or [Associations](#associations).
 
 ```cds
 define type User : String(111);

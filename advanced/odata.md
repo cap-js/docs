@@ -1115,7 +1115,7 @@ Generic implementation is supported on the following databases:
 
 |   | SAP HANA | H2 | PostgreSQL | SQLite |
 |---|---|---|---|---|
-| CAP Java | ✓ | ✓ | | |
+| CAP Java | ✓ | ✓ | ✓ | |
 | CAP Node.js | ✓ |  |✓ |✓ |
 
 :::info

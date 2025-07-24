@@ -222,7 +222,10 @@ long deleteCount = service.run(Delete.from("bookshop.Orders").byId(1000)).rowCou
 ```
 
 ::: tip
-To disable cascade delete for a specific Delete statement, add a `cascade.delete` hint(#hana-hints) with value `false`.
+To disable cascade delete for a specific Delete statement, add a hint(#hana-hints):
+```Java
+Delete.from("bookshop.Orders").byId(1000).hint("cascade.delete", false);
+```
 :::
 
 ## Views and Projections { #views }

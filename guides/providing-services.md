@@ -920,9 +920,23 @@ Cross-service checks are not supported. It is expected that the associated entit
 The `@assert.target` check constraint relies on database locks to ensure accurate results in concurrent scenarios. However, locking is a database-specific feature, and some databases don't permit to lock certain kinds of objects. On SAP HANA, for example, views with joins or unions can't be locked. Do not use `@assert.target` on such artifacts/entities.
 :::
 
+#### Custom Error Messages
+
+The annotation for input validation also support custom error messages. Use the annotation annotation `@<anno>.message` with an error text or [text bundle key](../guides/i18n#externalizing-texts-bundles) to specify a custom error message:
+
+```cds
+entity Person : cuid {
+  name  : String;
+  @assert.format: '/^\S+@\S+\.\S+$/'
+  @assert.format.message : 'Provide a valid email address'
+  email : String;
+  @assert.range: [(0),_]
+  @assert.range.message: '{i18n>person-age}'
+  age   : Int16;
+}
+```
 
 <div id="assertconstraints" />
-
 
 ### Database Constraints
 

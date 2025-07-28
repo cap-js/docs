@@ -922,7 +922,7 @@ The `@assert.target` check constraint relies on database locks to ensure accurat
 
 #### Custom Error Messages
 
-The annotation for input validation also support custom error messages. Use the annotation annotation `@<anno>.message` with an error text or [text bundle key](../guides/i18n#externalizing-texts-bundles) to specify a custom error message:
+The annotations for input validation also support custom error messages. Use the annotation `@<anno>.message` with an error text or [text bundle key](../guides/i18n#externalizing-texts-bundles) to specify a custom error message:
 
 ```cds
 entity Person : cuid {

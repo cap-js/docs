@@ -74,7 +74,7 @@ For `@sap/xssec`-based authentication strategies (`ias`, `jwt`, and `xsuaa`), `c
 
 <div id="xssec-tokeninfo-reference" />
 
-> **Note:** The availablility of this API depends on the implementation of the respective authentication middleware.
+> **Note:** The availability of this API depends on the implementation of the respective authentication middleware.
 
 
 

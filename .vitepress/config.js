@@ -106,11 +106,10 @@ config.rewrites = rewrites
 // Add custom capire info to the theme config
 config.themeConfig.capire = {
   versions: {
-    java_services: '4.0.2',
-    java_cds4j: '4.0.2'
+    java_services: '4.1.1',
+    java_cds4j: '4.1.1'
   },
-  gotoLinks: [],
-  maven_host_base: 'https://repo1.maven.org/maven2'
+  gotoLinks: []
 }
 
 // Add meta tag to prevent indexing of preview deployments
@@ -203,12 +202,15 @@ config.buildEnd = async ({ outDir, site }) => {
   sitemapURL.pathname = path.join(sitemapURL.pathname, 'sitemap.xml')
   await fs.writeFile(path.resolve(outDir, 'robots.txt'), `Sitemap: ${sitemapURL}\n`)
 
-  // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
-  const hanaAssetDir = 'advanced/assets'
-  const hanaAsset = path.join(hanaAssetDir, 'native-hana-samples.zip')
-  await fs.mkdir(path.join(outDir, hanaAssetDir), {recursive: true})
-  console.debug('✓ copying HANA assets to ', path.join(outDir, hanaAsset)) // eslint-disable-line no-console
-  await fs.copyFile(path.join(__dirname, '..', hanaAsset), path.join(outDir, hanaAsset))
+  // disabled by default to avoid online fetches during local build
+  if (process.env.VITE_CAPIRE_EXTRA_ASSETS) {
+    // zip assets aren't copied automatically, and `vite.assetInclude` doesn't work either
+    const hanaAssetDir = 'advanced/assets'
+    const hanaAsset = path.join(hanaAssetDir, 'native-hana-samples.zip')
+    await fs.mkdir(path.join(outDir, hanaAssetDir), {recursive: true})
+    console.debug('✓ copying HANA assets to ', path.join(outDir, hanaAsset)) // eslint-disable-line no-console
 
-  await cdsMavenSite.copySiteAssets(path.join(outDir, 'java/assets/cds-maven-plugin-site'), site)
+    await fs.copyFile(path.join(__dirname, '..', hanaAsset), path.join(outDir, hanaAsset))
+    await cdsMavenSite.copySiteAssets(path.join(outDir, 'java/assets/cds-maven-plugin-site'), site)
+  }
 }

@@ -45,6 +45,9 @@ jobs:
         env:
           NODE_OPTIONS: "--max-old-space-size=6144"
           VITE_CAPIRE_CI_HOST: "github.com"
+          VITE_CAPIRE_EXTRA_ASSETS: true
+          MAVEN_HOST: https://common.repositories.cloud.sap/artifactory/build.releases
+          MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
       - name: Find broken anchor links
         working-directory: docs
         run: |

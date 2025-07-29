@@ -325,8 +325,8 @@ cds build --production
    ```json
    {
      "dependencies": {
-       "@sap/cds": "^8",
-       "@cap-js/postgres": "^1"
+       "@sap/cds": "^9",
+       "@cap-js/postgres": "^2"
      },
      "scripts": {
        "start": "cds-deploy"

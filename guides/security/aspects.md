@@ -544,7 +544,7 @@ Good candidates for expand restrictions are associations to the same type (for e
 
 <sup>1></sup>Hierarchical requests from the UI5 tree table do not use expand and are not affected by expand restriction.
 
-To restrict clients to filter (or not to filter) the data, you can define restictions on `$filter`:
+To restrict clients to filter (or not to filter) the data, you can define restrictions on `$filter`:
 
 - Use `@Capabilities.FilterRestrictions.Filterable: false` to prevent filtering on the entity.
 - Use `@Capabilities.FilterRestrictions.RequiresFilter: true` to indicate that clients must send requests with `$filter`.

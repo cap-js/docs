@@ -479,9 +479,9 @@ Other options in this goal enable or disable certain features that change the wa
   CDS models from external sources might include elements that have some special characters in their names or include elements that clash with Java keywords. Such cases always can be solved with [renaming features](/java/cds-data#renaming-elements-in-java) provided by code generator, but in case of large models, this is tedious.
   This switch enables following conversions on the names coming from CDS models to reduce the amount of renaming that needs to be done:
 
+    - Characters `/` and `$` behave as a separator for the name during case conversions, similar to `_` and `.`. For example, `GET_MATERIAL` yields `GetMaterial` (or `getMaterial` for attributes and methods). The same now applies for the names with `/`, for example, name `/DMO/GET_MATERIAL` will be converted to `DmoGetMaterial`
     - Names from CDS model that are Java keywords are suffixed with `_`.
     - Names from CDS model that use characters that are not valid as Java identifiers, are replaced by `_`. This, however, might lead to a conflicts between names that yield the same name in Java.
-    - Characters `/` and `$` behave as a separator for the name during case conversions, similar to `_` and `.`. For example, `GET_MATERIAL` yields `GetMaterial` (or `getMaterial` for attributes and methods). The same now applies for the names with `/`, for example, name `/DMO/GET_MATERIAL` will be converted to `DmoGetMaterial`.
     - Leading `_` will remain in the name after conversions. This supports convention where association and its foreign key have names like `_assoc` and `assoc`.
 
 - ['cqnServiceGetters'](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnServiceGetters)

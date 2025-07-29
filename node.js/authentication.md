@@ -72,8 +72,6 @@ These correspond to `$user.<x>` in [`@restrict` annotations](../guides/security/
 Optional generic container for authentication-related information.
 For `@sap/xssec`-based authentication strategies (`ias`, `jwt`, and `xsuaa`), `cds.context.user.authInfo` is an instance of `@sap/xssec`'s [`SecurityContext`](https://www.npmjs.com/package/@sap/xssec#securitycontext).
 
-<div id="xssec-tokeninfo-reference" />
-
 > **Note:** The availability of this API depends on the implementation of the respective authentication middleware.
 
 

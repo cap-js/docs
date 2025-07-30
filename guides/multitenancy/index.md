@@ -65,7 +65,7 @@ cds add multitenancy
    ```jsonc
    {
       "dependencies": {
-         "@sap/cds-mtxs": "^2"
+         "@sap/cds-mtxs": "^3"
       },
    }
    ```
@@ -92,13 +92,16 @@ cds add multitenancy
      "name": "bookshop-mtx",
      "dependencies": {
        "@cap-js/hana": "^2",
-       "@sap/cds": "^8",
-       "@sap/cds-mtxs": "^2",
+       "@sap/cds": "^9",
+       "@sap/cds-mtxs": "^3",
        "@sap/xssec": "^4",
        "express": "^4"
      },
      "devDependencies": {
-       "@cap-js/sqlite": "^1"
+       "@cap-js/sqlite": "^2"
+     },
+     "engines": {
+       "node": ">=20"
      },
      "scripts": {
        "start": "cds-serve"
@@ -164,13 +167,13 @@ cds add multitenancy
      "name": "bookshop-mtx",
      "dependencies": {
        "@cap-js/hana": "^2",
-       "@sap/cds": "^8",
-       "@sap/cds-mtxs": "^2",
+       "@sap/cds": "^9",
+       "@sap/cds-mtxs": "^3",
        "@sap/xssec": "^4",
        "express": "^4"
      },
      "devDependencies": {
-       "@cap-js/sqlite": "^1"
+       "@cap-js/sqlite": "^2"
      },
      "scripts": {
        "start": "cds-serve",
@@ -274,6 +277,11 @@ After adding multitenancy, Maven build should be used to generate the model rela
 mvn install
 ```
 
+:::warning Error message: 'Invalid MTX sidecar configuration'
+If you get the message 'Invalid MTX sidecar configuration', you need to add the dependency to `@sap/cds-mtxs` also to the `package.json` in your project root.
+This is a known issue in CDS 9.
+:::
+
 </div>
 
 ## Test-Drive Locally {#test-locally}
@@ -371,7 +379,7 @@ In the following steps, we start two servers, the main app and MTX sidecar, and 
    In addition, we can see a `t0` tenant being deployed, which is used by the MTX services for book-keeping tasks.
 
    ```log
-   [cds|t0] - loaded model from 1 file(s):
+   [cds] - loaded model from 1 file(s):
 
      ../../db/t0.cds
 

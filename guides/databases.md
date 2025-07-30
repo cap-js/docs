@@ -251,13 +251,13 @@ CSV files can be found in the folders _db/data_ and _test/data_, as well as in a
 ::: details Adding initial data next to your data model
 The content of these 'co-located' `.cds` files actually doesn't matter, but they need to be included in your data model, through a `using` clause in another file for example.
 
-If you need to use certain CSV files exclusively for your production deployments, but not for tests, you can achieve this by including them in a separate data folder, for example, _db/hana/data_. Create an _index.cds_ file in the _hana_ folder as outlined earlier. Then, set up this model location in a dummy cds service, for example _hanaDataSrv_, using the `[production]` profile.
+If you need to use certain CSV files exclusively for your production deployments, but not for tests, you can achieve this by including them in a separate data folder, for example, _db/hana/data_. Create an empty _index.cds_ file in the _hana_ folder. Then, set up this model location in a dummy cds service, for example _hanaDataSrv_, using the `[production]` profile.
 
 ```json
 "cds": {
   "requires": {
     "[production]": {
-      "hanaDataSrv ": { "model": "hana" }
+      "hanaDataSrv ": { "model": "db/hana" }
      }
   }
 }

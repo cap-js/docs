@@ -141,7 +141,7 @@ Advise the CDS Compiler to generate _tables without associations_, as associatio
 
 #### SQL Optimization Mode
 
-By default, the SAP HANA adapter in CAP Java generates SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud. To generate SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html), set the [CDS property](../developing-applications/properties#cds-properties):
+By default, the SAP HANA adapter in CAP Java generates SQL that is optimized for the new [HEX engine](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-performance-guide-for-developers/query-execution-engine-overview) in SAP HANA Cloud. To generate SQL that is compatible with SAP HANA 2.x ([HANA Service](https://help.sap.com/docs/HANA_SERVICE_CF/6a504812672d48ba865f4f4b268a881e/08c6e596b53843ad97ae68c2d2c237bc.html)) and [SAP HANA Cloud](https://www.sap.com/products/technology-platform/hana.html), set the (deprecated) [CDS property](../developing-applications/properties#cds-properties):
 
 ```yaml
 cds.sql.hana.optimizationMode: legacy

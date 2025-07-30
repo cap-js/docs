@@ -127,7 +127,7 @@ this.after(['CREATE', 'UPDATE', 'DELETE'], 'Reviews', async (_, req) => {
 ```
 ::: tip
 The messages are sent once the transaction is successful.
-Per default, a persistent outbox is used. See [Messaging - Outbox](./outbox) for more information.
+Per default, a persistent queue is used. See [Messaging - Queue](./queue) for more information.
 :::
 
 ## Receiving Events
@@ -159,6 +159,24 @@ messaging.on('*', async msg => { /*...*/ })
 ::: tip
 In general, messages do not contain user information but operate with a technical user. As a consequence, the user of the message processing context (`cds.context.user`) is set to [`cds.User.privileged`](/node.js/authentication#privileged-user) and, hence, any necessary authorization checks must be done in custom handlers.
 :::
+
+### Inbox <Beta />
+
+You can store received messages in an inbox before they're processed. Under the hood, it uses the [task queue](./queue) for reliable asynchronous processing.
+Enable it by setting the `inboxed` option to `true`, for example:
+
+```js
+{
+  cds: {
+    requires: {
+      messaging: {
+        kind: 'enterprise-messaging',
+        inboxed: true
+      }
+    }
+  }
+}
+```
 
 ## CloudEvents Protocol
 
@@ -409,6 +427,16 @@ Use this if you want to communicate using [SAP Cloud Application Event Hub](http
 
 The integration with SAP Cloud Application Event Hub is provided using the plugin [`@cap-js/event-broker`](https://github.com/cap-js/event-broker).
 Please see the plugin's [setup guide](https://github.com/cap-js/event-broker/blob/main/README.md#setup) for more details.
+
+### SAP Integration Suite, Advanced Event Mesh <Beta /> 
+{ #advanced-event-mesh }
+
+`kind`: `advanced-event-mesh`
+
+Use this if you want to communicate using [SAP Integration Suite, advanced event mesh](https://help.sap.com/docs/event-broker).
+
+The integration with SAP Integration Suite, advanced event mesh is provided using the plugin [`@cap-js/advanced-event-mesh`](https://github.com/cap-js/advanced-event-mesh).
+Please see the plugin's [setup guide](https://github.com/cap-js/advanced-event-mesh/blob/main/README.md#setup) for more details.
 
 <div id="queuing-sap" />
 

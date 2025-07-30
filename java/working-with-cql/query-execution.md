@@ -119,7 +119,9 @@ Result result = service.run(query, params);
 
 ### Query Hints { #query-hints}
 
-Use the `hints` method to add specific hints to a CDS QL statement. [SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) need to be prefix with `hdb.`
+Use the `hints` method to add specific hints to a CDS QL statement that override the default behavior of the CAP Java runtime or influence the query execution on the database. Supported runtime hints are documented together with the runtime behavior.
+
+[SAP HANA hints](https://help.sap.com/docs/HANA_CLOUD_DATABASE/c1d3f60099654ecfb3fe36ac93c121bb/4ba9edce1f2347a0b9fcda99879c17a1.htmlS) need to be prefix with `hdb.`
 
 ```java
 Select.from(BOOKS).hints("hdb.USE_HEX_PLAN", "hdb.HEX_INDEX_JOIN");

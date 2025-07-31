@@ -521,7 +521,7 @@ Following levels of the details are available:
   public interface Entity extends CdsData {  }
   ```
 
-- `NONE` - annotation is not added at all. This is not recommended.
+- `NONE` - no `@Generated` annotation is added. This is not recommended.
 
 ### Using a Local cds-dk
 

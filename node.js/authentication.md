@@ -297,7 +297,7 @@ In contrast to [mocked authentication](#mocked), no default users are automatica
 
 This is the default strategy used in production. User identity, as well as assigned roles and user attributes, are provided at runtime, by a bound instance of the ['User Account and Authentication'](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/419ae2ef1ddd49dca9eb65af2d67c6ec.html) service (UAA). This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-This authentication strategy also adds [`cds.context.user.tokenInfo`](#user-token-info).
+This authentication strategy also adds [`cds.context.user.authInfo`](#user-auth-info).
 
 **Prerequisites:** You need to add [@sap/xssec](https://help.sap.com/docs/HANA_CLOUD_DATABASE/b9902c314aef4afb8f7a29bf8c5b37b3/54513272339246049bf438a03a8095e4.html#loio54513272339246049bf438a03a8095e4__section_atx_2vt_vt) to your project:
 ```sh
@@ -347,7 +347,7 @@ npm add @sap/xssec
 
 This is an additional authentication strategy using the [Identity Authentication Service](https://help.sap.com/docs/IDENTITY_AUTHENTICATION) (IAS) that can be used in production. User identity and user attributes are provided at runtime, by a bound instance of the IAS service. This is done in form of a JWT token in the `Authorization` header of incoming HTTP requests.
 
-This authentication strategy also adds [`cds.context.user.tokenInfo`](#user-token-info).
+This authentication strategy also adds [`cds.context.user.authInfo`](#user-auth-info).
 
 To allow forwarding to remote services, JWT tokens issued by IAS service don't contain authorization information. In particular, no scopes are included. Closing this gap is up to you as application developer.
 

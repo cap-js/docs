@@ -418,7 +418,6 @@ Options `includes` and `excludes` are simple filters. If included parts of your 
 
 By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification.
 
-Following example uses accessor interfaces that have been generated with the default (JavaBeans) style:
 
 ```java
     Authors author = Authors.create();

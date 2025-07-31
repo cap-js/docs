@@ -416,7 +416,7 @@ Options `includes` and `excludes` are simple filters. If included parts of your 
 
 ### Style of Interfaces
 
-By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification.
+By default, the accessor interfaces provide the setter and getter methods inspired by the JavaBeans specification. In this style getter and setter method names are prefixed with `get` and `set`, resp.:
 
 
 ```java

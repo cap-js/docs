@@ -382,7 +382,6 @@ Use the _.cdsrc.json_ file to add project specific configuration of `@sap/cds-dk
 
 The [interfaces for typed access](../cds-data#generated-accessor-interfaces) are generated at each build
 by the [`cds:generate`](/java/assets/cds-maven-plugin-site/generate-mojo.html) goal of the [CDS Maven Plugin](/java/assets/cds-maven-plugin-site/plugin-info.html).
-Each time your application is built, these interfaces are regenerated so you should exclude them from your version control system.
 
 You configure this goal just like any other Maven plugin via its configuration options via your application's POM. For example:
 
@@ -398,6 +397,8 @@ You configure this goal just like any other Maven plugin via its configuration o
     </configuration>
 </execution>
 ```
+
+Each time your application is built, these interfaces are regenerated. By default, they are excluded from your version control. 
 
 ### Package for Generated Code
 

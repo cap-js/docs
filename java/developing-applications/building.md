@@ -428,9 +428,8 @@ By default, the accessor interfaces provide the setter and getter methods inspir
     book.setTitle("Wuthering Heights");
 ```
 
-Alternatively, you can generate accessor interfaces in _fluent style_. In this mode, the getter methods are named after the property names. To enable fluent chaining, the setter methods return the accessor interface itself.
+Alternatively, you can generate accessor interfaces in _fluent style_. In this mode, the getter methods are named after the property names. To enable fluent chaining, the setter methods return the accessor interface itself:
 
-Following is an example of the fluent style:
 
 ```java
    Authors author = Authors.create().name("Emily Brontë");

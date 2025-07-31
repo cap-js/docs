@@ -401,7 +401,7 @@ You configure this goal just like any other Maven plugin via its configuration o
 
 ### Package for Generated Code
 
-The option [`basePackage`](/java/assets/cds-maven-plugin-site/generate-mojo.html#basePackage) can be used to specify package as the root for generated code. The underlying package structure will reflect namespaces defined in your CDS model.
+The option [`basePackage`](/java/assets/cds-maven-plugin-site/generate-mojo.html#basePackage) can be used to specify a base package prefix for generated code. The suffix package structure will reflect namespaces defined in your CDS model.
 
 ### Filter for CDS Entities
 

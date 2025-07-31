@@ -440,7 +440,7 @@ The generation mode is configured by the option [`methodStyle`](/java/assets/cds
 
 Once, when starting a project, decide on the style of the interfaces that is best for your team and project.
 
-The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
+The way the interfaces are generated only determines how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
 
 Moreover, it doesn't change the way how event contexts, delivered by CAP, look like. Such interfaces from CAP are always modelled in the default JavaBeans style.
 

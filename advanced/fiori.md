@@ -433,6 +433,43 @@ Adding the annotation `@fiori.draft.enabled` won't work if the corresponding `_t
 
 If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L116) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
 
+### Draft Choreography: How Draft Editing Works
+
+With draft-enabled entities, changes are made to a draft copy instead of the active entity. The typical flow is:
+- Create a draft
+- Edit the draft
+- Activate the draft
+
+Below are example HTTP requests for each step:
+
+#### 1. Create a Draft
+```http
+POST /odata/v4/AdminService/Books
+Content-Type: application/json
+
+{}
+```
+
+#### 2. Edit the Draft
+```http
+PATCH /odata/v4/AdminService/Books(ID=a11fb6f1-36ab-46ec-b00c-d379031e817a,IsActiveEntity=false)
+Content-Type: application/json
+
+{
+  "title": "Book Title"
+}
+```
+
+#### 3. Activate the Draft
+```http
+POST /odata/v4/AdminService/Books(ID=a11fb6f1-36ab-46ec-b00c-d379031e817a,IsActiveEntity=false)/draftActivate
+Content-Type: application/json
+
+{}
+
+
+For more details, see the [official UI5 documentation](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d).
+
 ### Validating Drafts
 
 You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the respective `UPDATE` events to validate input per field, during the edit session, as follows.

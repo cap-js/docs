@@ -438,7 +438,7 @@ Alternatively, you can generate accessor interfaces in _fluent style_. In this m
 
 The generation mode is configured by the option [`methodStyle`](/java/assets/cds-maven-plugin-site/generate-mojo.html#methodStyle). The selected style affects all entities and event contexts in your services. The default value is `BEAN`, which represents JavaBeans-style interfaces.
 
-Once, when starting a project, decide on the style of the interfaces that is best for your team and project. We recommend the default JavaBeans style.
+Once, when starting a project, decide on the style of the interfaces that is best for your team and project.
 
 The way the interfaces are generated determines only how data is accessed by custom code. It does not affect how the data is represented in memory and handled by the CAP Java runtime.
 

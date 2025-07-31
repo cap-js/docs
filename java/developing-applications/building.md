@@ -501,7 +501,7 @@ See [Maven Plugin Documentation](/java/assets/cds-maven-plugin-site/generate-moj
 The option [`annotationDetailLevel`](/java/assets/cds-maven-plugin-site/generate-mojo.html#annotationDetailLevel) lets you choose the amount of the details for the Java annotation [`@Generated`](https://docs.oracle.com/en/java/javase/21/docs/api/java.compiler/javax/annotation/processing/Generated.html) added to each interface. This annotation has no effect at runtime but is evaluated by static code analysis tools to identify the artifacts as generated.
 
 Following levels of the details are available:
-- `MINIMAL` - only annotation is added, no additional information is added.
+- `MINIMAL` (default) - only the annotation is added, no additional information is added.
 
    ```java
     @CdsName("service.Entity")

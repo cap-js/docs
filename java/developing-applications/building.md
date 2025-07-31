@@ -405,7 +405,7 @@ The option [`basePackage`](/java/assets/cds-maven-plugin-site/generate-mojo.html
 
 ### Filter for CDS Entities
 
-By default, complete model of your application is generated including all imported or re-used models.
+By default, the complete model of your application is generated including all imported or re-used models.
 You can use options [`includes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#includes) and [`excludes`](/java/assets/cds-maven-plugin-site/generate-mojo.html#excludes) to specify the part of your overall model that is subject to code generation. Both inclusion and exclusion can be used together, inclusion evaluated first, then exclusion filter out included set of entities.
 
 These options use patterns that are applied on the fully qualified names of the entities in CDS models. For example, the pattern `my.bookshop.*` will cover all definitions with namespace `my.bookshop` and the pattern `my.bookshop.**` will cover all definitions with fully qualified name starting with `my.bookshop`.

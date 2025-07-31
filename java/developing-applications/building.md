@@ -509,7 +509,7 @@ Following levels of the details are available:
     public interface Entity extends CdsData {  }
    ```
 
-- `FULL` - annotation contains date and time of the generation.
+- `FULL` - annotation contains the timestamp of the generation.
 
   ```java
   @CdsName("service.Entity")

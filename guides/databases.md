@@ -965,19 +965,19 @@ For example, `startsWith` instead of `startswith` will be passed as-is to the da
 #### String Functions
 
 - `concat(x, y, ...)`
-  Concatenates the given strings or numbers.
+  Concatenates the given strings or numbers `x`, `y`, ....
 
 - `trim(x)`
-  Removes leading and trailing whitespaces.
+  Removes leading and trailing whitespaces from `x`.
 
 - `contains(x, y)`
-  Checks whether `y` is contained in `x` (case-sensitive).
+  Checks whether `x` contains `y` (case-sensitive).
 
 - `startswith(x, y)`
-  Checks whether `y` starts with `x` (case-sensitive).
+  Checks whether `x` starts with `y` (case-sensitive).
 
 - `endswith(x, y)`
-  Checks whether `y` ends with `x` (case-sensitive).
+  Checks whether `x` ends with `y` (case-sensitive).
 
 - `matchespattern(x, y)`
   Checks whether `x` matches the regular expression `y`.

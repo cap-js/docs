@@ -528,16 +528,39 @@ The total number of request of OData batches can be limited by application confi
 
 <div class="impl java">
 
-Settings <Config java>cds.odataV4.batch.maxRequests</Config> resp. <Config java>cds.odataV2.batch.maxRequests</Config> specify the corresponding limits.
+Use settings <Config java>cds.odataV4.batch.maxRequests</Config> resp. <Config java>cds.odataV2.batch.maxRequests</Config> to limit the amount of queries per OData `$batch`.
+
+To prevent clients from requesting too much data, you can define restrictions on `$expands` for your entities: 
+
+- Use `@Capabilities.ExpandRestrictions.Expandable: false` to prevent any expands from the entity. 
+- Use `@Capabilities.ExpandRestrictions.NonExpandableProperties: [...]` to restrict expands for certain properties.
+- Use `@Capabilities.ExpandRestrictions.MaxLevels: ...` to set maximum allowed depth of an `$expand` from this entity. You can set an application-wide limit with <Config java>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
+
+:::warning
+These restrictions are enforced on 'READ' events on [Application services](/java/cqn-services/#application-services).
+:::
+
+Good candidates for expand restrictions are associations to the same type (for example, when your entity represents tree or a hierarchy<sup>1></sup>), backlink associations of compositions, or many-to-many associations.
+
+<sup>1></sup>Hierarchical requests from the UI5 tree table do not use expand and are not affected by expand restriction.
+
+To restrict clients to filter (or not to filter) the data, you can define restrictions on `$filter`:
+
+- Use `@Capabilities.FilterRestrictions.Filterable: false` to prevent filtering on the entity.
+- Use `@Capabilities.FilterRestrictions.RequiresFilter: true` to indicate that clients must send requests with `$filter`.
+- Use `@Capabilities.FilterRestrictions.RequiredProperties: [...]` to indicate that `$filter` must contain certain properties.
+- Use `@Capabilities.FilterRestrictions.NonFilterableProperties: [...]` to indicate that certain properties are non-filterable.
 
 </div>
 
+<div class="impl node">
+
 ::: warning
 ❗ CAP applications have to limit the amount of `$expands` per request in a custom handler.
-Also the maximum amount of requests per `$batch` request need to be configured as follows:
-- Node.js: <Config>cds.odata.batch_limit = \<max_requests\></Config>
-- Java: <Config java>cds.odataV4.batch.maxRequests = \<max_requests\></Config>
+Also, the maximum amount of requests per `$batch` request need to be configured with <Config>cds.odata.batch_limit = \<max_requests\></Config>
 :::
+
+</div>
 
 ::: tip
 Design your CDS services exposed to web adapters on need-to-know basis. Be especially careful when exposing associations.

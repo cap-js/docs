@@ -440,11 +440,34 @@ export default function custom_auth(req: Req, res: Response, next: NextFunction)
 [If you want to customize the user ID, please also have a look at this example.](/node.js/cds-serve#customization-of-cds-context-user){.learn-more}
 
 
-## Authentication Enforced in Production
+## Authentication in Production
+
+### Enforced by Default
 
 In a productive scenario with an authentication strategy configured, for example the default `jwt`, all CAP service endpoints are authenticated by default, regardless of the authorization model. That is, all services without `@restrict` or `@requires` implicitly get `@requires: 'authenticated-user'`.
 
 This can be disabled via feature flag <Config>cds.requires.auth.restrict_all_services: false</Config>, or by using [mocked authentication](#mocked) explicitly in production.
+
+### Cached by Default
+
+`@sap/xssec^4.8` provides a way to improve latency on subsequent requests with the same token by introducing two caches for CPU-intensive operations:
+- **Signature cache**: This cache handles the cryptographic signature validation of a JWT token.
+- **Token decode cache**: This cache manages the base64-decoding of a JWT token.
+
+Both caches are enabled by default.
+
+The _signature cache_ can be configured or deactivated via `cds.requires.auth.config` (which is passed through to `@sap/xssec`).
+
+The _token decode cache_, on the other hand, can be configured programmatically during bootstrapping (e.g., in a [custom `server.js`](../cds-server#custom-server-js)) via
+```js
+require('@sap/xssec').Token.enableDecodeCache(config?)
+```
+and deactivated via
+```js
+require('@sap/xssec').Token.decodeCache = false
+```
+
+[Learn more about caching CPU intensive operations in `@sap/xssec`](https://www.npmjs.com/package/@sap/xssec#caching-cpu-intensive-operations){.learn-more}
 
 
 ## XSUAA in Hybrid Setup {#xsuaa-setup}

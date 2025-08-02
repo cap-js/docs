@@ -19,12 +19,30 @@ CAP isn't validated with other variants of SAP HANA, like "SAP HANA Database as 
 
 To use SAP HANA Cloud for production, add a dependency to the _package.json_ for Node.js or to the _pom.xml_ for a CAP Java application:
 
-::: code-group
-```sh [Shell/Bash]
-npm add @cap-js/hana
+```sh
+cds add hana
 ```
 
-```xml [pom.xml]
+::: details Using other SAP HANA drivers...
+
+Package `@cap-js/hana` uses the [`hdb`](https://www.npmjs.com/package/hdb) driver by default. You can override that by running [`npm add @sap/hana-client`](https://www.npmjs.com/package/@sap/hana-client), thereby adding it to your package dependencies, which then takes precedence over the default driver.
+
+:::
+
+:::info prefer `cds add …` over `npm add …`
+
+It  does the equivalent of e.g. `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database).
+
+:::
+
+</div>
+
+<div class="impl java">
+
+To use SAP HANA Cloud, [configure a module](../java/developing-applications/building#standard-modules), which includes the feature `cds-feature-hana`.
+For example, add a Maven runtime dependency to the `cds-feature-hana` feature:
+
+```xml
 <dependency>
   <groupId>com.sap.cds</groupId>
   <artifactId>cds-feature-hana</artifactId>

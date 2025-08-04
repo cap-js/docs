@@ -381,6 +381,14 @@ DELETEfrom(req.subject)   //> deletes the single target row
 > You can use `req.subject` in custom handlers for inbound `READ`, `UPDATE` and `DELETE` requests, as well as in _bound_ actions, addressing **_single rows_**.
 > **You can't use it** reasonably in custom handlers for `INSERT` requests or other requests addressing **_multiple rows_**.
 
+The following example further illustrates the difference between request target and additional query options:
+
+```js
+// GET Books/201
+req.subject = { ref: [{ id: 'AdminService.Books', where: [{ ref: ['ID']}, '=', { val: 201 }] }] }
+// GET Books?$filter=ID eq 201
+req.subject = { ref: [{ id: 'AdminService.Books' }] }
+```
 
 
 

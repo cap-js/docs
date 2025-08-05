@@ -528,7 +528,7 @@ import static bookshop.Bookshop_.BOOKS;
 CqnSelect q = Select.from(BOOKS)
     .columns(b -> b.author());
 
-Row book = dataStore.execute(q).single();
+CdsData book = dataStore.execute(q).single();
 Object authorId = book.get("author.Id"); // path access
 ```
 
@@ -1152,7 +1152,7 @@ Map<String, Object> paramSet2 = new HashMap<>();
 paramSet2.put("author.name", "Emily Brontë");
 paramSet2.put("title", "Wuthering Heights");
 
-Result result = service.run(update, asList(paramSet1, paramSet2));
+CdsResult<?> result = service.run(update, asList(paramSet1, paramSet2));
 ```
 
 ## Delete
@@ -1623,7 +1623,7 @@ BETWEEN
 
 #### `IN` Predicate
 
-The `IN` predicate tests if a value is equal to any value in a given list. 
+The `IN` predicate tests if a value is equal to any value in a given list.
 
 The following example, filters for books written by Poe or Hemingway:
 

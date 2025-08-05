@@ -849,7 +849,7 @@ SELECT.from({ ref: [{ id: 'UsingView', args: { bar: { val: true }}} ]} )
 ```
 ```Java [Java]
 var params = Map.of("bar", true);
-Result result = service.run(Select.from("UsingView"), params);
+CdsResult<?> result = service.run(Select.from("UsingView"), params);
 ```
 :::
 

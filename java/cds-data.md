@@ -219,7 +219,7 @@ In CAP Java data is represented in maps. To simplify data access in custom code,
 
 ![This graphic is explained in the accompanying text.](./assets/accessor.drawio.svg)
 
-The `Row`s of a [query result](./working-with-cql/query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
+The rows of a [query result](./working-with-cql/query-execution#result) as well as the [generated accessor interfaces](#generated-accessor-interfaces) already extend `CdsData`. Using the helper class [Struct](#struct) you can extend any `Map<String, Object>` with the CdsData `interface`:
 
 ```java
 Map<String, Object> map = new HashMap<>();
@@ -307,7 +307,7 @@ You can use the functions, `CQL.cosineSimilarity` or `CQL.l2Distance` (Euclidean
 ```Java
 CqnVector v = CQL.vector(embedding);
 
-Result similarBooks = service.run(Select.from(BOOKS).where(b ->
+CdsResult<?> similarBooks = service.run(Select.from(BOOKS).where(b ->
   CQL.cosineSimilarity(b.embedding(), v).gt(0.9))
 );
 ```
@@ -322,7 +322,7 @@ CqnSelect query = Select.from(BOOKS)
   .where(b -> b.ID().ne(bookId).and(similarity.gt(0.9)))
   .orderBy(b -> b.get("similarity").desc());
 
-Result similarBooks = db.run(select, CdsVector.of(embedding));
+CdsResult<?> similarBooks = db.run(select, CdsVector.of(embedding));
 ```
 
 In CDS QL queries, elements of type `cds.Vector` are not included in select _all_ queries. They must be explicitly added to the select list:
@@ -397,7 +397,7 @@ To select the mapping elements of a managed association, simply add the [associa
 CqnSelect select = Select.from(BOOKS).byId(123)
                          .columns(b -> b.author());
 
-Row row = persistence.run(select).single();
+CdsData row = persistence.run(select).single();
 
 Integer authorId = row.getPath("author.ID");
 ```
@@ -414,7 +414,7 @@ Map<String, Object> order = new HashMap<>();
 order.put("header.status", "canceled");
 
 CqnSelect select = Select.from("bookshop.Orders").matching(order);
-Result canceledOrders = persistence.run(select);
+CdsResult<?> canceledOrders = persistence.run(select);
 ```
 
 ## Typed Access
@@ -795,7 +795,7 @@ The process method can also be used on CDS.ql results that have a row type:
 
 ```java
 CqnSelect query; // some query
-Result result = service.run(query);
+CdsResult<?> result = service.run(query);
 
 processor.process(result);
 ```
@@ -909,8 +909,8 @@ diff.process(newImage, oldImage, type);
 ```
 
 ```java
-Result newImage = service.run(Select.from(...));
-Result oldImage = service.run(Select.from(...));
+CdsResult<?> newImage = service.run(Select.from(...));
+CdsResult<?> oldImage = service.run(Select.from(...));
 
 diff.process(newImage, oldImage, newImage.rowType());
 ```
@@ -1373,7 +1373,7 @@ Using a custom `On` handler makes sense if you want to prevent that the default 
 
 ```java
 @On(event = CqnService.EVENT_UPDATE)
-public Result processCoverImage(CdsUpdateEventContext context, List<Books> books) {
+public CdsResult<?> processCoverImage(CdsUpdateEventContext context, List<Books> books) {
 	books.forEach(book -> {
 		book.setCoverImage(new CoverImagePreProcessor(book.getCoverImage()));
 	});

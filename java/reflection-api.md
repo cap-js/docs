@@ -297,7 +297,7 @@ FeatureTogglesInfo isbn = FeatureTogglesInfo.create(Collections.singletonMap("is
 
 ...
 
-Future<Result> result = Executors.newSingleThreadExecutor().submit(() -> {
+Future<CdsResult<?>> result = Executors.newSingleThreadExecutor().submit(() -> {
   return runtime.requestContext().featureToggles(isbn).run(rc -> {
     return db.run(Select.from(Books_.CDS_NAME));
   });

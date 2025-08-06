@@ -110,7 +110,7 @@ Build tasks can be customized using the following properties:
 | `options` | `model`: _string_ or _array of string_<br><br>The given list of folders or individual _.cds_ file names is resolved based on the current working directory or project folder passed to `cds build`.<br><br>CDS built-in models (prefix _@sap/cds*_) are added by default to the user-defined list of models. |
 
 **Note:**
-Alternatively you can execute build tasks and pass the described arguments the command line. See also `cds build --help` for further details.
+Alternatively you can execute build tasks and pass the described arguments to the command line. See also `cds build --help` for further details.
 
 ### Build Target Folder {#build-target-folder}
 

@@ -84,7 +84,7 @@ You can use them as a blue print – copy & paste them into your CDS configurati
 
 The `for` property defines the executed build task type creating its part of the deployment layout. Currently supported types are:
 
-<style lang="scss">
+<style lang="scss" scoped>
 th { min-width: 160px; }
 </style>
 

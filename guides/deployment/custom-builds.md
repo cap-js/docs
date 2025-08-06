@@ -19,8 +19,8 @@ status: released
 
 Build tasks are derived from the CDS configuration and project context. By default, CDS models are resolved from these sources:
 
-- _db_, _srv_, _app_ — [default root folders](../../get-started/#project-structure)
-- _fts_ and its subfolders when using [feature toggles](../extensibility/feature-toggles#enable-feature-toggles)
+- _db/_, _srv/_, _app/_ — [default root folders](../../get-started/#project-structure)
+- _fts/_ and its subfolders when using [feature toggles](../extensibility/feature-toggles#enable-feature-toggles)
 - CDS model folders and files defined by [required services](../../node.js/cds-env#services), including built-in ones
   - Examples: [persistent queue](../../node.js/queue#persistent-queue) or [MTX-related services](../multitenancy/mtxs#mtx-services-reference)
 - Explicit `src` folder configured in the build task

@@ -881,8 +881,8 @@ In any case, the resulting EDMX is:
 
 ::: tip Use CDS expression syntax
 
-Use EDM JSON expression syntax only as fallback mechanism.
-Whenever possible, use [expression-like annotation values](#expression-annotations).
+Use the EDM JSON expression syntax only as fallback mechanism.
+Whenever possible, use [expression-like annotation values](#expression-annotations) instead.
 For the example below, simply write `@UI.Hidden: (status <> 'visible')`.
 
 :::

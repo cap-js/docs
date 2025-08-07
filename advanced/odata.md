@@ -879,6 +879,14 @@ In any case, the resulting EDMX is:
 
 ### EDM JSON Expression Syntax { #dynamic-expressions}
 
+::: tip Use CDS expression syntax
+
+Use EDM JSON expression syntax only as fallback mechanism.
+Whenever possible, use [expression-like annotation values](#expression-annotations).
+For the example below, simply write `@UI.Hidden: (status <> 'visible')`.
+
+:::
+
 In case you want to have an expression as value for an OData annotation that cannot be
 written as a [CDS expression ](#expression-annotations), 
 you can use the "edm-json inline mechanism" by providing an [EDM JSON expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
@@ -905,15 +913,6 @@ is translated to:
   </Ne>
 </Annotation>
 ```
-
-::: tip Use CDS expression syntax
-
-Use EDM JSON  expressions only as fallback mechanism.
-Whenever possible, use [expression-like annotation values](#expression-annotations)
-instead of EDM JSON expression syntax.
-For the example above, simply write `@UI.Hidden: (status <> 'visible')`.
-
-:::
 
 
 ### `sap:` Annotations

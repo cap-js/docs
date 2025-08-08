@@ -32,6 +32,7 @@
   ## [Class cds. MessagingService](messaging)
   ## [Class cds. DatabaseService](databases)
   ## [Serving Fiori UIs](fiori)
+  ## [Platform Services](platform-services)
 
 # [cds. Events](events)
 

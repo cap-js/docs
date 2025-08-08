@@ -548,6 +548,10 @@ If the value of an OData annotation is an [expression](../cds/cdl#expressions-as
 the OData backend provides improved handling of references and automatic mapping from
 CDS expression syntax to OData expression syntax.
 
+One of the main use cases for such dynamic expressions is SAP Fiori,
+but note that SAP Fiori supports dynamic expressions only for
+[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
+
 #### Flattening
 
 In contrast to [simple references](#references), the references in expression-like
@@ -873,10 +877,19 @@ In any case, the resulting EDMX is:
 </Annotation>
 ```
 
-### Dynamic Expressions { #dynamic-expressions}
+### EDM JSON Expression Syntax { #dynamic-expressions}
 
-OData supports dynamic expressions in annotations.
-For OData annotations you can use the "edm-json inline mechanism" by providing a [dynamic expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
+::: tip Use CDS expression syntax
+
+Use the EDM JSON expression syntax only as fallback mechanism.
+Whenever possible, use [expression-like annotation values](#expression-annotations) instead.
+For the example below, simply write `@UI.Hidden: (status <> 'visible')`.
+
+:::
+
+In case you want to have an expression as value for an OData annotation that cannot be
+written as a [CDS expression ](#expression-annotations), 
+you can use the "edm-json inline mechanism" by providing an [EDM JSON expression](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html#_Toc38466479) as defined
 in the [JSON representation of the OData Common Schema Language](https://docs.oasis-open.org/odata/odata-csdl-json/v4.01/odata-csdl-json-v4.01.html) enclosed in `{ $edmJson: { ... }}`.
 
 Note that here the CDS syntax for string literals with single quotes (`'foo'`) applies,
@@ -900,19 +913,6 @@ is translated to:
   </Ne>
 </Annotation>
 ```
-
-One of the main use cases for such dynamic expressions is SAP Fiori,
-but note that SAP Fiori supports dynamic expressions only for
-[specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
-
-::: tip Use expression-like annotation values
-
-Instead of writing annotations directly with EDM JSON syntax,
-try using [expression-like annotation values](#expression-annotations), which
-are automatically translated. For the example above you would
-simply write `@UI.Hidden: (status <> 'visible')`.
-
-:::
 
 
 ### `sap:` Annotations

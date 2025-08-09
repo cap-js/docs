@@ -62,7 +62,7 @@ Keywords are *case-insensitive*, but are most commonly used in lowercase notatio
 
 Identifiers are *case-significant*, that is, `Foo` and `foo` would identify different things.
 
-Identifiers have to comply to `/[$A-Za-z_]\w*/` or be enclosed in `![`...`]` like that:
+Identifiers have to comply to `/^[$A-Za-z_]\w*$/` or be enclosed in `![`...`]` like that:
 
 ```cds
 type ![Delimited Identifier] : String;

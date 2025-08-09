@@ -357,6 +357,7 @@ You can get the ORD document in multiple ways, see the readme of the plugin.
 Available for:
 
 [![Link to the repository for cap-js ORD](../assets/logos/nodejs.svg){style="height:2.5em; display:inline; margin:0 0.2em;"}](https://github.com/cap-js/ord)
+[![Java](../assets/logos/java.svg 'Link to the documentation of the telemetry feature.'){style="height:3em; display:inline; margin:0 0.2em;"}](https://javadoc.io/doc/com.sap.cds/cds-feature-ord/latest/index.html)
 
 
 ## CAP Operator for Kubernetes {#cap-operator-plugin}

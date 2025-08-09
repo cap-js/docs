@@ -7,7 +7,9 @@ impl-variants: true
 
 <div class="impl node">
 
-This guide focuses on the new PostgreSQL Service provided through *[@cap-js/postgres](https://www.npmjs.com/package/@cap-js/postgres)*, which is based on the same new database services architecture as the new [SQLite Service](databases-sqlite). This architecture brings significantly enhanced feature sets and feature parity, as documented in the [*Features* section of the SQLite guide](databases-sqlite#features).
+This guide focuses on the PostgreSQL Service delivered by [`@cap-js/postgres`](https://github.com/cap-js/cds-dbs/tree/main/packages/postgres).  
+It belongs to the unified `@cap-js` database-services architecture, the same foundation used by [`@cap-js/sqlite`](https://github.com/cap-js/cds-dbs/tree/main/packages/sqlite).  
+The shared architecture offers an aligned and expanded feature set across databases; its main capabilities are listed in the [*Features* section of the SQLite guide](databases-sqlite#features).
 
 *Learn about migrating from the former `cds-pg` in the [Migration](#migration) chapter.*{.learn-more}
 
@@ -75,8 +77,10 @@ Output:
 ```js
 {
   impl: '@cap-js/postgres',
+  kind: 'postgres',
   dialect: 'postgres',
-  kind: 'postgres'
+  vcap: { label: 'postgresql-db' },
+  schema_evolution: 'auto'
 }
 ```
 
@@ -477,7 +481,7 @@ You can use `cds deploy` with option `--dry` to simulate and inspect how things 
    ```
 
    :::
-
+<!-- TODO: this sqlite specifics do not belong here -->
    > **Note:** If you use SQLite, ALTER TYPE commands are not necessary and so, are not supported, as SQLite is essentially typeless.
 
 ### Generate Scripts
@@ -618,7 +622,7 @@ If the changes in the model could lead to data loss, an error is raised.
 
 ## Migration { .node }
 
-Thanks to CAP's database-agnostic cds.ql API, we're confident that the new PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), with by and large applies also to the new PostgreSQL service.
+Thanks to CAP's database-agnostic cds.ql API, we're confident that the `@cap-js/` PostgreSQL service comes without breaking changes. Nevertheless, please check the instructions in the [SQLite Migration guide](databases-sqlite#migration), which mostly applies also to the new PostgreSQL service.
 
 ### `cds deploy --model-only`
 

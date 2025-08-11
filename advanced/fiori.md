@@ -732,44 +732,28 @@ A generic implementation is supported on the following databases for the respect
 Given the following domain model:
 
 ```cds
+namespace my.bookshop;
+
 entity Genres { //...
   parent : Association to Genres;
 }
 ```
 
-#### Configure the TreeTable in UI5's _manifest.json_
+and this projection on service level
 
-```jsonc
-  "sap.ui5": { ...
-    "routing": { ...
-      "targets": { ...
-        "GenresList": { ...
-          "options": {
-            "settings": { ...
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": {
-                    "hierarchyQualifier": "GenresHierarchy", // [!code focus]
-                    "type": "TreeTable" // [!code focus]
-                  }
-                }
-              }
-            }
-          }
-        },
-      },
-    },
+```cds
+service AdminService {
+  entity Genres as projection on my.bookshop.Genres;
+}
 ```
-
-> Note: `hierarchyQualifier` should be chosen as: <br>
-> `"<entity name in service>Hierarchy"`
 
 #### Annotate/extend the entity in the service as follows:
 
 ```cds
+// declare a hierarchy with the qualifier "GenresHierarchy"
 annotate AdminService.Genres with @Aggregation.RecursiveHierarchy #GenresHierarchy : {
-  ParentNavigationProperty : parent, // navigates to a node's parent
-  NodeProperty             : ID, // identifies a node, usually the key
+  NodeProperty             : ID,    // identifies a node, usually the key
+  ParentNavigationProperty : parent // navigates to a node's parent
 };
 
 extend AdminService.Genres with @(
@@ -795,3 +779,33 @@ extend AdminService.Genres with @(
   null as LimitedRank            : Int16,
 };
 ```
+
+> Note: hierarchy qualifier should be chosen as: <br>
+> `<entity name in service>Hierarchy`
+
+#### Configure the TreeTable in UI5's _manifest.json_
+
+```jsonc
+  "sap.ui5": { ...
+    "routing": { ...
+      "targets": { ...
+        "GenresList": { ...
+          "options": {
+            "settings": { ...
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "hierarchyQualifier": "GenresHierarchy", // [!code focus]
+                    "type": "TreeTable" // [!code focus]
+                  }
+                }
+              }
+            }
+          }
+        },
+      },
+    },
+```
+
+> Note: use the `hierarchyQualifier` declared above
+

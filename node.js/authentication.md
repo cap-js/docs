@@ -391,6 +391,31 @@ The default behavior can be overwritten using additional configuration as follow
 
 Please see [`@sap/xssec` documentation](https://www.npmjs.com/package/@sap/xssec) for more details.
 
+#### XSUAA Fallback
+
+To ease your migration from XSUAA-based to IAS-based authentication, the `ias` strategy automatically supports tokens issued by XSUAA when you provide the necessary credentials at `cds.env.requires.xsuaa.credentials`. 
+
+For standard bindings, add `xsuaa` to the list of required services as follows:
+
+```json
+"requires": {
+  "auth": "ias", //> as above
+  "xsuaa": true
+}
+```
+
+In case additional configuration is necessary, you can also provide an object:
+
+```json
+"requires": {
+  "xsuaa": {
+    "config": { // passed to @sap/xssec as is
+      [...]
+    }
+  }
+}
+```
+
 ### Custom Authentication { #custom }
 
 You can configure an own implementation by specifying an own `impl` as follows:

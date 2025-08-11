@@ -394,9 +394,9 @@ Please see [`@sap/xssec` documentation](https://www.npmjs.com/package/@sap/xssec
 
 #### XSUAA Fallback
 
-To ease migration from XSUAA- to IAS-based authentication, the `ias` strategy automatically supports tokens issued by XSUAA if the necessary credentials are made available at `cds.env.requires.xsuaa.credentials`.
+To ease your migration from XSUAA-based to IAS-based authentication, the `ias` strategy automatically supports tokens issued by XSUAA when you provide the necessary credentials at `cds.env.requires.xsuaa.credentials`. 
 
-For standard bindings, simply add `xsuaa` to the list of required services:
+For standard bindings, add `xsuaa` to the list of required services as follows:
 
 ```json
 "requires": {

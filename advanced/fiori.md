@@ -776,7 +776,7 @@ extend AdminService.Genres with @(
   null as LimitedDescendantCount : Int16,
   null as DistanceFromRoot       : Int16,
   null as DrillState             : String,
-  null as LimitedRank            : Int16,
+  null as LimitedRank            : Int16
 };
 ```
 

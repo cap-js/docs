@@ -719,15 +719,12 @@ Cache Control feature is currently supported on the Java runtime only.
 
 Recursive hierarchies are parent-child hierarchies, where each entity references its parent and through that defines the hierarchical structure. A common example is a company organization structure or HR reporting, where each employee entity references another employee a as direct report or manager.
 
-Generic implementation is supported on the following databases for both CAP runtimes:
+A generic implementation is supported on the following databases for the respective CAP runtimes:
 
 | Runtime\DB  | SAP HANA | H2 | PostgreSQL | SQLite |
 |-------------|----------|----|------------|--------|
 | CAP Java    | ✓        | ✓ | ✓          |        |
 | CAP Node.js | ✓        |    |✓          |✓       |
-
-:::info
-The source elements of the entity defining the recursive parent-child relation are identified by a naming convention or aliases `node_id` and `parent_id`.
 
 
 ### Configuration
@@ -775,9 +772,8 @@ annotate AdminService.Genres with @Aggregation.RecursiveHierarchy #GenresHierarc
   NodeProperty             : ID, // identifies a node, usually the key
 };
 
-// Fiori expects the following to be defined explicitly, even though they're always the same
 extend AdminService.Genres with @(
-  // The columns expected by Fiori to be present in hierarchy entities
+  // The computed properties expected by Fiori to be present in hierarchy entities
   Hierarchy.RecursiveHierarchy #GenresHierarchy : {
     LimitedDescendantCount : LimitedDescendantCount,
     DistanceFromRoot       : DistanceFromRoot,
@@ -786,19 +782,13 @@ extend AdminService.Genres with @(
   },
   // Disallow filtering on these properties from Fiori UIs
   Capabilities.FilterRestrictions.NonFilterableProperties: [
-    'LimitedDescendantCount',
-    'DistanceFromRoot',
-    'DrillState',
-    'LimitedRank'
+    'LimitedDescendantCount', 'DistanceFromRoot', 'DrillState', 'LimitedRank'
   ],
   // Disallow sorting on these properties from Fiori UIs
   Capabilities.SortRestrictions.NonSortableProperties    : [
-    'LimitedDescendantCount',
-    'DistanceFromRoot',
-    'DrillState',
-    'LimitedRank'
+    'LimitedDescendantCount', 'DistanceFromRoot', 'DrillState', 'LimitedRank'
   ],
-) columns { // Ensure we can query these fields from database
+) columns { // Ensure we can query these columns from the database
   null as LimitedDescendantCount : Int16,
   null as DistanceFromRoot       : Int16,
   null as DrillState             : String,

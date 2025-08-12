@@ -89,6 +89,20 @@ When you add the [Spring Boot Devtools](https://docs.spring.io/spring-boot/docs/
 On Windows, the `watch` goal only works if the Spring Boot Devtools are enabled.
 :::
 
+You can customize the goals that are executed when the application is restarted after the change. 
+
+Use the following command to execute the CDS build and code generator:
+
+```sh
+mvn cds:watch -Dgoals=cds,generate
+```
+
+Or, if you want even faster feedback loop when doing Java-only changes, use:
+
+```sh
+mvn cds:watch -Dgoals=generate
+```
+
 ### CDS Auto-Build
 
 If you want to have the comfort of an automated CDS build like with the `watch` goal but want to control your CAP Java application from within the IDE, you can use the `auto-build` goal. This goal reacts on any CDS file change and performs a rebuild of your applications's CDS model. However, no CAP Java application is started by the goal. This doesn't depend on Spring Boot Devtools support.

@@ -390,5 +390,4 @@ By **embracing and advocating standard tooling** like VS Code and GitHub Actions
 
 **CAP itself** is a major contribution to AI → its simple, clear concepts, uniform ways to implement and consume services make it easier for AIs and humans alike to reason about the system.
 
-Its openness and visibility in the public world have contributed to the very first models on the market – even the original ChatGPT knew some CAP, and it has vastly improved since then.
-
+Its openness and public visibility helped influence the very first AI models — even the original ChatGPT knew some CAP, and its baked-in knowledge of it has since improved dramatically.

@@ -739,7 +739,7 @@ entity Genres { //...
 }
 ```
 
-and this projection on service level
+and its projection on service level
 
 ```cds
 service AdminService {

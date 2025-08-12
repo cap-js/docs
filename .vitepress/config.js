@@ -200,7 +200,9 @@ import { promises as fs } from 'node:fs'
 config.buildEnd = async ({ outDir, site }) => {
   const sitemapURL = new URL(siteURL.href)
   sitemapURL.pathname = path.join(sitemapURL.pathname, 'sitemap.xml')
-  await fs.writeFile(path.resolve(outDir, 'robots.txt'), `Sitemap: ${sitemapURL}\n`)
+  console.debug('✓ writing robots.txt with sitemap URL', sitemapURL.href) // eslint-disable-line no-console
+  const robots = (await fs.readFile(path.resolve(__dirname, 'robots.txt'))).toString().replace('{{SITEMAP}}', sitemapURL.href)
+  await fs.writeFile(path.join(outDir, 'robots.txt'), robots)
 
   // disabled by default to avoid online fetches during local build
   if (process.env.VITE_CAPIRE_EXTRA_ASSETS) {

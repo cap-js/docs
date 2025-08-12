@@ -50,7 +50,7 @@ To also enable it in cloud deployments, for test or demo purposes maybe, set <Co
 
 ## Adding Fiori Apps
 
-As showcased in [cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
+As showcased in [cap/samples](https://github.com/capire/bookstore/tree/main/app), SAP Fiori apps should be added as sub folders to the `app/` of a CAP project. Each sub folder constitutes an individual SAP Fiori application, with [local annotations](#fiori-annotations), _manifest.json_, etc. So, a typical folder layout would look like this:
 
 
 | Folder/Sub Folder          | Description                          |
@@ -79,7 +79,7 @@ Use `cds add sample` to add Fiori sample code to an existing project, or create 
 
 ### From [cap/samples](https://github.com/sap-samples/cloud-cap-samples)
 
-For example, you can copy the [SAP Fiori apps from cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app) as a template and modify the content as appropriate.
+For example, you can copy the [SAP Fiori apps from cap/samples](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/app) as a template and modify the content as appropriate.
 
 
 ### From [Incidents Sample](https://github.com/SAP-samples/fiori-elements-incident-management/tree/sampleSolution)
@@ -113,7 +113,7 @@ annotate CatalogService.Books with @(
 ```
 
 
-[Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/fiori/app){.learn-more target="_blank"}
+[Find this source and many more in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore/app){.learn-more target="_blank"}
 [Learn more about **OData Annotations in CDS**.](./odata#annotations){.learn-more}
 
 
@@ -134,7 +134,7 @@ While CDS in principle allows you to add such annotations everywhere in your mod
 ...
 ```
 
-[See this also in **cap/samples/fiori**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/services.cds){.learn-more}
+[See this also in **cap/samples/fiori**.](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookstore/app/services.cds){.learn-more}
 
 **Reasoning:** This recommendation essentially follows the best practices and guiding principles of [Conceptual Modeling](../guides/domain-modeling#domain-driven-design) and [Separation of Concerns](../guides/domain-modeling#separation-of-concerns).
 
@@ -401,7 +401,7 @@ To enable draft for an entity exposed by a service, simply annotate it with `@od
 annotate AdminService.Books with @odata.draft.enabled;
 ```
 
-[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L94){.learn-more}
+[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookstore/app/admin-books/fiori-service.cds#L94){.learn-more}
 
 ::: warning
 You can't project from draft-enabled entities, as annotations are propagated. Either _enable_ the draft for the projection and not the original entity or _disable_ the draft on the projection using `@odata.draft.enabled: null`.
@@ -429,9 +429,9 @@ Adding the annotation `@fiori.draft.enabled` won't work if the corresponding `_t
 
 ![An SAP Fiori UI showing how a book is edited in the bookshop sample and that the translations tab is used for non-standard languages.](../assets/draft-for-localized-data.png){style="margin:0"}
 
-[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L93){.learn-more}
+[See it live in **cap/samples**.](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookstore/app/admin-books/fiori-service.cds#L93){.learn-more}
 
-If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/6fa2aaee34e862337c5bc5a413817355ab283437/fiori/app/admin-books/fiori-service.cds#L116) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
+If you're editing data in multiple languages, the _General_ tab in the example above is reserved for the default language (often "en"). Any change to other languages has to be done in the _Translations_ tab, where a corresponding language can be chosen [from a drop-down menu](https://github.com/SAP-samples/cloud-cap-samples/blob/main/bookstore/app/admin-books/fiori-service.cds#L116) as illustrated above. This also applies if you use the URL parameter `sap-language` on the draft page.
 
 ### Draft Choreography: How Draft Editing Works
 

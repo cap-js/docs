@@ -799,6 +799,6 @@ Add it to your `devDependencies` like so:
 npm add -D tar
 ```
 
-> This will not affect macOS or Linux, which continue using the built-in implementation.
+> On macOS and Linux, the built-in implementation will continue to be used.
 
 <div id="end" />

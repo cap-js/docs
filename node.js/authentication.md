@@ -482,7 +482,7 @@ Both caches are enabled by default.
 
 The _signature cache_ can be configured or deactivated via <Config keyOnly>cds.requires.auth.config.signature-cache</Config> (which is passed through to `@sap/xssec`).
 
-The _token decode cache_, on the other hand, can be configured programmatically during bootstrapping, for example in a [custom `server.js`](../cds-server#custom-server-js) file, as follows:
+The _token decode cache_, on the other hand, can be configured programmatically during bootstrapping, for example in a [custom `server.js`](cds-server#custom-server-js) file, as follows:
 ```js
 require('@sap/xssec').Token.enableDecodeCache(config?)
 ```

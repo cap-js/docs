@@ -942,8 +942,6 @@ entity Person : cuid {
 
 Next to input validation, you can add [database constraints](databases#database-constraints) to prevent invalid data from being persisted.
 
-<div id="assertconstraints" />
-
 ## Custom Logic
 
 

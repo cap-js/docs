@@ -386,7 +386,7 @@ Keeping pace with a rapidly changing world of volatile cloud technologies and pl
 - But this doesn't replace the need for **Human Intelligence**!
   - There's a different between a GPT-generated one-off thesis and long-lived enterprise software, which needs to adapt and scale to new requirements.
 
-By **adopting and promoting standard tooling** like VS Code and GitHub Actions, CAP projects are day-one profiteers of AI features rolled out there.
+By **embracing and advocating standard tooling** like VS Code and GitHub Actions, CAP ensures its projects are day-one beneficiaries of new AI features rolled out there.
 
 **CAP itself** is a major contribution to AI → its simple, clear concepts, uniform ways to implement and consume services make it easier for AIs and humans alike to reason about the system.
 

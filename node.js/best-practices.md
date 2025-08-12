@@ -26,7 +26,7 @@ Example:
 
 ```json
 "dependencies": {
-  "@sap/cds": "^5.5.0",
+  "@sap/cds": "^9.1.0",
   "@sap/some-reuse-package": "^1.1.0",
   "express": "^4.17.0"
 }

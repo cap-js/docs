@@ -480,7 +480,9 @@ This can be disabled via feature flag <Config>cds.requires.auth.restrict_all_ser
 
 Both caches are enabled by default.
 
-The _signature cache_ can be configured or deactivated via <Config keyOnly>cds.requires.auth.config.signature-cache</Config> (which is passed through to `@sap/xssec`).
+The _signature cache_ can be configured or deactivated via <Config keyOnly>cds.requires.auth.config</Config> (which is passed through to `@sap/xssec`).
+
+[Learn more about signature cache and its configuration.](https://www.npmjs.com/package/@sap/xssec#signature-cache)[.learn-more]
 
 The _token decode cache_, on the other hand, can be configured programmatically during bootstrapping, for example in a [custom `server.js`](cds-server#custom-server-js) file, as follows:
 ```js

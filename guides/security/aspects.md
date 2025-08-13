@@ -512,7 +512,7 @@ Since OS resource allocations are distributed over the entire request, DoS-preve
 The used web server frameworks such as [Spring/Tomcat](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server) or [Express](https://expressjs.com/) start with reasonable default limits, for example:
 - Maximum size of the HTTP request header.
 - Maximum size of the HTTP request body.
-- Maximum queue length for incoming connection requests
+- Maximum queue length for incoming connection requests.
 - Maximum number of connections that the server accepts and processes at any given time.
 - Connection timeout.
 Additional size limits and timeouts (request timeout) are established by the reverse proxy components, API Gateway and Application Router.
@@ -528,28 +528,36 @@ The total number of request of OData batches can be limited by application confi
 
 <div class="impl java">
 
-Use settings <Config java>cds.odataV4.batch.maxRequests</Config> resp. <Config java>cds.odataV2.batch.maxRequests</Config> to limit the amount of queries per OData `$batch`.
+To limit the _amount of queries_ per OData `$batch`, use <Config java>cds.odataV4.batch.maxRequests</Config> or. <Config java>cds.odataV2.batch.maxRequests</Config> 
 
-To prevent clients from requesting too much data, you can define restrictions on `$expands` for your entities: 
+To prevent clients from _requesting too much data_, you can define restrictions on `$expands` for your entities: 
 
-- Use `@Capabilities.ExpandRestrictions.Expandable: false` to prevent any expands from the entity. 
-- Use `@Capabilities.ExpandRestrictions.NonExpandableProperties: [...]` to restrict expands for certain properties.
-- Use `@Capabilities.ExpandRestrictions.MaxLevels: ...` to set maximum allowed depth of an `$expand` from this entity. You can set an application-wide limit with <Config java>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
+- To prevent any expands from the entity:
+  - `@Capabilities.ExpandRestrictions.Expandable: false` 
+- To restrict expands for certain properties:
+  - `@Capabilities.ExpandRestrictions.NonExpandableProperties: [...]` 
+- To set maximum allowed depth of an `$expand` from this entity:
+  - `@Capabilities.ExpandRestrictions.MaxLevels: ...`  
+  - Or you can set an **application-wide limit** with <Config java>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
 
 :::warning
 These restrictions are enforced on 'READ' events on [Application services](/java/cqn-services/#application-services).
 :::
 
-Good candidates for expand restrictions are associations to the same type (for example, when your entity represents tree or a hierarchy<sup>1></sup>), backlink associations of compositions, or many-to-many associations.
+Good candidates for expand restrictions are associations to the same type (for example, when your entity represents a tree or a hierarchy<sup>1</sup>), backlink associations of compositions, or many-to-many associations.
 
-<sup>1></sup>Hierarchical requests from the UI5 tree table do not use expand and are not affected by expand restriction.
+> <sup>1</sup>Hierarchical requests from the UI5 tree table do not use expand and are not affected by expand restriction.
 
 To restrict clients to filter (or not to filter) the data, you can define restrictions on `$filter`:
 
-- Use `@Capabilities.FilterRestrictions.Filterable: false` to prevent filtering on the entity.
-- Use `@Capabilities.FilterRestrictions.RequiresFilter: true` to indicate that clients must send requests with `$filter`.
-- Use `@Capabilities.FilterRestrictions.RequiredProperties: [...]` to indicate that `$filter` must contain certain properties.
-- Use `@Capabilities.FilterRestrictions.NonFilterableProperties: [...]` to indicate that certain properties are non-filterable.
+- To prevent filtering on the entity:
+  -  `@Capabilities.FilterRestrictions.Filterable: false`
+- To indicate that clients must send requests with `$filter`:
+  - `@Capabilities.FilterRestrictions.RequiresFilter: true`
+- To indicate that `$filter` must contain certain properties:
+  - `@Capabilities.FilterRestrictions.RequiredProperties: [...]`
+- To indicate that certain properties are non-filterable:
+  - `@Capabilities.FilterRestrictions.NonFilterableProperties: [...]`
 
 </div>
 

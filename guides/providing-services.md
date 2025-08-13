@@ -441,7 +441,7 @@ Fuzzy search is a fault-tolerant search feature of SAP HANA Cloud, which returns
 You can configure the fuzziness in the range [0.0, 1.0]. The value 1.0 enforces exact search.
 
 - Java: <Config java keyOnly>cds.sql.hana.search.fuzzinessThreshold = 0.8</Config>
-- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config><sup>(1)</sup> 
+- Node.js:<Config keyOnly>cds.hana.fuzzy = 0.7</Config><sup>(1)</sup>
 
 <sup>(1)</sup> If set to `false`, fuzzy search is disabled and falls back to a case insensitive substring search.
 
@@ -924,11 +924,46 @@ The `@assert.target` check constraint relies on database locks to ensure accurat
 <div id="assertconstraints" />
 
 
+### Custom Error Messages
+
+The annotations `@assert.range`, `@assert.format`, and `@mandatory` also support custom error messages. Use the annotation `@<anno>.message` with an error text or [text bundle key](../guides/i18n#externalizing-texts-bundles) to specify a custom error message:
+
+```cds
+entity Person : cuid {
+  name : String;
+
+  @assert.format: '/^\S+@\S+\.\S+$/'
+  @assert.format.message: 'Provide a valid email address'
+  email : String;
+
+  @assert.range: [(0),_]
+  @assert.range.message: '{i18n>person-age}'
+  age : Int16;
+}
+```
+
+Note: The above can also be written like that:
+
+```cds
+entity Person : cuid {
+  name : String;
+
+  @assert.format: {
+    $value: '/^\S+@\S+\.\S+$/', message: 'Provide a valid email address'
+  }
+  email : String;
+
+  @assert.range: {
+    $value: [(0),_], message: '{i18n>person-age}'
+  }
+  age : Int16;
+}
+```
+
+
 ### Database Constraints
 
 Next to input validation, you can add [database constraints](databases#database-constraints) to prevent invalid data from being persisted.
-
-<div id="assertconstraints" />
 
 ## Custom Logic
 
@@ -1129,7 +1164,7 @@ For unbound actions and functions:
 
 ```ts
 async function srv.send (
-  event   : string | { event, data?, headers?: object },  
+  event   : string | { event, data?, headers?: object },
   data?   : object | any
 )
 return : result of this.dispatch(req)

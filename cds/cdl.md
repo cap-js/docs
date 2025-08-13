@@ -2085,8 +2085,7 @@ service CatalogService {
 
 Bound actions and functions have a binding parameter that is usually implicit.
 It can also be modeled explicitly: the first parameter of a bound action or function is treated as binding parameter,
-if it's typed by `[many] $self`. Use Explicit Binding to control the naming of the binding parameter. Use the
-keyword `many` to indicate that the action or function is bound to a collection of instances rather than to a single one.
+if it's typed with `$self` or `many $self`. Use the keyword [`many`](#arrayed-types) to indicate that the action or function is bound to a collection of instances rather than to a single one. Also use the binding parameter to control its name.
 
 ```cds
 service CatalogService {

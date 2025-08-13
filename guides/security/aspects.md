@@ -532,11 +532,11 @@ To limit the _amount of queries_ per OData `$batch`, use <Config java>cds.odataV
 
 To prevent clients from _requesting too much data_, you can define restrictions on `$expands` for your entities: 
 
-- To prevent any expands from the entity:
+- Prevent any expands from the entity:
   - `@Capabilities.ExpandRestrictions.Expandable: false` 
-- To restrict expands for certain properties:
+- Restrict expands for certain properties:
   - `@Capabilities.ExpandRestrictions.NonExpandableProperties: [...]` 
-- To set maximum allowed depth of an `$expand` from this entity:
+- Set maximum allowed depth of an `$expand` from this entity:
   - `@Capabilities.ExpandRestrictions.MaxLevels: ...`  
   - Or you can set an **application-wide limit** with <Config java>cds.query.restrictions.expand.maxLevels = \<max depth\></Config> that applies to all entities. Value `-1` indicates absence of limit.
 
@@ -550,13 +550,13 @@ Good candidates for expand restrictions are associations to the same type (for e
 
 To restrict clients to filter (or not to filter) the data, you can define restrictions on `$filter`:
 
-- To prevent filtering on the entity:
+- Prevent filtering on the entity:
   -  `@Capabilities.FilterRestrictions.Filterable: false`
-- To indicate that clients must send requests with `$filter`:
+- Indicate that clients must send requests with `$filter`:
   - `@Capabilities.FilterRestrictions.RequiresFilter: true`
-- To indicate that `$filter` must contain certain properties:
+- Indicate that `$filter` must contain certain properties:
   - `@Capabilities.FilterRestrictions.RequiredProperties: [...]`
-- To indicate that certain properties are non-filterable:
+- Indicate that certain properties are non-filterable:
   - `@Capabilities.FilterRestrictions.NonFilterableProperties: [...]`
 
 </div>

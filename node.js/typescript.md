@@ -103,6 +103,22 @@ In general, `tsx` is the better choice, as `tsx` is considerably faster than `ts
 See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
 :::
 
+## Running built project locally
+
+When building a TypeScript project and running it locally, you need to serve the project from the build folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
+
+```sh
+cds build       # to create the js files, followed by either:
+
+cd gen/srv && npx cds-serve
+
+# or:
+cd gen/srv && npm start
+
+# or:
+npx cds-serve -p gen/srv
+```
+
 ## Testing with `ts-jest`
 
 Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.

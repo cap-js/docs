@@ -105,7 +105,7 @@ See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) be
 
 ## Running Built Projects Locally
 
-When building a TypeScript project and running it locally, you need to serve the project from the build folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
+If you want to test-run the application as it would run in the cloud, start it from the build result folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
 
 ```sh
 cds build       # to create the js files, followed by either:

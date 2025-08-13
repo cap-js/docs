@@ -323,7 +323,7 @@ cds build --for postgres
 
 <div class="impl node">
 
-If you want to test-run the application as it would run in the cloud, start it from the build result folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
+The artifacts deployed to the various cloud platforms are generated in the `gen/srv/` folder. So, to test the application as it runs on the cloud start your application from the `gen/srv/` folder:
 
 ```sh
 cds build       # to create the build results, followed by either:

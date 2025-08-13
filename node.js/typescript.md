@@ -103,22 +103,6 @@ In general, `tsx` is the better choice, as `tsx` is considerably faster than `ts
 See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
 :::
 
-## Running Built Projects Locally
-
-If you want to test-run the application as it would run in the cloud, start it from the build result folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
-
-```sh
-cds build       # to create the js files, followed by either:
-
-cd gen/srv && npx cds-serve
-
-# or:
-cd gen/srv && npm start
-
-# or:
-npx cds-serve -p gen/srv
-```
-
 ## Testing with `ts-jest`
 
 Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
@@ -162,6 +146,17 @@ Run your Jest tests with preset `ts-jest` without precompiling TypeScript files.
 A dedicated build task for `cds build` is provided as part of the `cds-typer` package.
 
 [Learn more about integrating it into your build process.](../tools/cds-typer#integrate-into-your-build-process){.learn-more}
+
+## Running Built Projects Locally
+
+If you want to test-run the application as it would run in the cloud, start it from the build result folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
+
+```sh
+cds build     # to create the js files
+cd gen/srv && npm start
+```
+
+[Learn more on running a project from build results.](../guides/deployment/custom-builds#test-run){.learn-more}
 
 ## TypeScript APIs in `@sap/cds` <Since version="8.0.0" of="@sap/cds" />
 

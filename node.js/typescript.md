@@ -103,7 +103,7 @@ In general, `tsx` is the better choice, as `tsx` is considerably faster than `ts
 See a closer [comparison](https://tsx.is/faq#how-does-tsx-compare-to-ts-node) between the two of them.
 :::
 
-## Running built project locally
+## Running built projects locally
 
 When building a TypeScript project and running it locally, you need to serve the project from the build folder `gen/srv/`. This directory will be the app root on cloud platforms and therefore needs to be the root for local serving too:
 

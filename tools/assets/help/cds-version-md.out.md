@@ -15,5 +15,5 @@
 | @cap-js/db-service     | 2.3.0                                   |
 | @cap-js/openapi        | 1.2.3                                   |
 | @cap-js/sqlite         | 2.0.2                                   |
-| Node.js                | v22.17.1                                |
+| Node.js                | v22.18.0                                |
 </pre>

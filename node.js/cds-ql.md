@@ -725,7 +725,7 @@ SELECT ... .pipeline (cds.context.http.res)
 
 ### foreach() {.method}
 
-Creates an object stream and calls the provided callback for each object:
+Creates an object stream and calls the provided callback for each object.
 
 
 ```js

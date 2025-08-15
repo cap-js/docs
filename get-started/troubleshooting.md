@@ -524,8 +524,7 @@ After you have successfully deployed these changes to all affected HDI (tenant) 
 
 <div id="hana-ips" />
 
-#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_
-{#missingPlugin}
+#### Deployment fails — _... build plugin for file suffix "hdbmigrationtable" [8210015]_ {#missingPlugin}
 
 |  | Explanation |
 | --- | ---- |

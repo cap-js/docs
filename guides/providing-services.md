@@ -15,8 +15,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 [[toc]]
 
 
-## Intro: Core Concepts
-{#introduction}
+## Intro: Core Concepts {#introduction}
 
 The following sections give a brief overview of CAP's core concepts.
 
@@ -161,8 +160,7 @@ The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide a wealt
 In effect, a service definition [as introduced above](#service-definitions) is all we need to run a full-fledged server out of the box. The need for coding reduces to real custom logic specific to a project's domain &rarr; section [Custom Logic](#custom-logic) picks that up.
 
 
-### Serving CRUD Requests
-{#serving-crud}
+### Serving CRUD Requests {#serving-crud}
 
 The CAP runtimes for [Node.js](../node.js/) and [Java](../java/) provide generic handlers, which automatically serve all CRUD requests to entities for CDS-modelled services on top of a default [primary database](databases).
 

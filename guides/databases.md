@@ -24,7 +24,11 @@ impl-variants: true
 
 ### Migrating to the `@cap-js/` Database Services?  {.node}
 
-With CDS 8, the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services for SQLite, PostgreSQL, and SAP HANA are generally available. It's highly recommended to migrate. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+Since CDS 8, the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services for SQLite, PostgreSQL, and SAP HANA have been generally available. You can find instructions in the [migration guide](databases-sqlite#migration). Although the guide is written in the context of the SQLite Service, the same hints apply to PostgreSQL and SAP HANA.
+
+:::info Migration Required
+Starting with CDS 9, the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services are the default and **only** supported CAP database runtime. If you haven’t migrated yet, we strongly recommend doing so.
+:::
 
 ### Adding Database Packages  {.node}
 
@@ -36,27 +40,26 @@ Following are cds-plugin packages for CAP Node.js runtime that support the respe
 | **[SQLite](databases-sqlite)**       | [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite) | recommended for development        |
 | **[PostgreSQL](databases-postgres)** | [`@cap-js/postgres`](https://www.npmjs.com/package/@cap-js/postgres) | maintained by community + CAP team |
 
-<!-- Do we really need to say that? -->
-> Follow the preceding links to find specific information for each.
 
 In general, all you need to do is to install one of the database packages, as follows:
 
 Using SQLite for development:
 
 ```sh
-npm add @cap-js/sqlite -D
+cds add sqlite
 ```
 
 Using SAP HANA for production:
 
 ```sh
-npm add @cap-js/hana
+cds add hana
 ```
 
-<!-- REVISIT: A bit confusing to prefer the non-copiable variant that doesn't get its own code fence -->
-::: details Prefer `cds add hana` ...
+After that, run `npm install` to install the packages.
 
-... which also does the equivalent of `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database).
+:::info prefer `cds add …` over `npm add …`
+
+It  does the equivalent of e.g. `npm add @cap-js/hana` but in addition cares for updating `mta.yaml` and other deployment resources as documented in the [deployment guide](deployment/to-cf#_1-sap-hana-database).
 
 :::
 
@@ -64,19 +67,18 @@ npm add @cap-js/hana
 
 The afore-mentioned packages use `cds-plugin` techniques to automatically configure the primary database with `cds.env`. For example, if you added SQLite and SAP HANA, this effectively results in this auto-wired configuration:
 
-<!-- REVISIT: hdbtable is now default, should we mention it anyway? -->
 ```json
 {"cds":{
   "requires": {
     "db": {
       "[development]": { "kind": "sqlite", "impl": "@cap-js/sqlite", "credentials": { "url": "memory" } },
-      "[production]": { "kind": "hana", "impl": "@cap-js/hana", "deploy-format": "hdbtable" }
+      "[production]": { "kind": "hana", "impl": "@cap-js/hana" }
     }
   }
 }}
 ```
 
-::: details In contrast to pre-CDS 7 setups this means...
+::: warning In contrast to pre-CDS 7 setups this means...
 
 1. You don't need to — and should not — add direct dependencies to driver packages, like [`hdb`](https://www.npmjs.com/package/hdb) or [`sqlite3`](https://www.npmjs.com/package/sqlite3) anymore in your *package.json* files.
 2. You don't need to configure `cds.requires.db` anymore, unless you want to override defaults brought with the new packages.
@@ -114,7 +116,7 @@ The auto-wired configuration uses configuration presets, which are automatically
 
 The config options are as follows:
 
-- `kind` — a name of a preset, like `sql`, `sqlite`, `postgres`, or `hana`
+- `kind` — a name of a preset, like `sqlite`, `postgres`, or `hana`
 - `impl` — the module name of a CAP database service implementation
 - `credentials` — an object with db-specific configurations, most commonly `url`
 
@@ -345,6 +347,8 @@ Select.from(AUTHOR)
 
 ### Standard Operators {.node}
 
+<!-- TODO: this section needs to be rewritten, Java and cds-compiler offer support too. -->
+
 The database services guarantee the identical behavior of these operators:
 
 * `==`, `=` — with `=` null being translated to `is null`
@@ -356,7 +360,7 @@ In particular, the translation of `!=` to `IS NOT` in SQLite — or to `IS DISTI
 
 ### Session Variables {.node}
 
-The API shown after this, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** new database services, that is, *SQLite*, *PostgreSQL* and *SAP HANA*.
+The API shown after this, which includes the function `session_context()` and specific pseudo variable names, is supported by **all** [`@cap-js`](https://github.com/cap-js/cds-dbs) database services.
 This allows you to write the respective code once and run it on all these databases:
 
 ```sql
@@ -393,7 +397,9 @@ db.queryForList("SELECT from sqlite_schema where name like ?", name);
 
 ### Reading `LargeBinary` / BLOB {.node}
 
-Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type. Now, they're skipped from `SELECT *` queries. Yet, you can still enforce reading BLOBs by explicitly selecting them. Then the BLOB properties are returned as readable streams.
+Formerly, `LargeBinary` elements (or BLOBs) were always returned as any other data type.
+With the [`@cap-js`](https://github.com/cap-js/cds-dbs) database services, they're skipped from `SELECT *` queries.
+Yet, you can still enforce reading BLOBs by explicitly selecting them. The selected BLOB properties are returned as readable streams.
 
 ```js
 SELECT.from(Books)          //> [{ ID, title, ..., image1, image2 }] // [!code --]
@@ -466,7 +472,7 @@ service CatalogService {
 :::
 
 
-Generate an SQL DDL script by running this in the root directory containing both *.cds* files:
+Generate the SQL DDL script by running the following command in the root directory that contains your *.cds* files:
 
 <div class="impl node">
 
@@ -647,24 +653,26 @@ In addition, you can use the following annotations to fine-tune generated SQL.
 
 ### @cds.persistence.skip
 
-Add `@cds.persistence.skip` to an entity to indicate that this entity should be skipped from generated DDL scripts, and also no SQL views to be generated on top of it:
+Use `@cds.persistence.skip` on an entity to exclude it from all generated DDL artifacts.
+When this annotation is present, the CDS compiler creates **neither** a table for the entity **nor** any SQL views based on it:
 
 ```cds
 @cds.persistence.skip
-entity Foo {...}                 //> No SQL table will be generated
-entity Bar as select from Foo;   //> No SQL view will be generated
+entity Foo {...}                 // → no SQL table is generated
+entity Bar as select from Foo;   // → no SQL view is generated
 ```
 
 
 
 ### @cds.persistence.exists
 
-Add `@cds.persistence.exists` to an entity to indicate that this entity should be skipped from generated DDL scripts. In contrast to `@cds.persistence.skip` a database relation is expected to exist, so we can generate SQL views on top.
+Use `@cds.persistence.exists` on an entity when the underlying table already exists in the database.
+The CDS compiler therefore **skips** table creation but **still** generates SQL views that reference the entity:
 
 ```cds
 @cds.persistence.exists
-entity Foo {...}                 //> No SQL table will be generated
-entity Bar as select from Foo;   //> The SQL view will be generated
+entity Foo {...}                 // → no SQL table is generated (assumed to exist)
+entity Bar as select from Foo;   // → SQL view is generated
 ```
 
 ::: details On SAP HANA ...
@@ -731,9 +739,8 @@ The following rules apply:
   a potential name mapping yourself, for example, for structured elements.
 
 - Annotation `@sql.prepend` is only supported for entities translating to tables. It can't be used with views or with elements.
-- For SAP HANA tables, there's an implicit `@sql.prepend: 'COLUMN'` that is overwritten by an explicitly provided `@sql.prepend`.
 
-* Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
+- Both `@sql.prepend` and `@sql.append` are disallowed in SaaS extension projects.
 
 If you use native database clauses in combination with `@cds.persistence.journal`, see [Schema Evolution Support of Native Database Clauses](databases-hana#schema-evolution-native-db-clauses).
 
@@ -741,7 +748,10 @@ If you use native database clauses in combination with `@cds.persistence.journal
 
 #### Creating a Row Table on SAP HANA
 
-By using `@sql.prepend: 'ROW'`, you can create a row table:
+For SAP HANA tables, CDS creates **column** tables by default via an implicit `@sql.prepend: 'COLUMN'`.
+You can override this default with your own  `@sql.prepend`.  
+
+Use `@sql.prepend: 'ROW'` to generate a **row** table instead:
 
 ```cds
 @sql.prepend: 'ROW'
@@ -750,7 +760,7 @@ entity E {
 }
 ```
 
-Run `cds compile - 2 hdbtable` on the previous sample and this is the result:
+Run `cds compile -2 hdbtable` on the previous sample and this is the result:
 
 ```sql [E.hdbtable]
 ROW TABLE E (
@@ -760,6 +770,7 @@ ROW TABLE E (
 ```
 
 [Learn more about Columnar and Row-Based Data Storage](https://help.sap.com/docs/hana-cloud-database/sap-hana-cloud-sap-hana-database-administration-guide/columnar-and-row-based-data-storage){.learn-more}
+
 ### Reserved Words
 
 The CDS compiler and CAP runtimes provide smart quoting for reserved words in SQLite and in SAP HANA so that they can still be used in most situations. But in general reserved words can't be used as identifiers. The list of reserved words varies per database.
@@ -883,7 +894,7 @@ entity Genres {
 }
 ```
 
-As a special case, a referential constraint with `delete cascade` is also generated
+As a special case, a referential constraint with `ON DELETE CASCADE` is also generated
 for the text table of a [localized entity](../guides/localized-data#localized-data),
 although no managed association is present in the `texts` entity.
 
@@ -1081,7 +1092,11 @@ In addition to the OData and SAP HANA standard functions, the **CAP runtimes** p
 
 ## Using Native Features  { #native-db-functions}
 
-In general, the CDS 2 SQL compiler doesn't 'understand' SQL functions but translates them to SQL generically as long as they follow the standard call syntax of `function(param1, param2)`. This allows you to use native database functions inside your CDS models.
+The CDS-to-SQL compiler _understands_ the standard functions listed above and rewrites them to suitable native SQL (or polyfills) in a database-agnostic way.  
+
+For any **other** function call that follows the regular `function(arg1, arg2, …)` syntax, the compiler simply forwards the call unchanged to the target database.
+This means you can freely mix the portable standard functions with vendor-specific or user-defined functions in your CDS models.
+
 
 Example:
 
@@ -1104,23 +1119,24 @@ entity RankedBooks as select from Books {
 
 #### Using Native Functions with Different DBs { #sqlite-and-hana-functions}
 
-In case of conflicts, follow these steps to provide different models for different databases:
+In case of conflicts, follow these steps to provide different models for different databases.  
+The example below uses *string aggregation* — a function that isn’t part of the portable
+standard-function set, so each database needs its custom implementation:
 
-1. Add database-specific schema extensions in specific subfolders of `./db`:
+1. **Add database-specific schema extensions** under dedicated sub-folders of `./db`:
 
    ::: code-group
-
    ```cds [db/sqlite/index.cds]
    using { AdminService } from '..';
    extend projection AdminService.Authors with {
-      strftime('%Y',dateOfDeath)-strftime('%Y',dateOfBirth) as age : Integer
+     group_concat(title, ', ') as books : String     // SQLite
    }
    ```
 
    ```cds [db/hana/index.cds]
    using { AdminService } from '..';
    extend projection AdminService.Authors with {
-      YEARS_BETWEEN(dateOfBirth, dateOfDeath) as age : Integer
+      STRING_AGG(title, ', ')  as books : String      // SAP HANA (and PostgreSQL)
    }
    ```
 

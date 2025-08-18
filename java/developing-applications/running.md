@@ -6,7 +6,7 @@ status: released
 uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/9186ed9ab00842e1a31309ff1be38792.html
 ---
 
-# Running Applications
+# Running Applications { #local-development-support }
 <style scoped>
   h1:before {
     content: "Java"; display: block; font-size: 60%; margin: 0 0 .2em;
@@ -66,7 +66,7 @@ Use your IDE to run or debug your application.
 If the Spring Boot Devtools configuration of your CAP Java application defines a [trigger file](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.restart.triggerfile), the `auto-build` can detect this and touch the trigger file in case of any file change. The same applies to the `watch` goal.
 :::
 
-## Run Java application with CDS Watch 
+## Run Java application with CDS Watch { #cds-watch }
 
 CDS Maven plugin also provide the goal `watch` that does CDS build and can start your application.
 

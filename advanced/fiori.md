@@ -466,11 +466,42 @@ POST /odata/v4/AdminService/Books(ID=a11fb6f1-36ab-46ec-b00c-d379031e817a,IsActi
 Content-Type: application/json
 
 {}
-
+```
 
 For more details, see the [official UI5 documentation](https://ui5.sap.com/#/topic/ed9aa41c563a44b18701529c8327db4d).
 
 ### Validating Drafts
+
+CAP provides _state messages_ to the UI5 OData V4 model. This enables validations of drafts and giving feedback about errors to users faster in the UI.
+
+::: warning Requires OData V4 and UI5 version >=1.135.0
+The _state messages_ feature relies on UI5 to use _document URLs_. That's because, with this feature enabled, CAP sets the annotation `@Common.AddressViaNavigationPath` to instruct UI5 to use _document URLs_. In turn, this requires OData V4 and UI5 version >= 1.135.0. OData V2 does not support the annotation.
+:::
+
+If required, for example because of usage of OData V2, this feature can be disabled with <Config>cds.fiori.draft_messages:false</Config>.
+
+This feature adds additional elements to your draft-enabled entities and [`DraftAdministrativeData`](/guides/security/data-protection-privacy#dpp-cap), which are required to store and serve state messages. For this to work, the CAP runtimes support persisting (error) messages for draft-enabled entities.
+
+In addition, you can observe the following improvements, without any changes to the application code:
+
+- Error messages for annotation-based validations (for example, `@mandatory` or `@assert...`) already appear while editing the draft.
+- Custom validations can now be registered to the `DRAFT_PATCH` event and can write (error) messages. It's ensured that the invalid value is still persisted, as expected by the draft choreography.
+- Messages no longer unexpectedly vanish from the UI after editing another field.
+- Messages are automatically loaded when reopening a previously edited draft.
+
+By default, when activating this state messages, side-effect annotations are generated in the EDMX that instruct UI5 to fetch state messages after every `PATCH` request. If you require more precise control over side-effect annotations, you can disable the side-effect annotation per entity:
+
+```cds
+// Setting `null` disables the side-effect annotation for always fetching messages.
+annotate MyService.MyEntity with @Common.SideEffects #alwaysFetchMessages: null;
+```
+
+::: warning Requires Schema Update
+This feature initiates a database schema update, as it adds an additional element to `DraftAdministrativeData`.
+:::
+
+
+#### Custom Validations
 
 You can add [custom handlers](../guides/providing-services#custom-logic) to add specific validations, as usual. In addition, for a draft, you can register handlers to the respective `UPDATE` events to validate input per field, during the edit session, as follows.
 

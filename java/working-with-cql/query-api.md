@@ -528,7 +528,7 @@ import static bookshop.Bookshop_.BOOKS;
 CqnSelect q = Select.from(BOOKS)
     .columns(b -> b.author());
 
-CdsData book = dataStore.execute(q).single();
+Row book = dataStore.execute(q).single();
 Object authorId = book.get("author.Id"); // path access
 ```
 
@@ -1152,7 +1152,7 @@ Map<String, Object> paramSet2 = new HashMap<>();
 paramSet2.put("author.name", "Emily Brontë");
 paramSet2.put("title", "Wuthering Heights");
 
-CdsResult<?> result = service.run(update, asList(paramSet1, paramSet2));
+Result result = service.run(update, asList(paramSet1, paramSet2));
 ```
 
 ## Delete

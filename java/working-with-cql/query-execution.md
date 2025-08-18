@@ -23,7 +23,7 @@ CqnService service = ...
 CqnSelect query = Select.from("bookshop.Books")
     .columns("title", "price");
 
-CdsResult<?> result = service.run(query);
+Result result = service.run(query);
 ```
 
 
@@ -46,7 +46,7 @@ Map<String, Object> paramValues = new HashMap<>();
 paramValues.put("id1", 101);
 paramValues.put("id2", 102);
 
-CdsResult<?> result = service.run(delete, paramValues);
+Result result = service.run(delete, paramValues);
 ```
 ::: warning
 The parameter value map **must** be of type `Map<String, Object>`, otherwise the map is interpreted as a single positional/indexed parameter value, which results in an error.
@@ -62,7 +62,7 @@ import static com.sap.cds.ql.CQL.param;
 CqnDelete delete = Delete.from("bookshop.Books")
     .where(b -> b.get("ID").in(param(0), param(1)));
 
-CdsResult<?> result = service.run(delete, 101, 102);
+Result result = service.run(delete, 101, 102);
 ```
 
 Before the execution of the statement the values 101 and 102 are bound to the defined parameters.
@@ -114,7 +114,7 @@ To query `BooksView` in Java, run a select statement and provide values for all 
 CqnSelect query = Select.from("BooksView");
 var params = Map.of("minStock", 100);
 
-CdsResult<?> result = service.run(query, params);
+Result result = service.run(query, params);
 ```
 
 ### Query Hints { #hana-hints}
@@ -140,10 +140,10 @@ The [update](./query-api) operation can be executed as follows:
 Map<String, Object> book = Map.of("title", "CAP");
 
 CqnUpdate update = Update.entity("bookshop.Books").data(book).byId(101);
-CdsResult<?> updateResult = service.run(update);
+Result updateResult = service.run(update);
 ```
 
-The update `CdsResult` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../../guides/domain-modeling#managed-data) and foreign key values.
+The update `Result` contains the data that is written by the statement execution. Additionally to the given data, it may contain values generated for [managed data](../../guides/domain-modeling#managed-data) and foreign key values.
 
 The [row count](https://javadoc.io/doc/com.sap.cds/cds4j-api/latest/com/sap/cds/CdsResult.html#rowCount()) of the update `CdsResult` indicates how many rows where updated during the statement execution:
 
@@ -204,10 +204,10 @@ entity Author {
 Iterable<Map<String, Object>> books;
 
 CqnInsert insert = Insert.into("bookshop.Books").entries(books);
-CdsResult<?> result = service.run(insert);
+Result result = service.run(insert);
 
 CqnUpsert upsert = Upsert.into("bookshop.Books").entries(books);
-CdsResult<?> result = service.run(upsert);
+Result result = service.run(upsert);
 ```
 
 
@@ -461,7 +461,7 @@ CqnUpdate update = Update.entity(ORDER).entry(newData)
                          .where(o -> o.id().eq(85).and(
                                      o.eTag(expectedLastModification)));
 
-CdsResult<?> rs = db.execute(update);
+Result rs = db.execute(update);
 
 if (rs.rowCount() == 0) {
     // order 85 does not exist or was modified concurrently
@@ -510,7 +510,7 @@ Order order = db.run(select).single(Order.class);
 order.setAmount(5000);
 
 CqnUpdate update = Update.entity(ORDER).entry(order);
-CdsResult<?> rs = db.execute(update);
+Result rs = db.execute(update);
 
 if (rs.rowCount() == 0) {
     // order 85 does not exist or was modified concurrently
@@ -527,7 +527,7 @@ List<Order> orders = db.run(select).listOf(Order.class);
 
 orders.forEach(o -> o.setStatus("cancelled"));
 
-CdsResult<?> rs = db.execute(Update.entity(ORDER).entries(orders));
+CdsResult<Order> rs = db.execute(Update.entity(ORDER).entries(orders));
 
 for(int i = 0; i < orders.size(); i++) if (rs.rowCount(i) == 0) {
     // order does not exist or was modified concurrently
@@ -589,7 +589,7 @@ Java snippet for creating element `coverImage` from file `IMAGE.PNG` using `java
 ```java
 // Transaction started
 
-CdsResult<?> result;
+Result result;
 try (InputStream resource = getResource("IMAGE.PNG")) {
     Map<String, Object> book = new HashMap<>();
     book.put("title", "My Fancy Book");
@@ -715,7 +715,7 @@ Map<String, String> titleToDescription =
 
 For the entities defined in the data model, CAP Java SDK can generate interfaces for you through [a Maven plugin](../cqn-services/persistence-services#staticmodel).
 
-When setting `linkedInterfaces` to `true` in the CDS Maven Plugin `generate` goal, [query builder interfaces](../working-with-cql/query-api#concepts) and [data accessor interfaces](../cds-data#typed-access) are linked. This enables automatically typed results when executing a `Select` or `Update` statement, avoiding the need to explicitly pass the data accessor interface class to methods like `single()`, `listOf()` or `streamOf()`.
+When setting `linkedInterfaces` to `true` in the CDS Maven Plugin's `generate` goal, [query builder interfaces](../working-with-cql/query-api#concepts) and [data accessor interfaces](../cds-data#typed-access) are linked. This enables automatically typed results when executing a `Select` or `Update` statement, avoiding the need to explicitly pass the data accessor interface class to methods like `single(Entity.class)`, `listOf(Entity.class)` or `streamOf(Entity.class)`.
 
 ```java
 import static cds.gen.catalogservice.CatalogService_.BOOKS;
@@ -726,7 +726,7 @@ Books book = result.single();
 ```
 
 ::: tip
-Avoid using `CqnSelect` or `CqnUpdate` for typed query declarations, but prefer `var` to allow the Java compiler to retain the entity query type, linking to the data accessor interface.
+Avoid using `CqnSelect` or `CqnUpdate` for typed query declarations, but prefer `var` to allow the Java compiler to retain the entity query type, linking to the data accessor interface: `var result = service.run(select);`
 :::
 
 ### Entity References {#entity-refs}
@@ -781,7 +781,7 @@ The `rowType` method allows to introspect the element names and types of a query
 CqnSelect query = Select.from(AUTHOR)
      .columns(a -> a.name().as("authorName"), a -> a.age());
 
-CdsResult<?> result = service.run(query);
+Result result = service.run(query);
 
 CdsStructuredType rowType = result.rowType();
 rowType.elements(); // "authorName", "age"

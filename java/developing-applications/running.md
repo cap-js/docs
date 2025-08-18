@@ -36,7 +36,7 @@ To use the `cds` prefix of the `cds-maven-plugin` from everywhere, add the plugi
 </pluginGroups>
 ```
 
-This uses the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) feature. This Maven feature allows you to use only the `cds` prefix of the `cds-maven-plugin` to execute goals of this plugin. For example, instead of `mvn com.sap.cds:cds-maven-plugin:watch` you can use the shorter variant `mvn cds:watch` to run the `watch` goal of the `cds-maven-plugin`.
+This uses the [Maven plugin prefix resolution](https://maven.apache.org/guides/introduction/introduction-to-plugin-prefix-mapping.html) feature. This Maven feature allows you to use the `cds` prefix of the `cds-maven-plugin` to execute goals of this plugin, like `watch`, from everywhere.
 
 ## Run Java application in your IDE
 

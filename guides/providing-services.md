@@ -432,7 +432,7 @@ If an entity has an element annotated with the `@Common.Text` annotation, then t
 
 ```cds
 entity Books : cuid {
-  String title;
+  title  : String;
   @Common.Text : author.name
   author : Association to Author;
 }

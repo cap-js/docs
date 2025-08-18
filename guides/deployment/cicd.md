@@ -31,23 +31,13 @@ cds add github-actions
 
 ### Set Up a Sandbox
 
-Deploying new projects to share them with project managers or testers can be simplified to allow for a seamless experience — even for entirely new projects — by setting up a sandbox environment.
+Deploying new projects to share them with project managers or testers can be simplified to allow for a seamless experience — even for entirely new projects — by setting up a shared sandbox environment.
 
 In your GitHub organization, navigate to
 
 `Settings` → `Secrets and variables` → `Actions`.
 
-Here you can maintain org-wide secrets and variables.
-
-::: tip Share resources for sandbox deployments in your org
-
-By sharing resources you can not only deploy entirely new projects without any additional setup, but it can also reduce total cost of ownership.
-
-If required for your use case , you can easily **overwrite org-wide** variables and secrets by **repository-local** ones.
-:::
-
-Also make sure sufficient service entitlements are assigned to your subaccount depending on your expected usage.
-
+Here you can maintain org-wide secrets and variables. For a minimal sandbox setup, make sure the following variables and secrets are added:
 
 #### Cloud Foundry
 
@@ -92,12 +82,23 @@ current-context: ci-context
 ```
 [Learn more about configuring Kubernetes](./to-kyma#configure-kubernetes){.learn-more style="margin-top:20px"}
 
-
 :::
+
+#### BTP
+
+Also make sure sufficient service entitlements are assigned to your subaccount depending on your expected usage.
+
+::: tip Share resources for sandbox deployments in your org
+
+By sharing resources you can not only deploy entirely new projects without any additional setup, but it can also reduce total cost of ownership.
+
+If required for your use case, you can easily **overwrite org-wide** variables and secrets by **repository-local** ones.
+:::
+
 
 #### You're set!
 
-You can now simply push any CAP project that was set up using `cds add github-actions` to this org, no additional setup required. The deployment workflow will start and after some time a new deployment will show up in the **Deployments** section on your repository front page:
+You can now simply push any CAP project that was set up using `cds add github-actions` to your org, no additional setup required. When merging PRs or pushing to your `main` branch the deployment workflow will start and after some time a new entry will show up in the _Deployments_ section on your repository front page:
 
 ![](./assets/github-deployment.png){style="max-width: 200px"} <!-- = image-width/2 -->
 
@@ -105,13 +106,11 @@ You can now simply push any CAP project that was set up using `cds add github-ac
 
 #### Prerequisites
 
-For the actual release we want to override org-wide sandbox variables to deploy to a different subaccount and database.
+For the actual release we want to override org-wide sandbox variables to deploy to a different subaccount/organization and database.
 
 Go to `Settings` → `Environments` → `New environment` → enter "Production".
 
-<!-- While we promote sharing resources across staging deployments, productive releases should happen to their dedicated subaccounts and databases. -->
-
-Override org-wide variables (e.g. `CF_ORG` and `CF_SPACE` in Cloud Foundry) to use the dedicated subaccount you created for the release deployment.
+Now override org-wide variables (e.g. `CF_ORG` and `CF_SPACE` in Cloud Foundry) to use a dedicated subaccount you created for the release deployment.
 
 #### Publish the release
 

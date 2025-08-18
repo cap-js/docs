@@ -22,7 +22,7 @@ status: released
 
 GitHub offers continuous integration using [GitHub Actions](https://docs.github.com/en/actions/automating-builds-and-tests/about-continuous-integration). In our [samples](https://github.com/capire/samples), we use simple workflows to [test, deploy and release new versions](https://github.com/capire/samples/tree/main/.github/workflows).
 
-Simply add a default set of workflows to your project like so:
+Add a default set of workflows to your project like so:
 
 ```sh
 cds add github-actions

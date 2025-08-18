@@ -99,7 +99,7 @@ You can customize the goals that are executed when the application is restarted 
     ```
 
 ::: warning Restart for changed Java classes
-Spring Boot Devtools only detects changes to .class files. You need to enable the *automatic build* feature in your IDE which detects source file changes and rebuilds the .class file. If not, you have to manually rebuild your project to restart your CAP Java application.
+Spring Boot Devtools only detects changes to .class files. You need to enable the *automatic build* feature in your IDE which detects source file changes and rebuilds the _.class_ file. If not, you have to manually rebuild your project to restart your CAP Java application.
 :::
 
 ## Multitenant Applications

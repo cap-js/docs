@@ -17,8 +17,7 @@ One of the key [CAP design principles](../../about/#open-and-opinionated) is to 
 Giving a clear guidance for cutting-edge technologies on the one hand and still keeping the door wide open for custom choice on the other hand, demands a highly flexible CAP Java runtime stack.
 The [modular architecture](#modular_architecture) reflects this requirement, allowing a fine-grained and flexible [configuration](#stack_configuration) based on standard or custom modules.
 
-## Modular Stack Architecture
-{ #modular_architecture}
+## Modular Stack Architecture { #modular_architecture}
 
 ### Overview
 
@@ -343,8 +342,7 @@ It supports the following command-line options:
 | `-Dpersistence=[true\|false]` | Specify whether persistence is enabled (`true`) or disabled (`false`). Defaults to `true`. |
 | `-DcdsdkVersion=<a valid cds-dk version>` | Sets the provided cds-dk version in the project. If not specified, the default of CAP Java is used. |
 
-## Building Projects with Maven
-{ #maven-build-options }
+## Building Projects with Maven { #maven-build-options }
 
 You can build and run your application by means of the following Maven command:
 
@@ -395,8 +393,7 @@ A `package-lock.json` is also created during project creation with the `cds-serv
 For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
 :::
 
-#### Migrate From Goal `install-cdsdk` to `npm ci` 
-{ #migration-install-cdsdk }
+#### Migrate From Goal `install-cdsdk` to `npm ci` { #migration-install-cdsdk }
 
 To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach, the following steps are required:
 

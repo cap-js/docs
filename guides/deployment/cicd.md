@@ -29,15 +29,15 @@ cds add github-actions
 ```
 > You can also use `cds add gha` as a shortcut.
 
-### Set Up a Sandbox
+### Deploy to Staging
 
-Deploying new projects to share them with project managers or testers can be simplified to allow for a seamless experience — even for entirely new projects — by setting up a shared sandbox environment.
+The created workflows do a _Staging_ deployment for pushes on the `main` branch, for example after merging pull requests.
 
-In your GitHub organization, navigate to
+If no defaults are maintained in your GitHub org, a set of variables and secrets has to be provided. Open the repository and navigate here to maintain them:
 
-`Settings` → `Secrets and variables` → `Actions`.
+`Settings` → `Secrets and variables` → `Actions`
 
-Here you can maintain org-wide secrets and variables. For a minimal sandbox setup, make sure the following variables and secrets are added:
+For a minimal deployment setup, these variables and secrets are required:
 
 #### Cloud Foundry
 
@@ -84,21 +84,20 @@ current-context: ci-context
 
 :::
 
-#### BTP
+#### BTP Prerequisites
 
 Also make sure sufficient service entitlements are assigned to your subaccount depending on your expected usage.
 
-::: tip Share resources for sandbox deployments in your org
+::: tip Set up a sandbox subaccount as an org-wide default
 
-By sharing resources you can not only deploy entirely new projects without any additional setup, but it can also reduce total cost of ownership.
+Organization variables and secrets allow you to provide defaults for new projects without prior setup.
 
-If required for your use case, you can easily **overwrite org-wide** variables and secrets by **repository-local** ones.
+Once required for your use case, you can easily **overwrite org-wide** variables and secrets by **repository-local** ones.
 :::
-
 
 #### You're set!
 
-You can now simply push any CAP project that was set up using `cds add github-actions` to your org, no additional setup required. When merging PRs or pushing to your `main` branch the deployment workflow will start and after some time a new entry will show up in the _Deployments_ section on your repository front page:
+You can now simply push any CAP project that was set up using `cds add github-actions` to your org. When merging PRs or pushing to your `main` branch, the deployment workflow will start and after some time a new entry will show up in the _Deployments_ section on your repository front page:
 
 ![](./assets/github-deployment.png){style="max-width: 200px"} <!-- = image-width/2 -->
 

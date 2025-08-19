@@ -101,7 +101,7 @@ You can now simply push any CAP project that was set up using `cds add github-ac
 
 ![](./assets/github-deployment.png){style="max-width: 200px"} <!-- = image-width/2 -->
 
-### Do a Release
+### Create a GitHub Release
 
 #### Prerequisites
 

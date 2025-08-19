@@ -467,7 +467,7 @@ To override the inherited configuration from `VCAP_SERVICE`, explicitly set the 
       "hana": {
         "vcap": { 
           "label": false,  
-          "name": "myHana-binding", 
+          "name": "myHana", 
           "tags": "database" 
         }
       }

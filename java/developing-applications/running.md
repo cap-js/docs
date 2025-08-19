@@ -28,7 +28,7 @@ The fastest way of development in CAP is an automated testing. See [Service Laye
 
 ## Use `cds` Prefix Everywhere
 
-To use the `cds` prefix of the `cds-maven-plugin` from everywhere, add the plugin group `com.sap.cds` to your local `~/.m2/settings.xml`:
+To be able to use `mvn cds:watch`  instead of `mvn com.sap.cds:cds-maven-plugin:watch` add the plugin group `com.sap.cds` to your local `~/.m2/settings.xml`:
 
 ```xml
 <pluginGroups>

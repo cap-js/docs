@@ -283,7 +283,7 @@ UPDATE entity OrderView2
 - [Path expressions](../../cds/cql#path-expressions) over compositions *of one* (*header.status*) are writable. For [inserts](./query-api#insert), the view must expose all *not null* elements of the target entity and the data must include values for all of them. In the example above, the order header must have a generated key to support inserting new orders with a value for *headerStatus*.
 
     ::: warning Handling Compositions and Aliased Paths in Projections
-    For projections that include *to-one* compositions (*header*) and aliased paths over these compositions (*headerStatus*), write structured data via the composition and make the aliased path [@readonly](../../guides/providing-services#readonly). Don't use data for the aliased path together with structured data for the composition in the same statement.
+    For projections that include *to-one* compositions (*header*) and aliased paths over these compositions (*headerStatus*), write structured data using the composition and make the aliased path [@readonly](../../guides/providing-services#readonly). Do not use data for the aliased path along with structured data for the composition in the same statement.
     :::
 
     ::: warning Path Expressions over Associations

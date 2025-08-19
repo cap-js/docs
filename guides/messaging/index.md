@@ -109,9 +109,9 @@ Emitters of event messages are decoupled from the receivers and don't need to kn
 
 The following explanations walk us through a books review example from cap/samples:
 
-* **[@capire/bookshop](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop)** provides the well-known basic bookshop app.
-* **[@capire/reviews](https://github.com/sap-samples/cloud-cap-samples/tree/main/reviews)** provides an independent service to manage reviews.
-* **[@capire/bookstore](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore)** combines both into a composite application.
+* **[@capire/bookshop](https://github.com/capire/bookshop)** provides the well-known basic bookshop app.
+* **[@capire/reviews](https://github.com/capire/reviews)** provides an independent service to manage reviews.
+* **[@capire/bookstore](https://github.com/capire/bookstore)** combines both into a composite application.
 
 ![This graphic is explained in the accompanying text.](assets/cap-samples.drawio.svg)
 

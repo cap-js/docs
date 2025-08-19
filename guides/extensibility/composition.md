@@ -44,11 +44,11 @@ In the following sections, we frequently refer to examples from [cap/samples](ht
 ![The screenshot is explained in the following text.](assets/cap-samples.drawio.svg)
 
 
-- **[@capire/bookshop](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop)** provides a basic bookshop app and **reuse services** .
-- **[@capire/common](https://github.com/sap-samples/cloud-cap-samples/tree/main/common)** is a **prebuilt extension** and **business data** package for *Countries*, *Currencies*, and *Languages*.
-- **[@capire/reviews](https://github.com/sap-samples/cloud-cap-samples/tree/main/reviews)** provides an independent **reuse service**.
-- **[@capire/orders](https://github.com/sap-samples/cloud-cap-samples/tree/main/orders)** provides another independent **reuse service**.
-- **[@capire/bookstore](https://github.com/sap-samples/cloud-cap-samples/tree/main/bookstore)** combines all of the above into a **composite application**.
+- **[@capire/bookshop](https://github.com/capire/bookshop)** provides a basic bookshop app and **reuse services** .
+- **[@capire/common](https://github.com/capire/common)** is a **prebuilt extension** and **business data** package for *Countries*, *Currencies*, and *Languages*.
+- **[@capire/reviews](https://github.com/capire/reviews)** provides an independent **reuse service**.
+- **[@capire/orders](https://github.com/capire/orders)** provides another independent **reuse service**.
+- **[@capire/bookstore](https://github.com/capire/bookstore)** combines all of the above into a **composite application**.
 
 
 ### Preparation for Exercises

@@ -13,7 +13,7 @@ uacp: Used as link target from Help Portal at https://help.sap.com/products/BTP/
 
 Localized data refers to the maintenance of different translations of textual data and automatically fetching the translations matching the users' preferred language, with per-row fallback to default languages, if the required translations aren't available. Language codes are in ISO 639-1 format.
 
-> Find a **working sample** at <https://github.com/sap-samples/cloud-cap-samples/tree/main/bookshop>.
+> Find a **working sample** at <https://github.com/capire/bookshop>.
 
 [[toc]]
 

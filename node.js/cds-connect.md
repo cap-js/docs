@@ -495,7 +495,7 @@ To override the inherited configuration from `VCAP_SERVICE`, explicitly set the 
 </tbody>
 </table>
 
-::: tip To see the default environment variables, use:
+::: tip To see the default configuration of a CAP service, use:
 
 ```js
 cds env get requires.<servicename>

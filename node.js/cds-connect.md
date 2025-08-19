@@ -429,7 +429,7 @@ If the `vcap` configuration contains various properties such as `name`, `label`,
     "hana": [{
       "label": "hana",
       "plan": "standard",
-      "name": "myHana-binding",
+      "name": "myHana",
       "tags": ["database"]
     }]
   }

@@ -384,8 +384,123 @@ Here are a few examples:
 </tbody>
 </table>
 
+If the `vcap` configuration contains various properties such as `name`, `label`, `tags`, `plan`, an exact match is performed against the corresponding VCAP_SERVICE attributes. All specified properties must match simultaneously for the binding to be applied, for example:
+
+<style scoped>
+  .no-stripes tr:nth-child(2n) {
+    background-color:unset;
+  }
+</style>
+
+<table class="no-stripes">
+<thead>
+<tr>
+<th>CAP config</th>
+<th>VCAP_SERVICES</th>
+</tr>
+</thead>
+<tbody>
+<tr >
+<td >
 
 
+```json
+{
+  "cds": {
+    "requires": {
+      "hana": {
+        "vcap": { 
+          "label": "hana", 
+          "plan": "standard", 
+          "name": "myHana-binding", 
+          "tags": "database" 
+        }
+      }
+    }
+  }
+}
+```
+</td>
+<td >
+
+```json
+{
+  "VCAP_SERVICES": {
+    "hana": [{
+      "label": "hana",
+      "plan": "standard",
+      "name": "myHana-binding",
+      "tags": ["database"]
+    }]
+  }
+}
+```
+</td>
+</tr>
+</tbody>
+</table>
+
+To override the inherited configuration from `VCAP_SERVICE`, explicitly set the service property `vcap.label` to `false` in the configuration file, for example:
+
+<style scoped>
+  .no-stripes tr:nth-child(2n) {
+    background-color:unset;
+  }
+</style>
+
+<table class="no-stripes">
+<thead>
+<tr>
+<th>CAP config</th>
+<th>VCAP_SERVICES</th>
+</tr>
+</thead>
+<tbody>
+<tr >
+<td >
+
+
+```json
+{
+  "cds": {
+    "requires": {
+      "hana": {
+        "vcap": { 
+          "label": false,  
+          "name": "myHana-binding", 
+          "tags": "database" 
+        }
+      }
+    }
+  }
+}
+```
+</td>
+<td >
+
+```json
+{
+  "VCAP_SERVICES": {
+    "myHana-binding": [{
+      "label": "hana",
+      "plan": "standard",
+      "name": "myHana-binding",
+      "tags": ["database"]
+    }]
+  }
+}
+```
+</td>
+</tr>
+</tbody>
+</table>
+
+::: tip To see the default environment variables, use:
+
+```js
+cds env get requires.<servicename>
+```
+:::
 
 ### In Kubernetes / Kyma { #in-kubernetes-kyma}
 

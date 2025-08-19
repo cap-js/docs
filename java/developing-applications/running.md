@@ -86,7 +86,7 @@ On Windows, the `watch` goal only works if the Spring Boot Devtools are enabled.
 
 You can customize the goals that are executed when the application is restarted after the change to get even faster feedback: 
 
-- Use the following command to execute the CDS build and code generator:
+- Use the following command to execute the CDS build and code generator to regenerate [accessor interfaces](../cds-data#generated-accessor-interfaces):
 
     ```sh
     mvn cds:watch -Dgoals=cds,generate

@@ -384,7 +384,7 @@ Here are a few examples:
 </tbody>
 </table>
 
-If the `vcap` configuration contains various properties such as `name`, `label`, `tags`, `plan`, an exact match is performed against the corresponding VCAP_SERVICE attributes. All specified properties must match simultaneously for the binding to be applied, for example:
+If the `vcap` configuration contains multiple properties such as `name`, `label`, `tags`, `plan`, all properties have to match the corresponding VCAP_SERVICE attributes:
 
 <style scoped>
   .no-stripes tr:nth-child(2n) {

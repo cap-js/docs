@@ -440,7 +440,7 @@ If the `vcap` configuration contains multiple properties such as `name`, `label`
 </tbody>
 </table>
 
-To override the inherited configuration from `VCAP_SERVICE`, explicitly set the service property `vcap.label` to `false` in the configuration file, for example:
+CAP services often come with a default `vcap` configuration. In rare cases, the default configuration has to be deactivated which can be achieved by explicitly setting the service property `vcap.<property>` to `false`:
 
 <style scoped>
   .no-stripes tr:nth-child(2n) {

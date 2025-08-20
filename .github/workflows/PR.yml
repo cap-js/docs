@@ -1,8 +1,5 @@
 name: PR Build
 
-permissions:
-  contents: read
-
 on:
   pull_request:
   merge_group:
@@ -10,6 +7,9 @@ on:
 concurrency:
   group: pr-${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build:

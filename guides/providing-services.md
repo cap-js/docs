@@ -426,22 +426,6 @@ Searches all elements of type `String` excluding the element `isbn`, which leave
 You can explicitly annotate calculated elements to make them searchable, even though they aren't searchable by default. The virtual elements won't be searchable even if they're explicitly annotated.
 :::
 
-#### The `@Common.Text` Annotation 
-
-If an entity has an element annotated with the `@Common.Text` annotation, then the property that holds the display text is now by default added to the searchable elements. Example:
-
-```cds
-entity Books : cuid {
-  title  : String;
-  @Common.Text : author.name
-  author : Association to Author;
-}
-```
-The default searchable elements of `Books` are `title` and `author.name`.
-::: warning
-Do not use both `@cds.search` and `@Common.Text` annotations on the same entity, unless `@cds.search` is used only to exclude fields. If both are present and `@cds.search` includes fields, the `@Common.Text` annotation will be ignored.
-:::
-
 #### Fuzzy Search on SAP HANA Cloud <Beta /> {#fuzzy-search}
 
 > Prerequisite: For CAP Java, you need to run in [`HEX` optimization mode](../java/cqn-services/persistence-services#sql-optimization-mode) on SAP HANA Cloud and enable <Config java keyOnly>cds.sql.hana.search.fuzzy = true</Config>

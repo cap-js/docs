@@ -74,6 +74,12 @@ For `@sap/xssec`-based authentication strategies (`ias`, `jwt`, and `xsuaa`), `c
 
 > **Note:** The availability of this API depends on the implementation of the respective authentication middleware.
 
+::: warning
+`cds.User.authInfo` relies on the implementation of the authentication library.
+CAP cannot ensure the content.
+Hence, use with caution and always [pin your dependencies](../node.js/best-practices#deploy).
+:::
+
 
 
 ## cds.**User.Privileged** { #privileged-user .class }

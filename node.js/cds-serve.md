@@ -222,10 +222,6 @@ cds.middlewares.before = [
 ]
 ```
 
-::: tip Custom error middleware before `cds_error_handler`
-To invoke a custom error middleware successfully, you must register it _before_ the built-in `cds_error_handler`. You can achieve that, for example, by adding the middleware using `cds.middlewares.after.unshift()`.
-:::
-
 ::: warning _Be aware of the interdependencies of middlewares_ <!--  -->
 _ctx_model_ requires that _cds.context_ middleware has run before.
 _ctx_auth_ requires that _authentication_ has run before.

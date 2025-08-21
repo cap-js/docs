@@ -472,33 +472,28 @@ For more details, see the [official UI5 documentation](https://ui5.sap.com/#/top
 
 ### Validating Drafts
 
-CAP provides _state messages_ to the UI5 OData V4 model. This enables validations of drafts and giving feedback about errors to users faster in the UI.
-
-::: warning Requires OData V4 and UI5 version >=1.135.0
-The _state messages_ feature relies on UI5 to use _document URLs_. That's because, with this feature enabled, CAP sets the annotation `@Common.AddressViaNavigationPath` to instruct UI5 to use _document URLs_. In turn, this requires OData V4 and UI5 version >= 1.135.0. OData V2 does not support the annotation.
-:::
-
-If required, for example because of usage of OData V2, this feature can be disabled with <Config>cds.fiori.draft_messages:false</Config>.
-
-This feature adds additional elements to your draft-enabled entities and [`DraftAdministrativeData`](/guides/security/data-protection-privacy#dpp-cap), which are required to store and serve state messages. For this to work, the CAP runtimes support persisting (error) messages for draft-enabled entities.
-
-In addition, you can observe the following improvements, without any changes to the application code:
-
-- Error messages for annotation-based validations (for example, `@mandatory` or `@assert...`) already appear while editing the draft.
-- Custom validations can now be registered to the `DRAFT_PATCH` event and can write (error) messages. It's ensured that the invalid value is still persisted, as expected by the draft choreography.
-- Messages no longer unexpectedly vanish from the UI after editing another field.
-- Messages are automatically loaded when reopening a previously edited draft.
-
-By default, when activating this state messages, side-effect annotations are generated in the EDMX that instruct UI5 to fetch state messages after every `PATCH` request. If you require more precise control over side-effect annotations, you can disable the side-effect annotation per entity:
+With Fiori draft state messages, you benefit from the following improvements without any change in your application code:
+- The UI displays error messages for annotation-based validations (such as `@mandatory` or `@assert...`) while editing drafts.
+- You can register [custom validations](#custom-validations) to the `PATCH` event and write (error) messages. The draft choreography ensures the invalid value still persists.
+- Messages remain visible in the UI, even after editing other fields.
+- The UI automatically loads messages when reopening a previously edited draft.
+CAP generates side-effect annotations in the EDMX to instruct UI5 to fetch state messages after every `PATCH` request. To control side-effect annotations more precisely, override or disable them per entity:
 
 ```cds
 // Setting `null` disables the side-effect annotation for always fetching messages.
 annotate MyService.MyEntity with @Common.SideEffects #alwaysFetchMessages: null;
 ```
 
+To enable this feature, CAP adds additional elements to your draft-enabled entities and [`DraftAdministrativeData`](/guides/security/data-protection-privacy#dpp-cap) to store and serve the state messages. CAP runtimes persist (error) messages for draft-enabled entities.
+
 ::: warning Requires Schema Update
 This feature initiates a database schema update, as it adds an additional element to `DraftAdministrativeData`.
 :::
+
+::: warning Requires OData V4 and UI5 version >=1.135.0
+State messages require UI5 to use _document URLs_. CAP sets the `@Common.AddressViaNavigationPath` annotation to enable this. You need OData V4 and UI5 version >= 1.135.0. OData V2 does not support this annotation.
+:::
+To disable this feature, set <Config>cds.fiori.draft_messages:false</Config>.
 
 
 #### Custom Validations

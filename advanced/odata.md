@@ -548,8 +548,13 @@ If the value of an OData annotation is an [expression](../cds/cdl#expressions-as
 the OData backend provides improved handling of references and automatic mapping from
 CDS expression syntax to OData expression syntax.
 
-One of the main use cases for such dynamic expressions is SAP Fiori,
-but note that SAP Fiori supports dynamic expressions only for
+One of the main use cases for such dynamic expressions is SAP Fiori. Examples:
+```cds
+@UI.Hidden: (status <> 'visible')`
+@UI.CreateHidden : (to_Travel.TravelStatus.code != #Open)
+```
+
+Note that SAP Fiori supports dynamic expressions only for
 [specific annotations](https://ui5.sap.com/#/topic/0e7b890677c240b8ba65f8e8d417c048).
 
 #### Flattening

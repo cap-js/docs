@@ -419,12 +419,6 @@ The following table shows the Node.js runtime's configuration options and their 
 | <Config keyOnly>cds.runtime.put_as_upsert = true</Config>     | Create resource if it does not yet exist    | true    |
 | <Config keyOnly>cds.runtime.put_as_replace = false</Config>   | Payload is enriched with default values  | false   |
 
-### Base Protocol Adapter
-
-All CAP-own protocol adapters extend a base protocol adapter that mounts the following middlewares:
-1. `http_log`: log all incoming requests
-2. `requires_check`: check the required roles for the respective service
-
 ### Custom Protocol Adapter
 
 Similar to the configuration of the GraphQL Adapter, you can plug in your own protocol.

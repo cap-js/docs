@@ -77,7 +77,7 @@ For `@sap/xssec`-based authentication strategies (`ias`, `jwt`, and `xsuaa`), `c
 ::: warning
 `cds.User.authInfo` relies on the implementation of the authentication library.
 CAP cannot ensure the content.
-Hence, use with caution and always [pin your dependencies](../node.js/best-practices#deploy).
+Hence, use with caution and always [pin your dependencies](../best-practices#deploy).
 :::
 
 

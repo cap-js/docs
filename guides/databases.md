@@ -1191,5 +1191,4 @@ Once you have 2 non-HANA local databases, you need to have 2 distinct database c
 
 </div>
 
-CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803). <br>
-There's also a [code tour](https://github.com/SAP-samples/cloud-cap-samples#code-tours) available for that.
+CAP samples demonstrate this in [cap/samples/fiori](https://github.com/SAP-samples/cloud-cap-samples/commit/65c8c82f745e0097fab6ca8164a2ede8400da803).

@@ -32,7 +32,7 @@ entity Books {
 }
 ```
 
-[Find this source also in **cap/samples**.](https://github.com/sap-samples/cloud-cap-samples/blob/ea6e27481071a765dfd701ddb239ed89b92bf426/bookshop/db/schema.cds#L4-L7){ .learn-more}
+[Find this source also in **cap/samples**.](https://github.com/capire/bookshop/blob/721a52904521df772ace81fb468340575b54765a/db/schema.cds#L4-L8){ .learn-more}
 
 ::: warning _Restriction_
 If you want to use the `localized` modifier, the entity's keys must not be associations.

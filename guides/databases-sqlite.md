@@ -9,8 +9,9 @@ CAP provides extensive support for [SQLite](https://www.sqlite.org/index.html), 
 
 <div class="impl node">
 
-::: tip New SQLite Service
-This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](https://www.npmjs.com/package/@cap-js/sqlite)*, which has many advantages over the former one, as documented in the [*Features*](#features) section. To migrate from the old service, find instructions in the [*Migration*](#migration) section.
+::: tip This guide focuses on the SQLite Service provided by [`@cap-js/sqlite`](https://www.npmjs.com/package/@cap-js/sqlite). 
+Starting with CDS 9, this service is the **standard and required** runtime for SQLite in CAP projects. Its benefits are detailed in the [*Features*](#features) section.  
+If your project still relies on the previous SQLite service, follow the instructions in the [*Migration*](#migration) section to switch.
 :::
 
 </div>
@@ -34,7 +35,7 @@ This guide focuses on the new SQLite Service provided through *[@cap-js/sqlite](
 Run this to use SQLite for development:
 
 ```sh
-npm add @cap-js/sqlite -D
+cds add sqlite
 ```
 
 ### Auto-Wired Configuration {.node}
@@ -314,10 +315,19 @@ The following is an overview of advanced features supported by the new database 
 > These apply to all new database services, including SQLiteService, HANAService, and PostgresService.
 
 
+<!--
+TODO: Everything below this line is not specific to SQLite.
+      It should be moved to a more general place, e.g. the general database services guide.
+-->
 
 ### Path Expressions & Filters {.node}
 
-The new database service provides **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate). For example, you can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
+All `@cap-js` database services — [`@cap-js/sqlite`](https://github.com/cap-js/cds-dbs/tree/main/packages/sqlite),
+[`@cap-js/postgres`](https://github.com/cap-js/cds-dbs/tree/main/packages/postgres), and  
+[`@cap-js/hana`](https://github.com/cap-js/cds-dbs/tree/main/packages/hana) — provide **full support** for all kinds of [path expressions](../cds/cql#path-expressions), including [infix filters](../cds/cql#with-infix-filters) and [exists predicates](../cds/cql#exists-predicate).
+
+You can try this out with *[cap/samples](https://github.com/sap-samples/cloud-cap-samples)* as follows:
+
 
 ```js
 // $ cds repl --profile better-sqlite
@@ -347,7 +357,7 @@ await SELECT `from ${Authors} { books.genre.name }`
 
 ### Optimized Expands {.node}
 
-The old database service implementation(s) used to translate deep reads, that is, SELECTs with expands, into several database queries and collect the individual results into deep result structures. The new service uses `json_object` and other similar functions to instead do that in one single query, with sub selects, which greatly improves performance.
+The legacy database service implementation(s) used to translate deep reads, that is, `SELECT`s with expands, into several database queries and collect the individual results into deep result structures. The new service uses `json_object` and other similar functions to instead do that in one single query, with sub selects, which greatly improves performance.
 
 For example:
 
@@ -386,13 +396,13 @@ SELECT.one.localized(Books)
 
 ### Using Lean Draft {.node}
 
-The old implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, none of that should show up in database layers. Hence, we eliminated all draft handling from the new database service implementations, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.
+The legacy implementation was overly polluted with draft handling. But as draft is actually a Fiori UI concept, none of that should show up in database layers. Hence, we eliminated all draft handling from the `@cap-js` database services, and implemented draft in a modular, non-intrusive way — called *'Lean Draft'*. The most important change is that we don't do expensive UNIONs anymore but work with single (cheap) selects.
 
 
 
 ### Consistent Timestamps {.node}
 
-Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all new database services along these lines:
+Values for elements of type `DateTime`  and `Timestamp` are handled in a consistent way across all `@cap-js` database services along these lines:
 
 :::tip *Timestamps* = `Timestamp` as well as `DateTime`
 
@@ -404,7 +414,7 @@ When we say *Timestamps*, we mean elements of type `Timestamp` as well as `DateT
 
 #### Writing Timestamps
 
-When writing data using INSERT, UPSERT or UPDATE, you can provide values for `DateTime` and `Timestamp` elements as JavaScript  `Date` objects or ISO 8601 Strings. All input is normalized to ensure `DateTime` and `Timestamp` values can be safely compared. In case of SAP HANA and PostgreSQL, they're converted to native types. In case of SQLite, they're stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
+When writing data using `INSERT`, `UPSERT` or `UPDATE`, you can provide values for `DateTime` and `Timestamp` elements as JavaScript  `Date` objects or ISO 8601 Strings. All input is normalized to ensure `DateTime` and `Timestamp` values can be safely compared. In case of SAP HANA and PostgreSQL, they're converted to native types. In case of SQLite, they're stored as ISO 8601 Strings in Zulu timezone as returned by JavaScript's `Date.toISOString()`.
 
 For example:
 
@@ -473,7 +483,7 @@ SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11+02:00'}` // non-Zulu 
 SELECT.from(Foo).where `createdAt = ${'2022-11-11T11:11:11Z'}` // missing 3-digit fractions
 ```
 
-> This is because we can never reliably infer the types of input to `where` clause expressions. Therefore, that input will not receive any normalisation, but be passed down as is as plain string.
+> This is because we can never reliably infer the types of input to `where` clause expressions. Therefore, that input will not receive any normalisation, but is passed down as is as plain string.
 
 :::tip Always ensure proper input in `where` clauses
 
@@ -492,7 +502,7 @@ The rules regarding Timestamps apply to all comparison operators: `=`, `<`, `>`,
 
 ### Improved Performance {.node}
 
-The combination of the above-mentioned improvements commonly leads to significant performance improvements. For example, displaying the list page of Travels in [cap/sflight](https://github.com/SAP-samples/cap-sflight) took **>250ms** in the past, and **~15ms** now.
+The combination of the above-mentioned improvements commonly leads to significant performance improvements. For example, displaying the list page of Travels in [cap/sflight](https://github.com/SAP-samples/cap-sflight) took **>250ms** with the legacy database services, and **~15ms** with the `@cap-js` database services.
 
 
 
@@ -502,15 +512,22 @@ The combination of the above-mentioned improvements commonly leads to significan
 
 
 
-While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the new implementation. While not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case, you can find instructions about how to resolve this in the following sections.
+While we were able to keep all public APIs stable, we had to apply changes and fixes to some **undocumented behaviours and internal APIs** in the `@cap-js` database service implementation. While not formally breaking changes, you may have used or relied on these undocumented APIs and behaviours. In that case, you can find instructions about how to resolve this in the following sections.
 
 > These apply to all new database services: SQLiteService, HANAService, and PostgresService.
 
 
 
-### Use Old and New in Parallel {.node}
+### Use Legacy and `@cap-js` database services in Parallel {.node}
 
-During migration, you may want to occasionally run and test your app with both the new SQLite service and the old one. You can accomplish this as follows:
+::: danger This is not possible with CDS 9
+
+The legacy database services have been removed with CDS 9.
+Running your app with both services at the same time is only supported with CDS 8
+
+:::
+
+During migration, you may want to occasionally run and test your app with both the `@cap-js` SQLite service and the legacy one. You can accomplish this as follows:
 
 1. Add the new service with `--no-save`:
    ```sh
@@ -542,9 +559,9 @@ During migration, you may want to occasionally run and test your app with both t
    ```
 
 
-### Avoid UNIONs and JOINs {.node}
+### Avoid `UNION`s and `JOIN`s {.node}
 
-Many advanced features supported by the new database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding UNIONs and JOINs to the equation — at least the effort and overhead is hardly matched by generated value. Therefore, we dropped support of UNIONs and JOINs in CQN queries.
+Many advanced features supported by the `@cap-js` database services, like path expressions or deep expands, rely on the ability to infer queries from CDS models. This task gets extremely complex when adding `UNION`s and `JOIN`s to the equation — at least the effort and overhead is hardly matched by generated value. Therefore, we dropped support of `UNION`s and `JOIN`s in CQN queries.
 
 For example, this means queries like these are deprecated / not supported any longer:
 
@@ -570,7 +587,7 @@ Mitigations:
 
 ### Fixed Localized Data {.node}
 
-Formerly, when reading data using `cds.ql`, this *always* returned localized data. For example:
+In the legacy database services, when reading data using `cds.ql`, this *always* returned localized data. For example:
 
 ```js
 SELECT.from(Books)       // always read from localized.Books instead
@@ -583,19 +600,19 @@ SELECT.localized(Books)  // reads localized data
 SELECT.from(Books)       // reads plain data
 ```
 
-::: details No changes to app services behaviour
+::: details No changes to app services behavior
 
-Generic application service handlers use *SELECT.localized* to request localized data from the database. Hence, CAP services automatically serve localized data as before.
+Generic application service handlers use `SELECT.localized` to request localized data from the database. Hence, CAP services automatically serve localized data as before.
 
 :::
 
 ### Skipped Virtuals {.node}
 
-In contrast to their former behaviour, new database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.
+In contrast to their former behaviour, `@cap-js` database services ignore all virtual elements and hence don't add them to result set entries. Selecting only virtual elements in a query leads to an error.
 
 ::: details Reasoning
 
-Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the old database services always returned `null`, or specified `default` values for virtual elements. This behavior was removed, as it provides very little value, if at all.
+Virtual elements are meant to be calculated and filled in by custom handlers of your application services. Nevertheless, the legacy database services always returned `null`, or specified `default` values for virtual elements. This behavior was removed, as it provides very little value, if at all.
 
 :::
 
@@ -608,7 +625,7 @@ entity Foo {
 }
 ```
 
-The behaviour has changed to:
+The behavior has changed to:
 
 ```js
 [dev] cds repl
@@ -625,7 +642,7 @@ Before, both `<>` and `!=` were translated to `name <> 'John' OR name is null`.
 
 
 ::: warning
-This is a breaking change in regard to the previous implementation.
+This is a breaking change in regard to the legacy implementation.
 :::
 
 ### Miscellaneous {.node}

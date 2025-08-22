@@ -479,10 +479,10 @@ With Fiori draft state messages, you benefit from the following improvements wit
 - The UI automatically loads messages when reopening a previously edited draft.
 CAP generates side-effect annotations in the EDMX to instruct UI5 to fetch state messages after every `PATCH` request. To control side-effect annotations more precisely, override or disable them per entity:
 
-```cds
-// Setting `null` disables the side-effect annotation for always fetching messages.
-annotate MyService.MyEntity with @Common.SideEffects #alwaysFetchMessages: null;
-```
+  ```cds
+  // Setting `null` disables the side-effect annotation for always fetching messages.
+  annotate MyService.MyEntity with @Common.SideEffects #alwaysFetchMessages: null;
+  ```
 
 For this feature to work correctly, CAP adds additional elements to your draft-enabled entities and [`DraftAdministrativeData`](/guides/security/data-protection-privacy#dpp-cap) to store and serve the state messages. CAP runtimes persist (error) messages for draft-enabled entities.
 

@@ -455,13 +455,8 @@ Other options in this goal enable or disable certain features that change the wa
   For example, instead of the following:
 
   ```java
-  void setManager(Map<String, ?> manager);
-  ```  
-  you get the following:
-
-  ```java
-  void setManager(Manager manager);
-  ```
+  void setManager(Map<String, ?> manager); // [!code --]
+  void setManager(Manager manager); // [!code ++]
   It does not introduce any additional type checks at runtime, the correctness of the assignment is checked only at the time of compilation.
 
 - [`interfacesForAspects`](/java/assets/cds-maven-plugin-site/generate-mojo.html#interfacesForAspects)

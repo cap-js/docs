@@ -75,9 +75,7 @@ For `@sap/xssec`-based authentication strategies (`ias`, `jwt`, and `xsuaa`), `c
 > **Note:** The availability of this API depends on the implementation of the respective authentication middleware.
 
 ::: warning
-`cds.User.authInfo` relies on the implementation of the authentication library.
-CAP cannot ensure the content.
-Hence, use with caution and always [pin your dependencies](../best-practices#deploy).
+The `cds.User.authInfo` property depends on the authentication library that you use. CAP does not guarantee the content of this property. Use it with caution. Always pin your dependencies as described in the [best practices](../best-practices#deploy).
 :::
 
 

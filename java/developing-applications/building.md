@@ -457,6 +457,8 @@ Other options in this goal enable or disable certain features that change the wa
   ```java
   void setManager(Map<String, ?> manager); // [!code --]
   void setManager(Manager manager); // [!code ++]
+  ```
+
   It does not introduce any additional type checks at runtime, the correctness of the assignment is checked only at the time of compilation.
 
 - [`interfacesForAspects`](/java/assets/cds-maven-plugin-site/generate-mojo.html#interfacesForAspects)
@@ -479,7 +481,7 @@ Other options in this goal enable or disable certain features that change the wa
     - Leading `_` will remain in the name after conversions. This supports conventions where an association and its foreign key have names like `_assoc` and `assoc`.
   These conversions no longer influence the splitting.
 
-- ['cqnServiceGetters'](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnServiceGetters)
+- [`cqnServiceGetters`](/java/assets/cds-maven-plugin-site/generate-mojo.html#cqnServiceGetters)
 
   The method `getService()` in generated [event-specific Event Context interfaces](../event-handlers/#eventcontext) is overridden to return the typed service interface instead of the generic `Service` type.
 
@@ -517,7 +519,7 @@ Following levels of the details are available:
 
 - `NONE` - no `@Generated` annotation is added. This is not recommended.
 
-### Using a Local cds-dk
+## Using a Local cds-dk
 
 Starting with version 3.6.0 of the `cds-services-archetype`, the default setup of a newly created CAP Java project has changed. The `@sap/cds-dk` is maintained as a `devDependency` in `package.json` and installed with an `npm ci` during the Maven build.
 The `install-cdsdk` goal is no longer used to install the `@sap/cds-dk` locally and it's also marked as deprecated. The version of the `@sap/cds-dk` is no longer maintained in _pom.xml_, it's configured in the _package.json_:
@@ -534,7 +536,7 @@ A `package-lock.json` is also created during project creation with the `cds-serv
 For multitenant applications, ensure that the `@sap/cds-dk` version in the sidecar is in sync.
 :::
 
-#### Migrate From Goal `install-cdsdk` to `npm ci` 
+### Migrate From Goal `install-cdsdk` to `npm ci` 
 { #migration-install-cdsdk }
 
 To migrate from the deprecated goal `install-cdsdk` to the new `npm ci` approach, the following steps are required:

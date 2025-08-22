@@ -357,7 +357,7 @@ It is crucial to make the service `OutboxDeadLetterQueueService` accessible for 
 
 ### Reading Dead Entries
 
-Filtering the dead entries is done by adding by adding an appropriate `where`-clause to `READ`-queries on the outbox message entries which reached maximum number of retries. The following code provides an example handler implementation defining this behaviour for the `DeadLetterQueueService`:
+Filtering the dead entries is done by adding an appropriate `where`-clause to all `READ`-queries which covers all outbox message entries with maximum number of retries. The following code provides an example handler implementation defining this behaviour for the `DeadLetterQueueService`:
 
 ```java
 @Component

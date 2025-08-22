@@ -404,7 +404,7 @@ Be aware that using an absolute path will disallow serving the service at multip
 
 The HTTP method `PATCH` is meant for partial modification of an _existing resource_.
 `PUT`, on the other hand, is meant for ensuring a resource exists
-That is, if it doesn't yet exists, it gets created.
+, that is, if it doesn't yet exists, it gets created.
 If it does exist, it gets updated to reflect the request's content.
 
 This content, however, may be incomplete.
@@ -416,7 +416,7 @@ The following table shows the Node.js runtime's configuration options and their 
 | Flag                                         | Behavior                                 | Default |
 |----------------------------------------------|------------------------------------------|---------|
 | <Config keyOnly>cds.runtime.patch_as_upsert </Config> | Create resource if it does not yet exist   | false   |
-| <Config keyOnly>cds.runtime.put_as_upsert = true</Config>     | Create resource if it does not yet exist    | true    |
+| <Config keyOnly>cds.runtime.put_as_upsert</Config>     | Create resource if it does not yet exist    | true    |
 | <Config keyOnly>cds.runtime.put_as_replace</Config>   | Payload is enriched with default values  | false   |
 
 ### Custom Protocol Adapter

@@ -428,7 +428,7 @@ You can explicitly annotate calculated elements to make them searchable, even th
 
 #### The `@Common.Text` Annotation 
 
-If an entity has an element annotated with the `@Common.Text` annotation, then the property that holds the display text is now by default added to the searchable elements. Example:
+If an entity has an element annotated with the `@Common.Text` annotation, then the property that holds the display text is by default added to the searchable elements. Example:
 
 ```cds
 entity Books : cuid {

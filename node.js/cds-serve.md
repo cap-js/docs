@@ -415,9 +415,9 @@ The following table shows the Node.js runtime's configuration options and their 
 
 | Flag                                         | Behavior                                 | Default |
 |----------------------------------------------|------------------------------------------|---------|
-| <Config keyOnly>cds.runtime.patch_as_upsert = false</Config> | Create resource if it does not yet exist   | false   |
+| <Config keyOnly>cds.runtime.patch_as_upsert </Config> | Create resource if it does not yet exist   | false   |
 | <Config keyOnly>cds.runtime.put_as_upsert = true</Config>     | Create resource if it does not yet exist    | true    |
-| <Config keyOnly>cds.runtime.put_as_replace = false</Config>   | Payload is enriched with default values  | false   |
+| <Config keyOnly>cds.runtime.put_as_replace</Config>   | Payload is enriched with default values  | false   |
 
 ### Custom Protocol Adapter
 

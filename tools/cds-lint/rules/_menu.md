@@ -17,3 +17,4 @@
 # [start-elements-lowercase](start-elements-lowercase)
 # [start-entities-uppercase](start-entities-uppercase)
 # [valid-csv-header](valid-csv-header)
+# [use-cql-select-template-strings](use-cql-select-template-strings)

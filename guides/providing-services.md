@@ -436,6 +436,9 @@ entity Books : cuid {
   @Common.Text : author.name
   author : Association to Author;
 }
+entity Author : cuid {
+  name : String;
+}
 ```
 The default searchable elements of `Books` are `title` and `author.name`.
 

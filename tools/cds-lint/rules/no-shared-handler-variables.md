@@ -6,11 +6,14 @@ status: released
   import PlaygroundBadge from '../components/PlaygroundBadge.vue'
 </script>
 
-# use-cql-select-template-strings
+# no-shared-handler-variables
 
 ## Rule Details
 
-Discourage use of <code>SELECT(\`...\`)</code>, which allows [SQL injection attacks](../../../node.js/cds-ql#avoiding-sql-injection), in favour of <code>SELECT \`...\`</code>.
+Discourage sharing state between handlers through variables from parent scopes, which could leak data between tenants.
+This rule automatically checks handler registrations within classes that extend `cds.ApplicationService`.
+You can explicitly enable this check for functions declared outside such classes by adding a type annotation.
+All functions annotated with `@type {import('@sap/cds').CRUDEventHandler.Before}`, `@type {import('@sap/cds').CRUDEventHandler.On}`, or `@type {import('@sap/cds').CRUDEventHandler.After}` are also subject to this rule.
 
 #### Version
 This rule was introduced in `@sap/eslint-plugin-cds 4.0.2`.
@@ -19,28 +22,26 @@ This rule was introduced in `@sap/eslint-plugin-cds 4.0.2`.
 
 ### ✅ &nbsp; Correct example
 
-In the following example, the `where` clause is a proper tagged template literal, so that the `req.data.name` expression can be validated before the SELECT is executed:
+In the following example, only locally defined variables are used within handler implementation:
 
 ::: code-group
-<<< ../examples/use-cql-select-template-strings/correct/srv/admin-service.js#snippet{js:line-numbers} [srv/admin-service.js]
+<<< ../examples/no-shared-handler-variables/correct/srv/admin-service.js#snippet{js:line-numbers} [srv/admin-service.js]
 :::
 <PlaygroundBadge
-  name="use-cql-select-template-strings"
+  name="no-shared-handler-variables"
   kind="correct"
   :files="['srv/admin-service.js']"
 />
 
 ### ❌ &nbsp; Incorrect example
 
-In the following example, the `where` clause is *not* a proper tagged template literal as it's enclosed by parentheses.
-In consequence,  the `req.data.name` expression *cannot* be validated but is added as is to the SELECT statement.
-This is prone to SQL injection attacks.
+In the following example, the variables `newBook` and `readBooks` are declared in scopes surrounding the handler function, making their value available to subsequent calls of that handler. While this may seem advantageous, it can cause issues in a multitenant scenario, where the handler function can be invoked by multiple tenants.
 
 ::: code-group
-<<< ../examples/use-cql-select-template-strings/incorrect/srv/admin-service.js#snippet{js:line-numbers} [srv/admin-service.js]
+<<< ../examples/no-shared-handler-variables/incorrect/srv/admin-service.js#snippet{js:line-numbers} [srv/admin-service.js]
 :::
 <PlaygroundBadge
-  name="use-cql-select-template-strings"
+  name="no-shared-handler-variables"
   kind="incorrect"
   :files="['srv/admin-service.js']"
 />

@@ -37,9 +37,9 @@ By applying CAP's techniques for reuse, composition, and integration, you can ad
 5. **Customizing SaaS Solutions** — Customers, who are subscribers of SaaS solutions, can apply the same techniques to adapt SaaS solutions to their needs. They can use prebuilt extension or business data packages, or create their own custom-defined ones.
 
 
-### Examples from [cap/samples](https://github.com/capire)
+### Examples from [sample repositories](https://github.com/capire)
 
-In the following sections, we frequently refer to examples from [cap/samples](https://github.com/capire):
+In the following sections, we frequently refer to examples from the [capire org](https://github.com/capire):
 
 ![The screenshot is explained in the following text.](assets/cap-samples.drawio.svg)
 
@@ -55,7 +55,7 @@ In the following sections, we frequently refer to examples from [cap/samples](ht
 
 If you want to exercise the code snippets in following sections, do the following:
 
-**1)** &nbsp; Get cap/samples:
+**1)** &nbsp; Get capire/bookstore:
 
 ```sh
 git clone https://github.com/capire/bookstore

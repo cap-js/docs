@@ -132,7 +132,7 @@ cds compile srv -s OrdersService -2 edmx -o dest/
 :::
 
 
-[You can try it with the orders sample in cap/samples.](https://github.com/capire/orders){.learn-more}
+[You can try it with the orders sample in **capire/orders**.](https://github.com/capire/orders){.learn-more}
 
 By default, CAP works with OData V4 and the EDMX export is in this protocol version as well. The `cds compile` command offers options for other OData versions and flavors, call `cds help compile` for more information.
 ::: warning Don't just copy the CDS file for a remote CAP service

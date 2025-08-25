@@ -9,6 +9,7 @@
 # [case-sensitive-well-known-events](case-sensitive-well-known-events)
 # [extension-restrictions](extension-restrictions)
 # [latest-cds-version](latest-cds-version)
+# [no-cross-service-import](no-cross-service-import)
 # [no-db-keywords](no-db-keywords)
 # [no-deep-sap-cds-import](no-deep-sap-cds-import)
 # [no-dollar-prefixed-names](no-dollar-prefixed-names)

@@ -76,7 +76,7 @@ function main (argv) {
             generateMenuMarkdown();
             break;
         default:
-            console.log(`Unknown command: ${argv[0]}`);
+            console.log(`Unknown command: ${argv[0]}. Use one of: generate-menu, generate-stub`);
     }
 }
 

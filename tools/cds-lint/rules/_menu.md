@@ -10,6 +10,7 @@
 # [extension-restrictions](extension-restrictions)
 # [latest-cds-version](latest-cds-version)
 # [no-db-keywords](no-db-keywords)
+# [no-deep-sap-cds-import](no-deep-sap-cds-import)
 # [no-dollar-prefixed-names](no-dollar-prefixed-names)
 # [no-java-keywords](no-java-keywords)
 # [no-join-on-draft](no-join-on-draft)

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-// menu generator
+// eslint plugin rule utility
 // ============================
 // generates the _menu.md file to make sure all rules are included.
+// Also generates a stub markdown file for a new rule.
 
 import * as fs from 'node:fs'
 import * as path from 'node:path'
@@ -39,12 +40,12 @@ function generateMenuMarkdown () {
 }
 
 /**
- * Generates a stub markdown file for a new rule.
+ * Generates a stub markdown file for a new JS rule.
  * The passed ruleName will be placed in the stub template
  * where $RULE_NAME is defined.
  * @param {string} ruleName - The name of the rule.
  */
-function generateStub (ruleName) {
+function generateJsRuleStub (ruleName) {
     if (!ruleName) {
         console.error('Please provide a rule name, e.g. "no-shared-handler-variables" as second argument');
         process.exit(1);
@@ -72,7 +73,7 @@ function main (argv) {
             generateMenuMarkdown();
             break;
         case 'generate-stub':
-            generateStub(argv[1]);
+            generateJsRuleStub(argv[1]);
             generateMenuMarkdown();
             break;
         default:

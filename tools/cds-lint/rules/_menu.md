@@ -13,6 +13,7 @@
 # [no-java-keywords](no-java-keywords)
 # [no-join-on-draft](no-join-on-draft)
 # [no-shared-handler-variables](no-shared-handler-variables)
+# [no-shared-handler-variables3](no-shared-handler-variables3)
 # [sql-cast-suggestion](sql-cast-suggestion)
 # [sql-null-comparison](sql-null-comparison)
 # [start-elements-lowercase](start-elements-lowercase)

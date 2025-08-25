@@ -77,7 +77,7 @@ The SAP Fiori tools provide advanced support for [adding SAP Fiori apps](https:/
 Use `cds add sample` to add Fiori sample code to an existing project, or create a new one with `cds init <project> --add sample`.
 
 
-### From [samples repositories](https://github.com/capire)
+### From [Capire Samples](https://github.com/capire)
 
 For example, you can copy the [SAP Fiori apps from capire/bookshop](https://github.com/capire/bookstore/tree/main/app) as a template and modify the content as appropriate.
 
